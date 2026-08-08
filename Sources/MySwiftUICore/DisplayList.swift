@@ -835,7 +835,7 @@ package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertibl
 }
 
 extension DisplayList {
-    package struct Key : @unsafe PreferenceKey {
+    package struct Key : PreferenceKey {
         package static var _includesRemovedValues: Bool {
             return true
         }

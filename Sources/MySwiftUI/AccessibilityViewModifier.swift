@@ -39,7 +39,7 @@ extension AccessibilityViewModifier {
         inputs.preferences.add(ViewRespondersKey.self)
     }
     
-    nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          self -> x20 -> x29 - 0xb0
          modifier -> x0 -> x29 - 0xa8
@@ -533,8 +533,68 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
     }
 }
 
-public struct AccessibilityAttachmentModifier : ViewModifier {
-    public func body(content: Content) -> some View {
+public struct AccessibilityAttachmentModifier : AccessibilityViewModifier {
+    @safe private nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
+    private let behavior: AccessibilityChildBehavior?
+    
+    static var options: AccessibilityModifierOptions {
+        return [.unknown0, .unknown1]
+    }
+    
+    func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func initialAttachment(for nodes: [AccessibilityNode]) -> AccessibilityAttachment {
+        assertUnimplemented()
+    }
+    
+    func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {
+        assertUnimplemented()
+    }
+    
+    func createOrUpdateNode(viewRendererHost: ViewRendererHost?, existingNode: AccessibilityNode?) -> AccessibilityNode {
+        assertUnimplemented()
+    }
+    
+    func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content? {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        /*
+         modifier -> x0 -> x29 - 0x70
+         inputs -> x1 -> x23
+         body -> x2/x3 -> x25/x20
+         */
+        // x19
+        var outputs = body(_Graph(), inputs)
+        
+        guard
+            !inputs.preferences.contains(AccessibilityNodesKey.self) &&
+                inputs.preferences.contains(AccessibilityAttachment.Key.self)
+        else {
+            return outputs
+        }
+        
+        // <+344>
+        // w25
+        let tree = outputs[AccessibilityAttachment.Key.self]
+        // w21
+        let attachment = modifier.value.storage[keyPath: \.value]
+        
+        // <+648>
+        let transform = AccessibilityAttachment.DeferredTransform(
+            tree: OptionalAttribute(tree),
+            attachment: attachment
+        )
+        let transformAttribute = Attribute(transform)
+        
+        outputs[AccessibilityAttachment.Key.self] = transformAttribute
+        return outputs
+    }
+    
+    var supportsPlaceholders: Bool {
         assertUnimplemented()
     }
 }

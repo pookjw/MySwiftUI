@@ -1,5 +1,4 @@
 // EE68159C4F54001FA5A3813EBA5DD945
-
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 internal import CoreGraphics
@@ -34,8 +33,8 @@ fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {
     
 }
 
-struct AccessibilityNodesKey : @unsafe PreferenceKey {
-    nonisolated(unsafe) static let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
+struct AccessibilityNodesKey : PreferenceKey {
+    @safe nonisolated(unsafe) static let defaultValue = AccessibilityNodeList(nodes: [], version: DisplayList.Version())
     
     static func reduce(value: inout AccessibilityNodeList, nextValue: () -> AccessibilityNodeList) {
         assertUnimplemented()

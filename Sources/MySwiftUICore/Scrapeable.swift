@@ -46,13 +46,31 @@ extension _ViewInputs {
     
     package var isScrapeable: Bool {
         get {
-            assertUnimplemented()
+            let options = self.base.options
+            
+            if options.contains(.viewNeedsGeometry) {
+                let hasDisplayList = self.preferences.contains(DisplayList.Key.self, includeHostPreferences: false)
+                
+                if options.contains(.doNotScrape) {
+                    return false
+                }  else {
+                    return hasDisplayList
+                }
+            } else {
+                return false
+            }
         }
         set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
+            var options = self.base.options
+            options.subtract(.doNotScrape)
+            
+            if newValue {
+                options.formUnion([])
+            } else {
+                options.formUnion(.doNotScrape)
+            }
+            
+            self.base.options = options
         }
     }
 }

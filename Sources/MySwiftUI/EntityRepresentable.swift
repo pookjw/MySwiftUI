@@ -232,17 +232,17 @@ final class EntityHost<T> : RealityKit::Entity {
 }
 
 fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttribute, ObservedAttribute, StatefulRule {
-    @Attribute private var view: T
-    @Attribute private var environment: EnvironmentValues
-    @Attribute private var transaction: Transaction
-    @Attribute private var phase: _GraphInputs.Phase
-    private let bridge: PreferenceBridge
-    private let hostGraphBridge: HostedEntityGraphBridge
-    private let hostingComponent: AttachmentHostingComponent
-    private var links: _DynamicPropertyBuffer
-    private var coordinator: T.Coordinator?
-    private var entityHost: EntityHost<T>?
-    private var resetSeed: UInt32
+    @Attribute private var view: T // 0x0
+    @Attribute private var environment: EnvironmentValues // 0x4
+    @Attribute private var transaction: Transaction // 0x8
+    @Attribute private var phase: _GraphInputs.Phase // 0xc
+    private let bridge: PreferenceBridge // 0x10
+    private let hostGraphBridge: HostedEntityGraphBridge // 0x18
+    private let hostingComponent: AttachmentHostingComponent // 0x38 (field)
+    private var links: _DynamicPropertyBuffer // 0x3c (field)
+    private var coordinator: T.Coordinator? // 0x40 (field)
+    private var entityHost: EntityHost<T>? // 0x44 (field)
+    private var resetSeed: UInt32 // 0x48 (field)
     
     init(
         view: Attribute<T>,
@@ -257,7 +257,16 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
         entityHost: EntityHost<T>?,
         resetSeed: UInt32
     ) {
-        assertUnimplemented()
+        self._view = view
+        self._environment = environment
+        self._transaction = transaction
+        self._phase = phase
+        self.bridge = bridge
+        self.hostGraphBridge = hostGraphBridge
+        self.hostingComponent = hostingComponent
+        self.links = links
+        self.coordinator = coordinator
+        self.resetSeed = resetSeed
     }
     
     typealias Value = ModifiedContent<EntityLeafView<T>, AccessibilityPlatformEntityModifier>
@@ -333,18 +342,6 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : LeafViewLayout3D, E
     }
     
     func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
-    }
-}
-
-struct AccessibilityPlatformEntityModifier : PrimitiveViewModifier, MultiViewModifier {
-    private let entity: RealityKit::Entity?
-    
-    nonisolated static func _makeView(modifier: _GraphValue<AccessibilityPlatformEntityModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    nonisolated static func _makeViewList(modifier: _GraphValue<AccessibilityPlatformEntityModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
 }
