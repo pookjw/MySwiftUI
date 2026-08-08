@@ -12,7 +12,12 @@ protocol EntityViewFactory : PrimitiveView, UnaryView {
 }
 
 extension EntityViewFactory {
-    static func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        /*
+         view -> x0 -> x29 - 0xf0
+         inputs -> x1/x2 -> x24/x19
+         */
+        // <+452>
         assertUnimplemented()
     }
     

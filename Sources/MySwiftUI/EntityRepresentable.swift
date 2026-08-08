@@ -292,7 +292,7 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
     }
 }
 
-fileprivate struct EntityLeafView<T : EntityRepresentable> : LeafViewLayout3D, EntityViewFactory {
+fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency LeafViewLayout3D, EntityViewFactory {
     typealias EntityType = T.EntityType
     
     let content: T
@@ -310,7 +310,9 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : LeafViewLayout3D, E
     }
     
     nonisolated static func _makeView(view: _GraphValue<EntityLeafView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        var outputs = Self.makeLeafView(view: view, inputs: inputs)
+        Self.makeLeafLayout(&outputs, view: view, inputs: inputs)
+        return outputs
     }
     
     func makeEntity() -> T.EntityType {
