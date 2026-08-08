@@ -287,7 +287,7 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : LeafViewLayout3D, E
     typealias EntityType = T.EntityType
     
     let content: T
-    private let hostingComponent: AttachmentHostingComponent?
+    let hostingComponent: AttachmentHostingComponent?
     private var platformHost: EntityHost<T>
     private let context: EntityRepresentableContext<T>
     
@@ -303,6 +303,38 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : LeafViewLayout3D, E
     nonisolated static func _makeView(view: _GraphValue<EntityLeafView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
+    
+    func makeEntity() -> T.EntityType {
+        assertUnimplemented()
+    }
+    
+    func updateEntity(_ entity: inout T.EntityType, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry {
+        assertUnimplemented()
+    }
+    
+    var features: DisplayList.Features {
+        assertUnimplemented()
+    }
+    
+    static var shadowApplicationIsRecursive: Bool {
+        assertUnimplemented()
+    }
+    
+    static var wantsHitTestGeometry: Bool {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func spacing() -> Spacing {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
 }
 
 struct AccessibilityPlatformEntityModifier : PrimitiveViewModifier, MultiViewModifier {
@@ -315,12 +347,6 @@ struct AccessibilityPlatformEntityModifier : PrimitiveViewModifier, MultiViewMod
     nonisolated static func _makeViewList(modifier: _GraphValue<AccessibilityPlatformEntityModifier>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
-}
-
-protocol EntityViewFactory : PrimitiveView, UnaryView {
-    associatedtype EntityType
-    
-    // TODO
 }
 
 fileprivate struct PlatformEntityIdentifiedViews<T : EntityRepresentable> : Rule {

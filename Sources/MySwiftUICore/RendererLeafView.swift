@@ -1,7 +1,6 @@
 // 65609C35608651F66D749EB1BD9D2226
-
 internal import Spatial
-internal import CoreGraphics
+package import CoreGraphics
 private import AttributeGraph
 
 protocol RendererLeafView : ContentResponder, PrimitiveView, UnaryView {
@@ -162,5 +161,16 @@ final class LeafViewResponder<T : ContentResponder>: ViewResponder {
 }
 
 package protocol LeafViewLayout {
-    // TODO
+    func spacing() -> Spacing
+    func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize
+}
+
+extension LeafViewLayout {
+    package static func makeLeafLayout(_ outputs: inout _ViewOutputs, view: _GraphValue<Self>, inputs: _ViewInputs) {
+        assertUnimplemented()
+    }
+    
+    package func spacing() -> Spacing {
+        assertUnimplemented()
+    }
 }
