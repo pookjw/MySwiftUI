@@ -73,7 +73,7 @@ extension ForEach : View where Content : View {
         if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, Subview.ID, Content>> {
             // <+228>
             value = casted[{ .of(&$0.data.substituteView) }]
-        } else if let casted = view as? _GraphValue<ForEach<ForEachSubviewCollection<Content>, SectionConfiguration.ID, Content>> {
+        } else if let casted = view as? _GraphValue<ForEach<ForEachSectionCollection<Content>, SectionConfiguration.ID, Content>> {
             // <+416>
             value = casted[{ .of(&$0.data.substituteView) }]
         } else {
