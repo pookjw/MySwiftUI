@@ -655,7 +655,8 @@ fileprivate let builtInComponentsInitializer: Void = {
         
         unsafe unsafeBitCast(handle, to: CoreRE::AssetManager.self)
             .registerAssetResolver(
-                "localfile",
+//                "localfile",
+                "mr_localfile",
                 Unmanaged.passUnretained(namedFileAssetResolver).toOpaque(),
                 namedFileAssetResolver.callback
             )
