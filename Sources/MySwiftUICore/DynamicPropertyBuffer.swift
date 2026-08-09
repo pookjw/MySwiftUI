@@ -70,13 +70,13 @@ public struct _DynamicPropertyBuffer {
         contents[index].flags = flags
     }
     
-    func reset() {
+    package func reset() {
         for element in contents {
             element.vtable(as: BoxVTableBase.self).reset(elt: element)
         }
     }
     
-    func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+    package func update(container: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
         var result = false
         for element in contents {
             let _result = unsafe element

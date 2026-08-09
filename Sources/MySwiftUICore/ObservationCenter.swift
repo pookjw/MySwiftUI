@@ -5,7 +5,7 @@ private import Observation
 internal import AttributeGraph
 private import _DarwinFoundation3.pthread
 
-final class ObservationCenter : @unchecked Sendable {
+package final class ObservationCenter : @unchecked Sendable {
     static var current: ObservationCenter {
         return _current.value
     }
@@ -270,7 +270,7 @@ extension ObservationTracking._AccessList {
 }
 
 extension StatefulRule {
-    func withObservation<T>(observationCenter: ObservationCenter, do: () throws -> T) rethrows -> T {
+    package func withObservation<T>(observationCenter: ObservationCenter = .current, do: () throws -> T) rethrows -> T {
         assertUnimplemented()
     }
 }

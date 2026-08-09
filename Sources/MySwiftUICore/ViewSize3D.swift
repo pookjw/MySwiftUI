@@ -1,7 +1,7 @@
-internal import Spatial
+package import Spatial
 internal import CoreGraphics
 
-struct ViewSize3D {
+package struct ViewSize3D {
     static var zero: ViewSize3D {
         return ViewSize3D(.zero, proposal: _ProposedSize3D(width: 0, height: 0, depth: 0))
     }
@@ -224,13 +224,13 @@ struct ViewSize3D {
 }
 
 extension ViewSize3D : Equatable {
-    static func == (lhs: ViewSize3D, rhs: ViewSize3D) -> Bool {
+    package static func == (lhs: ViewSize3D, rhs: ViewSize3D) -> Bool {
         return lhs.value == rhs.value && lhs.proposal == rhs.proposal
     }
 }
 
 extension ViewSize3D : Animatable {
-    var animatableData: Vector3D {
+    package var animatableData: Vector3D {
         get {
             return Vector3D(value)
         }

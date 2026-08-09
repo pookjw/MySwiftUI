@@ -267,7 +267,7 @@ extension Layout3D {
     }
 }
 
-fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
+fileprivate struct DynamicLayoutComputer<T : Layout3D>: StatefulRule, AsyncAttribute, CustomStringConvertible {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var containerInfo: DynamicContainer.Info?
@@ -279,8 +279,12 @@ fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribu
     
     typealias Value = LayoutComputer
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        self.updateLayoutComputer3D(
+            layout: self.layout,
+            environment: self.$environment,
+            attributes: self.layoutMap.attributes(info: self.containerInfo!)
+        )
     }
 }
 

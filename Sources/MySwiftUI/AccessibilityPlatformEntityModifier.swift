@@ -1,7 +1,7 @@
 // 489B6F9C813C627F5CFD569A9BFD092F
 internal import MySwiftUICore
 private import AttributeGraph
-private import RealityKit
+internal import RealityKit
 
 struct AccessibilityPlatformEntityModifier : PrimitiveViewModifier, MultiViewModifier {
     private let entity: RealityKit::Entity?
@@ -33,6 +33,12 @@ fileprivate struct EntityAccessibilityAttachment : Rule {
     @Attribute private(set) var externalProperties: AccessibilityProperties?
     
     var value: AccessibilityAttachmentModifier {
+        assertUnimplemented()
+    }
+}
+
+extension View {
+    nonisolated func accessibility(entity: RealityKit::Entity?) -> ModifiedContent<Self, AccessibilityPlatformEntityModifier> {
         assertUnimplemented()
     }
 }

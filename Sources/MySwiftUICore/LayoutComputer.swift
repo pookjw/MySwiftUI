@@ -1,6 +1,6 @@
 // 91FCB5522C30220AE13689E45789FEF2
-internal import AttributeGraph
-internal import CoreGraphics
+package import AttributeGraph
+package import CoreGraphics
 internal import Spatial
 private import _MySwiftUIShims
 
@@ -171,7 +171,7 @@ extension LayoutComputer : Equatable {
     }
 }
 
-struct _PositionAwarePlacementContext {
+package struct _PositionAwarePlacementContext {
     private(set) var context: AnyRuleContext
     private(set) var owner: AnyAttribute
     @Attribute private(set) var size: ViewSize
@@ -181,8 +181,7 @@ struct _PositionAwarePlacementContext {
     @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
 }
 
-
-protocol LayoutEngine {
+package protocol LayoutEngine {
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool
     func requiresSpacingProjection() -> Bool
@@ -200,55 +199,55 @@ protocol LayoutEngine {
 }
 
 extension LayoutEngine {
-    func layoutPriority() -> Double {
+    package func layoutPriority() -> Double {
         return 0
     }
     
-    func ignoresAutomaticPadding() -> Bool {
+    package func ignoresAutomaticPadding() -> Bool {
         assertUnimplemented()
     }
     
-    func requiresSpacingProjection() -> Bool {
+    package func requiresSpacingProjection() -> Bool {
         return false
     }
     
-    func spacing() -> Spacing {
+    package func spacing() -> Spacing {
         return Spacing()
     }
     
-    mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+    package  mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
         return self.sizeThatFits(proposedSize)[axis]
     }
     
-    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+    package func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
         assertUnimplemented()
     }
     
-    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+    package func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
         return nil
     }
     
-    func childPlacement(at viewSize: ViewSize) -> _Placement {
+    package func childPlacement(at viewSize: ViewSize) -> _Placement {
         assertUnimplemented()
     }
     
-    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+    package func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
         assertUnimplemented()
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+    package func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         return 0
     }
     
-    func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+    package func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
         return nil
     }
     
-    func requiresTrueDepthLayout() -> Bool {
+    package func requiresTrueDepthLayout() -> Bool {
         return false
     }
     
-    var debugContentDescription: String? {
+    package var debugContentDescription: String? {
         assertUnimplemented()
     }
 }
@@ -676,7 +675,7 @@ extension StatefulRule where Value == LayoutComputer {
         }
     }
     
-    func update<Engine : LayoutEngine>(to engine: Engine) {
+    package func update<Engine : LayoutEngine>(to engine: Engine) {
         update(
             modify: { _engine in
                 // $s14AttributeGraph12StatefulRuleP7SwiftUIAD14LayoutComputerV5ValueRtzrlE6update2toyqd___tAD0G6EngineRd__lFyqd__zXEfU_TA

@@ -1,6 +1,6 @@
-internal import CoreGraphics
+package import CoreGraphics
 
-struct ViewGeometry : Equatable, Animatable {
+package struct ViewGeometry : Equatable, Animatable {
     nonisolated(unsafe) static let invalidValue = unsafe ViewGeometry(
         origin: CGPoint(x: CGFloat.nan, y: CGFloat.nan),
         dimensions: .invalidValue
@@ -41,7 +41,7 @@ struct ViewGeometry : Equatable, Animatable {
         return CGRect(origin: origin, size: dimensions.size.value)
     }
     
-    var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
+    package var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
         get {
             return AnimatableData(origin.animatableData, dimensions.size.animatableData)
         }

@@ -24,10 +24,32 @@ fileprivate struct LeafLayoutComputer3D<T : LeafViewLayout3D> : CustomStringConv
     typealias Value = LayoutComputer
     
     func updateValue() {
-        assertUnimplemented()
+        self.update(to: LayoutEngine3D(self.view))
     }
     
     var description: String {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct LayoutEngine3D<T> : LayoutEngine {
+    private let view: T
+    private var sizeCache = Cache3<_ProposedSize, CGSize>()
+    private var depthCache = Cache3<_ProposedSize3D, CGFloat>()
+    
+    init(_ view: T) {
+        self.view = view
+    }
+    
+    func spacing() -> Spacing {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
         assertUnimplemented()
     }
 }

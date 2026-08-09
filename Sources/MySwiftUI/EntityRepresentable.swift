@@ -4,14 +4,17 @@ package import Spatial
 package import RealityKit
 internal import UIKit
 private import AttributeGraph
+private import os.log
+
+nonisolated(unsafe) var currentEntityHostTransaction: Transaction? = nil
 
 package protocol EntityRepresentable : View {
-    associatedtype EntityType
+    associatedtype EntityType : RealityKit::Entity
     associatedtype Coordinator
     
-    func makeEntity(context: EntityRepresentableContext<Self>) -> Self.EntityType
-    func updateEntity(_ type: Self.EntityType, context: EntityRepresentableContext<Self>)
-    static func dismantleEntity(_ type: Self.EntityType, coordinator: Self.Coordinator)
+    nonisolated func makeEntity(context: EntityRepresentableContext<Self>) -> Self.EntityType
+    nonisolated func updateEntity(_ entity: Self.EntityType, context: EntityRepresentableContext<Self>)
+    static func dismantleEntity(_ entity: Self.EntityType, coordinator: Self.Coordinator)
     func makeCoordinator() -> Self.Coordinator
     func _sizeThatFits(in size: _ProposedSize3D, entity: Self.EntityType) -> Size3D
     func _identifiedViewTree(in type: Self.EntityType) -> _IdentifiedViewTree
@@ -216,7 +219,7 @@ fileprivate final class GestureProxy {
     private var connectionCommands: [GestureProxy.GestureConnectionCommand]
     
     init() {
-        assertUnimplemented()
+        self.connectionCommands = []
     }
 }
 
@@ -227,7 +230,23 @@ extension GestureProxy {
     }
 }
 
-final class EntityHost<T> : RealityKit::Entity {
+final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
+    // TODO
+    let representedEntity: T.EntityType
+    
+    nonisolated init(_: T.EntityType, environment: EnvironmentValues, graphBridge: HostedEntityGraphBridge, view: T, viewPhase: _GraphInputs.Phase) {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency required init() {
+//        fatalError("init() has not been implemented")
+        assertUnimplemented()
+    }
+    
+    nonisolated func updateEnvironment(_: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
@@ -271,8 +290,169 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
     
     typealias Value = ModifiedContent<EntityLeafView<T>, AccessibilityPlatformEntityModifier>
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        // self -> x20 -> x28
+        // <+940>
+        if self.resetSeed != self.phase.resetSeed {
+            self.destroyEntity()
+            self.links.reset()
+            self.resetSeed = self.phase.resetSeed
+        }
+        
+        // <+1104>
+        // x24 (x29 - 0x80)
+        var view = self.view
+        
+        withUnsafeMutablePointer(to: &view) { pointer in
+            let _ = unsafe self.links.update(
+                container: UnsafeMutableRawPointer(pointer),
+                phase: self.phase
+            )
+        }
+        
+        // x29 - 0x68
+        let transaction = Graph.withoutUpdate {
+            // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA11TransactionVyXEfU_
+            return self.transaction
+        }
+        
+        // <+1276>
+        // x29 - 0x168
+        let oldTransaction = unsafe currentEntityHostTransaction
+        unsafe currentEntityHostTransaction = transaction
+        // transaction -> x29 - 0x68 -> x29 - 0xa8
+        
+        // x29 - 0xd8
+        let context: EntityRepresentableContext<T>
+        if self.entityHost != nil {
+            // <+1320>
+            // entityHost -> x29 - 0x188
+            // x23
+            var (env, envChanged) = self.$environment.changedValue(options: [])
+            
+            var bridge: PreferenceBridge
+            // true -> <+1468> / false -> <+1504>
+            let flag: Bool
+            if let _bridge = env.preferenceBridge {
+                bridge = self.bridge
+                
+                if bridge === _bridge {
+                    // <+3056>
+                    if envChanged {
+                        // <+1468>
+                        flag = true
+                    } else {
+                        // <+1504>
+                        flag = false
+                    }
+                } else {
+                    // <+1440>
+                    bridge = self.bridge
+                    env.preferenceBridge = bridge
+                    envChanged = true
+                    // <+1468>
+                    flag = true
+                }
+            } else {
+                // <+1440>
+                bridge = self.bridge
+                env.preferenceBridge = bridge
+                envChanged = true
+                // <+1468>
+                flag = true
+            }
+            
+            if flag {
+                // <+1468>
+                Graph.withoutUpdate { 
+                    // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU1_
+                    self.entityHost!.updateEnvironment(env, viewPhase: self.phase)
+                }
+            }
+            
+            // <+1504>
+            context = EntityRepresentableContext<T>(
+                coordinator: self.coordinator!,
+                preferenceBridge: bridge,
+                transaction: transaction,
+                environment: env,
+                phase: self.phase,
+                gestureProxy: GestureProxy()
+            )
+            
+            // <+2364>
+        } else {
+            // <+1764>
+            // x22 (x29 - 0x170)
+            var env = self.environment
+            let bridge = self.bridge
+            env.preferenceBridge = bridge
+            
+            context = EntityRepresentableContext<T>(
+                coordinator: self.coordinator!,
+                preferenceBridge: bridge,
+                transaction: transaction,
+                environment: env,
+                phase: self.phase,
+                gestureProxy: GestureProxy()
+            )
+            
+            self.withObservation { 
+                // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_TA
+                Graph.withoutUpdate { 
+                    // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_AIyXEfU_
+                    // <+292>
+                    let entity = view.makeEntity(context: context)
+                    
+                    if (entity.parent != nil) || (entity.scene != nil) {
+                        // <+444>
+                        unsafe os_log(.fault, log: .runtimeIssuesLog, "Entity%s returned from %s.makeEntity(context:) was already parented to another entity. This is not supported and may lead to unexpected behavior. SwiftUI adds entities to internally-managed entity hierarchies.", entity.name, _typeName(T.self, qualified: false))
+                    }
+                    
+                    // <+920>
+                    let host = EntityHost<T>(
+                        entity,
+                        environment: env,
+                        graphBridge: self.hostGraphBridge,
+                        view: view,
+                        viewPhase: self.phase
+                    )
+                    
+                    context.updateHost(host)
+                }
+            }
+            
+            // <+2364>
+        }
+        
+        // <+2364>
+        self.withObservation { 
+            // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_TA
+            Graph.withoutUpdate { 
+                // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_yyXEfU_
+                self.view.updateEntity(
+                    self.entityHost!.representedEntity,
+                    context: context
+                )
+                
+                context.updateHost(self.entityHost!)
+            }
+        }
+        
+        // <+2560>
+        let copy = view
+        let hostingComponent = self.hostingComponent
+        let entityHost = self.entityHost!
+        
+        self.value = EntityLeafView(
+            content: copy,
+            hostingComponent: hostingComponent,
+            platformHost: entityHost,
+            context: context
+        )
+            .accessibility(entity: entityHost)
+        
+        unsafe currentEntityHostTransaction = oldTransaction
     }
     
     func destroy() {
@@ -300,7 +480,7 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     private var platformHost: EntityHost<T>
     private let context: EntityRepresentableContext<T>
     
-    init(
+    nonisolated init(
         content: T,
         hostingComponent: AttachmentHostingComponent?,
         platformHost: EntityHost<T>,
