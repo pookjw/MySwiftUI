@@ -1,4 +1,7 @@
+// 278B8B6E01D480C09D89EEF65D03A530
 internal import MySwiftUICore
+private import AttributeGraph
+private import CoreGraphics
 
 protocol EntityViewFactory : PrimitiveView, UnaryView {
     associatedtype EntityType
@@ -15,10 +18,58 @@ extension EntityViewFactory {
     static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          view -> x0 -> x29 - 0xf0
-         inputs -> x1/x2 -> x24/x19
+         inputs -> x1 -> x24
          */
         // <+452>
-        assertUnimplemented()
+        // x29 - 0xb0
+        var outputs = _ViewOutputs()
+        // x29 - 0x98
+        let identity = inputs.pushIdentity()
+        
+        if inputs.preferences.contains(DisplayList.Key.self) {
+            // <+544>
+            let child = EntityFactoryChild(
+                factory: view.value,
+                environment: inputs.environment,
+                tracker: PropertyList.Tracker()
+            )
+            
+            let factoryAttribute = Attribute(child)
+            
+            let leafDisplayList = LeafDisplayList<Self>(
+                identity: identity,
+                view: factoryAttribute,
+                position: inputs.animatedPosition(),
+                size: inputs.animatedSize(),
+                containerPosition: inputs.containerPosition,
+                depth: inputs.animatedDepth(),
+                options: inputs[DisplayList.Options.self],
+                contentSeed: DisplayList.Seed()
+            )
+            
+            let displayListAttribute = Attribute(leafDisplayList)
+            outputs[DisplayList.Key.self] = displayListAttribute
+        }
+        
+        // <+1232>
+        if inputs.preferences.contains(ViewRespondersKey.self) {
+            let filter = LeafResponder3DFilter(
+                size: inputs.animatedSize(),
+                depth: inputs.animatedDepth(),
+                position: inputs.animatedPosition(),
+                transform: inputs.transform,
+                identity: identity,
+                responder: LeafViewResponder3D(
+                    inputs: inputs,
+                    viewSubgraph: .current!
+                )
+            )
+            
+            let respondersAttribute = Attribute(filter)
+            outputs[ViewRespondersKey.self] = respondersAttribute
+        }
+        
+        return outputs
     }
     
     var hostingComponent: AttachmentHostingComponent? {
@@ -32,4 +83,62 @@ struct _EntityViewFactory_Context {
 
 struct _EntityViewFactory_Geometry {
     // TODO
+}
+
+fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, StatefulRule {
+    @Attribute private(set) var factory: T
+    @Attribute private(set) var environment: EnvironmentValues
+    let tracker: PropertyList.Tracker
+    
+    typealias Value = ResolvedEntityFactory<T>
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
+    private var factory: T
+    private var pointScale: PointScale
+    private var castsShadows: Bool
+    private var redactionReasons: RedactionReasons
+    private var isContainedInPlatter: Bool
+    
+    init(factory: T, pointScale: PointScale, castsShadows: Bool, redactionReasons: RedactionReasons, isContainedInPlatter: Bool) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConvertible, StatefulRule {
+    let identity: _DisplayList_Identity
+    @Attribute var view: ResolvedEntityFactory<T>
+    @Attribute var position: CGPoint
+    @Attribute var size: ViewSize
+    @Attribute var containerPosition: CGPoint
+    @Attribute var depth: ViewDepth
+    let options: DisplayList.Options
+    var contentSeed: DisplayList.Seed
+    
+    init(
+        identity: _DisplayList_Identity,
+        view: Attribute<ResolvedEntityFactory<T>>,
+        position: Attribute<CGPoint>,
+        size: Attribute<ViewSize>,
+        containerPosition: Attribute<CGPoint>,
+        depth: Attribute<ViewDepth>,
+        options: DisplayList.Options,
+        contentSeed: DisplayList.Seed
+    ) {
+        assertUnimplemented()
+    }
+    
+    typealias Value = DisplayList
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
 }

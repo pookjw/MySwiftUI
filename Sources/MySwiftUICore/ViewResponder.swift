@@ -129,7 +129,7 @@ extension ViewResponder {
          */
         private var storage: (key: UInt32?, value: ContainsPointsResult)?
         
-        init() {
+        package init() {
             storage = nil
         }
         

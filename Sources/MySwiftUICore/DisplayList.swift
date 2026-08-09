@@ -505,10 +505,10 @@ extension DisplayList {
         }
     }
     
-    struct Seed : Hashable {
+    package struct Seed : Hashable {
         private(set) var value: UInt16
         
-        init() {
+        package init() {
             value = 0
         }
         
