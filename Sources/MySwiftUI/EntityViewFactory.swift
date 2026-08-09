@@ -110,14 +110,14 @@ fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
 }
 
 fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConvertible, StatefulRule {
-    let identity: _DisplayList_Identity
-    @Attribute var view: ResolvedEntityFactory<T>
-    @Attribute var position: CGPoint
-    @Attribute var size: ViewSize
-    @Attribute var containerPosition: CGPoint
-    @Attribute var depth: ViewDepth
-    let options: DisplayList.Options
-    var contentSeed: DisplayList.Seed
+    let identity: _DisplayList_Identity // 0x0
+    @Attribute var view: ResolvedEntityFactory<T> // 0x24 (field)
+    @Attribute var position: CGPoint // 0x28 (field)
+    @Attribute var size: ViewSize // 0x2c (field)
+    @Attribute var containerPosition: CGPoint // 0x30 (field)
+    @Attribute var depth: ViewDepth // 0x34 (field)
+    let options: DisplayList.Options // 0x38 (field)
+    var contentSeed: DisplayList.Seed // 0x3c (field)
     
     init(
         identity: _DisplayList_Identity,
@@ -129,7 +129,14 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
         options: DisplayList.Options,
         contentSeed: DisplayList.Seed
     ) {
-        assertUnimplemented()
+        self.identity = identity
+        self._view = view
+        self._position = position
+        self._size = size
+        self._containerPosition = containerPosition
+        self._depth = depth
+        self.options = options
+        self.contentSeed = contentSeed
     }
     
     typealias Value = DisplayList

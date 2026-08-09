@@ -51,6 +51,10 @@ fileprivate struct PreferenceTransform<T: PreferenceKey> : Rule, AsyncAttribute,
         assertUnimplemented()
     }
     
+    static var initialValue: T.Value? {
+        return T.defaultValue
+    }
+    
     var value: T.Value {
         // <+172>
         var value = self.childValue ?? T.defaultValue

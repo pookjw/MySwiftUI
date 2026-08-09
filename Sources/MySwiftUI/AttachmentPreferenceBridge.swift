@@ -7,7 +7,28 @@ final class AttachmentPreferenceBridge {
     var respondersCombiner: OptionalAttribute<[ViewResponder]>
     
     func wrapOutputs(_ outputs: inout PreferencesOutputs, inputs: _ViewInputs) {
-        assertUnimplemented()
+        if let displayListAttribute = outputs[DisplayList.Key.self] {
+            // <+340>
+            let combiner = PreferenceCombiner<DisplayList.Key>(attributes: [displayListAttribute])
+            let attribute = Attribute(combiner)
+            outputs[DisplayList.Key.self] = attribute
+        }
+        
+        // <+572>
+        if let respondersAttribute = outputs[ViewRespondersKey.self] {
+            let combiner = PreferenceCombiner<ViewRespondersKey>(attributes: [respondersAttribute])
+            let attribute = Attribute(combiner)
+            outputs[ViewRespondersKey.self] = attribute
+        }
+        
+        // <+848>
+        if let hostAttribute = outputs[HostPreferencesKey.self] {
+            let combiner = PreferenceCombiner<HostPreferencesKey>(attributes: [hostAttribute])
+            let attribute = Attribute(combiner)
+            outputs[HostPreferencesKey.self] = attribute
+        }
+        
+        // <+1128>
     }
     
     func mutate<T : PreferenceKey>(type: T.Type, combiner: Attribute<T.Value>, src: AnyAttribute, add: Bool) {

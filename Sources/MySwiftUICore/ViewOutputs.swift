@@ -3,7 +3,7 @@ package import AttributeGraph
 public struct _ViewOutputs {
     package var preferences = PreferencesOutputs() // 0x0
     private var _layoutComputer: OptionalAttribute<LayoutComputer> // 0xc
-    var layoutComputer: Attribute<LayoutComputer>? {
+    package var layoutComputer: Attribute<LayoutComputer>? {
         get {
             return _layoutComputer.attribute
         }

@@ -1,4 +1,4 @@
-internal import AttributeGraph
+package import AttributeGraph
 
 struct PairwisePreferenceCombinerVisitor {
     let outputs: (PreferencesOutputs, PreferencesOutputs)
@@ -53,26 +53,26 @@ package struct MultiPreferenceCombinerVisitor : PreferenceKeyVisitor {
     }
 }
 
-struct PreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
+package struct PreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {
     var attributes: [WeakAttribute<T.Value>]
     
     init() {
         attributes = Array()
     }
     
-    init(attributes: [Attribute<T.Value>]) {
+    package init(attributes: [Attribute<T.Value>]) {
         self.attributes = attributes.map { WeakAttribute($0) }
     }
     
-    var description: String {
+    package var description: String {
         assertUnimplemented()
     }
     
-    static var initialValue: T.Value? {
+    package static var initialValue: T.Value? {
         return T.defaultValue
     }
     
-    var value: T.Value {
+    package var value: T.Value {
         // self -> x23
         // sp + 0x58
         var result = T.defaultValue

@@ -180,7 +180,7 @@ public struct _ViewInputs {
 }
 
 extension _ViewInputs {
-    var requestsLayoutComputer: Bool {
+    package var requestsLayoutComputer: Bool {
         get {
             return base.options.contains(.viewRequestsLayoutComputer)
         }
