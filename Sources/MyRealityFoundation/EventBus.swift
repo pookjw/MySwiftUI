@@ -11,6 +11,11 @@ private import CoreRE
         self.dispatchersByHandle = [:]
         
         unsafe __RERetain(coreHandle)
+        
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
+            .myRealityKitRef = self
+#endif
         unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
             .swiftObject = Unmanaged.passUnretained(self).toOpaque()
     }

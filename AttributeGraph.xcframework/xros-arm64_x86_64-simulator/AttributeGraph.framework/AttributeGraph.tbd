@@ -306,7 +306,11 @@ exports:
     _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvg,
     _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvs,
     _$sSo15AGWeakAttributea0B5GraphE9attributeSo11AGAttributeaSgvM,
-    _AGWeakAttributeGetAttribute ]
+    _AGWeakAttributeGetAttribute,
+    _$s14AttributeGraph12StatefulRulePAAE9attributeAA0A0Vy5ValueQzGvg,
+    _$s14AttributeGraph12StatefulRulePAAE9attributeAA0A0Vy5ValueQzGvpMV,
+    _$s14AttributeGraph4RuleTL,
+    _$s14AttributeGraph12StatefulRuleTL ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -39,8 +39,13 @@ private import Observation
         self.coreECSManager = unsafe __REECSManagerRef(core: coreECSManager)
         unsafe __RERetain(coreECSManager)
         
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)
+            .myRealityKitRef = self
+#else
         unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)
             .swiftObject = unsafe Unmanaged.passUnretained(self).toOpaque()
+#endif
         
         _ = InteractionNotificationsManager.sharedManager
         self.registerBuiltInComponents()

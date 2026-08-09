@@ -3,6 +3,7 @@ private import MyRealityFoundation
 internal import Spatial
 #if RealityKitCompataibility
 internal import RealityKit
+private import CoreRE
 #endif
 
 struct EntityWrapper : EntityRepresentable {
@@ -14,14 +15,23 @@ struct EntityWrapper : EntityRepresentable {
     
     typealias Coordinator = Void
     
-    let baseEntity: MyRealityFoundation::Entity
-    let updateCallback: @MainActor (inout RealityViewContent) -> ()
-    let proxy: GeometryProxy3D
-    private(set) var model: _RealityViewModel
-    let controller: AttachmentStateControllerBase?
+    let baseEntity: MyRealityFoundation::Entity // 0x0
+    let updateCallback: @MainActor (inout RealityViewContent) -> () // 0x8
+    let proxy: GeometryProxy3D // 0x18
+    private(set) var model: _RealityViewModel // 0x60
+    let controller: AttachmentStateControllerBase? // 0x20 (field)
     
     func makeEntity(context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) -> EntityType {
-        assertUnimplemented()
+        if let controller {
+            controller.initialize(with: context)
+        }
+        
+#if RealityKitCompataibility
+        return unsafe unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE::Entity.self)
+            .realityKitRef
+#else
+        return self.baseEntity
+#endif
     }
     
     func updateEntity(_ entity: EntityType, context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) {

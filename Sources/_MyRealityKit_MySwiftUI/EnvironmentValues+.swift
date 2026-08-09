@@ -12,7 +12,7 @@ private import CoreRE
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension EnvironmentValues {
-    public var realityKitScene: MyRealityFoundation::Scene? {
+    @MainActor public var realityKitScene: MyRealityFoundation::Scene? {
 #if RealityKitCompataibility
         guard let scene = self.realityScene else {
             return nil
@@ -20,7 +20,7 @@ extension EnvironmentValues {
         
         let ref = unsafe scene.__coreScene.__as(OpaquePointer.self)
         let casted = unsafe unsafeBitCast(ref, to: CoreRE::Scene.self)
-        return casted.bridgedScene
+        return casted.myRealityKitRef ?? MyRealityFoundation::Scene(coreScene: ref)
 #else
         assertUnimplemented()
 #endif

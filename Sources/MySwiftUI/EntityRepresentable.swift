@@ -181,11 +181,11 @@ extension EntityRepresentable where Coordinator == Void {
 
 package struct EntityRepresentableContext<T : EntityRepresentable> {
     let coordinator: T.Coordinator
-    private var preferenceBridge: PreferenceBridge?
-    private(set) var transaction: Transaction
-    private(set) var environment: EnvironmentValues
-    private var phase: _GraphInputs.Phase
-    private var gestureProxy: GestureProxy
+    private var preferenceBridge: PreferenceBridge? // 0x24 (field)
+    private(set) var transaction: Transaction // 0x28 (field)
+    private(set) var environment: EnvironmentValues // 0x2c (field)
+    private var phase: _GraphInputs.Phase // 0x30 (field)
+    private var gestureProxy: GestureProxy // 0x34 (field)
     
     func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
         assertUnimplemented()
@@ -207,7 +207,12 @@ package struct EntityRepresentableContext<T : EntityRepresentable> {
         phase: _GraphInputs.Phase,
         gestureProxy: GestureProxy
     ) {
-        assertUnimplemented()
+        self.coordinator = coordinator
+        self.preferenceBridge = preferenceBridge
+        self.transaction = transaction
+        self.environment = environment
+        self.phase = phase
+        self.gestureProxy = gestureProxy
     }
 }
 

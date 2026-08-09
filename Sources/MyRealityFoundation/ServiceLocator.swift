@@ -249,8 +249,13 @@ public let __privateEngineMode: Bool = {
         }
         
         // <+684>
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
+            .myRealityKitRef = self
+#else
         unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
             .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
         
         if let renderManager = unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self).renderManager
             {

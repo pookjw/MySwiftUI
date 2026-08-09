@@ -67,7 +67,13 @@ extension Entity {
                 unsafe unsafeBitCast(result.coreEntity, to: CoreRE::Entity.self)
                     .swiftObject = nil
                 unsafe result.coreEntity = unsafeBitCast(core, to: OpaquePointer.self)
+                
+#if RealityKitCompataibility
+                core.myRealityKitRef = result
+#else
                 unsafe core.swiftObject = Unmanaged.passUnretained(result).toOpaque()
+#endif
+                
                 return result
             } else {
                 return unsafe makeEntity(for: coreEntity.core)

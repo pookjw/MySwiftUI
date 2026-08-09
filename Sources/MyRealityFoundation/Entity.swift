@@ -746,7 +746,13 @@ extension Entity {
     @MainActor @preconcurrency required public init() {
         let entity = CoreRE.Entity()
         unsafe self.coreEntity = unsafeBitCast(entity, to: OpaquePointer.self)
+        
+#if RealityKitCompataibility
+        entity.myRealityKitRef = self
+#else
         unsafe entity.swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
+        
         unsafe __RERelease(self.coreEntity)
         
         // <+44>
@@ -764,13 +770,24 @@ extension Entity {
     @usableFromInline
     @MainActor @preconcurrency internal init(_coreEntity: __EntityRef) {
         unsafe self.coreEntity = _coreEntity.core
+        
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(_coreEntity.core, to: CoreRE.Entity.self)
+            .myRealityKitRef = self
+#else
         unsafe unsafeBitCast(_coreEntity.core, to: CoreRE.Entity.self)
             .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
     }
     
     isolated deinit {
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
+            .myRealityKitRef = nil
+#else
         unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
             .swiftObject = nil
+#endif
     }
     
     @MainActor @preconcurrency public static func __testInit() -> Entity {

@@ -1,5 +1,4 @@
 // 7DF024579E4FC31D4E92A33BBA0366D6
-
 private import Observation
 @_spi(SwiftUI) internal import _ObservationPrivate
 internal import AttributeGraph
@@ -187,7 +186,6 @@ struct ObservationGraphMutation : GraphMutation, @unchecked Sendable {
     private var observationTracking: [ObservationTracking]
     private var subgraphObservers: [(Subgraph, Int)]
     
-    @inline(always)
     fileprivate init(observationCenter: ObservationCenter, invalidatingMutation: InvalidatingGraphMutation, observationTracking: [ObservationTracking], subgraphObservers: [(Subgraph, Int)]) {
         self.observationCenter = observationCenter
         self.invalidatingMutation = invalidatingMutation
@@ -269,8 +267,22 @@ extension ObservationTracking._AccessList {
     }
 }
 
+extension Rule {
+    func withObservation<T>(observationCenter: ObservationCenter = .current, do: () throws -> T) rethrows -> T {
+        return try observationCenter._withObservation(
+            attribute: self.attribute
+        ) { 
+            return try `do`()
+        }
+    }
+}
+
 extension StatefulRule {
     package func withObservation<T>(observationCenter: ObservationCenter = .current, do: () throws -> T) rethrows -> T {
-        assertUnimplemented()
+        return try observationCenter._withObservation(
+            attribute: self.attribute
+        ) { 
+            return try `do`()
+        }
     }
 }

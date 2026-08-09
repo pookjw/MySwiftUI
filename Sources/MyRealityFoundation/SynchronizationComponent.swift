@@ -103,7 +103,7 @@ public struct SynchronizationComponent : Component, Equatable {
             }
         } else {
             // <+300>
-            core.network_requestOwnershipV2(
+            unsafe core.network_requestOwnershipV2(
                 core.isOwnershipLocked,
                 nil,
                 0,
@@ -121,7 +121,7 @@ public struct SynchronizationComponent : Component, Equatable {
                 
                 let scene: MyRealityFoundation::Scene
 #if RealityKitCompataibility
-                if let bridgedScene = reScene.bridgedScene {
+                if let bridgedScene = reScene.myRealityKitRef {
                     scene = bridgedScene
                 } else {
                     scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))

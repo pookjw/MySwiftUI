@@ -154,3 +154,16 @@ public protocol USDImportService {
     func load(with options: [Swift.String : Any]) throws -> RealityKit.Entity
     func loadAsync(with options: [Swift.String : Any]) throws
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityKit", visionOS 26.0)
+extension RealityKit.Entity {
+  public convenience init(_coreEntity: RealityKit.__EntityRef)
+  public var coreEntity: Swift.OpaquePointer { get }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityKit", visionOS 26.0)
+extension RealityKit.Scene {
+  public var coreEntity: Swift.OpaquePointer { get }
+}

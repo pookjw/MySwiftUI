@@ -231,6 +231,7 @@ func printOffsets() {
     printFields(__RealityFileURLResolver.self, isClassType: true)
     printFields(RealityKit::ForceEffectParameters.self, isClassType: false)
     printFields("7SwiftUI10EntityHostCy012_RealityKit_aB00C7WrapperVG", isClassType: true)
+    printFields("19_RealityKit_SwiftUI13EntityWrapperV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -348,8 +348,13 @@ fileprivate let builtInComponentsInitializer: Void = {
                 return unsafe engineRenderCallback(coreEngine: unsafeBitCast(ptr, to: OpaquePointer.self))
             }
         
+#if RealityKitCompataibility
+        unsafe unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
+            .myRealityKitRef = self
+#else
         unsafe unsafeBitCast(coreEngine, to: CoreRE::Engine.self)
             .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
         
         // <+372>
         if __ServiceLocator.hasSharedServiceLocator {
