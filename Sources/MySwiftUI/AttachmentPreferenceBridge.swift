@@ -11,6 +11,7 @@ final class AttachmentPreferenceBridge {
             // <+340>
             let combiner = PreferenceCombiner<DisplayList.Key>(attributes: [displayListAttribute])
             let attribute = Attribute(combiner)
+            self.displayListCombiner = OptionalAttribute(attribute)
             outputs[DisplayList.Key.self] = attribute
         }
         
@@ -18,6 +19,7 @@ final class AttachmentPreferenceBridge {
         if let respondersAttribute = outputs[ViewRespondersKey.self] {
             let combiner = PreferenceCombiner<ViewRespondersKey>(attributes: [respondersAttribute])
             let attribute = Attribute(combiner)
+            self.respondersCombiner = OptionalAttribute(attribute)
             outputs[ViewRespondersKey.self] = attribute
         }
         
@@ -25,6 +27,7 @@ final class AttachmentPreferenceBridge {
         if let hostAttribute = outputs[HostPreferencesKey.self] {
             let combiner = PreferenceCombiner<HostPreferencesKey>(attributes: [hostAttribute])
             let attribute = Attribute(combiner)
+            self.hostPreferencesCombiner = OptionalAttribute(attribute)
             outputs[HostPreferencesKey.self] = attribute
         }
         

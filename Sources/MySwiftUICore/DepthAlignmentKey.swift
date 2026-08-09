@@ -129,7 +129,7 @@ extension DepthAlignment {
         }
         
         static func defaultValue(in context: ViewDimensions3D) -> CGFloat {
-            assertUnimplemented()
+            return 0
         }
         
         static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
