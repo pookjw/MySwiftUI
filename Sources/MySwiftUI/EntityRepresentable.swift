@@ -15,7 +15,7 @@ package protocol EntityRepresentable : View {
     nonisolated func makeEntity(context: EntityRepresentableContext<Self>) -> Self.EntityType
     nonisolated func updateEntity(_ entity: Self.EntityType, context: EntityRepresentableContext<Self>)
     static func dismantleEntity(_ entity: Self.EntityType, coordinator: Self.Coordinator)
-    func makeCoordinator() -> Self.Coordinator
+    nonisolated func makeCoordinator() -> Self.Coordinator
     func _sizeThatFits(in size: _ProposedSize3D, entity: Self.EntityType) -> Size3D
     func _identifiedViewTree(in type: Self.EntityType) -> _IdentifiedViewTree
     func _gatherEntitiesWithGesture(from entity: RealityKit::Entity) -> [any EntityWithGesture]
@@ -174,7 +174,7 @@ extension EntityRepresentable {
 }
 
 extension EntityRepresentable where Coordinator == Void {
-    package func makeCoordinator() -> Void {
+    package nonisolated func makeCoordinator() -> Void {
         // nop
     }
 }
@@ -313,6 +313,10 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
         // x29 - 0x68
         let transaction = Graph.withoutUpdate {
             // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA11TransactionVyXEfU_
+            if self.coordinator == nil {
+                self.coordinator = view.makeCoordinator()
+            }
+            
             return self.transaction
         }
         
@@ -397,9 +401,9 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
                 gestureProxy: GestureProxy()
             )
             
-            self.withObservation { 
+            self.entityHost = self.withObservation { 
                 // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_TA
-                Graph.withoutUpdate { 
+                return Graph.withoutUpdate { 
                     // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_AIyXEfU_
                     // <+292>
                     let entity = view.makeEntity(context: context)
@@ -419,6 +423,7 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
                     )
                     
                     context.updateHost(host)
+                    return host
                 }
             }
             
@@ -430,7 +435,7 @@ fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttri
             // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_TA
             Graph.withoutUpdate { 
                 // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_yyXEfU_
-                self.view.updateEntity(
+                view.updateEntity(
                     self.entityHost!.representedEntity,
                     context: context
                 )
