@@ -12,6 +12,7 @@ package protocol RealityKitCompataibility {
     
     var _swiftObject: UnsafeMutableRawPointer? { get nonmutating set }
     @MainActor @preconcurrency func _createRealityKitRef() -> RealityKitType?
+    var _ref: AnyObject { get }
     
     @MainActor @preconcurrency var realityKitRef: RealityKitType { get nonmutating set }
     @MainActor @preconcurrency var myRealityKitRef: MyRealityKitType? { get nonmutating set }
@@ -25,11 +26,6 @@ extension RealityKitCompataibility {
                 
                 if let realityKitRef = object as? RealityKitType {
                     return realityKitRef
-                } else if let myRealityKitRef = object as? MyRealityKitType {
-                    let value = self._createRealityKitRef()!
-                    unsafe objc_setAssociatedObject(value, &key, myRealityKitRef, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                    unsafe self._swiftObject = Unmanaged.passUnretained(value).toOpaque()
-                    return value
                 } else {
                     let value = self._createRealityKitRef()!
                     unsafe self._swiftObject = Unmanaged.passUnretained(value).toOpaque()
@@ -42,79 +38,30 @@ extension RealityKitCompataibility {
             }
         }
         nonmutating set {
-            if let swiftObject = unsafe self._swiftObject {
-                let object = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
-                
-                if let realityKitRef = object as? RealityKitType {
-                    let myRealityKitRef = unsafe objc_getAssociatedObject(realityKitRef, &key) as? MyRealityKitType
-                    unsafe objc_setAssociatedObject(realityKitRef, &key, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                    
-                    unsafe objc_setAssociatedObject(newValue, &key, myRealityKitRef, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                    unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
-                } else if let myRealityKitRef = object as? MyRealityKitType {
-                    unsafe objc_setAssociatedObject(newValue, &key, myRealityKitRef, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                    unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
-                } else {
-                    fatalError("Unexpected")
-                }
-            } else {
-                unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
-            }
+            unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
         }
     }
     
     @MainActor @preconcurrency package var myRealityKitRef: MyRealityKitType? {
         get {
-            if let swiftObject = unsafe self._swiftObject {
-                let object = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
-                
-                if let realityKitRef = object as? RealityKitType {
-                    let value = unsafe objc_getAssociatedObject(realityKitRef, &key)
-                    
-                    if let value = value as? MyRealityKitType {
-                        return value
-                    } else {
-                        return nil
-                    }
-                } else if let myRealityKitRef = object as? MyRealityKitType {
-                    return myRealityKitRef
-                } else {
-                    return nil
-                }
-            } else {
-                return nil
-            }
+            let value = unsafe objc_getAssociatedObject(self._ref, &key)
+            return value as? MyRealityKitType
         }
         nonmutating set {
-            if let swiftObject = unsafe self._swiftObject {
-                let object = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
-                
-                if let realityKitRef = object as? RealityKitType {
-                    unsafe objc_setAssociatedObject(realityKitRef, &key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-                } else {
-                    if let newValue {
-                        unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
-                    } else {
-                        unsafe self._swiftObject = nil
-                    }
-                }
-            } else {
-                if let newValue {
-                    unsafe self._swiftObject = Unmanaged.passUnretained(newValue).toOpaque()
-                } else {
-                    unsafe self._swiftObject = nil
-                }
+            if let newValue {
+                unsafe objc_setAssociatedObject(newValue, &key, self.realityKitRef, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
+            
+            unsafe objc_setAssociatedObject(self._ref, &key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
-    @_spi(Testing) @MainActor @preconcurrency public var _realityKitRef: RealityKitType? {
-        if let swiftObject = unsafe self._swiftObject {
-            let object = unsafe unsafeBitCast(swiftObject, to: AnyObject.self)
-            return object as? RealityKitType
-        } else {
-            return nil
-        }
+    package var _ref: AnyObject {
+        return unsafe unsafeBitCast(
+            unsafeBitCast(self, to: UnsafeRawPointer.self)
+                .advanced(by: 0x8),
+            to: AnyObject.self
+        )
     }
 }
 
@@ -193,6 +140,13 @@ extension CoreRE::ServiceLocator : RealityKitCompataibility {
     
     @MainActor @preconcurrency package func _createRealityKitRef() -> RealityKit::__ServiceLocator? {
         return nil
+    }
+    
+    package var _ref: AnyObject {
+        return unsafe unsafeBitCast(self, to: UnsafeRawPointer.self)
+            .advanced(by: 0x8)
+            .assumingMemoryBound(to: AnyObject.self)
+            .pointee
     }
 }
 
