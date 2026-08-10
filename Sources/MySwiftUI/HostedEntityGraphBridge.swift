@@ -3,13 +3,14 @@ internal import Foundation
 private import RealityKit
 internal import MySwiftUICore
 internal import MRUIKit
+private import CoreRE
 
 final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, MRUIEntityPreferenceHostDelegate {
     weak var entity: RealityKit::Entity? = nil {
         didSet {
             self.setup()
         }
-    }
+    } // 0x8
     
     private var traitEnvironment: MRUIEntityTraitEnvironment? = nil
     private(set) var preferenceImporter: MRUIPreferenceImporter
@@ -30,6 +31,15 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
     }
     
     fileprivate func setup() {
+        guard let entity else {
+            return
+        }
+        
+        let reEntity = unsafe unsafeBitCast(
+            entity.__coreEntity.__as(OpaquePointer.self),
+            to: CoreRE::Entity.self
+        )
+        
         assertUnimplemented()
     }
 }
