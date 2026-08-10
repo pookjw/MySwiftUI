@@ -1,0 +1,10 @@
+#import <RealitySystemSupport/Defines.h>
+#import <CoreRE/CoreRE.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+RCP_EXTERN REComponentClassPtr RCPInputTargetComponentGetCustomComponentType(void);
+RCP_EXTERN void RCPInputTargetComponentSetTargetProperties(REComponentRef, RCPInputTargetComponentTargetProperties);
+RCP_EXTERN RCPInputTargetComponentTargetProperties RCPInputTargetComponentGetTargetProperties(REComponentRef);
+
+NS_ASSUME_NONNULL_END

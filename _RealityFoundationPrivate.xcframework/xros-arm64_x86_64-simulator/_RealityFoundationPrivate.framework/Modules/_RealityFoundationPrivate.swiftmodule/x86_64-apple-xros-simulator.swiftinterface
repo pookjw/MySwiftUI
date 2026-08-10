@@ -167,3 +167,8 @@ extension RealityKit.Entity {
 extension RealityKit.Scene {
   public var coreEntity: Swift.OpaquePointer { get }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityKit", visionOS 26.0)
+public struct __EntityInfoComponent : RealityKit.Component, Swift.Codable {
+}

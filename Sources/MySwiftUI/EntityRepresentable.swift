@@ -546,54 +546,68 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
     let representedEntity: T.EntityType // 0x40
     @safe private nonisolated(unsafe) let graphBridge: HostedEntityGraphBridge
     
-     nonisolated init(
-        _ representedEntity: T.EntityType,
-        environment: EnvironmentValues,
-        graphBridge: HostedEntityGraphBridge,
-        view: T,
-        viewPhase: _GraphInputs.Phase
-    ) {
-        unsafe self.environment = environment
-        self.viewPhase = viewPhase
-        self.representedEntity = representedEntity
-        self.graphBridge = graphBridge
-        
-        super.init()
-        
-        graphBridge.entity = self
-        
-        self.addChild(representedEntity, preservingWorldTransform: false)
-        self.updateEnvironment(environment, viewPhase: viewPhase)
-        
-        self.components[_RealityFoundationPrivate::__EntityInfoComponent.self] = nil
-        
-        unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
-            .hide()
-        
-        let reEntity = unsafe self.__coreEntity.__as(OpaquePointer.self)
-        let _ = unsafe EntityHostResponder(
-            for: reEntity,
-            in: view
-        )
-        
-        let inputTargetComponent = unsafe unsafeBitCast(reEntity, to: CoreRE::Entity.self)
-            .getOrAddCustomComponent(RCPInputTargetComponentGetCustomComponentType())
-        
-        RCPInputTargetComponentSetTargetProperties(inputTargetComponent, .unknown2)
-        
-        if !isLinkedOnOrAfter(.v6) && isFirstPartyBundle {
-            // <+992>
-            representedEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
-        }
-    }
-    
     @MainActor @preconcurrency required init() {
         fatalError("init() has not been implemented")
     }
     
-    nonisolated func updateEnvironment(_: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
+    nonisolated func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
+        /*
+         self -> x20 -> x27
+         environmentValues -> x0 -> x29 - 0xe0
+         viewPhase -> x1 -> x29 - 0xf0
+         */
+        // <+940>
+        let style: SystemHoverEffect.Style?
+        if let effect = self.environment.currentSystemHoverEffect {
+            style = effect.style
+        } else {
+            style = nil
+        }
+        
+        // <+1072>
+        // x29 - 0x15c
+        let isHoverEffectEnabled = self.environment.isHoverEffectEnabled
         assertUnimplemented()
     }
     
-    // TODO
+    nonisolated init(
+       _ representedEntity: T.EntityType,
+       environment: EnvironmentValues,
+       graphBridge: HostedEntityGraphBridge,
+       view: T,
+       viewPhase: _GraphInputs.Phase
+   ) {
+       unsafe self.environment = environment
+       self.viewPhase = viewPhase
+       self.representedEntity = representedEntity
+       self.graphBridge = graphBridge
+       
+       super.init()
+       
+       graphBridge.entity = self
+       
+       self.addChild(representedEntity, preservingWorldTransform: false)
+       self.updateEnvironment(environment, viewPhase: viewPhase)
+       
+       self.components[_RealityFoundationPrivate::__EntityInfoComponent.self] = nil
+       
+       unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+           .hide()
+       
+       let reEntity = unsafe self.__coreEntity.__as(OpaquePointer.self)
+       let _ = unsafe EntityHostResponder(
+           for: reEntity,
+           in: view
+       )
+       
+       let inputTargetComponent = unsafe unsafeBitCast(reEntity, to: CoreRE::Entity.self)
+           .getOrAddCustomComponent(RCPInputTargetComponentGetCustomComponentType())
+       
+       RCPInputTargetComponentSetTargetProperties(inputTargetComponent, .unknown2)
+       
+       if !isLinkedOnOrAfter(.v6) && isFirstPartyBundle {
+           // <+992>
+           representedEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
+       }
+   }
 }

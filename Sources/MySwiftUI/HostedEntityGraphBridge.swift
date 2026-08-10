@@ -12,8 +12,8 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
         }
     } // 0x8
     
-    private var traitEnvironment: MRUIEntityTraitEnvironment? = nil
-    private(set) var preferenceImporter: MRUIPreferenceImporter
+    private var traitEnvironment: MRUIEntityTraitEnvironment? = nil // 0x10
+    private(set) var preferenceImporter: MRUIPreferenceImporter // 0x18
     private var overrideEnvironment: EnvironmentValues? = nil
     private var viewPhase = _GraphInputs.Phase()
     
@@ -35,11 +35,30 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
             return
         }
         
-        let reEntity = unsafe unsafeBitCast(
-            entity.__coreEntity.__as(OpaquePointer.self),
-            to: CoreRE::Entity.self
+        let traitEnvironment = unsafe MRUIEntityTraitEnvironment(
+            for: unsafeBitCast(
+                entity.__coreEntity.__as(OpaquePointer.self),
+                to: CoreRE::Entity.self
+            )
+        )
+        self.traitEnvironment = traitEnvironment
+        traitEnvironment!.delegate = self
+        
+        let host = unsafe MRUIEntityPreferenceHost(
+            for: unsafeBitCast(
+                entity.__coreEntity.__as(OpaquePointer.self),
+                to: CoreRE::Entity.self
+            )
         )
         
+        host.delegate = self
+    }
+    
+    func overrideTraitCollection(forChildEntity childEntity: CoreRE::Entity, of entity: CoreRE::Entity) -> MRUIEntityTraitEnvironment? {
         assertUnimplemented()
+    }
+    
+    func overridePreferenceHost(for entity: CoreRE::Entity) -> (any MRUIPreferenceHostProtocol)? {
+        return self.preferenceImporter
     }
 }

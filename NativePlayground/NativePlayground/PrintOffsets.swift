@@ -232,6 +232,7 @@ func printOffsets() {
     printFields(RealityKit::ForceEffectParameters.self, isClassType: false)
     printFields("7SwiftUI10EntityHostCy012_RealityKit_aB00C7WrapperVG", isClassType: true)
     printFields("19_RealityKit_SwiftUI13EntityWrapperV", isClassType: false)
+    printFields("7SwiftUI18HoverEffectContextV10PropertiesV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -206,7 +206,8 @@ exports:
     _REEngineConfigurationCreateDefault,
     _RESRTMatrix,
     _RESceneSpaceRootComponentGetSceneToImmersiveTransform,
-    _RESceneSpaceRootComponentSetSceneToImmersiveTransform ]
+    _RESceneSpaceRootComponentSetSceneToImmersiveTransform,
+    _REEntityGetOrAddCustomComponent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

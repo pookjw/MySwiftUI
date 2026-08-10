@@ -31,6 +31,4 @@
 #import <MRUIKit/MRUIImmersionState.h>
 #import <MRUIKit/MRUIKitErrors.h>
 #import <MRUIKit/MRUIEntityTraitEnvironment.h>
-#import <MRUIKit/MRUIEntityPreferenceHostDelegate.h>
-#import <MRUIKit/MRUIEntityTraitDelegate.h>
-#import <MRUIKit/MRUIEntityTraitDelegatePrivate.h>
+#import <MRUIKit/MRUIEntityPreferenceHost.h>
