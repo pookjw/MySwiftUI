@@ -8,6 +8,14 @@ private import os.log
 
 nonisolated(unsafe) var currentEntityHostTransaction: Transaction? = nil
 
+fileprivate let isFirstPartyBundle: Bool = {
+    guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+        return false
+    }
+    
+    return bundleIdentifier.hasPrefix("com.apple.")
+}()
+
 package protocol EntityRepresentable : View {
     associatedtype EntityType : RealityKit::Entity
     associatedtype Coordinator
@@ -233,26 +241,6 @@ extension GestureProxy {
         case add(UIGestureRecognizer)
         case remove(UIGestureRecognizer)
     }
-}
-
-final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
-    // TODO
-    let representedEntity: T.EntityType
-    
-    nonisolated init(_: T.EntityType, environment: EnvironmentValues, graphBridge: HostedEntityGraphBridge, view: T, viewPhase: _GraphInputs.Phase) {
-        assertUnimplemented()
-    }
-    
-    @MainActor @preconcurrency required init() {
-//        fatalError("init() has not been implemented")
-        assertUnimplemented()
-    }
-    
-    nonisolated func updateEnvironment(_: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
-        assertUnimplemented()
-    }
-    
-    // TODO
 }
 
 fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttribute, ObservedAttribute, StatefulRule {

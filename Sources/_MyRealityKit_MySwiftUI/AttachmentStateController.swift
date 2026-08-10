@@ -3,21 +3,23 @@ internal import MySwiftUI
 class AttachmentStateControllerBase {
     init() {}
     
-    func initialize<T : EntityRepresentable>(with: EntityRepresentableContext<T>) {
+    func initialize<T : EntityRepresentable>(with context: EntityRepresentableContext<T>) {
         preconditionFailure() // abstract
     }
 }
 
 final class AttachmentStateController<U : AttachmentProtocol> : AttachmentStateControllerBase {
-    var statesByID: [AnyHashable : AttachmentStateController<U>.AttachmentState]
+    private var statesByID: [AnyHashable : AttachmentStateController<U>.AttachmentState]
     
     override init() {
         self.statesByID = Dictionary(minimumCapacity: 0)
         super.init()
     }
     
-    override func initialize<V>(with: EntityRepresentableContext<V>) {
-        assertUnimplemented()
+    override func initialize<V>(with context: EntityRepresentableContext<V>) {
+        for state in self.statesByID.values {
+            state.initialize(with: context)
+        }
     }
     
     func updateAttachmentList<V: Sequence>(
