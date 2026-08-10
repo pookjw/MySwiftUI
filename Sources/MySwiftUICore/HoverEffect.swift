@@ -34,7 +34,7 @@ struct SystemHoverEffectStyleMetrics {
 }
 
 extension EnvironmentValues {
-    package var isHoverEffectEnabled: Bool {
+    public var isHoverEffectEnabled: Bool {
         get {
             return !self[EnvironmentValues.HoverEffectStateKey.self].leafContext.isDisabled
         }

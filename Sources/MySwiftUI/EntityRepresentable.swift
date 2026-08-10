@@ -558,7 +558,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
          */
         // <+940>
         let style: SystemHoverEffect.Style?
-        if let effect = self.environment.currentSystemHoverEffect {
+        if let effect = unsafe self.environment.currentSystemHoverEffect {
             style = effect.style
         } else {
             style = nil
@@ -566,7 +566,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         
         // <+1072>
         // x29 - 0x15c
-        let isHoverEffectEnabled = self.environment.isHoverEffectEnabled
+        let isHoverEffectEnabled = unsafe self.environment.isHoverEffectEnabled
         assertUnimplemented()
     }
     
