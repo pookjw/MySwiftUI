@@ -77,7 +77,8 @@ let package = Package(
                 .byName(name: "UIKitServices"),
                 .byName(name: "UserActivity"),
                 .byName(name: "_MySwiftUIUtils"),
-                .byName(name: "_RealityFoundationPrivate")
+                .byName(name: "_RealityFoundationPrivate"),
+                .byName(name: "RealitySystemSupport")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -367,6 +368,10 @@ let package = Package(
         .binaryTarget(
             name: "RealityFusion",
             path: "RealityFusion.xcframework"
+        ),
+        .binaryTarget(
+            name: "RealitySystemSupport",
+            path: "RealitySystemSupport.xcframework"
         ),
         .target(
             name: "_KernPrivate",

@@ -1,0 +1,5 @@
+framework module RealitySystemSupport {
+    umbrella header "RealitySystemSupport.h"
+    export *
+    module * { export * }
+}

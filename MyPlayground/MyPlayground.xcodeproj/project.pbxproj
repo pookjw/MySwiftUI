@@ -22,6 +22,7 @@
 		4F5D94E52EF8F105001F2E67 /* _AccessibilityPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5D94E42EF8F105001F2E67 /* _AccessibilityPrivate.xcframework */; };
 		4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */; };
 		4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */; };
+		4F85A33A302A26BB0038D192 /* RealitySystemSupport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F85A339302A26BB0038D192 /* RealitySystemSupport.xcframework */; };
 		4F8923472ED5B5FF00FFF23C /* FrontBoardServices.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */; };
 		4F8F091E2E51DA7A00EFC573 /* AttributeGraph.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4808562E4CB056004F6972 /* AttributeGraph.xcframework */; };
 		4F8F09252E51DA7A00EFC573 /* _UIKitPrivate.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */; };
@@ -62,6 +63,7 @@
 		4F5D94E42EF8F105001F2E67 /* _AccessibilityPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _AccessibilityPrivate.xcframework; path = ../_AccessibilityPrivate.xcframework; sourceTree = "<group>"; };
 		4F7A46872E728FF500BD29EF /* FeatureFlags.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FeatureFlags.xcframework; path = ../FeatureFlags.xcframework; sourceTree = "<group>"; };
 		4F7A468B2E72900000BD29EF /* StopwatchSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = StopwatchSupport.xcframework; path = ../StopwatchSupport.xcframework; sourceTree = "<group>"; };
+		4F85A339302A26BB0038D192 /* RealitySystemSupport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealitySystemSupport.xcframework; path = ../RealitySystemSupport.xcframework; sourceTree = "<group>"; };
 		4F8923462ED5B5FF00FFF23C /* FrontBoardServices.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FrontBoardServices.xcframework; path = ../FrontBoardServices.xcframework; sourceTree = "<group>"; };
 		4F8F09212E51DA7A00EFC573 /* _UIKitPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _UIKitPrivate.xcframework; path = ../_UIKitPrivate.xcframework; sourceTree = "<group>"; };
 		4F8F09222E51DA7A00EFC573 /* _SwiftPrivate.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = _SwiftPrivate.xcframework; path = ../_SwiftPrivate.xcframework; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				4FBA77B42F63B5D50038D3FD /* UIFoundation.xcframework in Frameworks */,
 				4F7A468C2E72900000BD29EF /* StopwatchSupport.xcframework in Frameworks */,
 				4FE8D0FD2E56AA8200352E55 /* _QuartzCorePrivate.xcframework in Frameworks */,
+				4F85A33A302A26BB0038D192 /* RealitySystemSupport.xcframework in Frameworks */,
 				4F7A46882E728FF500BD29EF /* FeatureFlags.xcframework in Frameworks */,
 				4F147C8B2E8D567A00FAE51D /* DesignLibrary.xcframework in Frameworks */,
 				4FB40CB2301E3DE7003F64FD /* RealityFusion.xcframework in Frameworks */,
@@ -170,6 +173,7 @@
 		4F4808552E4CB056004F6972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F85A339302A26BB0038D192 /* RealitySystemSupport.xcframework */,
 				4FB40CB1301E3DE6003F64FD /* RealityFusion.xcframework */,
 				4FB4FD733019A5F4003F64FD /* _RealityFoundationPrivate.xcframework */,
 				4FE563BE2FF14CDE00F93C4A /* CoreUI.xcframework */,

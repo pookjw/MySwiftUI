@@ -4,6 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN RESceneRef _Nullable REEntityGetSceneNullable(REEntityRef) NS_SWIFT_NAME(getter:Entity.scene(self:));
 RE_EXTERN REComponentRef REEntityGetOrAddComponentByClass(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.getOrAddComponent(self:ofType:));
+RE_EXTERN REComponentRef REEntityGetOrAddCustomComponent(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.getOrAddCustomComponent(self:_:));
 RE_EXTERN REComponentRef _Nullable REEntityAddComponentNoEvents(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.addComponentNoEvents(self:ofType:));
 RE_EXTERN REComponentRef _Nullable REEntityGetComponentByClass(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.getComponent(self:ofType:));
 RE_EXTERN void * _Nullable RECustomComponentGetObject(REComponentRef) NS_SWIFT_NAME(getter:Component.customComponentObject(self:));

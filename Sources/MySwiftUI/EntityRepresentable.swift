@@ -5,6 +5,9 @@ package import RealityKit
 internal import UIKit
 private import AttributeGraph
 private import os.log
+private import _RealityFoundationPrivate
+private import CoreRE
+private import RealitySystemSupport
 
 nonisolated(unsafe) var currentEntityHostTransaction: Transaction? = nil
 
@@ -532,4 +535,65 @@ fileprivate struct PlatformEntityIdentifiedViews<T : EntityRepresentable> : Rule
     var value: _IdentifiedViewTree {
         assertUnimplemented()
     }
+}
+
+final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
+    private nonisolated(unsafe) var environment: EnvironmentValues // 0x18
+    private var viewPhase: _GraphInputs.Phase // 0x28
+    private var hoverEffectConfigured: Bool = false // 0x2c
+    private var modifiedInputTargetComponents: Set<UInt64> = [] // 0x30
+    private let hoverEffectGroupID = HoverEffectComponent.GroupID() // 0x38
+    let representedEntity: T.EntityType // 0x40
+    @safe private nonisolated(unsafe) let graphBridge: HostedEntityGraphBridge
+    
+     nonisolated init(
+        _ representedEntity: T.EntityType,
+        environment: EnvironmentValues,
+        graphBridge: HostedEntityGraphBridge,
+        view: T,
+        viewPhase: _GraphInputs.Phase
+    ) {
+        unsafe self.environment = environment
+        self.viewPhase = viewPhase
+        self.representedEntity = representedEntity
+        self.graphBridge = graphBridge
+        
+        super.init()
+        
+        graphBridge.entity = self
+        
+        self.addChild(representedEntity, preservingWorldTransform: false)
+        self.updateEnvironment(environment, viewPhase: viewPhase)
+        
+        self.components[_RealityFoundationPrivate::__EntityInfoComponent.self] = nil
+        
+        unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+            .hide()
+        
+        let reEntity = unsafe self.__coreEntity.__as(OpaquePointer.self)
+        let _ = unsafe EntityHostResponder(
+            for: reEntity,
+            in: view
+        )
+        
+        let inputTargetComponent = unsafe unsafeBitCast(reEntity, to: CoreRE::Entity.self)
+            .getOrAddCustomComponent(RCPInputTargetComponentGetCustomComponentType())
+        
+        RCPInputTargetComponentSetTargetProperties(inputTargetComponent, .unknown2)
+        
+        if !isLinkedOnOrAfter(.v6) && isFirstPartyBundle {
+            // <+992>
+            representedEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
+        }
+    }
+    
+    @MainActor @preconcurrency required init() {
+        fatalError("init() has not been implemented")
+    }
+    
+    nonisolated func updateEnvironment(_: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
+        assertUnimplemented()
+    }
+    
+    // TODO
 }

@@ -17,6 +17,7 @@
 #import "Subclasses/QuartzCoreInterfaceGenerator.h"
 #import "Subclasses/RealityFoundationInterfaceGenerator.h"
 #import "Subclasses/RealityFusionInterfaceGenerator.h"
+#import "Subclasses/RealitySystemSupportInterfaceGenerator.h"
 #import "Subclasses/RealitySimulationServicesInterfaceGenerator.h"
 #import "Subclasses/RenderBoxInterfaceGenerator.h"
 #import "Subclasses/SoftLinkingInterfaceGenerator.h"
@@ -80,6 +81,7 @@ int main(int argc, const char * argv[]) {
     assert([QuartzCoreInterfaceGenerator generateToURL:resolvedURL]);
     assert([RealityFoundationInterfaceGenerator generateToURL:resolvedURL]);
     assert([RealityFusionInterfaceGenerator generateToURL:resolvedURL]);
+    assert([RealitySystemSupportInterfaceGenerator generateToURL:resolvedURL]);
     assert([RealitySimulationServicesInterfaceGenerator generateToURL:resolvedURL]);
     assert([RenderBoxInterfaceGenerator generateToURL:resolvedURL]);
     assert([SoftLinkingInterfaceGenerator generateToURL:resolvedURL]);
