@@ -143,10 +143,12 @@ extension CoreRE::ServiceLocator : RealityKitCompataibility {
     }
     
     package var _ref: AnyObject {
-        return unsafe unsafeBitCast(self, to: UnsafeRawPointer.self)
+        let ref = unsafe unsafeBitCast(self, to: UnsafeRawPointer.self)
             .advanced(by: 0x8)
-            .assumingMemoryBound(to: AnyObject.self)
+            .assumingMemoryBound(to: AnyObject?.self)
             .pointee
+        
+        return ref!
     }
 }
 
