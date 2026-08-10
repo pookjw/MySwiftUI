@@ -1,4 +1,4 @@
-private import _UIKitPrivate
+internal import _UIKitPrivate
 
 final class EntityHostResponder : UIEntityResponder {
     // TODO
