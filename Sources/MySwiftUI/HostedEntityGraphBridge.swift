@@ -12,10 +12,10 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
         }
     } // 0x8
     
-    private var traitEnvironment: MRUIEntityTraitEnvironment? = nil // 0x10
+    private(set) var traitEnvironment: MRUIEntityTraitEnvironment? = nil // 0x10
     private(set) var preferenceImporter: MRUIPreferenceImporter // 0x18
-    private var overrideEnvironment: EnvironmentValues? = nil
-    private var viewPhase = _GraphInputs.Phase()
+    var overrideEnvironment: EnvironmentValues? = nil // 0x20
+    var viewPhase = _GraphInputs.Phase() // 0x30
     
     init(graph: ViewGraph) {
         self.preferenceImporter = MRUIPreferenceImporter(graph: graph)

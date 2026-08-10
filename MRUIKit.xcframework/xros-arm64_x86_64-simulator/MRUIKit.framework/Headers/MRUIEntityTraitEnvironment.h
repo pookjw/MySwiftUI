@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MRUIEntityTraitEnvironment : NSObject
 + (MRUIEntityTraitEnvironment * _Nullable)traitEnvironmentForEntity:(REEntityRef)entity;
 @property (weak, nonatomic, nullable) id<MRUIEntityTraitDelegate> delegate;
+- (void)_dirtyTraitCollection;
 @end
 
 NS_ASSUME_NONNULL_END

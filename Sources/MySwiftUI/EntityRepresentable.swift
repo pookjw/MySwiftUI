@@ -8,6 +8,7 @@ private import os.log
 private import _RealityFoundationPrivate
 private import CoreRE
 private import RealitySystemSupport
+private import MRUIKit
 
 nonisolated(unsafe) var currentEntityHostTransaction: Transaction? = nil
 
@@ -544,13 +545,13 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
     private var modifiedInputTargetComponents: Set<UInt64> = [] // 0x30
     private let hoverEffectGroupID = HoverEffectComponent.GroupID() // 0x38
     let representedEntity: T.EntityType // 0x40
-    @safe private nonisolated(unsafe) let graphBridge: HostedEntityGraphBridge
+    @safe private nonisolated(unsafe) let graphBridge: HostedEntityGraphBridge // 0x48
     
     @MainActor @preconcurrency required init() {
         fatalError("init() has not been implemented")
     }
     
-    nonisolated func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase: _GraphInputs.Phase) {
+    nonisolated func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase newPhase: _GraphInputs.Phase) {
         /*
          self -> x20 -> x27
          environmentValues -> x0 -> x29 - 0xe0
@@ -567,6 +568,17 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         // <+1072>
         // x29 - 0x15c
         let isHoverEffectEnabled = unsafe self.environment.isHoverEffectEnabled
+        
+        unsafe self.environment = newEnvironment
+        unsafe self.viewPhase = newPhase
+        
+        // <+1328>
+        let graphBridge = self.graphBridge
+        graphBridge.overrideEnvironment = newEnvironment
+        graphBridge.viewPhase = newPhase
+        graphBridge.traitEnvironment?._dirtyTraitCollection()
+        
+        // <+1516>
         assertUnimplemented()
     }
     
