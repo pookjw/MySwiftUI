@@ -1,0 +1,3 @@
+protocol HitTestingLeafPlatformView : AnyObject {
+    // TODO
+}

@@ -7,6 +7,14 @@ extension RealityKit::Entity.ChildCollection {
          block -> x1/x2 -> x21/x19
          */
         // <+160>
-        assertUnimplemented()
+        var iterator = self.makeIterator()
+        
+        while let child = iterator.next() {
+            block(child)
+            
+            if recursive {
+                child.children.forEach(recursive: true, using: block)
+            }
+        }
     }
 }
