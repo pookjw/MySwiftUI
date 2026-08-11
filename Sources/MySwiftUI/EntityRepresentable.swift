@@ -608,7 +608,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                 // newStyle -> x29 -> 0x138
                 if case .manipulation = newStyle {
                     // <+2192>
-                    self.children.forEach { child in
+                    self.children.forEach(recursive: true) { child in
                         // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU_TA
                         // child -> x0 -> x20
                         // <+564>
@@ -625,6 +625,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                         
                         let effect = HoverEffectComponent.HoverEffect.spotlight(style)
                         var component = HoverEffectComponent(effect)
+                        component.hoverEffect.groupID = self.hoverEffectGroupID
                         component.hoverEffect.isHierarchical = false
                         component.hoverEffect.directPinchAnimationEnabled = true
                         component.hoverEffect.allowedInputTypes_protoV1 = .direct
@@ -646,7 +647,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                 // <+2536>
                 self.components.remove(HoverEffectComponent.self)
                 
-                self.children.forEach { child in
+                self.children.forEach(recursive: true) { child in
                     // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU0_TA
                     // child -> x0 -> x20 -> x29 - 0x80
                     // <+536>
@@ -671,7 +672,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
             // <+2688>
             if newStyle == style2 {
                 // <+3244>
-                self.children.forEach { child in
+                self.children.forEach(recursive: true) { child in
                     // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU1_TA
                     // child -> x0 -> x20 -> x24
                     // <+568>
@@ -707,7 +708,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
             } else {
                 // <+3032>
                 if !self.modifiedInputTargetComponents.isEmpty {
-                    self.children.forEach { child in
+                    self.children.forEach(recursive: true) { child in
                         // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU2_TA
                         let reEntity = unsafe unsafeBitCast(
                             child.__coreEntity.__as(OpaquePointer.self),
