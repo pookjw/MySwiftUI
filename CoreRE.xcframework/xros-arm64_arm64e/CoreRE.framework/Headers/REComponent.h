@@ -9,5 +9,6 @@ RE_EXTERN REComponentClassPtr _Nullable RECustomComponentTypeCreateWithIsTransie
 RE_EXTERN REComponentClassPtr _Nullable RECustomComponentTypeCreate(const RECustomComponentTypeInfo *) NS_SWIFT_NAME(Component.ClassPtr.createCustomComponentType(info:));
 RE_EXTERN void REComponentTypeSetCloneCallback(REComponentClassPtr, void * (* _Nullable)(void *)) NS_SWIFT_NAME(Component.ClassPtr.setCloneCallback(self:_:));
 RE_EXTERN void RERegisterSwiftCodableComponent(const char *) NS_SWIFT_NAME(Component.registerSwiftCodableComponent(_:));
+RE_EXTERN uint64_t REEntityGetLocalId(REEntityRef) NS_SWIFT_NAME(getter:Component.localId(self:));
 
 NS_ASSUME_NONNULL_END

@@ -207,7 +207,10 @@ exports:
     _RESRTMatrix,
     _RESceneSpaceRootComponentGetSceneToImmersiveTransform,
     _RESceneSpaceRootComponentSetSceneToImmersiveTransform,
-    _REEntityGetOrAddCustomComponent ]
+    _REEntityGetOrAddCustomComponent,
+    _REInputTargetComponentGetAllowsDirectTouchInput,
+    _REInputTargetComponentSetAllowsDirectTouchInput,
+    _REEntityGetLocalId ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

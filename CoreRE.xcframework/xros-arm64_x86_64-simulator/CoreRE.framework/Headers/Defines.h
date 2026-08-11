@@ -405,6 +405,16 @@ typedef NS_OPTIONS(uint32_t, RECALayerServiceFlags) {
     RECALayerServiceFlagsUnknown4 = (1 << 4)
 } NS_SWIFT_NAME(CALayerServiceFlags);
 
+typedef NS_OPTIONS(uint32_t, RERemoteEffectsSettingsModifier) {
+    RERemoteEffectsSettingsModifierNone = 0,
+    RERemoteEffectsSettingsModifierUnknown0 = (1 << 0)
+} NS_SWIFT_NAME(RemoteEffectsSettingsModifier);
+
+typedef NS_OPTIONS(uint32_t, REInputTargetDirectTouchInput) {
+    REInputTargetDirectTouchInputNone = 0,
+    REInputTargetDirectTouchInputUnknown0 = (1 << 0)
+} NS_SWIFT_NAME(InputTargetDirectTouchInput);
+
 NS_ASSUME_NONNULL_END
 
 #endif

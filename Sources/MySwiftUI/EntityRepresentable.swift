@@ -1,12 +1,12 @@
 // BB8F5ECFA8AF74AE8152DD1EB3C8CC7B
 package import Spatial
 @_spi(Internal) package import MySwiftUICore
-package import RealityKit
+@unsafe @preconcurrency package import RealityKit
 internal import UIKit
 private import AttributeGraph
 private import os.log
 private import _RealityFoundationPrivate
-private import CoreRE
+@unsafe @preconcurrency private import CoreRE
 private import RealitySystemSupport
 private import MRUIKit
 
@@ -247,20 +247,20 @@ extension GestureProxy {
     }
 }
 
-fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttribute, ObservedAttribute, StatefulRule {
+@MainActor fileprivate struct PlatformEntityChild<T : EntityRepresentable> : RemovableAttribute, ObservedAttribute, @preconcurrency StatefulRule {
     @Attribute private var view: T // 0x0
     @Attribute private var environment: EnvironmentValues // 0x4
     @Attribute private var transaction: Transaction // 0x8
     @Attribute private var phase: _GraphInputs.Phase // 0xc
-    private let bridge: PreferenceBridge // 0x10
-    private let hostGraphBridge: HostedEntityGraphBridge // 0x18
-    private let hostingComponent: AttachmentHostingComponent // 0x38 (field)
-    private var links: _DynamicPropertyBuffer // 0x3c (field)
-    private var coordinator: T.Coordinator? // 0x40 (field)
+    @safe private nonisolated(unsafe) let bridge: PreferenceBridge // 0x10
+    @safe private nonisolated(unsafe) let hostGraphBridge: HostedEntityGraphBridge // 0x18
+    @safe private nonisolated(unsafe) let hostingComponent: AttachmentHostingComponent // 0x38 (field)
+    @safe private nonisolated(unsafe) var links: _DynamicPropertyBuffer // 0x3c (field)
+    @safe private nonisolated(unsafe) var coordinator: T.Coordinator? // 0x40 (field)
     private var entityHost: EntityHost<T>? // 0x44 (field)
     private var resetSeed: UInt32 // 0x48 (field)
     
-    init(
+    nonisolated init(
         view: Attribute<T>,
         environment: Attribute<EnvironmentValues>,
         transaction: Attribute<Transaction>,
@@ -539,19 +539,19 @@ fileprivate struct PlatformEntityIdentifiedViews<T : EntityRepresentable> : Rule
 }
 
 final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
-    private nonisolated(unsafe) var environment: EnvironmentValues // 0x18
-    private nonisolated(unsafe) var viewPhase: _GraphInputs.Phase // 0x28
-    private nonisolated(unsafe) var hoverEffectConfigured: Bool = false // 0x2c
+    private var environment: EnvironmentValues // 0x18
+    private var viewPhase: _GraphInputs.Phase // 0x28
+    private var hoverEffectConfigured: Bool = false // 0x2c
     private var modifiedInputTargetComponents: Set<UInt64> = [] // 0x30
     private let hoverEffectGroupID = HoverEffectComponent.GroupID() // 0x38
     let representedEntity: T.EntityType // 0x40
-    @safe private nonisolated(unsafe) let graphBridge: HostedEntityGraphBridge // 0x48
+    private let graphBridge: HostedEntityGraphBridge // 0x48
     
     @MainActor @preconcurrency required init() {
         fatalError("init() has not been implemented")
     }
     
-    nonisolated func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase newPhase: _GraphInputs.Phase) {
+    func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase newPhase: _GraphInputs.Phase) {
         /*
          self -> x20 -> x27
          newEnvironment -> x0 -> x29 - 0xe0
@@ -560,7 +560,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         // <+940>
         // x29 - 0x88
         let style: SystemHoverEffect.Style?
-        if let effect = unsafe self.environment.currentSystemHoverEffect {
+        if let effect = self.environment.currentSystemHoverEffect {
             style = effect.style
         } else {
             style = nil
@@ -568,10 +568,10 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         
         // <+1072>
         // x29 - 0x15c
-        let isHoverEffectEnabled = unsafe self.environment.isHoverEffectEnabled
+        let isHoverEffectEnabled = self.environment.isHoverEffectEnabled
         
-        unsafe self.environment = newEnvironment
-        unsafe self.viewPhase = newPhase
+        self.environment = newEnvironment
+        self.viewPhase = newPhase
         
         // <+1328>
         let graphBridge = self.graphBridge
@@ -593,10 +593,13 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         
         if
             !(style == newStyle) ||
-            !(unsafe self.hoverEffectConfigured) ||
+            !self.hoverEffectConfigured ||
             (isHoverEffectEnabled != newHoverEffectEnabled)
         {
             // <+2008>
+            // x29 - 0x108
+            let style2: SystemHoverEffect.Style?
+            
             if
                 let newStyle,
                 newHoverEffectEnabled
@@ -607,7 +610,27 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                     // <+2192>
                     self.children.forEach { child in
                         // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU_TA
-                        assertUnimplemented()
+                        // child -> x0 -> x20
+                        // <+564>
+                        guard child.components[HoverEffectComponent.self] == nil else {
+                            return
+                        }
+                        
+                        // <+688>
+                        let style = HoverEffectComponent.SpotlightHoverEffectStyle(
+                            color: Color.white.cgColor,
+                            strength: 1.0,
+                            opacityFunction: .full
+                        )
+                        
+                        let effect = HoverEffectComponent.HoverEffect.spotlight(style)
+                        var component = HoverEffectComponent(effect)
+                        component.hoverEffect.isHierarchical = false
+                        component.hoverEffect.directPinchAnimationEnabled = true
+                        component.hoverEffect.allowedInputTypes_protoV1 = .direct
+                        component.settingsModifier = .unknown0
+                        
+                        child.components.set(component)
                     }
                     
                     // <+2688>
@@ -617,6 +640,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                     // <+2688>
                 }
                 
+                style2 = newStyle
                 // <+2688>
             } else {
                 // <+2536>
@@ -624,27 +648,97 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                 
                 self.children.forEach { child in
                     // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU0_TA
-                    assertUnimplemented()
+                    // child -> x0 -> x20 -> x29 - 0x80
+                    // <+536>
+                    // x19
+                    let groupID: HoverEffectComponent.GroupID?
+                    if let hoverEffect = child.components[HoverEffectComponent.self] {
+                        groupID = hoverEffect.hoverEffect.groupID
+                    } else {
+                        groupID = nil
+                    }
+                    
+                    // <+784>
+                    if groupID == self.hoverEffectGroupID {
+                        child.components.remove(HoverEffectComponent.self)
+                    }
                 }
                 
+                style2 = .manipulation
                 // <+2688>
             }
             
             // <+2688>
-            assertUnimplemented()
+            if newStyle == style2 {
+                // <+3244>
+                self.children.forEach { child in
+                    // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU1_TA
+                    // child -> x0 -> x20 -> x24
+                    // <+568>
+                    let reEntity = unsafe unsafeBitCast(
+                        child.__coreEntity.__as(OpaquePointer.self),
+                        to: CoreRE.Entity.self
+                    )
+                    
+                    guard let inputTargetComponent = reEntity.getComponent(ofType: .inputTarget) else {
+                        return
+                    }
+                    
+                    // x29 - 0xa0
+                    let groupID : HoverEffectComponent.GroupID?
+                    if let hoverEffectComponent = child.components[HoverEffectComponent.self] {
+                        groupID = hoverEffectComponent.hoverEffect.groupID
+                    } else {
+                        groupID = nil
+                    }
+                    
+                    // <+908>
+                    guard
+                        groupID == self.hoverEffectGroupID &&
+                            !inputTargetComponent.inputTarget_directTouchInput.isEmpty
+                    else {
+                        return
+                    }
+                    
+                    inputTargetComponent.inputTarget_directTouchInput = []
+                    self.modifiedInputTargetComponents.insert(inputTargetComponent.localId)
+                    self.hoverEffectConfigured = true
+                }
+            } else {
+                // <+3032>
+                if !self.modifiedInputTargetComponents.isEmpty {
+                    self.children.forEach { child in
+                        // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU2_TA
+                        let reEntity = unsafe unsafeBitCast(
+                            child.__coreEntity.__as(OpaquePointer.self),
+                            to: CoreRE.Entity.self
+                        )
+                        
+                        guard
+                            let inputTargetComponent = reEntity.getComponent(ofType: .inputTarget),
+                            self.modifiedInputTargetComponents.contains(inputTargetComponent.localId)
+                        else {
+                            return
+                        }
+                        
+                        inputTargetComponent.inputTarget_directTouchInput = [.unknown0]
+                        self.modifiedInputTargetComponents.remove(inputTargetComponent.localId)
+                    }
+                }
+            }
         } else {
             // <+3316>
         }
     }
     
-    nonisolated init(
+    init(
        _ representedEntity: T.EntityType,
        environment: EnvironmentValues,
        graphBridge: HostedEntityGraphBridge,
        view: T,
        viewPhase: _GraphInputs.Phase
    ) {
-       unsafe self.environment = environment
+       self.environment = environment
        self.viewPhase = viewPhase
        self.representedEntity = representedEntity
        self.graphBridge = graphBridge
