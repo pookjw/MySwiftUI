@@ -540,8 +540,8 @@ fileprivate struct PlatformEntityIdentifiedViews<T : EntityRepresentable> : Rule
 
 final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
     private nonisolated(unsafe) var environment: EnvironmentValues // 0x18
-    private var viewPhase: _GraphInputs.Phase // 0x28
-    private var hoverEffectConfigured: Bool = false // 0x2c
+    private nonisolated(unsafe) var viewPhase: _GraphInputs.Phase // 0x28
+    private nonisolated(unsafe) var hoverEffectConfigured: Bool = false // 0x2c
     private var modifiedInputTargetComponents: Set<UInt64> = [] // 0x30
     private let hoverEffectGroupID = HoverEffectComponent.GroupID() // 0x38
     let representedEntity: T.EntityType // 0x40
@@ -554,10 +554,11 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
     nonisolated func updateEnvironment(_ newEnvironment: EnvironmentValues, viewPhase newPhase: _GraphInputs.Phase) {
         /*
          self -> x20 -> x27
-         environmentValues -> x0 -> x29 - 0xe0
-         viewPhase -> x1 -> x29 - 0xf0
+         newEnvironment -> x0 -> x29 - 0xe0
+         newPhase -> x1 -> x29 - 0xf0
          */
         // <+940>
+        // x29 - 0x88
         let style: SystemHoverEffect.Style?
         if let effect = unsafe self.environment.currentSystemHoverEffect {
             style = effect.style
@@ -579,7 +580,61 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
         graphBridge.traitEnvironment?._dirtyTraitCollection()
         
         // <+1516>
-        assertUnimplemented()
+        // x26 (x29 - 0x78)
+        let newStyle: SystemHoverEffect.Style?
+        if let effect = newEnvironment.currentSystemHoverEffect {
+            newStyle = effect.style
+        } else {
+            newStyle = nil
+        }
+        
+        // w21
+        let newHoverEffectEnabled = newEnvironment.isHoverEffectEnabled
+        
+        if
+            !(style == newStyle) ||
+            !(unsafe self.hoverEffectConfigured) ||
+            (isHoverEffectEnabled != newHoverEffectEnabled)
+        {
+            // <+2008>
+            if
+                let newStyle,
+                newHoverEffectEnabled
+            {
+                // <+2136>
+                // newStyle -> x29 -> 0x138
+                if case .manipulation = newStyle {
+                    // <+2192>
+                    self.children.forEach { child in
+                        // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU_TA
+                        assertUnimplemented()
+                    }
+                    
+                    // <+2688>
+                } else {
+                    // <+3396>
+                    self.components.set(HoverEffectComponent())
+                    // <+2688>
+                }
+                
+                // <+2688>
+            } else {
+                // <+2536>
+                self.components.remove(HoverEffectComponent.self)
+                
+                self.children.forEach { child in
+                    // $s7SwiftUI10EntityHostC17updateEnvironment_9viewPhaseyAA0F6ValuesV_AA12_GraphInputsV0H0VtFy10RealityKit0C0CXEfU0_TA
+                    assertUnimplemented()
+                }
+                
+                // <+2688>
+            }
+            
+            // <+2688>
+            assertUnimplemented()
+        } else {
+            // <+3316>
+        }
     }
     
     nonisolated init(
