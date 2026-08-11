@@ -9,6 +9,7 @@ private import _RealityFoundationPrivate
 @unsafe @preconcurrency private import CoreRE
 private import RealitySystemSupport
 private import MRUIKit
+private import _UIKitPrivate
 
 nonisolated(unsafe) var currentEntityHostTransaction: Transaction? = nil
 
@@ -25,7 +26,7 @@ package protocol EntityRepresentable : View {
     associatedtype Coordinator
     
     nonisolated func makeEntity(context: EntityRepresentableContext<Self>) -> Self.EntityType
-    nonisolated func updateEntity(_ entity: Self.EntityType, context: EntityRepresentableContext<Self>)
+    func updateEntity(_ entity: Self.EntityType, context: EntityRepresentableContext<Self>)
     static func dismantleEntity(_ entity: Self.EntityType, coordinator: Self.Coordinator)
     nonisolated func makeCoordinator() -> Self.Coordinator
     func _sizeThatFits(in size: _ProposedSize3D, entity: Self.EntityType) -> Size3D
@@ -194,7 +195,7 @@ extension EntityRepresentable where Coordinator == Void {
 package struct EntityRepresentableContext<T : EntityRepresentable> {
     let coordinator: T.Coordinator
     private var preferenceBridge: PreferenceBridge? // 0x24 (field)
-    private(set) var transaction: Transaction // 0x28 (field)
+    package private(set) var transaction: Transaction // 0x28 (field)
     private(set) var environment: EnvironmentValues // 0x2c (field)
     private var phase: _GraphInputs.Phase // 0x30 (field)
     private var gestureProxy: GestureProxy // 0x34 (field)
@@ -207,8 +208,21 @@ package struct EntityRepresentableContext<T : EntityRepresentable> {
         assertUnimplemented()
     }
     
-    fileprivate func updateHost(_ host: EntityHost<T>) {
-        assertUnimplemented()
+    @MainActor fileprivate func updateHost(_ host: EntityHost<T>) {
+        let reEntity = unsafe unsafeBitCast(host.__coreEntity.__as(OpaquePointer.self), to: CoreRE::Entity.self)
+        
+        guard let responder = UIEntityResponder(for: reEntity) else {
+            return
+        }
+        
+        for command in self.gestureProxy.connectionCommands {
+            switch command {
+            case .add(let gesture):
+                responder.add(gesture)
+            case .remove(let gesture):
+                responder.remove(gesture)
+            }
+        }
     }
     
     fileprivate init(
@@ -233,7 +247,7 @@ package protocol EntityWithGesture : Gesture {
 }
 
 fileprivate final class GestureProxy {
-    private var connectionCommands: [GestureProxy.GestureConnectionCommand]
+    private(set) var connectionCommands: [GestureProxy.GestureConnectionCommand]
     
     init() {
         self.connectionCommands = []
@@ -477,18 +491,21 @@ extension GestureProxy {
 fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency LeafViewLayout3D, EntityViewFactory {
     typealias EntityType = T.EntityType
     
-    let content: T
-    let hostingComponent: AttachmentHostingComponent?
-    private var platformHost: EntityHost<T>
-    private let context: EntityRepresentableContext<T>
+    let content: T // 0x0
+    let hostingComponent: AttachmentHostingComponent? // 0x24 (field)
+    private var platformHost: EntityHost<T> // 0x28 (field)
+    private let context: EntityRepresentableContext<T> // 0x2c (field)
     
-    nonisolated init(
+    init(
         content: T,
         hostingComponent: AttachmentHostingComponent?,
         platformHost: EntityHost<T>,
         context: EntityRepresentableContext<T>
     ) {
-        assertUnimplemented()
+        self.content = content
+        self.hostingComponent = hostingComponent
+        self.platformHost = platformHost
+        self.context = context
     }
     
     nonisolated static func _makeView(view: _GraphValue<EntityLeafView<T>>, inputs: _ViewInputs) -> _ViewOutputs {

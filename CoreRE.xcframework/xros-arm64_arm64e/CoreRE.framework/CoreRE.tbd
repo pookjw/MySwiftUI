@@ -210,7 +210,10 @@ exports:
     _REEntityGetOrAddCustomComponent,
     _REInputTargetComponentGetAllowsDirectTouchInput,
     _REInputTargetComponentSetAllowsDirectTouchInput,
-    _REEntityGetLocalId ]
+    _REEntityGetLocalId,
+    _RESceneSetPhysicsDebugDrawLevel,
+    _RESceneGetPhysicsDebugDrawLevel,
+    _RESceneRemovePhysicsDebugComponent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

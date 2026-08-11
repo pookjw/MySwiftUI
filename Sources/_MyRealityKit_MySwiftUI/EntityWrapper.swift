@@ -18,7 +18,7 @@ struct EntityWrapper : EntityRepresentable {
     let baseEntity: MyRealityFoundation::Entity // 0x0
     let updateCallback: @MainActor (inout RealityViewContent) -> () // 0x8
     let proxy: GeometryProxy3D // 0x18
-    private(set) var model: _RealityViewModel // 0x60
+    private(set) var model: _RealityViewModel // 0x1c (field)
     let controller: AttachmentStateControllerBase? // 0x20 (field)
     
     func makeEntity(context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) -> EntityType {
@@ -35,7 +35,37 @@ struct EntityWrapper : EntityRepresentable {
     }
     
     func updateEntity(_ entity: EntityType, context: MySwiftUI.EntityRepresentableContext<EntityWrapper>) {
-        assertUnimplemented()
+        let model = self.model
+        
+        switch model.loadingPhase {
+        case .empty, .loading:
+            return
+        case .loaded, .connected:
+            break
+        }
+        
+        let transaction = context.transaction
+        model.content.transaction = transaction
+        
+        self.updateCallback(&model.content)
+        
+        let debugOptions = model.content.debugOptions
+        let scene = self.baseEntity.scene
+        
+        if debugOptions.contains(.showPhysics) {
+            // <+308>
+            if let scene {
+                let coreScene = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self)
+                coreScene.physicsDebugDrawLevel = .unknown1
+            }
+        } else {
+            if let scene {
+                let coreScene = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self)
+                coreScene.removePhysicsDebugComponent()
+            }
+        }
+        
+        model.content.transaction = nil
     }
     
     func _sizeThatFits(in size: _ProposedSize3D, entity: EntityType) -> Size3D {

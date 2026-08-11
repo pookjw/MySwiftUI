@@ -105,8 +105,8 @@ public struct RealityViewContent : RealityViewContentProtocol {
     private var _base: MyRealityFoundation::Entity // 0x0
     private var _rep: MyRealityFoundation::Entity // 0x8
     private var contentStorage = RealityViewContent.ContentStorage() // 0x10
-    private var transaction: Transaction? = nil // 0x18
-    private var debugOptions: DebugOptions = .none // 0x20
+    var transaction: Transaction? = nil // 0x18
+    private(set) var debugOptions: DebugOptions = .none // 0x20
     var proxy: GeometryProxy3D? = nil // 0x24 (field)
     var role: UISceneSession.Role? = nil // 0x28 (field)
     weak var model: _RealityViewModel? = nil // 0x2c (field)
@@ -118,13 +118,13 @@ public struct RealityViewContent : RealityViewContentProtocol {
         self._base = MyRealityFoundation::Entity()
         self._rep = MyRealityFoundation::Entity()
         
-        unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE.Entity.self)
+        unsafe unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE.Entity.self)
             .getOrAddComponent(ofType: .sceneSpaceRoot)
         
-        unsafeBitCast(self._rep, to: CoreRE.Entity.self)
+        unsafe unsafeBitCast(self._rep, to: CoreRE.Entity.self)
             .hide()
         
-        unsafeBitCast(self._base, to: CoreRE.Entity.self)
+        unsafe unsafeBitCast(self._base, to: CoreRE.Entity.self)
             .hide()
     }
     

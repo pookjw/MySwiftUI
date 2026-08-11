@@ -7,5 +7,8 @@ RE_EXTERN void RESceneSetSwiftObject(RESceneRef, void * _Nullable) NS_SWIFT_NAME
 RE_EXTERN void * _Nullable RESceneGetSwiftObject(RESceneRef) NS_SWIFT_NAME(getter:Scene.swiftObject(self:));
 RE_EXTERN bool RESceneIsFromActiveRealityRendererSceneGroup(RESceneRef) NS_SWIFT_NAME(getter:Scene.isFromActiveRealityRendererSceneGroup(self:));
 RE_EXTERN REEventBusRef RESceneGetEventBus(RESceneRef) NS_SWIFT_NAME(getter:Scene.eventBus(self:));
+RE_EXTERN void RESceneSetPhysicsDebugDrawLevel(RESceneRef, REScenePhysicsDebugDrawLevel) NS_SWIFT_NAME(setter:Scene.physicsDebugDrawLevel(self:_:));
+RE_EXTERN REScenePhysicsDebugDrawLevel RESceneGetPhysicsDebugDrawLevel(RESceneRef) NS_SWIFT_NAME(getter:Scene.physicsDebugDrawLevel(self:));
+RE_EXTERN void RESceneRemovePhysicsDebugComponent(RESceneRef) NS_SWIFT_NAME(Scene.removePhysicsDebugComponent(self:));
 
 NS_ASSUME_NONNULL_END

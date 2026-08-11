@@ -4,7 +4,7 @@ private import AttributeGraph
 internal import RealityKit
 
 struct AccessibilityPlatformEntityModifier : PrimitiveViewModifier, MultiViewModifier {
-    private let entity: RealityKit::Entity?
+    fileprivate let entity: RealityKit::Entity?
     
     nonisolated static func _makeView(modifier: _GraphValue<AccessibilityPlatformEntityModifier>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
@@ -39,6 +39,6 @@ fileprivate struct EntityAccessibilityAttachment : Rule {
 
 extension View {
     nonisolated func accessibility(entity: RealityKit::Entity?) -> ModifiedContent<Self, AccessibilityPlatformEntityModifier> {
-        assertUnimplemented()
+        self.modifier(AccessibilityPlatformEntityModifier(entity: entity))
     }
 }

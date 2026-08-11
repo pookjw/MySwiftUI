@@ -415,6 +415,11 @@ typedef NS_OPTIONS(uint32_t, REInputTargetDirectTouchInput) {
     REInputTargetDirectTouchInputUnknown0 = (1 << 0)
 } NS_SWIFT_NAME(InputTargetDirectTouchInput);
 
+typedef NS_ENUM(uint32_t, REScenePhysicsDebugDrawLevel) {
+    REScenePhysicsDebugDrawLevelUnknown0 = 0,
+    REScenePhysicsDebugDrawLevelUnknown1 = 1
+} NS_SWIFT_NAME(Scene.PhysicsDebugDrawLevel);
+
 NS_ASSUME_NONNULL_END
 
 #endif
