@@ -161,10 +161,6 @@ extension REEventBus {
                 hasher.combine(UInt8(0))
             }
         }
-        
-        static func == (lhs: REEventBus.DispatcherHandle, rhs: REEventBus.DispatcherHandle) -> Bool {
-            assertUnimplemented()
-        }
     }
 }
 
