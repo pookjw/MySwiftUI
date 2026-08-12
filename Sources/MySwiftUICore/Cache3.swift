@@ -5,7 +5,7 @@ package struct Cache3<Key : Equatable, Value> {
         store = (nil, nil, nil)
     }
     
-    mutating func get(_ key: Key, makeValue: () -> Value) -> Value {
+    package mutating func get(_ key: Key, makeValue: () -> Value) -> Value {
         if let existing = find(key) {
             return existing
         }

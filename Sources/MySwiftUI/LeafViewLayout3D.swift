@@ -32,10 +32,10 @@ fileprivate struct LeafLayoutComputer3D<T : LeafViewLayout3D> : CustomStringConv
     }
 }
 
-fileprivate struct LayoutEngine3D<T> : LayoutEngine {
+fileprivate struct LayoutEngine3D<T : LeafViewLayout3D> : LayoutEngine {
     private let view: T
-    private var sizeCache = Cache3<_ProposedSize, CGSize>()
-    private var depthCache = Cache3<_ProposedSize3D, CGFloat>()
+    private var sizeCache = Cache3<_ProposedSize, CGSize>() // 0x24 (field)
+    private var depthCache = Cache3<_ProposedSize3D, CGFloat>() // 0x28 (field)
     
     init(_ view: T) {
         self.view = view
@@ -45,8 +45,13 @@ fileprivate struct LayoutEngine3D<T> : LayoutEngine {
         assertUnimplemented()
     }
     
-    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        let view = self.view
+        
+        return self.sizeCache.get(proposedSize) { 
+            // $s7SwiftUI14LayoutEngine3D33_10361B706F31F0914DE4AF1C66017C27LLV12sizeThatFitsySo6CGSizeVAA13_ProposedSizeVFAGyXEfU_TA
+            return view.sizeThatFits(in: proposedSize)
+        }
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
