@@ -69,6 +69,6 @@ struct EntityWrapper : EntityRepresentable {
     }
     
     func _sizeThatFits(in size: _ProposedSize3D, entity: EntityType) -> Size3D {
-        assertUnimplemented()
+        return self.proxy.size
     }
 }

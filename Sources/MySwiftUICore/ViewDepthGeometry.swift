@@ -47,7 +47,10 @@ struct ViewDepthGeometry : Equatable, Animatable {
     }
     
     static var zero: ViewDepthGeometry {
-        assertUnimplemented()
+        return ViewDepthGeometry(
+            origin: .zero,
+            size: .zero
+        )
     }
 }
 

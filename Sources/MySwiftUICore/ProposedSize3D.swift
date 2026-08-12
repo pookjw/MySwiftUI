@@ -168,6 +168,23 @@ extension _ProposedSize3D {
         self.height = size.height
         self.depth = nil
     }
+    
+    init(
+        _ first: CGFloat?,
+        in firstAxis: _Axis3D,
+        _ second: CGFloat?,
+        in secondAxis: _Axis3D,
+        _ third: CGFloat?,
+        in thirdAxis: _Axis3D
+    ) {
+        assertUnimplemented()
+    }
+    
+    package init(_ proposedSize: _ProposedSize) {
+        self.width = proposedSize.width
+        self.height = proposedSize.height
+        self.depth = nil
+    }
 }
 
 extension _ProposedSize3D {

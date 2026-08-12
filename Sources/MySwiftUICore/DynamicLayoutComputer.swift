@@ -333,7 +333,18 @@ fileprivate struct DynamicLayoutViewChildDepthGeometry : AsyncAttribute, Statefu
     typealias Value = ViewDepthGeometry
     
     func updateValue() {
-        assertUnimplemented()
+        if
+            let viewIndex = self.containerInfo.viewIndex(id: self.id),
+            !(viewIndex >= self.childGeometries.count)
+        {
+            // <+260>
+            self.value = self.childGeometries[viewIndex]
+        } else {
+            // <+324>
+            if !self.hasValue {
+                self.value = .zero
+            }
+        }
     }
 }
 

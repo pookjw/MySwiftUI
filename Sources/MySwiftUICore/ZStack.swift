@@ -193,7 +193,8 @@ extension _ZStackLayout : BitwiseCopyable {}
 
 extension _ZStackLayout : @preconcurrency Layout3D {
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Void) -> CGFloat {
-        assertUnimplemented()
+        let layout = ZStackLayout3D(alignment: self.alignment, spacing: nil)
+        return layout.depthThatFits(proposal: proposal, subviews: subviews, cache: &cache)
     }
     
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Void) {
@@ -1008,7 +1009,8 @@ extension ZStackLayout3D : Layout3D {
     }
     
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat {
-        assertUnimplemented()
+        return self.childDepths(in: proposal, children: subviews)
+            .unknown0
     }
     
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
@@ -1109,6 +1111,24 @@ extension ZStackLayout3D : Layout {
     
     package static func _makeLayoutView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
         assertUnimplemented()
+    }
+}
+
+extension ZStackLayout3D {
+    fileprivate func childDepths(in propposal: _ProposedSize3D, children: LayoutSubviews3D) -> ZStackLayout3D.ChildDepths {
+        struct Item {
+            private(set) var index: Int
+            private(set) var proxy: LayoutSubview3D
+            private(set) var priority: Double
+            private(set) var minDepth: CGFloat
+        }
+        
+        assertUnimplemented()
+    }
+    
+    fileprivate struct ChildDepths {
+        let unknown0: CGFloat
+        // TODO
     }
 }
 

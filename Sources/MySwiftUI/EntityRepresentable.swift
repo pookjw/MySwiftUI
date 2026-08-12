@@ -543,7 +543,9 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     }
     
     func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+        let proposedSize3D = _ProposedSize3D(proposedSize)
+        let size = self.content._sizeThatFits(in: proposedSize3D, entity: self.platformHost.representedEntity)
+        return CGSize(size)
     }
 }
 

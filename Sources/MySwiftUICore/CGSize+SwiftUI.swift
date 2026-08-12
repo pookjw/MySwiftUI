@@ -225,9 +225,7 @@ extension CGSize {
         
         return CGSize(width: d3, height: d1)
     }
-}
-
-extension CGSize {
+    
     func clamped(to traits: _LayoutTraits) -> CGSize {
         var d0 = width
         var d1 = height
@@ -244,5 +242,9 @@ extension CGSize {
         d1 = (d4 < d1) ? d4 : d1
         
         return CGSize(width: d0, height: d1)
+    }
+    
+    package init(_ size3D: Spatial::Size3D) {
+        self.init(width: size3D.width, height: size3D.height)
     }
 }
