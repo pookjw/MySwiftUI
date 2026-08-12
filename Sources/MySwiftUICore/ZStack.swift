@@ -1116,19 +1116,111 @@ extension ZStackLayout3D : Layout {
 
 extension ZStackLayout3D {
     fileprivate func childDepths(in propposal: _ProposedSize3D, children: LayoutSubviews3D) -> ZStackLayout3D.ChildDepths {
-        struct Item {
-            private(set) var index: Int
-            private(set) var proxy: LayoutSubview3D
-            private(set) var priority: Double
-            private(set) var minDepth: CGFloat
+        let count = children.count
+        let x22 = count &- 1
+        
+        if x22 < 0 {
+            return ZStackLayout3D.ChildDepths(unknown0: 0, unknown1: [])
         }
         
-        assertUnimplemented()
+        let d10 = self.spacing ?? defaultSpacing3DValue.width
+        // <+228>
+        let d0 = CGFloat(x22)
+        var d8 = d10 * d0
+        
+        if propposal.depth != nil {
+            // <+1252>
+            struct Item {
+                private(set) var index: Int
+                private(set) var proxy: LayoutSubview3D
+                private(set) var priority: Double
+                private(set) var minDepth: CGFloat
+            }
+            
+            let items: [Item] = children
+                .enumerated()
+                .map { (index, child) in
+                    return Item(
+                        index: index,
+                        proxy: child,
+                        priority: 0,
+                        minDepth: child.depthThatFits(propposal)
+                    )
+                }
+                .sorted { lhs, rhs in
+                    var d0 = lhs.priority
+                    let d1 = rhs.priority
+                    
+                    let w25: Bool
+                    if !(d1 < d0) {
+                        if !(d0 < d1) {
+                            // <+224>
+                            var d8 = lhs.minDepth
+                            let d9 = rhs.minDepth
+                            d0 = lhs.proxy.depthThatFits(propposal)
+                            d8 = d0 - d8
+                            d0 = rhs.proxy.depthThatFits(propposal)
+                            d0 = d0 - d9
+                            
+                            if !(d8 < d0) {
+                                // <+368>
+                                let w8 = (lhs.index < rhs.index)
+                                w25 = (d0 < d8) ? false : w8
+                                // <+396>
+                            } else {
+                                w25 = true
+                                // <+396>
+                            }
+                        } else {
+                            w25 = false
+                            // <+396>
+                        }
+                    } else {
+                        w25 = true
+                        // <+396>
+                    }
+                    
+                    // <+396>
+                    assertUnimplemented()
+                }
+            
+            let geometries: [ViewDepthGeometry] = unsafe Array(unsafeUninitializedCapacity: items.count) { buffer, initializedCount in
+                assertUnimplemented()
+            }
+            
+            return ZStackLayout3D.ChildDepths(unknown0: d8, unknown1: geometries)
+        } else {
+            // <+244>
+            guard !children.isEmpty else {
+                return ZStackLayout3D.ChildDepths(unknown0: d8, unknown1: [])
+            }
+            
+            var d11 = -d10
+            var geometries: [ViewDepthGeometry] = []
+            
+            for child in children {
+                let d9 = child.depthThatFits(propposal)
+                
+                let d0 = d10 + d11
+                
+                let geometry = ViewDepthGeometry(
+                    origin: d0,
+                    size: d9,
+                    proposal: nil
+                )
+                
+                d8 = d8 + d9
+                d11 = d0 + d9
+                geometries.append(geometry)
+            }
+            
+            return ZStackLayout3D.ChildDepths(unknown0: d8, unknown1: geometries)
+        }
     }
     
     fileprivate struct ChildDepths {
         let unknown0: CGFloat
-        // TODO
+        let unknown1: [ViewDepthGeometry]
     }
 }
 

@@ -183,6 +183,7 @@ func printOffsets() {
     printFields(DynamicContainer.Info.self, isClassType: false)
     printFields(DynamicContainer.ItemInfo.self, isClassType: true)
     printFields(PlatformAccessibilitySettingsDefinition.self, isClassType: true)
+    printFields(LayoutSubview.self, isClassType: false)
     printFields(LayoutSubviews.self, isClassType: false)
     printFields(GeometryProxy.self, isClassType: false)
     printFields(_ViewList_Subgraph.self, isClassType: true)
