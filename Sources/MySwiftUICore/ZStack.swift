@@ -87,7 +87,103 @@ extension _ZStackLayout : @preconcurrency Layout {
     }
     
     public func sizeThatFits(proposal: ProposedViewSize, subviews: _ZStackLayout.Subviews, cache: inout Void) -> CGSize {
-        assertUnimplemented()
+        guard !subviews.isEmpty else {
+            return .zero
+        }
+        
+        let priority = subviews
+            .lazy
+            .map { subview in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+        
+        var d9: Double = 0
+        var d10: Double
+        if let value = priority.first {
+            d10 = value
+            d9 = d10
+            
+            for subview in subviews {
+                let d8 = subview.proxy.layoutPriority
+                let result = (d10 < d8)
+                d9 = result ? d8 : d9
+                d10 = result ? d8 : d10
+            }
+        } else {
+            d10 = d9
+        }
+        
+        // <+176>
+        let result = subviews
+            .lazy
+            .filter { subview in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztFSbAA0D7SubviewVcfU0_TA
+                return subview.proxy.layoutPriority == d9
+            }
+            .map { subview in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztFAA0M10DimensionsVAA0D7SubviewVcfU1_TA
+                return subview.proxy.dimensions(
+                    in: _ProposedSize(width: proposal.height, height: proposal.height)
+                )
+            }
+            .reduce(((x: -CGFloat.infinity, y: -CGFloat.infinity), (x: -CGFloat.infinity, y: -CGFloat.infinity))) { partialResult, dimensions in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztF12CoreGraphics7CGFloatV1x_AP1yt_ApQ_ApRttApQ_ApRt_ApQ_ApRtt_AA0M10DimensionsVtXEfU2_
+                let d13 = partialResult.0.x
+                let d12 = partialResult.0.y
+                let d10 = partialResult.1.x
+                // sp + 0x8
+                let sp08 = partialResult.1.y
+                let d14 = dimensions.size.value.width
+                var d11 = dimensions.size.value.height
+                
+                let d8 = dimensions[self.alignment.horizontal]
+                var d0 = dimensions[self.alignment.vertical]
+                var d1 = CGFloat.infinity
+                var d2: CGFloat
+                
+                if d14 != d1 {
+                    // <+248>
+                    d1 = d14 - d8
+                    d2 = CGFloat.infinity
+                    
+                    if d11 == d2 {
+                        // <+160>
+                    } else {
+                        d11 = d11 - d0
+                        // <+160>
+                    }
+                    
+                    // <+160>
+                } else {
+                    d1 = CGFloat.infinity
+                    
+                    if d11 == d1 {
+                        // <+160>
+                    } else {
+                        d11 = d11 - d0
+                        // <+160>
+                    }
+                }
+                
+                // <+160>
+                d2 = (d13 <= d8) ? d8 : d13
+                d0 = (d12 <= d0) ? d0 : d12
+                
+                let result0 = (x: d2, y: d0)
+                
+                d0 = (d10 <= d1) ? d1 : d10
+                d1 = sp08
+                d1 = (d1 <= d11) ? d11 : d1
+                let result1 = (x: d0, y: d1)
+                
+                return (result0, result1)
+            }
+        
+        return CGSize(
+            width: result.0.x + result.1.x,
+            height: result.1.y + result.1.y
+        )
     }
     
     public typealias Cache = Void
