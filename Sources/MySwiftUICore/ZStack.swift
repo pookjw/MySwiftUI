@@ -1125,16 +1125,16 @@ extension ZStackLayout3D {
         
         let d10 = self.spacing ?? defaultSpacing3DValue.width
         // <+228>
-        let d0 = CGFloat(x22)
+        var d0 = CGFloat(x22)
         var d8 = d10 * d0
         
         if propposal.depth != nil {
             // <+1252>
             struct Item {
-                private(set) var index: Int
-                private(set) var proxy: LayoutSubview3D
-                private(set) var priority: Double
-                private(set) var minDepth: CGFloat
+                private(set) var index: Int // 0x0
+                private(set) var proxy: LayoutSubview3D // 0x8
+                private(set) var priority: Double // 0x20
+                private(set) var minDepth: CGFloat // 0x28
             }
             
             let items: [Item] = children
@@ -1148,45 +1148,45 @@ extension ZStackLayout3D {
                     )
                 }
                 .sorted { lhs, rhs in
-                    var d0 = lhs.priority
-                    let d1 = rhs.priority
+                    let d10 = lhs.minDepth
+                    let d11 = rhs.minDepth
+                    let d8 = lhs.proxy.depthThatFits(propposal)
+                    let d9 = rhs.proxy.depthThatFits(propposal)
+                    let d0 = d8 - d10
+                    let d1 = d9 - d11
                     
-                    let w25: Bool
-                    if !(d1 < d0) {
-                        if !(d0 < d1) {
-                            // <+224>
-                            var d8 = lhs.minDepth
-                            let d9 = rhs.minDepth
-                            d0 = lhs.proxy.depthThatFits(propposal)
-                            d8 = d0 - d8
-                            d0 = rhs.proxy.depthThatFits(propposal)
-                            d0 = d0 - d9
-                            
-                            if !(d8 < d0) {
-                                // <+368>
-                                let w8 = (lhs.index < rhs.index)
-                                w25 = (d0 < d8) ? false : w8
-                                // <+396>
-                            } else {
-                                w25 = true
-                                // <+396>
-                            }
-                        } else {
-                            w25 = false
-                            // <+396>
-                        }
-                    } else {
-                        w25 = true
-                        // <+396>
-                    }
-                    
-                    // <+396>
-                    assertUnimplemented()
+                    return d0 < d1
                 }
             
-            let geometries: [ViewDepthGeometry] = unsafe Array(unsafeUninitializedCapacity: items.count) { buffer, initializedCount in
-                assertUnimplemented()
+            // <+1412>
+            var geometries: [ViewDepthGeometry] = Array(
+                repeating: ViewDepthGeometry(origin: 0, size: 0, proposal: nil),
+                count: items.count
+            )
+            
+            // <+1472>
+            let d11: CGFloat = 0
+            d0 = 0
+            
+            for item in items {
+                d0 = d0 + item.minDepth
             }
+            
+            for (index, item) in items.enumerated() {
+                let d1 = item.priority
+                let d2 = CGFloat(index)
+                let d12 = d0 + d1
+                d0 = d12 / d2
+                let d13 = (d0 >= 0) ? d0 : d11
+                
+                let d9 = item.proxy.depthThatFits(propposal)
+                geometries[item.index].origin.value = d9
+                geometries[item.index].size.value = d13
+                
+                d8 = d8 + d9
+                d0 = d12 - d9
+            }
+            
             
             return ZStackLayout3D.ChildDepths(unknown0: d8, unknown1: geometries)
         } else {
@@ -1201,7 +1201,7 @@ extension ZStackLayout3D {
             for child in children {
                 let d9 = child.depthThatFits(propposal)
                 
-                let d0 = d10 + d11
+                d0 = d10 + d11
                 
                 let geometry = ViewDepthGeometry(
                     origin: d0,
