@@ -1123,12 +1123,12 @@ extension ZStackLayout3D {
             return ZStackLayout3D.ChildDepths(unknown0: 0, unknown1: [])
         }
         
-        let d10 = self.spacing ?? defaultSpacing3DValue.width
+        let d10 = self.spacing ?? defaultSpacing3DValue.depth
         // <+228>
         var d0 = CGFloat(x22)
         var d8 = d10 * d0
         
-        if propposal.depth != nil {
+        if let depth = propposal.depth {
             // <+1252>
             struct Item {
                 private(set) var index: Int // 0x0
@@ -1137,26 +1137,55 @@ extension ZStackLayout3D {
                 private(set) var minDepth: CGFloat // 0x28
             }
             
+            let proposal_2 = _ProposedSize3D(
+                width: propposal.width,
+                height: propposal.height,
+                depth: 0
+            )
+            
+            let proposal_3 = _ProposedSize3D(
+                width: propposal.width,
+                height: propposal.height,
+                depth: .infinity
+            )
+            
             let items: [Item] = children
                 .enumerated()
                 .map { (index, child) in
                     return Item(
                         index: index,
                         proxy: child,
-                        priority: 0,
-                        minDepth: child.depthThatFits(propposal)
+                        priority: child.priority,
+                        minDepth: child.depthThatFits(proposal_2)
                     )
                 }
                 .sorted { lhs, rhs in
+                    var d0 = lhs.priority
+                    var d1 = rhs.priority
+                    
+                    if d1 < d0 {
+                        return true
+                    } else if d0 < d1 {
+                        return false
+                    }
+                    
                     let d10 = lhs.minDepth
                     let d11 = rhs.minDepth
-                    let d8 = lhs.proxy.depthThatFits(propposal)
-                    let d9 = rhs.proxy.depthThatFits(propposal)
-                    let d0 = d8 - d10
-                    let d1 = d9 - d11
+                    let d8 = lhs.proxy.depthThatFits(proposal_3)
+                    let d9 = rhs.proxy.depthThatFits(proposal_3)
+                    d0 = d8 - d10
+                    d1 = d9 - d11
                     
-                    return d0 < d1
+                    if d0 < d1 {
+                        return true
+                    } else if d1 < d0 {
+                        return false
+                    } else {
+                        return lhs.index < rhs.index
+                    }
                 }
+            
+            var d9 = depth
             
             // <+1412>
             var geometries: [ViewDepthGeometry] = Array(
@@ -1172,21 +1201,62 @@ extension ZStackLayout3D {
                 d0 = d0 + item.minDepth
             }
             
+            // <+1616>
+            d0 = d8 + d0
+            d0 = d9 - d0
+            
+            var x21: Int!
+            
             for (index, item) in items.enumerated() {
-                let d1 = item.priority
-                let d2 = CGFloat(index)
+                if x21 == nil {
+                    let d1 = item.priority
+                    
+                    var x22 = index
+                    for i in x22..<items.count {
+                        let d2 = items[i].priority
+                        if d2 != d1 {
+                            break
+                        }
+                        x22 &+= 1
+                    }
+                    
+                    // <+1800>
+                    x21 = x22 &- index
+                    if x21 == 0 {
+                        continue
+                    }
+                }
+                
+                let d1 = item.minDepth
+                let d2 = CGFloat(x21)
                 let d12 = d0 + d1
                 d0 = d12 / d2
                 let d13 = (d0 >= 0) ? d0 : d11
                 
-                let d9 = item.proxy.depthThatFits(propposal)
-                geometries[item.index].origin.value = d9
-                geometries[item.index].size.value = d13
+                var proposal_4 = propposal
+                proposal_4.depth = d13
+                d9 = item.proxy.depthThatFits(proposal_4)
+                
+                // <+2440>
+                geometries[item.index].size = ViewDepth(d9, proposal: d13)
                 
                 d8 = d8 + d9
                 d0 = d12 - d9
+                
+                x21 &-= 1
+                if x21 == 0 {
+                    x21 = nil
+                }
             }
             
+            // <+2636>
+            d0 = -d10
+            for index in geometries.indices {
+                d0 = d10 + d0
+                geometries[index].origin.value = d0
+                let d1 = geometries[index].size.value
+                d0 = d0 + d1
+            }
             
             return ZStackLayout3D.ChildDepths(unknown0: d8, unknown1: geometries)
         } else {

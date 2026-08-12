@@ -54,7 +54,12 @@ fileprivate struct LayoutEngine3D<T : LeafViewLayout3D> : LayoutEngine {
         }
     }
     
-    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        let view = self.view
+        
+        return self.depthCache.get(proposedSize) { 
+            // $s7SwiftUI14LayoutEngine3D33_10361B706F31F0914DE4AF1C66017C27LLV13depthThatFitsy12CoreGraphics7CGFloatVAA15_ProposedSize3DVFAHyXEfU_TA
+            return view.depthThatFits(in: proposedSize)
+        }
     }
 }

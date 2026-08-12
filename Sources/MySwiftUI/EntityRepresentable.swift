@@ -535,7 +535,10 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     }
     
     func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {
-        assertUnimplemented()
+        return self.content._sizeThatFits(
+            in: proposedSize,
+            entity: self.platformHost.representedEntity
+        ).depth
     }
     
     func spacing() -> Spacing {

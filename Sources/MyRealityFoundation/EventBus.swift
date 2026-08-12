@@ -96,7 +96,7 @@ extension REEventBus {
                 let sceneManager = __ServiceLocator.shared.sceneService as! SceneManager
                 
                 if let _componentClass = unsafe sceneManager.componentTypeToComponentClass(componentType) {
-                    unsafe  componentClass = _componentClass
+                    unsafe componentClass = _componentClass
                     // <+284>
                     // <+296>
                 } else {
