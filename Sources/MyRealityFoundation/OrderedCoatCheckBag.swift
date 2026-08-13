@@ -88,7 +88,7 @@ extension OrderedCoatCheckBag {
          ticket._ptr -> x1 -> x19
          */
         // <+376>
-        guard ticket._ptr !== Unmanaged.passUnretained(self).toOpaque() else {
+        guard unsafe ticket._ptr == Unmanaged.passUnretained(self).toOpaque() else {
             // <+1116>
             assertionFailure("Attempting to remove an element from the wrong bag.  This is a serious error.")
         }
