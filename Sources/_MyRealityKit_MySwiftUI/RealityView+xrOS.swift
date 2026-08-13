@@ -118,8 +118,54 @@ struct _RealityViewAsync<Placeholder : View> : View {
             }
         }
         .task { [weak model] in
-            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyyYacfU1_TATu
-            assertUnimplemented()
+            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyyYacfU1_TY0_
+            guard
+                let model,
+                case .empty = model.loadingPhase
+            else {
+                return
+            }
+            
+            // <+268>
+            model.loadingPhase = .loading
+            ImplicitAnimationSystem.registerSystem()
+            
+            var content = model.content
+            await self.make(&content)
+            
+            // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyyYacfU1_TY2_
+            if Task.isCancelled {
+                // <+52>
+                if case .empty = model.__loadingPhase {
+                    // <+300>
+                    model.__loadingPhase = .empty
+                } else {
+                    // <+68>
+                    model.loadingPhase = .loading
+                    // <+484>
+                }
+            } else {
+                // <+152>
+                model.content = content
+                content._rep.addChild(content._base, preservingWorldTransform: false)
+                self.setIdealSize()
+                
+                let w20: _RealityViewModel.LoadingPhase
+                if self.scene != nil {
+                    // <+288>
+                    w20 = .connected
+                } else {
+                    // <+324>
+                    w20 = .loaded
+                }
+                
+                if model.__loadingPhase == w20 {
+                    // <+348>
+                } else {
+                    // <+380>
+                    model.loadingPhase = w20
+                }
+            }
         }
         .onChange(of: self.scene, initial: false) {
             // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyycfU2_TA
@@ -301,6 +347,16 @@ final class _RealityViewModel {
     var loadingPhase: _RealityViewModel.LoadingPhase // 0x101
     var hasTransformInteractionComponents: Bool // 0x102
     // _$observationRegistrar -> 0x108
+    
+    @inline(always) // 원래 없음
+    fileprivate var __loadingPhase: _RealityViewModel.LoadingPhase {
+        get {
+            return self._loadingPhase
+        }
+        set {
+            self._loadingPhase = newValue
+        }
+    }
     
     init() {
         self.content = RealityViewContent()

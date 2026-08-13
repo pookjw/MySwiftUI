@@ -102,8 +102,8 @@ public struct RealityViewContent : RealityViewContentProtocol {
         return !RealityViewContent.linkedOnOrAfterFall2024OSVersions
     }()
     
-    private var _base: MyRealityFoundation::Entity // 0x0
-    private var _rep: MyRealityFoundation::Entity // 0x8
+    private(set) var _base: MyRealityFoundation::Entity // 0x0
+    private(set) var _rep: MyRealityFoundation::Entity // 0x8
     private var contentStorage = RealityViewContent.ContentStorage() // 0x10
     var transaction: Transaction? = nil // 0x18
     private(set) var debugOptions: DebugOptions = .none // 0x20
