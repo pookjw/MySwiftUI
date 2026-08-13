@@ -162,7 +162,23 @@ extension REEventDispatcher {
         }
         
         func cancel() {
-            assertUnimplemented()
+            self.downstream = nil
+            
+            if
+                self.eventBus != nil,
+                let coreSubscription
+            {
+                unsafe unsafeBitCast(self.coreHandle, to: CoreRE::EventBus.self)
+                    .unsubscribe(coreSubscription)
+                self.coreSubscription = nil
+            }
+            
+            // <+228>
+            if let cancellationHandler {
+                cancellationHandler()
+            }
+            
+            self.cancellationHandler = nil
         }
     }
 }

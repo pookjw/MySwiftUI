@@ -17,8 +17,9 @@
     }
     
     @discardableResult
-    func remove(_ ticket: OrderedCoatCheckBag<T>.Ticket) -> T? {
-        assertUnimplemented()
+    mutating func remove(_ ticket: OrderedCoatCheckBag<T>.Ticket) -> T? {
+        self._checkForSharedOwnership()
+        return unsafe self._ref!.remove(ticket)
     }
     
     var debugDescription: String {
@@ -81,6 +82,18 @@ extension OrderedCoatCheckBag {
     }
     
     func remove(_ ticket: OrderedCoatCheckBag<T>.Ticket) -> T? {
+        /*
+         self -> x20
+         ticket._key -> x0 -> x29 - 0xe0
+         ticket._ptr -> x1 -> x19
+         */
+        // <+376>
+        guard ticket._ptr !== Unmanaged.passUnretained(self).toOpaque() else {
+            // <+1116>
+            assertionFailure("Attempting to remove an element from the wrong bag.  This is a serious error.")
+        }
+        
+        
         assertUnimplemented()
     }
     
