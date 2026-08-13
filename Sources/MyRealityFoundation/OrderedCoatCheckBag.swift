@@ -61,7 +61,7 @@ extension OrderedCoatCheckBag {
          element -> x0 -> x26
          T -> x20
          */
-        let ticket = unsafe OrderedCoatCheckBag<T>.Ticket.init(
+        let ticket = unsafe OrderedCoatCheckBag<T>.Ticket(
             _key: self._nextKey,
             _ptr: UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
         )
@@ -93,8 +93,33 @@ extension OrderedCoatCheckBag {
             assertionFailure("Attempting to remove an element from the wrong bag.  This is a serious error.")
         }
         
+        var result: T? = nil
         
-        assertUnimplemented()
+        guard let storage = unsafe self._storage else {
+            return result
+        }
+        
+        guard unsafe !storage.isEmpty else {
+            assertionFailure("Removing from an empty bag. This is almost always an error -- are you removing from the correct bag?")
+        }
+        
+        var iterator = unsafe storage.enumerated().makeIterator()
+        
+        while let (index, element) = unsafe iterator.next() {
+            // <+756>
+            guard
+                unsafe (element.key._key == ticket._key) &&
+                    (element.key._ptr == ticket._ptr)
+            else {
+                continue
+            }
+            
+            // <+856>
+            unsafe self._storage!.remove(at: index)
+            result = unsafe element.element
+        }
+        
+        return result
     }
     
     var debugDescription: String {
@@ -102,6 +127,30 @@ extension OrderedCoatCheckBag {
     }
     
     func makeIterator() -> AnyIterator<T> {
-        assertUnimplemented()
+        if let storage = unsafe self._storage {
+            var index = 0
+            let count = unsafe storage.count
+            return AnyIterator { 
+                // $s17RealityFoundation23_OrderedCoatCheckBagRef33_0656128EEB3DF59F097DD6F4D641F2F1LLC12makeIterators03AnyQ0VyxGyFxSgycfU0_TA
+                /*
+                 index -> x0 -> x21
+                 count -> x1 -> x25
+                 storage- > x2 -> x22
+                 */
+                if index >= count {
+                    return nil
+                }
+                
+                let value = unsafe storage[index]
+                index += 1
+                
+                return value.element
+            }
+        } else {
+            return AnyIterator {
+                // $s17RealityFoundation23_OrderedCoatCheckBagRef33_0656128EEB3DF59F097DD6F4D641F2F1LLC12makeIterators03AnyQ0VyxGyFxSgycfU_TA
+                return nil
+            }
+        }
     }
 }
