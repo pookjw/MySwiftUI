@@ -808,17 +808,11 @@ extension Entity {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity : Hashable {
     nonisolated public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        unsafe hasher.combine(self.coreEntity)
     }
     
     nonisolated public static func == (lhs: Entity, rhs: Entity) -> Bool {
-        assertUnimplemented()
-    }
-    
-    nonisolated open var hashValue: Int {
-        get {
-            assertUnimplemented()
-        }
+        return unsafe lhs.coreEntity == rhs.coreEntity
     }
 }
 

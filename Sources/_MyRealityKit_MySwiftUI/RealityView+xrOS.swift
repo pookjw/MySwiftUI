@@ -141,7 +141,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
                     model.__loadingPhase = .empty
                 } else {
                     // <+68>
-                    model.loadingPhase = .loading
+                    model.loadingPhase = .empty
                     // <+484>
                 }
             } else {
@@ -161,6 +161,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
                 
                 if model.__loadingPhase == w20 {
                     // <+348>
+                    model.__loadingPhase = w20
                 } else {
                     // <+380>
                     model.loadingPhase = w20
