@@ -155,7 +155,7 @@ extension System {
             }
 #else
             if let swiftObject = reScene.swiftObject {
-                scene = unsafe unsafeBitCast(scene, to: MyRealityFoundation::Scene.self)
+                scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
             } else {
                 scene = unsafe MyRealityFoundation::Scene(
                     coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
@@ -184,9 +184,9 @@ extension System {
                 // <+532>
                 let updateRate = casted._preferredUpdateRate
                 
-                casted.setUpdateRate(
-                    coreCustomSystem: ptr0,
-                    coreScene: ptr1,
+                unsafe casted.setUpdateRate(
+                    coreCustomSystem: ptr1,
+                    coreScene: ptr0,
                     updateRate: updateRate
                 )
             } else {
@@ -196,7 +196,7 @@ extension System {
             }
             
             // <+720>
-            return unsafe Unmanaged.passUnretained(object).toOpaque()
+            return unsafe Unmanaged.passRetained(object).toOpaque()
         }
         
         let block_2: (UnsafeMutableRawPointer, OpaquePointer?, OpaquePointer) -> Void = { ptr0, ptr1, ptr2 in
@@ -214,12 +214,13 @@ extension System {
             var system: Self
             if isClassType {
                 // <+136>
-                system = unsafe ptr0
-                    .assumingMemoryBound(to: Self.self)
-                    .pointee
+                system = unsafe unsafeBitCast(ptr0, to: AnyObject.self) as! Self
             } else {
                 // <+184>
-                let box = unsafe unsafeBitCast(ptr0, to: SystemBox<Self>.self)
+                let box = unsafe Unmanaged<AnyObject>
+                    .fromOpaque(ptr0)
+                    .takeUnretainedValue() as! SystemBox<Self>
+                
                 system = box.system
             }
             
@@ -246,7 +247,7 @@ extension System {
             }
 #else
             if let swiftObject = reScene.swiftObject {
-                scene = unsafe unsafeBitCast(scene, to: MyRealityFoundation::Scene.self)
+                scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
             } else {
                 scene = unsafe MyRealityFoundation::Scene(
                     coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
@@ -303,11 +304,11 @@ extension System {
             // <+752>
             if !isClassType {
                 // <+768>
-                unsafe unsafeBitCast(ptr0, to: SystemBox<Self>.self).system = system
+                let casted = unsafe unsafeBitCast(ptr0, to: AnyObject.self) as! SystemBox<Self>
+                casted.system = system
             }
             
             // <+880>
-            assertUnimplemented()
         }
         
         reRESystemDependencies.withUnsafeBufferPointer { pointer in
