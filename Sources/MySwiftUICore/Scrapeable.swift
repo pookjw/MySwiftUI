@@ -9,7 +9,7 @@ package struct ScrapeableID : Hashable, GraphReusable {
     private let value: UInt32
     
     package init() {
-        self.value = UInt32(AGMakeUniqueID())
+        self.value = UInt32(truncatingIfNeeded: AGMakeUniqueID())
     }
     
     fileprivate init(value: UInt32) {

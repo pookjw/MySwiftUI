@@ -146,7 +146,7 @@ extension ForceEffectProtocol where Self : Decodable, Self : Encodable {
         _ block: ((inout ForceEffectEvent<Self>) -> Void)?
     ) {
         var map = ForceEffectComponent._registeredForceEffectsCodable.wrappedValue
-        map[ObjectIdentifier(self)] = self
+        map[ObjectIdentifier(Self.self)] = Self.self
         ForceEffectComponent._registeredForceEffectsCodable.wrappedValue = map
         
         // <+244>
@@ -186,7 +186,7 @@ extension ForceEffectProtocol where Self : Decodable, Self : Encodable {
                 },
                 UnsafeRawPointer(
                     bitPattern: UInt(
-                        bitPattern: ObjectIdentifier(self)
+                        bitPattern: ObjectIdentifier(Self.self)
                     )
                 ).unsafelyUnwrapped
             )

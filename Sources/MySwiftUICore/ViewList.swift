@@ -2516,7 +2516,7 @@ extension Layout {
         
         // w19/w28/sp + 0xc
         let layoutProperties: LayoutProperties
-        if self != AnyLayout.self {
+        if Self.self != AnyLayout.self {
             // <+252>
             copy_3 = copy_1
             layoutProperties = Self.layoutProperties

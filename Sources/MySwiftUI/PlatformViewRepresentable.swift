@@ -12,7 +12,7 @@ protocol PlatformViewRepresentable : CoreViewRepresentable {
 
 extension PlatformViewRepresentable {
     static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
-        let feature = PlatformViewRepresentableFeature(representableType: self)
+        let feature = PlatformViewRepresentableFeature(representableType: Self.self)
         proxy.base.append(feature)
     }
 }

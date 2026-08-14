@@ -92,7 +92,7 @@ extension ViewModifier {
          inputs -> x1 -> x26
          body -> x2/x3 -> x28/x27
          */
-        let fields = unsafe DynamicPropertyCache.fields(of: self)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         // x19 + 0x120
         var copy_1 = inputs
         let (_body, buffer) = unsafe Self.makeBody(modifier: modifier, inputs: &copy_1.base, fields: fields)
@@ -115,7 +115,7 @@ extension ViewModifier {
          inputs -> x1 -> x26
          body -> x2/x3 -> x28 / sp + 0x8
          */
-        let fields = unsafe DynamicPropertyCache.fields(of: self)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         // sp + 0x68
         var copy_1 = inputs
         
@@ -135,7 +135,7 @@ extension ViewModifier {
     }
     
     nonisolated fileprivate static func makeBody(modifier: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-        precondition(TypeID(self).isValueType, "view modifiers must be value types: \(_typeName(self, qualified: false))")
+        precondition(TypeID(Self.self).isValueType, "view modifiers must be value types: \(_typeName(Self.self, qualified: false))")
         
         let body = ModifierBodyAccessor<Self>()
             .makeBody(container: modifier, inputs: &inputs, fields: fields)
@@ -314,7 +314,7 @@ extension ViewModifierContentProvider {
             switch last {
             case .view(let transform):
                 // <+156>
-                return _ViewListOutputs.unaryViewList(viewType: self, inputs: copy_1) { inputs in
+                return _ViewListOutputs.unaryViewList(viewType: Self.self, inputs: copy_1) { inputs in
                     // $s7SwiftUI22makeSpatialOverlayView9alignment13primaryInputs0H7Outputs09secondaryI04bodyAA01_fJ0V14AttributeGraph0M0VyAA11Alignment3DVG_AA01_fI0VAiqiA01_N0V_AQtctFAiQXEfU0_TA
                     return transform(_Graph(), inputs)
                 }

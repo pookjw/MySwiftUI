@@ -58,7 +58,7 @@ extension UIViewControllerRepresentable {
         // <+380>
         if IsInHostingConfiguration.evaluate(inputs: inputs.base) {
             // <+444>
-            Log.externalWarning("\(self) is a UIViewControllerRepresentable. UIViewControllerRepresentable is not supported inside of UIHostingConfiguration.")
+            Log.externalWarning("\(Self.self) is a UIViewControllerRepresentable. UIViewControllerRepresentable is not supported inside of UIHostingConfiguration.")
             
             var outputs = _ViewOutputs()
             
@@ -77,8 +77,8 @@ extension UIViewControllerRepresentable {
         } else {
             // <+884>
             precondition(
-                (isLinkedOnOrAfter(.v4) ? TypeID(self).isValueType : true),
-                "UIViewControllerRepresentables must be value types: \(self)"
+                (isLinkedOnOrAfter(.v4) ? TypeID(Self.self).isValueType : true),
+                "UIViewControllerRepresentables must be value types: \(Self.self)"
             )
             
             let casted = view.unsafeBitCast(to: PlatformViewControllerRepresentableAdaptor<Self>.self)

@@ -14,7 +14,7 @@ private import _MySwiftUIShims
 extension Scene {
     nonisolated public static func _makeScene(scene: _GraphValue<Self>, inputs: _SceneInputs) -> _SceneOutputs {
         // <+332>
-        let fields = unsafe DynamicPropertyCache.fields(of: self)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         var inputs = inputs
         let body = unsafe Self.makeBody(scene: scene, inputs: &inputs.base, fields: fields)
         // x29 - 0x68
@@ -31,8 +31,8 @@ extension Scene {
     
     nonisolated fileprivate static func makeBody(scene: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
         precondition(
-            TypeID(self).isValueType,
-            "apps must be value types; \(self)"
+            TypeID(Self.self).isValueType,
+            "apps must be value types; \(Self.self)"
         )
         
         let accessor = SceneBodyAccessor<Self>()

@@ -48,7 +48,7 @@ package final class ObjectCache<Key : Hashable, Value>: @unchecked Sendable {
                         return loaded.value
                     } else {
                         // <+640>
-                        let x8 = Int32(data.clock &- data.table[x23].used)
+                        let x8 = Int32(bitPattern: data.clock &- data.table[x23].used)
                         if num2 < x8 {
                             // <+396>
                             num1 = x28

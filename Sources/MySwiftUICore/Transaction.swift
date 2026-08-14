@@ -103,11 +103,11 @@ struct TransactionID : Hashable, Comparable {
     private var id: Int
     
     init<T>(context: RuleContext<T>) {
-        self.id = Int(context.attribute.identifier.graph.counter(options: .unknown0))
+        self.id = Int(bitPattern: context.attribute.identifier.graph.counter(options: .unknown0))
     }
     
     init(graph: Graph) {
-        self.id = Int(graph.counter(options: .unknown0))
+        self.id = Int(bitPattern: graph.counter(options: .unknown0))
     }
     
     init() {
@@ -115,7 +115,7 @@ struct TransactionID : Hashable, Comparable {
     }
     
     init(context: AnyRuleContext) {
-        self.id = Int(context.attribute.graph.counter(options: .unknown0))
+        self.id = Int(bitPattern: context.attribute.graph.counter(options: .unknown0))
     }
 }
 

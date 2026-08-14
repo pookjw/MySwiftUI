@@ -84,7 +84,7 @@ extension _TupleScene {
         
         @MainActor mutating func visit<U>(type: U.Type) where U : Scene {
             // <+188>
-            let attribute = scene.value.identifier.createOffsetAttribute2(offset: numericCast(self.offset), size: numericCast(MemoryLayout<U>.size))
+            let attribute = scene.value.identifier.createOffsetAttribute2(offset: UInt(bitPattern: self.offset), size: UInt32(truncatingIfNeeded: MemoryLayout<U>.size))
             // x27
             let value = _GraphValue(Attribute<U>(identifier: attribute))
             let output = U._makeScene(scene: value, inputs: self.inputs)

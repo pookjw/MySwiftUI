@@ -49,8 +49,8 @@ extension UIViewRepresentable {
     
     nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         precondition(
-            (isLinkedOnOrAfter(.v4) ? TypeID(self).isValueType : true),
-            "UIViewRepresentables must be value types: \(self)"
+            (isLinkedOnOrAfter(.v4) ? TypeID(Self.self).isValueType : true),
+            "UIViewRepresentables must be value types: \(Self.self)"
         )
         
         let casted = view.unsafeBitCast(to: PlatformViewRepresentableAdaptor<Self>.self)

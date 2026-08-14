@@ -568,7 +568,7 @@ extension DisplayList.ViewUpdater {
             let reverseMap = unsafe viewCache.reverseMap
             // x24 = sp, #0x1d0
             // x23
-            for _index in (index..<Int(count)).reversed() {
+            for _index in (index..<Int(bitPattern: count)).reversed() {
                 // sp, #0x68
                 var outSystem = system
                 let subview = unsafe unsafeBitCast(CoreViewSubviewAtIndex(system, rootView, Int(_index), &outSystem), to: AnyObject.self)

@@ -12,7 +12,7 @@ extension _ViewDebug {
     static func initialize(inputs: inout _ViewInputs) {
         if !_ViewDebug.isInitialized {
             if let value = unsafe getenv("SWIFTUI_VIEW_DEBUG") {
-                _ViewDebug.properties = unsafe _ViewDebug.Properties(rawValue: UInt32(atoi(value)))
+                _ViewDebug.properties = unsafe _ViewDebug.Properties(rawValue: UInt32(bitPattern: atoi(value)))
             }
             _ViewDebug.isInitialized = true
         }

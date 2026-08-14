@@ -2,6 +2,7 @@
 public enum SystemDependency : Equatable, Sendable {
     case before(any System.Type)
     case after(any System.Type)
+    @_spi(Internal) case beforePhysics
     
     public static func == (lhs: SystemDependency, rhs: SystemDependency) -> Bool {
         assertUnimplemented()

@@ -368,7 +368,7 @@ extension CVarArg {
         } else {
             let encoding = _cVarArgEncoding
             if encoding.count == 1 {
-                return (UInt64(encoding[0]), false)
+                return (UInt64(bitPattern: Int64(encoding[0])), false)
             } else {
                 let string = String(describing: self)
                 

@@ -14,7 +14,7 @@ private import _DarwinFoundation2._string
         array.append(contentsOf: className.utf8)
         array.append(0x0)
         
-        let rawData = unsafe RECIntrospectionAlloc(UInt32(truncatingIfNeeded: array.count))
+        let rawData = unsafe RECIntrospectionAlloc(UInt32(Int32(array.count)))
         array.withUnsafeBufferPointer { pointer in
             _ = unsafe memmove(rawData, pointer.baseAddress.unsafelyUnwrapped, pointer.count)
         }

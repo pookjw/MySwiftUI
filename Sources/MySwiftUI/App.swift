@@ -17,8 +17,8 @@ private import Foundation
 extension App {
     @MainActor @preconcurrency public static func main() {
         precondition(
-            (isLinkedOnOrAfter(.v6) ? TypeID(self).isValueType : true),
-            "apps must be value types; \(self)"
+            (isLinkedOnOrAfter(.v6) ? TypeID(Self.self).isValueType : true),
+            "apps must be value types; \(Self.self)"
         )
         
         runApp(Self())

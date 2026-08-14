@@ -575,7 +575,7 @@ package final class ViewGraph : GraphHost {
         }
         
         data.updateSeed &+= 1
-        mainUpdates = Int(data.graph!.counter(options: [.unknown1, .unknown3]))
+        mainUpdates = Int(bitPattern: data.graph!.counter(options: [.unknown1, .unknown3]))
     }
     
     fileprivate func makePreferenceOutlets(outputs: _ViewOutputs) {

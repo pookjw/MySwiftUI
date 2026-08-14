@@ -1,0 +1,3 @@
+struct SkeletalPoseSystem {
+    // TODO
+}

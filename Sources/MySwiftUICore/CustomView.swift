@@ -11,7 +11,7 @@ extension View {
         // sp + 0x2a0
         let inputs_1 = inputs
         // sp + 0x240 / x24 + x25 + w26 + w28
-        let fields = unsafe DynamicPropertyCache.fields(of: self.self)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         
         // <+124>
         // sp + 0x240
@@ -40,7 +40,7 @@ extension View {
          view -> w24
          */
         // sp + 0x58
-        let fields = unsafe DynamicPropertyCache.fields(of: self.self)
+        let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         // fields -> x22, x21, w19, w28
         // sp + 0x58
         var copy_1 = inputs

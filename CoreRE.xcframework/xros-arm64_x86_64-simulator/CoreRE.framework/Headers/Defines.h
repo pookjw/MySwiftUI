@@ -420,6 +420,12 @@ typedef NS_ENUM(uint32_t, REScenePhysicsDebugDrawLevel) {
     REScenePhysicsDebugDrawLevelUnknown1 = 1
 } NS_SWIFT_NAME(Scene.PhysicsDebugDrawLevel);
 
+struct RESystemDependency {
+    int32_t unknown0;
+    int32_t unknown1;
+} NS_SWIFT_NAME(SystemDependency);
+typedef struct RESystemDependency RESystemDependency;
+
 NS_ASSUME_NONNULL_END
 
 #endif

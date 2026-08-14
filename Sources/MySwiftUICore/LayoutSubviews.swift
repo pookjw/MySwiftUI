@@ -46,7 +46,7 @@ public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
                     context: context,
                     attributes: attribute
                 ),
-                index: Int32(index),
+                index: Int32(truncatingIfNeeded: index),
                 containerLayoutDirection: layoutDirection
             )
         case .indirect(let attributes):

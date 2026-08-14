@@ -82,7 +82,7 @@ extension DynamicProperty {
             return
         }
         
-        addTreeValueSlow(attribute.identifier, as: firstType, in: self, fieldOffset: fieldOffset, flags: flags)
+        addTreeValueSlow(attribute.identifier, as: firstType, in: secondType, fieldOffset: fieldOffset, flags: flags)
     }
     
     static func addTreeValue<T>(_: Attribute<T>, at: Int, in: any Any.Type, flags: TreeValueFlags) {

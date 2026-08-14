@@ -471,7 +471,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                         }
                     }
                     
-                    info.items[_index].subgraph.index = Int32(index)
+                    info.items[_index].subgraph.index = Int32(truncatingIfNeeded: index)
                 }
             }
             

@@ -39,17 +39,17 @@ extension EntityAction {
     }
     
     @preconcurrency @MainActor static func __register() {
-        let typeName = _typeName(self, qualified: true)
+        let typeName = _typeName(Self.self, qualified: true)
         
         if let existing = unsafe AnimationResource.actionTypeMap[typeName] {
-            if existing != self {
+            if existing != Self.self {
                 preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
             }
             
             return
         }
         
-        unsafe AnimationResource.actionTypeMap[typeName] = self
+        unsafe AnimationResource.actionTypeMap[typeName] = Self.self
     }
     
     static func __subscribe(
@@ -74,7 +74,7 @@ extension EntityAction {
             assertUnimplemented()
         }
         
-        let typeName = _typeName(self, qualified: true)
+        let typeName = _typeName(Self.self, qualified: true)
         
         let eventID: UInt64
         if event == .started {
@@ -153,10 +153,10 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
     }
     
     @preconcurrency @MainActor static func __registerCodable() {
-        let typeName = _typeName(self, qualified: true)
+        let typeName = _typeName(Self.self, qualified: true)
         
         if let existing = unsafe AnimationResource.codableActionTypeMap[typeName] {
-            if existing.parameter != self {
+            if existing.parameter != Self.self {
                 preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
             }
             
@@ -164,6 +164,6 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
         }
         
         // <+200>
-        unsafe AnimationResource.codableActionTypeMap[typeName] = (action: self, parameter: EventParameterType.self)
+        unsafe AnimationResource.codableActionTypeMap[typeName] = (action: Self.self, parameter: EventParameterType.self)
     }
 }

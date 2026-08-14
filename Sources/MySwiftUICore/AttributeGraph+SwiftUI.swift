@@ -29,7 +29,7 @@ extension Attribute {
         }
         
         let other = indirectMap.subgraph.apply { 
-            return self.identifier.createIndirectAttribute3(UInt32(MemoryLayout<T>.size), withoutInvalidation ? 1 : 0)
+            return self.identifier.createIndirectAttribute3(UInt32(truncatingIfNeeded: MemoryLayout<T>.size), withoutInvalidation ? 1 : 0)
         }
         
         indirectMap.map[self.identifier] = other
@@ -98,6 +98,6 @@ extension TypeID {
     func projectEnum(at pointer: UnsafeRawPointer, tag: Int, _ body: (UnsafeRawPointer) -> Void) {
         unsafe projectEnumData(UnsafeMutableRawPointer(mutating: pointer))
         unsafe body(pointer)
-        unsafe injectEnumTag(UInt32(tag), UnsafeMutableRawPointer(mutating: pointer))
+        unsafe injectEnumTag(UInt32(truncatingIfNeeded: tag), UnsafeMutableRawPointer(mutating: pointer))
     }
 }

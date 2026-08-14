@@ -63,11 +63,11 @@ extension ActionHandlerProtocol {
     
     static func __registerCommon(engine: __Engine?, _ block: @escaping (ActionEvent<Self.ActionType>) -> (any ActionHandlerProtocol)?) {
         // <+108>
-        self.subscribe(engine)
+        Self.subscribe(engine)
         
         if unsafe AnimationResource.actionHandlerCreators[ObjectIdentifier(Self.ActionType.self)] != nil {
             // <+232>
-            AnimationLogger.logger.log(level: .error, "Handler for \(String(describing: self)) already registered.")
+            AnimationLogger.logger.log(level: .error, "Handler for \(String(describing: Self.self)) already registered.")
         }
         
         // <+732>

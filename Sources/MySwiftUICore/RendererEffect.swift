@@ -240,7 +240,7 @@ fileprivate struct RendererEffectDisplayList<Effect : _RendererEffect>: Rule, As
             transform: $transform,
             position: $position,
             safeAreaInsets: $safeAreaInsets,
-            seed: UInt32(version.value)
+            seed: UInt32(truncatingIfNeeded: version.value)
         )
         
         // x23, w21, w24 -> sp + 0x1f8

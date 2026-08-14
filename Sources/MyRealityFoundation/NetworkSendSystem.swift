@@ -1,0 +1,3 @@
+struct NetworkSendSystem {
+    // TODO
+}

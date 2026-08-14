@@ -66,7 +66,7 @@ public struct _DynamicPropertyBuffer {
         let index = contents.append(box, vtable: BoxVTable<T>.self)
         var flags = contents[index].flags
         flags &= 0x80000000
-        flags |= UInt32(fieldOffset)
+        flags |= UInt32(Int32(fieldOffset))
         contents[index].flags = flags
     }
     
@@ -159,7 +159,7 @@ public struct _DynamicPropertyBuffer {
                 let index = contents.append(box, vtable: table.self)
                 var flags = contents[index].flags
                 flags &= 0x80000000
-                flags |= UInt32(baseOffset)
+                flags |= UInt32(Int32(baseOffset))
                 contents[index].flags = flags
             }
             

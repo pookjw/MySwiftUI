@@ -57,7 +57,7 @@ extension Component {
     }
     
     @_spi(Internal) public static var componentName: String {
-        return String(reflecting: self)
+        return String(reflecting: Self.self)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
