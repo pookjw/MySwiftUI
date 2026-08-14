@@ -1,12 +1,12 @@
 internal import _UIKitPrivate
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 internal import SwiftUI
 #else
 internal import MySwiftUICore
 #endif
 
 extension _UIUserInterfaceContainerVibrancy {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     typealias ResolvedMaterial = SwiftUI::Material
 #else
     typealias ResolvedMaterial = MySwiftUICore::Material

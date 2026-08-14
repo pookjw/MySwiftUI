@@ -1,7 +1,7 @@
 // 005A2BB2D44F4D559B7E508DC5B95FFB
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import SwiftUI
 #endif
 private import RealitySimulationServices
@@ -134,7 +134,7 @@ extension UITraitCollection {
         environmentValues.isInOrnament = self.mrui_ornamentStatus
         
         if self.userInterfaceIdiom == .vision {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             let material: SwiftUI::Material?
 #else
             let material: MySwiftUICore::Material?

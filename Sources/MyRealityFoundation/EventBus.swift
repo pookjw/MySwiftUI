@@ -12,7 +12,7 @@ private import CoreRE
         
         unsafe __RERetain(coreHandle)
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         unsafe unsafeBitCast(coreHandle, to: CoreRE::EventBus.self)
             .myRealityKitRef = self
 #endif

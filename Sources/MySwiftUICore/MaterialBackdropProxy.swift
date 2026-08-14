@@ -1,4 +1,4 @@
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 package import _SwiftUIPrivate
 
 fileprivate struct MaterialBackdropProxyKey : EnvironmentKey {

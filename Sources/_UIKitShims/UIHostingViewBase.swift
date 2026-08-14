@@ -1,7 +1,7 @@
 package import UIKit
 @_spi(Internal) package import MySwiftUICore
 private import _UIKitPrivate
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import SwiftUI
 private import _SwiftUIPrivate
 #endif

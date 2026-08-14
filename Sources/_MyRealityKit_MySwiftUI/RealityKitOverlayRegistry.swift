@@ -1,6 +1,6 @@
 @_spi(Internal) public import MyRealityFoundation
 internal import CoreRE
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 private import _RealityKit_SwiftUI
 #endif
 private import MySwiftUI
@@ -32,7 +32,7 @@ private import MySwiftUI
         )
         
         // <+652>
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         let viewAttachmentComponentType = _RealityKit_SwiftUI::ViewAttachmentComponent.self
 #else
         let viewAttachmentComponentType = _MyRealityKit_MySwiftUI::ViewAttachmentComponent.self
@@ -59,7 +59,7 @@ private import MySwiftUI
             availability
         )
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         let presentationComponentType = _RealityKit_SwiftUI::PresentationComponent.self
 #else
         let presentationComponentType = _MyRealityKit_MySwiftUI::PresentationComponent.self

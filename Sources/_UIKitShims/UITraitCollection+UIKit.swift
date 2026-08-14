@@ -3,7 +3,7 @@ private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import DesignLibrary
 private import _DesignLibraryShims
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import _SwiftUICorePrivate
 private import SwiftUI
 #endif
@@ -11,14 +11,14 @@ private import SwiftUI
 extension UIMutableTraitsInternal {
     var resolvedProvider: Any? {
         get {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             return self._object(forTraitToken: ResolvedProviderTraitToken()!) 
 #else
 #error("TODO")
 #endif
         }
         set {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             self._setObject(newValue, forTraitToken: ResolvedProviderTraitToken()!)
 #else
 #error("TODO")
@@ -28,14 +28,14 @@ extension UIMutableTraitsInternal {
     
     fileprivate var glassPocketContainer: GlassMaterialProvider.Pocket? {
         get {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             return self._object(forTraitToken: GlassPocketContainerToken()!) as? GlassMaterialProvider.Pocket
 #else
 #error("TODO")
 #endif
         }
         set {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             self._setObject(newValue, forTraitToken: GlassPocketContainerToken()!)
 #else
 #error("TODO")
@@ -76,14 +76,14 @@ extension UIMutableTraitsInternal {
     
     fileprivate var materialBackdropContext: AnyObject? {
         get {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             return self._object(forTraitToken: MaterialBackdropContextTraitToken()!) as? AnyObject
 #else
 #error("TODO")
 #endif
         }
         set {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             self._setObject(newValue, forTraitToken: MaterialBackdropContextTraitToken()!)
 #else
 #error("TODO")
@@ -205,7 +205,7 @@ extension UITraitCollection {
         result.windowAppearsActive = (self.activeAppearance == .active)
         
         // <+2960>
-#if SwiftUICompataibility
+#if SwiftUICompatibility
         result.materialBackdropProxy = modifyMaterialBackdropContext(self.materialBackdropContext!) { $1 }
 #else
 #error("TODO")
@@ -381,7 +381,7 @@ extension UITraitCollection {
             }
             
             // <+2772>
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             // x29 - 0xb8 -> x29 - 0xf0
             let newProxy = environment.materialBackdropProxy
             let oldContext = getTraitsInternal(traits).materialBackdropContext!

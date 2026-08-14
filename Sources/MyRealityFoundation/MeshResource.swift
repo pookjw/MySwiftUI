@@ -346,7 +346,7 @@ extension MeshResource {
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class MeshResource : Resource {
-    private let coreAssetInternal: OpaquePointer?
+//    private let coreAssetInternal: OpaquePointer?
     
     @MainActor @preconcurrency public var expectedMaterialCount: Int {
         get {

@@ -747,7 +747,7 @@ extension Entity {
         let entity = CoreRE.Entity()
         unsafe self.coreEntity = unsafeBitCast(entity, to: OpaquePointer.self)
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         entity.myRealityKitRef = self
 #else
         unsafe entity.swiftObject = Unmanaged.passUnretained(self).toOpaque()
@@ -771,7 +771,7 @@ extension Entity {
     @MainActor @preconcurrency internal init(_coreEntity: __EntityRef) {
         unsafe self.coreEntity = _coreEntity.core
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         unsafe unsafeBitCast(_coreEntity.core, to: CoreRE.Entity.self)
             .myRealityKitRef = self
 #else
@@ -781,7 +781,7 @@ extension Entity {
     }
     
     isolated deinit {
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
             .myRealityKitRef = nil
 #else

@@ -1,4 +1,4 @@
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 package import CoreRE
 package import RealityKit
 private import ObjectiveC
@@ -6,7 +6,7 @@ private import _RealityFoundationPrivate
 
 fileprivate nonisolated(unsafe) var key: UInt8 = 0
 
-package protocol RealityKitCompataibility {
+package protocol RealityKitCompatibility {
     associatedtype RealityKitType : AnyObject
     associatedtype MyRealityKitType : AnyObject
     
@@ -18,7 +18,7 @@ package protocol RealityKitCompataibility {
     @MainActor @preconcurrency var myRealityKitRef: MyRealityKitType? { get nonmutating set }
 }
 
-extension RealityKitCompataibility {
+extension RealityKitCompatibility {
     @MainActor @preconcurrency package var realityKitRef: RealityKitType {
         get {
             if let swiftObject = unsafe self._swiftObject {
@@ -65,7 +65,7 @@ extension RealityKitCompataibility {
     }
 }
 
-extension CoreRE::Scene : RealityKitCompataibility {
+extension CoreRE::Scene : RealityKitCompatibility {
     package typealias RealityKitType = RealityKit::Scene
     package typealias MyRealityKitType = MyRealityFoundation::Scene
     
@@ -85,7 +85,7 @@ extension CoreRE::Scene : RealityKitCompataibility {
     }
 }
 
-extension CoreRE::Entity : RealityKitCompataibility {
+extension CoreRE::Entity : RealityKitCompatibility {
     package typealias RealityKitType = RealityKit::Entity
     package typealias MyRealityKitType = MyRealityFoundation::Entity
     
@@ -105,7 +105,7 @@ extension CoreRE::Entity : RealityKitCompataibility {
     }
 }
 
-extension CoreRE::Engine : RealityKitCompataibility {
+extension CoreRE::Engine : RealityKitCompatibility {
     package typealias RealityKitType = RealityKit::__Engine
     package typealias MyRealityKitType = MyRealityFoundation::__Engine
     
@@ -125,7 +125,7 @@ extension CoreRE::Engine : RealityKitCompataibility {
     }
 }
 
-extension CoreRE::ServiceLocator : RealityKitCompataibility {
+extension CoreRE::ServiceLocator : RealityKitCompatibility {
     package typealias RealityKitType = RealityKit::__ServiceLocator
     package typealias MyRealityKitType = MyRealityFoundation::__ServiceLocator
     

@@ -34,12 +34,12 @@ let package = Package(
         )
     ],
     traits: [
-        .trait(name: "SwiftUICompataibility"),
-        .trait(name: "RealityKitCompataibility"),
+        .trait(name: "SwiftUICompatibility"),
+        .trait(name: "RealityKitCompatibility"),
         .`default`(
             enabledTraits: [
-                "SwiftUICompataibility",
-                "RealityKitCompataibility"
+                "SwiftUICompatibility",
+                "RealityKitCompatibility"
             ]
         )
     ],
@@ -98,7 +98,7 @@ let package = Package(
                 .byName(name: "FeatureFlags"),
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "RenderBox"),
-                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompatibility"])),
                 .byName(name: "_ObservationPrivate"),
                 .byName(name: "UIFoundation"),
                 .byName(name: "_SwiftPrivate"),
@@ -129,7 +129,7 @@ let package = Package(
                     name: "_RealityFoundationPrivate",
                     condition: .when(
                         traits: [
-                            "RealityKitCompataibility"
+                            "RealityKitCompatibility"
                         ]
                     )
                 ),
@@ -204,8 +204,8 @@ let package = Package(
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "DesignLibrary"),
                 .byName(name: "_DesignLibraryShims"),
-                .byName(name: "_SwiftUICorePrivate", condition: .when(traits: ["SwiftUICompataibility"])),
-                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompataibility"])),
+                .byName(name: "_SwiftUICorePrivate", condition: .when(traits: ["SwiftUICompatibility"])),
+                .byName(name: "_SwiftUIPrivate", condition: .when(traits: ["SwiftUICompatibility"])),
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "_MySwiftUIUtils")
             ],

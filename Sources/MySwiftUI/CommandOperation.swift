@@ -1,7 +1,7 @@
 // 7CAAF8CB17093C835B3EA3980BA79FD8
 internal import Foundation
 private import MySwiftUICore
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import ObjectiveC.runtime
 #endif
 
@@ -72,7 +72,7 @@ public struct CommandGroupPlacement : Sendable {
 public struct _ResolvedCommands {
     @_transparent fileprivate static var bundle: Bundle {
         let bundleClass: AnyClass
-#if SwiftUICompataibility
+#if SwiftUICompatibility
         bundleClass = unsafe objc_lookUpClass("_TtC7SwiftUIP33_7CAAF8CB17093C835B3EA3980BA79FD812SwiftUIClass")!
 #else
         bundleClass = SwiftUIClass.self
@@ -316,6 +316,6 @@ extension MainMenuItem.Template {
     }
 }
 
-#if !SwiftUICompataibility
+#if !SwiftUICompatibility
 fileprivate final class SwiftUIClass : NSObject {}
 #endif

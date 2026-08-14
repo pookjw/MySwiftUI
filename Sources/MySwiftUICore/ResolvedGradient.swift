@@ -1,6 +1,6 @@
 
 private import CoreGraphics
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import _SwiftUICorePrivate
 private import SwiftUI
 #endif
@@ -24,7 +24,7 @@ extension ResolvedGradient {
         case perceptual
         
         func convertIn(_ resolved: Color.Resolved) -> ResolvedGradient.ColorSpace.InterpolatableColor {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.self)
             let resolved = SwiftUICore.Color.Resolved(
                 linearRed: resolved.linearRed,
@@ -42,7 +42,7 @@ extension ResolvedGradient {
         }
         
         func convertOut(_ converted: ResolvedGradient.ColorSpace.InterpolatableColor) -> Color.Resolved {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
             let colorSpace = unsafe unsafeBitCast(self, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.self)
             let converted = unsafe unsafeBitCast(converted, to: _SwiftUICorePrivate::ResolvedGradient.ColorSpace.InterpolatableColor.self)
             let resolved = colorSpace.convertOut(converted)

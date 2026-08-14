@@ -1,6 +1,6 @@
 public import MySwiftUICore
 public import MyRealityKit
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 private import RealityKit
 private import CoreRE
 #endif
@@ -13,7 +13,7 @@ private import CoreRE
 @available(tvOS, unavailable)
 extension EnvironmentValues {
     @MainActor public var realityKitScene: MyRealityFoundation::Scene? {
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         guard let scene = self.realityScene else {
             return nil
         }

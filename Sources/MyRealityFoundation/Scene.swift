@@ -554,7 +554,7 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     package init(coreScene: OpaquePointer) {
         unsafe self.coreScene = coreScene
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         unsafe unsafeBitCast(coreScene, to: CoreRE::Scene.self)
             .myRealityKitRef = self
 #else

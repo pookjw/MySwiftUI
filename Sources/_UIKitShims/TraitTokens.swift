@@ -1,4 +1,4 @@
-#if !SwiftUICompataibility
+#if !SwiftUICompatibility
 #error("TODO")
 internal import MySwiftUICore
 internal import _UIKitPrivate

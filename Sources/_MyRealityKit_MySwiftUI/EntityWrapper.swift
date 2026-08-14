@@ -1,13 +1,13 @@
 private import MyRealityFoundation
 @_spi(Internal) internal import MySwiftUI
 internal import Spatial
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 internal import RealityKit
 private import CoreRE
 #endif
 
 struct EntityWrapper : EntityRepresentable {
-#if RealityKitCompataibility
+#if RealityKitCompatibility
     typealias EntityType = RealityKit::Entity
 #else
     typealias EntityType = MyRealityFoundation::Entity
@@ -26,7 +26,7 @@ struct EntityWrapper : EntityRepresentable {
             controller.initialize(with: context)
         }
         
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         return unsafe unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE::Entity.self)
             .realityKitRef
 #else

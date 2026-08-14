@@ -1,5 +1,5 @@
 private import CoreRE
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 private import RealityKit
 #endif
 
@@ -120,7 +120,7 @@ public struct SynchronizationComponent : Component, Equatable {
                 let subscription = BoxedSubscription()
                 
                 let scene: MyRealityFoundation::Scene
-#if RealityKitCompataibility
+#if RealityKitCompatibility
                 if let bridgedScene = reScene.myRealityKitRef {
                     scene = bridgedScene
                 } else {

@@ -4,7 +4,7 @@ private import Foundation
 private import os.log
 internal import os.lock
 private import Darwin.POSIX.dlfcn
-#if RealityKitCompataibility
+#if RealityKitCompatibility
 private import _RealityFoundationPrivate
 #endif
 
@@ -49,7 +49,7 @@ public let __privateEngineMode: Bool = {
     public var assetService: any __REAssetService // 0x78
     private var timebaseService: TimebaseService // 0xa0
     private var loadService: LoadManager // 0xa8
-#if RealityKitCompataibility
+#if RealityKitCompatibility
     private var usdImportService: (any _RealityFoundationPrivate::USDImportService)? = nil // 0xb0
 #else
     private var usdImportService: (any MyRealityFoundation::USDImportService)? = nil // 0xb0
@@ -238,7 +238,7 @@ public let __privateEngineMode: Bool = {
             }
             
             // <+544>
-#if RealityKitCompataibility
+#if RealityKitCompatibility
             let casted = USDImportServiceType as! (any _RealityFoundationPrivate::USDImportService.Type)
 #else
             let casted = USDImportServiceType as! (any MyRealityFoundation::USDImportService.Type)
@@ -249,7 +249,7 @@ public let __privateEngineMode: Bool = {
         }
         
         // <+684>
-#if RealityKitCompataibility
+#if RealityKitCompatibility
         unsafe unsafeBitCast(self.coreServiceLocator, to: CoreRE::ServiceLocator.self)
             .myRealityKitRef = self
 #else

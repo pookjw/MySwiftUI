@@ -2,7 +2,7 @@ private import UIKit
 private import ObjectiveC.runtime
 private import ObjectiveC.message
 internal import _UIKitPrivate
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 private import SwiftUI
 internal import _SwiftUIPrivate
 private import _SwiftPrivate
@@ -41,7 +41,7 @@ func UICoreKeyboardTrackingClass() -> AnyClass {
 }
 
 func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     /*
      UIKit은 내부적으로
      1. Shared Lock (_TtCV5UIKitP33_2B7F8531C57DD9B1FF22BDF345CB17E114_UISwiftTraits10UnfairLock) 생성 및 Lock/Unlock
@@ -57,7 +57,7 @@ func MaterialBackdropContextTraitToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedBaseEnvironment(base: SwiftUI::EnvironmentValues())
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "ResolvedProvider", identifier: "UIResolvedProviderTrait")!
     return unsafe unsafeBitCast(token, to: (any _UITraitTokenProtocol).self)
@@ -68,7 +68,7 @@ func ResolvedProviderTraitToken() -> (any _UITraitTokenProtocol)? {
 
 // ___lldb_unnamed_symbol324225
 func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "UIColor.materialRenderingMode", identifier: "UITraitColorMaterialRenderingMode")!
@@ -80,7 +80,7 @@ func ColorMaterialRenderingModeToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "DisplayScale", identifier: "UITraitDisplayScale")!
@@ -91,7 +91,7 @@ func DisplayScaleToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassElevationLevel", identifier: "_UITraitGlassElevationLevel")!
@@ -102,7 +102,7 @@ func GlassElevationLevelToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassBackgroundStyle", identifier: "UIGlassBackgroundStyleTrait")!
@@ -113,7 +113,7 @@ func GlassBackgroundStyleToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassFrost", identifier: "UIGlassFrost")!
@@ -124,7 +124,7 @@ func GlassFrostToken() -> (any _UITraitTokenProtocol)? {
 }
 
 func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
-#if SwiftUICompataibility
+#if SwiftUICompatibility
     _ = UITraitCollection().private_coreResolvedGlassMaterialEnvironment(base: SwiftUI::EnvironmentValues())
     
     let token = UITraitCollection._existingTraitTokenReservingPlaceholderIfNecessary(withName: "GlassPocketContainer", identifier: "UIGlassPocketContainer")!
@@ -134,7 +134,7 @@ func GlassPocketContainerToken() -> (any _UITraitTokenProtocol)? {
 #endif
 }
 
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 func makeMaterialBackdropContext(flags: Int, proxy: _SwiftUIPrivate::MaterialBackdropProxy?) -> AnyObject {
     let contextClass = unsafe objc_lookUpClass("_TtC5UIKit23MaterialBackdropContext")!
     var object = (contextClass as AnyObject).alloc()

@@ -145,7 +145,7 @@ extension System {
             let reScene = unsafe unsafeBitCast(ptr0, to: CoreRE::Scene.self)
             
             let scene: MyRealityFoundation::Scene
-#if RealityKitCompataibility
+#if RealityKitCompatibility
             if let myRealityKitRef = reScene.myRealityKitRef {
                 scene = myRealityKitRef
             } else {
@@ -237,7 +237,7 @@ extension System {
             
             let reScene = unsafe unsafeBitCast(ptr1!, to: CoreRE::Scene.self)
             let scene: MyRealityFoundation::Scene!
-#if RealityKitCompataibility
+#if RealityKitCompatibility
             if let myRealityKitRef = reScene.myRealityKitRef {
                 scene = myRealityKitRef
             } else {

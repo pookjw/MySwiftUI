@@ -1,6 +1,6 @@
 // 4075E3A4E56336DD739D990E781CBB12
 package import Foundation
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 public import SwiftUI
 #endif
 
@@ -143,7 +143,7 @@ package protocol MaterialProvider {
     func resolveBackgroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
 }
 
-#if SwiftUICompataibility
+#if SwiftUICompatibility
 extension EnvironmentValues {
     public var backgroundMaterial: SwiftUI::Material? {
         get {

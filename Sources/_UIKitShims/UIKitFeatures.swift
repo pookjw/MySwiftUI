@@ -10,7 +10,7 @@ func swizzle_uncachedSolariumEnabledForCurrentDeviceIdiom() {
     unsafe original_uncachedSolariumEnabledForCurrentDeviceIdiom = unsafe method_getImplementation(method)
     
     let custom: (@convention(c) @MainActor (AnyClass, Selector) -> Bool) = { `self`, _cmd in
-#if SwiftUICompataibility
+#if SwiftUICompatibility
         let casted = unsafe unsafeBitCast(original_uncachedSolariumEnabledForCurrentDeviceIdiom, to: (@convention(c) @MainActor (AnyClass, Selector) -> Bool).self)
         let result = casted(self, _cmd)
         let msuiResult = msui_uncachedSolariumEnabledForCurrentDeviceIdiom()
