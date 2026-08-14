@@ -79,8 +79,15 @@ extension System {
                     } else if beforeSystem == MeshDeformerSystem.self {
                         systemID = RECustomSystemMeshDeformerID()
                     } else {
-                        systemID = registry.getOrAddId(of: Self.self)
+                        systemID = registry.getOrAddId(of: beforeSystem)
                     }
+                    
+                    reRESystemDependencies.append(
+                        CoreRE::SystemDependency(
+                            unknown0: id,
+                            unknown1: systemID
+                        )
+                    )
                 case .after(let afterSystem):
                     if afterSystem == PhysicsSystem.self {
                         systemID = RECustomSystemPhysicsID()
@@ -95,19 +102,26 @@ extension System {
                     } else if afterSystem == MeshDeformerSystem.self {
                         systemID = RECustomSystemMeshDeformerID()
                     } else {
-                        systemID = registry.getOrAddId(of: Self.self)
+                        systemID = registry.getOrAddId(of: afterSystem)
                     }
+                    
+                    reRESystemDependencies.append(
+                        CoreRE::SystemDependency(
+                            unknown0: systemID,
+                            unknown1: id
+                        )
+                    )
                 case .beforePhysics:
                     // <+684>
                     systemID = RECustomSystemPhysicsID()
-                }
-                
-                reRESystemDependencies.append(
-                    CoreRE::SystemDependency(
-                        unknown0: id,
-                        unknown1: systemID
+                    
+                    reRESystemDependencies.append(
+                        CoreRE::SystemDependency(
+                            unknown0: id,
+                            unknown1: systemID
+                        )
                     )
-                )
+                }
             }
         }
         
