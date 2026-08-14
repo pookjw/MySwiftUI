@@ -94,4 +94,4 @@
 #import <CoreRE/REVideoPlayerStatusComponent.h>
 #import <CoreRE/REAssetManager.h>
 #import <CoreRE/REAudioSceneService.h>
-#import <CoreRE/REPhysicsSystem.h>
+#import <CoreRE/RESystem.h>

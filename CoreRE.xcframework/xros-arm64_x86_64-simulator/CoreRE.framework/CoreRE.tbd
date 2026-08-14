@@ -219,7 +219,8 @@ exports:
     _RECustomSystemNetworkReceiveID,
     _RECustomSystemAnimationPlaybackID,
     _RECustomSkeletalPoseID,
-    _RECustomSystemMeshDeformerID ]
+    _RECustomSystemMeshDeformerID,
+    _RERegisterCustomSystem ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -45,6 +45,8 @@ extension System {
         let isSystemUpdateRate = Self.self is (any _SystemUpdateRateProtocol.Type)
         
         // <+316>
+        // sp + 0x28
+        let registrationIndex = registry.registeredSystems.count
         registry.registeredSystems.append(Self.self)
         
         // <+412>
@@ -61,7 +63,7 @@ extension System {
             reRESystemDependencies.reserveCapacity(dependencies.count)
             
             for dependency in dependencies {
-                let systemID: Int32?
+                let systemID: Int32
                 switch dependency {
                 case .before(let beforeSystem):
                     if beforeSystem == PhysicsSystem.self {
@@ -77,7 +79,7 @@ extension System {
                     } else if beforeSystem == MeshDeformerSystem.self {
                         systemID = RECustomSystemMeshDeformerID()
                     } else {
-                        systemID = nil
+                        systemID = registry.getOrAddId(of: Self.self)
                     }
                 case .after(let afterSystem):
                     if afterSystem == PhysicsSystem.self {
@@ -93,29 +95,65 @@ extension System {
                     } else if afterSystem == MeshDeformerSystem.self {
                         systemID = RECustomSystemMeshDeformerID()
                     } else {
-                        systemID = nil
+                        systemID = registry.getOrAddId(of: Self.self)
                     }
                 case .beforePhysics:
                     // <+684>
                     systemID = RECustomSystemPhysicsID()
                 }
                 
-                if let systemID {
-                    reRESystemDependencies.append(
-                        CoreRE::SystemDependency(
-                            unknown0: id,
-                            unknown1: systemID
-                        )
+                reRESystemDependencies.append(
+                    CoreRE::SystemDependency(
+                        unknown0: id,
+                        unknown1: systemID
                     )
-                } else {
-                    // <+992>
-                    assertUnimplemented()
-                }
+                )
             }
         }
         
         // <+1540>
-        assertUnimplemented()
+        let block_1: (OpaquePointer, OpaquePointer) -> UnsafeMutableRawPointer = { ptr0, ptr1 in
+            // $s17RealityFoundation6SystemPAAE08registerC0yyFZSvs13OpaquePointerV_AFtcfU0_TA
+            /*
+             ptr0 -> x0
+             ptr1 -> x1
+             isClassType -> w2
+             Self.self -> x3
+             witness table -> x4
+             */
+            assertUnimplemented()
+        }
+        
+        let block_2: (UnsafeMutableRawPointer, OpaquePointer?, OpaquePointer) -> Void = { ptr0, ptr1, ptr2 in
+            // $s17RealityFoundation6SystemPAAE08registerC0yyFZySv_s13OpaquePointerVSgAFtcfU1_TA
+            /*
+             ptr0 -> x0
+             ptr1 -> x1
+             ptr2 -> x2
+             isClassType -> w3
+             isSystemUpdateRate -> w4
+             Self.self -> x5
+             witness table -> x6
+             */
+            assertUnimplemented()
+        }
+        
+        reRESystemDependencies.withUnsafeBufferPointer { pointer in
+            unsafe RERegisterCustomSystem(
+                id,
+                registrationIndex,
+                unsafeBitCast(
+                    block_1,
+                    to: ((UnsafeRawPointer, UnsafeRawPointer) -> UnsafeMutableRawPointer).self
+                ),
+                unsafeBitCast(
+                    block_2,
+                    to: ((UnsafeMutableRawPointer, UnsafeRawPointer?, UnsafeRawPointer) -> Void).self
+                ),
+                pointer.baseAddress.unsafelyUnwrapped,
+                pointer.count
+            )
+        }
     }
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
