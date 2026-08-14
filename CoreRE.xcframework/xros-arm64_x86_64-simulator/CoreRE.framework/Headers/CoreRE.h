@@ -95,3 +95,4 @@
 #import <CoreRE/REAssetManager.h>
 #import <CoreRE/REAudioSceneService.h>
 #import <CoreRE/RECustomSystem.h>
+#import <CoreRE/REGeom.h>

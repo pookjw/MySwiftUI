@@ -213,7 +213,18 @@ exports:
     _REEntityGetLocalId,
     _RESceneSetPhysicsDebugDrawLevel,
     _RESceneGetPhysicsDebugDrawLevel,
-    _RESceneRemovePhysicsDebugComponent ]
+    _RESceneRemovePhysicsDebugComponent,
+    _RECustomSystemPhysicsID,
+    _RECustomSystemNetworkSendID,
+    _RECustomSystemNetworkReceiveID,
+    _RECustomSystemAnimationPlaybackID,
+    _RECustomSkeletalPoseID,
+    _RECustomSystemMeshDeformerID,
+    _RERegisterCustomSystem,
+    _RECustomSystemSetScheduleTypeForScene,
+    _RECustomSystemUpdateContextGetDeltaTime,
+    _RECustomSystemUpdateContextGetSystemsArePausedInEditor,
+    _RECustomSystemEnqueueUpdateWithDeadlineForScene ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

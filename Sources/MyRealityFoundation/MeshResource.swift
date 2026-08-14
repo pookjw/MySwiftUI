@@ -1,6 +1,7 @@
 public import CoreGraphics
 public import Foundation
 public import simd
+private import CoreRE
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension MeshResource {
@@ -345,6 +346,8 @@ extension MeshResource {
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class MeshResource : Resource {
+    private let coreAssetInternal: OpaquePointer?
+    
     @MainActor @preconcurrency public var expectedMaterialCount: Int {
         get {
             assertUnimplemented()
@@ -391,6 +394,10 @@ extension MeshResource {
     }
     
     @MainActor @preconcurrency public static func generateSphere(radius: Float) -> MeshResource {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func generateSphere(radius: Float, segmentCount: UInt16) -> MeshResource {
         assertUnimplemented()
     }
 }

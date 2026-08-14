@@ -11,9 +11,16 @@ class AttachmentStateControllerBase {
 final class AttachmentStateController<U : AttachmentProtocol> : AttachmentStateControllerBase {
     private var statesByID: [AnyHashable : AttachmentStateController<U>.AttachmentState]
     
-    override init() {
-        self.statesByID = Dictionary(minimumCapacity: 0)
-        super.init()
+    var entities: RealityViewAttachments {
+        let entities: [AnyHashable : ViewAttachmentEntity] = self.statesByID.mapValues { value in
+            // $s19_RealityKit_SwiftUI25AttachmentStateControllerC8entitiesAA0A15ViewAttachmentsVvgAA0iE6EntityCAC0eF0Cyx_GXEfU_TA
+            assertUnimplemented()
+        }
+        
+        return RealityViewAttachments(
+            entities: entities,
+            children: nil
+        )
     }
     
     override func initialize<V>(with context: EntityRepresentableContext<V>) {
@@ -64,6 +71,11 @@ final class AttachmentStateController<U : AttachmentProtocol> : AttachmentStateC
                 existing.willDestroy()
             }
         }
+    }
+    
+    override init() {
+        self.statesByID = Dictionary(minimumCapacity: 0)
+        super.init()
     }
 }
 

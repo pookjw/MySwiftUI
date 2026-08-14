@@ -116,12 +116,16 @@ extension RealityView {
                 placeholder: copy_1,
                 controller: controller,
                 make: { content in
-                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzYaYbScMYccfU_TATu
-                    assertUnimplemented()
+                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzYaYbScMYccfU_TY0_
+                    let entities = controller.entities
+                    await make(&content, entities)
                 },
                 update: { content in
-                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzScMYccfU0_TA
-                    assertUnimplemented()
+                    // $s19_RealityKit_SwiftUI0A4ViewV4make6update11placeholder11attachmentsACyAA0aE24AttachmentBuilderContentVyqd__AA0aeL0V4BodyVy_qd_0_GGGyAKz_AA0aE11AttachmentsVtYaYbScMYcc_yAKz_ARtScMYccSgqd_0_yXEqd__yctcAORszAA0jL0Rd__0cD00E0Rd_0_r0_lufcAnA0J15StateControllerCyAI0kJ0Vyqd__AN_GGcfU_yAKzScMYccfU0_
+                    if let update {
+                        let entities = controller.entities
+                        update(&content, entities)
+                    }
                 },
                 strongModel: _RealityViewModel()
             )
