@@ -1,4 +1,6 @@
+// 4D011D01EC1453F13E5F3D96598DE15E
 private import CoreRE
+public import Foundation
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 public protocol System {
@@ -9,6 +11,10 @@ public protocol System {
 }
 
 extension System {
+    static func coreCustomSystem(scene: MyRealityFoundation::Scene) -> OpaquePointer? {
+        assertUnimplemented()
+    }
+    
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     @preconcurrency @MainActor public static func registerSystem() {
         /*
@@ -129,26 +135,178 @@ extension System {
         let block_1: (OpaquePointer, OpaquePointer) -> UnsafeMutableRawPointer = { ptr0, ptr1 in
             // $s17RealityFoundation6SystemPAAE08registerC0yyFZSvs13OpaquePointerV_AFtcfU0_TA
             /*
-             ptr0 -> x0
-             ptr1 -> x1
-             isClassType -> w2
-             Self.self -> x3
-             witness table -> x4
+             ptr0 -> x0 -> x29 - 0xb8, x29 - 0x80
+             ptr1 -> x1 -> x29 - 0xc0
+             isClassType -> w2 -> w27
+             Self.self -> x3 -> x19
+             witness table -> x4 -> x28
              */
-            assertUnimplemented()
+            // <+148>
+            let reScene = unsafe unsafeBitCast(ptr0, to: CoreRE::Scene.self)
+            
+            let scene: MyRealityFoundation::Scene
+#if RealityKitCompataibility
+            if let myRealityKitRef = reScene.myRealityKitRef {
+                scene = myRealityKitRef
+            } else {
+                scene = unsafe MyRealityFoundation::Scene(
+                    coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
+                )
+            }
+#else
+            if let swiftObject = reScene.swiftObject {
+                scene = unsafe unsafeBitCast(scene, to: MyRealityFoundation::Scene.self)
+            } else {
+                scene = unsafe MyRealityFoundation::Scene(
+                    coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
+                )
+            }
+#endif
+            
+            // <+328>
+            // x21
+            let system = Self.init(scene: scene)
+            
+            // x27
+            let object: AnyObject
+            if isClassType {
+                // <+352>
+                object = system as AnyObject
+            } else {
+                object = SystemBox(system: system)
+            }
+            
+            // <+460>
+            // x24
+            let copy_1 = system
+            
+            if let casted = copy_1 as? (any _SystemUpdateRateProtocol) {
+                // <+532>
+                let updateRate = casted._preferredUpdateRate
+                
+                casted.setUpdateRate(
+                    coreCustomSystem: ptr0,
+                    coreScene: ptr1,
+                    updateRate: updateRate
+                )
+            } else {
+                // <+640>
+                unsafe unsafeBitCast(ptr1, to: CoreRE::CustomSystem.self)
+                    .setScheduleTypeForScene(reScene, .unknown4)
+            }
+            
+            // <+720>
+            return unsafe Unmanaged.passUnretained(object).toOpaque()
         }
         
         let block_2: (UnsafeMutableRawPointer, OpaquePointer?, OpaquePointer) -> Void = { ptr0, ptr1, ptr2 in
             // $s17RealityFoundation6SystemPAAE08registerC0yyFZySv_s13OpaquePointerVSgAFtcfU1_TA
             /*
-             ptr0 -> x0
-             ptr1 -> x1
-             ptr2 -> x2
-             isClassType -> w3
-             isSystemUpdateRate -> w4
-             Self.self -> x5
-             witness table -> x6
+             ptr0 -> x0 -> x22
+             ptr1 -> x1 -> x20
+             ptr2 -> x2 -> x27
+             isClassType -> w3 -> x29 - 0xb4
+             isSystemUpdateRate -> w4 -> x29 - 0xb8
+             Self.self -> x5 -> x19
+             witness table -> x6 -> x24
              */
+            // <+132>
+            var system: Self
+            if isClassType {
+                // <+136>
+                system = unsafe ptr0
+                    .assumingMemoryBound(to: Self.self)
+                    .pointee
+            } else {
+                // <+184>
+                let box = unsafe unsafeBitCast(ptr0, to: SystemBox<Self>.self)
+                system = box.system
+            }
+            
+            // <+308>
+            if unsafe ptr1 == nil {
+                _ = unsafe TimeInterval(
+                    unsafeBitCast(
+                        ptr2,
+                        to: CoreRE::CustomSystem.UpdateContext.self
+                    )
+                    .deltaTime
+                )
+            }
+            
+            let reScene = unsafe unsafeBitCast(ptr1!, to: CoreRE::Scene.self)
+            let scene: MyRealityFoundation::Scene!
+#if RealityKitCompataibility
+            if let myRealityKitRef = reScene.myRealityKitRef {
+                scene = myRealityKitRef
+            } else {
+                scene = unsafe MyRealityFoundation::Scene(
+                    coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
+                )
+            }
+#else
+            if let swiftObject = reScene.swiftObject {
+                scene = unsafe unsafeBitCast(scene, to: MyRealityFoundation::Scene.self)
+            } else {
+                scene = unsafe MyRealityFoundation::Scene(
+                    coreScene: unsafeBitCast(reScene, to: OpaquePointer.self)
+                )
+            }
+#endif
+            
+            let deltaTime = unsafe TimeInterval(
+                unsafeBitCast(ptr2, to: CoreRE::CustomSystem.UpdateContext.self)
+                    .deltaTime
+            )
+            
+            let systemsArePausedInEditor = unsafe unsafeBitCast(
+                ptr2,
+                to: CoreRE::CustomSystem.UpdateContext.self
+            )
+                .systemsArePausedInEditor
+            
+            let stats = SceneUpdateContext.Stats()
+            
+            let context = SceneUpdateContext(
+                scene: scene!,
+                deltaTime: deltaTime,
+                stats: stats,
+                systemsArePausedInEditor: systemsArePausedInEditor
+            )
+            
+            system.update(context: context)
+            
+            if
+                SceneUpdateContext.queryBasedUpdateRate &&
+                    !isSystemUpdateRate
+            {
+                if
+                    let coreCustomSystem = unsafe Self.coreCustomSystem(scene: scene),
+                    !(stats.queriesExecuted <= 0),
+                    !(stats.entityCount < 1)
+                {
+                    // <+712>
+                    unsafe unsafeBitCast(
+                        coreCustomSystem,
+                        to: CoreRE::CustomSystem.self
+                    )
+                    .enqueueUpdateWithDeadlineForScene(reScene, 0)
+                    
+                    // <+752>
+                } else {
+                    // <+752>
+                }
+            } else {
+                // <+752>
+            }
+            
+            // <+752>
+            if !isClassType {
+                // <+768>
+                unsafe unsafeBitCast(ptr0, to: SystemBox<Self>.self).system = system
+            }
+            
+            // <+880>
             assertUnimplemented()
         }
         
@@ -221,6 +379,10 @@ extension _SystemUpdateRateProtocol {
     func _scheduleUpdate(scene: MyRealityFoundation::Scene, in time: Double) {
         assertUnimplemented()
     }
+    
+    func setUpdateRate(coreCustomSystem: OpaquePointer, coreScene: OpaquePointer, updateRate: _SystemUpdateRate) {
+        assertUnimplemented()
+    } 
 }
 
 enum _SystemUpdateRate : Hashable {
@@ -232,3 +394,50 @@ enum _SystemUpdateRate : Hashable {
 
 @_silgen_name("swift_isClassType")
 fileprivate func swift_isClassType(metadata: UnsafeRawPointer) -> Bool 
+
+fileprivate final class SystemBox<T : System> {
+    var system: T
+    
+    init(system: T) {
+        self.system = system
+    }
+}
+
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
+public struct SceneUpdateContext {
+    static let queryBasedUpdateRate = UserDefaults.standard.bool(forKey: "com.apple.re.queryBasedSystemUpdateRate", default: true)
+    
+    public var scene: Scene
+    public var deltaTime: TimeInterval
+    fileprivate private(set) var stats: SceneUpdateContext.Stats?
+    fileprivate private(set) var systemsArePausedInEditor: Bool
+}
+
+@available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
+extension SceneUpdateContext {
+    @available(visionOS, unavailable, renamed: "entities(matching:updatingSystemWhen:)")
+    @available(macOS, unavailable, renamed: "entities(matching:updatingSystemWhen:)")
+    @available(iOS, unavailable, renamed: "entities(matching:updatingSystemWhen:)")
+    @available(tvOS, unavailable, renamed: "entities(matching:updatingSystemWhen:)")
+    @available(watchOS, unavailable, renamed: "entities(matching:updatingSystemWhen:)")
+    public func entities(matching query: EntityQuery, when condition: SystemUpdateCondition) -> QueryResult<Entity> {
+        assertUnimplemented()
+    }
+    
+    public func entities(matching query: EntityQuery, updatingSystemWhen condition: SystemUpdateCondition) -> QueryResult<Entity> {
+        assertUnimplemented()
+    }
+}
+
+extension SceneUpdateContext {
+    fileprivate final class Stats {
+        fileprivate private(set) var queriesExecuted: Int = 0
+        fileprivate private(set) var entityCount: Int = 0
+    }
+}
+
+extension UserDefaults {
+    fileprivate func bool(forKey: String, default: Bool) -> Bool {
+        assertUnimplemented()
+    }
+}

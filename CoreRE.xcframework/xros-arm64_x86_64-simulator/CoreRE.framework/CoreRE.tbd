@@ -220,7 +220,11 @@ exports:
     _RECustomSystemAnimationPlaybackID,
     _RECustomSkeletalPoseID,
     _RECustomSystemMeshDeformerID,
-    _RERegisterCustomSystem ]
+    _RERegisterCustomSystem,
+    _RECustomSystemSetScheduleTypeForScene,
+    _RECustomSystemUpdateContextGetDeltaTime,
+    _RECustomSystemUpdateContextGetSystemsArePausedInEditor,
+    _RECustomSystemEnqueueUpdateWithDeadlineForScene ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

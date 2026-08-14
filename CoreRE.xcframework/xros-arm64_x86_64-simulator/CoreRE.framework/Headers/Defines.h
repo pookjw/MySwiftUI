@@ -426,6 +426,16 @@ struct RESystemDependency {
 } NS_SWIFT_NAME(SystemDependency);
 typedef struct RESystemDependency RESystemDependency;
 
+struct RECustomSystem {};
+typedef const struct RECustomSystem * RECustomSystemRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
+
+typedef NS_ENUM(uint32_t, RECustomSystemScheduleType) {
+    RECustomSystemScheduleTypeUnknown4 = 4
+} NS_SWIFT_NAME(CustomSystemScheduleType);
+
+struct RECustomSystemUpdateContext {};
+typedef const struct RECustomSystemUpdateContext * RECustomSystemUpdateContextRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem.UpdateContext);
+
 NS_ASSUME_NONNULL_END
 
 #endif
