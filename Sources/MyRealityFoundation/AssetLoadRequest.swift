@@ -1,9 +1,9 @@
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency final public class __AssetLoadRequest {
     public enum ResourceSharingSchedulingRequirement : Equatable {
-        case none
-        case initiateNow
-        case initiateNowAndWaitForPeers(blockECSUpdateSends: Bool = false)
+        case none // 2
+        case initiateNow // 3
+        case initiateNowAndWaitForPeers(blockECSUpdateSends: Bool = false) // 0 (false), 1 (true)
         
         public static func == (a: __AssetLoadRequest.ResourceSharingSchedulingRequirement, b: __AssetLoadRequest.ResourceSharingSchedulingRequirement) -> Bool {
             assertUnimplemented()

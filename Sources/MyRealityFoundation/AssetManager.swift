@@ -16,9 +16,7 @@ internal import Foundation
         assertUnimplemented()
     }()
     
-    private(set) lazy var syncLoadsShouldInitiateResourceSharing: Bool = {
-        assertUnimplemented()
-    }()
+    lazy var syncLoadsShouldInitiateResourceSharing = (UserDefaults.standard.object(forKey: "com.apple.re.syncLoadsShouldInitiateResourceSharing") as? Bool) ?? true
     
     init(handle: OpaquePointer) {
         unsafe self.handle = handle

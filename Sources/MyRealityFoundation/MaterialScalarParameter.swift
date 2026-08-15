@@ -4,11 +4,11 @@ public enum MaterialScalarParameter : ExpressibleByFloatLiteral, ExpressibleByIn
     case texture(TextureResource)
     
     public init(floatLiteral value: Float) {
-        assertUnimplemented()
+        self = .float(value)
     }
     
     public init(integerLiteral value: Int) {
-        assertUnimplemented()
+        self = .float(Float(value))
     }
     
     public static func == (lhs: MaterialScalarParameter, rhs: MaterialScalarParameter) -> Bool {

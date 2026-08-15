@@ -1,14 +1,20 @@
 public import CoreGraphics
+private import Metal
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct SimpleMaterial : Material {
-    public var __resource: __MaterialResource {
-        get {
-            assertUnimplemented()
-        }
-    }
+    private lazy var assetService: __REAssetService? = {
+        assertUnimplemented()
+    }()
     
+    public private(set) var __resource: __MaterialResource
     public var __parameterBlock: __RKMaterialParameterBlock
+    private var legacyBase: LegacyBaseColor
+    private var usesTransparency: Bool
+    private var __triangleFillMode: MTLTriangleFillMode
+    private var __faceCullMode: MTLCullMode?
+    private var __writesDepthInternal: Bool
+    private var __readsDepthInternal: Bool
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public var color: SimpleMaterial.BaseColor {
@@ -84,10 +90,6 @@ public struct SimpleMaterial : Material {
         }
     }
     
-    public init() {
-        assertUnimplemented()
-    }
-    
     @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
     public typealias TriangleFillMode = MaterialParameterTypes.TriangleFillMode
     
@@ -99,6 +101,26 @@ public struct SimpleMaterial : Material {
         set {
             assertUnimplemented()
         }
+    }
+    
+    init(_: OpaquePointer, _: __RKMaterialParameterBlock) {
+        assertUnimplemented()
+    }
+    
+    init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool) {
+        assertUnimplemented()
+    }
+    
+    init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool, assetService: __REAssetService) {
+        assertUnimplemented()
+    }
+    
+    public init() {
+        assertUnimplemented()
+    }
+    
+    init(assetService: __REAssetService) {
+        assertUnimplemented()
     }
 }
 
@@ -144,4 +166,10 @@ extension SimpleMaterial {
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public typealias Texture = PhysicallyBasedMaterial.Texture
+}
+
+struct LegacyBaseColor {
+    private let tintParamName: String
+    private var tint: CGColor?
+    private var base: CGColor?
 }
