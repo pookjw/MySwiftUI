@@ -5,11 +5,15 @@ final class SphereMeshResource : MeshResource {
     var splitMeshes: Bool // 0x24
     
     override init(coreAsset: OpaquePointer) {
-        assertUnimplemented()
+        self.primitiveOptions = CoreRE::GeomBuildSphereOptions.defaultOptions
+        self.splitMeshes = false
+        unsafe super.init(coreAsset: coreAsset)
     }
     
     override init(_ coreAsset: OpaquePointer?) {
-        assertUnimplemented()
+        self.primitiveOptions = CoreRE::GeomBuildSphereOptions.defaultOptions
+        self.splitMeshes = false
+        unsafe super.init(coreAsset)
     }
 }
 

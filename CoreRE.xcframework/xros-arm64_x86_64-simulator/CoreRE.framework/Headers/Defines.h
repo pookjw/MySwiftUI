@@ -439,29 +439,25 @@ typedef const struct RECustomSystemUpdateContext * RECustomSystemUpdateContextRe
 struct REAsset {};
 typedef const struct REAsset * REAssetRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset);
 
-typedef NS_OPTIONS(uint32_t, REGeomBuildSphereOptionUnknown0) {
-    REGeomBuildSphereOptionUnknown0None = 0,
-    REGeomBuildSphereOptionUnknown0_3 = (1 << 3),
-    REGeomBuildSphereOptionUnknown0_6 = (1 << 6),
-} NS_SWIFT_NAME(GeomBuildSphereOptions.Unknown0);
-
-typedef NS_OPTIONS(uint32_t, REGeomBuildSphereOptionUnknown1) {
-    REGeomBuildSphereOptionUnknown1None = 0,
-    REGeomBuildSphereOptionUnknown1_0 = (1 << 0),
-    REGeomBuildSphereOptionUnknown1_8 = (1 << 8),
-    REGeomBuildSphereOptionUnknown1_16 = (1 << 16)
-} NS_SWIFT_NAME(GeomBuildSphereOptions.Unknown1);
-
 /*
-C Runtime에서는 x0 (unknown0 + radius), w1 (unknown1)에 저장되나
-Swift Runtime에서는 w0 (unknown0), w1 (unknown1), s0/v0 (radius)에 저장된다.
+C Runtime에서는 x0 (unknown0 + radius), w1 (unknown1, 2, 3)에 저장되나
+Swift Runtime에서는 w0 (unknown0), w1 (unknown1, 2, 3), s0/v0 (radius)에 저장된다.
 */
 struct REGeomBuildSphereOptions {
-    REGeomBuildSphereOptionUnknown0 unknown0;
+    uint16_t unknown0;
     float radius;
-    REGeomBuildSphereOptionUnknown1 unknown1;
+    bool unknown1;
+    bool unknown2;
+    bool unknown3;
 } NS_SWIFT_NAME(GeomBuildSphereOptions);
 typedef struct REGeomBuildSphereOptions REGeomBuildSphereOptions;
+
+typedef NS_ENUM(uint32_t, REAssetNetworkSharingMode) {
+    REAssetNetworkSharingModeUnknown0 = 0
+} NS_SWIFT_NAME(Asset.NetworkSharingMode);
+
+struct REAssetDescriptor {};
+typedef const struct REAssetDescriptor * REAssetDescriptorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.Descriptor);
 
 NS_ASSUME_NONNULL_END
 

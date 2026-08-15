@@ -442,9 +442,8 @@ extension MeshResource {
     
     @MainActor @preconcurrency public static func generateSphere(radius: Float) -> MeshResource {
         var options = CoreRE::GeomBuildSphereOptions.defaultOptions
-        options.unknown0 = ._6
+        options.unknown0 = 64
         options.radius = radius
-        options.unknown1 = options.unknown1.intersection([._0, ._8, ._16])
         
         let meshResource = SphereMeshResource(options: options, splitMeshes: false)
         

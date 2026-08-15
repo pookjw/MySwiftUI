@@ -227,7 +227,11 @@ exports:
     _RECustomSystemEnqueueUpdateWithDeadlineForScene,
     _REAssetSetSwiftObject,
     _REAssetGetSwiftObject,
-    _REGeomBuildSphereDefaultOptions ]
+    _REGeomBuildSphereDefaultOptions,
+    _REAssetHandleLoadNow,
+    _REAssetSetNetworkSharingMode,
+    _REMeshAssetCreateSphereDescriptor,
+    _REAssetHandleCreateNewMutableWithAssetDescriptors ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
