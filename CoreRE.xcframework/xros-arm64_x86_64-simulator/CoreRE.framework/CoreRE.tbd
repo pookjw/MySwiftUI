@@ -224,7 +224,10 @@ exports:
     _RECustomSystemSetScheduleTypeForScene,
     _RECustomSystemUpdateContextGetDeltaTime,
     _RECustomSystemUpdateContextGetSystemsArePausedInEditor,
-    _RECustomSystemEnqueueUpdateWithDeadlineForScene ]
+    _RECustomSystemEnqueueUpdateWithDeadlineForScene,
+    _REAssetSetSwiftObject,
+    _REAssetGetSwiftObject,
+    _REGeomBuildSphereDefaultOptions ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

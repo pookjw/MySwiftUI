@@ -152,4 +152,22 @@ extension CoreRE::ServiceLocator : RealityKitCompatibility {
     }
 }
 
+extension CoreRE::Asset : RealityKitCompatibility {
+    package typealias RealityKitType = RealityKit::MeshResource
+    package typealias MyRealityKitType = MyRealityFoundation::MeshResource
+    
+    package var _swiftObject: UnsafeMutableRawPointer? {
+        get {
+            return unsafe self.swiftObject
+        }
+        nonmutating set {
+            unsafe self.swiftObject = newValue
+        }
+    }
+    
+    @MainActor @preconcurrency package func _createRealityKitRef() -> RealityKit::MeshResource? {
+        return unsafe RealityKit::MeshResource(unsafeBitCast(self, to: OpaquePointer.self))
+    }
+}
+
 #endif

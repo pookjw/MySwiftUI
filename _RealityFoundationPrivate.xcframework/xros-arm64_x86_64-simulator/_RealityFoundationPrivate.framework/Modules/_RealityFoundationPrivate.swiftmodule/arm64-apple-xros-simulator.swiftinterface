@@ -194,3 +194,9 @@ extension RealityKit.HoverEffectComponent.HoverEffect {
   public var directPinchAnimationEnabled: Swift.Bool { get set }
   public var allowedInputTypes_protoV1: RealityFoundation.InputTargetComponent.InputType { get set }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityKit", visionOS 26.0)
+extension RealityKit.MeshResource {
+  public convenience init(_: Swift.OpaquePointer?)
+}

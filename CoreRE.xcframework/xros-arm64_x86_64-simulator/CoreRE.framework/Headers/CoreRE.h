@@ -96,3 +96,4 @@
 #import <CoreRE/REAudioSceneService.h>
 #import <CoreRE/RECustomSystem.h>
 #import <CoreRE/REGeom.h>
+#import <CoreRE/REAsset.h>

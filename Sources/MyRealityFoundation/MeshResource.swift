@@ -345,8 +345,12 @@ extension MeshResource {
 }
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public class MeshResource : Resource {
-//    private let coreAssetInternal: OpaquePointer?
+@safe @preconcurrency @MainActor public class MeshResource : Resource {
+    static func fromCore(_ core: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
+    private nonisolated(unsafe) let coreAssetInternal: OpaquePointer?
     
     @MainActor @preconcurrency public var expectedMaterialCount: Int {
         get {
@@ -357,6 +361,49 @@ extension MeshResource {
     @MainActor @preconcurrency public var bounds: BoundingBox {
         get {
             assertUnimplemented()
+        }
+    }
+    
+    init(coreAsset: OpaquePointer) {
+        unsafe self.coreAssetInternal = coreAsset
+        unsafe __RERetain(coreAsset)
+        
+#if RealityKitCompatibility
+        unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+            .myRealityKitRef = self
+#else
+        unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+            .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
+    }
+    
+    init(_ coreAsset: OpaquePointer?) {
+        unsafe self.coreAssetInternal = coreAsset
+        
+        if let coreAsset = unsafe coreAsset {
+            unsafe __RERetain(coreAsset)
+            
+#if RealityKitCompatibility
+            unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+                .myRealityKitRef = self
+#else
+            unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+                .swiftObject = Unmanaged.passUnretained(self).toOpaque()
+#endif
+        }
+    }
+    
+    deinit {
+        if let coreAssetInternal = unsafe self.coreAssetInternal {
+#if RealityKitCompatibility
+            unsafe unsafeBitCast(coreAssetInternal, to: CoreRE::Asset.self)
+                .myRealityKitRef = nil
+#else
+            unsafe unsafeBitCast(coreAssetInternal, to: CoreRE::Asset.self)
+                .swiftObject = nil
+#endif
+            
+            unsafe __RERelease(coreAssetInternal)
         }
     }
     
@@ -394,6 +441,12 @@ extension MeshResource {
     }
     
     @MainActor @preconcurrency public static func generateSphere(radius: Float) -> MeshResource {
+        var options = CoreRE::GeomBuildSphereOptions.defaultOptions
+        options.unknown0 = ._6
+        options.radius = radius
+        options.unknown1 = options.unknown1.intersection([._0, ._8, ._16])
+        
+        let meshResource = SphereMeshResource(options: options, splitMeshes: false)
         assertUnimplemented()
     }
     
