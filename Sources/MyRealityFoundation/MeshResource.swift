@@ -447,7 +447,14 @@ extension MeshResource {
         options.unknown1 = options.unknown1.intersection([._0, ._8, ._16])
         
         let meshResource = SphereMeshResource(options: options, splitMeshes: false)
-        assertUnimplemented()
+        
+        do {
+            try RequestLoadableUtilities.enforceResourceSharingBeforeECSCommits([meshResource])
+        } catch {
+            assertionFailure("Failed to load MeshResource due to error: \(error)")
+        }
+        
+        return meshResource
     }
     
     @MainActor @preconcurrency static func generateSphere(radius: Float, segmentCount: UInt16) -> MeshResource {
@@ -486,3 +493,19 @@ extension MeshResource.ShapeExtrusionOptions.ChamferMode : Equatable {}
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension MeshResource.ShapeExtrusionOptions.ChamferMode : Hashable {}
+
+extension MeshResource : RequestLoadable {
+    nonisolated var networkSendBlockingCategory: NetworkSendBlockingCategory {
+        return .mesh
+    }
+    
+    nonisolated func addToLoadRequest(_ request: __AssetLoadRequest) {
+        assertUnimplemented()
+    }
+}
+
+@_spi(Internal) extension MeshResource : @MainActor CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}
