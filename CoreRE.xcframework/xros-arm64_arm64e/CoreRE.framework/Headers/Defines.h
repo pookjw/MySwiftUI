@@ -436,6 +436,35 @@ typedef NS_ENUM(uint32_t, RECustomSystemScheduleType) {
 struct RECustomSystemUpdateContext {};
 typedef const struct RECustomSystemUpdateContext * RECustomSystemUpdateContextRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem.UpdateContext);
 
+struct REAsset {};
+typedef const struct REAsset * REAssetRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset);
+
+/*
+C Runtime에서는 x0 (unknown0 + radius), w1 (unknown1, 2, 3)에 저장되나
+Swift Runtime에서는 w0 (unknown0), w1 (unknown1, 2, 3), s0/v0 (radius)에 저장된다.
+*/
+struct REGeomBuildSphereOptions {
+    uint16_t unknown0;
+    float radius;
+    bool unknown1;
+    bool unknown2;
+    bool unknown3;
+} NS_SWIFT_NAME(GeomBuildSphereOptions);
+typedef struct REGeomBuildSphereOptions REGeomBuildSphereOptions;
+
+typedef NS_ENUM(uint32_t, REAssetNetworkSharingMode) {
+    REAssetNetworkSharingModeUnknown0 = 0
+} NS_SWIFT_NAME(Asset.NetworkSharingMode);
+
+struct REAssetDescriptor {};
+typedef const struct REAssetDescriptor * REAssetDescriptorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.Descriptor);
+
+struct REAssetLoadRequest {};
+typedef const struct REAssetLoadRequest * REAssetLoadRequestRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
+
+struct REMaterialParameterBlockValue {};
+typedef const struct REMaterialParameterBlockValue * REMaterialParameterBlockValueRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(MaterialParameterBlockValue);
+
 NS_ASSUME_NONNULL_END
 
 #endif

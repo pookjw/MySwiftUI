@@ -194,3 +194,24 @@ extension RealityKit.HoverEffectComponent.HoverEffect {
   public var directPinchAnimationEnabled: Swift.Bool { get set }
   public var allowedInputTypes_protoV1: RealityFoundation.InputTargetComponent.InputType { get set }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityKit", visionOS 26.0)
+extension RealityKit.MeshResource {
+  public convenience init(_: Swift.OpaquePointer?)
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "RealityFoundation", visionOS 26.0)
+public enum NetworkSendBlockingCategory : Swift.String, Swift.Hashable, Swift.CaseIterable {
+  case animation
+  case audio
+  case environment
+  case builtInMaterial
+  case shaderGraphMaterial
+  case mesh
+  case physics
+  case texture
+  case entityLoad
+  case video
+}
