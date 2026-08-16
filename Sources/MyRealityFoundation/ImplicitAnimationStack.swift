@@ -135,8 +135,3 @@ extension _Proto_AnyAnimatableProperty_v1 {
         }
     }
 }
-
-protocol RealityKitVectorArithmetic {
-    mutating func scale(by scale: Double)
-    var magnitudeSquared: Double { get }
-}

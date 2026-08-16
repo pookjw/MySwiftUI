@@ -132,6 +132,10 @@ public struct __RKMaterialParameterBlock : Sendable {
         assertUnimplemented()
     }
     
+    func unsafeSet(parameter: UnsafePointer<Int8>, value: __RKMaterialParameterBlock.Parameter) {
+        assertUnimplemented()
+    }
+    
     public func numberOfTexturesWithNonZeroUVIndex() -> Int {
         assertUnimplemented()
     }

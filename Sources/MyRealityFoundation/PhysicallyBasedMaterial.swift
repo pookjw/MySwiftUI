@@ -33,6 +33,10 @@ extension PhysicallyBasedMaterial {
             }
         }
         
+        func getCurrentValues(alternateTintKey: String?) -> (MaterialParameterKeyValue, MaterialParameterKeyValue?) {
+            assertUnimplemented()
+        }
+        
         @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
@@ -49,6 +53,10 @@ extension PhysicallyBasedMaterial {
         init(tint: CGColor, texture: MaterialParameters.Texture?) {
             self.__tint = tint
             self.texture = texture
+        }
+        
+        static var zero: PhysicallyBasedMaterial.BaseColor {
+            assertUnimplemented()
         }
     }
     
@@ -835,4 +843,30 @@ extension PhysicallyBasedMaterial {
 
 extension PhysicallyBasedMaterial.BaseColor : MaterialParameter {
     // TODO
+}
+
+@_spi(Internal) extension PhysicallyBasedMaterial.BaseColor : Equatable {
+    public static func == (lhs: PhysicallyBasedMaterial.BaseColor, rhs: PhysicallyBasedMaterial.BaseColor) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension PhysicallyBasedMaterial.BaseColor : RealityKitAdditiveArithmetic {
+    func rekitMinus(_ other: PhysicallyBasedMaterial.BaseColor) -> PhysicallyBasedMaterial.BaseColor {
+        assertUnimplemented()
+    }
+    
+    func rekitPlus(_ other: PhysicallyBasedMaterial.BaseColor) -> PhysicallyBasedMaterial.BaseColor {
+        assertUnimplemented()
+    }
+}
+
+extension PhysicallyBasedMaterial.BaseColor : RealityKitVectorArithmetic {
+    mutating func scale(by scale: Double) {
+        assertUnimplemented()
+    }
+    
+    var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
 }

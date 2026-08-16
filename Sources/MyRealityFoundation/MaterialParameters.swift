@@ -113,3 +113,8 @@ extension MaterialParameters {
         private var displayName: String?
     }
 }
+
+struct MaterialParameterKeyValue {
+    let key: String
+    let value: __RKMaterialParameterBlock.Parameter?
+}

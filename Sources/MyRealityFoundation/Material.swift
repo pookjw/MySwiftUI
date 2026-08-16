@@ -120,7 +120,7 @@ extension Material {
         assertUnimplemented()
     }
     
-    func setParameter<T : MaterialParameter>(_ parameter: T, alternateTintKey: String?) {
+    mutating func setParameter<T : MaterialParameter>(_ parameter: T, alternateTintKey: String?) {
         assertUnimplemented()
     }
     
@@ -163,8 +163,43 @@ extension Material {
 
 extension Material where Self == SimpleMaterial {
     // $s10RealityKit8MaterialP0A10FoundationE12setParameter_16alternateTintKeyyqd___SSSgtAD0cF0Rd__lFAA05UnlitC0V_AD015PhysicallyBasedC0V9BaseColorVTB5
-    func setParameter(_ parameter: PhysicallyBasedMaterial.BaseColor, alternateTintKey: String?) {
-        assertUnimplemented()
+    mutating func setParameter(_ parameter: PhysicallyBasedMaterial.BaseColor, alternateTintKey: String?) {
+        /*
+         self -> x20 -> x19
+         */
+        // x29 - 0xf0
+        let (firstValue, lastValue) = parameter.getCurrentValues(alternateTintKey: alternateTintKey)
+        
+        if let value = firstValue.value {
+            // <+88>
+            firstValue.key.utf8CString.withUnsafeBufferPointer { pointer in
+                unsafe self.__parameterBlock.unsafeSet(
+                    parameter: pointer.baseAddress.unsafelyUnwrapped,
+                    value: value
+                )
+            }
+        } else {
+            // <+208>
+            self.__parameterBlock.clear(parameter: firstValue.key)
+        }
+        
+        // <+216>
+        guard let lastValue else {
+            return
+        }
+        
+        if let value = lastValue.value {
+            // <+272>
+            lastValue.key.utf8CString.withUnsafeBufferPointer { pointer in
+                unsafe self.__parameterBlock.unsafeSet(
+                    parameter: pointer.baseAddress.unsafelyUnwrapped,
+                    value: value
+                )
+            }
+        } else {
+            // <+436>
+            self.__parameterBlock.clear(parameter: lastValue.key)
+        }
     }
     
     func setScalarParameter(_: MixedParameterType, value: MaterialScalarParameter) {
