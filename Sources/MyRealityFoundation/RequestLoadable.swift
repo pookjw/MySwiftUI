@@ -1,4 +1,5 @@
 // A05BACD5D05BAECBAA46406B7FD2B6C5
+private import Foundation
 
 protocol RequestLoadable {
     var networkSendBlockingCategory: NetworkSendBlockingCategory { get }
@@ -20,13 +21,34 @@ final class RequestLoadableUtilities {
         assertUnimplemented()
     }
     
-    @TaskLocal fileprivate static var clientIsOptingOutOfFlickerMitigations: Bool = {
-        assertUnimplemented()
-    }()
+    @TaskLocal fileprivate static var clientIsOptingOutOfFlickerMitigations = false
     
     static let categoriesSupportingResourceSharingBeforeECSCommits: Set<NetworkSendBlockingCategory> = {
         // $s17RealityFoundation24RequestLoadableUtilitiesC51categoriesSupportingResourceSharingBeforeECSCommitsShyAA27NetworkSendBlockingCategoryOGvpZfiAGyXEfU_
-        assertUnimplemented()
+        if let value = UserDefaults.standard.object(forKey: "com.apple.re.syncLoadsShouldBlockECSNetworkSends") as? Bool {
+            // <+212>
+            if value {
+                // <+224>
+                return Set(NetworkSendBlockingCategory.allCases)
+            } else {
+                // <+504>
+                return []
+            }
+        } else {
+            // <+260>
+            let categories: [NetworkSendBlockingCategory] = NetworkSendBlockingCategory
+                .allCases
+                .filter { category in
+                    // $s17RealityFoundation24RequestLoadableUtilitiesC51categoriesSupportingResourceSharingBeforeECSCommitsShyAA27NetworkSendBlockingCategoryOGvpZfiAGyXEfU_SbAFXEfU_
+                    if let value = UserDefaults.standard.object(forKey: "com.apple.re.syncLoadsShouldBlockECSNetworkSends.\(category.rawValue)") as? Bool {
+                        return value
+                    } else {
+                        return true
+                    }
+                }
+            
+            return Set(categories)
+        }
     }()
     
     static func enforceResourceSharingBeforeECSCommits(_ lodables: [any RequestLoadable]) throws {
