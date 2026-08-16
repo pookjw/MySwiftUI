@@ -459,6 +459,9 @@ typedef NS_ENUM(uint32_t, REAssetNetworkSharingMode) {
 struct REAssetDescriptor {};
 typedef const struct REAssetDescriptor * REAssetDescriptorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.Descriptor);
 
+struct REAssetLoadRequest {};
+typedef const struct REAssetLoadRequest * REAssetLoadRequestRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
+
 NS_ASSUME_NONNULL_END
 
 #endif

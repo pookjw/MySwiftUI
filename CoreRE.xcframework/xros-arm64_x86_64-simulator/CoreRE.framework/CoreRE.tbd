@@ -231,7 +231,12 @@ exports:
     _REAssetHandleLoadNow,
     _REAssetSetNetworkSharingMode,
     _REMeshAssetCreateSphereDescriptor,
-    _REAssetHandleCreateNewMutableWithAssetDescriptors ]
+    _REAssetHandleCreateNewMutableWithAssetDescriptors,
+    _REAssetManagerCreateAssetRequest,
+    _REAssetLoadRequestSetLoadAndWaitForResourceSharingClients,
+    _REAssetLoadRequestSetShouldBlockECSSendsUntilCompleted,
+    _REAssetLoadRequestSetCompletionHandler,
+    _REAssetLoadRequestAddAsset ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -499,7 +499,11 @@ extension MeshResource : RequestLoadable {
     }
     
     nonisolated func addToLoadRequest(_ request: __AssetLoadRequest) {
-        assertUnimplemented()
+        guard let core = unsafe self.coreAssetInternal else {
+            return
+        }
+        
+        unsafe request.add(asset: __AssetRef(core: core))
     }
 }
 
