@@ -128,7 +128,7 @@ public struct SimpleMaterial : Material {
         self.updateMaterialResource(false)
         self.setScalarParameter(.unknown0, value: roughness)
         self.setScalarParameter(.unknown1, value: isMetallic ? .float(1) : .float(0))
-        
+        self.legacyBase.base = color
         self.assetService = assetService
     }
     
@@ -192,5 +192,5 @@ extension SimpleMaterial {
 struct LegacyBaseColor {
     fileprivate let tintParamName: String
     fileprivate private(set) var tint: CGColor?
-    fileprivate private(set) var base: CGColor?
+    fileprivate var base: CGColor?
 }
