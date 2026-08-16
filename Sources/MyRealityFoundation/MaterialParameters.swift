@@ -107,3 +107,9 @@ extension MaterialParameters.Handle : Hashable, Equatable {
         }
     }
 }
+
+extension MaterialParameters {
+    struct Metadata {
+        private var displayName: String?
+    }
+}

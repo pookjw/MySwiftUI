@@ -37,9 +37,18 @@ extension PhysicallyBasedMaterial {
             assertUnimplemented()
         }()
         
+        init(material: any Material, alternateTintKey: String?) {
+            assertUnimplemented()
+        }
+        
         @available(visionOS, unavailable)
         public init(_ value: CustomMaterial.BaseColor) {
             assertUnimplemented()
+        }
+        
+        init(tint: CGColor, texture: MaterialParameters.Texture?) {
+            self.__tint = tint
+            self.texture = texture
         }
     }
     
@@ -822,4 +831,8 @@ extension PhysicallyBasedMaterial {
             assertUnimplemented()
         }
     }
+}
+
+extension PhysicallyBasedMaterial.BaseColor : MaterialParameter {
+    // TODO
 }

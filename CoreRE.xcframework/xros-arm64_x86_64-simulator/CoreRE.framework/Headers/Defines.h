@@ -462,6 +462,9 @@ typedef const struct REAssetDescriptor * REAssetDescriptorRef __attribute__((swi
 struct REAssetLoadRequest {};
 typedef const struct REAssetLoadRequest * REAssetLoadRequestRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
 
+struct REMaterialParameterBlockValue {};
+typedef const struct REMaterialParameterBlockValue * REMaterialParameterBlockValueRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(MaterialParameterBlockValue);
+
 NS_ASSUME_NONNULL_END
 
 #endif

@@ -1,5 +1,6 @@
 public import CoreGraphics
 public import simd
+private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension __RKMaterialParameterBlock {
@@ -56,7 +57,7 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
-    public enum TransparentPass : String, CaseIterable {
+    public enum TransparentPass : String, CaseIterable, Sendable {
         case Transparent, TransparentAR, TransparentDynamicLighting, TransparentARDynamicLighting
         
         public init?(rawValue: String) {
@@ -113,6 +114,11 @@ public struct __RKMaterialParameterBlock : Sendable {
         }
     }
     
+    private let transparentPassTechniqueMapping: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)] // 0x0
+    private let transparentPassesProvidedOnInit: Bool // 0x8
+    private var savedTransparentPassesFromCore: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)]? // 0x10
+    private var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
+    
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
     public mutating func setTransparentPassTechniqueMappingEnabled(_ enabled: Bool) {
         assertUnimplemented()
@@ -143,7 +149,10 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public init(transparentPassTechniqueMappping mapping: [(__RKMaterialParameterBlock.TransparentPass, String)]) {
-        assertUnimplemented()
+        self.transparentPassesProvidedOnInit = false
+        self.savedTransparentPassesFromCore = nil
+        self.transparentPassTechniqueMapping = []
+        self.coreParameterBlockValue = CoreRE::MaterialParameterBlockValue.create()
     }
     
     public init(hashedTransparentPassTechniqueMapping mapping: [(__RKMaterialParameterBlock.TransparentPass, Int)]) {

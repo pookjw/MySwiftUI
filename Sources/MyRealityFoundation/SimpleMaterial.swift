@@ -1,20 +1,17 @@
 public import CoreGraphics
-private import Metal
+public import Metal
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct SimpleMaterial : Material {
-    private lazy var assetService: __REAssetService? = {
-        assertUnimplemented()
-    }()
-    
-    public private(set) var __resource: __MaterialResource
-    public var __parameterBlock: __RKMaterialParameterBlock
-    private var legacyBase: LegacyBaseColor
-    private var usesTransparency: Bool
-    private var __triangleFillMode: MTLTriangleFillMode
-    private var __faceCullMode: MTLCullMode?
-    private var __writesDepthInternal: Bool
-    private var __readsDepthInternal: Bool
+    private lazy var assetService: __REAssetService = __ServiceLocator.shared.assetService // 0x0
+    public private(set) var __resource: __MaterialResource // 0x28
+    public var __parameterBlock: __RKMaterialParameterBlock // 0x30
+    private var legacyBase = LegacyBaseColor(tintParamName: "baseColorTint", tint: nil, base: nil) // 0x50
+    private var usesTransparency: Bool = false // 0x70
+    @_spi(Internal) public var __triangleFillMode: MTLTriangleFillMode = .fill // 0x78
+    @_spi(Internal) public var __faceCullMode: MTLCullMode? = nil // 0x80
+    @_spi(Internal) public var __writesDepthInternal: Bool = true // 0x89
+    @_spi(Internal) public var __readsDepthInternal: Bool = true // 0x8a
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public var color: SimpleMaterial.BaseColor {
@@ -119,11 +116,20 @@ public struct SimpleMaterial : Material {
     init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool, assetService: __REAssetService) {
         /*
          color -> x0 -> x23
-         0x00000001d13d608c -> x1 -> x22
+         roughness -> x1 -> x22
          isMetallic -> w2 -> w21
          assetService -> x3 -> x19
          */
-        assertUnimplemented()
+        self.__resource = __MaterialResource.loadEngineResource(assetPath: "engine:simple.rematerial")
+        self.__parameterBlock = __RKMaterialParameterBlock()
+        
+        let baseColor = PhysicallyBasedMaterial.BaseColor(tint: color, texture: nil)
+        self.setParameter(baseColor, alternateTintKey: "baseColorTint")
+        self.updateMaterialResource(false)
+        self.setScalarParameter(.unknown0, value: roughness)
+        self.setScalarParameter(.unknown1, value: isMetallic ? .float(1) : .float(0))
+        
+        self.assetService = assetService
     }
     
     public init() {
@@ -131,6 +137,10 @@ public struct SimpleMaterial : Material {
     }
     
     init(assetService: __REAssetService) {
+        assertUnimplemented()
+    }
+    
+    func updateMaterialResource(_: Bool) {
         assertUnimplemented()
     }
 }
@@ -180,7 +190,7 @@ extension SimpleMaterial {
 }
 
 struct LegacyBaseColor {
-    private let tintParamName: String
-    private var tint: CGColor?
-    private var base: CGColor?
+    fileprivate let tintParamName: String
+    fileprivate private(set) var tint: CGColor?
+    fileprivate private(set) var base: CGColor?
 }
