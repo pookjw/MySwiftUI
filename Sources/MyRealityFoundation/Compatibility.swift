@@ -13,6 +13,7 @@ package protocol RealityKitCompatibility {
     var _swiftObject: UnsafeMutableRawPointer? { get nonmutating set }
     @MainActor @preconcurrency func _createRealityKitRef() -> RealityKitType?
     var _ref: AnyObject { get }
+    var _createRealityKitRefAutomatically: Bool { get }
     
     @MainActor @preconcurrency var realityKitRef: RealityKitType { get nonmutating set }
     @MainActor @preconcurrency var myRealityKitRef: MyRealityKitType? { get nonmutating set }
@@ -48,7 +49,7 @@ extension RealityKitCompatibility {
             return value as? MyRealityKitType
         }
         nonmutating set {
-            if let newValue {
+            if let newValue, self._createRealityKitRefAutomatically {
                 unsafe objc_setAssociatedObject(newValue, &key, self.realityKitRef, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             
@@ -83,6 +84,10 @@ extension CoreRE::Scene : RealityKitCompatibility {
             unsafeBitCast(self, to: RealityKit::__SceneRef.self)
         )
     }
+    
+    package var _createRealityKitRefAutomatically: Bool {
+        return true
+    }
 }
 
 extension CoreRE::Entity : RealityKitCompatibility {
@@ -103,6 +108,10 @@ extension CoreRE::Entity : RealityKitCompatibility {
             _coreEntity: unsafeBitCast(self, to: RealityKit::__EntityRef.self)
         )
     }
+    
+    package var _createRealityKitRefAutomatically: Bool {
+        return true
+    }
 }
 
 extension CoreRE::Engine : RealityKitCompatibility {
@@ -122,6 +131,10 @@ extension CoreRE::Engine : RealityKitCompatibility {
         return unsafe RealityKit::__Engine.__fromCore(
             unsafeBitCast(self, to: RealityKit::__EngineRef.self)
         )
+    }
+    
+    package var _createRealityKitRefAutomatically: Bool {
+        return true
     }
 }
 
@@ -150,11 +163,16 @@ extension CoreRE::ServiceLocator : RealityKitCompatibility {
         
         return ref!
     }
+    
+    package var _createRealityKitRefAutomatically: Bool {
+        return false
+    }
 }
 
 extension CoreRE::Asset : RealityKitCompatibility {
-    package typealias RealityKitType = RealityKit::MeshResource
-    package typealias MyRealityKitType = MyRealityFoundation::MeshResource
+    // MeshResource 또는 __MaterialResource
+    package typealias RealityKitType = AnyObject
+    package typealias MyRealityKitType = AnyObject
     
     package var _swiftObject: UnsafeMutableRawPointer? {
         get {
@@ -165,8 +183,12 @@ extension CoreRE::Asset : RealityKitCompatibility {
         }
     }
     
-    @MainActor @preconcurrency package func _createRealityKitRef() -> RealityKit::MeshResource? {
-        return unsafe RealityKit::MeshResource(unsafeBitCast(self, to: OpaquePointer.self))
+    @MainActor @preconcurrency package func _createRealityKitRef() -> AnyObject? {
+        return nil
+    }
+    
+    package var _createRealityKitRefAutomatically: Bool {
+        return false
     }
 }
 

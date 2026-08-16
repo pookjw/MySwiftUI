@@ -237,7 +237,8 @@ exports:
     _REAssetLoadRequestSetShouldBlockECSSendsUntilCompleted,
     _REAssetLoadRequestSetCompletionHandler,
     _REAssetLoadRequestAddAsset,
-    _REMaterialParameterBlockValueCreate ]
+    _REMaterialParameterBlockValueCreate,
+    _REAssetManagerCreateAssetHandle ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

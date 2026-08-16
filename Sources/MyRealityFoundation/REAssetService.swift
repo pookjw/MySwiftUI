@@ -1,4 +1,5 @@
 public import Foundation
+private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public protocol __REAssetService {
@@ -11,6 +12,25 @@ public protocol __REAssetService {
     var syncLoadsShouldWaitForResourceSharing: Bool { get }
     var asyncLoadsShouldWaitForResourceSharing: Bool { get }
     var syncLoadsShouldInitiateResourceSharing: Bool { get }
+}
+
+extension __REAssetService {
+    func asset(_ name: String) -> __REAsset? {
+        let handle = unsafe self.__handle
+        
+        let asset = name.utf8CString.withUnsafeBufferPointer { pointer in
+            unsafe unsafeBitCast(handle, to: CoreRE::AssetManager.self)
+                .createAssetHandle(pointer.baseAddress.unsafelyUnwrapped)
+        }
+        
+        guard let asset else {
+            return nil
+        }
+        
+        return unsafe __REAsset(
+            handle: unsafeBitCast(asset, to: OpaquePointer.self)
+        )
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)

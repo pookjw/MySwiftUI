@@ -1,5 +1,6 @@
 // 9EE676C6BF85CB90ED28207BC474779E
 public import Metal
+private import CoreRE
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @safe public class __MaterialResource {
@@ -24,11 +25,30 @@ public import Metal
     }
     
     required init(fromCore core: OpaquePointer) {
-        assertUnimplemented()
+        unsafe __RERetain(core)
+        unsafe self.coreAsset = core
+        unsafe unsafeBitCast(core, to: CoreRE::Asset.self)
+            .handleLoadNow()
+        
+#if RealityKitCompatibility
+        unsafe unsafeBitCast(self.coreAsset, to: CoreRE::Asset.self)
+            .myRealityKitRef = self
+#else
+        unsafe unsafeBitCast(self.coreAsset, to: CoreRE::Asset.self)
+            .swiftObject = self
+#endif
     }
     
     deinit {
-        assertUnimplemented()
+#if RealityKitCompatibility
+        unsafe unsafeBitCast(self.coreAsset, to: CoreRE::Asset.self)
+            .myRealityKitRef = nil
+#else
+        unsafe unsafeBitCast(self.coreAsset, to: CoreRE::Asset.self)
+            .swiftObject = nil
+#endif
+        
+        unsafe __RERelease(self.coreAsset)
     }
     
     @available(visionOS, deprecated: 2.0, message: "Loading JSON based material assets is no longer supported. Please use our public material APIs instead.")

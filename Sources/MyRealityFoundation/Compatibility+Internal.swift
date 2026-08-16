@@ -17,6 +17,10 @@ extension CoreRE::EventBus : RealityKitCompatibility {
     @MainActor @preconcurrency func _createRealityKitRef() -> AnyObject? {
         return nil
     }
+    
+    var _createRealityKitRefAutomatically: Bool {
+        return false
+    }
 }
 
 extension CoreRE::ECSService : RealityKitCompatibility {
@@ -34,6 +38,10 @@ extension CoreRE::ECSService : RealityKitCompatibility {
     
     @MainActor @preconcurrency func _createRealityKitRef() -> AnyObject? {
         return nil
+    }
+    
+    var _createRealityKitRefAutomatically: Bool {
+        return false
     }
 }
 

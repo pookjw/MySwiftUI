@@ -1,6 +1,6 @@
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __REAsset : CustomDebugStringConvertible {
-    private let handle: OpaquePointer
+    let handle: OpaquePointer
     
     public static func __fromHandle(_ assetRef: __AssetRef) -> __REAsset {
         assertUnimplemented()
@@ -10,8 +10,13 @@ public class __REAsset : CustomDebugStringConvertible {
         assertUnimplemented()
     }
     
-    private init() {
-        assertUnimplemented()
+    @inline(__always) // 원래 없음
+    init(handle: OpaquePointer) {
+        unsafe self.handle = handle
+    }
+    
+    deinit {
+        unsafe __RERelease(self.handle)
     }
     
     public var debugDescription: String {
