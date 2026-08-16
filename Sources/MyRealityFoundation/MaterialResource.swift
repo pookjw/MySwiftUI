@@ -1,7 +1,10 @@
+// 9EE676C6BF85CB90ED28207BC474779E
 public import Metal
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public class __MaterialResource {
+@safe public class __MaterialResource {
+    private var coreAsset: OpaquePointer
+    
     public var __coreAsset: __AssetRef {
         get {
             assertUnimplemented()
@@ -18,6 +21,14 @@ public class __MaterialResource {
         get {
             assertUnimplemented()
         }
+    }
+    
+    required init(fromCore core: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
+    deinit {
+        assertUnimplemented()
     }
     
     @available(visionOS, deprecated: 2.0, message: "Loading JSON based material assets is no longer supported. Please use our public material APIs instead.")
@@ -132,3 +143,6 @@ public class __MaterialResource {
 
 @available(macOS 13.0, iOS 16.0, macCatalyst 16.0, tvOS 26.0, *)
 extension __MaterialResource : Resource, @unchecked Sendable {}
+
+extension __MaterialResource : LoadableResource {
+}

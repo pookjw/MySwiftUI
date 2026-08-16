@@ -31,6 +31,6 @@ extension SimpleMaterial {
     }
     
     public init(color: SimpleMaterial.Color, roughness: MaterialScalarParameter = 0.0, isMetallic: Bool) {
-        assertUnimplemented()
+        self.init(color: color.cgColor, roughness: roughness, isMetallic: isMetallic)
     }
 }

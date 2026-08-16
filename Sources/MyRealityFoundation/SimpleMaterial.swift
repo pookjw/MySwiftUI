@@ -107,11 +107,22 @@ public struct SimpleMaterial : Material {
         assertUnimplemented()
     }
     
-    init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool) {
-        assertUnimplemented()
+    package init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool) {
+        self.init(
+            color: color,
+            roughness: roughness,
+            isMetallic: isMetallic,
+            assetService: __ServiceLocator.shared.assetService
+        )
     }
     
     init(color: CGColor, roughness: MaterialScalarParameter, isMetallic: Bool, assetService: __REAssetService) {
+        /*
+         color -> x0 -> x23
+         0x00000001d13d608c -> x1 -> x22
+         isMetallic -> w2 -> w21
+         assetService -> x3 -> x19
+         */
         assertUnimplemented()
     }
     
