@@ -145,14 +145,14 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public init() {
-        assertUnimplemented()
+        self.savedTransparentPassesFromCore = nil
+        self.transparentPassesProvidedOnInit = false
+        self.transparentPassTechniqueMapping = []
+        self.coreParameterBlockValue = CoreRE::MaterialParameterBlockValue.create()
     }
     
     public init(transparentPassTechniqueMappping mapping: [(__RKMaterialParameterBlock.TransparentPass, String)]) {
-        self.transparentPassesProvidedOnInit = false
-        self.savedTransparentPassesFromCore = nil
-        self.transparentPassTechniqueMapping = []
-        self.coreParameterBlockValue = CoreRE::MaterialParameterBlockValue.create()
+        assertUnimplemented()
     }
     
     public init(hashedTransparentPassTechniqueMapping mapping: [(__RKMaterialParameterBlock.TransparentPass, Int)]) {

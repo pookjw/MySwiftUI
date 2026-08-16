@@ -96,9 +96,9 @@ final class RequestLoadableUtilities {
         
         // <+496>
         let request = try __AssetLoadRequest(assetService: assetService, resourceSharingScheduling: scheduling)
-        request.setCompletionHandler { success in
+        request.setCompletionHandler { _ in
             // $s17RealityFoundation24RequestLoadableUtilitiesC38enforceResourceSharingBeforeECSCommitsyySayAA0cD0_pGKFZySbcfU0_TA
-            assertUnimplemented()
+            request.setCompletionHandler({ _ in })
         }
         
         for lodable in lodables {

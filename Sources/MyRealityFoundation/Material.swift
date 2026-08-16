@@ -161,6 +161,17 @@ extension Material {
     }
 }
 
+extension Material where Self == SimpleMaterial {
+    // $s10RealityKit8MaterialP0A10FoundationE12setParameter_16alternateTintKeyyqd___SSSgtAD0cF0Rd__lFAA05UnlitC0V_AD015PhysicallyBasedC0V9BaseColorVTB5
+    func setParameter(_ parameter: PhysicallyBasedMaterial.BaseColor, alternateTintKey: String?) {
+        assertUnimplemented()
+    }
+    
+    func setScalarParameter(_: MixedParameterType, value: MaterialScalarParameter) {
+        assertUnimplemented()
+    }
+}
+
 @_spi(Internal) public enum DirectUniformsState {
         case shared(DirectParameterBuffer)
         case unique((DirectParameterBuffer, DirectParameterBuffer))
