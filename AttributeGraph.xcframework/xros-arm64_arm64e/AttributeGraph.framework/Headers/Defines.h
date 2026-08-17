@@ -88,9 +88,9 @@ typedef NS_OPTIONS(NSUInteger, AGGraphTraceFlags) {
 
 typedef uint32_t AGAttribute __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnyAttribute);
 
-typedef struct CF_BRIDGED_TYPE(id) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);
+typedef struct __attribute__((objc_bridge(id))) AGGraphStorage * AGGraphRef NS_SWIFT_NAME(Graph);
 
-typedef struct CF_BRIDGED_TYPE(id) AGSubgraphStorage * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
+typedef struct __attribute__((objc_bridge(id))) AGSubgraphStorage * AGSubgraphRef NS_SWIFT_NAME(Subgraph);
 
 struct AGTraceType {
     // Offset 0x00

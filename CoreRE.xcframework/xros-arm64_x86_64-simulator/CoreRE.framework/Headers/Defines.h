@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #include <simd/simd.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -462,8 +463,14 @@ typedef const struct REAssetDescriptor * REAssetDescriptorRef __attribute__((swi
 struct REAssetLoadRequest {};
 typedef const struct REAssetLoadRequest * REAssetLoadRequestRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
 
-struct REMaterialParameterBlockValue {};
-typedef const struct REMaterialParameterBlockValue * REMaterialParameterBlockValueRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(MaterialParameterBlockValue);
+typedef struct __attribute__((objc_bridge(id))) REMaterialParameterBlockValue * REMaterialParameterBlockValueRef NS_SWIFT_NAME(MaterialParameterBlockValue);
+
+typedef NS_ENUM(uint32_t, REMaterialParameterBlockValueParameterType) {
+    REMaterialParameterBlockValueParameterTypeUnknown0 = 0,
+    REMaterialParameterBlockValueParameterTypeUnknown19 = 19
+} NS_SWIFT_NAME(MaterialParameterBlockValue.ParameterType);
+
+RE_EXTERN void RECGColorToColorGamut(CGColorRef, float *, uint8_t *);
 
 NS_ASSUME_NONNULL_END
 

@@ -140,8 +140,22 @@ public struct SimpleMaterial : Material {
         assertUnimplemented()
     }
     
-    func updateMaterialResource(_: Bool) {
-        assertUnimplemented()
+    mutating func updateMaterialResource(_ flag: Bool) {
+        var flag = flag
+        if let color = self.getColor(name: self.legacyBase.tintParamName) {
+            flag = (color.alpha < 1)
+        }
+        
+        // <+64>
+        if flag == self.usesTransparency {
+            return
+        }
+        
+        // <+80>
+        self.__resource = __MaterialResource.loadEngineResource(
+            assetPath: flag ? "engine:transparentSimple.rematerial" : "engine:simple.rematerial"
+        )
+        self.usesTransparency = flag
     }
 }
 

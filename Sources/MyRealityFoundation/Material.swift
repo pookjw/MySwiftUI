@@ -205,6 +205,12 @@ extension Material where Self == SimpleMaterial {
     func setScalarParameter(_: MixedParameterType, value: MaterialScalarParameter) {
         assertUnimplemented()
     }
+    
+    // $s10RealityKit8MaterialP0A10FoundationE8getColor4nameSo10CGColorRefaSgSS_tFAA05UnlitC0V_Tg5
+    func getColor(name: String) -> CGColor? {
+        let parameter = self.__parameterBlock.get(parameter: name)
+        assertUnimplemented()
+    }
 }
 
 @_spi(Internal) public enum DirectUniformsState {

@@ -117,7 +117,7 @@ public struct __RKMaterialParameterBlock : Sendable {
     private let transparentPassTechniqueMapping: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)] // 0x0
     private let transparentPassesProvidedOnInit: Bool // 0x8
     private var savedTransparentPassesFromCore: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)]? // 0x10
-    private var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
+    @safe private nonisolated(unsafe) var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
     
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
     public mutating func setTransparentPassTechniqueMappingEnabled(_ enabled: Bool) {
@@ -125,15 +125,93 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public mutating func clear(parameter name: String) {
-        assertUnimplemented()
+        if !isKnownUniquelyReferenced(&self.coreParameterBlockValue) {
+            self.coreParameterBlockValue = unsafe self.coreParameterBlockValue
+                .copy()
+                .takeUnretainedValue()
+        }
+        
+        // <+68>
+        name.withCString { pointer in
+            unsafe self.coreParameterBlockValue.clearParameter(pointer)
+        }
     }
     
     public mutating func reset() {
         assertUnimplemented()
     }
     
-    func unsafeSet(parameter: UnsafePointer<Int8>, value: __RKMaterialParameterBlock.Parameter) {
-        assertUnimplemented()
+    mutating func unsafeSet(parameter: UnsafePointer<Int8>, value: __RKMaterialParameterBlock.Parameter) {
+        /*
+         self -> x20
+         parameter -> x0
+         value -> x1
+         */
+        if !isKnownUniquelyReferenced(&self.coreParameterBlockValue) {
+            self.coreParameterBlockValue = unsafe self.coreParameterBlockValue
+                .copy()
+                .takeUnretainedValue()
+        }
+        
+        // <+136>
+        switch value {
+        case .texture(_):
+            assertUnimplemented()
+        case .textureAndSampler(_):
+            assertUnimplemented()
+        case .float(_):
+            assertUnimplemented()
+        case .float2(_):
+            assertUnimplemented()
+        case .float3(_):
+            assertUnimplemented()
+        case .float4(_):
+            assertUnimplemented()
+        case .color(let color):
+            // <+1216>
+            let coreParameterBlockValue = self.coreParameterBlockValue
+            let parameterType = unsafe coreParameterBlockValue.parameterType(parameter)
+            
+            if parameterType == .unknown19 {
+                // <+1240>
+                var gamut: UInt8 = 0
+                
+                withUnsafeTemporaryAllocation(of: Float.self, capacity: 4) { values in
+                    unsafe RECGColorToColorGamut(color, values.baseAddress.unsafelyUnwrapped, &gamut)
+                    
+                    unsafe coreParameterBlockValue.setColor3(
+                        parameter,
+                        simd_float3(values[0], values[1], values[2]),
+                        gamut
+                    )
+                }
+            } else {
+                // <+1584>
+                var gamut: UInt8 = 0
+                
+                withUnsafeTemporaryAllocation(of: Float.self, capacity: 4) { values in
+                    unsafe RECGColorToColorGamut(color, values.baseAddress.unsafelyUnwrapped, &gamut)
+                    
+                    unsafe coreParameterBlockValue.setColor4(
+                        parameter,
+                        simd_float4(values[0], values[1], values[2], values[3]),
+                        gamut
+                    )
+                }
+            }
+        case .float2x2(_):
+            assertUnimplemented()
+        case .float3x3(_):
+            assertUnimplemented()
+        case .float4x4(_):
+            assertUnimplemented()
+        case .bool(_):
+            assertUnimplemented()
+        case .int(_):
+            assertUnimplemented()
+        case .default:
+            assertUnimplemented()
+        }
     }
     
     public func numberOfTexturesWithNonZeroUVIndex() -> Int {
@@ -152,7 +230,9 @@ public struct __RKMaterialParameterBlock : Sendable {
         self.savedTransparentPassesFromCore = nil
         self.transparentPassesProvidedOnInit = false
         self.transparentPassTechniqueMapping = []
-        self.coreParameterBlockValue = CoreRE::MaterialParameterBlockValue.create()
+        self.coreParameterBlockValue = unsafe CoreRE::MaterialParameterBlockValue
+            .create()
+            .takeUnretainedValue()
     }
     
     public init(transparentPassTechniqueMappping mapping: [(__RKMaterialParameterBlock.TransparentPass, String)]) {

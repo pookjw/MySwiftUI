@@ -34,7 +34,25 @@ extension PhysicallyBasedMaterial {
         }
         
         func getCurrentValues(alternateTintKey: String?) -> (MaterialParameterKeyValue, MaterialParameterKeyValue?) {
-            assertUnimplemented()
+            let firstValue: MaterialParameterKeyValue
+            if let texture {
+                firstValue = MaterialParameterKeyValue(
+                    key: "textureBaseColor",
+                    value: .textureAndSampler(texture)
+                )
+            } else {
+                firstValue = MaterialParameterKeyValue(
+                    key: "textureBaseColor",
+                    value: nil
+                )
+            }
+            
+            let secondValue = MaterialParameterKeyValue(
+                key: alternateTintKey ?? "baseColorTint",
+                value: .color(self.__tint)
+            )
+            
+            return (firstValue, secondValue)
         }
         
         @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
