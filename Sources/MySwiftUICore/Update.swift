@@ -56,6 +56,15 @@ package enum Update {
             args: [0, UInt(bitPattern: ObjectIdentifier(traceHost))]
         )
     }
+
+    @inline(always)
+    package static func perform<T>(_ handler: () throws -> T) rethrows -> T {
+        Update.begin()
+        defer {
+            Update.end()
+        }
+        return try handler()
+    }
     
     package static var threadIsUpdating: Bool {
         let isOwner = isOwner
@@ -177,7 +186,7 @@ package enum Update {
     }
     
     package static func broadcast() {
-        assertUnimplemented()
+        Update._lock.broadcast()
     }
     
     package static var isActive: Bool {

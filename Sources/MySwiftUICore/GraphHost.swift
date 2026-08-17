@@ -845,9 +845,26 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return data.environment
     }
     
-    final func continueTransaction<T : GraphMutation>(_: T) {
-        assertUnimplemented()
-    } 
+    final func continueTransaction<T : GraphMutation>(_ mutation: T) {
+        Update.assertIsLocked()
+        var host: GraphHost? = self
+        while let currentHost = host, !currentHost.inTransaction {
+            host = currentHost.parentHost
+        }
+
+        guard let host else {
+            Update.enqueueAction(reason: nil) {
+                self.asyncTransaction(mutation: mutation)
+            }
+            return
+        }
+
+        if let continuation = host.continuations.last,
+           mutation.combine(with: continuation) {
+            return
+        }
+        host.continuations.append(mutation)
+    }
 }
 
 extension GraphHost {
@@ -964,7 +981,10 @@ struct InvalidatingGraphMutation : GraphMutation {
     }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        assertUnimplemented()
+        guard let other = other as? InvalidatingGraphMutation else {
+            return false
+        }
+        return attribute == other.attribute
     }
 }
 

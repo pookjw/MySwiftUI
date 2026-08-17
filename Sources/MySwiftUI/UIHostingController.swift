@@ -340,7 +340,7 @@ open class UIHostingController<Content : View>: UIViewController {
         assertUnimplemented()
     }
     
-    package final func _as<T>(_ type: T.Type) -> T? {
+    nonisolated package final func _as<T>(_ type: T.Type) -> T? {
         guard type == UIHostingControllerProvider.self else {
             return nil
         }
@@ -1714,7 +1714,7 @@ extension UIHostingController : KeyboardShortcutSource {
     // TODO
 }
 
-extension UIHostingController : UIHostingControllerProvider {
+extension UIHostingController : @preconcurrency UIHostingControllerProvider {
     var hostingControllerOverrides: HostingControllerOverrides {
         get {
             return overrides

@@ -5,7 +5,7 @@ package import CoreGraphics
 internal import QuartzCore
 private import Spatial
 
-package final class ViewGraph : GraphHost {
+package final class ViewGraph : GraphHost, @unchecked Sendable {
     package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }
@@ -226,121 +226,112 @@ package final class ViewGraph : GraphHost {
     
     package func updateOutputs(at time: Time) {
         self.beginNextUpdate(at: time)
-        
-        var w27 = false
-        var sp = false
-        var sp04 = false
-        var w28 = false
-        var w21 = false
-        var w25 = false
-        
-        // sp + 0x8
+        self.updateOutputs(async: false)
+    }
+
+    package func updateOutputsAsync(at time: Time) -> (list: DisplayList, version: DisplayList.Version)? {
+        self.beginNextUpdate(at: time)
+
+        guard
+            _rootDisplayList.allowsAsyncUpdate(),
+            hostPreferenceValues.allowsAsyncUpdate(),
+            sizeThatFitsObservers.isEmpty || _rootLayoutComputer.allowsAsyncUpdate()
+        else {
+            return nil
+        }
+
+        for feature in features {
+            guard let allowsAsyncUpdate = feature.allowsAsyncUpdate(graph: self) else {
+                feature.skipsAsyncUpdate = true
+                continue
+            }
+
+            feature.skipsAsyncUpdate = false
+            guard allowsAsyncUpdate else {
+                return nil
+            }
+        }
+
+        var result: (DisplayList, DisplayList.Version)?
+        data.graph!.withMainThreadHandler(unsafe unsafeBitCast(Update.syncMain, to: ((() -> Void) -> Void).self)) {
+            self.updateOutputs(async: true)
+            result = self.rootDisplayList ?? (DisplayList(), DisplayList.Version())
+        }
+        return result
+    }
+
+    private func updateOutputs(async: Bool) {
+        var preferencesChanged = false
+        var featuresChanged = false
+        var sizeThatFitsChanged = false
+
         for _ in 0..<8 {
             self.runTransaction()
-            
-            let updated = self.updatePreferences()
-            w28 = (w28 || updated)
-            w21 = (w21 || updated)
-            
-            let needsUpdate = self.sizeThatFitsObservers.needsUpdate(graph: self)
-            w27 = (needsUpdate || w27)
-            w25 = (needsUpdate || w25)
-            
+
+            preferencesChanged = self.updatePreferences() || preferencesChanged
+            sizeThatFitsChanged = self.sizeThatFitsObservers.needsUpdate(graph: self) || sizeThatFitsChanged
+
             for feature in self.features {
-                guard feature.flags == 0 else {
-                    sp = true
-                    sp04 = true
+                guard !async || !feature.skipsAsyncUpdate else {
                     continue
                 }
-                
-                guard feature.needsUpdate(graph: self) else {
-                    continue
+
+                if feature.needsUpdate {
+                    featuresChanged = true
+                } else if feature.needsUpdate(graph: self) {
+                    feature.needsUpdate = true
+                    featuresChanged = true
                 }
-                
-                feature.flags |= 1
-                sp = true
-                sp04 = true
             }
-            
-            // <+384>
+
             guard self.data.globalSubgraph.isDirty(1) else {
                 break
             }
         }
-        
-        // <+416>
-        var w8 = sp
-        let x29_51 = w8
-        w8 = (w8 && w25)
-        let x29_52 = w8
-        w8 = w21
-        let sp_18 = w8
-        w8 = sp04
-        w8 = (w8 || w28 || w27)
-        
-        guard w8 else {
+
+        guard preferencesChanged || featuresChanged || sizeThatFitsChanged else {
             return
         }
-        
-        /*
-         x0 = x29_51
-         x1 = self
-         w2 = 0
-         x3 = sp_18
-         x4 = x29_52
-         ---
-         x29_51 = x23
-         self = x19
-         0 = x22
-         sp_18 = x24
-         x29_52 = x21
-         */
-        _updateOutputs(x23: x29_51, x22: false, x24: sp_18, x21: x29_52)
+
+        Update.syncMain {
+            if featuresChanged {
+                for feature in self.features {
+                    guard !async || !feature.skipsAsyncUpdate else {
+                        continue
+                    }
+                    if feature.needsUpdate {
+                        feature.outputsDidChange(graph: self)
+                    }
+                }
+            }
+
+            if preferencesChanged {
+                self.delegate?.preferencesDidChange()
+
+                if let preferenceBridge = self._preferenceBridge {
+                    let identifier = self.data.$hostPreferenceKeys.projectedValue.identifier
+                    preferenceBridge.viewGraph?.graphInvalidation(from: identifier)
+                }
+            }
+
+            if featuresChanged {
+                for feature in self.features {
+                    guard !async || !feature.skipsAsyncUpdate else {
+                        continue
+                    }
+                    if feature.needsUpdate {
+                        feature.update(graph: self)
+                        feature.needsUpdate = false
+                    }
+                }
+            }
+
+            if sizeThatFitsChanged {
+                self.sizeThatFitsObservers.notify()
+            }
+        }
+
         self.mainUpdates &-= 1
-    }
-    
-    // function signature specialization <Arg[0] = Stack Promoted from Box, Arg[3] = Stack Promoted from Box, Arg[4] = Stack Promoted from Box> of update() -> ()
-    private func _updateOutputs(
-        x23: Bool,
-        x22: Bool, // 쓰이고는 있지만 분기 변경에 영향을 끼치지 않음
-        x24: Bool,
-        x21: Bool
-    ) {
-        // self = x19
-        if x23 {
-            for feature in self.features {
-                if feature.flags != 0 {
-                    feature.outputsDidChange(graph: self)
-                }
-            }
-        }
-        
-        // <+216>
-        if x24 {
-            if let delegate {
-                delegate.preferencesDidChange()
-            }
-            
-            // x24
-            if let preferenceBridge = _preferenceBridge {
-                let identifier = data.$hostPreferenceKeys.projectedValue.identifier
-                if let graph = preferenceBridge.viewGraph {
-                    graph.graphInvalidation(from: identifier)
-                }
-            }
-        }
-        
-        // <+420>
-        for feature in self.features {
-            if feature.flags != 0 {
-                feature.update(graph: self)
-                feature.flags &= 0xfffffffe
-            }
-        }
-        
-        if x21 {
-            sizeThatFitsObservers.notify()
-        }
     }
     
     func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {
@@ -1201,6 +1192,10 @@ extension ViewGraphFeature {
 
 package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
     private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
+
+    var isEmpty: Bool {
+        return store.isEmpty
+    }
     
     package func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
         assertUnimplemented()

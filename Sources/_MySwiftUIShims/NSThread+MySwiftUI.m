@@ -1,6 +1,14 @@
 #import "include/NSThread+MySwiftUI.h"
 
+@interface NSThread (MySwiftUI)
+- (BOOL)startAndReturnError:(NSError **)error;
+@end
+
 BOOL _NSThreadStart(NSThread *thread) {
-//    abort();
-    return YES;
+    if ([thread respondsToSelector:@selector(startAndReturnError:)]) {
+        return [thread startAndReturnError:nil];
+    } else {
+        [thread start];
+        return YES;
+    }
 }

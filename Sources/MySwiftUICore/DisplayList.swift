@@ -252,30 +252,18 @@ extension DisplayList {
                     // <+512>
                     switch effect {
                     case .opacity(let opacity):
-                        // <+1280>
-                        if opacity < 1.0 {
-                            // <+2632>
-                            assertUnimplemented()
-                        } else {
-                            // <+1296>
+                        if opacity >= 1.0 {
+                            value = .effect(.identity, displsyList)
                             self.canonicalizeIdentityEffect(list: displsyList)
-                            // <+4656>
-                            if displsyList.properties.contains(.foregroundLayer) {
-                                // <+4720>
-                                return
-                            }
-                            
-                            // <+3144>
-                            if opacity > 0.0 {
-                                // <+4736>
-                                return
-                            } else {
-                                // <+5196>
-                                value = .empty
-                                // <+4736>
-                                return
-                            }
                         }
+
+                        guard !displsyList.features.contains(.required) else {
+                            return
+                        }
+                        if opacity <= 0.0 {
+                            value = .empty
+                        }
+                        return
                     case .identity:
                         // <+1140>
                         // <+1396>
@@ -315,8 +303,8 @@ extension DisplayList {
                         assertUnimplemented()
                     }
                 } else {
-                    // <+396>
-                    assertUnimplemented()
+                    value = .empty
+                    return
                 }
             default:
                 // <+4736>

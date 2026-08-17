@@ -142,3 +142,25 @@ extension TagValueTraitKey.Value : Sendable {
 @available(*, unavailable)
 extension TagValueTraitKey : Sendable {
 }
+
+@usableFromInline
+package struct ZIndexTraitKey : _ViewTraitKey {
+    @inlinable package static var defaultValue: Double {
+        return 0
+    }
+}
+
+@available(*, unavailable)
+extension ZIndexTraitKey : Sendable {
+}
+
+extension ViewTraitCollection {
+    var zIndex: Double {
+        get {
+            return self[ZIndexTraitKey.self]
+        }
+        set {
+            self[ZIndexTraitKey.self] = newValue
+        }
+    }
+}

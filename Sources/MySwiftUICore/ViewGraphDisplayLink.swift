@@ -1,5 +1,6 @@
 // 49A76CA1B5E4F66260081F1C9EDD4305
 package import QuartzCore
+private import Foundation
 private import AttributeGraph
 private import _QuartzCorePrivate
 
@@ -344,8 +345,30 @@ final class ViewGraphDisplayLink : NSObject {
         }
     }
     
-    @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any) {
-        assertUnimplemented()
+    @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any?) {
+        Update.lock()
+        ViewGraphDisplayLink.asyncRunloop = RunLoop.current
+        Update.broadcast()
+
+        while ViewGraphDisplayLink.asyncPending {
+            ViewGraphDisplayLink.asyncPending = false
+            Update.unlock()
+
+            let runLoop = ViewGraphDisplayLink.asyncRunloop!
+            runLoop.schedule(
+                after: RunLoop.SchedulerTimeType(Date(timeIntervalSinceNow: 1.0)),
+                tolerance: RunLoop.SchedulerTimeType.Stride(0.1),
+                options: nil
+            ) {}
+            runLoop.run()
+
+            Update.lock()
+        }
+
+        ViewGraphDisplayLink.asyncRunloop = nil
+        ViewGraphDisplayLink.asyncThread = nil
+        Update.broadcast()
+        Update.unlock()
     }
 }
 

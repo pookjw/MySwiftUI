@@ -6,8 +6,8 @@ public struct OpacityTransition : Transition {
     
     @MainActor @preconcurrency public func body(content: OpacityTransition.Content, phase: TransitionPhase) -> some View {
         return ModifiedContent(
-            content: PlaceholderContentView<Self>(),
-            modifier: OpacityRendererEffect(opacity: 1)
+            content: content,
+            modifier: OpacityRendererEffect(opacity: phase.isIdentity ? 1 : 0)
         )
     }
     

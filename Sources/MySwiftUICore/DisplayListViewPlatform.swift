@@ -1373,9 +1373,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         // self = sp + 0x80
         // sp + 0x48
         let indexID = index.id
-        // sp + 0x58
-        let (archiveSerial, archiveIdentity) = (index.archiveSerial, index.archiveIdentity)
-        
         // sp + 0x38
         let key = DisplayList.ViewUpdater.ViewCache.Key(id: indexID, system: PlatformViewDefinition.System(base: system), tag: tag)
         if let viewInfo = map[key] {
@@ -1394,17 +1391,11 @@ extension DisplayList.ViewUpdater.ViewCache {
             viewInfo_2.cacheSeed = cacheSeed
             
             // sp + 0x4c0
-            let viewInfo_3: DisplayList.ViewUpdater.ViewInfo
             if viewInfo.isRemoved {
-                // <+380>
-                viewInfo_3 = viewInfo
-                self.removed.insert(key)
-                // <+1716>
-            } else {
-                // <+1688>
-                viewInfo_3 = viewInfo
-                // <+1716>
+                viewInfo_2.isRemoved = false
+                self.removed.remove(key)
             }
+            let viewInfo_3 = viewInfo_2
             
             // <+1716>
             // sp + 0x88 (8 bytes만)
@@ -1441,6 +1432,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             if parentID != id {
                 // <+1996>
                 // parentID -> sp + 0x3e0
+                viewInfo_2.parentID = id
                 viewInfo_2.seeds.invalidate()
                 // <+2012>
             }
@@ -1598,7 +1590,9 @@ extension DisplayList.ViewUpdater.ViewCache {
         // <+1276>
         // x19
         let reverseMapKey = unsafe OpaquePointer(Unmanaged.passUnretained(viewInfo_2.view).toOpaque())
-        unsafe reverseMap.removeValue(forKey: reverseMapKey)
+        if let oldKey = unsafe reverseMap[reverseMapKey] {
+            map.removeValue(forKey: oldKey)
+        }
         unsafe reverseMap[reverseMapKey] = mapKey
         
         // <+1444>
@@ -1632,16 +1626,7 @@ extension DisplayList.ViewUpdater.ViewCache {
             view: viewInfo_2.view,
             container: container,
             id: viewID,
-            key: DisplayList.ViewUpdater.ViewCache.Key(
-                id: DisplayList.Index.ID(
-                    identity: indexID.archiveIdentity,
-                    serial: indexID.archiveSerial,
-                    archiveIdentity: archiveIdentity,
-                    archiveSerial: archiveSerial
-                ),
-                system: PlatformViewDefinition.System(base: system),
-                tag: tag
-            ),
+            key: mapKey,
             changed: true,
             isValid: !isInvalid,
             nextUpdate: nextUpdate

@@ -145,8 +145,44 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
-        assertUnimplemented()
+    nonisolated package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
+        Update.assertIsLocked()
+
+        guard
+            let owner = self.as(ViewGraphOwner.self),
+            !isRendering,
+            owner.valuesNeedingUpdate.isEmpty
+        else {
+            return nil
+        }
+
+        let viewGraph = owner.viewGraph
+        guard !viewGraph.hasPendingTransactions else {
+            return nil
+        }
+
+        return Update.perform {
+            owner.currentTimestamp += interval
+            let time = owner.currentTimestamp
+            owner.renderingPhase = .renderingAsync
+
+            guard let (displayList, version) = viewGraph.updateOutputsAsync(at: time) else {
+                owner.renderingPhase = .none
+                return nil
+            }
+
+            let renderTime = viewGraph.renderDisplayList(
+                displayList,
+                asynchronously: true,
+                time: time,
+                nextTime: viewGraph.nextUpdate.views.time,
+                targetTimestamp: targetTimestamp,
+                version: version,
+                maxVersion: DisplayList.Version(forUpdate: ())
+            )
+            owner.renderingPhase = .none
+            return renderTime
+        }
     }
     
     package func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
@@ -231,7 +267,7 @@ extension ViewGraphRootValueUpdater {
         assertUnimplemented()
     }
     
-    package var isRendering: Bool {
+    nonisolated package var isRendering: Bool {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return false
         }

@@ -24,10 +24,6 @@ extension InteractiveResizeChangeViewGraphFeature : ViewGraphFeature {
         assertUnimplemented()
     }
     
-    func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
-    }
-    
     func update(graph: ViewGraph) {
         assertUnimplemented()
     }

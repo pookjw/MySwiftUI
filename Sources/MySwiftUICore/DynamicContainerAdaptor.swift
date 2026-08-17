@@ -471,6 +471,7 @@ fileprivate struct TransitionHelper<T : Transition> {
             let phase = info.items[index].phase // w20
         {
             didUpdate = self.phase != phase
+            self.phase = phase
         }
         
         // <+336>
@@ -770,7 +771,7 @@ fileprivate struct DynamicLayoutComputer<T : Layout>: StatefulRule, AsyncAttribu
     var layoutMap: DynamicLayoutMap
     
     var description: String {
-        assertUnimplemented()
+        "\(T.self) → LayoutComputer"
     }
     
     typealias Value = LayoutComputer

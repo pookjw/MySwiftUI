@@ -28,8 +28,8 @@ extension DisplayList.ViewUpdater {
         
         @unsafe struct State {
             private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            private(set) var opacity: Float = 1
-            private var blend: GraphicsBlendMode = unsafe .normal
+            var opacity: Float = 1
+            var blend: GraphicsBlendMode = unsafe .normal
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = []
             private(set) var filters: [GraphicsFilter] = []
@@ -192,7 +192,12 @@ extension DisplayList.ViewUpdater.Model {
             }
         } else {
             // <+464>
-            assertUnimplemented()
+            switch unsafe state.blend {
+            case .blendMode(let blendMode) where blendMode == .normal:
+                break
+            default:
+                assertUnimplemented()
+            }
         }
         
         // <+960>
@@ -334,6 +339,9 @@ extension DisplayList.ViewUpdater.Model {
                     
                     requirements.formUnion(results)
                 }
+            case .opacity(let opacity):
+                state.opacity *= opacity
+                state.versions.opacity.combine(with: item.version)
             case .identity:
                 break
             default:
@@ -397,6 +405,8 @@ extension DisplayList.ViewUpdater.Model {
                 case .affine3D(_):
                     return
                 }
+            case .opacity:
+                return
             case .identity:
                 return
             default:

@@ -109,7 +109,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
+        return nil
     }
     
     mutating func needsUpdate(graph: ViewGraph) -> Bool {

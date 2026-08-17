@@ -23,11 +23,11 @@ fileprivate struct MyView : View {
                         }
                     }
                     .frame(width: 30, height: 30)
-//                    .offset(
-//                        x: self.xOffset(for: index, container: proxy.size),
-//                        y: self.yOffset(for: index, container: proxy.size)
-//                    )
-//                    .offset(z: self.zOffset)
+                    .offset(
+                        x: self.xOffset(for: index, container: proxy.size),
+                        y: self.yOffset(for: index, container: proxy.size)
+                    )
+                    .offset(z: self.zOffset)
                 }
             }
             

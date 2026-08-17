@@ -4,7 +4,7 @@
     case didDisappear
     
     public var isIdentity: Bool {
-        assertUnimplemented()
+        return self == .identity
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -14,7 +14,14 @@
 
 extension TransitionPhase {
     public var value: Double {
-        assertUnimplemented()
+        switch self {
+        case .willAppear:
+            return -1
+        case .identity:
+            return 0
+        case .didDisappear:
+            return 1
+        }
     }
 }
 

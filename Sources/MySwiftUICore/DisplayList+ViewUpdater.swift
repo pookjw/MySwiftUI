@@ -254,7 +254,18 @@ extension DisplayList {
         }
         
         func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
-            assertUnimplemented()
+            if
+                isValid,
+                asyncSeed == DisplayList.Seed(version),
+                nextUpdate >= time
+            {
+                return nextUpdate
+            }
+
+            _ = displayList
+            _ = targetTimestamp
+            _ = maxVersion
+            return nil
         }
         
         func destroy(rootView: AnyObject) {
@@ -390,7 +401,7 @@ extension DisplayList {
                  container -> x0 -> x22
                  */
                 // inlined
-                self.viewCache.index.enter(identity: item.identity)
+                let oldIndex = self.viewCache.index.enter(identity: item.identity)
                 var item = item
                 let time = self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
                 
@@ -399,6 +410,7 @@ extension DisplayList {
                 }
                 
                 self.updateInheritedView(container: &container, from: item, parentState: parentState)
+                self.viewCache.index.leave(index: oldIndex)
             }
         }
     }
@@ -587,6 +599,7 @@ extension DisplayList.ViewUpdater {
                 if !viewInfo.isRemoved {
                     viewInfo.isRemoved = true
                     viewCache.map[key] = viewInfo
+                    viewCache.removed.insert(key)
                 }
                 
                 CoreViewRemoveFromSuperview(system, subview)

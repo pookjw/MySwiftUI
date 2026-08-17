@@ -112,6 +112,24 @@ extension ViewGraphFeatureBuffer {
                 base.flags = newValue
             }
         }
+
+        var needsUpdate: Bool {
+            get {
+                return (flags & 0x1) != 0
+            }
+            nonmutating set {
+                flags = newValue ? (flags | 0x1) : (flags & ~0x1)
+            }
+        }
+
+        var skipsAsyncUpdate: Bool {
+            get {
+                return (flags & 0x2) != 0
+            }
+            nonmutating set {
+                flags = newValue ? (flags | 0x2) : (flags & ~0x2)
+            }
+        }
     }
 }
 
@@ -186,7 +204,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func allowsAsyncUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
-            assertUnimplemented()
+            return unsafe elt.body(as: T.self).pointee.allowsAsyncUpdate(graph: graph)
         }
         
         override class func outputsDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {

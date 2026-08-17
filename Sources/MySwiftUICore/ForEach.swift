@@ -925,7 +925,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             let subgraph1 = self.parentSubgraph
             let graph = subgraph1.graph
             // x22 -> x19 + 0xb0
-            let subgraph2 = graph.createSubgraph2(self.info!.identifier)
+            let subgraph2 = graph.createSubgraph2(self.list!.identifier)
             subgraph1.addChild(subgraph2)
             
             // <+1532>
@@ -938,6 +938,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // x19
             let newEnvironment = MutableBox(cachedEnvironment.value)
             copy_1.base.cachedEnvironment = newEnvironment
+            copy_1.options.formUnion(.canTransition)
             
             var countBox: MutableBox<DebugReplaceableViewCount>?
             if copy_1.base[IsInLazyContainer.self] {
@@ -1583,7 +1584,7 @@ extension ForEachState.Info {
         fileprivate let state: ForEachState<Data, ID, Content>
         
         var description: String {
-            assertUnimplemented()
+            "Collection.Info"
         }
         
         var value: ForEachState.Info {
@@ -1652,13 +1653,9 @@ struct ForEachEvictionInput : GraphInput {
     static let evictByDefault: Bool = isLinkedOnOrAfter(.v6)
 }
 
-fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Content : View>: ViewList, CustomStringConvertible {
+fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Content : View>: ViewList {
     private(set) var state: ForEachState<Data, ID, Content>
     private(set) var seed: UInt32
-    
-    var description: String {
-        assertUnimplemented()
-    }
     
     var traits: ViewTraitCollection {
         assertUnimplemented()
@@ -1810,7 +1807,7 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
             case .dynamicList(let listAttribute, let modifier):
                 // <+344>
                 // x19 + 0xb0
-                var viewList = RuleContext(attribute: state.info!).valueAndFlags(of: listAttribute, options: []).value
+                var viewList = RuleContext(attribute: state.list!).valueAndFlags(of: listAttribute, options: []).value
                 
                 if let modifier {
                     modifier.apply(to: &viewList)
@@ -1847,7 +1844,7 @@ extension ForEachList {
         fileprivate private(set) var seed: UInt32
         
         var description: String {
-            assertUnimplemented()
+            "Collection.List"
         }
         
         var info: ForEachState<Data, ID, Content>.Info {
@@ -1873,7 +1870,7 @@ fileprivate struct ForEachChild<Data : RandomAccessCollection, ID : Hashable, Co
     let id: ID
     
     var description: String {
-        assertUnimplemented()
+        "Collection[\(id)]"
     }
     
     var info: ForEachState<Data, ID, Content>.Info {

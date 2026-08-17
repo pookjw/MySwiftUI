@@ -65,9 +65,9 @@ open class _UIHostingView<Content : View>: UIView {
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
     private var legacyKeyboardAnimation: Animation? = nil
-    weak var viewController: UIHostingController<Content>? = nil {
+    nonisolated(unsafe) weak var viewController: UIHostingController<Content>? = nil {
         didSet {
-            updateBackgroundColor()
+            unsafe updateBackgroundColor()
         }
     }
     private(set) final var currentEvent: UIEvent? = nil
@@ -1305,10 +1305,6 @@ extension _UIHostingView {
             assertUnimplemented()
         }
         
-        func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            assertUnimplemented()
-        }
-        
         func needsUpdate(graph: ViewGraph) -> Bool {
             assertUnimplemented()
         }
@@ -1750,10 +1746,10 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
-        if let result = _base._as(type) {
+    @_spi(Internal) nonisolated public final func `as`<T>(_ type: T.Type) -> T? {
+        if let result = unsafe _base._as(type) {
             return result
-        } else if let result = viewController?._as(type) {
+        } else if let result = unsafe viewController?._as(type) {
             return result
         } else if let result = _specialize(self as (any FocusHost), for: T.self) {
             return result
@@ -1798,8 +1794,8 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         }
     }
     
-    @_spi(Internal) @MainActor public final func requestUpdate(after time: Double) {
-        base._requestUpdate(after: time)
+    @_spi(Internal) nonisolated public final func requestUpdate(after time: Double) {
+        unsafe base._requestUpdate(after: time)
     }
     
     nonisolated package final func startUpdateTimer(delay: Double) {
@@ -2031,7 +2027,7 @@ extension _UIHostingView : FocusBridgeProvider {
     
 }
 
-extension _UIHostingView : PlatformItemListHost {
+extension _UIHostingView : @preconcurrency PlatformItemListHost {
     func platformItemListDidChange(list: () -> PlatformItemList) {
         assertUnimplemented()
     }
@@ -2049,13 +2045,13 @@ extension _UIHostingView : PointerHost {
     
 }
 
-extension _UIHostingView : WindowLayoutHost {
+extension _UIHostingView : @preconcurrency WindowLayoutHost {
     func windowLayoutComputerDidChange(computer: () -> WindowLayoutComputer) {
         assertUnimplemented()
     }
 }
 
-extension _UIHostingView : CurrentEventProvider {
+extension _UIHostingView : @preconcurrency CurrentEventProvider {
     
 }
 
@@ -2073,7 +2069,7 @@ extension _UIHostingView : UIKitContainerFocusItem {
     }
 }
 
-extension _UIHostingView : RootTransformAdjuster {
+extension _UIHostingView : @preconcurrency RootTransformAdjuster {
     package func updateRootTransform(_ transform: inout ViewTransform) {
         if !base.registeredForGeometryChanges {
             base.registeredForGeometryChanges = true

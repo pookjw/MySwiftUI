@@ -52,6 +52,9 @@ extension DisplayList.ViewUpdater {
                     layer.removePresentationModifier(modifier)
                 }
             }
+
+            asyncValues = [:]
+            asyncModifierGroup = nil
         }
         
         func prepare(
@@ -190,6 +193,9 @@ extension DisplayList.ViewUpdater {
                     maskView = CoreViewMaskView(system, subview)
                 }
             }
+
+            removed.removeAll()
+            animators = animators.filter { $0.value.deadline >= time }
             
             self.cacheSeed &+= 1
         }
@@ -263,7 +269,7 @@ extension DisplayList.ViewUpdater.ViewCache {
 extension DisplayList.ViewUpdater.ViewCache {
     fileprivate struct AnimatorInfo {
         private var state: DisplayList.ViewUpdater.ViewCache.AnimatorInfo.State
-        private var deadline: Time
+        var deadline: Time
     }
     
     enum Tag {

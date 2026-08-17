@@ -394,6 +394,7 @@ extension AttributeGraph.Graph {
 extension AttributeGraph.Graph {
   public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, context: Swift.UnsafePointer<T>)
   public func addTraceEvent<T>(_: Swift.UnsafePointer<Swift.Int8>, value: T)
+  public func withMainThreadHandler(_ handler: (() -> Swift.Void) -> Swift.Void, do body: () -> Swift.Void)
   public static func withoutUpdate<T>(_: () -> T) -> T
 }
 

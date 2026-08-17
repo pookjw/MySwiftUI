@@ -18,6 +18,10 @@ extension Attribute where T == ViewSize {
 }
 
 extension Attribute {
+    package func allowsAsyncUpdate() -> Bool {
+        return !valueState.contains(AGValueState(rawValue: 0x11))
+    }
+
     mutating func makeReusable(indirectMap: IndirectAttributeMap) {
         makeReusable(indirectMap: indirectMap, withoutInvalidation: false)
     }
@@ -90,6 +94,12 @@ extension Attribute {
         } else {
             return transform(value)
         }
+    }
+}
+
+extension WeakAttribute {
+    package func allowsAsyncUpdate() -> Bool {
+        return attribute?.allowsAsyncUpdate() ?? false
     }
 }
 

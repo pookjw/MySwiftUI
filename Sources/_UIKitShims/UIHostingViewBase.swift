@@ -361,7 +361,7 @@ package final class UIHostingViewBase : NSObject {
         return result
     }
     
-    @MainActor package func _requestUpdate(after time: Double) {
+    @MainActor @preconcurrency package func _requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()

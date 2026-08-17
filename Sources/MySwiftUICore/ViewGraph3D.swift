@@ -76,14 +76,6 @@ extension ViewGraph3D : ViewGraphFeature {
         }
     }
     
-    package func isHiddenForReuseDidChange(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
-    package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
-    }
-    
     package mutating func needsUpdate(graph: ViewGraph) -> Bool {
         return volumeThatFitsObservers.needsUpdate(graph: graph)
     }

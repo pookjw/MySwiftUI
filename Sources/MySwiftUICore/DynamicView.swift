@@ -280,6 +280,7 @@ extension DynamicViewContainer {
             
             if let matchedItem = unsafe matchedItem {
                 // <+1640>
+                unsafe matchedItem.takeUnretainedValue().refcount &+= 1
                 let subgraph = unsafe matchedItem.takeUnretainedValue().subgraph
                 parentSubgraph.addChild(subgraph)
                 subgraph.didReinsert()
@@ -620,12 +621,27 @@ struct DynamicViewListItem : DynamicContainerItem {
     var count: Int {
         return elements.base.count
     }
-    
+
+    var needsTransitions: Bool {
+        guard traits.value(for: CanTransitionTraitKey.self, defaultValue: false) else {
+            return false
+        }
+        return !traits.value(for: TransitionTraitKey.self).isIdentity
+    }
+
+    var zIndex: Double {
+        return traits.zIndex
+    }
+
     func matchesIdentity(of item: DynamicViewListItem) -> Bool {
         return self.list == item.list &&
         self.id == item.id
     }
-    
+
+    var viewID: _ViewList_ID? {
+        return id
+    }
+
     private(set) var id: _ViewList_ID
     private(set) var elements: _ViewList_SubgraphElements
     private(set) var traits: ViewTraitCollection

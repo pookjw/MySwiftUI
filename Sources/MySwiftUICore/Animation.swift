@@ -155,11 +155,11 @@ extension CGFloat : VectorArithmetic {
 
 extension Double : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        assertUnimplemented()
+        self *= rhs
     }
     
     public var magnitudeSquared: Double {
-        assertUnimplemented()
+        return self * self
     }
 }
 
@@ -565,7 +565,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
         )
     }
     
-    func checkReset() -> Bool {
+    mutating func checkReset() -> Bool {
         if phase.resetSeed != resetSeed {
             reset()
             return true
@@ -574,8 +574,11 @@ struct AnimatableAttributeHelper<T : Animatable> {
         }
     }
     
-    func reset() {
-        assertUnimplemented()
+    mutating func reset() {
+        removeListeners()
+        animatorState = nil
+        previousModelData = nil
+        resetSeed = phase.resetSeed
     }
     
     func removeListeners() {
@@ -604,7 +607,7 @@ struct AnimatableAttribute<T : Animatable>: CustomStringConvertible, AsyncAttrib
     }
     
     var description: String {
-        assertUnimplemented()
+        "Animatable<\(T.self)>"
     }
     
     typealias Value = T
