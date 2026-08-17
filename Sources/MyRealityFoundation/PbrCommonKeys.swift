@@ -30,4 +30,37 @@ struct PbrCommonKeys {
         case meshScale
         case opacityScale
     }
+    
+    enum Textures : String, Hashable {
+        case textureBrdf
+        case textureClothBrdf
+        case textureSpecMaxEss
+        case texturePrefilteredDiffuse
+        case texturePrefilteredSpecular
+        case textureAreaLightMaps
+        case textureBaseColor
+        case textureAmbientOcclusion
+        case textureEmissive
+        case textureMetallic
+        case textureRoughness
+        case textureSpecular
+        case textureNormal
+        case textureOpacity
+        case textureAnisotropyLevel
+        case textureAnisotropyAngle
+        case textureClearcoatRoughness
+        case textureRMAS
+        case textureClearcoat
+        case textureSheenColor
+        case textureBlueNoise
+        case envProbeCubeArray
+        case envProbeCube
+        case envProbeTextureArray
+        case texturePasstroughColor
+        case ssoGBufferPosition
+        case ssoGBufferNormal
+        case ssoNoiseTexture
+        case texturePlanarReflection
+        case textureClearcoatNormal
+    }
 }

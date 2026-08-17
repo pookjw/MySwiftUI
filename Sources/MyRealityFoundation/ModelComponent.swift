@@ -1,21 +1,43 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct ModelComponent : Component {
     public var mesh: MeshResource
-    
     public var materials: [any Material]
+    private var _boundsMargin: Float
+    private var deformation: _Proto_MeshDeformation_v1
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public var boundsMargin: Float {
         get {
-            assertUnimplemented()
+            return self._boundsMargin
         }
         set {
-            assertUnimplemented()
+            self._boundsMargin = newValue
+        }
+        _modify {
+            yield &self._boundsMargin
         }
     }
     
     public init(mesh: MeshResource, materials: [any Material]) {
-        assertUnimplemented()
+        self._boundsMargin = 0
+        self.mesh = mesh
+        self.materials = materials
+        self.deformation = _Proto_MeshDeformation_v1()
+    }
+    
+    init(mesh: MeshResource, materials: [any Material], deformation: _Proto_MeshDeformation_v1) {
+        self._boundsMargin = 0
+        self.mesh = mesh
+        self.materials = materials
+        self.deformation = deformation
+    }
+    
+    init(mesh: MeshResource, materials: [any Material], _ block: () -> [_Proto_MeshDeformation_v1.Stack]) throws {
+        let deformation = try _Proto_MeshDeformation_v1(block)
+        self.mesh = mesh
+        self.materials = materials
+        self._boundsMargin = 0
+        self.deformation = deformation
     }
 }
 

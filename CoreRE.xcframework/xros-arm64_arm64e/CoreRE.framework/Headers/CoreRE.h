@@ -98,3 +98,4 @@
 #import <CoreRE/REGeom.h>
 #import <CoreRE/REAsset.h>
 #import <CoreRE/REMaterialParameterBlockValue.h>
+#import <CoreRE/REProjectiveShadowReceiverComponent.h>

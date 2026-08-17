@@ -238,7 +238,18 @@ exports:
     _REAssetLoadRequestSetCompletionHandler,
     _REAssetLoadRequestAddAsset,
     _REMaterialParameterBlockValueCreate,
-    _REAssetManagerCreateAssetHandle ]
+    _REAssetManagerCreateAssetHandle,
+    _REMaterialParameterBlockValueCopy,
+    _REMaterialParameterBlockValueClearParameter,
+    _REMaterialParameterBlockValueGetParameterType,
+    _RECGColorToColorGamut,
+    _REMaterialParameterBlockValueSetColor3,
+    _REMaterialParameterBlockValueSetColor4,
+    _REMaterialParameterBlockValueGetColor4,
+    _RECreateCGColorFromColorGamut,
+    _REMaterialParameterBlockValueSetFloat,
+    _REShadowsGetEnableDefaultShadows,
+    _REProjectiveShadowReceiverComponentAddToEntity ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

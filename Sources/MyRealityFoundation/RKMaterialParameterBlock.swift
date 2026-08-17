@@ -1,3 +1,4 @@
+// C38F2020BA65316243F342AC75A2E114
 public import CoreGraphics
 public import simd
 private import CoreRE
@@ -35,6 +36,13 @@ public struct __RKMaterialParameterBlock : Sendable {
         case float4x4(float4x4)
         case bool(Bool)
         case int(Int32)
+        @_spi(Internal) case int2(SIMD2<Int32>)
+        @_spi(Internal) case int3(SIMD3<Int32>)
+        @_spi(Internal) case int4(SIMD4<Int32>)
+        @_spi(Internal) case uint(UInt32)
+        @_spi(Internal) case uint2(SIMD2<UInt32>)
+        @_spi(Internal) case uint3(SIMD3<UInt32>)
+        @_spi(Internal) case uint4(SIMD4<UInt32>)
         case `default`
         
         public init(nilLiteral: ()) {
@@ -157,10 +165,10 @@ public struct __RKMaterialParameterBlock : Sendable {
         switch value {
         case .texture(_):
             assertUnimplemented()
-        case .textureAndSampler(_):
-            assertUnimplemented()
-        case .float(_):
-            assertUnimplemented()
+        case .textureAndSampler(let texture):
+            unsafe self.setTextureParameter(texture: texture, key: parameter)
+        case .float(let value):
+            unsafe self.coreParameterBlockValue.setFloat(parameter, value)
         case .float2(_):
             assertUnimplemented()
         case .float3(_):
@@ -209,6 +217,20 @@ public struct __RKMaterialParameterBlock : Sendable {
             assertUnimplemented()
         case .int(_):
             assertUnimplemented()
+        case .int2(_):
+            assertUnimplemented()
+        case .int3(_):
+            assertUnimplemented()
+        case .int4(_):
+            assertUnimplemented()
+        case .uint(_):
+            assertUnimplemented()
+        case .uint2(_):
+            assertUnimplemented()
+        case .uint3(_):
+            assertUnimplemented()
+        case .uint4(_):
+            assertUnimplemented()
         case .default:
             assertUnimplemented()
         }
@@ -219,7 +241,9 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public mutating func set(parameter name: String, value: __RKMaterialParameterBlock.Parameter) {
-        assertUnimplemented()
+        name.utf8CString.withUnsafeBufferPointer { pointer in
+            unsafe self.unsafeSet(parameter: pointer.baseAddress.unsafelyUnwrapped, value: value)
+        }
     }
     
     public func get(parameter name: String) -> __RKMaterialParameterBlock.Parameter? {
@@ -282,6 +306,10 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public init(hashedTransparentPassTechniqueMapping mapping: [(__RKMaterialParameterBlock.TransparentPass, Int)]) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func setTextureParameter(texture: MaterialParameters.Texture, key: UnsafePointer<Int8>) {
         assertUnimplemented()
     }
 }

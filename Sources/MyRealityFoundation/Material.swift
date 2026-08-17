@@ -140,7 +140,7 @@ extension Material {
         assertUnimplemented()
     }
     
-    func setScalarParameter(_ type: MixedParameterType, value: MaterialScalarParameter) {
+    mutating func setScalarParameter(_ type: MixedParameterType, value: MaterialScalarParameter) {
         assertUnimplemented()
     }
     
@@ -172,12 +172,7 @@ extension Material where Self == SimpleMaterial {
         
         if let value = firstValue.value {
             // <+88>
-            firstValue.key.utf8CString.withUnsafeBufferPointer { pointer in
-                unsafe self.__parameterBlock.unsafeSet(
-                    parameter: pointer.baseAddress.unsafelyUnwrapped,
-                    value: value
-                )
-            }
+            self.__parameterBlock.set(parameter: firstValue.key, value: value)
         } else {
             // <+208>
             self.__parameterBlock.clear(parameter: firstValue.key)
@@ -190,12 +185,7 @@ extension Material where Self == SimpleMaterial {
         
         if let value = lastValue.value {
             // <+272>
-            lastValue.key.utf8CString.withUnsafeBufferPointer { pointer in
-                unsafe self.__parameterBlock.unsafeSet(
-                    parameter: pointer.baseAddress.unsafelyUnwrapped,
-                    value: value
-                )
-            }
+            self.__parameterBlock.set(parameter: lastValue.key, value: value)
         } else {
             // <+436>
             self.__parameterBlock.clear(parameter: lastValue.key)
@@ -203,8 +193,54 @@ extension Material where Self == SimpleMaterial {
     }
     
     // $s10RealityKit8MaterialP0A10FoundationE18setScalarParameter_5valueyAD05MixedG4TypeO_AA0cfG0OtFAA06SimpleC0V_TB5
-    func setScalarParameter(_ type: MixedParameterType, value: MaterialScalarParameter) {
-        assertUnimplemented()
+    mutating func setScalarParameter(_ type: MixedParameterType, value: MaterialScalarParameter) {
+        let constant: PbrCommonKeys.Constants
+        switch type {
+        case .unknown0:
+            constant = .roughnessScale
+        case .unknown1:
+            constant = .metallicScale
+        case .unknown2:
+            constant = .emissiveColor
+        }
+        
+        switch value {
+        case .float(let _value):
+            self.__parameterBlock.set(
+                parameter: constant.rawValue,
+                value: .float(_value)
+            )
+            
+            let texturesKey: PbrCommonKeys.Textures
+            switch type {
+            case .unknown0:
+                texturesKey = .textureRoughness
+            case .unknown1:
+                texturesKey = .textureMetallic
+            case .unknown2:
+                texturesKey = .textureEmissive
+            }
+            
+            self.__parameterBlock.clear(parameter: texturesKey.rawValue)
+        case .texture(let resource):
+            self.__parameterBlock.set(
+                parameter: constant.rawValue,
+                value: .float(1)
+            )
+            
+            let texturesKey: PbrCommonKeys.Textures
+            switch type {
+            case .unknown0:
+                texturesKey = .textureRoughness
+            case .unknown1:
+                texturesKey = .textureMetallic
+            case .unknown2:
+                texturesKey = .textureEmissive
+            }
+            
+            let texture = self.makeMaterialParametersTextureFromTextureResource(resource, textureKey: texturesKey.rawValue)
+            self.__parameterBlock.set(parameter: texturesKey.rawValue, value: .textureAndSampler(texture))
+        }
     }
     
     // $s10RealityKit8MaterialP0A10FoundationE8getColor4nameSo10CGColorRefaSgSS_tFAA05UnlitC0V_Tg5
@@ -237,6 +273,20 @@ extension Material where Self == SimpleMaterial {
             return nil
         case .int(_):
             return nil
+        case .int2(_):
+            return nil
+        case .int3(_):
+            return nil
+        case .int4(_):
+            return nil
+        case .uint(_):
+            return nil
+        case .uint2(_):
+            return nil
+        case .uint3(_):
+            return nil
+        case .uint4(_):
+            return nil
         case .default:
             return nil
         case nil:
@@ -263,4 +313,5 @@ protocol MaterialParameter {
 enum MixedParameterType {
     case unknown0
     case unknown1
+    case unknown2
 }

@@ -246,7 +246,10 @@ exports:
     _REMaterialParameterBlockValueSetColor3,
     _REMaterialParameterBlockValueSetColor4,
     _REMaterialParameterBlockValueGetColor4,
-    _RECreateCGColorFromColorGamut ]
+    _RECreateCGColorFromColorGamut,
+    _REMaterialParameterBlockValueSetFloat,
+    _REShadowsGetEnableDefaultShadows,
+    _REProjectiveShadowReceiverComponentAddToEntity ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

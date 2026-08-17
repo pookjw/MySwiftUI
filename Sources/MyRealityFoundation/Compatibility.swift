@@ -170,7 +170,6 @@ extension CoreRE::ServiceLocator : RealityKitCompatibility {
 }
 
 extension CoreRE::Asset : RealityKitCompatibility {
-    // MeshResource 또는 __MaterialResource
     package typealias RealityKitType = AnyObject
     package typealias MyRealityKitType = AnyObject
     
