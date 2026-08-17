@@ -49,7 +49,14 @@ extension _ConditionalContent : View, PrimitiveView where TrueContent : View, Fa
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
+        guard
+            let trueCount = TrueContent._viewListCount(inputs: inputs),
+            FalseContent._viewListCount(inputs: inputs) == trueCount
+        else {
+            return nil
+        }
+        
+        return trueCount
     }
 }
 

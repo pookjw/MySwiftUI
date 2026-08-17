@@ -1,12 +1,12 @@
 //
 //  MiscellaneousViewController.swift
-//  NativePlayground
+//  MyPlayground
 //
 //  Created by Jinwoo Kim on 8/18/26.
 //
 
 import UIKit
-import SwiftUI
+import MySwiftUI
 
 fileprivate struct MyView : View {
     @State private var isStar = false
@@ -23,11 +23,11 @@ fileprivate struct MyView : View {
                         }
                     }
                     .frame(width: 30, height: 30)
-                    .offset(
-                        x: self.xOffset(for: index, container: proxy.size),
-                        y: self.yOffset(for: index, container: proxy.size)
-                    )
-                    .offset(z: self.zOffset)
+//                    .offset(
+//                        x: self.xOffset(for: index, container: proxy.size),
+//                        y: self.yOffset(for: index, container: proxy.size)
+//                    )
+//                    .offset(z: self.zOffset)
                 }
             }
             
@@ -88,4 +88,3 @@ extension MyView {
         return self.isStar ? 300 : 0
     }
 }
-

@@ -1,12 +1,12 @@
 //
-//  HVStackViewController.swift
-//  MyPlayground
+//  HVViewController.swift
+//  NativePlayground
 //
 //  Created by Jinwoo Kim on 8/18/26.
 //
 
 import UIKit
-import MySwiftUI
+import SwiftUI
 
 fileprivate struct MyView : View {
     var body: some View {
@@ -23,7 +23,7 @@ fileprivate struct MyView : View {
     }
 }
 
-final class HVStackViewController : UIViewController {
+final class HVViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

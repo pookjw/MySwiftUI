@@ -40,7 +40,7 @@ extension _GeometryEffect3D {
              modifier -> x0 -> x19 + 0x38
              */
             // x19 + 0x100
-            var copy_2 = inputs.base
+            let copy_2 = inputs.base
             // x19 + 0x90
             let _ = copy_1.base
             // x19 + 0x1c
@@ -130,7 +130,7 @@ extension _GeometryEffect3D {
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
-        assertUnimplemented()
+        return body(inputs)
     }
     
     nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {

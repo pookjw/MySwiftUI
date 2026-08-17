@@ -8,7 +8,7 @@ extension UnaryView {
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
+        return 1
     }
 }
 
