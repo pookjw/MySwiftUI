@@ -258,12 +258,18 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
         )
     }
     
-    func spacing() -> Spacing {
-        assertUnimplemented()
+    mutating func spacing() -> Spacing {
+        if self.preferredSpacing != nil {
+            return self.preferredSpacing!
+        }
+        
+        let spacing = self.layout.spacing(subviews: self.subviews, cache: &self.cache)
+        self.preferredSpacing = spacing.spacing
+        return self.preferredSpacing!
     }
     
     func layoutPriority() -> Double {
-        assertUnimplemented()
+        return self.proxies.isEmpty ? -.infinity : 0
     }
     
     mutating func sizeThatFits(_ size: _ProposedSize) -> CGSize {

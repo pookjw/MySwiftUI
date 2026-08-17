@@ -6,11 +6,7 @@
 //
 
 import UIKit
-#if USE_ORIGINAL_SWIFTUI
-import SwiftUI
-#else
 import MySwiftUI
-#endif
 
 private struct MyView : View {
     var body: some View {

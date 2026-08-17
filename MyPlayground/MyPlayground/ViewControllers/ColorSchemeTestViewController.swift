@@ -6,11 +6,7 @@
 //
 
 import UIKit
-#if USE_ORIGINAL_SWIFTUI
-import SwiftUI
-#else
 import MySwiftUI
-#endif
 
 fileprivate final class MyViewController : UIViewController {
     @ViewLoading private var label: UILabel

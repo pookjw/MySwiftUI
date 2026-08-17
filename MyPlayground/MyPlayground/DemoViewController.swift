@@ -150,6 +150,7 @@ extension DemoViewController {
         case openWindowActionView
         case openImmsersiveWindowView
         case sphereView
+        case hvStackView
         
         var title: String {
             switch self {
@@ -281,6 +282,8 @@ extension DemoViewController {
                 return _typeName(OpenImmsersiveWindowViewController.self, qualified: false)
             case .sphereView:
                 return _typeName(SphereViewController.self, qualified: false)
+            case .hvStackView:
+                return _typeName(HVStackViewController.self, qualified: false)
             }
         }
         
@@ -414,6 +417,8 @@ extension DemoViewController {
                 return OpenImmsersiveWindowViewController()
             case .sphereView:
                 return SphereViewController()
+            case .hvStackView:
+                return HVStackViewController()
             }
         }
     }

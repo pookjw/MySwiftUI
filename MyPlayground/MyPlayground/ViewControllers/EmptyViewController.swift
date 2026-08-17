@@ -6,11 +6,7 @@
 //
 
 import UIKit
-#if USE_ORIGINAL_SWIFTUI
-import SwiftUI
-#else
 import MySwiftUI
-#endif
 
 final class EmptyViewController : UIViewController {
     override func loadView() {

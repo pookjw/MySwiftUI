@@ -1,42 +1,31 @@
 //
-//  WithAnimationViewController.swift
-//  MyPlayground
+//  MiscellaneousViewController.swift
+//  NativePlayground
 //
-//  Created by Jinwoo Kim on 4/25/26.
+//  Created by Jinwoo Kim on 8/18/26.
 //
 
 import UIKit
-import MySwiftUI
+import SwiftUI
 
 fileprivate struct MyView : View {
-    @State private var x: CGFloat = 0
+    @AppStorage("testKey") private var flag = false
     
     var body: some View {
-        _VStackLayout {
-            MyButton(title: "Move") { 
-                move()
+        VStack {
+            ForEach(0..<4) { _ in
+                HStack {
+                    Color.red
+                    Color.orange
+                    Color.green
+                    Color.blue
+                }
             }
-            
-            Color.black
-                .frame(width: 100, height: 100)
-                .offset(x: x)
-        }
-    }
-    
-    private func move() {
-        withAnimation(completionCriteria: .removed) {
-            if x == 0 {
-                x = 300
-            } else {
-                x = 0
-            }
-        } completion: {
-            print("completion")
         }
     }
 }
 
-final class WithAnimationViewController : UIViewController {
+final class MiscellaneousViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

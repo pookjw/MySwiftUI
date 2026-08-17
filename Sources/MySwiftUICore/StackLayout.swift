@@ -175,7 +175,11 @@ extension HVStack {
     }
     
     nonisolated public func spacing(subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> ViewSpacing {
-        assertUnimplemented()
+        return cache.stack.withUnmanagedImplementation { unmanaged in
+            let spacing = unmanaged.spacing()
+            let layoutDirection = unmanaged.header.pointee.proxies.layoutDirection
+            return ViewSpacing(spacing, layoutDirection: layoutDirection)
+        }
     }
     
     nonisolated public func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout _StackLayoutCache) -> CGSize {
