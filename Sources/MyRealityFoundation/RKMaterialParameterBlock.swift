@@ -223,7 +223,49 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     public func get(parameter name: String) -> __RKMaterialParameterBlock.Parameter? {
-        assertUnimplemented()
+        return name.withCString { pointer_1 in
+            // $s10RealityKit26__RKMaterialParameterBlockV3get9parameterAC0D0OSgSS_tFAHSPys4Int8VGXEfU_TA
+            /*
+             pointer -> x0 -> x22
+             self.transparentPassTechniqueMapping -> x1
+             self.transparentPassesProvidedOnInit -> w2
+             self.savedTransparentPassesFromCore -> x3
+             self.coreParameterBlockValue -> x4 -> x23
+             return pointer -> x8 -> x20
+             */
+            let parameterType = unsafe self.coreParameterBlockValue.parameterType(pointer_1)
+            
+            switch parameterType {
+            case .unknown19:
+                assertUnimplemented()
+            case .unknown20:
+                // <+176>
+                var values: [Float] = [0, 0, 0, 1]
+                var gamut: UInt8 = 0
+                
+                let result = values.withUnsafeMutableBufferPointer { pointer_2 in
+                    return unsafe self.coreParameterBlockValue.getColor4(
+                        pointer_1,
+                        pointer_2.baseAddress.unsafelyUnwrapped,
+                        &gamut
+                    )
+                }
+                
+                guard result else {
+                    return nil
+                }
+                
+                let cgColor = unsafe RECreateCGColorFromColorGamut(
+                    SIMD4(values[0], values[1], values[2], values[3]),
+                    gamut
+                )
+                    .takeRetainedValue()
+                
+                return .color(cgColor)
+            @unknown default:
+                assertUnimplemented()
+            }
+        }
     }
     
     public init() {

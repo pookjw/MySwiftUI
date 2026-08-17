@@ -466,11 +466,12 @@ typedef const struct REAssetLoadRequest * REAssetLoadRequestRef __attribute__((s
 typedef struct __attribute__((objc_bridge(id))) REMaterialParameterBlockValue * REMaterialParameterBlockValueRef NS_SWIFT_NAME(MaterialParameterBlockValue);
 
 typedef NS_ENUM(uint32_t, REMaterialParameterBlockValueParameterType) {
-    REMaterialParameterBlockValueParameterTypeUnknown0 = 0,
-    REMaterialParameterBlockValueParameterTypeUnknown19 = 19
+    REMaterialParameterBlockValueParameterTypeUnknown19 = 19,
+    REMaterialParameterBlockValueParameterTypeUnknown20 = 20
 } NS_SWIFT_NAME(MaterialParameterBlockValue.ParameterType);
 
 RE_EXTERN void RECGColorToColorGamut(CGColorRef, float *, uint8_t *);
+RE_EXTERN CGColorRef RECreateCGColorFromColorGamut(simd_float4, uint8_t) NS_RETURNS_RETAINED;
 
 NS_ASSUME_NONNULL_END
 

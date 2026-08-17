@@ -202,14 +202,46 @@ extension Material where Self == SimpleMaterial {
         }
     }
     
-    func setScalarParameter(_: MixedParameterType, value: MaterialScalarParameter) {
+    // $s10RealityKit8MaterialP0A10FoundationE18setScalarParameter_5valueyAD05MixedG4TypeO_AA0cfG0OtFAA06SimpleC0V_TB5
+    func setScalarParameter(_ type: MixedParameterType, value: MaterialScalarParameter) {
         assertUnimplemented()
     }
     
     // $s10RealityKit8MaterialP0A10FoundationE8getColor4nameSo10CGColorRefaSgSS_tFAA05UnlitC0V_Tg5
     func getColor(name: String) -> CGColor? {
         let parameter = self.__parameterBlock.get(parameter: name)
-        assertUnimplemented()
+        
+        switch parameter {
+        case .texture(_):
+            return nil
+        case .textureAndSampler(_):
+            return nil
+        case .float(_):
+            return nil
+        case .float2(_):
+            return nil
+        case .float3(let values):
+            return SIMD4(values.x, values.y, values.z, 1).cgColor
+        case .float4(let values):
+            return values.cgColor
+        case .color(let color):
+            // <+144>
+            return color
+        case .float2x2(_):
+            return nil
+        case .float3x3(_):
+            return nil
+        case .float4x4(_):
+            return nil
+        case .bool(_):
+            return nil
+        case .int(_):
+            return nil
+        case .default:
+            return nil
+        case nil:
+            return nil
+        }
     }
 }
 

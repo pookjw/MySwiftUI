@@ -244,7 +244,9 @@ exports:
     _REMaterialParameterBlockValueGetParameterType,
     _RECGColorToColorGamut,
     _REMaterialParameterBlockValueSetColor3,
-    _REMaterialParameterBlockValueSetColor4 ]
+    _REMaterialParameterBlockValueSetColor4,
+    _REMaterialParameterBlockValueGetColor4,
+    _RECreateCGColorFromColorGamut ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
