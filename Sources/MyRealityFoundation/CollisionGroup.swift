@@ -2,16 +2,16 @@
 public struct CollisionGroup : OptionSet {
     public let rawValue: UInt32
     
-    @safe public static nonisolated(unsafe) let `default`: CollisionGroup = {
+    @safe public static let `default`: CollisionGroup = {
         assertUnimplemented()
     }()
     
     @available(iOS 13.4, macCatalyst 13.4, tvOS 26.0, *)
-    @safe public static nonisolated(unsafe) let sceneUnderstanding: CollisionGroup = {
+    @safe public static let sceneUnderstanding: CollisionGroup = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let all: CollisionGroup = {
+    @safe public static let all: CollisionGroup = {
         assertUnimplemented()
     }()
     

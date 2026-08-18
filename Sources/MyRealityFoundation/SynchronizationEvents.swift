@@ -5,14 +5,14 @@ public enum SynchronizationEvents {
     public struct OwnershipRequest : Event {
         public let entity: Entity
         
-        @safe public nonisolated(unsafe) let requester: any SynchronizationPeerID
-        @safe public nonisolated(unsafe) let accept: () -> Void
+        @safe public let requester: any SynchronizationPeerID
+        @safe public let accept: () -> Void
     }
     
     public struct OwnershipChanged : Event {
         public let entity: Entity
         
-        @safe public nonisolated(unsafe) let newOwner: (any SynchronizationPeerID)?
+        @safe public let newOwner: (any SynchronizationPeerID)?
     }
     
     struct OwnershipResponse : Event {

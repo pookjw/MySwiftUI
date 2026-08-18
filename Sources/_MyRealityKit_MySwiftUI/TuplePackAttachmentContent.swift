@@ -6,8 +6,8 @@
 @available(tvOS, unavailable)
 @frozen @MainActor @preconcurrency public struct TuplePackAttachmentContent<each T> : AttachmentContent, PrimitiveAttachmentContent where repeat each T : AttachmentContent {
     @usableFromInline
-    /*@MainActor @preconcurrency*/ @safe internal nonisolated(unsafe) var content: (repeat each T)
-    @inlinable /*@MainActor @preconcurrency*/ nonisolated internal init(_ content: repeat each T) {
+    @MainActor @preconcurrency @safe internal var content: (repeat each T)
+    @inlinable @MainActor @preconcurrency internal init(_ content: repeat each T) {
         self.content = (repeat each content)
     }
     

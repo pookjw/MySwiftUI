@@ -533,18 +533,16 @@ open class _UIHostingView<Content : View>: UIView {
                 return
             }
             
-            MainActor.assumeIsolated {
-                // x21
-                let effectiveGeometry = windowScene.effectiveGeometry
-                // x23
-                let isInteractivelyResizing = effectiveGeometry.isInteractivelyResizing
-                
-                interactiveResizeBridge.handleLiveResize(isResizing: isInteractivelyResizing, host: self)
-                let size = effectiveGeometry._size
-                
-                boundsDepth = size.depth
-                sceneSize = CGSize(width: size.width, height: size.height)
-            }
+            // x21
+            let effectiveGeometry = windowScene.effectiveGeometry
+            // x23
+            let isInteractivelyResizing = effectiveGeometry.isInteractivelyResizing
+
+            interactiveResizeBridge.handleLiveResize(isResizing: isInteractivelyResizing, host: self)
+            let size = effectiveGeometry._size
+
+            boundsDepth = size.depth
+            sceneSize = CGSize(width: size.width, height: size.height)
         } else {
             // <+500>
             unsafe super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -1342,16 +1340,13 @@ extension _UIHostingView {
             }
             
             // <+808>
-            var inputsBox = UncheckedSendable(inputs)
             Update.syncMain {
                 // $s7SwiftUI14_UIHostingViewC04HostD5Graph33_FAF0B683EB49BE9BABC9009857940A1ELLV06modifyD6Inputs6inputs5graphyAA01_dN0Vz_AA0dF0CtFyyXEfU_
                 let idiom = host.traitCollection.userInterfaceIdiom
-                if inputsBox.value[InterfaceIdiomInput.self] == nil {
-                    inputsBox.value[InterfaceIdiomInput.self] = idiom.idiom
+                if inputs[InterfaceIdiomInput.self] == nil {
+                    inputs[InterfaceIdiomInput.self] = idiom.idiom
                 }
             }
-            inputs = inputsBox.value
-            _ = consume inputsBox
             
             // <+856>
             inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))

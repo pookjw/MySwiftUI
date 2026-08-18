@@ -3,6 +3,10 @@ internal import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class AnimationResource : Resource {
+    deinit {
+        assertUnimplemented()
+    }
+
     static nonisolated(unsafe) var codableActionTypeMap: [String : (action: any (EntityAction & Codable).Type, parameter: any Codable.Type)] = [:]
     static nonisolated(unsafe) var actionSubscriptions: [ObjectIdentifier : [ActionEventType : CoreRE::SubscriptionHandle]] = [:]
     static nonisolated(unsafe) var actionTypeMap: [String : any EntityAction.Type] = [:]

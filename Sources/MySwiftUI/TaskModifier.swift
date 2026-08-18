@@ -204,9 +204,9 @@ extension _TaskModifier2 : Sendable {
 @frozen public struct _TaskValueModifier<Value> : ViewModifier where Value : Equatable {
     nonisolated public var action: @Sendable () async -> Void
     public var priority: TaskPriority
-    @safe public nonisolated(unsafe) var value: Value // safe + nonisolated는 원래 없음
+    @safe public var value: Value
 
-    @inlinable public nonisolated /* nonisolated는 원래 없음 */ init(
+    @inlinable public init(
         value: Value,
         priority: TaskPriority,
         action: @escaping @Sendable () async -> Void
@@ -258,7 +258,7 @@ public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
     @safe private nonisolated(unsafe) var taskExecutor: TaskExecutor?
     
     @usableFromInline
-    internal nonisolated /* nonisolated는 원래 없음 */ init(
+    internal init(
         id: ID,
         name: String,
         executorPreference taskExecutor: (any TaskExecutor)?,

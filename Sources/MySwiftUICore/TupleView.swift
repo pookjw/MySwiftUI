@@ -2,9 +2,9 @@
 private import AttributeGraph
 
 @frozen public struct TupleView<T> : View {
-    nonisolated public var value: T
+    public var value: T
     
-    @inlinable nonisolated public init(_ value: T) {
+    @inlinable public init(_ value: T) {
         self.value = value
     }
     

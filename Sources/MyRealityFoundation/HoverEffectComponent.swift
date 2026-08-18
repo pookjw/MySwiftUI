@@ -77,7 +77,7 @@ public struct HoverEffectComponent : Component {
     
     @available(iOS 18.0, macCatalyst 18.0, macOS 15.0, visionOS 2.0, *)
     public struct SpotlightHoverEffectStyle : Equatable {
-        @safe public static nonisolated(unsafe) let `default`: HoverEffectComponent.SpotlightHoverEffectStyle = {
+        @safe public static let `default`: HoverEffectComponent.SpotlightHoverEffectStyle = {
             assertUnimplemented()
         }()
         
@@ -92,7 +92,7 @@ public struct HoverEffectComponent : Component {
     
     @available(iOS 18.0, macCatalyst 18.0, macOS 15.0, visionOS 2.0, *)
     public struct HighlightHoverEffectStyle : Equatable {
-        @safe public static nonisolated(unsafe) let `default`: HoverEffectComponent.HighlightHoverEffectStyle = {
+        @safe public static let `default`: HoverEffectComponent.HighlightHoverEffectStyle = {
             assertUnimplemented()
         }()
         
@@ -107,7 +107,7 @@ public struct HoverEffectComponent : Component {
     
     @available(iOS 18.0, macCatalyst 18.0, macOS 15.0, visionOS 2.0, *)
     public struct ShaderHoverEffectInputs : Equatable {
-        @safe public static nonisolated(unsafe) let `default`: HoverEffectComponent.ShaderHoverEffectInputs = {
+        @safe public static let `default`: HoverEffectComponent.ShaderHoverEffectInputs = {
             assertUnimplemented()
         }()
         

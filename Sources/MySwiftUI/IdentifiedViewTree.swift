@@ -19,7 +19,7 @@ extension _IdentifiedViewTree : Sendable {
 public struct _IdentifiedViewsKey : HostPreferenceKey {
     public typealias Value = _IdentifiedViewTree
     
-    nonisolated(unsafe) public static let defaultValue: _IdentifiedViewTree = {
+    public static let defaultValue: _IdentifiedViewTree = {
         assertUnimplemented()
     }()
     

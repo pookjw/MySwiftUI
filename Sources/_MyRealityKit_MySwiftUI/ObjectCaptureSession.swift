@@ -138,8 +138,8 @@ public import Observation
         }
     }
     
-    public enum Tracking : Equatable, Sendable {
-        public enum Reason : Sendable {
+    public enum Tracking : Equatable {
+        public enum Reason {
             case initializing
             case relocalizing
             case excessiveMotion

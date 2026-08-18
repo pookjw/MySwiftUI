@@ -4,7 +4,6 @@ public import Spatial
 internal import AttributeGraph
 
 @available(visionOS 1.0, *)
-@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 @available(iOS, unavailable)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)

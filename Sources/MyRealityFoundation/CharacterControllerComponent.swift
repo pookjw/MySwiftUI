@@ -25,19 +25,19 @@ public struct CharacterControllerComponent : Component {
         
         public let rawValue: UInt8
         
-        @safe public static nonisolated(unsafe) let none: CharacterControllerComponent.CollisionFlags = {
+        @safe public static let none: CharacterControllerComponent.CollisionFlags = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let side: CharacterControllerComponent.CollisionFlags = {
+        @safe public static let side: CharacterControllerComponent.CollisionFlags = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let top: CharacterControllerComponent.CollisionFlags = {
+        @safe public static let top: CharacterControllerComponent.CollisionFlags = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let bottom: CharacterControllerComponent.CollisionFlags = {
+        @safe public static let bottom: CharacterControllerComponent.CollisionFlags = {
             assertUnimplemented()
         }()
         
@@ -73,27 +73,27 @@ public struct CharacterControllerComponent : Component {
     
     public var collisionFilter: CollisionFilter
     
-    @safe public static nonisolated(unsafe) let defaultRadius: Float = {
+    @safe public static let defaultRadius: Float = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let defaultHeight: Float = {
+    @safe public static let defaultHeight: Float = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let defaultSkinWidth: Float = {
+    @safe public static let defaultSkinWidth: Float = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let defaultSlopeLimit: Float = {
+    @safe public static let defaultSlopeLimit: Float = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let defaultStepLimit: Float = {
+    @safe public static let defaultStepLimit: Float = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let defaultUpVector: SIMD3<Float> = {
+    @safe public static let defaultUpVector: SIMD3<Float> = {
         assertUnimplemented()
     }()
 }

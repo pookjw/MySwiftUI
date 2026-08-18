@@ -96,7 +96,7 @@ public struct __RKEntityTagsComponent {
         }
     }
     
-    public fileprivate(set) static nonisolated(unsafe) var registration: __RKEntityTagsComponent.Registration?
+    public fileprivate(set) static var registration: __RKEntityTagsComponent.Registration?
 }
 
 extension __RKEntityTagsComponent.Registration {

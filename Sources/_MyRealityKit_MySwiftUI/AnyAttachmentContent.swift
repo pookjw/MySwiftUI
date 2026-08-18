@@ -7,7 +7,7 @@
 @frozen @MainActor @preconcurrency public struct AnyAttachmentContent : AttachmentContent, PrimitiveAttachmentContent {
     @MainActor @preconcurrency internal var storage: AnyAttachmentContentStorageBase
     
-    /*@MainActor @preconcurrency */ nonisolated public init<Content>(_ content: Content) where Content : AttachmentContent {
+    @MainActor @preconcurrency public init<Content>(_ content: Content) where Content : AttachmentContent {
         assertUnimplemented()
     }
     

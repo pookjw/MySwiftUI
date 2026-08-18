@@ -4,7 +4,7 @@ private import CoreRE
 public struct __RKSceneUUIDComponent {
     @safe @_hasMissingDesignatedInitializers final public class Registration : Sendable {
         private nonisolated(unsafe) let introspectionStruct: OpaquePointer
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()
@@ -79,7 +79,7 @@ public struct __RKSceneUUIDComponent {
         }
     }
     
-    public fileprivate(set) nonisolated(unsafe) static var registration: __RKSceneUUIDComponent.Registration?
+    public fileprivate(set) static var registration: __RKSceneUUIDComponent.Registration?
 }
 
 extension __RKSceneUUIDComponent.Registration {

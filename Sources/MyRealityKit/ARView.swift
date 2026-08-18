@@ -126,31 +126,31 @@ extension ARView {
             public struct Options : OptionSet {
                 public let rawValue: UInt32
                 
-                @safe public static nonisolated(unsafe) let occlusion: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let occlusion: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let receivesLighting: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let receivesLighting: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let collision: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let collision: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let physics: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let physics: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let __disableFeathering: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let __disableFeathering: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let __disableGuidedFilterOcclusions: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let __disableGuidedFilterOcclusions: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
-                @safe public static nonisolated(unsafe) let `default`: ARView.Environment.SceneUnderstanding.Options = {
+                @safe public static let `default`: ARView.Environment.SceneUnderstanding.Options = {
                     assertUnimplemented()
                 }()
                 
@@ -257,7 +257,7 @@ extension ARView.Environment.Reverb.Preset : CaseIterable {
 @available(visionOS, unavailable)
 extension ARView {
     public struct RenderOptions : OptionSet {
-        @safe public static nonisolated(unsafe) let disableCameraGrain: ARView.RenderOptions = {
+        @safe public static let disableCameraGrain: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
@@ -266,23 +266,23 @@ extension ARView {
         @available(macCatalyst, deprecated, introduced: 14.0, renamed: "disableAREnvironmentLighting")
         @available(visionOS, unavailable)
         @available(tvOS, unavailable, renamed: "disableAREnvironmentLighting")
-        @safe public static nonisolated(unsafe) let disableAutomaticLighting: ARView.RenderOptions = {
+        @safe public static let disableAutomaticLighting: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableGroundingShadows: ARView.RenderOptions = {
+        @safe public static let disableGroundingShadows: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableMotionBlur: ARView.RenderOptions = {
+        @safe public static let disableMotionBlur: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableDepthOfField: ARView.RenderOptions = {
+        @safe public static let disableDepthOfField: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableHDR: ARView.RenderOptions = {
+        @safe public static let disableHDR: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
@@ -291,23 +291,23 @@ extension ARView {
         @available(macCatalyst, deprecated, introduced: 14.0, renamed: "disableFaceMesh")
         @available(visionOS, unavailable)
         @available(tvOS, unavailable, renamed: "disableFaceMesh")
-        @safe public static nonisolated(unsafe) let disableFaceOcclusions: ARView.RenderOptions = {
+        @safe public static let disableFaceOcclusions: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disablePersonOcclusion: ARView.RenderOptions = {
+        @safe public static let disablePersonOcclusion: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableAREnvironmentLighting: ARView.RenderOptions = {
+        @safe public static let disableAREnvironmentLighting: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let __disableLocalizedProbes: ARView.RenderOptions = {
+        @safe public static let __disableLocalizedProbes: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let disableFaceMesh: ARView.RenderOptions = {
+        @safe public static let disableFaceMesh: ARView.RenderOptions = {
             assertUnimplemented()
         }()
         
@@ -550,36 +550,36 @@ extension ARView {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let none: ARView.DebugOptions = {
+        @safe public static let none: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showPhysics: ARView.DebugOptions = {
+        @safe public static let showPhysics: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showStatistics: ARView.DebugOptions = {
+        @safe public static let showStatistics: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showWorldOrigin: ARView.DebugOptions = {
+        @safe public static let showWorldOrigin: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showAnchorOrigins: ARView.DebugOptions = {
+        @safe public static let showAnchorOrigins: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showAnchorGeometry: ARView.DebugOptions = {
+        @safe public static let showAnchorGeometry: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let showFeaturePoints: ARView.DebugOptions = {
+        @safe public static let showFeaturePoints: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
         @available(iOS 13.4, macCatalyst 13.4, tvOS 26.0, *)
-        @safe public static nonisolated(unsafe) let showSceneUnderstanding: ARView.DebugOptions = {
+        @safe public static let showSceneUnderstanding: ARView.DebugOptions = {
             assertUnimplemented()
         }()
         
@@ -631,75 +631,75 @@ extension ARView {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let frameTimeStatistics: ARView.__StatisticsOptions = {
+        @safe public static let frameTimeStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let animationStatistics: ARView.__StatisticsOptions = {
+        @safe public static let animationStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let assetPipelineStatistics: ARView.__StatisticsOptions = {
+        @safe public static let assetPipelineStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let audioStatistics: ARView.__StatisticsOptions = {
+        @safe public static let audioStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ecsStatistics: ARView.__StatisticsOptions = {
+        @safe public static let ecsStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let meshStatistics: ARView.__StatisticsOptions = {
+        @safe public static let meshStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let networkStatistics: ARView.__StatisticsOptions = {
+        @safe public static let networkStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let physicsStatistics: ARView.__StatisticsOptions = {
+        @safe public static let physicsStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let renderingStatistics: ARView.__StatisticsOptions = {
+        @safe public static let renderingStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let memoryStatistics: ARView.__StatisticsOptions = {
+        @safe public static let memoryStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thermalStatistics: ARView.__StatisticsOptions = {
+        @safe public static let thermalStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let sceneUnderstandingStatistics: ARView.__StatisticsOptions = {
+        @safe public static let sceneUnderstandingStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let mtlCounterAPIStatistics: ARView.__StatisticsOptions = {
+        @safe public static let mtlCounterAPIStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let customStatistics: ARView.__StatisticsOptions = {
+        @safe public static let customStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let attributionStatistics: ARView.__StatisticsOptions = {
+        @safe public static let attributionStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let caStatistics: ARView.__StatisticsOptions = {
+        @safe public static let caStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let cgStatistics: ARView.__StatisticsOptions = {
+        @safe public static let cgStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let vfxStatistics: ARView.__StatisticsOptions = {
+        @safe public static let vfxStatistics: ARView.__StatisticsOptions = {
             assertUnimplemented()
         }()
         
@@ -874,19 +874,19 @@ extension ARView {
             assertUnimplemented()
         }
         
-        @safe public static nonisolated(unsafe) let translation: ARView.EntityGestures = {
+        @safe public static let translation: ARView.EntityGestures = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let rotation: ARView.EntityGestures = {
+        @safe public static let rotation: ARView.EntityGestures = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let scale: ARView.EntityGestures = {
+        @safe public static let scale: ARView.EntityGestures = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let all: ARView.EntityGestures = {
+        @safe public static let all: ARView.EntityGestures = {
             assertUnimplemented()
         }()
         

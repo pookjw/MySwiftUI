@@ -4,17 +4,15 @@ package import Foundation
 private import CoreFoundation
 private import _DarwinFoundation3.pthread
 
-package func onMainThread(do block: @MainActor @Sendable @escaping () -> Void) {
+package func onMainThread(do block: @escaping () -> Void) {
     if Thread.isMainThread {
-        MainActor.assumeIsolated { 
-            block()
-        }
+        block()
     } else {
         onNextMainRunLoop(do: block)
     }
 }
 
-package func onNextMainRunLoop(do block: @MainActor @Sendable @escaping () -> Void) {
+package func onNextMainRunLoop(do block: @escaping () -> Void) {
     unsafe RunLoop.main.perform(inModes: [.common], block: unsafeBitCast(block, to: (@Sendable () -> Void).self))
 }
 

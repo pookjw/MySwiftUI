@@ -191,9 +191,9 @@ package protocol PreferenceKeyVisitor {
 }
 
 @frozen public struct _DelayedPreferenceView<Key, Content> : View where Key : PreferenceKey, Content : View {
-    @safe public nonisolated(unsafe) var transform: (_PreferenceValue<Key>) -> Content
+    @safe public var transform: (_PreferenceValue<Key>) -> Content
     
-    @inlinable public nonisolated init(transform: @escaping (_PreferenceValue<Key>) -> Content) {
+    @inlinable public init(transform: @escaping (_PreferenceValue<Key>) -> Content) {
         self.transform = transform
     }
     

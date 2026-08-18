@@ -8,10 +8,10 @@ extension View {
 }
 
 @frozen public struct _PreferenceWritingModifier<Key> : ViewModifier where Key : PreferenceKey {
-    @safe public nonisolated(unsafe) var value: Key.Value
+    @safe public var value: Key.Value
     public typealias Body = Never
     
-    @inlinable public nonisolated init(key: Key.Type = Key.self, value: Key.Value) {
+    @inlinable public init(key: Key.Type = Key.self, value: Key.Value) {
         self.value = value
     }
     

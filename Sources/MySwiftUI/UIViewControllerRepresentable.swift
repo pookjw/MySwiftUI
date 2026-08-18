@@ -82,9 +82,7 @@ extension UIViewControllerRepresentable {
             )
             
             let casted = view.unsafeBitCast(to: PlatformViewControllerRepresentableAdaptor<Self>.self)
-            var outputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((casted, inputs))] in
-                return UncheckedSendable(PlatformViewControllerRepresentableAdaptor<Self>.makeDebuggableView(view: unchecked.value.0, inputs: unchecked.value.1))
-            }.value
+            var outputs = PlatformViewControllerRepresentableAdaptor<Self>.makeDebuggableView(view: casted, inputs: inputs)
             
             outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: HostingGestureOverlayAuthorityKey.self, value: {
                 // $s7SwiftUI28ManipulableResponderModifierV9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyACG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VySbGyXEfu_TA

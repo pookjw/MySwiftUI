@@ -57,9 +57,13 @@ extension RERenderManager : __RenderService {
 }
 
 final class RERenderFrameSettings {
-    // TODO
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 final class RERenderFrameWorkload {
-    // TODO
+    deinit {
+        assertUnimplemented()
+    }
 }

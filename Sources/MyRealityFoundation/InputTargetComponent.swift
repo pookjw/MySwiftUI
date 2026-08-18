@@ -5,15 +5,15 @@ public struct InputTargetComponent : Component, Equatable {
     public var allowedInputTypes: InputTargetComponent.InputType
     
     public struct InputType : OptionSet {
-        @safe public static nonisolated(unsafe) let direct: InputTargetComponent.InputType = {
+        @safe public static let direct: InputTargetComponent.InputType = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indirect: InputTargetComponent.InputType = {
+        @safe public static let indirect: InputTargetComponent.InputType = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let all: InputTargetComponent.InputType = {
+        @safe public static let all: InputTargetComponent.InputType = {
             assertUnimplemented()
         }()
         

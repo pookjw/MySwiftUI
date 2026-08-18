@@ -5,11 +5,11 @@ extension View {
 }
 
 @frozen public struct _PreferenceTransformModifier<Key> : ViewModifier where Key : PreferenceKey {
-    @safe public nonisolated(unsafe) var transform: (inout Key.Value) -> Void
+    @safe public var transform: (inout Key.Value) -> Void
     
     public typealias Body = Never
     
-    @inlinable public nonisolated init(key _: Key.Type = Key.self, transform: @escaping (inout Key.Value) -> Void) {
+    @inlinable public init(key _: Key.Type = Key.self, transform: @escaping (inout Key.Value) -> Void) {
         self.transform = transform
     }
     

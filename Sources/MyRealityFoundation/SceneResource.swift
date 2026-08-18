@@ -1,5 +1,9 @@
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor final public class __SceneResource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency final public var coreHandle: __AssetRef {
         get {
             assertUnimplemented()

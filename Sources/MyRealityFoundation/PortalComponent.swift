@@ -96,11 +96,11 @@ extension PortalComponent {
         
         public let rawValue: UInt
         
-        @safe public static nonisolated(unsafe) let clipContents: PortalComponent.Options = {
+        @safe public static let clipContents: PortalComponent.Options = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let allowCrossing: PortalComponent.Options = {
+        @safe public static let allowCrossing: PortalComponent.Options = {
             assertUnimplemented()
         }()
         
@@ -121,27 +121,27 @@ extension PortalComponent {
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension PortalComponent.Plane {
-    @safe public static nonisolated(unsafe) let positiveX: PortalComponent.Plane = {
+    @safe public static let positiveX: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeX: PortalComponent.Plane = {
+    @safe public static let negativeX: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let positiveY: PortalComponent.Plane = {
+    @safe public static let positiveY: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeY: PortalComponent.Plane = {
+    @safe public static let negativeY: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let positiveZ: PortalComponent.Plane = {
+    @safe public static let positiveZ: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeZ: PortalComponent.Plane = {
+    @safe public static let negativeZ: PortalComponent.Plane = {
         assertUnimplemented()
     }()
 }

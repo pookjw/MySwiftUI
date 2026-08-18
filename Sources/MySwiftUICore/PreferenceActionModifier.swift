@@ -8,9 +8,9 @@ extension View {
 }
 
 @frozen public struct _PreferenceActionModifier<Key> : ViewModifier where Key : PreferenceKey, Key.Value : Equatable {
-    @safe public nonisolated(unsafe) var action: (Key.Value) -> Void
+    @safe public var action: (Key.Value) -> Void
     
-    @inlinable public nonisolated init(action: @escaping (Key.Value) -> Swift.Void) {
+    @inlinable public init(action: @escaping (Key.Value) -> Swift.Void) {
         self.action = action
     }
     

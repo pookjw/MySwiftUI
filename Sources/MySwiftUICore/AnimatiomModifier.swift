@@ -8,10 +8,10 @@ extension View {
 }
 
 @frozen public struct _AnimationModifier<Value> : ViewModifier where Value : Equatable {
-    @safe public nonisolated(unsafe) var animation: Animation?
-    @safe public nonisolated(unsafe) var value: Value
+    @safe public var animation: Animation?
+    @safe public var value: Value
     
-    @inlinable public nonisolated /* nonisolated는 원래 없음 */ init(animation: Animation?, value: Value) {
+    @inlinable public init(animation: Animation?, value: Value) {
         self.animation = animation
         self.value = value
     }

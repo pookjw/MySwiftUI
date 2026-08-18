@@ -2,19 +2,19 @@
 public struct AnimationFillMode : OptionSet {
     public let rawValue: Int8
     
-    @safe public static nonisolated(unsafe) let none: AnimationFillMode = {
+    @safe public static let none: AnimationFillMode = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let forwards: AnimationFillMode = {
+    @safe public static let forwards: AnimationFillMode = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let backwards: AnimationFillMode = {
+    @safe public static let backwards: AnimationFillMode = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let both: AnimationFillMode = {
+    @safe public static let both: AnimationFillMode = {
         assertUnimplemented()
     }()
     

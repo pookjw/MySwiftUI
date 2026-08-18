@@ -31,7 +31,7 @@ extension ZStack : Sendable {
 extension ZStack : UnaryView, PrimitiveView {}
 
 @frozen public struct _ZStackLayout : _VariadicView.UnaryViewRoot, Animatable {
-    @safe public nonisolated(unsafe) var alignment: Alignment
+    @safe public var alignment: Alignment
     
     @inlinable public init(alignment: Alignment = .center) {
         self.alignment = alignment

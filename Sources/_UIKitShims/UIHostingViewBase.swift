@@ -371,9 +371,7 @@ package final class UIHostingViewBase : NSObject {
         
         if (time == 0) && !viewGraph.mayDeferUpdate {
             if Thread.isMainThread {
-                MainActor.assumeIsolated {
-                    self._setNeedsUpdate()
-                }
+                self._setNeedsUpdate()
             } else {
                 DispatchQueue.main.async {
                     self._setNeedsUpdate()

@@ -4,7 +4,7 @@ public import MultipeerConnectivity
 @available(visionOS, unavailable)
 @available(tvOS, unavailable)
 public class MultipeerConnectivityService : SynchronizationService {
-    final public nonisolated(unsafe) let session: MCSession = {
+    final public let session: MCSession = {
         assertUnimplemented()
     }()
     

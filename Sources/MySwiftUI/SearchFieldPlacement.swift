@@ -12,7 +12,7 @@ public struct SearchFieldPlacement : Sendable {
     @available(iOS 15.0, macOS 12.0, *)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    @safe nonisolated(unsafe) public internal(set) static var toolbarPrincipal = SearchFieldPlacement(role: .toolbarPrincipal)
+    @safe public internal(set) static var toolbarPrincipal = SearchFieldPlacement(role: .toolbarPrincipal)
     
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)

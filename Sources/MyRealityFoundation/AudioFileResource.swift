@@ -38,6 +38,10 @@ extension AudioFileResource.LoadingStrategy : RawRepresentable {
 
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @MainActor @preconcurrency public class AudioFileResource : AudioResource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency final public let name: String = {
         assertUnimplemented()
     }()

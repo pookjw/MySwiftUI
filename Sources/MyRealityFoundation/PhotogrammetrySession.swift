@@ -142,7 +142,7 @@ public class PhotogrammetrySession {
     }
     
     @available(macOS 14.0, iOS 17.0, macCatalyst 17.0, *)
-    @safe public static nonisolated(unsafe) let limits: PhotogrammetrySession.Limits = {
+    @safe public static let limits: PhotogrammetrySession.Limits = {
         assertUnimplemented()
     }()
     

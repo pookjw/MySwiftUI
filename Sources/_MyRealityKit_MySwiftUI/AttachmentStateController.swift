@@ -10,6 +10,10 @@ class AttachmentStateControllerBase {
 
 final class AttachmentStateController<U : AttachmentProtocol> : AttachmentStateControllerBase {
     private var statesByID: [AnyHashable : AttachmentStateController<U>.AttachmentState]
+
+    deinit {
+        assertUnimplemented()
+    }
     
     var entities: RealityViewAttachments {
         let entities: [AnyHashable : ViewAttachmentEntity] = self.statesByID.mapValues { value in

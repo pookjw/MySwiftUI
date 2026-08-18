@@ -166,7 +166,7 @@ public struct _LimitedAvailabilityCompositorContent: CompositorContent {
     internal var storage: AnyCompositorContent
 
     @usableFromInline
-    internal nonisolated /* nonisolated는 원래 없음 */ init<C>(_ content: C) where C: CompositorContent {
+    internal init<C>(_ content: C) where C: CompositorContent {
         assertUnimplemented()
     }
 

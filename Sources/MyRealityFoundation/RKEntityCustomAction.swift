@@ -3,7 +3,7 @@ public import Foundation
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __RKEntityCustomAction : __RKEntityAction {
     public struct RKEntityCustomActionNotification {
-        @safe public static nonisolated(unsafe) let name: NSNotification.Name = {
+        @safe public static let name: NSNotification.Name = {
             assertUnimplemented()
         }()
         
@@ -26,11 +26,11 @@ public class __RKEntityCustomAction : __RKEntityAction {
     
     public var handler: ((Entity?) -> Void)?
     
-    final public nonisolated(unsafe) let identifier: String = {
+    final public let identifier: String = {
         assertUnimplemented()
     }()
     
-    final public nonisolated(unsafe) let customArguments: [String : String] = {
+    final public let customArguments: [String : String] = {
         assertUnimplemented()
     }()
     

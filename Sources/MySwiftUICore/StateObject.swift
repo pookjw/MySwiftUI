@@ -101,13 +101,8 @@ extension StateObject {
                     }
                     
                     // <+400>
-                    var unchecked = UncheckedSendable<ObservedObject<ObjectType>?>(nil)
-                    MainActor.assumeIsolated {
-                        let result = block()
-                        unchecked.value = ObservedObject(wrappedValue: result)
-                    }
-                    
-                    _object = unchecked.value
+                    let result = block()
+                    _object = ObservedObject(wrappedValue: result)
                     self.object = _object
                     updated = true
                 case .object(let __object):

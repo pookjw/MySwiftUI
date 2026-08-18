@@ -2,6 +2,10 @@ public import Foundation
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class AudioPlaybackController {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency weak public var entity: Entity? {
         get {
             assertUnimplemented()

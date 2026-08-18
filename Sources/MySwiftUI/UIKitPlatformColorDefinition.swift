@@ -228,7 +228,7 @@ extension UITraitCollection {
             }
             
             // <+272>
-            if MainActor.assumeIsolated { isVisionInterfaceIdiom() } {
+            if isVisionInterfaceIdiom() {
                 // x25
                 let envVibrancy = _UIUserInterfaceContainerVibrancy(material: environment.backgroundMaterial)
                 let traitVibrancy = traits._containerVibrancy

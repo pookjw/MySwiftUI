@@ -64,7 +64,7 @@ public import Metal
             assertUnimplemented()
         }
         
-        @safe public static nonisolated(unsafe) let maxVertexBufferCount: Int = {
+        @safe public static let maxVertexBufferCount: Int = {
             assertUnimplemented()
         }()
         

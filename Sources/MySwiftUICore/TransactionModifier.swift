@@ -51,9 +51,9 @@ extension View {
 }
 
 @frozen public struct _TransactionModifier : ViewModifier, _GraphInputsModifier {
-    @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
+    @safe public var transform: (inout Transaction) -> Void
     
-    @inlinable public nonisolated init(transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public init(transform: @escaping (inout Transaction) -> Void) {
         self.transform = transform
     }
     
@@ -73,10 +73,10 @@ extension _TransactionModifier : PrimitiveViewModifier {}
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 @frozen public struct _ValueTransactionModifier<Value> : ViewModifier, _GraphInputsModifier where Value : Equatable {
-    @safe public nonisolated(unsafe) var value: Value
-    @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
+    @safe public var value: Value
+    @safe public var transform: (inout Transaction) -> Void
     
-    @inlinable public nonisolated init(value: Value, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public init(value: Value, transform: @escaping (inout Transaction) -> Void) {
         self.value = value
         self.transform = transform
     }
@@ -95,10 +95,10 @@ extension _ValueTransactionModifier : Sendable {
 extension _ValueTransactionModifier : PrimitiveViewModifier {}
 
 @frozen public struct _PushPopTransactionModifier<Content> : ViewModifier where Content : ViewModifier {
-    @safe public nonisolated(unsafe) var content: Content
-    @safe public nonisolated(unsafe) var base: _TransactionModifier
+    @safe public var content: Content
+    @safe public var base: _TransactionModifier
     
-    @inlinable public nonisolated init(content: Content, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public init(content: Content, transform: @escaping (inout Transaction) -> Void) {
         self.content = content
         base = .init(transform: transform)
     }
@@ -173,16 +173,14 @@ fileprivate struct ChildTransaction : Rule, AsyncAttribute {
         } else {
             // <+1016>
             // inlined
-            // UncheckedSendable은 원래 없음
-            var unchecked = UncheckedSendable(transaction)
             Update.syncMain {
                 ObservationCenter.current._withObservation(attribute: Attribute<Transaction>(identifier: .current!)) {
-                    modifier.transform(&unchecked.value)
+                    modifier.transform(&transaction)
                 }
             }
             
             // <+2632>
-            return unchecked.value
+            return transaction
         }
     }
 }

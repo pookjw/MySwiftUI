@@ -15,6 +15,10 @@ internal import AttributeGraph
         // <+60>
         self.viewGraph = .current
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     func wrapInputs(_ inputs: inout _ViewInputs) {
         /*

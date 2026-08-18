@@ -1,30 +1,30 @@
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 public struct PhysicsBodyParameterTypes : Codable, OptionSet {
-    @safe public static nonisolated(unsafe) let position: PhysicsBodyParameterTypes = {
+    @safe public static let position: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let orientation: PhysicsBodyParameterTypes = {
+    @safe public static let orientation: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let velocity: PhysicsBodyParameterTypes = {
+    @safe public static let velocity: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let angularVelocity: PhysicsBodyParameterTypes = {
+    @safe public static let angularVelocity: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let distance: PhysicsBodyParameterTypes = {
+    @safe public static let distance: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let mass: PhysicsBodyParameterTypes = {
+    @safe public static let mass: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let inertiaTensor: PhysicsBodyParameterTypes = {
+    @safe public static let inertiaTensor: PhysicsBodyParameterTypes = {
         assertUnimplemented()
     }()
     

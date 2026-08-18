@@ -7,13 +7,13 @@ public import MySwiftUICore
 public struct PencilPreferredAction : Hashable {
     private let guts: PencilPreferredAction.Guts
     
-    @safe nonisolated(unsafe) public static let switchEraser = PencilPreferredAction(guts: .switchEraser)
-    @safe nonisolated(unsafe) public static let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
-    @safe nonisolated(unsafe) public static let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
-    @safe nonisolated(unsafe) public static let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
-    @safe nonisolated(unsafe) public static let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
-    @safe nonisolated(unsafe) public static let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
-    @safe nonisolated(unsafe) public static let ignore = PencilPreferredAction(guts: .ignore)
+    @safe public static let switchEraser = PencilPreferredAction(guts: .switchEraser)
+    @safe public static let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
+    @safe public static let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
+    @safe public static let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
+    @safe public static let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
+    @safe public static let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
+    @safe public static let ignore = PencilPreferredAction(guts: .ignore)
 }
 
 @available(*, unavailable)

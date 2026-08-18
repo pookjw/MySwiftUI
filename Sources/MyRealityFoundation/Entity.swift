@@ -999,11 +999,11 @@ extension Entity {
         public struct LoadableFeatures : OptionSet {
             public let rawValue: UInt32
             
-            @safe public static nonisolated(unsafe) let none: Entity.__LoadOptions.LoadableFeatures = {
+            @safe public static let none: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let audio: Entity.__LoadOptions.LoadableFeatures = {
+            @safe public static let audio: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             

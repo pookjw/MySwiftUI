@@ -54,10 +54,7 @@ extension UIViewRepresentable {
         )
         
         let casted = view.unsafeBitCast(to: PlatformViewRepresentableAdaptor<Self>.self)
-        
-        return MainActor.assumeIsolated { [unchecked = UncheckedSendable((casted, inputs))] in
-            return UncheckedSendable(PlatformViewRepresentableAdaptor<Self>.makeDebuggableView(view: unchecked.value.0, inputs: unchecked.value.1))
-        }.value
+        return PlatformViewRepresentableAdaptor<Self>.makeDebuggableView(view: casted, inputs: inputs)
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -189,11 +186,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base : UIViewRepresentable>:
     
     nonisolated static func modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
         // FIXME
-        inputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable(inputs)] in
-            var copy = unchecked.value
-            Base._modifyBridgedViewInputs(&copy)
-            return UncheckedSendable(copy)
-        }.value
+        Base._modifyBridgedViewInputs(&inputs)
     }
     
     static func layoutOptions(_ provider: Base.UIViewType) -> CoreViewRepresentableLayoutOptions {

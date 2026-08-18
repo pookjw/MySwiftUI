@@ -145,19 +145,17 @@ package enum Update {
     }
     
     @inline(always)
-    package static func syncMain(_ handler: @MainActor () -> Void) {
+    package static func syncMain(_ handler: () -> Void) {
         if Thread.isMainThread {
-            MainActor.assumeIsolated {
-                handler()
-            }
+            handler()
         } else {
             withoutActuallyEscaping(handler) { escapingClosure in
                 final class Context {
                     let current = Subgraph.current
                     let currentRuleContext = AnyRuleContext(attribute: AnyOptionalAttribute.current.identifier)
-                    let block: @MainActor () -> Void
+                    let block: () -> Void
                     
-                    init(block: @escaping @MainActor () -> Void) {
+                    init(block: @escaping () -> Void) {
                         self.block = block
                     }
                 }
@@ -215,7 +213,7 @@ package enum Update {
         while !actions.isEmpty {
             unsafe Update.actions = []
             
-            onMainThread { [unchecked = UncheckedSendable(actions)] in
+            onMainThread { [actions] in
                 let traceHost = unsafe Update.traceHost
                 Signpost.postUpdateActions.traceInterval(object: traceHost, nil) {
                     Update.begin()
@@ -224,7 +222,7 @@ package enum Update {
                     let dispatchDepth = Update.dispatchDepth
                     Update.dispatchDepth = depth
                     
-                    for action in unsafe unchecked.value {
+                    for action in actions {
                         // x24
                         let depth = Update.depth
                         

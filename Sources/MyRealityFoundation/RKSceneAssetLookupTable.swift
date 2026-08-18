@@ -2,7 +2,7 @@ public import Foundation
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __RKSceneAssetLookupTable {
-    @safe public static nonisolated(unsafe) let shared: __RKSceneAssetLookupTable = {
+    @safe public static let shared: __RKSceneAssetLookupTable = {
         assertUnimplemented()
     }()
     

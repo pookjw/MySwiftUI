@@ -233,8 +233,7 @@ extension _VariadicView_Children : RandomAccessCollection {
         @safe nonisolated(unsafe) var view: _ViewList_View
         @safe nonisolated(unsafe) var traits: ViewTraitCollection
         
-        // 원래 nonisolated는 없음
-        public nonisolated var id: AnyHashable {
+        public var id: AnyHashable {
             return self.view.viewID
         }
         
@@ -373,9 +372,7 @@ extension View {
             // x23 register는 활용하지 않음
             _ = Self._makeViewList(view: view, inputs: listInputs)
             
-            return MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, listInputs))] in
-                return UncheckedSendable(Self.Body.makeDebuggableViewList(view: unchecked.value.0, inputs: unchecked.value.1))
-            }.value
+            return Self.Body.makeDebuggableViewList(view: view, inputs: listInputs)
         }
     }
 }

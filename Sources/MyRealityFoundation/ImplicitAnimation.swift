@@ -192,7 +192,9 @@ extension _Proto_MeshDeformation_v1 {
     }
     
     final class CustomDeformerRuntime {
-        // TODO
+        deinit {
+            assertUnimplemented()
+        }
     }
     
     enum CustomDeformerBuilderError {

@@ -8,10 +8,10 @@ extension View {
 }
 
 @frozen public struct _EnvironmentKeyWritingModifier<Value> : ViewModifier, _GraphInputsModifier {
-    @safe nonisolated(unsafe) public var keyPath: WritableKeyPath<EnvironmentValues, Value>
-    @safe nonisolated(unsafe) public var value: Value
+    @safe public var keyPath: WritableKeyPath<EnvironmentValues, Value>
+    @safe public var value: Value
     
-    @inlinable nonisolated public init(keyPath: WritableKeyPath<EnvironmentValues, Value>, value: Value) {
+    @inlinable public init(keyPath: WritableKeyPath<EnvironmentValues, Value>, value: Value) {
         self.keyPath = keyPath
         self.value = value
     }

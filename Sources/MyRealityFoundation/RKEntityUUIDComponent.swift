@@ -7,7 +7,7 @@ public struct __RKEntityUUIDComponent {
     @safe @_hasMissingDesignatedInitializers public class Registration {
         private let introspectionStruct: OpaquePointer
         private let syncInfoContextPointer: UnsafeMutablePointer<SyncInfoContext>
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()
@@ -143,7 +143,7 @@ public struct __RKEntityUUIDComponent {
         }
     }
     
-    public fileprivate(set) static nonisolated(unsafe) var registration: __RKEntityUUIDComponent.Registration?
+    public fileprivate(set) static var registration: __RKEntityUUIDComponent.Registration?
 }
 
 extension __RKEntityUUIDComponent.Registration {

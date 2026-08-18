@@ -3,14 +3,14 @@ public import CoreGraphics
 private import _MySwiftUIShims
 
 public struct Color : View, Hashable, CustomStringConvertible, Sendable {
-    nonisolated public static func == (lhs: Color, rhs: Color) -> Bool {
+    public static func == (lhs: Color, rhs: Color) -> Bool {
         if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
             return true
         }
         return lhs.provider.isEqual(to: rhs.provider)
     }
     
-    @safe package nonisolated(unsafe) var provider: AnyColorBox
+    @safe package var provider: AnyColorBox
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public init<T>(_ color: T) where T : Swift.Hashable, T : ShapeStyle, T.Resolved == Color.Resolved {
@@ -49,7 +49,7 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
         self.provider = box
     }
     
-    nonisolated package init(_ resolved: Color.ResolvedHDR) {
+    package init(_ resolved: Color.ResolvedHDR) {
         self.provider = ColorBox(ResolvedColorProvider(color: resolved))
     }
     
@@ -57,11 +57,11 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
         assertUnimplemented()
     }
     
-    nonisolated public var description: String {
+    public var description: String {
         assertUnimplemented()
     }
     
-    nonisolated public func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         provider.hash(into: &hasher)
     }
 }
@@ -689,24 +689,24 @@ extension Color {
 extension Color.ResolvedHDR : BitwiseCopyable, ShapeStyle {}
 
 extension Color {
-    nonisolated public static let red = Color(box: ColorBox(SystemColorType.red))
-    nonisolated public static let orange = Color(box: ColorBox(SystemColorType.orange))
-    nonisolated public static let yellow = Color(box: ColorBox(SystemColorType.yellow))
-    nonisolated public static let green = Color(box: ColorBox(SystemColorType.green))
-    nonisolated public static let mint = Color(box: ColorBox(SystemColorType.mint))
-    nonisolated public static let teal = Color(box: ColorBox(SystemColorType.teal))
-    nonisolated public static let cyan = Color(box: ColorBox(SystemColorType.cyan))
-    nonisolated public static let blue = Color(box: ColorBox(SystemColorType.blue))
-    nonisolated public static let indigo = Color(box: ColorBox(SystemColorType.indigo))
-    nonisolated public static let purple = Color(box: ColorBox(SystemColorType.purple))
-    nonisolated public static let pink = Color(box: ColorBox(SystemColorType.pink))
-    nonisolated public static let brown = Color(box: ColorBox(SystemColorType.brown))
-    nonisolated public static let white = Color(.white)
-    nonisolated public static let gray = Color(box: ColorBox(SystemColorType.gray))
-    nonisolated public static let black = Color(.black)
-    nonisolated public static let clear = Color(.clear)
-    nonisolated public static let primary = Color(box: ColorBox(SystemColorType.primary))
-    nonisolated public static let secondary = Color(box: ColorBox(SystemColorType.secondary))
+    public static let red = Color(box: ColorBox(SystemColorType.red))
+    public static let orange = Color(box: ColorBox(SystemColorType.orange))
+    public static let yellow = Color(box: ColorBox(SystemColorType.yellow))
+    public static let green = Color(box: ColorBox(SystemColorType.green))
+    public static let mint = Color(box: ColorBox(SystemColorType.mint))
+    public static let teal = Color(box: ColorBox(SystemColorType.teal))
+    public static let cyan = Color(box: ColorBox(SystemColorType.cyan))
+    public static let blue = Color(box: ColorBox(SystemColorType.blue))
+    public static let indigo = Color(box: ColorBox(SystemColorType.indigo))
+    public static let purple = Color(box: ColorBox(SystemColorType.purple))
+    public static let pink = Color(box: ColorBox(SystemColorType.pink))
+    public static let brown = Color(box: ColorBox(SystemColorType.brown))
+    public static let white = Color(.white)
+    public static let gray = Color(box: ColorBox(SystemColorType.gray))
+    public static let black = Color(.black)
+    public static let clear = Color(.clear)
+    public static let primary = Color(box: ColorBox(SystemColorType.primary))
+    public static let secondary = Color(box: ColorBox(SystemColorType.secondary))
     nonisolated package static let _background = Color(box: ColorBox(BackgroundColorProvider()))
 }
 

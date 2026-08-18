@@ -162,7 +162,7 @@ private import CoreRE
     }
 
 @available(macOS 13.0, iOS 16.0, macCatalyst 16.0, tvOS 26.0, *)
-extension __MaterialResource : Resource, @unchecked Sendable {}
+extension __MaterialResource : Resource {}
 
 extension __MaterialResource : LoadableResource {
 }

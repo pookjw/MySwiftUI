@@ -219,7 +219,7 @@ extension Animatable where Self.AnimatableData == EmptyAnimatableData {
         @inlinable set {}
     }
     
-    nonisolated public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+    public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
     }
 }
 

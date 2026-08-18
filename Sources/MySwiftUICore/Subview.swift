@@ -13,7 +13,7 @@ public struct Subview : View, Identifiable {
         self.base = base
     }
 
-    public nonisolated var id: Subview.ID { // nonisolated는 원래 없음
+    public var id: Subview.ID {
         return Subview.ID(
             base: _ViewList_ID(implicitID: Int(base.view.id.implicitID))
         )

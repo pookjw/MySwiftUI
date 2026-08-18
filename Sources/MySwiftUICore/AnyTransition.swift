@@ -14,9 +14,7 @@
         return box.hasMotion
     }
     
-    nonisolated(unsafe) public static let opacity: AnyTransition = MainActor.assumeIsolated { 
-        return UncheckedSendable(AnyTransition(.opacity))
-    }.value
+    nonisolated(unsafe) public static let opacity = AnyTransition(.opacity)
     
     func adjustedForAccessibility(prefersCrossFade: Bool) -> AnyTransition {
         if !hasMotion || !prefersCrossFade {

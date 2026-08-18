@@ -65,7 +65,7 @@ public struct __RKMaterialParameterBlock : Sendable {
     }
     
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
-    public enum TransparentPass : String, CaseIterable, Sendable {
+    public enum TransparentPass : String, CaseIterable {
         case Transparent, TransparentAR, TransparentDynamicLighting, TransparentARDynamicLighting
         
         public init?(rawValue: String) {

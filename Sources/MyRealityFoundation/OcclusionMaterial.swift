@@ -3,8 +3,7 @@ public struct OcclusionMaterial : Material, Sendable {
     public let __resource: __MaterialResource
     
     public var __parameterBlock: __RKMaterialParameterBlock
-//    @available(visionOS, unavailable)
-    
+    @available(visionOS, unavailable)
     public let receivesDynamicLighting: Bool
     
     @available(visionOS, unavailable)

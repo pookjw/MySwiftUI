@@ -1,7 +1,7 @@
 // E36588D6F4797F7C6EF26CC7E1C2D1CE
 
 @globalActor public actor _ImpossibleActor {
-    public static let shared = _ImpossibleActor()
+    nonisolated(unsafe) public static var shared = _ImpossibleActor()
     
     nonisolated public var unownedExecutor: UnownedSerialExecutor {
         return unsafe _ImpossibleExecutor.shared.asUnownedSerialExecutor()

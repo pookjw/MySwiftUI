@@ -130,11 +130,7 @@ fileprivate struct DynamicViewContainer<Content : DynamicView>: StatefulRule {
             var inputs = self.inputs
             inputs.copyCaches()
             
-            let childOutputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((self, inputs))] in
-                let `self` = unchecked.value.0
-                let outputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: unchecked.value.1)
-                return UncheckedSendable(outputs)
-            }.value
+            let childOutputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: inputs)
             
             self.outputs.attachIndirectOutputs(to: childOutputs)
             let value = Self.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)

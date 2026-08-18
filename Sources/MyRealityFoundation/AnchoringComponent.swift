@@ -5,15 +5,15 @@ public import simd
 public struct AnchoringComponent : Component, Equatable {
     public enum Target : Hashable {
         public struct Alignment : OptionSet {
-            @safe public static nonisolated(unsafe) let horizontal: AnchoringComponent.Target.Alignment = {
+            @safe public static let horizontal: AnchoringComponent.Target.Alignment = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let vertical: AnchoringComponent.Target.Alignment = {
+            @safe public static let vertical: AnchoringComponent.Target.Alignment = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let any: AnchoringComponent.Target.Alignment = {
+            @safe public static let any: AnchoringComponent.Target.Alignment = {
                 assertUnimplemented()
             }()
             
@@ -34,27 +34,27 @@ public struct AnchoringComponent : Component, Equatable {
         }
         
         public struct Classification : OptionSet {
-            @safe public static nonisolated(unsafe) let wall: AnchoringComponent.Target.Classification = {
+            @safe public static let wall: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let floor: AnchoringComponent.Target.Classification = {
+            @safe public static let floor: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let ceiling: AnchoringComponent.Target.Classification = {
+            @safe public static let ceiling: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let table: AnchoringComponent.Target.Classification = {
+            @safe public static let table: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let seat: AnchoringComponent.Target.Classification = {
+            @safe public static let seat: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let any: AnchoringComponent.Target.Classification = {
+            @safe public static let any: AnchoringComponent.Target.Classification = {
                 assertUnimplemented()
             }()
             
@@ -215,23 +215,23 @@ extension AnchoringComponent.Target {
     @available(macCatalyst, unavailable, introduced: 18.0)
     @available(tvOS, unavailable)
     public struct HandLocation : Hashable {
-        @safe public static nonisolated(unsafe) let wrist: AnchoringComponent.Target.HandLocation = {
+        @safe public static let wrist: AnchoringComponent.Target.HandLocation = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let palm: AnchoringComponent.Target.HandLocation = {
+        @safe public static let palm: AnchoringComponent.Target.HandLocation = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerTip: AnchoringComponent.Target.HandLocation = {
+        @safe public static let indexFingerTip: AnchoringComponent.Target.HandLocation = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thumbTip: AnchoringComponent.Target.HandLocation = {
+        @safe public static let thumbTip: AnchoringComponent.Target.HandLocation = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let aboveHand: AnchoringComponent.Target.HandLocation = {
+        @safe public static let aboveHand: AnchoringComponent.Target.HandLocation = {
             assertUnimplemented()
         }()
         
@@ -254,16 +254,16 @@ extension AnchoringComponent.Target {
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension AnchoringComponent {
     public struct TrackingMode : Hashable {
-        @safe public static nonisolated(unsafe) let once: AnchoringComponent.TrackingMode = {
+        @safe public static let once: AnchoringComponent.TrackingMode = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let continuous: AnchoringComponent.TrackingMode = {
+        @safe public static let continuous: AnchoringComponent.TrackingMode = {
             assertUnimplemented()
         }()
         
         @available(visionOS 2.0, *)
-        @safe public static nonisolated(unsafe) let predicted: AnchoringComponent.TrackingMode = {
+        @safe public static let predicted: AnchoringComponent.TrackingMode = {
             assertUnimplemented()
         }()
         
@@ -402,7 +402,7 @@ extension AnchoringComponent {
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     public struct AccessoryLocation : Equatable, Hashable {
-        @safe public static nonisolated(unsafe) let origin: AnchoringComponent.AccessoryLocation = {
+        @safe public static let origin: AnchoringComponent.AccessoryLocation = {
             assertUnimplemented()
         }()
         
@@ -446,111 +446,111 @@ extension AnchoringComponent.Target.HandLocation {
     @available(macCatalyst, unavailable, introduced: 26.0)
     @available(tvOS, unavailable)
     public struct HandJoint : Hashable {
-        @safe public static nonisolated(unsafe) let wrist: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let wrist: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thumbTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let thumbTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let indexFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thumbKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let thumbKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thumbIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let thumbIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let thumbIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let thumbIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let indexFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let indexFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let indexFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let indexFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let indexFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let middleFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let middleFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let middleFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let middleFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let middleFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let middleFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let middleFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let middleFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let middleFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let middleFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ringFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let ringFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ringFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let ringFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ringFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let ringFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ringFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let ringFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ringFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let ringFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let littleFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let littleFingerMetacarpal: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let littleFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let littleFingerKnuckle: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let littleFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let littleFingerIntermediateBase: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let littleFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let littleFingerIntermediateTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let littleFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let littleFingerTip: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let forearmWrist: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let forearmWrist: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let forearmArm: AnchoringComponent.Target.HandLocation.HandJoint = {
+        @safe public static let forearmArm: AnchoringComponent.Target.HandLocation.HandJoint = {
             assertUnimplemented()
         }()
         

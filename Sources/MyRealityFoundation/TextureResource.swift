@@ -4,6 +4,10 @@ public import CoreGraphics
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class TextureResource : Resource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency public var __coreAsset: __AssetRef {
         get {
             assertUnimplemented()
@@ -219,6 +223,10 @@ public import CoreGraphics
     
     @_hasMissingDesignatedInitializers @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public class Drawable {
+        deinit {
+            assertUnimplemented()
+        }
+
         public var drawableQueue: TextureResource.DrawableQueue {
             get {
                 assertUnimplemented()
@@ -243,6 +251,10 @@ public import CoreGraphics
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public class DrawableQueue {
+        deinit {
+            assertUnimplemented()
+        }
+
         public struct Descriptor {
             public var pixelFormat: MTLPixelFormat
             

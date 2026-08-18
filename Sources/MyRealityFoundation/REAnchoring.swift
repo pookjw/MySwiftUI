@@ -14,7 +14,7 @@ public struct __REAnchoring {
     
     @safe @_hasMissingDesignatedInitializers public class Registration {
         let introspectionStruct: Swift.OpaquePointer
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()
@@ -114,7 +114,7 @@ public struct __REAnchoring {
         }
     }
     
-    public fileprivate(set) static nonisolated(unsafe) var registration: __REAnchoring.Registration?
+    public fileprivate(set) static var registration: __REAnchoring.Registration?
 }
 
 extension __REAnchoring.Registration {

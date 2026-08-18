@@ -169,7 +169,7 @@ fileprivate let builtInComponentsInitializer: Void = {
             }
         }
         
-        @available(*, deprecated, message: "Custom engine queues are no longer supported in  Use CoreRE instead.")
+        @available(*, deprecated, message: "Custom engine queues are no longer supported in Swift. Use CoreRE instead.")
         public var queue: DispatchQueue? {
             get {
                 assertUnimplemented()

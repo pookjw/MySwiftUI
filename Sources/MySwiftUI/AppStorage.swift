@@ -560,9 +560,9 @@ extension UserDefaultObserver.Target {
                 unsafe os_log(.fault, log: .runtimeIssuesLog, "Updating AppStorage from background threads is not allowed; make sure to publish values from the main thread for model updates.")
             }
             
-            onMainThread { [unchecked = UncheckedSendable(host), signal] in
+            onMainThread { [host, signal] in
                 // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC6TargetO14GraphAttributeV4sendyyFyycfU_
-                guard let host = unchecked.value else {
+                guard let host else {
                     return
                 }
                 

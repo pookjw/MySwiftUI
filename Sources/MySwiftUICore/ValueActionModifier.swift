@@ -64,12 +64,10 @@ extension View {
 @frozen public struct _ValueActionModifier<Value> : ViewModifier where Value : Equatable {
     public typealias Body = Never
     
-    // safe + nonisolated는 원래 없음
-    @safe public nonisolated(unsafe) var value: Value
-    // safe + nonisolated는 원래 없음
-    @safe public nonisolated(unsafe) var action: (Value) -> Void
+    @safe public var value: Value
+    @safe public var action: (Value) -> Void
     
-    @inlinable public nonisolated /* nonisolated는 원래 없음 */ init(value: Value, action: @escaping (Value) -> Void) {
+    @inlinable public init(value: Value, action: @escaping (Value) -> Void) {
         (self.value, self.action) = (value, action)
     }
     

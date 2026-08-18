@@ -4,6 +4,10 @@ public import Observation
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class AnimationPlaybackController : Hashable {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency public var __identifier: __AnimationPlaybackTokenRef {
         get {
             assertUnimplemented()
