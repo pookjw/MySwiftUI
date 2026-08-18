@@ -390,15 +390,17 @@ extension DisplayList {
                  container -> x0 -> x22
                  */
                 // inlined
-                self.viewCache.index.enter(identity: item.identity)
-                var item = item
-                let time = self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
-                
-                if time < container.time {
-                    container.time = time
-                }
-                
-                self.updateInheritedView(container: &container, from: item, parentState: parentState)
+                assertUnimplemented()
+//                let oldIndex = self.viewCache.index.enter(identity: item.identity)
+//                var item = item
+//                let time = self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
+//                
+//                if time < container.time {
+//                    container.time = time
+//                }
+//                
+//                self.updateInheritedView(container: &container, from: item, parentState: parentState)
+//                self.viewCache.index.leave(index: oldIndex)
             }
         }
     }
@@ -587,6 +589,8 @@ extension DisplayList.ViewUpdater {
                 if !viewInfo.isRemoved {
                     viewInfo.isRemoved = true
                     viewCache.map[key] = viewInfo
+                    assertUnimplemented()
+//                    viewCache.removed.insert(key)
                 }
                 
                 CoreViewRemoveFromSuperview(system, subview)

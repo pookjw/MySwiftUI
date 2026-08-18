@@ -3,7 +3,7 @@ private import AttributeGraph
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct Subview : View, Identifiable {
-    private var base: _VariadicView_Children.Element
+    @safe private nonisolated(unsafe) var base: _VariadicView_Children.Element
     
     public struct ID : Hashable {
         fileprivate let base: _ViewList_ID
@@ -13,7 +13,7 @@ public struct Subview : View, Identifiable {
         self.base = base
     }
 
-    public nonisolated var id: Subview.ID { // nonisolated는 원래 없음
+    public nonisolated var id: Subview.ID {
         return Subview.ID(
             base: _ViewList_ID(implicitID: Int(base.view.id.implicitID))
         )

@@ -300,7 +300,7 @@ public struct __REAssetBundle {
         assertUnimplemented()
     }
     
-    @safe public static nonisolated(unsafe) let temporaryURL: URL = {
+    @safe public static let temporaryURL: URL = {
         assertUnimplemented()
     }()
     

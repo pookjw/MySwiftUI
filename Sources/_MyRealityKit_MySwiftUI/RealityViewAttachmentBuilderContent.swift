@@ -26,7 +26,7 @@ public import MySwiftUICore
     
     init(
         attachmentList: _AttachmentListOutputs,
-        @ViewBuilder content: @escaping (AttachmentStateController<RealityViewAttachmentBuilderContent<Attachment, Content>.BuilderAttachment>) -> Content
+        @ViewBuilder content: @escaping @MainActor (AttachmentStateController<RealityViewAttachmentBuilderContent<Attachment, Content>.BuilderAttachment>) -> Content
     ) {
         self.attachmentState = AttachmentStateController<Self.BuilderAttachment>()
         self._environment = Environment(\.self)

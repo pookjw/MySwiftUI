@@ -1,14 +1,11 @@
 internal import CoreGraphics
 
 public struct OpacityTransition : Transition {
-    public init() {
+    public nonisolated init() {
     }
     
     @MainActor @preconcurrency public func body(content: OpacityTransition.Content, phase: TransitionPhase) -> some View {
-        return ModifiedContent(
-            content: PlaceholderContentView<Self>(),
-            modifier: OpacityRendererEffect(opacity: 1)
-        )
+        assertUnimplemented()
     }
     
     @MainActor @preconcurrency public static var properties: TransitionProperties {
@@ -22,6 +19,10 @@ public struct OpacityTransition : Transition {
 
 @available(*, unavailable)
 extension OpacityTransition : Sendable {
+}
+
+extension AnyTransition {
+    nonisolated(unsafe) public static let opacity = AnyTransition(OpacityTransition())
 }
 
 extension Transition where Self == OpacityTransition {

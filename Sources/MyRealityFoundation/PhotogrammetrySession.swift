@@ -127,7 +127,7 @@ public class PhotogrammetrySession {
     }
     
     @available(macOS 14.0, iOS 17.0, macCatalyst 17.0, *)
-    public struct Limits {
+    public struct Limits : Sendable {
         public var maximumInputImageDimension: Int {
             get {
                 assertUnimplemented()
@@ -142,7 +142,7 @@ public class PhotogrammetrySession {
     }
     
     @available(macOS 14.0, iOS 17.0, macCatalyst 17.0, *)
-    @safe public static nonisolated(unsafe) let limits: PhotogrammetrySession.Limits = {
+    public static let limits: PhotogrammetrySession.Limits = {
         assertUnimplemented()
     }()
     

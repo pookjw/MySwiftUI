@@ -59,6 +59,10 @@ package struct AtomicBox<T> {
 
 extension AtomicBox {
     fileprivate class AtomicBuffer<S> : ManagedBuffer<os_unfair_lock_s, S> {
+        deinit {
+            assertUnimplemented()
+        }
+
         @inlinable
         static func allocate(value: S) -> AtomicBuffer<S> {
             let buffer = AtomicBuffer<S>.create(minimumCapacity: 1) { buffer in

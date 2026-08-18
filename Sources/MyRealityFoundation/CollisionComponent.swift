@@ -94,16 +94,16 @@ extension CollisionComponent {
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension CollisionComponent {
-    public struct CollisionOptions : OptionSet {
-        @safe public static nonisolated(unsafe) let none: CollisionComponent.CollisionOptions = {
+    public struct CollisionOptions : OptionSet, Sendable {
+        public static let none: CollisionComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let `static`: CollisionComponent.CollisionOptions = {
+        public static let `static`: CollisionComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let fullContactInformation: CollisionComponent.CollisionOptions = {
+        public static let fullContactInformation: CollisionComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         

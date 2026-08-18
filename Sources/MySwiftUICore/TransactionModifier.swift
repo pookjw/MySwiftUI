@@ -53,7 +53,7 @@ extension View {
 @frozen public struct _TransactionModifier : ViewModifier, _GraphInputsModifier {
     @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
     
-    @inlinable public nonisolated init(transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public nonisolated init(transform: @escaping (inout Transaction) -> Void) {
         self.transform = transform
     }
     
@@ -76,7 +76,7 @@ extension _TransactionModifier : PrimitiveViewModifier {}
     @safe public nonisolated(unsafe) var value: Value
     @safe public nonisolated(unsafe) var transform: (inout Transaction) -> Void
     
-    @inlinable public nonisolated init(value: Value, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public nonisolated init(value: Value, transform: @escaping (inout Transaction) -> Void) {
         self.value = value
         self.transform = transform
     }
@@ -98,7 +98,7 @@ extension _ValueTransactionModifier : PrimitiveViewModifier {}
     @safe public nonisolated(unsafe) var content: Content
     @safe public nonisolated(unsafe) var base: _TransactionModifier
     
-    @inlinable public nonisolated init(content: Content, transform: @escaping (inout Transaction) -> Void) { // nonisolated는 원래 없음
+    @inlinable public nonisolated init(content: Content, transform: @escaping (inout Transaction) -> Void) {
         self.content = content
         base = .init(transform: transform)
     }
@@ -148,7 +148,7 @@ extension _GraphInputs {
     }
 }
 
-fileprivate struct ChildTransaction : Rule, AsyncAttribute {
+@MainActor fileprivate struct ChildTransaction : Rule, AsyncAttribute {
     @Attribute private(set) var modifier: _TransactionModifier
     @Attribute private(set) var transaction: Transaction
     
@@ -173,16 +173,14 @@ fileprivate struct ChildTransaction : Rule, AsyncAttribute {
         } else {
             // <+1016>
             // inlined
-            // UncheckedSendable은 원래 없음
-            var unchecked = UncheckedSendable(transaction)
             Update.syncMain {
                 ObservationCenter.current._withObservation(attribute: Attribute<Transaction>(identifier: .current!)) {
-                    modifier.transform(&unchecked.value)
+                    modifier.transform(&transaction)
                 }
             }
             
             // <+2632>
-            return unchecked.value
+            return transaction
         }
     }
 }

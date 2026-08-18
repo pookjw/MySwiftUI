@@ -135,7 +135,14 @@ package enum Update {
         return handler()
     }
     
-    @inline(always)
+    @inline(always) // 원래 없음
+    package static func syncMain(_ handler: () -> Void) {
+        withoutActuallyEscaping(handler) { escapingClosure in
+            let casted = unsafe unsafeBitCast(escapingClosure, to: (@MainActor () -> Void).self)
+            unsafe Update.syncMain(unsafeBitCast(escapingClosure, to: (@MainActor () -> Void).self))
+        }
+    }
+    
     package static func syncMain(_ handler: @MainActor () -> Void) {
         if Thread.isMainThread {
             MainActor.assumeIsolated {
@@ -206,7 +213,7 @@ package enum Update {
         while !actions.isEmpty {
             unsafe Update.actions = []
             
-            onMainThread { [unchecked = UncheckedSendable(actions)] in
+            onMainThread { [actions] in
                 let traceHost = unsafe Update.traceHost
                 Signpost.postUpdateActions.traceInterval(object: traceHost, nil) {
                     Update.begin()
@@ -215,7 +222,7 @@ package enum Update {
                     let dispatchDepth = Update.dispatchDepth
                     Update.dispatchDepth = depth
                     
-                    for action in unsafe unchecked.value {
+                    for action in actions {
                         // x24
                         let depth = Update.depth
                         

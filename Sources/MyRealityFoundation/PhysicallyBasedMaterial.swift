@@ -55,7 +55,7 @@ extension PhysicallyBasedMaterial {
             return (firstValue, secondValue)
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -99,7 +99,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -141,7 +141,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -183,7 +183,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -214,7 +214,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -311,7 +311,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -353,7 +353,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -389,7 +389,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -418,7 +418,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -453,7 +453,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -490,7 +490,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         
@@ -527,7 +527,7 @@ extension PhysicallyBasedMaterial {
             }
         }
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
     }
@@ -536,7 +536,7 @@ extension PhysicallyBasedMaterial {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension PhysicallyBasedMaterial {
     @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
-        final public nonisolated(unsafe) let descriptor: PhysicallyBasedMaterial.Program.Descriptor = {
+        final public let descriptor: PhysicallyBasedMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         
@@ -591,7 +591,7 @@ extension PhysicallyBasedMaterial {
         
         public var texture: PhysicallyBasedMaterial.Texture?
         
-        @safe public static nonisolated(unsafe) let textureSemantic: TextureResource.Semantic = {
+        @safe public static let textureSemantic: TextureResource.Semantic = {
             assertUnimplemented()
         }()
         

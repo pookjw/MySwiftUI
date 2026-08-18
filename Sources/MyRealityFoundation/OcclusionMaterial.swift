@@ -4,7 +4,6 @@ public struct OcclusionMaterial : Material, Sendable {
     
     public var __parameterBlock: __RKMaterialParameterBlock
 //    @available(visionOS, unavailable)
-    
     public let receivesDynamicLighting: Bool
     
     @available(visionOS, unavailable)

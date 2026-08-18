@@ -8,7 +8,7 @@ public struct __RKScenePhysics {
     
     @safe @_hasMissingDesignatedInitializers public class Registration {
         private let introspectionStruct: OpaquePointer
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()

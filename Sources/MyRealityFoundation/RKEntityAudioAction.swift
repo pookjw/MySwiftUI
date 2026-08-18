@@ -2,6 +2,10 @@ public import Foundation
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __RKEntityAudioAction : __RKEntityAction {
+    deinit {
+        assertUnimplemented()
+    }
+
     public var type: __RKEntityAudioActionType
     
     public var path: String

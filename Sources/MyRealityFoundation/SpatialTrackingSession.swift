@@ -37,19 +37,19 @@ final public class SpatialTrackingSession : Sendable {
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 extension SpatialTrackingSession.Configuration.AnchorCapability {
-    @safe public static nonisolated(unsafe) let world: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let world: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let plane: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let plane: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let image: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let image: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let object: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let object: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
 }
@@ -73,7 +73,7 @@ extension SpatialTrackingSession.UnavailableCapabilities {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension SpatialTrackingSession.Configuration.AnchorCapability {
-    @safe public static nonisolated(unsafe) let hand: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let hand: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
 }
@@ -85,7 +85,7 @@ extension SpatialTrackingSession.Configuration.AnchorCapability {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 extension SpatialTrackingSession.Configuration.AnchorCapability {
-    @safe public static nonisolated(unsafe) let accessory: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let accessory: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
 }
@@ -140,15 +140,15 @@ extension SpatialTrackingSession {
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 extension SpatialTrackingSession.Configuration.AnchorCapability {
-    @safe public static nonisolated(unsafe) let camera: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let camera: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let face: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let face: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let body: SpatialTrackingSession.Configuration.AnchorCapability = {
+    @safe public static let body: SpatialTrackingSession.Configuration.AnchorCapability = {
         assertUnimplemented()
     }()
 }
@@ -201,11 +201,11 @@ extension SpatialTrackingSession.Configuration {
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 extension SpatialTrackingSession.Configuration.SceneUnderstandingCapability {
-    @safe public static nonisolated(unsafe) let shadow: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
+    @safe public static let shadow: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let occlusion: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
+    @safe public static let occlusion: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
         assertUnimplemented()
     }()
 }
@@ -215,11 +215,11 @@ extension SpatialTrackingSession.Configuration.SceneUnderstandingCapability {
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 extension SpatialTrackingSession.Configuration.SceneUnderstandingCapability {
-    @safe public static nonisolated(unsafe) let collision: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
+    @safe public static let collision: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let physics: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
+    @safe public static let physics: SpatialTrackingSession.Configuration.SceneUnderstandingCapability = {
         assertUnimplemented()
     }()
 }

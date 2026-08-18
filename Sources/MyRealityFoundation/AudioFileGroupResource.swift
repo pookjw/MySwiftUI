@@ -10,6 +10,10 @@ extension AudioFileGroupResource {
 
 @_inheritsConvenienceInitializers @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 @MainActor @preconcurrency public class AudioFileGroupResource : AudioResource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency final public let resources: [AudioFileResource] = {
         assertUnimplemented()
     }()

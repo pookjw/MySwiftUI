@@ -34,7 +34,7 @@ package enum Log {
         Log.events.log(level: .default, "\(message)")
     }
     
-    @usableFromInline nonisolated(unsafe) package fileprivate(set) static var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
+    @usableFromInline package fileprivate(set) nonisolated(unsafe) static var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
     
     package static func log(_: @autoclosure () -> String) {
         // nop

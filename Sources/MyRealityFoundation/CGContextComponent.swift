@@ -26,7 +26,7 @@ public struct __CGContextComponent : Component {
     
     public var size: CGSize
     
-    @safe public static nonisolated(unsafe) let defaultMetersPerPoint: Double = {
+    @safe public static let defaultMetersPerPoint: Double = {
         assertUnimplemented()
     }()
     

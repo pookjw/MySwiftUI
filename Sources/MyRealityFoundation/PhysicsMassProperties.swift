@@ -1,8 +1,8 @@
 public import simd
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct PhysicsMassProperties : Equatable {
-    @safe public static nonisolated(unsafe) let `default`: PhysicsMassProperties = {
+public struct PhysicsMassProperties : Equatable, Sendable {
+    public static let `default`: PhysicsMassProperties = {
         assertUnimplemented()
     }()
     

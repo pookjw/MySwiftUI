@@ -76,7 +76,6 @@ public struct DirectionalLightComponent : Component, Equatable {
     
     public var intensity: Float
 //    @available(visionOS, unavailable)
-    
     public var isRealWorldProxy: Bool
     
     @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> DirectionalLightComponent {

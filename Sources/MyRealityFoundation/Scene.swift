@@ -473,7 +473,7 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @safe @preconcurrency @MainActor public class Scene {
-    package let coreScene: OpaquePointer // 0x10
+    @safe package nonisolated(unsafe) let coreScene: OpaquePointer // 0x10
     private var realityAssetCollisionSubscription: (any Cancellable)? = nil // 0x18
     private var session = WeakSessionAR()
     @MainActor @preconcurrency public var __audioListener: Entity? = nil // 0x40
@@ -551,7 +551,7 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
         assertUnimplemented()
     }
     
-    package init(coreScene: OpaquePointer) {
+    package nonisolated init(coreScene: OpaquePointer) {
         unsafe self.coreScene = coreScene
         
 #if RealityKitCompatibility

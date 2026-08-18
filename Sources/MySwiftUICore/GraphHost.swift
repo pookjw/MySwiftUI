@@ -120,7 +120,7 @@ fileprivate let waitingForPreviewThunks: Bool = {
 
 nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
 
-@_spi(Internal) open class GraphHost {
+@_spi(Internal) open class GraphHost : @unchecked Sendable {
     @safe nonisolated(unsafe) fileprivate static let sharedGraph: Graph = {
         let graph = Graph()
         let assertLocks = unsafe getenv("SWIFTUI_ASSERT_LOCKS")
@@ -199,7 +199,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     private var pendingTransactions: [AsyncTransaction]
     private var inTransaction: Bool
     private var continuations: [any GraphMutation]
-    nonisolated package private(set) final var mayDeferUpdate: Bool
+    package private(set) final var mayDeferUpdate: Bool
     var removedState: GraphHost.RemovedState
     
     final var isValid: Bool {
@@ -845,9 +845,9 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return data.environment
     }
     
-    final func continueTransaction<T : GraphMutation>(_: T) {
+    final func continueTransaction<T : GraphMutation>(_ mutation: T) {
         assertUnimplemented()
-    } 
+    }
 }
 
 extension GraphHost {

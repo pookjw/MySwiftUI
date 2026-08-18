@@ -1,10 +1,10 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct CollisionFilter : Equatable {
-    @safe public static nonisolated(unsafe) let `default`: CollisionFilter = {
+public struct CollisionFilter : Equatable, Sendable {
+    public static let `default`: CollisionFilter = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let sensor: CollisionFilter = {
+    public static let sensor: CollisionFilter = {
         assertUnimplemented()
     }()
     

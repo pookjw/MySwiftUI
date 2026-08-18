@@ -434,7 +434,7 @@ extension _VariadicView_Children : View, MultiView, PrimitiveView {
 }
 
 extension _VariadicView_Children {
-    fileprivate struct Child : Rule, AsyncAttribute {
+    @MainActor fileprivate struct Child : Rule, AsyncAttribute {
         @Attribute private(set) var children: _VariadicView_Children
         
         var value: ForEach<_VariadicView_Children, AnyHashable, _VariadicView_Children.Element> {

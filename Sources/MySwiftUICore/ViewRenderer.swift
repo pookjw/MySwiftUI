@@ -1,7 +1,7 @@
 // 76C8A4B3FC8EE0F99045B3425CD62255
 package import CoreGraphics
 
-package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater {
+package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater, Sendable {
     var responderNode: ResponderNode? { get }
 }
 

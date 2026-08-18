@@ -38,6 +38,10 @@ extension AudioBufferResource.Configuration : Equatable, Hashable, Sendable {
 
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 @MainActor @preconcurrency public class AudioBufferResource : AudioResource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
     @MainActor @preconcurrency final public let configuration: AudioBufferResource.Configuration = {
         assertUnimplemented()

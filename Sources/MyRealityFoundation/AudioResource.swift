@@ -29,7 +29,7 @@ extension AudioResource {
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension AudioResource {
     public struct Normalization {
-        @safe public static nonisolated(unsafe) let dynamic: AudioResource.Normalization = {
+        @safe public static let dynamic: AudioResource.Normalization = {
             assertUnimplemented()
         }()
     }
@@ -84,6 +84,10 @@ extension AudioResource.Calibration : Equatable, Hashable, Sendable {
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class AudioResource : Resource {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency public var __coreAsset: __AssetRef {
         get {
             assertUnimplemented()

@@ -85,7 +85,7 @@ extension RealityView {
         assertUnimplemented()
     }
     
-    /*nonisolated*/ public init<A, P>(
+    nonisolated public init<A, P>(
         make: @escaping @MainActor @Sendable (inout RealityViewContent, RealityViewAttachments) async -> Void,
         update: (@MainActor (inout RealityViewContent, RealityViewAttachments) -> Void)? = nil,
         @ViewBuilder placeholder: () -> P,

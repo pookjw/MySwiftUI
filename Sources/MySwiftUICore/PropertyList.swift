@@ -641,7 +641,7 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
     }
 }
 
-@_spi(Internal) open class ViewGraphHostEnvironmentWrapper : NSObject, NSSecureCoding {
+@_spi(Internal) open class ViewGraphHostEnvironmentWrapper : NSObject, NSSecureCoding, @unchecked Sendable {
     public static var supportsSecureCoding: Bool {
         return true
     }

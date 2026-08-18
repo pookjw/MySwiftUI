@@ -226,121 +226,7 @@ package final class ViewGraph : GraphHost {
     
     package func updateOutputs(at time: Time) {
         self.beginNextUpdate(at: time)
-        
-        var w27 = false
-        var sp = false
-        var sp04 = false
-        var w28 = false
-        var w21 = false
-        var w25 = false
-        
-        // sp + 0x8
-        for _ in 0..<8 {
-            self.runTransaction()
-            
-            let updated = self.updatePreferences()
-            w28 = (w28 || updated)
-            w21 = (w21 || updated)
-            
-            let needsUpdate = self.sizeThatFitsObservers.needsUpdate(graph: self)
-            w27 = (needsUpdate || w27)
-            w25 = (needsUpdate || w25)
-            
-            for feature in self.features {
-                guard feature.flags == 0 else {
-                    sp = true
-                    sp04 = true
-                    continue
-                }
-                
-                guard feature.needsUpdate(graph: self) else {
-                    continue
-                }
-                
-                feature.flags |= 1
-                sp = true
-                sp04 = true
-            }
-            
-            // <+384>
-            guard self.data.globalSubgraph.isDirty(1) else {
-                break
-            }
-        }
-        
-        // <+416>
-        var w8 = sp
-        let x29_51 = w8
-        w8 = (w8 && w25)
-        let x29_52 = w8
-        w8 = w21
-        let sp_18 = w8
-        w8 = sp04
-        w8 = (w8 || w28 || w27)
-        
-        guard w8 else {
-            return
-        }
-        
-        /*
-         x0 = x29_51
-         x1 = self
-         w2 = 0
-         x3 = sp_18
-         x4 = x29_52
-         ---
-         x29_51 = x23
-         self = x19
-         0 = x22
-         sp_18 = x24
-         x29_52 = x21
-         */
-        _updateOutputs(x23: x29_51, x22: false, x24: sp_18, x21: x29_52)
-        self.mainUpdates &-= 1
-    }
-    
-    // function signature specialization <Arg[0] = Stack Promoted from Box, Arg[3] = Stack Promoted from Box, Arg[4] = Stack Promoted from Box> of update() -> ()
-    private func _updateOutputs(
-        x23: Bool,
-        x22: Bool, // 쓰이고는 있지만 분기 변경에 영향을 끼치지 않음
-        x24: Bool,
-        x21: Bool
-    ) {
-        // self = x19
-        if x23 {
-            for feature in self.features {
-                if feature.flags != 0 {
-                    feature.outputsDidChange(graph: self)
-                }
-            }
-        }
-        
-        // <+216>
-        if x24 {
-            if let delegate {
-                delegate.preferencesDidChange()
-            }
-            
-            // x24
-            if let preferenceBridge = _preferenceBridge {
-                let identifier = data.$hostPreferenceKeys.projectedValue.identifier
-                if let graph = preferenceBridge.viewGraph {
-                    graph.graphInvalidation(from: identifier)
-                }
-            }
-        }
-        
-        // <+420>
-        for feature in self.features {
-            if feature.flags != 0 {
-                feature.update(graph: self)
-                feature.flags &= 0xfffffffe
-            }
-        }
-        
-        if x21 {
-            sizeThatFitsObservers.notify()
-        }
+        assertUnimplemented()
     }
     
     func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {
@@ -1071,21 +957,13 @@ extension ViewGraph : ViewGraphRenderHost {
             return Time(seconds: .nan) 
         }
         
-        let renderDelegateBox = UncheckedSendable(renderDelegate)
-        let viewRendererBox = UncheckedSendable(viewRenderer)
-        let unchecked = UncheckedSendable(displayList)
-        
-        @MainActor
         func renderOnMainThread() -> Time {
-            let renderDelegate = renderDelegateBox.value
-            let viewRenderer = viewRendererBox.value
-            
             var context = ViewGraphRenderContext(contentsScale: 0, opaqueBackground: false)
             renderDelegate.updateRenderContext(&context)
             CustomEventTrace.animationTick(onMain: true, time: time)
             
             let renderingRootView = renderDelegate.renderingRootView
-            return renderDelegate.withMainThreadRender(wasAsync: false) { [displayList = unchecked.value] in
+            return renderDelegate.withMainThreadRender(wasAsync: false) { [displayList] in
                 // $s7SwiftUI9ViewGraphC17renderDisplayList_14asynchronously4time8nextTime15targetTimestamp7version10maxVersionAA0K0VAA0fG0V_SbA3LSgAN0P0VAQtF0E12OnMainThreadL_ALyFALyXEfU_
                 // inlined
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
@@ -1353,15 +1231,13 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
 }
 
-package protocol ViewGraphRenderDelegate : AnyObject {
-    @MainActor var renderingRootView: AnyObject {
+@MainActor @preconcurrency package protocol ViewGraphRenderDelegate : AnyObject, Sendable {
+    var renderingRootView: AnyObject {
         get
     }
     
-    @MainActor func updateRenderContext(_ context: inout ViewGraphRenderContext)
-    
-    @MainActor func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
-    
+    func updateRenderContext(_ context: inout ViewGraphRenderContext)
+    func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
     func renderIntervalForDisplayLink(timestamp: Time) -> Double
 }
 

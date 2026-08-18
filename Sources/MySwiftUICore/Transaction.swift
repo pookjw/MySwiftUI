@@ -3,7 +3,7 @@
 private import _MySwiftUIShims
 internal import AttributeGraph
 
-public struct Transaction {
+public struct Transaction : @unchecked Sendable {
     package fileprivate(set) static var current: Transaction {
         get {
             guard let transactionData = unsafe _threadTransactionData() else {

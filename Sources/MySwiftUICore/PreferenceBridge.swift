@@ -1,7 +1,7 @@
 // DF57A19C61B44C613EB77C1D47FC679A
 internal import AttributeGraph
 
-@safe package final class PreferenceBridge {
+@safe package final class PreferenceBridge : @unchecked Sendable {
     private(set) weak var viewGraph: ViewGraph? = nil // 0x10
     private var isValid: Bool = false // 0x18
     package private(set) var children: [Unmanaged<ViewGraph>] = unsafe [] // 0x20
@@ -14,6 +14,10 @@ internal import AttributeGraph
     package init() {
         // <+60>
         self.viewGraph = .current
+    }
+
+    deinit {
+        assertUnimplemented()
     }
     
     func wrapInputs(_ inputs: inout _ViewInputs) {

@@ -3,7 +3,7 @@ private import UIKit
 @_spi(Internal) private import MySwiftUICore
 internal import Foundation
 
-final class MainMenuItemHost {
+final class MainMenuItemHost : @unchecked Sendable {
     let viewGraph: ViewGraph // 0x10
     var valuesNeedingUpdate = ViewGraphRootValues(rawValue: 0) // 0x18
     var renderingPhase: ViewRenderingPhase = .rendering // 0x1a

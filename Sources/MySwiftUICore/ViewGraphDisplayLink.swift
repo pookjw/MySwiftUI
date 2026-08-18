@@ -344,7 +344,7 @@ final class ViewGraphDisplayLink : NSObject {
         }
     }
     
-    @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any) {
+    @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any?) {
         assertUnimplemented()
     }
 }

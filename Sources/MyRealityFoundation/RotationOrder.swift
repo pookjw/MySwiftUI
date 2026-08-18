@@ -1,11 +1,11 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @usableFromInline
-internal enum RotationOrder : UInt8 {
-    @safe public static nonisolated(unsafe) let `default`: RotationOrder = {
+internal enum RotationOrder : UInt8, Sendable {
+    public static let `default`: RotationOrder = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let sceneKit: RotationOrder = {
+    public static let sceneKit: RotationOrder = {
         assertUnimplemented()
     }()
     case xyz

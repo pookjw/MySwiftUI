@@ -12,7 +12,7 @@ private import CoreRE
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension EnvironmentValues {
-    @MainActor public var realityKitScene: MyRealityFoundation::Scene? {
+    public var realityKitScene: MyRealityFoundation::Scene? {
 #if RealityKitCompatibility
         guard let scene = self.realityScene else {
             return nil

@@ -14,7 +14,7 @@ public struct __REAnchoring {
     
     @safe @_hasMissingDesignatedInitializers public class Registration {
         let introspectionStruct: Swift.OpaquePointer
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()

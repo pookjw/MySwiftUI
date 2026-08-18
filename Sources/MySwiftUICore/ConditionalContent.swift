@@ -223,9 +223,14 @@ struct ConditionalTypeDescriptor<T : ConditionalProtocolDescriptor>: Sendable {
             self.count = first.count + second.count
         } else if unsafe (nominalDescriptor == optionalTypeDescriptor) {
             // <+352>
-            let descriptor = ConditionalTypeDescriptor.descriptor(type: type)
-            self.storage = .optional(type, descriptor)
-            self.count = descriptor.count + 1
+            assertUnimplemented()
+//            let wrappedType = unsafe UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
+//                .advanced(by: 0x10)
+//                .assumingMemoryBound(to: Any.Type.self)
+//                .pointee
+//            let descriptor = ConditionalTypeDescriptor.descriptor(type: wrappedType)
+//            self.storage = .optional(type, descriptor)
+//            self.count = descriptor.count + 1
         } else {
             // <+464>
             self.storage = .atom(T.conformance(of: type)!)
@@ -297,7 +302,8 @@ extension ConditionalMetadata where T == ViewDescriptor {
         
         mutating func visit<Content : View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
-            inputs.base.pushStableType(Content.self)
+//            inputs.base.pushStableID(index)
+            assertUnimplemented()
             let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
             let attribute = Attribute(rule)
             attribute.value = unsafe ptr!.assumingMemoryBound(to: Content.self).pointee

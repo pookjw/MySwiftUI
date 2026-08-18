@@ -51,6 +51,13 @@
             ReferencedContainer = "container:MyPlayground.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "AG_PRINT_CYCLES"
+            value = "3"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption
             key = "PrefersMallocStackLoggingLite"

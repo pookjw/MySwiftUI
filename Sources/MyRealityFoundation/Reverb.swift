@@ -1,6 +1,6 @@
 @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, tvOS 26.0, *)
 public struct Reverb : Hashable, Sendable {
-    @safe public static nonisolated(unsafe) let anechoic: Reverb = {
+    @safe public static let anechoic: Reverb = {
         assertUnimplemented()
     }()
     
@@ -26,43 +26,43 @@ public struct Reverb : Hashable, Sendable {
 @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, tvOS 26.0, *)
 extension Reverb {
     public struct Preset : Hashable, Sendable {
-        @safe public static nonisolated(unsafe) let outside: Reverb.Preset = {
+        @safe public static let outside: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let concertHall: Reverb.Preset = {
+        @safe public static let concertHall: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let veryLargeRoom: Reverb.Preset = {
+        @safe public static let veryLargeRoom: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let largeRoom: Reverb.Preset = {
+        @safe public static let largeRoom: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let largeRoomTreated: Reverb.Preset = {
+        @safe public static let largeRoomTreated: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let mediumRoomDry: Reverb.Preset = {
+        @safe public static let mediumRoomDry: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let mediumRoomTreated: Reverb.Preset = {
+        @safe public static let mediumRoomTreated: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let smallRoomBright: Reverb.Preset = {
+        @safe public static let smallRoomBright: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let smallRoom: Reverb.Preset = {
+        @safe public static let smallRoom: Reverb.Preset = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let verySmallRoomBright: Reverb.Preset = {
+        @safe public static let verySmallRoomBright: Reverb.Preset = {
             assertUnimplemented()
         }()
         

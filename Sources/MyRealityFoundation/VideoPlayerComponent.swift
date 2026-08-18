@@ -52,7 +52,7 @@ public struct VideoPlayerComponent : Component {
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(macCatalyst, unavailable)
-    public enum VideoComfortMitigation {
+    public enum VideoComfortMitigation : Sendable {
         case play
         case pause
         case reduceImmersion

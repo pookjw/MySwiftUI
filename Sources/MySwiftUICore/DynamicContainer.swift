@@ -72,7 +72,7 @@ struct DynamicContainer {
 }
 
 extension DynamicContainer {
-    struct Info {
+    struct Info : Equatable {
         var items: [DynamicContainer.ItemInfo]
         var indexMap: [UInt32: Int]
         var displayMap: [UInt32]?
@@ -88,6 +88,10 @@ extension DynamicContainer {
             }
             
             return Int(items[index].precedingViewCount + id.viewIndex)
+        }
+
+        static func == (lhs: DynamicContainer.Info, rhs: DynamicContainer.Info) -> Bool {
+            return lhs.seed == rhs.seed
         }
     }
     
@@ -445,7 +449,8 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                 // <+3772>
                 // info.items -> x21
                 // removedCount -> sp + 0x38
-                let x22 = -(info.removedCount &+ info.unusedCount)
+                assertUnimplemented()
+                let validCount = info.items.count &- (info.removedCount &+ info.unusedCount)
                 // x28
                 for index in 0..<usedCount {
                     let _index: Int
@@ -456,7 +461,8 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                             _index = Int(displayMap[index])
                         } else {
                             // <+3968>
-                            _index = Int(displayMap[info.items.count + x22])
+                            assertUnimplemented()
+                            _index = Int(displayMap[validCount])
                         }
                     } else {
                         // <+4016>
@@ -465,9 +471,9 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                             _index = index
                         } else {
                             // <+4032>
-                            let a = index &- unremovedCount
-                            let b = info.items.count &+ x22
-                            _index = (a >= 0) ? a : b
+                            assertUnimplemented()
+                            let shiftedIndex = index &- removedCount
+                            _index = shiftedIndex >= 0 ? shiftedIndex : validCount
                         }
                     }
                     
@@ -654,12 +660,11 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
             } else {
                 // <+180>
                 // w22
-                var lastRemoved = lastRemoved
-                if (lastRemoved &+ 1) <= 1 {
-                    lastRemoved = 1
-                }
+                assertUnimplemented()
+                let lastRemoved = max(lastRemoved &+ 1, 1)
                 self.lastRemoved = lastRemoved
                 info.items[index].removalOrder = lastRemoved
+                info.removedCount &+= 1
                 info.items[index].phase = .didDisappear
                 
                 if let listener = info.items[index].listener {
@@ -903,7 +908,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
         return (changed, hasDepth)
     }
     
-    mutating func unremoveItem(at: Int) {
+    mutating func unremoveItem(at index: Int) {
         assertUnimplemented()
     }
     
@@ -1064,106 +1069,7 @@ fileprivate struct DynamicPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttr
     }
     
     var value: T.Value {
-        /*
-         items -> sp + 0x50
-         indexMap -> x26
-         displayMap -> x28
-         removedCount -> sp + 0x58
-         unusedCount -> x25
-         */
-        let info = info!
-        
-        var x22 = info.items.endIndex - info.unusedCount
-        var x23 = x22 - info.removedCount
-        
-        // sp + 0x70
-        var value: T.Value
-        // sp + 0x94
-        let includesRemovedValues: Bool
-        if x22 == x23 {
-            // <+224>
-            value = T.defaultValue
-            includesRemovedValues = false
-        } else {
-            // <+256>
-            let _includesRemovedValues = T._includesRemovedValues
-            value = T.defaultValue
-            includesRemovedValues = _includesRemovedValues
-            x22 = includesRemovedValues ? x22 : x23
-        }
-        
-        // <+312>
-        guard x22 != 0 else {
-            return value
-        }
-        
-        var x27 = 0
-        var w25 = true
-        
-        repeat {
-            // <+432>
-            // x20
-            let item: DynamicContainer.ItemInfo
-            if let displayMap = info.displayMap {
-                // <+444>
-                if includesRemovedValues {
-                    // <+452>
-                    let x8 = info.items.endIndex + x23
-                    let index = Int(displayMap[x8])
-                    // <+572>
-                    item = info.items[index]
-                    // <+664>
-                } else {
-                    // <+504>
-                    let index = Int(displayMap[x27])
-                    item = info.items[index]
-                    // <+664>
-                }
-            } else {
-                // <+472>
-                if includesRemovedValues {
-                    // <+484>
-                    // <+604>
-                    let x8 = x27 &- info.removedCount
-                    let x9 = info.items.endIndex &+ x23
-                    let x0 = (x8 >= 0) ? x8 : x9
-                    item = info.items[x0]
-                } else {
-                    // <+572>
-                    item = info.items[x27]
-                    // <+664>
-                }
-            }
-            
-            // <+664>
-            x27 &+= 1
-            // sp + 0x98
-            let outputs = item.outputs
-            
-            guard let attribute: Attribute<T.Value> = outputs[T.self] else {
-                continue
-            }
-            
-            if w25 {
-                // <+740>
-                // x24
-                value = attribute.value
-                w25 = false
-            } else {
-                // <+844>
-                T.reduce(value: &value) {
-                    // $s7SwiftUI25DynamicPreferenceCombiner33_E7D4CD2D59FB8C77D6C7E9C534464C17LLV5value5ValueQzvgAGyXEfU_TA
-                    return attribute.value
-                }
-                
-                w25 = false
-            }
-            
-            // <+412>
-            x23 &+= 1
-        } while x27 != x22
-        
-        return value
+        assertUnimplemented()
     }
 }
 
@@ -1220,12 +1126,14 @@ fileprivate struct DynamicTransaction : StatefulRule, AsyncAttribute {
             // <+340>
             transaction.animation = nil
             transaction.disablesAnimations = true
-            self.value = transaction
+            assertUnimplemented()
+//            self.value = transaction
             break
         case .identity:
             // <+332>
             // <+728>
-            self.value = transaction
+            assertUnimplemented()
+//            self.value = transaction
             break
         case .didDisappear:
             // <+460>
@@ -1239,9 +1147,13 @@ fileprivate struct DynamicTransaction : StatefulRule, AsyncAttribute {
             
             // <+584>
             self.wasRemoved = true
-            self.transaction = transaction
+            assertUnimplemented()
+//            self.transaction = transaction
             break
         }
+        
+        assertUnimplemented()
+//        self.value = transaction
     }
 }
 
@@ -1270,7 +1182,8 @@ fileprivate struct DynamicViewPhase : Rule, AsyncAttribute {
         var newPhase = _GraphInputs.Phase()
         newPhase.resetSeed = resetSeed
         newPhase.merge(phase)
-        newPhase.isBeingRemoved = itemPhase == .didDisappear
+        assertUnimplemented()
+//        newPhase.isBeingRemoved = newPhase.isBeingRemoved || itemPhase == .didDisappear
         
         return newPhase
     }

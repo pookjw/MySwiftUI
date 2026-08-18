@@ -145,8 +145,8 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
-        assertUnimplemented()
+    nonisolated package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
+       assertUnimplemented()
     }
     
     package func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
@@ -231,12 +231,8 @@ extension ViewGraphRootValueUpdater {
         assertUnimplemented()
     }
     
-    package var isRendering: Bool {
-        guard let owner = self.as(ViewGraphOwner.self) else {
-            return false
-        }
-        
-        return (owner.renderingPhase != .none)
+    nonisolated package var isRendering: Bool {
+        assertUnimplemented()
     }
     
     package func updateGraph() {
@@ -249,14 +245,8 @@ extension ViewGraphRootValueUpdater {
             return
         }
         
-        let ownerBox = UncheckedSendable(owner)
-        let selfBox = UncheckedSendable(self)
-        
         Update.syncMain {
             // closure #1 () -> () in SwiftUI.ViewGraphRootValueUpdater.updateGraph() -> ()
-            let owner = ownerBox.value
-            let `self` = selfBox.value
-            
             // valuesNeedingUpdate = x20
             // owner = x21
             if valuesNeedingUpdate.contains(.rootView) {

@@ -130,11 +130,7 @@ fileprivate struct DynamicViewContainer<Content : DynamicView>: StatefulRule {
             var inputs = self.inputs
             inputs.copyCaches()
             
-            let childOutputs = MainActor.assumeIsolated { [unchecked = UncheckedSendable((self, inputs))] in
-                let `self` = unchecked.value.0
-                let outputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: unchecked.value.1)
-                return UncheckedSendable(outputs)
-            }.value
+            let childOutputs = self.view.makeChildView(metadata: self.metadata, view: self.$view, inputs: inputs)
             
             self.outputs.attachIndirectOutputs(to: childOutputs)
             let value = Self.Value(type: childInfo.0, id: childInfo.1, subgraph: graph)
@@ -280,6 +276,8 @@ extension DynamicViewContainer {
             
             if let matchedItem = unsafe matchedItem {
                 // <+1640>
+                assertUnimplemented()
+//                unsafe matchedItem.takeUnretainedValue().refcount &+= 1
                 let subgraph = unsafe matchedItem.takeUnretainedValue().subgraph
                 parentSubgraph.addChild(subgraph)
                 subgraph.didReinsert()
@@ -620,12 +618,24 @@ struct DynamicViewListItem : DynamicContainerItem {
     var count: Int {
         return elements.base.count
     }
-    
+
+    var needsTransitions: Bool {
+        assertUnimplemented()
+    }
+
+    var zIndex: Double {
+        assertUnimplemented()
+    }
+
     func matchesIdentity(of item: DynamicViewListItem) -> Bool {
         return self.list == item.list &&
         self.id == item.id
     }
-    
+
+    var viewID: _ViewList_ID? {
+        assertUnimplemented()
+    }
+
     private(set) var id: _ViewList_ID
     private(set) var elements: _ViewList_SubgraphElements
     private(set) var traits: ViewTraitCollection

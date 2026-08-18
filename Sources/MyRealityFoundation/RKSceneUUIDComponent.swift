@@ -2,9 +2,9 @@ private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct __RKSceneUUIDComponent {
-    @safe @_hasMissingDesignatedInitializers final public class Registration : Sendable {
+    @safe @_hasMissingDesignatedInitializers final public class Registration : @unchecked Sendable {
         private nonisolated(unsafe) let introspectionStruct: OpaquePointer
-        final public nonisolated(unsafe) let componentType: OpaquePointer
+        final public let componentType: OpaquePointer
         
         init() throws {
             let builder = CoreRE::StructBuilder()

@@ -7,7 +7,7 @@ package import Spatial
 internal import AttributeGraph
 internal import RenderBox
 
-package struct DisplayList {
+package struct DisplayList : @unchecked Sendable {
     package private(set) var items: [DisplayList.Item] // 0x0
     package var features: DisplayList.Features // 0x8
     package var properties: DisplayList.Properties // 0xc
@@ -252,30 +252,7 @@ extension DisplayList {
                     // <+512>
                     switch effect {
                     case .opacity(let opacity):
-                        // <+1280>
-                        if opacity < 1.0 {
-                            // <+2632>
-                            assertUnimplemented()
-                        } else {
-                            // <+1296>
-                            self.canonicalizeIdentityEffect(list: displsyList)
-                            // <+4656>
-                            if displsyList.properties.contains(.foregroundLayer) {
-                                // <+4720>
-                                return
-                            }
-                            
-                            // <+3144>
-                            if opacity > 0.0 {
-                                // <+4736>
-                                return
-                            } else {
-                                // <+5196>
-                                value = .empty
-                                // <+4736>
-                                return
-                            }
-                        }
+                        assertUnimplemented()
                     case .identity:
                         // <+1140>
                         // <+1396>
@@ -315,7 +292,6 @@ extension DisplayList {
                         assertUnimplemented()
                     }
                 } else {
-                    // <+396>
                     assertUnimplemented()
                 }
             default:

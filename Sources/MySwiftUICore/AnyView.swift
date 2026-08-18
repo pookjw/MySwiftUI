@@ -5,7 +5,7 @@ internal import AttributeGraph
 @frozen public struct AnyView : PrimitiveView {
     nonisolated var storage: AnyViewStorageBase
     
-    nonisolated public init<V>(_ view: V) where V : View {
+    public nonisolated init<V>(_ view: V) where V : View {
         let storage: AnyViewStorageBase
         if let anyView = view as? AnyView {
             storage = anyView.storage
@@ -15,7 +15,7 @@ internal import AttributeGraph
         self.storage = storage
     }
     
-    @_alwaysEmitIntoClient nonisolated public init<V>(erasing view: V) where V : View {
+    @_alwaysEmitIntoClient public init<V>(erasing view: V) where V : View {
         self.init(view)
     }
     

@@ -164,31 +164,7 @@ fileprivate struct GeometryReaderLayout : Layout, Animatable {
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        /*
-         subviews -> x0/x1
-         */
-        for subview in subviews {
-            let guideComputer = LayoutComputer.defaultValue
-            let size = guideComputer.sizeThatFits(
-                _ProposedSize(
-                    width: bounds.size.width,
-                    height: bounds.size.height
-                )
-            )
-            
-            subview.place(
-                at: bounds.origin,
-                anchor: .topLeading,
-                dimensions: ViewDimensions(
-                    guideComputer: .defaultValue,
-                    size: size,
-                    proposal: _ProposedSize(
-                        width: bounds.size.width,
-                        height: bounds.size.height
-                    )
-                )
-            )
-        }
+        assertUnimplemented()
     }
     
     func spacing(subviews: Subviews, cache: inout ()) -> ViewSpacing {

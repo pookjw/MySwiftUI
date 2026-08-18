@@ -5,15 +5,15 @@ public import Metal
 @available(visionOS, unavailable)
 extension CustomMaterial {
     @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
-        final public nonisolated(unsafe) let surfaceShader: CustomMaterial.SurfaceShader = {
+        final public let surfaceShader: CustomMaterial.SurfaceShader = {
             assertUnimplemented()
         }()
         
-        final public nonisolated(unsafe) let geometryModifier: CustomMaterial.GeometryModifier? = {
+        final public let geometryModifier: CustomMaterial.GeometryModifier? = {
             assertUnimplemented()
         }()
         
-        final public nonisolated(unsafe) let descriptor: CustomMaterial.Program.Descriptor = {
+        final public let descriptor: CustomMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         
@@ -550,7 +550,7 @@ extension CustomMaterial {
 @available(visionOS, unavailable)
 public struct CustomMaterial : Material {
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
-    public struct GeometryModifier : MaterialFunction {
+    public struct GeometryModifier : MaterialFunction, Sendable {
         public var name: String
         
         public var library: any MTLLibrary {
@@ -570,7 +570,7 @@ public struct CustomMaterial : Material {
     }
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
-    public struct SurfaceShader : MaterialFunction {
+    public struct SurfaceShader : MaterialFunction, Sendable {
         public var name: String
         
         public var library: any MTLLibrary {

@@ -1,6 +1,6 @@
 private import AttributeGraph
 
-public struct EnvironmentValues : CustomStringConvertible {
+public struct EnvironmentValues : CustomStringConvertible, @unchecked Sendable {
     private var _plist: PropertyList
     
     package var plist: PropertyList {

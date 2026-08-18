@@ -73,7 +73,7 @@ extension DisplayList {
 }
 
 extension DisplayList {
-    package final class ViewRenderer {
+    package final class ViewRenderer : @unchecked Sendable {
         let platform: DisplayList.ViewUpdater.Platform
         private(set) var configuration = _RendererConfiguration(renderer: .default)
         package weak var host: ViewRendererHost? = nil

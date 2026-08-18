@@ -8,27 +8,27 @@ public enum MeshBuffers {
         @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, *)
         public let isBlendShape: Bool
         
-        @safe public static nonisolated(unsafe) let positions: MeshBuffers.Identifier = {
+        @safe public static let positions: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let normals: MeshBuffers.Identifier = {
+        @safe public static let normals: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let tangents: MeshBuffers.Identifier = {
+        @safe public static let tangents: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let bitangents: MeshBuffers.Identifier = {
+        @safe public static let bitangents: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let textureCoordinates: MeshBuffers.Identifier = {
+        @safe public static let textureCoordinates: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let triangleIndices: MeshBuffers.Identifier = {
+        @safe public static let triangleIndices: MeshBuffers.Identifier = {
             assertUnimplemented()
         }()
         
@@ -106,34 +106,34 @@ public enum MeshBuffers {
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension MeshBuffers {
-    public struct Semantic<Element> : MeshBufferSemantic {
+    public struct Semantic<Element> : MeshBufferSemantic, Sendable {
         public let id: MeshBuffers.Identifier
         
         @available(iOS 15.0, tvOS 26.0, macOS 12.0, macCatalyst 15.0, *)
         public typealias ID = MeshBuffers.Identifier
     }
     
-    @safe public static nonisolated(unsafe) let positions: MeshBuffers.Semantic<SIMD3<Float>> = {
+    public static let positions: MeshBuffers.Semantic<SIMD3<Float>> = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let normals: MeshBuffers.Semantic<SIMD3<Float>> = {
+    public static let normals: MeshBuffers.Semantic<SIMD3<Float>> = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let tangents: MeshBuffers.Semantic<SIMD3<Float>> = {
+    public static let tangents: MeshBuffers.Semantic<SIMD3<Float>> = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let bitangents: MeshBuffers.Semantic<SIMD3<Float>> = {
+    public static let bitangents: MeshBuffers.Semantic<SIMD3<Float>> = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let textureCoordinates: MeshBuffers.Semantic<SIMD2<Float>> = {
+    public static let textureCoordinates: MeshBuffers.Semantic<SIMD2<Float>> = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let triangleIndices: MeshBuffers.Semantic<UInt32> = {
+    public static let triangleIndices: MeshBuffers.Semantic<UInt32> = {
         assertUnimplemented()
     }()
     
@@ -144,14 +144,14 @@ extension MeshBuffers {
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension MeshBuffers {
-    @safe public static nonisolated(unsafe) let jointInfluences: MeshBuffers.Semantic<MeshJointInfluence> = {
+    @safe public static let jointInfluences: MeshBuffers.Semantic<MeshJointInfluence> = {
         assertUnimplemented()
     }()
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension MeshBuffers.Identifier {
-    @safe public static nonisolated(unsafe) let jointInfluences: MeshBuffers.Identifier = {
+    @safe public static let jointInfluences: MeshBuffers.Identifier = {
         assertUnimplemented()
     }()
 }

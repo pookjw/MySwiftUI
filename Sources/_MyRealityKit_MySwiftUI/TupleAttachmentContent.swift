@@ -6,8 +6,8 @@
 @available(tvOS, unavailable)
 @frozen @MainActor @preconcurrency public struct TupleAttachmentContent<T> : AttachmentContent, PrimitiveAttachmentContent {
     @usableFromInline
-    /*@MainActor @preconcurrency*/ @safe internal nonisolated(unsafe) var content: T
-    @inlinable /*@MainActor @preconcurrency*/ nonisolated internal init(_ content: T) {
+    @safe internal nonisolated(unsafe) var content: T
+    @inlinable internal nonisolated init(_ content: T) {
         self.content = content
     }
     

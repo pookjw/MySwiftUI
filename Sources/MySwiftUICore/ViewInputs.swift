@@ -1,7 +1,7 @@
 package import AttributeGraph
 internal import CoreGraphics
 
-public struct _ViewInputs {
+public struct _ViewInputs : @unchecked Sendable {
     package var base: _GraphInputs // 0x0
     package var preferences: PreferencesInputs // 0x30
     package var transform: Attribute<ViewTransform> { // 0x3c

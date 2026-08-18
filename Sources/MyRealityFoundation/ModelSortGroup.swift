@@ -68,15 +68,15 @@ public struct ModelSortGroup : Equatable, Sendable {
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension ModelSortGroup {
-    @safe public static nonisolated(unsafe) let planarUIInline: ModelSortGroup = {
+    @safe public static let planarUIInline: ModelSortGroup = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let planarUIAlwaysInFront: ModelSortGroup = {
+    @safe public static let planarUIAlwaysInFront: ModelSortGroup = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let planarUIAlwaysBehind: ModelSortGroup = {
+    @safe public static let planarUIAlwaysBehind: ModelSortGroup = {
         assertUnimplemented()
     }()
 }

@@ -155,11 +155,11 @@ extension CGFloat : VectorArithmetic {
 
 extension Double : VectorArithmetic {
     public mutating func scale(by rhs: Double) {
-        assertUnimplemented()
+        self *= rhs
     }
     
     public var magnitudeSquared: Double {
-        assertUnimplemented()
+        return self * self
     }
 }
 
@@ -169,7 +169,7 @@ extension Float : VectorArithmetic {
     }
     
     public var magnitudeSquared: Double {
-        assertUnimplemented()
+        return Double(self * self)
     }
 }
 
@@ -219,7 +219,7 @@ extension Animatable where Self.AnimatableData == EmptyAnimatableData {
         @inlinable set {}
     }
     
-    nonisolated public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
+    public static func _makeAnimatable(value: inout _GraphValue<Self>, inputs: _GraphInputs) {
     }
 }
 
@@ -565,7 +565,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
         )
     }
     
-    func checkReset() -> Bool {
+    mutating func checkReset() -> Bool {
         if phase.resetSeed != resetSeed {
             reset()
             return true

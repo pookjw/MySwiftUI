@@ -11,7 +11,7 @@ protocol PlatformViewRepresentable : CoreViewRepresentable {
 }
 
 extension PlatformViewRepresentable {
-    static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
+    nonisolated static func appendFeature(to proxy: inout CoreViewRepresentableFeatureBufferProxy) {
         let feature = PlatformViewRepresentableFeature(representableType: Self.self)
         proxy.base.append(feature)
     }
@@ -37,7 +37,7 @@ protocol AnyPlatformViewHost {
     // TODO
 }
 
-@MainActor struct PlatformViewRepresentableFeature : CoreViewRepresentableFeature {
+struct PlatformViewRepresentableFeature : @preconcurrency CoreViewRepresentableFeature {
     private(set) var inputs: _ViewInputs? // 0x0
     @OptionalAttribute var identifiedViews: _IdentifiedViewTree? // 0x54 (actual), 0x14 (offset field)
     @OptionalAttribute var focusedValues: FocusedValues? // 0x58 (actual), 0x18 (offset field)
@@ -69,11 +69,11 @@ protocol AnyPlatformViewHost {
     }
     
     func modifyBridgedInputs<Representable : CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
-        unsafe inputs.preferences.remove(AccessibilityNodesKey.self)
+        inputs.preferences.remove(AccessibilityNodesKey.self)
         representableType.modifyBridgedViewInputs(&inputs)
     }
     
-    mutating func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
+    @MainActor mutating func modifyViewOutputs<Representable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
         /*
          outputs -> x29 - 0xb8
          proxy -> x1 -> x29 - 0xd8
@@ -125,11 +125,11 @@ protocol AnyPlatformViewHost {
         AccessibilityPlatformViewModifier.makeAccessibilityPlatformTransform(inputs: copy_2, representable: proxy.base, outputs: &outputs)
         
         // <+1200>
-        self.$platformViewAccessibilityNodes = unsafe outputs[AccessibilityNodesKey.self]
+        self.$platformViewAccessibilityNodes = outputs[AccessibilityNodesKey.self]
         
-        if unsafe copy_2.preferences.contains(AccessibilityNodesKey.self) {
+        if copy_2.preferences.contains(AccessibilityNodesKey.self) {
             // <+1316>
-            unsafe outputs[AccessibilityNodesKey.self] = nil
+            outputs[AccessibilityNodesKey.self] = nil
         }
         
         // <+1348>
@@ -150,7 +150,7 @@ protocol AnyPlatformViewHost {
         assertUnimplemented()
     }
     
-    func update<Host : CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
+    @MainActor func update<Host : CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
         /*
          self -> x20 -> x29 - 0xb0
          host -> x0 -> x26
@@ -208,7 +208,7 @@ struct PlatformViewIdentifiedViews<Representable : CoreViewRepresentable>: Rule 
     }
 }
 
-@MainActor fileprivate struct ViewResponderFilter<Representable : CoreViewRepresentable>: @preconcurrency StatefulRule {
+@MainActor fileprivate struct ViewResponderFilter<Representable : CoreViewRepresentable>: StatefulRule {
     private var _view: Attribute<ViewLeafView<Representable>> // 0x0
     @Attribute private(set) var position: CGPoint // 0x4
     @Attribute private(set) var size: ViewSize // 0x8
@@ -421,7 +421,7 @@ extension UIKitPlatformViewHost {
     }
 }
 
-struct PlatformViewControllerRepresentableAdaptor<Base : UIViewControllerRepresentable>: @MainActor PlatformViewRepresentable {
+struct PlatformViewControllerRepresentableAdaptor<Base : UIViewControllerRepresentable>: PlatformViewRepresentable {
     typealias PlatformViewProvider = Base.UIViewControllerType
     typealias Host = UIKitPlatformViewHost<Self>
     typealias Coordinator = Base.Coordinator

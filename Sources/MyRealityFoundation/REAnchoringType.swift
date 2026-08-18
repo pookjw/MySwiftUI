@@ -50,22 +50,22 @@ public enum __REAnchoringType : Codable, Equatable {
         assertUnimplemented()
     }
     
-    public struct Alignment : OptionSet, Codable {
+    public struct Alignment : OptionSet, Codable, Sendable {
         public init(rawValue: Int) {
             assertUnimplemented()
         }
         
         public let rawValue: Int
         
-        @safe public static nonisolated(unsafe) let horizontal: __REAnchoringType.Alignment = {
+        public static let horizontal: __REAnchoringType.Alignment = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let vertical: __REAnchoringType.Alignment = {
+        public static let vertical: __REAnchoringType.Alignment = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let any: __REAnchoringType.Alignment = {
+        public static let any: __REAnchoringType.Alignment = {
             assertUnimplemented()
         }()
         
@@ -79,34 +79,34 @@ public enum __REAnchoringType : Codable, Equatable {
         public typealias RawValue = Int
     }
     
-    public struct Classification : OptionSet, Codable {
+    public struct Classification : OptionSet, Codable, Sendable {
         public init(rawValue: Int) {
             assertUnimplemented()
         }
         
         public let rawValue: Int
         
-        @safe public static nonisolated(unsafe) let wall: __REAnchoringType.Classification = {
+        public static let wall: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let floor: __REAnchoringType.Classification = {
+        public static let floor: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let ceiling: __REAnchoringType.Classification = {
+        public static let ceiling: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let table: __REAnchoringType.Classification = {
+        public static let table: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let seat: __REAnchoringType.Classification = {
+        public static let seat: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let any: __REAnchoringType.Classification = {
+        public static let any: __REAnchoringType.Classification = {
             assertUnimplemented()
         }()
         

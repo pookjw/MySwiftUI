@@ -780,7 +780,7 @@ extension Entity {
 #endif
     }
     
-    isolated deinit {
+    deinit {
 #if RealityKitCompatibility
         unsafe unsafeBitCast(self.coreEntity, to: CoreRE.Entity.self)
             .myRealityKitRef = nil
@@ -802,7 +802,7 @@ extension Entity {
         assertUnimplemented()
     }
     
-    package internal(set) var coreEntity: OpaquePointer
+    package internal(set) nonisolated(unsafe) var coreEntity: OpaquePointer
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
@@ -996,14 +996,14 @@ extension Entity {
         
         public var memoryLimit: Int?
         
-        public struct LoadableFeatures : OptionSet {
+        public struct LoadableFeatures : OptionSet, Sendable {
             public let rawValue: UInt32
             
-            @safe public static nonisolated(unsafe) let none: Entity.__LoadOptions.LoadableFeatures = {
+            public static let none: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             
-            @safe public static nonisolated(unsafe) let audio: Entity.__LoadOptions.LoadableFeatures = {
+            public static let audio: Entity.__LoadOptions.LoadableFeatures = {
                 assertUnimplemented()
             }()
             

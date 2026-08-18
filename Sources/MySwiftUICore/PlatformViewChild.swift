@@ -101,7 +101,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             // x29 - 0x278
             let hasLeafView = unsafe (leafView != nil)
             
-            let updated = unsafe withUnsafePointer(to: &view) { pointer in
+            let updated = withUnsafePointer(to: &view) { pointer in
                 // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_SbSpyxGXEfU_TA
                 return unsafe links.update(container: UnsafeMutableRawPointer(mutating: pointer), phase: phase)
             }
@@ -210,13 +210,13 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                 
                 // <+2544>
                 // x29 - 0x158
-                context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                context = MainActor.assumeIsolated {
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
                     return PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
-                        preferenceBridge: unchecked.value.0,
-                        transaction: unchecked.value.1,
-                        environmentStorage: .eager(unchecked.value.2)
+                        preferenceBridge: bridge,
+                        transaction: transaction,
+                        environmentStorage: .eager(environment)
                     )
                 }
                 
@@ -234,13 +234,13 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                 self.tracker.initializeValues(from: environment.plist)
                 // <+2468>
                 // x29 - 0x158
-                context = MainActor.assumeIsolated { [unchecked = UncheckedSendable((bridge, transaction, environment))] in
+                context = MainActor.assumeIsolated {
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA0cD20RepresentableContextVyxGyScMYcXEfU2_Tm
                     return PlatformViewRepresentableContext<Representable>(
                         coordinator: coordinator.value!,
-                        preferenceBridge: unchecked.value.0,
-                        transaction: unchecked.value.1,
-                        environmentStorage: .eager(unchecked.value.2)
+                        preferenceBridge: bridge,
+                        transaction: transaction,
+                        environmentStorage: .eager(environment)
                     )
                 }
                 
@@ -266,12 +266,8 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                         return contextValues.asCurrent { () -> Representable.Host? in
                             // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_TA
                             // sp + 0x18
-                            let host: Representable.Host = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, context, renderHost, environment))] () -> UncheckedSendable<Representable.Host> in
+                            let host: Representable.Host = MainActor.assumeIsolated { () -> UncheckedSendable<Representable.Host> in
                                 // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_4HostQzSgyXEfU4_AGyXEfU_AGyXEfU0_AA17UncheckedSendableVyAFGyScMYcXEfU_
-                                let view = unchecked.value.0
-                                let context = unchecked.value.1
-                                let renderHost = unchecked.value.2
-                                let environment = unchecked.value.3
                                 // x27
                                 let provider = view.makeViewProvider(context: context)
                                 let host = unsafe Representable.Host(
@@ -350,9 +346,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             }
             
             // <+5600>
-            let newView = MainActor.assumeIsolated { [unchecked = UncheckedSendable((view, self, context))] in
-                return ViewLeafView(content: unchecked.value.0, platformView: unchecked.value.1.platformView!, coordinator: unchecked.value.2.coordinator)
-            }
+            let newView = ViewLeafView(content: view, platformView: self.platformView!, coordinator: context.coordinator)
             self.value = newView
         }
     }
@@ -583,7 +577,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             return content.depthThatFits(proposedSize, provider: representedViewProvider)
         }
         
-        Update.syncMain {
+        Update.syncMain { @MainActor in
             depth = exec()
         }
         

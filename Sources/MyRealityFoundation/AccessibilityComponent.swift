@@ -19,18 +19,18 @@ public struct AccessibilityComponent : Component {
         }
     }
     
-    public struct SupportedActions : OptionSet {
+    public struct SupportedActions : OptionSet, Sendable {
         public let rawValue: Int
         
-        @safe public static nonisolated(unsafe) let activate: AccessibilityComponent.SupportedActions = {
+        public static let activate: AccessibilityComponent.SupportedActions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let increment: AccessibilityComponent.SupportedActions = {
+        public static let increment: AccessibilityComponent.SupportedActions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let decrement: AccessibilityComponent.SupportedActions = {
+        public static let decrement: AccessibilityComponent.SupportedActions = {
             assertUnimplemented()
         }()
         

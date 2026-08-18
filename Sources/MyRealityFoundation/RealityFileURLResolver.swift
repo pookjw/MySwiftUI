@@ -4,6 +4,10 @@ private import _DarwinFoundation3._stdlib
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public class __RealityFileURLResolver {
+    deinit {
+        assertUnimplemented()
+    }
+
     private(set) var assetService: any __REAssetService // 0x10
     private var resolvedURLByAssetPathPrefixQueue = DispatchQueue(label: "__RealityFileURLResolver.resolvedURLByAssetPathPrefix") // 0x38
     private var resolvedURLByAssetPathPrefix: [String : String] = [:] // 0x40

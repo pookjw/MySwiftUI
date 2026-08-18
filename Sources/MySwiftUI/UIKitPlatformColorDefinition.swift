@@ -8,7 +8,7 @@ private import RealitySimulationServices
 private import _UIKitPrivate
 private import _UIKitShims
 
-final class UIKitPlatformColorDefinition : PlatformColorDefinition {
+final class UIKitPlatformColorDefinition : @MainActor PlatformColorDefinition {
     override class var system : PlatformSystemDefinition {
         return .uiKit
     }
@@ -84,8 +84,7 @@ final class UIKitPlatformColorDefinition : PlatformColorDefinition {
 }
 
 extension UITraitCollection {
-    @MainActor
-    func resolvedEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
+    @MainActor func resolvedEnvironment(base: MySwiftUICore::EnvironmentValues) -> MySwiftUICore::EnvironmentValues {
         // base -> x23
         var resolved = self.resolvedPreEnvironment(base: base)
         resolved = self.coreResolvedBaseEnvironment(base: resolved)
@@ -94,7 +93,7 @@ extension UITraitCollection {
         return resolved
     }
     
-    func resolvedTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
+    @MainActor @preconcurrency func resolvedTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper) -> UITraitCollection {
         let resolved_1 = self.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
         let resolved_2 = resolved_1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: [])
         let resolved_3 = resolved_2.coreResolvedGlassMaterialTraitCollection(environment: environment, wrapper: wrapper)
@@ -200,7 +199,7 @@ extension UITraitCollection {
         return result
     }
     
-    fileprivate func resolvedPreTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
+    @MainActor @preconcurrency fileprivate func resolvedPreTraitCollection(environment: MySwiftUICore::EnvironmentValues, wrapper: ViewGraphHostEnvironmentWrapper?, forImageAssetsOnly: Bool) -> UITraitCollection {
         /*
          self -> x20
          environment -> x0 -> x26
@@ -228,7 +227,7 @@ extension UITraitCollection {
             }
             
             // <+272>
-            if MainActor.assumeIsolated { isVisionInterfaceIdiom() } {
+            if isVisionInterfaceIdiom() {
                 // x25
                 let envVibrancy = _UIUserInterfaceContainerVibrancy(material: environment.backgroundMaterial)
                 let traitVibrancy = traits._containerVibrancy

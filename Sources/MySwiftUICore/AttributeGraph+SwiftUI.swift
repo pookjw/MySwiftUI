@@ -73,20 +73,15 @@ extension Attribute {
         let (value, flags) = self.valueAndFlags(options: [.unknown1])
         
         if flags.contains(.requiresMainThread) {
-            // 원래는 UncheckedSendable가 아님
-            var result: UncheckedSendable<U>!
+            var result: U!
             
             withoutActuallyEscaping(transform) { escapingClosure in
-                let casted = Swift.unsafeBitCast(escapingClosure, to: (@Sendable (T) -> U).self)
-                
-                Update.syncMain { [unchecked = UncheckedSendable(value)] in
-                    // $s14AttributeGraph0A0V7SwiftUIE20syncMainIfReferences2doqd__qd__xXE_tlFyyXEfU_
-                    // UncheckedSendable은 원래 없음
-                    result = UncheckedSendable(casted(unchecked.value))
+                Update.syncMain {
+                    result = escapingClosure(value)
                 }
             }
             
-            return result.value
+            return result
         } else {
             return transform(value)
         }

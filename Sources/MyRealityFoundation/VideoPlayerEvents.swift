@@ -148,7 +148,7 @@ public enum VideoPlayerEvents {
 @available(macCatalyst, unavailable)
 extension VideoPlayerEvents {
     public struct VideoComfortMitigationDidOccur : Event {
-        @safe public nonisolated(unsafe) let comfortMitigation: VideoPlayerComponent.VideoComfortMitigation
+        @safe public let comfortMitigation: VideoPlayerComponent.VideoComfortMitigation
     }
 }
 

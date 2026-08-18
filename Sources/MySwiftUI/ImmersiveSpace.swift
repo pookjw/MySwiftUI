@@ -85,7 +85,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 extension ImmersiveSpace {
     @usableFromInline
-    internal nonisolated init(id: String, @ImmersiveSpaceContentBuilder lazyContent: @escaping () -> Content) where Data == Never {
+    internal init(id: String, @ImmersiveSpaceContentBuilder lazyContent: @escaping () -> Content) where Data == Never {
         self.id = id
         let view = PresentedImmersiveSpaceContent(rootContent: .lazy(lazyContent))
         self.content = .view(view)

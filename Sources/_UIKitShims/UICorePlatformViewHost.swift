@@ -2,7 +2,7 @@
 public import UIKit
 public import _UIKitPrivate
 
-@_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable : CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, CoreViewRepresentableHost {
+@_spi(Internal) @MainActor open class UICorePlatformViewHost<Representable : CoreViewRepresentable>: _UIConstraintBasedLayoutHostingView, @preconcurrency CoreViewRepresentableHost {
     private var environment: EnvironmentValues // 0x210
     private var viewPhase: ViewGraphHost.Phase // 0x220
     @safe nonisolated(unsafe) public let coreRepresentedViewProvider: Representable.PlatformViewProvider // 0x228

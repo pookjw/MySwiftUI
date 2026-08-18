@@ -2,20 +2,20 @@ public import CoreMedia
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 public struct PhysicsSimulationComponent : Component, Equatable {
-    public struct CollisionOptions : OptionSet {
-        @safe public static nonisolated(unsafe) let none: PhysicsSimulationComponent.CollisionOptions = {
+    public struct CollisionOptions : OptionSet, Sendable {
+        public static let none: PhysicsSimulationComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let reportKinematicVsStatic: PhysicsSimulationComponent.CollisionOptions = {
+        public static let reportKinematicVsStatic: PhysicsSimulationComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let reportKinematicVsKinematic: PhysicsSimulationComponent.CollisionOptions = {
+        public static let reportKinematicVsKinematic: PhysicsSimulationComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let all: PhysicsSimulationComponent.CollisionOptions = {
+        public static let all: PhysicsSimulationComponent.CollisionOptions = {
             assertUnimplemented()
         }()
         

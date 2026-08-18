@@ -1,5 +1,9 @@
 @_inheritsConvenienceInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, visionOS 2.0, *)
 @preconcurrency @MainActor public class PointLight : Entity, HasPointLight {
+    deinit {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency required public init() {
         assertUnimplemented()
     }

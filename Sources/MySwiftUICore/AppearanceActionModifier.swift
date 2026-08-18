@@ -2,10 +2,10 @@
 internal import AttributeGraph
 
 @frozen public struct _AppearanceActionModifier : ViewModifier {
-    nonisolated(unsafe) public var appear: (() -> Void)?
-    nonisolated(unsafe) public var disappear: (() -> Void)?
+    @safe public nonisolated(unsafe) var appear: (() -> Void)?
+    @safe public nonisolated(unsafe) var disappear: (() -> Void)?
     
-    @inlinable nonisolated public init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
+    @inlinable public nonisolated init(appear: (() -> Void)? = nil, disappear: (() -> Void)? = nil) {
         unsafe self.appear = appear
         unsafe self.disappear = disappear
     }

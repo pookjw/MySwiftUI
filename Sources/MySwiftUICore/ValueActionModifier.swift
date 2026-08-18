@@ -64,12 +64,10 @@ extension View {
 @frozen public struct _ValueActionModifier<Value> : ViewModifier where Value : Equatable {
     public typealias Body = Never
     
-    // safe + nonisolated는 원래 없음
     @safe public nonisolated(unsafe) var value: Value
-    // safe + nonisolated는 원래 없음
     @safe public nonisolated(unsafe) var action: (Value) -> Void
     
-    @inlinable public nonisolated /* nonisolated는 원래 없음 */ init(value: Value, action: @escaping (Value) -> Void) {
+    @inlinable public nonisolated init(value: Value, action: @escaping (Value) -> Void) {
         (self.value, self.action) = (value, action)
     }
     
@@ -91,7 +89,7 @@ extension _ValueActionModifier : Sendable {
 
 extension _ValueActionModifier : PrimitiveViewModifier {}
 
-extension _ValueActionModifier : ValueActionModifierProtocol {
+extension _ValueActionModifier : @preconcurrency ValueActionModifierProtocol {
     func sendAction(old: _ValueActionModifier?) {
         (old?.action ?? self.action)(self.value)
     }
@@ -105,13 +103,7 @@ protocol ValueActionModifierProtocol {
 
 struct _ValueActionModifier2<Value : Equatable> : ViewModifier, PrimitiveViewModifier, ValueActionModifierProtocol {
     @safe nonisolated(unsafe) var value: Value
-    @safe fileprivate private(set) nonisolated(unsafe) var action: (Value, Value) -> ()
-    
-    @inline(always) // 원래 없음
-    nonisolated init(value: Value, action: @escaping (Value, Value) -> Void) {
-        self.value = value
-        self.action = action
-    }
+    @safe private(set) nonisolated(unsafe) var action: (Value, Value) -> Void
     
     func sendAction(old: _ValueActionModifier2<Value>?) {
         self.action(old?.value ?? self.value, self.value)

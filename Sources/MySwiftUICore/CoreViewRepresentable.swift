@@ -2,7 +2,7 @@
 public import CoreGraphics
 public import AttributeGraph
 
-@_spi(Internal) public protocol CoreViewRepresentable : View {
+@_spi(Internal) public protocol CoreViewRepresentable : View, Sendable {
     associatedtype PlatformViewProvider : AnyObject
     associatedtype Host : CoreViewRepresentableHost
     associatedtype Coordinator
@@ -471,7 +471,7 @@ extension CoreViewRepresentableFeatureBuffer {
     }
 }
 
-@_spi(Internal) public protocol CoreViewRepresentableHost : AnyObject {
+@_spi(Internal) public protocol CoreViewRepresentableHost : AnyObject, Sendable {
     associatedtype Content : CoreViewRepresentable
     
     init(

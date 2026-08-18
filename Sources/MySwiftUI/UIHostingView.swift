@@ -70,6 +70,7 @@ open class _UIHostingView<Content : View>: UIView {
             updateBackgroundColor()
         }
     }
+    
     private(set) final var currentEvent: UIEvent? = nil
     private var eventBridge: UIKitEventBindingBridge
     nonisolated(unsafe) private var dumpLayerNotificationTokens: (Int32, Int32)? = nil
@@ -533,18 +534,16 @@ open class _UIHostingView<Content : View>: UIView {
                 return
             }
             
-            MainActor.assumeIsolated {
-                // x21
-                let effectiveGeometry = windowScene.effectiveGeometry
-                // x23
-                let isInteractivelyResizing = effectiveGeometry.isInteractivelyResizing
-                
-                interactiveResizeBridge.handleLiveResize(isResizing: isInteractivelyResizing, host: self)
-                let size = effectiveGeometry._size
-                
-                boundsDepth = size.depth
-                sceneSize = CGSize(width: size.width, height: size.height)
-            }
+            // x21
+            let effectiveGeometry = windowScene.effectiveGeometry
+            // x23
+            let isInteractivelyResizing = effectiveGeometry.isInteractivelyResizing
+
+            interactiveResizeBridge.handleLiveResize(isResizing: isInteractivelyResizing, host: self)
+            let size = effectiveGeometry._size
+
+            boundsDepth = size.depth
+            sceneSize = CGSize(width: size.width, height: size.height)
         } else {
             // <+500>
             unsafe super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -1346,16 +1345,13 @@ extension _UIHostingView {
             }
             
             // <+808>
-            var inputsBox = UncheckedSendable(inputs)
             Update.syncMain {
                 // $s7SwiftUI14_UIHostingViewC04HostD5Graph33_FAF0B683EB49BE9BABC9009857940A1ELLV06modifyD6Inputs6inputs5graphyAA01_dN0Vz_AA0dF0CtFyyXEfU_
                 let idiom = host.traitCollection.userInterfaceIdiom
-                if inputsBox.value[InterfaceIdiomInput.self] == nil {
-                    inputsBox.value[InterfaceIdiomInput.self] = idiom.idiom
+                if inputs[InterfaceIdiomInput.self] == nil {
+                    inputs[InterfaceIdiomInput.self] = idiom.idiom
                 }
             }
-            inputs = inputsBox.value
-            _ = consume inputsBox
             
             // <+856>
             inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
@@ -1751,9 +1747,11 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
     }
     
     @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
-        if let result = _base._as(type) {
-            return result
-        } else if let result = viewController?._as(type) {
+//        if let result = unsafe _base._as(type) {
+//            return result
+//        } else
+        assertUnimplemented()
+        if let result = viewController?._as(type) {
             return result
         } else if let result = _specialize(self as (any FocusHost), for: T.self) {
             return result
@@ -1798,8 +1796,8 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         }
     }
     
-    @_spi(Internal) @MainActor public final func requestUpdate(after time: Double) {
-        base._requestUpdate(after: time)
+    @_spi(Internal) public final func requestUpdate(after time: Double) {
+        unsafe base._requestUpdate(after: time)
     }
     
     nonisolated package final func startUpdateTimer(delay: Double) {
@@ -2031,7 +2029,7 @@ extension _UIHostingView : FocusBridgeProvider {
     
 }
 
-extension _UIHostingView : PlatformItemListHost {
+extension _UIHostingView : @preconcurrency PlatformItemListHost {
     func platformItemListDidChange(list: () -> PlatformItemList) {
         assertUnimplemented()
     }
@@ -2049,13 +2047,13 @@ extension _UIHostingView : PointerHost {
     
 }
 
-extension _UIHostingView : WindowLayoutHost {
+extension _UIHostingView : @preconcurrency WindowLayoutHost {
     func windowLayoutComputerDidChange(computer: () -> WindowLayoutComputer) {
         assertUnimplemented()
     }
 }
 
-extension _UIHostingView : CurrentEventProvider {
+extension _UIHostingView : @preconcurrency CurrentEventProvider {
     
 }
 
@@ -2073,7 +2071,7 @@ extension _UIHostingView : UIKitContainerFocusItem {
     }
 }
 
-extension _UIHostingView : RootTransformAdjuster {
+extension _UIHostingView : @preconcurrency RootTransformAdjuster {
     package func updateRootTransform(_ transform: inout ViewTransform) {
         if !base.registeredForGeometryChanges {
             base.registeredForGeometryChanges = true

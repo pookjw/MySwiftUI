@@ -35,7 +35,7 @@ public struct PortalComponent : Component {
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension PortalComponent {
-    public struct Plane : Equatable {
+    public struct Plane : Equatable, Sendable {
         public var position: SIMD3<Float>
         
         public var normal: SIMD3<Float>
@@ -89,18 +89,18 @@ extension PortalComponent {
         assertUnimplemented()
     }
     
-    public struct Options : OptionSet {
+    public struct Options : OptionSet, Sendable {
         public init(rawValue: UInt) {
             assertUnimplemented()
         }
         
         public let rawValue: UInt
         
-        @safe public static nonisolated(unsafe) let clipContents: PortalComponent.Options = {
+        public static let clipContents: PortalComponent.Options = {
             assertUnimplemented()
         }()
         
-        @safe public static nonisolated(unsafe) let allowCrossing: PortalComponent.Options = {
+        public static let allowCrossing: PortalComponent.Options = {
             assertUnimplemented()
         }()
         
@@ -121,27 +121,27 @@ extension PortalComponent {
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension PortalComponent.Plane {
-    @safe public static nonisolated(unsafe) let positiveX: PortalComponent.Plane = {
+    public static let positiveX: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeX: PortalComponent.Plane = {
+    public static let negativeX: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let positiveY: PortalComponent.Plane = {
+    public static let positiveY: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeY: PortalComponent.Plane = {
+    public static let negativeY: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let positiveZ: PortalComponent.Plane = {
+    public static let positiveZ: PortalComponent.Plane = {
         assertUnimplemented()
     }()
     
-    @safe public static nonisolated(unsafe) let negativeZ: PortalComponent.Plane = {
+    public static let negativeZ: PortalComponent.Plane = {
         assertUnimplemented()
     }()
 }

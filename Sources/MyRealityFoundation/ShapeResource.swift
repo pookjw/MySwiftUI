@@ -2,6 +2,10 @@ public import simd
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class ShapeResource : Resource, Hashable, Sendable {
+    deinit {
+        assertUnimplemented()
+    }
+
     @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
     nonisolated public var bounds: BoundingBox {
         get {

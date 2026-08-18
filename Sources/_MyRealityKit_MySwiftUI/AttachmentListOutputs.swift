@@ -7,7 +7,7 @@ internal import MySwiftUICore
 @available(iOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct _AttachmentListOutputs {
+public struct _AttachmentListOutputs : @unchecked Sendable {
     fileprivate nonisolated(unsafe) static var currentSeed = 0
     
     private let seed: Int
