@@ -471,8 +471,7 @@ fileprivate struct TransitionHelper<T : Transition> {
             let phase = info.items[index].phase // w20
         {
             didUpdate = self.phase != phase
-            assertUnimplemented()
-//            self.phase = phase
+            self.phase = phase
         }
         
         // <+336>

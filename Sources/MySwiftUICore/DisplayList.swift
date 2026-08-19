@@ -252,7 +252,28 @@ extension DisplayList {
                     // <+512>
                     switch effect {
                     case .opacity(let opacity):
-                        assertUnimplemented()
+                        // <+1280>
+                        if opacity < 1 {
+                            // <+4656>
+                        } else {
+                            self.canonicalizeIdentityEffect(list: displsyList)
+                            self.value = .effect(.identity, displsyList)
+                            // <+4648>
+                            // <+4656>
+                        }
+                        
+                        if displsyList.features.contains(.required) {
+                            return
+                        }
+                        
+                        // <+4692>
+                        if opacity > 0 {
+                            return
+                        }
+                        
+                        // <+5196>
+                        self.value = .empty
+                        return
                     case .identity:
                         // <+1140>
                         // <+1396>

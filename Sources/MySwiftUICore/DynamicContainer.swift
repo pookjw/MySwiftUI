@@ -1286,8 +1286,10 @@ fileprivate struct DynamicViewPhase : Rule, AsyncAttribute {
         var newPhase = _GraphInputs.Phase()
         newPhase.resetSeed = resetSeed
         newPhase.merge(phase)
-        assertUnimplemented()
-//        newPhase.isBeingRemoved = newPhase.isBeingRemoved || itemPhase == .didDisappear
+        
+        if itemPhase == .didDisappear {
+            newPhase.isBeingRemoved = true
+        }
         
         return newPhase
     }

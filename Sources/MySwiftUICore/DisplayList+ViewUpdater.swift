@@ -390,17 +390,16 @@ extension DisplayList {
                  container -> x0 -> x22
                  */
                 // inlined
-                assertUnimplemented()
-//                let oldIndex = self.viewCache.index.enter(identity: item.identity)
-//                var item = item
-//                let time = self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
-//                
-//                if time < container.time {
-//                    container.time = time
-//                }
-//                
-//                self.updateInheritedView(container: &container, from: item, parentState: parentState)
-//                self.viewCache.index.leave(index: oldIndex)
+                let oldIndex = self.viewCache.index.enter(identity: item.identity)
+                var item = item
+                let time = unsafe self.viewCache.prepare(item: &item, platform: self.rootPlatform, parentState: parentState)
+                
+                if time < container.time {
+                    container.time = time
+                }
+                
+                unsafe self.updateInheritedView(container: &container, from: item, parentState: parentState)
+                self.viewCache.index.leave(index: oldIndex)
             }
         }
     }
