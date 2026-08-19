@@ -150,7 +150,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
     private let parentSubgraph: Subgraph // 0x68
     private var info: DynamicContainer.Info // 0x70
     private var lastUniqueId: UInt32 // 0xa0
-    private var lastRemoved: UInt32 // 0xa4
+    private var lastRemoved: UInt32 // 0x38 (field)
     private var lastResetSeed: UInt32 // 0xa8
     private var needsPhaseUpdate: Bool //0xac
     
@@ -305,7 +305,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
             
             // <+2336>
             guard info.indexMap.count == usedCount else {
-                fatalError("DynamicLayoutItem identifiers must be unique.")
+                assertionFailure("DynamicLayoutItem identifiers must be unique.")
             }
             
             // <+2348>
@@ -320,7 +320,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                 // unremovedCount -> x21
                 var capacity = unremovedCount
                 if removedCount != 0 {
-                    capacity += removedCount
+                    capacity += usedCount
                 }
                 
                 // <+2412>
@@ -448,9 +448,9 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
             if itemsCount != unusedCount {
                 // <+3772>
                 // info.items -> x21
-                // removedCount -> sp + 0x38
-                assertUnimplemented()
-                let validCount = info.items.count &- (info.removedCount &+ info.unusedCount)
+                // sp + 0x38
+                let removedCount = info.removedCount
+                var x22 = -(removedCount &+ info.unusedCount)
                 // x28
                 for index in 0..<usedCount {
                     let _index: Int
@@ -461,8 +461,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                             _index = Int(displayMap[index])
                         } else {
                             // <+3968>
-                            assertUnimplemented()
-                            _index = Int(displayMap[validCount])
+                            _index = Int(displayMap[info.items.count &+ x22])
                         }
                     } else {
                         // <+4016>
@@ -471,13 +470,14 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                             _index = index
                         } else {
                             // <+4032>
-                            assertUnimplemented()
-                            let shiftedIndex = index &- removedCount
-                            _index = shiftedIndex >= 0 ? shiftedIndex : validCount
+                            let a = index &- removedCount
+                            let b = info.items.count &+ x22
+                            _index = (a >= 0) ? a : b
                         }
                     }
                     
                     info.items[_index].subgraph.index = Int32(truncatingIfNeeded: index)
+                    x22 &+= 1
                 }
             }
             
@@ -660,8 +660,12 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
             } else {
                 // <+180>
                 // w22
-                assertUnimplemented()
-                let lastRemoved = max(lastRemoved &+ 1, 1)
+                var lastRemoved = lastRemoved
+                if (lastRemoved &+ 1) <= 1 {
+                    lastRemoved = 1
+                } else {
+                    lastRemoved &+= 1
+                }
                 self.lastRemoved = lastRemoved
                 info.items[index].removalOrder = lastRemoved
                 info.removedCount &+= 1
