@@ -1106,6 +1106,7 @@ fileprivate struct DynamicPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttr
             return value
         }
         
+        x23 = -(info.removedCount &+ info.unusedCount)
         var x27 = 0
         var w25 = true
         
