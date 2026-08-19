@@ -52,10 +52,9 @@ extension DisplayList.ViewUpdater {
                     layer.removePresentationModifier(modifier)
                 }
             }
-
-            assertUnimplemented()
-//            asyncValues = [:]
-//            asyncModifierGroup = nil
+            
+            self.asyncValues = [:]
+            self.asyncModifierGroup = nil
         }
         
         func prepare(
@@ -72,12 +71,12 @@ extension DisplayList.ViewUpdater {
             case .content(let content):
                 // <+436>
                 switch content.value {
-                case .shape(let _, let _, let _):
+                case .shape(_, _, _):
                     assertUnimplemented()
                 default:
                     return .infinity
                 }
-            case .effect(let effect, let displayList):
+            case .effect(let effect, _):
                 // <+132>
                 switch effect {
                 case .backdropGroup(_):
@@ -195,9 +194,12 @@ extension DisplayList.ViewUpdater {
                 }
             }
             
-            assertUnimplemented()
-//            removed.removeAll()
-//            animators = animators.filter { $0.value.deadline >= time }
+            removed.removeAll()
+            animators = animators
+                .filter { animator in
+                    // $sSD6filterySDyxq_GSbx3key_q_5valuet_tKXEKF7SwiftUI11DisplayListV11ViewUpdaterC0H5CacheV3KeyV_AK12AnimatorInfo33_A9949015C771FF99F7528BB7239FD006LLVTg503$s7d4UI11fg3V11hi4C0E5j31V7reclaim4timeyAA4TimeV_tFSbAG3k10V3key_AG12l7Info33_nopqrS17LLV5valuet_tXEfU_AE4TimeVTf1cn_n
+                    return animator.value.deadline >= time
+                }
             
             self.cacheSeed &+= 1
         }
@@ -271,7 +273,7 @@ extension DisplayList.ViewUpdater.ViewCache {
 extension DisplayList.ViewUpdater.ViewCache {
     fileprivate struct AnimatorInfo {
         private var state: DisplayList.ViewUpdater.ViewCache.AnimatorInfo.State
-        private var deadline: Time
+        private(set) var deadline: Time
     }
     
     enum Tag {

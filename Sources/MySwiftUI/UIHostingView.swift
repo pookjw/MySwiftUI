@@ -1747,11 +1747,9 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
     }
     
     @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
-//        if let result = unsafe _base._as(type) {
-//            return result
-//        } else
-        assertUnimplemented()
-        if let result = viewController?._as(type) {
+        if let result = _base._as(type) {
+            return result
+        } else if let result = viewController?._as(type) {
             return result
         } else if let result = _specialize(self as (any FocusHost), for: T.self) {
             return result

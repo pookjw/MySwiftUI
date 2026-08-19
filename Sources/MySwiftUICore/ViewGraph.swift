@@ -226,7 +226,115 @@ package final class ViewGraph : GraphHost {
     
     package func updateOutputs(at time: Time) {
         self.beginNextUpdate(at: time)
-        assertUnimplemented()
+        
+        var w27 = false
+        var sp = false
+        var sp04 = false
+        var w28 = false
+        var w21 = false
+        var w25 = false
+        
+        // sp + 0x8
+        for _ in 0..<8 {
+            self.runTransaction()
+            
+            let updated = self.updatePreferences()
+            w28 = (w28 || updated)
+            w21 = (w21 || updated)
+            
+            let needsUpdate = self.sizeThatFitsObservers.needsUpdate(graph: self)
+            w27 = (needsUpdate || w27)
+            w25 = (needsUpdate || w25)
+            
+            for feature in self.features {
+                guard (feature.flags & 1) == 0 else {
+                    sp = true
+                    sp04 = true
+                    continue
+                }
+                
+                guard feature.needsUpdate(graph: self) else {
+                    continue
+                }
+                
+                feature.flags |= 1
+                sp = true
+                sp04 = true
+            }
+            
+            // <+384>
+            guard self.data.globalSubgraph.isDirty(1) else {
+                break
+            }
+        }
+        
+        // <+416>
+        var w8 = sp
+        let x29_51 = w8
+        let x29_52 = w25
+        w8 = w21
+        let sp_18 = w8
+        w8 = sp04
+        w8 = (w8 || w28 || w27)
+        
+        guard w8 else {
+            return
+        }
+        
+        /*
+         x0 = x29_51
+         x1 = self
+         w2 = 0
+         x3 = sp_18
+         x4 = x29_52
+         ---
+         x29_51 = x23
+         self = x19
+         0 = x22
+         sp_18 = x24
+         x29_52 = x21
+         */
+        let update: (Bool, Bool, Bool, Bool) -> Void = { [self] x23, x22, x24, x21 in
+            // function signature specialization <Arg[0] = Stack Promoted from Box, Arg[3] = Stack Promoted from Box, Arg[4] = Stack Promoted from Box> of update() -> ()
+            // self = x19
+            if x23 {
+                for feature in self.features {
+                    if (feature.flags & 1) != 0 {
+                        feature.outputsDidChange(graph: self)
+                    }
+                }
+            }
+            
+            // <+216>
+            if x24 {
+                if let delegate {
+                    delegate.preferencesDidChange()
+                }
+                
+                // x24
+                if let preferenceBridge = _preferenceBridge {
+                    let identifier = data.$hostPreferenceKeys.projectedValue.identifier
+                    if let graph = preferenceBridge.viewGraph {
+                        graph.graphInvalidation(from: identifier)
+                    }
+                }
+            }
+            
+            // <+420>
+            for feature in self.features {
+                if (feature.flags & 1) != 0 {
+                    feature.update(graph: self)
+                    feature.flags &= 0xfffffffe
+                }
+            }
+            
+            if x21 {
+                sizeThatFitsObservers.notify()
+            }
+        }
+        
+        update(x29_51, false, sp_18, x29_52)
+        self.mainUpdates &-= 1
     }
     
     func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {

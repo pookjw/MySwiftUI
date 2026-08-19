@@ -73,13 +73,13 @@ struct DynamicContainer {
 
 extension DynamicContainer {
     struct Info : Equatable {
-        var items: [DynamicContainer.ItemInfo]
-        var indexMap: [UInt32: Int]
-        var displayMap: [UInt32]?
-        var removedCount: Int
-        var unusedCount: Int
-        var allUnary: Bool
-        var seed: UInt32
+        var items: [DynamicContainer.ItemInfo] // 0x0
+        var indexMap: [UInt32: Int] // 0x8
+        var displayMap: [UInt32]? // 0x10
+        var removedCount: Int // 0x18
+        var unusedCount: Int // 0x20
+        var allUnary: Bool // 0x28
+        var seed: UInt32 // 0x2c
         
         func viewIndex(id: DynamicContainerID) -> Int? {
             // id.viewIndex -> w21
@@ -1069,7 +1069,107 @@ fileprivate struct DynamicPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttr
     }
     
     var value: T.Value {
-        assertUnimplemented()
+        /*
+         items -> sp + 0x50
+         indexMap -> x26
+         displayMap -> x28
+         removedCount -> sp + 0x58
+         unusedCount -> x25
+         */
+        let info = info!
+        
+        var x22 = info.items.endIndex - info.unusedCount
+        var x23 = x22 - info.removedCount
+        
+        // sp + 0x70
+        var value: T.Value
+        // sp + 0x94
+        let includesRemovedValues: Bool
+        if x22 == x23 {
+            // <+224>
+            value = T.defaultValue
+            includesRemovedValues = false
+        } else {
+            // <+256>
+            let _includesRemovedValues = T._includesRemovedValues
+            value = T.defaultValue
+            includesRemovedValues = _includesRemovedValues
+            x22 = includesRemovedValues ? x22 : x23
+        }
+        
+        // <+312>
+        guard x22 != 0 else {
+            return value
+        }
+        
+        var x27 = 0
+        var w25 = true
+        
+        repeat {
+            // <+432>
+            // x20
+            let item: DynamicContainer.ItemInfo
+            if let displayMap = info.displayMap {
+                // <+444>
+                if includesRemovedValues {
+                    // <+452>
+                    let x8 = info.items.endIndex + x23
+                    let index = Int(displayMap[x8])
+                    // <+572>
+                    item = info.items[index]
+                    // <+664>
+                } else {
+                    // <+504>
+                    let index = Int(displayMap[x27])
+                    item = info.items[index]
+                    // <+664>
+                }
+            } else {
+                // <+472>
+                if includesRemovedValues {
+                    // <+484>
+                    // <+604>
+                    let x8 = x27 &- info.removedCount
+                    let x9 = info.items.endIndex &+ x23
+                    let x0 = (x8 >= 0) ? x8 : x9
+                    item = info.items[x0]
+                } else {
+                    // <+572>
+                    item = info.items[x27]
+                    // <+664>
+                }
+            }
+            
+            // <+664>
+            x27 &+= 1
+            // sp + 0x98
+            let outputs = item.outputs
+            
+            guard let attribute: Attribute<T.Value> = outputs[T.self] else {
+                x23 &+= 1
+                continue
+            }
+            
+            if w25 {
+                // <+740>
+                // x24
+                value = attribute.value
+                w25 = false
+            } else {
+                // <+844>
+                T.reduce(value: &value) {
+                    // $s7SwiftUI25DynamicPreferenceCombiner33_E7D4CD2D59FB8C77D6C7E9C534464C17LLV5value5ValueQzvgAGyXEfU_TA
+                    return attribute.value
+                }
+                
+                w25 = false
+            }
+            
+            // <+412>
+            x23 &+= 1
+        } while x27 != x22
+        
+        return value
     }
 }
 

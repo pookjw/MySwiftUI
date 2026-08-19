@@ -232,7 +232,16 @@ extension ViewGraphRootValueUpdater {
     }
     
     nonisolated package var isRendering: Bool {
-        assertUnimplemented()
+        guard let owner = self.as((any ViewGraphOwner).self) else {
+            return false
+        }
+        
+        switch owner.renderingPhase {
+        case .none:
+            return false
+        case .rendering, .renderingAsync:
+            return true
+        }
     }
     
     package func updateGraph() {

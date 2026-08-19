@@ -1345,7 +1345,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         tag: DisplayList.ViewUpdater.ViewCache.Tag,
         in id: DisplayList.ViewUpdater.ViewInfo.ID
     ) -> DisplayList.ViewUpdater.ViewCache.Result {
-        assertUnimplemented()
         /*
          x26 = sp + 0x420
          */
@@ -1572,8 +1571,10 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // sp + 0x4c0
         var viewInfo_2 = viewInfo
-        // <+1032>에서 값 읽어와서 <+1092>에 할당
         viewInfo_2.parentID = id
+        viewInfo_2.seeds.item = DisplayList.Seed(item_1.version)
+        viewInfo_2.cacheSeed = self.cacheSeed
+        
         // sp + 0x380
         _ = viewInfo_2
         // <+1000>
