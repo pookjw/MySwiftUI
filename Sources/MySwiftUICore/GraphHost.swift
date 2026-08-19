@@ -1016,11 +1016,16 @@ struct InvalidatingGraphMutation : GraphMutation {
         guard let unwrapped = attribute.attribute else {
             return
         }
+        
         unwrapped.invalidate()
     }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        assertUnimplemented()
+        guard let casted = other as? InvalidatingGraphMutation else {
+            return false
+        }
+        
+        return self.attribute == casted.attribute
     }
 }
 

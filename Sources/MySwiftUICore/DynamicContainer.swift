@@ -1230,14 +1230,10 @@ fileprivate struct DynamicTransaction : StatefulRule, AsyncAttribute {
             // <+340>
             transaction.animation = nil
             transaction.disablesAnimations = true
-            assertUnimplemented()
-//            self.value = transaction
             break
         case .identity:
             // <+332>
             // <+728>
-            assertUnimplemented()
-//            self.value = transaction
             break
         case .didDisappear:
             // <+460>
@@ -1251,13 +1247,10 @@ fileprivate struct DynamicTransaction : StatefulRule, AsyncAttribute {
             
             // <+584>
             self.wasRemoved = true
-            assertUnimplemented()
-//            self.transaction = transaction
             break
         }
         
-        assertUnimplemented()
-//        self.value = transaction
+        self.value = transaction
     }
 }
 

@@ -588,8 +588,7 @@ extension DisplayList.ViewUpdater {
                 if !viewInfo.isRemoved {
                     viewInfo.isRemoved = true
                     viewCache.map[key] = viewInfo
-                    assertUnimplemented()
-//                    viewCache.removed.insert(key)
+                    viewCache.removed.insert(key)
                 }
                 
                 CoreViewRemoveFromSuperview(system, subview)
