@@ -18,7 +18,7 @@
         if !hasMotion || !prefersCrossFade {
             return self
         } else {
-            return unsafe .opacity
+            return .opacity
         }
     }
     

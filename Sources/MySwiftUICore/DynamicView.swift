@@ -620,7 +620,14 @@ struct DynamicViewListItem : DynamicContainerItem {
     }
 
     var needsTransitions: Bool {
-        assertUnimplemented()
+        let traits = self.traits
+        
+        guard traits.value(for: CanTransitionTraitKey.self, defaultValue: false) else {
+            return false
+        }
+        
+        let transition = traits.value(for: TransitionTraitKey.self, defaultValue: .opacity)
+        return !transition.isIdentity
     }
 
     var zIndex: Double {

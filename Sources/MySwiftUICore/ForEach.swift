@@ -925,7 +925,6 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             let subgraph1 = self.parentSubgraph
             let graph = subgraph1.graph
             // x22 -> x19 + 0xb0
-            assertUnimplemented()
             let subgraph2 = graph.createSubgraph2(self.list!.identifier)
             subgraph1.addChild(subgraph2)
             
@@ -935,12 +934,12 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // x20
             let cachedEnvironment = copy_1.base.cachedEnvironment
             // x29 - 0x100
-            let copy_2 = cachedEnvironment.value
+            let _ = cachedEnvironment.value
             // x19
             let newEnvironment = MutableBox(cachedEnvironment.value)
             copy_1.base.cachedEnvironment = newEnvironment
-            assertUnimplemented()
-//            copy_1.options.formUnion(.canTransition)
+            copy_1.implicitID = 0
+            copy_1.options.formUnion(.canTransition)
             
             var countBox: MutableBox<DebugReplaceableViewCount>?
             if copy_1.base[IsInLazyContainer.self] {
@@ -1130,7 +1129,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             
             // <+3548>
             switch self.viewsPerElementCount {
-            case .countingDebugReplaceableViews(let mutableBox):
+            case .countingDebugReplaceableViews(_):
                 // <+3632>
                 // <+4424>
                 break
@@ -1152,7 +1151,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     // x19 + 0x148
                     var staticCount: Int? = nil
                     // x19 + 0x1d0
-                    var countInputs = _ViewListCountInputs(
+                    var countInputs = unsafe _ViewListCountInputs(
                         customInputs: copy_1.base.customInputs,
                         options: copy_1.options,
                         baseOptions: copy_1.base.options,
@@ -1172,7 +1171,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                          staticCount -> x3 -> x22
                          */
                         if self.inputs.base[IsInLazyContainer.self] {
-                            countInputs.debugReplaceableViewInfo = DebugReplaceableViewInfo(
+                            countInputs.debugReplaceableViewInfo = unsafe DebugReplaceableViewInfo(
                                 countAsZero: true,
                                 countedAsZero: pointer
                             )
@@ -1724,7 +1723,7 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                 // <+824>
                 // reuseID -> x19 + 0x80
                 // x29 - 0xc8
-                let copy_1 = views
+                let _ = views
                 let count = list.count
                 let appliedCount = style.applyGranularity(to: count)
                 
@@ -1737,7 +1736,7 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                     // x29 - 0xd8
                     var viewListID = _ViewList_ID(implicitID: 0)
                     
-                    if let reuseID {
+                    if reuseID != nil {
                         // <+952>
                         // x24
                         let id = item.id
@@ -1809,7 +1808,6 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
             case .dynamicList(let listAttribute, let modifier):
                 // <+344>
                 // x19 + 0xb0
-                assertUnimplemented()
                 var viewList = RuleContext(attribute: state.list!).valueAndFlags(of: listAttribute, options: []).value
                 
                 if let modifier {

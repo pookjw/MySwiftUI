@@ -292,7 +292,7 @@ nonisolated(unsafe) fileprivate let conditionalTypeDescriptor: UnsafeRawPointer 
 nonisolated(unsafe) fileprivate let optionalTypeDescriptor: UnsafeRawPointer = unsafe TypeID(Void?.self).nominalDescriptor
 
 extension ConditionalMetadata where T == ViewDescriptor {
-    fileprivate struct MakeList<U> : ViewTypeVisitor {
+    @safe fileprivate struct MakeList<U> : ViewTypeVisitor {
         private(set) var desc: ConditionalTypeDescriptor<ViewDescriptor>
         private(set) var view: Attribute<U>
         var index: Int
@@ -302,8 +302,7 @@ extension ConditionalMetadata where T == ViewDescriptor {
         
         mutating func visit<Content : View>(type: Content.Type) {
             // $s7SwiftUI19ConditionalMetadataVA2A14ViewDescriptorVRszrlE8MakeList33_2319071E64CA2FA820BFB26F46C6ECC6LLV5visit4typeyqd0__m_tAA0E0Rd0__lF
-//            inputs.base.pushStableID(index)
-            assertUnimplemented()
+            inputs.base.pushStableIndex(index)
             let rule = UnwrapConditional<T, U, Content>(source: view, desc: desc, index: index)
             let attribute = Attribute(rule)
             attribute.value = unsafe ptr!.assumingMemoryBound(to: Content.self).pointee

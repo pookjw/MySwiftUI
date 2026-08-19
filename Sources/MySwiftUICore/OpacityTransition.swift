@@ -22,7 +22,7 @@ extension OpacityTransition : Sendable {
 }
 
 extension AnyTransition {
-    nonisolated(unsafe) public static let opacity = AnyTransition(OpacityTransition())
+    @safe public static nonisolated(unsafe) let opacity = AnyTransition(OpacityTransition())
 }
 
 extension Transition where Self == OpacityTransition {
