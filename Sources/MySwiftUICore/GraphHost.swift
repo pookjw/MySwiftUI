@@ -846,7 +846,63 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     final func continueTransaction<T : GraphMutation>(_ mutation: T) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x26
+         mutation -> x0 -> sp + 0x10
+         */
+        Update.assertIsLocked()
+        
+        // x24
+        var host = self
+        
+        if !self.mayDeferUpdate {
+            // <+236>
+            while true {
+                if let parentHost = host.parentHost {
+                    host = parentHost
+                    
+                    if parentHost.mayDeferUpdate {
+                        break
+                    }
+                } else {
+                    // <+752>
+                    Update.enqueueAction(reason: nil) {
+                        // $s7SwiftUI9GraphHostC19continueTransactionyyxAA0C8MutationRzlFyycfU_TA
+                        let id = self.asyncTransaction(
+                            Transaction(),
+                            mutation: mutation,
+                            mayDeferUpdate: true
+                        )
+                        
+                        CustomEventTrace.transactionContinueAsNewTransaction(id)
+                    }
+                    
+                    return
+                }
+            }
+            
+            // <+304>
+        } else {
+            // <+304>
+        }
+        
+        // <+304>
+        CustomEventTrace.transactionContinueAsContinuation(host)
+        
+        // <+436>
+        if let lastIndex = host.continuations.indices.last {
+            let result = host.continuations[lastIndex].combine(with: mutation)
+            if result {
+                return
+            }
+            
+            // <+596>
+        } else {
+            // <+596>
+        }
+        
+        // <+596>
+        host.continuations.append(mutation)
     }
 }
 
@@ -950,7 +1006,7 @@ extension GraphHost {
 
 package protocol GraphMutation {
     func apply()
-    func combine<T : GraphMutation>(with other: T) -> Bool
+    mutating func combine<T : GraphMutation>(with other: T) -> Bool
 }
 
 struct InvalidatingGraphMutation : GraphMutation {
