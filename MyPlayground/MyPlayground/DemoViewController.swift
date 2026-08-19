@@ -42,7 +42,7 @@ final class DemoViewController : UICollectionViewController {
         
 //        let item = DemoViewController.Item.allCases.last!
 //        let item = DemoViewController.Item.sphereView
-        let item = DemoViewController.Item.miscellaneousView
+        let item = DemoViewController.Item.asyncRendererView
         pushToItem(item)
         
 //        Task {
@@ -152,7 +152,7 @@ extension DemoViewController {
         case openImmsersiveWindowView
         case sphereView
         case hvStackView
-        case miscellaneousView
+        case asyncRendererView
         
         var title: String {
             switch self {
@@ -286,8 +286,8 @@ extension DemoViewController {
                 return _typeName(SphereViewController.self, qualified: false)
             case .hvStackView:
                 return _typeName(HVStackViewController.self, qualified: false)
-            case .miscellaneousView:
-                return _typeName(MiscellaneousViewController.self, qualified: false)
+            case .asyncRendererView:
+                return _typeName(AsyncRendererViewController.self, qualified: false)
             }
         }
         
@@ -423,8 +423,8 @@ extension DemoViewController {
                 return SphereViewController()
             case .hvStackView:
                 return HVStackViewController()
-            case .miscellaneousView:
-                return MiscellaneousViewController()
+            case .asyncRendererView:
+                return AsyncRendererViewController()
             }
         }
     }

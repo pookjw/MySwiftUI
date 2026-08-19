@@ -276,8 +276,7 @@ extension DynamicViewContainer {
             
             if let matchedItem = unsafe matchedItem {
                 // <+1640>
-                assertUnimplemented()
-//                unsafe matchedItem.takeUnretainedValue().refcount &+= 1
+                unsafe matchedItem.takeUnretainedValue().refcount &+= 1
                 let subgraph = unsafe matchedItem.takeUnretainedValue().subgraph
                 parentSubgraph.addChild(subgraph)
                 subgraph.didReinsert()

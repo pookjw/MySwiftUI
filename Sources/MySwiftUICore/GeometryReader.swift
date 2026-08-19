@@ -165,10 +165,12 @@ fileprivate struct GeometryReaderLayout : Layout, Animatable {
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         for subview in subviews {
+            let dimensions = subview.dimensions(in: ProposedViewSize(bounds.size))
+            
             subview.place(
                 at: bounds.origin,
-                anchor: UnitPoint.topLeading,
-                dimensions: subview.dimensions(in: ProposedViewSize(bounds.size))
+                anchor: .topLeading,
+                dimensions: dimensions
             )
         }
     }

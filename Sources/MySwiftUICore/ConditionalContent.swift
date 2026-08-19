@@ -223,14 +223,13 @@ struct ConditionalTypeDescriptor<T : ConditionalProtocolDescriptor>: Sendable {
             self.count = first.count + second.count
         } else if unsafe (nominalDescriptor == optionalTypeDescriptor) {
             // <+352>
-            assertUnimplemented()
-//            let wrappedType = unsafe UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
-//                .advanced(by: 0x10)
-//                .assumingMemoryBound(to: Any.Type.self)
-//                .pointee
-//            let descriptor = ConditionalTypeDescriptor.descriptor(type: wrappedType)
-//            self.storage = .optional(type, descriptor)
-//            self.count = descriptor.count + 1
+            let wrappedType = unsafe UnsafeRawPointer(bitPattern: Int(bitPattern: ObjectIdentifier(type)))!
+                .advanced(by: 0x10)
+                .assumingMemoryBound(to: Any.Type.self)
+                .pointee
+            let descriptor = ConditionalTypeDescriptor.descriptor(type: wrappedType)
+            self.storage = .optional(type, descriptor)
+            self.count = descriptor.count + 1
         } else {
             // <+464>
             self.storage = .atom(T.conformance(of: type)!)
