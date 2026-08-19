@@ -238,6 +238,7 @@ func printOffsets() {
     printFields(SimpleMaterial.self, isClassType: false)
     printFields(__RKMaterialParameterBlock.self, isClassType: false)
     printFields(__RKMaterialParameterBlock.Parameter.self, isClassType: false)
+    printFields("7SwiftUI19DynamicViewListItemV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

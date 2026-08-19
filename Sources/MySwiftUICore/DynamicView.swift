@@ -631,7 +631,7 @@ struct DynamicViewListItem : DynamicContainerItem {
     }
 
     var zIndex: Double {
-        assertUnimplemented()
+        return self.traits.value(for: ZIndexTraitKey.self, defaultValue: 0)
     }
 
     func matchesIdentity(of item: DynamicViewListItem) -> Bool {
@@ -643,10 +643,10 @@ struct DynamicViewListItem : DynamicContainerItem {
         assertUnimplemented()
     }
 
-    private(set) var id: _ViewList_ID
-    private(set) var elements: _ViewList_SubgraphElements
-    private(set) var traits: ViewTraitCollection
-    private(set) var list: Attribute<ViewList>?
+    private(set) var id: _ViewList_ID // 0x0
+    private(set) var elements: _ViewList_SubgraphElements // 0x10
+    private(set) var traits: ViewTraitCollection // 0x40
+    private(set) var list: Attribute<any ViewList>? // 0x48
 }
 
 extension DynamicViewListItem {

@@ -5,7 +5,10 @@ public struct OpacityTransition : Transition {
     }
     
     @MainActor @preconcurrency public func body(content: OpacityTransition.Content, phase: TransitionPhase) -> some View {
-        assertUnimplemented()
+        content
+            .modifier(
+                OpacityRendererEffect(opacity: (phase == .identity) ? 1 : 0)
+            )
     }
     
     @MainActor @preconcurrency public static var properties: TransitionProperties {
