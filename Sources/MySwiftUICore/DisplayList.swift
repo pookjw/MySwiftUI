@@ -256,8 +256,8 @@ extension DisplayList {
                         if opacity < 1 {
                             // <+4656>
                         } else {
-                            self.canonicalizeIdentityEffect(list: displsyList)
                             self.value = .effect(.identity, displsyList)
+                            self.canonicalizeIdentityEffect(list: displsyList)
                             // <+4648>
                             // <+4656>
                         }

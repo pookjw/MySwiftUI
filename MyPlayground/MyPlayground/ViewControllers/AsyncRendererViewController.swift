@@ -32,7 +32,7 @@ fileprivate struct MyView : View {
             }
             
             MyButton(title: "Toggle") { 
-                withAnimation { 
+                withAnimation {
                     self.isStar.toggle()
                 }
             }

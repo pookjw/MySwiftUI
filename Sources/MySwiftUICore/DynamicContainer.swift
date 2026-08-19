@@ -1051,10 +1051,6 @@ fileprivate final class DynamicAnimationListener : AnimationListener {
             viewGraph.continueTransaction(invalidation)
         }
     }
-    
-    override func finalizeTransaction() {
-        assertUnimplemented()
-    }
 }
 
 fileprivate struct DynamicPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, CustomStringConvertible {

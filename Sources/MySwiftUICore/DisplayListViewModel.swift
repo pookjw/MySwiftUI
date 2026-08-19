@@ -323,7 +323,7 @@ extension DisplayList.ViewUpdater.Model {
                 case .projection(_):
                     assertUnimplemented()
                 case .affine3D(let transform):
-                    let results = DisplayList
+                    let results = unsafe DisplayList
                         .ViewUpdater
                         .Model
                         .mergeAffineTransform3D(
