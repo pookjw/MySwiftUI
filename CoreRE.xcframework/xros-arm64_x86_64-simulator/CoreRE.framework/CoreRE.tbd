@@ -249,7 +249,10 @@ exports:
     _RECreateCGColorFromColorGamut,
     _REMaterialParameterBlockValueSetFloat,
     _REShadowsGetEnableDefaultShadows,
-    _REProjectiveShadowReceiverComponentAddToEntity ]
+    _REProjectiveShadowReceiverComponentAddToEntity,
+    _REAssetManagerPreloadVideoAssetOnce,
+    _REVideoAssetGetPreventPlaybackUntilReady,
+    _REVideoAssetSetPreventPlaybackUntilReady ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

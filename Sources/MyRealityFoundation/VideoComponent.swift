@@ -32,7 +32,7 @@ struct VideoComponent : Component {
     }
 
     @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        assertUnimplemented()
+        return __ComponentTypeRef(core: .video)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {

@@ -109,22 +109,42 @@ extension ModelComponent {
         }
         
         if let videoMaterial = videoMaterials.first {
+            let videoResource = videoMaterial.__videoResource
+            
             let component = VideoComponent(
-                video: videoMaterial.__videoResource,
+                video: videoResource,
                 material: videoMaterial,
                 stereoFadeThreshold: SIMD2<Float>([0.0, 0.0])
             )
             
-            entity.components.set(component)
-            videoMaterial.__videoResource.addEntity(entity)
+            // returnStrongReference 여부는 알 수 없음
+            entity.components.doSet(VideoComponent.self, newValue: component, returnStrongReference: false)
+            videoResource.addEntity(entity)
             
             // <+1080>
-            assertUnimplemented()
+            // inlined
+            videoResource.preferredViewingMode = videoMaterial.controller.preferredViewingMode
+            
+            // <+1324>
+            let handle = unsafe __ServiceLocator.shared.assetService.__handle
+            
+            unsafe unsafeBitCast(handle, to: CoreRE::AssetManager.self)
+                .preloadVideoAssetOnce(
+                    unsafeBitCast(videoResource.coreAssetInternal, to: CoreRE::Asset.self),
+                    (videoMaterial.controller.preferredViewingMode == .stereo) ? .stereo : .mono
+                )
+            
+            unsafe unsafeBitCast(videoResource.coreAssetInternal, to: CoreRE::Asset.self)
+                .preventPlaybackUntilReady = true
+            // <+1592>
         } else {
             // <+1496>
-            assertUnimplemented()
+            // returnStrongReference 여부는 알 수 없음
+            entity.components.doSet(VideoComponent.self, newValue: nil, returnStrongReference: false)
+            // <+1592>
         }
         
+        // <+1592>
         assertUnimplemented()
     }
 

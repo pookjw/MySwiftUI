@@ -473,6 +473,12 @@ typedef NS_ENUM(uint32_t, REMaterialParameterBlockValueParameterType) {
 RE_EXTERN void RECGColorToColorGamut(CGColorRef, float *, uint8_t *);
 RE_EXTERN CGColorRef RECreateCGColorFromColorGamut(simd_float4, uint8_t) NS_RETURNS_RETAINED;
 
+typedef NS_ENUM(uint32_t, REVideoPlayerImmersiveViewingMode) {
+    REVideoPlayerImmersiveViewingModeUndefined = 0,
+    REVideoPlayerImmersiveViewingModeMono = 1,
+    REVideoPlayerImmersiveViewingModeStereo = 2
+} NS_SWIFT_NAME(VideoPlayerImmersiveViewingMode);
+
 NS_ASSUME_NONNULL_END
 
 #endif

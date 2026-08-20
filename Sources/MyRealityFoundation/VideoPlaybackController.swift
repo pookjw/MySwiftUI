@@ -46,7 +46,7 @@ extension VideoPlaybackController {
     
     @MainActor @preconcurrency public var preferredViewingMode: VideoPlaybackController.ViewingMode {
         get {
-            assertUnimplemented()
+            return self._preferredViewingMode
         }
         set {
             assertUnimplemented()
