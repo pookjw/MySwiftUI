@@ -80,10 +80,9 @@ extension ModelComponent {
         // <+292>
         // self.materials -> x27 -> x19 + 0x88
         var videoMaterials: [VideoMaterial] = []
+        var w20 = false
         
         if !self.materials.isEmpty {
-            var w20 = false
-            
             for material in self.materials {
                 if !w20 {
                     // <+424>
@@ -122,8 +121,9 @@ extension ModelComponent {
             videoResource.addEntity(entity)
             
             // <+1080>
+            let controller = videoMaterial.controller
             // inlined
-            videoResource.preferredViewingMode = videoMaterial.controller.preferredViewingMode
+            videoResource.preferredViewingMode = controller.preferredViewingMode
             
             // <+1324>
             let handle = unsafe __ServiceLocator.shared.assetService.__handle
@@ -131,16 +131,19 @@ extension ModelComponent {
             unsafe unsafeBitCast(handle, to: CoreRE::AssetManager.self)
                 .preloadVideoAssetOnce(
                     unsafeBitCast(videoResource.coreAssetInternal, to: CoreRE::Asset.self),
-                    (videoMaterial.controller.preferredViewingMode == .stereo) ? .stereo : .mono
+                    (controller.preferredViewingMode == .stereo) ? .stereo : .mono
                 )
             
             unsafe unsafeBitCast(videoResource.coreAssetInternal, to: CoreRE::Asset.self)
                 .preventPlaybackUntilReady = true
             // <+1592>
         } else {
-            // <+1496>
-            // returnStrongReference 여부는 알 수 없음
-            entity.components.doSet(VideoComponent.self, newValue: nil, returnStrongReference: false)
+            // <+1472>
+            if !w20 {
+                // returnStrongReference 여부는 알 수 없음
+                entity.components.doSet(VideoComponent.self, newValue: nil, returnStrongReference: false)
+            }
+            
             // <+1592>
         }
         
