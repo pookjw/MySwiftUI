@@ -161,6 +161,9 @@ extension DirectionalLightComponent.Shadow {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension DirectionalLightComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: DirectionalLightComponent, to: DirectionalLightComponent) -> (from: ComponentAnimatableData<DirectionalLightComponent>, to: ComponentAnimatableData<DirectionalLightComponent>) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)

@@ -1,5 +1,8 @@
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension BillboardComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: BillboardComponent, to: BillboardComponent) -> (from: ComponentAnimatableData<BillboardComponent>, to: ComponentAnimatableData<BillboardComponent>) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)

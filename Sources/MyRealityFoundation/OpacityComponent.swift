@@ -53,4 +53,7 @@ public struct OpacityComponent : Component, Equatable {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension OpacityComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: OpacityComponent, to: OpacityComponent) -> (from: ComponentAnimatableData<OpacityComponent>, to: ComponentAnimatableData<OpacityComponent>) {
+        assertUnimplemented()
+    }
 }

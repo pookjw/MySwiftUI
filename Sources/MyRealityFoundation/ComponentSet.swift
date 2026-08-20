@@ -348,7 +348,37 @@ extension Entity.ComponentSet : @MainActor BidirectionalCollection {
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension Entity.ComponentSet {
     @MainActor @preconcurrency public func set<T>(_ component: T) where T : _ImplicitlyAnimatableBuiltinComponent {
-        assertUnimplemented()
+        /*
+         self -> x20
+         component -> x0 -> x29 - 0x78
+         */
+        if ImplicitAnimationStack.current != nil {
+            // <+248>
+            if let existing = self[T.self] {
+                // <+448>
+                let data = T.animation(from: existing, to: component)
+                
+                if data.from == data.to {
+                    return
+                }
+                
+                guard let current = ImplicitAnimationStack.current else {
+                    return
+                }
+                
+                current.setComponent(
+                    entity: self.entity,
+                    component: self[T.self]!,
+                    from: data.from,
+                    to: data.to
+                )
+            } else {
+                // <+436>
+            }
+        } else {
+            // <+348>
+            self.doSet(T.self, newValue: component, returnStrongReference: false)
+        }
     }
 
     @MainActor @preconcurrency public subscript<T>(componentType: T.Type) -> T? where T : _ImplicitlyAnimatableBuiltinComponent {

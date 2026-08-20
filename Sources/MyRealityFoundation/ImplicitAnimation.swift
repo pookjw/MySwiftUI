@@ -12,13 +12,14 @@ enum ImplicitAnimationStack {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 public protocol _ImplicitlyAnimatableBuiltinComponent : Component {
+    @_spi(Internal) static func animation(from: Self, to: Self) -> (from: ComponentAnimatableData<Self>, to: ComponentAnimatableData<Self>)
 }
 
 protocol EntityChangeModifier : Sendable {
     func setComponent<T : _ImplicitlyAnimatableBuiltinComponent>(entity: MyRealityFoundation::Entity, component: T, from: ComponentAnimatableData<T>, to: ComponentAnimatableData<T>)
 }
 
-struct ComponentAnimatableData<T> {
+@_spi(Internal) public struct ComponentAnimatableData<T> {
     private var propertyMapping: [AnyKeyPath : _Proto_AnyAnimatableProperty_v1<T>]
     
     init(propertyMapping: [AnyKeyPath : _Proto_AnyAnimatableProperty_v1<T>]) {
@@ -34,6 +35,26 @@ struct ComponentAnimatableData<T> {
     }
     
     func assignProperties(toComponent: inout T) {
+        assertUnimplemented()
+    }
+}
+
+extension ComponentAnimatableData : AdditiveArithmetic {
+    public static var zero: ComponentAnimatableData<T> {
+        assertUnimplemented()
+    }
+    
+    public static func + (lhs: ComponentAnimatableData<T>, rhs: ComponentAnimatableData<T>) -> ComponentAnimatableData<T> {
+        assertUnimplemented()
+    }
+    
+    public static func - (lhs: ComponentAnimatableData<T>, rhs: ComponentAnimatableData<T>) -> ComponentAnimatableData<T> {
+        assertUnimplemented()
+    }
+    
+}
+extension ComponentAnimatableData : Equatable {
+    public static func == (lhs: borrowing ComponentAnimatableData<T>, rhs: borrowing ComponentAnimatableData<T>) -> Bool {
         assertUnimplemented()
     }
 }

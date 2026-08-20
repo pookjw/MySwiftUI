@@ -78,9 +78,7 @@ extension ModelComponent {
     }
 
     @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
-        get {
-            assertUnimplemented()
-        }
+        return __ComponentTypeRef(core: .mesh)
     }
 
     @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
@@ -94,4 +92,7 @@ extension ModelComponent {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension ModelComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: ModelComponent, to: ModelComponent) -> (from: ComponentAnimatableData<ModelComponent>, to: ComponentAnimatableData<ModelComponent>) {
+        assertUnimplemented()
+    }
 }

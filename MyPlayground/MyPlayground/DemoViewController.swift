@@ -41,8 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.sphereView
-        let item = DemoViewController.Item.asyncRendererView
+        let item = DemoViewController.Item.sphereView
         pushToItem(item)
         
 //        Task {

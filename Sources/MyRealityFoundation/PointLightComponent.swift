@@ -115,6 +115,9 @@ extension PointLightComponent {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension PointLightComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: PointLightComponent, to: PointLightComponent) -> (from: ComponentAnimatableData<PointLightComponent>, to: ComponentAnimatableData<PointLightComponent>) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)

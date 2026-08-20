@@ -15,6 +15,9 @@ extension Transform {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension Transform : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: Transform, to: Transform) -> (from: ComponentAnimatableData<Transform>, to: ComponentAnimatableData<Transform>) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)

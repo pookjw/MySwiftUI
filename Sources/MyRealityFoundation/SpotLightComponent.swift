@@ -171,6 +171,9 @@ extension SpotLightComponent.Shadow {
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension SpotLightComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: SpotLightComponent, to: SpotLightComponent) -> (from: ComponentAnimatableData<SpotLightComponent>, to: ComponentAnimatableData<SpotLightComponent>) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)

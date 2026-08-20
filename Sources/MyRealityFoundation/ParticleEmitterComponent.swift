@@ -1,5 +1,8 @@
 @available(macOS 26.0, iOS 26.0, tvOS 26.0, macCatalyst 26.0, visionOS 26.0, *)
 extension ParticleEmitterComponent : _ImplicitlyAnimatableBuiltinComponent {
+    @_spi(Internal) public static func animation(from: ParticleEmitterComponent, to: ParticleEmitterComponent) -> (from: ComponentAnimatableData<ParticleEmitterComponent>, to: ComponentAnimatableData<ParticleEmitterComponent>) {
+        assertUnimplemented()
+    }
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
