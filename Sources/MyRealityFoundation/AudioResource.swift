@@ -1,6 +1,6 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension AudioResource {
-    @available(visionOS, unavailable)
+//    @available(visionOS, unavailable)
     @available(macOS, introduced: 10.15, deprecated: 13.3, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(macCatalyst, introduced: 13.0, deprecated: 16.3, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(iOS, introduced: 13.0, deprecated: 16.3, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")

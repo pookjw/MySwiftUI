@@ -57,27 +57,34 @@ extension Entity {
     @MainActor @preconcurrency public static func __fromCore(_ coreEntity: __EntityRef) -> Entity {
         let core = unsafe unsafeBitCast(coreEntity.core, to: CoreRE::Entity.self)
         
+#if RealityKitCompatibility
+        if let ref = core.myRealityKitRef {
+            return ref
+        }
+#else
         if let swiftObject = unsafe core.swiftObject {
             return unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Entity
-        } else {
-            assert(!core.isBeingDestroyed)
             
-            if let infoType = unsafe MyRealityFoundation::Entity.entityInfoType(coreEntity.core) {
-                let result = infoType.init()
-                unsafe unsafeBitCast(result.coreEntity, to: CoreRE::Entity.self)
-                    .swiftObject = nil
-                unsafe result.coreEntity = unsafeBitCast(core, to: OpaquePointer.self)
-                
-#if RealityKitCompatibility
-                core.myRealityKitRef = result
-#else
-                unsafe core.swiftObject = Unmanaged.passUnretained(result).toOpaque()
+        }
 #endif
-                
-                return result
-            } else {
-                return unsafe makeEntity(for: coreEntity.core)
-            }
+        
+        assert(!core.isBeingDestroyed)
+        
+        if let infoType = unsafe MyRealityFoundation::Entity.entityInfoType(coreEntity.core) {
+            let result = infoType.init()
+            unsafe unsafeBitCast(result.coreEntity, to: CoreRE::Entity.self)
+                .swiftObject = nil
+            unsafe result.coreEntity = unsafeBitCast(core, to: OpaquePointer.self)
+            
+#if RealityKitCompatibility
+            core.myRealityKitRef = result
+#else
+            unsafe core.swiftObject = Unmanaged.passUnretained(result).toOpaque()
+#endif
+            
+            return result
+        } else {
+            return unsafe makeEntity(for: coreEntity.core)
         }
     }
     

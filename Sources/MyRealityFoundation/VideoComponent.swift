@@ -1,4 +1,10 @@
+internal import simd
+
 struct VideoComponent : Component {
+    private(set) var video: __VideoResource
+    private(set) var material: any Material
+    private(set) var stereoFadeThreshold: SIMD2<Float>
+    
     @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> VideoComponent {
         assertUnimplemented()
     }

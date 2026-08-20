@@ -2,20 +2,22 @@ public import CoreGraphics
 
 @_hasMissingDesignatedInitializers @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 26.0, *)
 @preconcurrency @MainActor public class VideoPlaybackController {
-    @available(visionOS, unavailable)
+    private(set) var videoResource: __VideoResource
+    
+//    @available(visionOS, unavailable)
     @available(macOS, introduced: 11, deprecated: 14, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(macCatalyst, introduced: 14, deprecated: 17, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(iOS, introduced: 14, deprecated: 17, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(tvOS, unavailable)
-    @MainActor @preconcurrency public var audioInputMode: AudioResource.InputMode {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
+    @MainActor @preconcurrency public var audioInputMode: AudioResource.InputMode
+    
+    private var _reverbSendLevel: Double
+    private var _preferredViewingMode: VideoPlaybackController.ViewingMode
+    
+    private init() {
+        assertUnimplemented()
     }
-    }
+}
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension VideoPlaybackController {

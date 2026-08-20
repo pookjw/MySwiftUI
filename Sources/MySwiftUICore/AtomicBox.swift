@@ -73,7 +73,7 @@ extension AtomicBox {
         }
         
         deinit {
-            unsafe self.withUnsafeMutablePointers { _, pointer in
+            unsafe self.withUnsafeMutablePointerToElements { pointer in
                 _ = unsafe pointer.deinitialize(count: 1)
             }
         }
