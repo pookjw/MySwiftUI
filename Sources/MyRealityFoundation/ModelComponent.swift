@@ -249,62 +249,57 @@ extension ModelComponent {
                         )
                         
                         x190x74 = true
-                        
-                        let result = unsafe material.syncMaterialRenderStateToCore(
-                            unsafeBitCast(materialRenderStateArrayComponent, to: OpaquePointer.self),
-                            index: x24
-                        )
-                        
-                        w25 = x190x90
-                        w25 = w25 || result
-                        
-                        continue
                     } else {
                         // <+2500>
                         unsafe reComponent.meshComponent_addMaterial(
                             unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self)
                         )
                         
-                        continue
-                    }
-                }
-                
-                // <+2332>
-                // x25
-                let reMaterial = reComponent.meshComponent_materialAtIndex(x24)
-                // x26
-                let parameters = unsafe material.__parameters
-                // x20
-                let resource = material.__resource
-                
-                if let parameters = unsafe parameters {
-                    // <+2448>
-                    unsafe reComponent.meshComponent_setMaterialWithParametersAtIndex(
-                        x24,
-                        unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self),
-                        unsafeBitCast(parameters, to: CoreRE::Entity.self)
-                    )
-                    
-                    // <+2596>
-                    x190x74 = true
-                    continue
-                } else {
-                    // <+2544>
-                    unsafe reComponent.meshComponent_setMaterialAtIndex(
-                        x24,
-                        unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self)
-                    )
-                    
-                    if !x190x74 {
-                        // <+2620>
-                        let x26 = unsafe unsafeBitCast(material.__resource.__coreAsset, to: CoreRE::Asset.self)
-                        x190x74 = (reMaterial != nil) && (reMaterial == x26)
-                        continue
-                    } else {
                         x190x74 = true
-                        continue
+                    }
+                } else {
+                    // <+2332>
+                    // x25
+                    let reMaterial = reComponent.meshComponent_materialAtIndex(x24)
+                    // x26
+                    let parameters = unsafe material.__parameters
+                    // x20
+                    let resource = material.__resource
+                    
+                    if let parameters = unsafe parameters {
+                        // <+2448>
+                        unsafe reComponent.meshComponent_setMaterialWithParametersAtIndex(
+                            x24,
+                            unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self),
+                            unsafeBitCast(parameters, to: CoreRE::Entity.self)
+                        )
+                        
+                        // <+2596>
+                        x190x74 = true
+                    } else {
+                        // <+2544>
+                        unsafe reComponent.meshComponent_setMaterialAtIndex(
+                            x24,
+                            unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self)
+                        )
+                        
+                        if !x190x74 {
+                            // <+2620>
+                            let x26 = unsafe unsafeBitCast(material.__resource.__coreAsset, to: CoreRE::Asset.self)
+                            x190x74 = (reMaterial == nil) || (reMaterial != x26)
+                        } else {
+                            x190x74 = true
+                        }
                     }
                 }
+                
+                let result = unsafe material.syncMaterialRenderStateToCore(
+                    unsafeBitCast(materialRenderStateArrayComponent, to: OpaquePointer.self),
+                    index: x24
+                )
+                
+                w25 = x190x90
+                w25 = w25 || result
             }
             
             // <+2712>
@@ -314,13 +309,13 @@ extension ModelComponent {
                 // <+2868>
                 if returnStrongReference {
                     // <+2876>
-                    unsafe materialParameterBlockArrayComponent.materialParameterBlockArray_returnBlockValueAtIndex(
+                    materialParameterBlockArrayComponent.materialParameterBlockArray_returnBlockValueAtIndex(
                         x22,
                         material.__parameterBlock.coreParameterBlockValue
                     )
                 } else {
                     // <+2732>
-                    unsafe materialParameterBlockArrayComponent.materialParameterBlockArray_setBlockValueAtIndex(
+                    materialParameterBlockArrayComponent.materialParameterBlockArray_setBlockValueAtIndex(
                         x22,
                         material.__parameterBlock.coreParameterBlockValue
                     )
