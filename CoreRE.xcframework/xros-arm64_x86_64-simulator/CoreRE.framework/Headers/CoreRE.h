@@ -101,3 +101,4 @@
 #import <CoreRE/REProjectiveShadowReceiverComponent.h>
 #import <CoreRE/REMeshDeformationComponent.h>
 #import <CoreRE/RERigComponent.h>
+#import <CoreRE/REMaterialRenderStateArrayComponent.h>

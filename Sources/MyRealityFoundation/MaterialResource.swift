@@ -4,12 +4,10 @@ private import CoreRE
 
 @_hasMissingDesignatedInitializers @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @safe public class __MaterialResource {
-    private var coreAsset: OpaquePointer
+    private(set) var coreAsset: OpaquePointer
     
     public var __coreAsset: __AssetRef {
-        get {
-            assertUnimplemented()
-        }
+        return __AssetRef(core: self.coreAsset)
     }
     
     public var name: String {

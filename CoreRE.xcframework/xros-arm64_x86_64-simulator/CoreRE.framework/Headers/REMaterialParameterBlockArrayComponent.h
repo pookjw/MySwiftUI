@@ -3,5 +3,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr REMaterialParameterBlockArrayComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.materialParameterBlockArray());
+RE_EXTERN NSInteger REMaterialParameterBlockArrayComponentSize(REComponentRef) NS_SWIFT_NAME(getter:Component.materialParameterBlockArray_size(self:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentResize(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialParameterBlockArray_resize(self:_:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentSetBlockValueAtIndex(REComponentRef, NSInteger, REMaterialParameterBlockValueRef) NS_SWIFT_NAME(Component.materialParameterBlockArray_setBlockValueAtIndex(self:_:_:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentReturnBlockValueAtIndex(REComponentRef, NSInteger, REMaterialParameterBlockValueRef) NS_SWIFT_NAME(Component.materialParameterBlockArray_returnBlockValueAtIndex(self:_:_:));
 
 NS_ASSUME_NONNULL_END

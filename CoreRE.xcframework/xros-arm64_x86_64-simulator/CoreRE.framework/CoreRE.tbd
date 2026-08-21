@@ -259,7 +259,21 @@ exports:
     _REMeshDeformationComponentGetComponentType,
     _RERigComponentGetComponentType,
     _REMeshAssetGetModelCount,
-    _REMeshAssetGetBlendShapeGroupCount ]
+    _REMeshAssetGetBlendShapeGroupCount,
+    _REMeshComponentGetBoundsMargin,
+    _REMeshComponentSetBoundsMargin,
+    _REMaterialParameterBlockArrayComponentSize,
+    _REMaterialParameterBlockArrayComponentResize,
+    _REMeshComponentGetMaterialCount,
+    _REMeshComponentRemoveAllMaterials,
+    _REMaterialRenderStateArrayComponentGetComponentType,
+    _REMeshComponentAddMaterialWithParameters,
+    _REMeshComponentAddMaterial,
+    _REMeshComponentGetMaterialAtIndex,
+    _REMeshComponentSetMaterialWithParametersAtIndex,
+    _REMeshComponentSetMaterialAtIndex,
+    _REMaterialParameterBlockArrayComponentSetBlockValueAtIndex,
+    _REMaterialParameterBlockArrayComponentReturnBlockValueAtIndex ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

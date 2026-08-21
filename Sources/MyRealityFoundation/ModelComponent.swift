@@ -81,10 +81,12 @@ extension ModelComponent {
         
         // <+292>
         // self.materials -> x27 -> x19 + 0x88
+        // x19 + 0xa0
+        let materialsCount = self.materials.count
         var videoMaterials: [VideoMaterial] = []
         var w20 = false
         
-        if !self.materials.isEmpty {
+        if materialsCount != 0 {
             for material in self.materials {
                 if !w20 {
                     // <+424>
@@ -150,6 +152,7 @@ extension ModelComponent {
         }
         
         // <+1592>
+        // reComponent -> x19 + 0x68 -> x22
         // x21
         let reAsset = reComponent.meshComponent_mesh
         let w23: Bool
@@ -193,6 +196,145 @@ extension ModelComponent {
         }
         
         // <+1832>
+        let s9 = reComponent.meshComponent_boundsMargin
+        reComponent.meshComponent_boundsMargin = s8
+        var x190x74 = (s9 == s8) ? w23 : true
+        
+        // x19 + 0x60
+        let materialParameterBlockArrayComponent = reEntity.getOrAddComponent(ofType: .materialParameterBlockArray)
+        
+        let oldSize = materialParameterBlockArrayComponent.materialParameterBlockArray_size
+        let newSize = self.materials.count
+        
+        if oldSize != newSize {
+            materialParameterBlockArrayComponent.materialParameterBlockArray_resize(newSize)
+        }
+        
+        // <+1916>
+        if newSize >= reComponent.meshComponent_materialCount {
+            // <+1948>
+        } else {
+            // <+1932>
+            reComponent.meshComponent_removeAllMaterials()
+            x190x74 = true
+            // <+1948>
+        }
+        
+        // <+1948>
+        let x28 = reComponent.meshComponent_materialCount
+        var w25 = (reEntity.getComponent(ofType: .materialRenderStateArray) == nil)
+        // x22
+        let materialRenderStateArrayComponent = reEntity.getOrAddComponent(ofType: .materialRenderStateArray)
+        let _ = __ServiceLocator.shared
+        var x190x90: Bool
+        
+        if materialsCount != 0 {
+            // <+2020>
+            for (x24, material) in self.materials.enumerated() {
+                // <+2280>
+                x190x90 = w25
+                
+                if x24 >= x28 {
+                    // <+2040>
+                    // x25
+                    let parameters = unsafe material.__parameters
+                    // x20
+                    let resource = material.__resource
+                    
+                    if let parameters = unsafe parameters {
+                        // <+2136>
+                        unsafe reComponent.meshComponent_addMaterialWithParameters(
+                            unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self),
+                            unsafeBitCast(parameters, to: CoreRE::Entity.self)
+                        )
+                        
+                        x190x74 = true
+                        
+                        let result = unsafe material.syncMaterialRenderStateToCore(
+                            unsafeBitCast(materialRenderStateArrayComponent, to: OpaquePointer.self),
+                            index: x24
+                        )
+                        
+                        w25 = x190x90
+                        w25 = w25 || result
+                        
+                        continue
+                    } else {
+                        // <+2500>
+                        unsafe reComponent.meshComponent_addMaterial(
+                            unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self)
+                        )
+                        
+                        continue
+                    }
+                }
+                
+                // <+2332>
+                // x25
+                let reMaterial = reComponent.meshComponent_materialAtIndex(x24)
+                // x26
+                let parameters = unsafe material.__parameters
+                // x20
+                let resource = material.__resource
+                
+                if let parameters = unsafe parameters {
+                    // <+2448>
+                    unsafe reComponent.meshComponent_setMaterialWithParametersAtIndex(
+                        x24,
+                        unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self),
+                        unsafeBitCast(parameters, to: CoreRE::Entity.self)
+                    )
+                    
+                    // <+2596>
+                    x190x74 = true
+                    continue
+                } else {
+                    // <+2544>
+                    unsafe reComponent.meshComponent_setMaterialAtIndex(
+                        x24,
+                        unsafeBitCast(resource.__coreAsset, to: CoreRE::Asset.self)
+                    )
+                    
+                    if !x190x74 {
+                        // <+2620>
+                        let x26 = unsafe unsafeBitCast(material.__resource.__coreAsset, to: CoreRE::Asset.self)
+                        x190x74 = (reMaterial != nil) && (reMaterial == x26)
+                        continue
+                    } else {
+                        x190x74 = true
+                        continue
+                    }
+                }
+            }
+            
+            // <+2712>
+            x190x90 = w25
+            
+            for (x22, material) in self.materials.enumerated() {
+                // <+2868>
+                if returnStrongReference {
+                    // <+2876>
+                    unsafe materialParameterBlockArrayComponent.materialParameterBlockArray_returnBlockValueAtIndex(
+                        x22,
+                        material.__parameterBlock.coreParameterBlockValue
+                    )
+                } else {
+                    // <+2732>
+                    unsafe materialParameterBlockArrayComponent.materialParameterBlockArray_setBlockValueAtIndex(
+                        x22,
+                        material.__parameterBlock.coreParameterBlockValue
+                    )
+                }
+            }
+            
+            // <+2984>
+        } else {
+            // <+2980>
+            x190x90 = w25
+            // <+2984>
+        }
+        
+        // <+2984>
         assertUnimplemented()
     }
 

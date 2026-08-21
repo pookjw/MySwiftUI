@@ -1,7 +1,7 @@
 // C38F2020BA65316243F342AC75A2E114
 public import CoreGraphics
 public import simd
-private import CoreRE
+internal import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension __RKMaterialParameterBlock {
@@ -125,7 +125,7 @@ public struct __RKMaterialParameterBlock : Sendable {
     private let transparentPassTechniqueMapping: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)] // 0x0
     private let transparentPassesProvidedOnInit: Bool // 0x8
     private var savedTransparentPassesFromCore: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)]? // 0x10
-    @safe private nonisolated(unsafe) var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
+    @safe private(set) nonisolated(unsafe) var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
     
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
     public mutating func setTransparentPassTechniqueMappingEnabled(_ enabled: Bool) {
