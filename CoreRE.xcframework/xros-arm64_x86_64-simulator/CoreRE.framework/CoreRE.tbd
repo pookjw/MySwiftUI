@@ -285,7 +285,8 @@ exports:
     _REMaterialRenderStateArrayComponentSetReadsDepthAtIndex,
     _REMaterialRenderStateArrayComponentSetCullModeAtIndex,
     _REMaterialRenderStateArrayComponentClearWritesDepthAtIndex,
-    _REMaterialRenderStateArrayComponentSetWritesDepthAtIndex ]
+    _REMaterialRenderStateArrayComponentSetWritesDepthAtIndex,
+    _REDirectMaterialParametersArrayComponentGetComponentType ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

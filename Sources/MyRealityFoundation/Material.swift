@@ -160,8 +160,11 @@ extension Material {
         
         if w25 {
             // <+180>
-            let faceCullMode = self.__faceCullMode
-            w25 = (faceCullMode == nil) ? true : (faceCullMode != .front)
+            if let faceCullMode = self.__faceCullMode {
+                w25 = (cullMode != faceCullMode)
+            } else {
+                w25 = true
+            }
         } else {
             // <+232>
             w25 = (self.__faceCullMode != nil)
@@ -211,22 +214,23 @@ extension Material {
             // <+340>
             w24 = w25 || w27
             
-            if self.__faceCullMode != nil {
-                // <+528>
-                component.materialRenderStateArray_setCullModeAtIndex(index, self.__faceCullMode!)
-                flag = w26
-            } else {
-                // <+456>
-                component.materialRenderStateArray_clearCullModeAtIndex(index)
-                
-                // <+468>
-                flag = w26
+            if w25 {
+                if self.__faceCullMode != nil {
+                    // <+528>
+                    component.materialRenderStateArray_setCullModeAtIndex(index, self.__faceCullMode!)
+                } else {
+                    // <+456>
+                    component.materialRenderStateArray_clearCullModeAtIndex(index)
+                }
             }
+            
+            // <+468>
+            flag = w26
         }
         
         if flag {
             // <+472>
-            if self.__readsDepthInternal {
+            if self.__writesDepthInternal {
                 component.materialRenderStateArray_clearWritesDepthAtIndex(index)
             } else {
                 component.materialRenderStateArray_setWritesDepthAtIndex(index, false)

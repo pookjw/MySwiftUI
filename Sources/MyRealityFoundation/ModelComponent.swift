@@ -330,6 +330,9 @@ extension ModelComponent {
         }
         
         // <+2984>
+        // x25
+        let directMaterialParametersArrayComponent = reEntity.getOrAddComponent(ofType: .directMaterialParametersArray)
+        
         assertUnimplemented()
     }
 
