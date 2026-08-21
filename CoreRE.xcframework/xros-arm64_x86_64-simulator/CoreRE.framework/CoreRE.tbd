@@ -252,7 +252,14 @@ exports:
     _REProjectiveShadowReceiverComponentAddToEntity,
     _REAssetManagerPreloadVideoAssetOnce,
     _REVideoAssetGetPreventPlaybackUntilReady,
-    _REVideoAssetSetPreventPlaybackUntilReady ]
+    _REVideoAssetSetPreventPlaybackUntilReady,
+    _REMeshComponentGetMesh,
+    _REMeshComponentSetMesh,
+    _REMeshAssetGetTotalSkeletonCount,
+    _REMeshDeformationComponentGetComponentType,
+    _RERigComponentGetComponentType,
+    _REMeshAssetGetModelCount,
+    _REMeshAssetGetBlendShapeGroupCount ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

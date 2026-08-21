@@ -68,8 +68,10 @@ extension ModelComponent {
          self.materials -> x27
          self.deformation -> x19 + 0x20
          */
+        // x19 + 0x68
         let reComponent = unsafe unsafeBitCast(coreComponent.core, to: CoreRE::Component.self)
         let s8 = self._boundsMargin
+        // x19 + 0x28
         let reEntity = reComponent.entity
         
         // x22
@@ -148,6 +150,49 @@ extension ModelComponent {
         }
         
         // <+1592>
+        // x21
+        let reAsset = reComponent.meshComponent_mesh
+        let w23: Bool
+        
+        if let coreAsset = unsafe self.mesh.coreAssetInternal {
+            // <+1620>
+            let casted = unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+            reComponent.meshComponent_mesh = casted
+            w23 = (reAsset != casted)
+            let totalSkeletonCount = casted.totalSkeletonCount
+            
+            if totalSkeletonCount < 1 {
+                // <+1708>
+            } else {
+                let _ = reEntity.getOrAddComponent(ofType: .meshDeformation)
+                let _ = reEntity.getOrAddComponent(ofType: .skeletalPose)
+                let _ = reEntity.getOrAddComponent(ofType: .rig)
+                // <+1708>
+            }
+            
+            // <+1708>
+            if reEntity.getComponent(ofType: .meshDeformation) == nil {
+                // <+1728>
+                for i in 0..<casted.modelCount {
+                    if casted.blendShapeGroupCount(i) < 1 {
+                        continue
+                    } else {
+                        let _ = reEntity.getOrAddComponent(ofType: .meshDeformation)
+                        break
+                    }
+                }
+                
+                // <+1832>
+            } else {
+                // <+1832>
+            }
+        } else {
+            // <+1812>
+            w23 = (reAsset != nil)
+            reComponent.meshComponent_mesh = nil
+        }
+        
+        // <+1832>
         assertUnimplemented()
     }
 

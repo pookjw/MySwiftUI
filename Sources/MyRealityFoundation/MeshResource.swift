@@ -350,7 +350,7 @@ extension MeshResource {
         assertUnimplemented()
     }
     
-    private nonisolated(unsafe) let coreAssetInternal: OpaquePointer?
+    nonisolated(unsafe) let coreAssetInternal: OpaquePointer?
     
     @MainActor @preconcurrency public var expectedMaterialCount: Int {
         get {
