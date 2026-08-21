@@ -273,7 +273,19 @@ exports:
     _REMeshComponentSetMaterialWithParametersAtIndex,
     _REMeshComponentSetMaterialAtIndex,
     _REMaterialParameterBlockArrayComponentSetBlockValueAtIndex,
-    _REMaterialParameterBlockArrayComponentReturnBlockValueAtIndex ]
+    _REMaterialParameterBlockArrayComponentReturnBlockValueAtIndex,
+    _REMaterialRenderStateArrayComponentGetTriangleFillModeAtIndex,
+    _REMaterialRenderStateArrayComponentGetCullModeAtIndex,
+    _REMaterialRenderStateArrayComponentGetWritesDepthAtIndex,
+    _REMaterialRenderStateArrayComponentGetReadsDepthAtIndex,
+    _REMaterialRenderStateArrayComponentSetTriangleFillModeAtIndex,
+    _REMaterialRenderStateArrayComponentClearTriangleFillModeAtIndex,
+    _REMaterialRenderStateArrayComponentClearCullModeAtIndex,
+    _REMaterialRenderStateArrayComponentClearReadsDepthAtIndex,
+    _REMaterialRenderStateArrayComponentSetReadsDepthAtIndex,
+    _REMaterialRenderStateArrayComponentSetCullModeAtIndex,
+    _REMaterialRenderStateArrayComponentClearWritesDepthAtIndex,
+    _REMaterialRenderStateArrayComponentSetWritesDepthAtIndex ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

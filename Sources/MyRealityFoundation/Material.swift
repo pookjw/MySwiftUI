@@ -1,6 +1,8 @@
 public import Metal
 internal import CoreGraphics
 internal import simd
+private import CoreRE
+private import Metal
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public protocol Material {
@@ -129,7 +131,125 @@ extension Material {
     }
     
     func syncMaterialRenderStateToCore(_ core: OpaquePointer, index: Int) -> Bool {
-        assertUnimplemented()
+        /*
+         core -> x0 -> x21
+         index -> x1 -> x19
+         */
+        let component = unsafe unsafeBitCast(core, to: CoreRE::Component.self)
+        
+        // sp + 0x30
+        var triangleFillMode = MTLTriangleFillMode.fill
+        unsafe component.materialRenderStateArray_getTriangleFillModeAtIndex(index, &triangleFillMode)
+        
+        // sp + 0x28
+        var cullMode = MTLCullMode.back
+        var w25 = unsafe component.materialRenderStateArray_getCullModeAtIndex(index, &cullMode)
+        
+        // sp + 0x27
+        var writesDepth = true
+        unsafe component.materialRenderStateArray_getWritesDepthAtIndex(index, &writesDepth)
+        
+        // sp + 0x26
+        var readsDepth = true
+        unsafe component.materialRenderStateArray_getReadsDepthAtIndex(index, &readsDepth)
+        
+        // <+148>
+        // triangleFillMode -> sp + 0x30 -> sp + 0x18
+        // x24
+        let currentTriangleFillMode = self.__triangleFillMode
+        
+        if w25 {
+            // <+180>
+            let faceCullMode = self.__faceCullMode
+            w25 = (faceCullMode == nil) ? true : (faceCullMode != .front)
+        } else {
+            // <+232>
+            w25 = (self.__faceCullMode != nil)
+        }
+        
+        // <+264>
+        let w26 = (writesDepth != self.__writesDepthInternal)
+        let w27 = (readsDepth != self.__readsDepthInternal)
+        let w24: Bool
+        let flag: Bool // true -> <+472> / false -> <+572>
+        
+        if triangleFillMode != currentTriangleFillMode {
+            // <+352>
+            if self.__triangleFillMode == .fill {
+                // <+408>
+                component.materialRenderStateArray_clearTriangleFillModeAtIndex(index)
+            } else {
+                // <+368>
+                component.materialRenderStateArray_setTriangleFillModeAtIndex(index, self.__triangleFillMode)
+            }
+            
+            // <+420>
+            w24 = true
+            
+            if w25 {
+                // <+428>
+                if self.__faceCullMode != nil {
+                    // <+528>
+                    component.materialRenderStateArray_setCullModeAtIndex(index, self.__faceCullMode!)
+                    flag = w26
+                } else {
+                    // <+456>
+                    component.materialRenderStateArray_clearCullModeAtIndex(index)
+                    // <+468>
+                    flag = w26
+                }
+            } else {
+                // <+468>
+                flag = w26
+            }
+        } else if !(w25 || !w26) {
+            // <+400>
+            w24 = true
+            // <+472>
+            flag = true
+        } else {
+            // <+340>
+            w24 = w25 || w27
+            
+            if self.__faceCullMode != nil {
+                // <+528>
+                component.materialRenderStateArray_setCullModeAtIndex(index, self.__faceCullMode!)
+                flag = w26
+            } else {
+                // <+456>
+                component.materialRenderStateArray_clearCullModeAtIndex(index)
+                
+                // <+468>
+                flag = w26
+            }
+        }
+        
+        if flag {
+            // <+472>
+            if self.__readsDepthInternal {
+                component.materialRenderStateArray_clearWritesDepthAtIndex(index)
+            } else {
+                component.materialRenderStateArray_setWritesDepthAtIndex(index, false)
+            }
+            
+            // <+572>
+        }
+        
+        // <+572>
+        if w27 {
+            if self.__readsDepthInternal {
+                component.materialRenderStateArray_clearReadsDepthAtIndex(index)
+                // <+628>
+            } else {
+                component.materialRenderStateArray_setReadsDepthAtIndex(index, false)
+                // <+628>
+            }
+        } else {
+            // <+628>
+        }
+        
+        // <+628>
+        return w24
     }
     
     func syncMaterialRenderStateFromCore(coreComponent: OpaquePointer, index: Int) {
