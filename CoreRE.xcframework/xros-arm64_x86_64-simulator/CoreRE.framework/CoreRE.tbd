@@ -287,7 +287,12 @@ exports:
     _REMaterialRenderStateArrayComponentClearWritesDepthAtIndex,
     _REMaterialRenderStateArrayComponentSetWritesDepthAtIndex,
     _REDirectMaterialParametersArrayComponentGetComponentType,
-    _REDirectMaterialParametersArrayComponentClear ]
+    _REDirectMaterialParametersArrayComponentClear,
+    _REMaterialAssetHasGeometryModifierCustomParamsName,
+    _REEntityAddComponentByClass,
+    _REMeshDeformationComponentGetMeshDeformationDefinition,
+    _REMeshDeformationComponentSetMeshDeformationDefinition,
+    _REMeshPartInstancesComponentGetVertexLimit ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -164,7 +164,7 @@ extension _Proto_AnyAnimatableProperty_v1 {
 }
 
 struct _Proto_MeshDeformation_v1 {
-    private let resource: _Proto_MeshDeformation_v1.Resource
+    let resource: _Proto_MeshDeformation_v1.Resource
     
     init() {
         self.resource = _Proto_MeshDeformation_v1.Resource()
@@ -251,7 +251,9 @@ extension _Proto_MeshDeformation_v1 {
     }
     
     struct Stack {
-        // TODO
+        private var deformers: [_Proto_MeshDeformation_v1.Deformer]
+        private var options: _Proto_MeshDeformation_v1.Stack.Options
+        private var targets: Set<_Proto_MeshScope_v1>
     }
     
     struct DefinitionError {
@@ -263,10 +265,14 @@ extension _Proto_MeshDeformation_v1 {
     }
     
     @safe final class Resource {
-        private let coreAsset: OpaquePointer?
+        let coreAsset: OpaquePointer?
         private lazy var _definition: [_Proto_MeshDeformation_v1.Stack]? = {
             assertUnimplemented()
         }()
+        
+        var definition: [_Proto_MeshDeformation_v1.Stack] {
+            assertUnimplemented()
+        }
         
         init(coreAsset: OpaquePointer) {
             unsafe self.coreAsset = coreAsset
@@ -292,16 +298,21 @@ extension _Proto_MeshDeformation_v1 {
         }
         
         deinit {
-            if let coreAsset {
+            if let coreAsset = unsafe self.coreAsset {
 #if RealityKitCompatibility
-            unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
-                .myRealityKitRef = nil
+                unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+                    .myRealityKitRef = nil
 #else
-            unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
-                .swiftObject = nil
+                unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
+                    .swiftObject = nil
 #endif
             }
         }
+    }
+    
+    protocol Deformer {
+        func addToBuilder(_: inout MeshDeformationAssetBuilder)
+        func isDeformerEqual(other: _Proto_MeshDeformation_v1.Deformer) -> Bool
     }
 }
 
@@ -351,4 +362,14 @@ extension _Proto_MeshDeformation_v1.ResourceError {
         case invalidMeshIdTyp
         case unknownMeshIdType
     }
+}
+
+struct MeshDeformationAssetBuilder {
+    // TODO
+}
+
+enum _Proto_MeshScope_v1 : Hashable {
+    case model(name: String, parts: Set<String>)
+    case instance(name: String, parts: Set<String>)
+    case all
 }

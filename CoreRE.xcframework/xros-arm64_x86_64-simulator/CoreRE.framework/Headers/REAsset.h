@@ -12,5 +12,6 @@ RE_EXTERN void REVideoAssetSetPreventPlaybackUntilReady(REAssetRef, bool) NS_SWI
 RE_EXTERN NSInteger REMeshAssetGetTotalSkeletonCount(REAssetRef) NS_SWIFT_NAME(getter:Asset.totalSkeletonCount(self:));
 RE_EXTERN NSInteger REMeshAssetGetModelCount(REAssetRef) NS_SWIFT_NAME(getter:Asset.modelCount(self:));
 RE_EXTERN NSInteger REMeshAssetGetBlendShapeGroupCount(REAssetRef, NSInteger) NS_SWIFT_NAME(Asset.blendShapeGroupCount(self:_:));
+RE_EXTERN bool REMaterialAssetHasGeometryModifierCustomParamsName(REAssetRef) NS_SWIFT_NAME(getter:Asset.hasGeometryModifierCustomParamsName(self:));
 
 NS_ASSUME_NONNULL_END

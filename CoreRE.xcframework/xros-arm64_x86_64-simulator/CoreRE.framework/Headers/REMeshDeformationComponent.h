@@ -3,5 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr REMeshDeformationComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.meshDeformation());
+RE_EXTERN REAssetRef _Nullable REMeshDeformationComponentGetMeshDeformationDefinition(REComponentRef) NS_SWIFT_NAME(getter:Component.meshDeformationComponent_meshDeformationDefinition(self:));
+RE_EXTERN void REMeshDeformationComponentSetMeshDeformationDefinition(REComponentRef, REAssetRef _Nullable) NS_SWIFT_NAME(setter:Component.meshDeformationComponent_meshDeformationDefinition(self:_:));
 
 NS_ASSUME_NONNULL_END

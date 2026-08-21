@@ -426,8 +426,8 @@ extension Material where Self == SimpleMaterial {
 }
 
 @_spi(Internal) public struct DirectParameterBuffer {
-//    private var data: Data
-//    private var resources: REDirectParameterResources
+    private var data: Data
+    private var resources: REDirectParameterResources
 }
 
 protocol MaterialParameter {
@@ -438,4 +438,8 @@ enum MixedParameterType {
     case unknown0
     case unknown1
     case unknown2
+}
+
+class REDirectParameterResources {
+    // TODO
 }

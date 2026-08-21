@@ -10,6 +10,10 @@ public struct MeshInstancesComponent : Component {
         }
     }
     
+    static func isAboveLimits(meshComponent: OpaquePointer, meshInstancesComponent: OpaquePointer) -> Bool {
+        assertUnimplemented()
+    }
+    
     public init() {
         assertUnimplemented()
     }

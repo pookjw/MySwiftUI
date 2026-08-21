@@ -1,5 +1,6 @@
 private import CoreRE
 private import simd
+private import os.log
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct ModelComponent : Component {
@@ -155,7 +156,7 @@ extension ModelComponent {
         // reComponent -> x19 + 0x68 -> x22
         // x21
         let reAsset = reComponent.meshComponent_mesh
-        let w23: Bool
+        var w23: Bool
         
         if let coreAsset = unsafe self.mesh.coreAssetInternal {
             // <+1620>
@@ -223,7 +224,7 @@ extension ModelComponent {
         // <+1948>
         let x28 = reComponent.meshComponent_materialCount
         var w25 = (reEntity.getComponent(ofType: .materialRenderStateArray) == nil)
-        // x22
+        // x22 -> x19 + 0x50
         let materialRenderStateArrayComponent = reEntity.getOrAddComponent(ofType: .materialRenderStateArray)
         let _ = __ServiceLocator.shared
         var x190x90: Bool
@@ -340,13 +341,13 @@ extension ModelComponent {
                 // x19 + 0x210
                 let directUniformsState = material.__directUniformsState
                 // x20
-                let resource = material.__resource
+                let reAsset = unsafe unsafeBitCast(material.__resource.coreAsset, to: CoreRE::Asset.self)
                 
                 switch directUniformsState {
-                case .shared(let buffer):
+                case .shared(_):
                     // <+3376>
                     assertUnimplemented()
-                case .unique(let buffers):
+                case .unique(_):
                     // <+3304>
                     assertUnimplemented()
                 case .empty:
@@ -357,7 +358,71 @@ extension ModelComponent {
         }
         
         // <+4972>
-        assertUnimplemented()
+        // x21
+        var meshDeformationComponent = reEntity.getComponent(ofType: .meshDeformation)
+        // x20
+        let resource = self.deformation.resource
+        w23 = x190x90
+        
+        if (unsafe resource.coreAsset != nil) || !resource.definition.isEmpty {
+            // <+5020>
+            if meshDeformationComponent == nil {
+                meshDeformationComponent = reEntity.addComponent(ofType: .meshDeformation)
+            }
+            
+            let deformationDefinition = meshDeformationComponent!.meshDeformationComponent_meshDeformationDefinition
+            let newDefinition = unsafe unsafeBitCast(resource.coreAsset, to: CoreRE::Asset?.self)
+            
+            if newDefinition == deformationDefinition {
+                // <+5128>
+                if x190x74 {
+                    // <+5136>
+                    reComponent.networkMarkComponentDirty()
+                }
+                
+                // <+5144>
+                if w23 {
+                    materialRenderStateArrayComponent.networkMarkComponentDirty()
+                }
+            } else {
+                // <+5080>
+                meshDeformationComponent!.meshDeformationComponent_meshDeformationDefinition = newDefinition
+                
+                if x190x74 {
+                    reComponent.networkMarkComponentDirty()
+                }
+                
+                if w23 {
+                    materialRenderStateArrayComponent.networkMarkComponentDirty()
+                }
+                
+                meshDeformationComponent!.networkMarkComponentDirty()
+            }
+        } else {
+            // <+5448>
+            if x190x74 {
+                // <+5136>
+                reComponent.networkMarkComponentDirty()
+            }
+            
+            // <+5144>
+            if w23 {
+                materialRenderStateArrayComponent.networkMarkComponentDirty()
+            }
+        }
+        
+        materialParameterBlockArrayComponent.networkMarkComponentDirty()
+        directMaterialParametersArrayComponent.networkMarkComponentDirty()
+        
+        if
+            let meshPartInstancesComponent = reEntity.getComponent(ofType: .meshPartInstances),
+            unsafe MeshInstancesComponent.isAboveLimits(
+                meshComponent: unsafeBitCast(reComponent, to: OpaquePointer.self),
+                meshInstancesComponent: unsafeBitCast(meshPartInstancesComponent, to: OpaquePointer.self)
+            )
+        {
+            Logger().error("Error: MeshInstancesComponent attempted to render beyond the per component vertex/index limit of \(REMeshPartInstancesComponentGetVertexLimit()). Reduce instance count of MeshInstancesComponent, or vertex/index count of the mesh part being instanced.")
+        }
     }
 
     @_spi(Internal) public static var componentName: String {
