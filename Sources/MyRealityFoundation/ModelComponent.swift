@@ -333,6 +333,30 @@ extension ModelComponent {
         // x25
         let directMaterialParametersArrayComponent = reEntity.getOrAddComponent(ofType: .directMaterialParametersArray)
         
+        if materialsCount != 0 {
+            // <+3008>
+            for (x22, material) in self.materials.enumerated() {
+                // <+3144>
+                // x19 + 0x210
+                let directUniformsState = material.__directUniformsState
+                // x20
+                let resource = material.__resource
+                
+                switch directUniformsState {
+                case .shared(let buffer):
+                    // <+3376>
+                    assertUnimplemented()
+                case .unique(let buffers):
+                    // <+3304>
+                    assertUnimplemented()
+                case .empty:
+                    // <+3032>
+                    directMaterialParametersArrayComponent.directMaterialParametersArray_clear(3, x22)
+                }
+            }
+        }
+        
+        // <+4972>
         assertUnimplemented()
     }
 

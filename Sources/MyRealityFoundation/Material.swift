@@ -68,7 +68,7 @@ extension Material {
     }
     
     @_spi(Internal) public var __directUniformsState: DirectUniformsState {
-        assertUnimplemented()
+        return .empty
     }
     
     func getColorParameter(key: String) -> CGColor? {
@@ -420,10 +420,10 @@ extension Material where Self == SimpleMaterial {
 }
 
 @_spi(Internal) public enum DirectUniformsState {
-        case shared(DirectParameterBuffer)
-        case unique((DirectParameterBuffer, DirectParameterBuffer))
-         case empty
-     }
+    case shared(DirectParameterBuffer)
+    case unique((DirectParameterBuffer, DirectParameterBuffer))
+    case empty
+}
 
 @_spi(Internal) public struct DirectParameterBuffer {
 //    private var data: Data
