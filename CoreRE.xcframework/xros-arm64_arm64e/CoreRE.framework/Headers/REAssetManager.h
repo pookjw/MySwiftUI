@@ -11,5 +11,6 @@ RE_EXTERN bool REAssetLoadRequestSetLoadAndWaitForResourceSharingClients(REAsset
 RE_EXTERN bool REAssetLoadRequestSetShouldBlockECSSendsUntilCompleted(REAssetLoadRequestRef, bool, NSError * __autoreleasing _Nullable * _Nullable) NS_SWIFT_NAME(Asset.LoadRequest.setShouldBlockECSSendsUntilCompleted(self:_:_:));
 RE_EXTERN void REAssetLoadRequestSetCompletionHandler(REAssetLoadRequestRef, void (^)(bool)) NS_SWIFT_NAME(Asset.LoadRequest.setCompletionHandler(self:_:));
 RE_EXTERN REAssetRef _Nullable REAssetManagerCreateAssetHandle(REAssetManagerRef, const char *) NS_SWIFT_NAME(AssetManager.createAssetHandle(self:_:));
+RE_EXTERN void REAssetManagerPreloadVideoAssetOnce(REAssetManagerRef, REAssetRef, REVideoViewingMode) NS_SWIFT_NAME(AssetManager.preloadVideoAssetOnce(self:_:_:));
 
 NS_ASSUME_NONNULL_END

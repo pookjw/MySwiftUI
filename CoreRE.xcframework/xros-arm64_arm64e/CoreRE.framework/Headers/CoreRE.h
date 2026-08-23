@@ -99,3 +99,7 @@
 #import <CoreRE/REAsset.h>
 #import <CoreRE/REMaterialParameterBlockValue.h>
 #import <CoreRE/REProjectiveShadowReceiverComponent.h>
+#import <CoreRE/REMeshDeformationComponent.h>
+#import <CoreRE/RERigComponent.h>
+#import <CoreRE/REMaterialRenderStateArrayComponent.h>
+#import <CoreRE/REDirectMaterialParametersArrayComponent.h>

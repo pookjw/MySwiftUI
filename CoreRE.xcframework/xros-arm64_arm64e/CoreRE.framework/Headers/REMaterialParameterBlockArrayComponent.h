@@ -1,7 +1,24 @@
 #import <CoreRE/Defines.h>
+#import <Metal/Metal.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr REMaterialParameterBlockArrayComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.materialParameterBlockArray());
+RE_EXTERN NSInteger REMaterialParameterBlockArrayComponentSize(REComponentRef) NS_SWIFT_NAME(getter:Component.materialParameterBlockArray_size(self:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentResize(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialParameterBlockArray_resize(self:_:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentSetBlockValueAtIndex(REComponentRef, NSInteger, REMaterialParameterBlockValueRef) NS_SWIFT_NAME(Component.materialParameterBlockArray_setBlockValueAtIndex(self:_:_:));
+RE_EXTERN void REMaterialParameterBlockArrayComponentReturnBlockValueAtIndex(REComponentRef, NSInteger, REMaterialParameterBlockValueRef) NS_SWIFT_NAME(Component.materialParameterBlockArray_returnBlockValueAtIndex(self:_:_:));
+RE_EXTERN bool REMaterialRenderStateArrayComponentGetTriangleFillModeAtIndex(REComponentRef, NSInteger, MTLTriangleFillMode *) NS_SWIFT_NAME(Component.materialRenderStateArray_getTriangleFillModeAtIndex(self:_:_:));
+RE_EXTERN bool REMaterialRenderStateArrayComponentGetCullModeAtIndex(REComponentRef, NSInteger, MTLCullMode *) NS_SWIFT_NAME(Component.materialRenderStateArray_getCullModeAtIndex(self:_:_:));
+RE_EXTERN bool REMaterialRenderStateArrayComponentGetWritesDepthAtIndex(REComponentRef, NSInteger, bool *) NS_SWIFT_NAME(Component.materialRenderStateArray_getWritesDepthAtIndex(self:_:_:));
+RE_EXTERN bool REMaterialRenderStateArrayComponentGetReadsDepthAtIndex(REComponentRef, NSInteger, bool *) NS_SWIFT_NAME(Component.materialRenderStateArray_getReadsDepthAtIndex(self:_:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentSetTriangleFillModeAtIndex(REComponentRef, NSInteger, MTLTriangleFillMode) NS_SWIFT_NAME(Component.materialRenderStateArray_setTriangleFillModeAtIndex(self:_:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentClearTriangleFillModeAtIndex(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialRenderStateArray_clearTriangleFillModeAtIndex(self:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentClearCullModeAtIndex(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialRenderStateArray_clearCullModeAtIndex(self:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentClearReadsDepthAtIndex(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialRenderStateArray_clearReadsDepthAtIndex(self:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentSetReadsDepthAtIndex(REComponentRef, NSInteger, bool) NS_SWIFT_NAME(Component.materialRenderStateArray_setReadsDepthAtIndex(self:_:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentSetCullModeAtIndex(REComponentRef, NSInteger, MTLCullMode) NS_SWIFT_NAME(Component.materialRenderStateArray_setCullModeAtIndex(self:_:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentClearWritesDepthAtIndex(REComponentRef, NSInteger) NS_SWIFT_NAME(Component.materialRenderStateArray_clearWritesDepthAtIndex(self:_:));
+RE_EXTERN void REMaterialRenderStateArrayComponentSetWritesDepthAtIndex(REComponentRef, NSInteger, bool) NS_SWIFT_NAME(Component.materialRenderStateArray_setWritesDepthAtIndex(self:_:_:));
 
 NS_ASSUME_NONNULL_END
