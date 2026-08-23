@@ -22,7 +22,7 @@ extension RealityViewContentProtocol {
 @available(watchOS, unavailable)
 extension RealityViewContentProtocol {
     public func add(_ entity: Entity) {
-        assertUnimplemented()
+        self.entities.append(entity)
     }
     
     public func remove(_ entity: Entity) {

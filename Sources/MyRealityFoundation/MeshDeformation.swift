@@ -107,8 +107,9 @@ extension _Proto_MeshDeformation_v1 {
         // TODO
     }
     
-    struct ResourceError {
-        // TODO
+    struct ResourceError : Error, Hashable {
+        let type: _Proto_MeshDeformation_v1.ResourceError.Failure
+        let details: String
     }
     
     @safe final class Resource {
@@ -210,7 +211,7 @@ extension _Proto_MeshDeformation_v1.DefinitionError {
 }
 
 extension _Proto_MeshDeformation_v1.ResourceError {
-    enum Failure {
+    enum Failure : Hashable {
         case addDeformer
         case assignDeformer
         case createAsset

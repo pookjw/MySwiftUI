@@ -13,6 +13,19 @@
         self.definition = []
     }
     
+    init(_ resource: _Proto_MeshDeformation_v1.Resource) throws {
+        self.definition = []
+        
+        guard let coreAsset = unsafe resource.coreAsset else {
+            throw _Proto_MeshDeformation_v1.ResourceError(
+                type: .invalidResource,
+                details: "can't build a definition from an invalid resource"
+            )
+        }
+        
+        unsafe self.asset = coreAsset
+    }
+    
     fileprivate func addModelInstanceTargetPart(_: Int, _: _Proto_MeshScope_v1) {
         assertUnimplemented()
     }

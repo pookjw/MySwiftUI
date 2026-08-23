@@ -22,7 +22,7 @@ public protocol EntityCollection : Collection where Self.Element == Entity, Self
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension EntityCollection {
     public mutating func append(_ entity: Entity) {
-        assertUnimplemented()
+        self.append(contentsOf: [entity])
     }
     
     public mutating func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : Entity {

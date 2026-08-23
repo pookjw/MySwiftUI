@@ -130,7 +130,7 @@ public struct RealityViewContent : RealityViewContentProtocol {
     
     public var entities: RealityViewEntityCollection {
         get {
-            assertUnimplemented()
+            return RealityViewEntityCollection(entity: self._base)
         }
         nonmutating set {
             assertUnimplemented()

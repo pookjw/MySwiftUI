@@ -1,6 +1,10 @@
+internal import MyRealityFoundation
+
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 @available(watchOS, unavailable)
-public struct RealityViewEntityCollection : EntityCollection {
+public struct RealityViewEntityCollection : MyRealityFoundation::EntityCollection {
+    let entity: MyRealityFoundation::Entity
+    
     public var startIndex: Int {
         get {
             assertUnimplemented()
@@ -19,7 +23,7 @@ public struct RealityViewEntityCollection : EntityCollection {
         }
     }
     
-    public subscript(index: Int) -> Entity {
+    public subscript(index: Int) -> MyRealityFoundation::Entity {
         get {
             assertUnimplemented()
         }
@@ -29,15 +33,15 @@ public struct RealityViewEntityCollection : EntityCollection {
         assertUnimplemented()
     }
     
-    public mutating func insert<S>(contentsOf sequence: S, beforeIndex index: Int) where S : Sequence, S.Element : Entity {
+    public mutating func insert<S>(contentsOf sequence: S, beforeIndex index: Int) where S : Sequence, S.Element : MyRealityFoundation::Entity {
         assertUnimplemented()
     }
     
-    public mutating func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : Entity {
+    public mutating func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : MyRealityFoundation::Entity {
         assertUnimplemented()
     }
     
-    public mutating func remove(_ child: Entity) {
+    public mutating func remove(_ child: MyRealityFoundation::Entity) {
         assertUnimplemented()
     }
     
@@ -49,13 +53,13 @@ public struct RealityViewEntityCollection : EntityCollection {
         assertUnimplemented()
     }
     
-    public mutating func replaceAll<S>(_ children: S) where S : Sequence, S.Element : Entity {
+    public mutating func replaceAll<S>(_ children: S) where S : Sequence, S.Element : MyRealityFoundation::Entity {
         assertUnimplemented()
     }
     
     @available(iOS 18.0, tvOS 26.0, visionOS 1.0, macOS 15.0, macCatalyst 18.0, *)
     @available(watchOS, unavailable)
-    public typealias Element = Entity
+    public typealias Element = MyRealityFoundation::Entity
     
     @available(iOS 18.0, tvOS 26.0, visionOS 1.0, macOS 15.0, macCatalyst 18.0, *)
     @available(watchOS, unavailable)
