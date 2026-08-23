@@ -1,22 +1,22 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-@preconcurrency @MainActor public protocol HasHierarchy : Entity {
+@preconcurrency @MainActor public protocol HasHierarchy : MyRealityFoundation::Entity {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension HasHierarchy {
-    @MainActor @preconcurrency public var parent: Entity? {
+    @MainActor @preconcurrency public var parent: MyRealityFoundation::Entity? {
         get {
             assertUnimplemented()
         }
     }
     
-    @MainActor @preconcurrency public func setParent(_ parent: Entity?, preservingWorldTransform: Bool = false) {
+    @MainActor @preconcurrency public func setParent(_ parent: MyRealityFoundation::Entity?, preservingWorldTransform: Bool = false) {
         assertUnimplemented()
     }
     
-    @MainActor @preconcurrency public var children: Entity.ChildCollection {
+    @MainActor @preconcurrency public var children: MyRealityFoundation::Entity.ChildCollection {
         get {
-            assertUnimplemented()
+            return MyRealityFoundation::Entity.ChildCollection(entity: self)
         }
         set {
             assertUnimplemented()
@@ -26,11 +26,11 @@ extension HasHierarchy {
         }
     }
     
-    @MainActor @preconcurrency public func addChild(_ entity: Entity, preservingWorldTransform: Bool = false) {
+    @MainActor @preconcurrency public func addChild(_ entity: MyRealityFoundation::Entity, preservingWorldTransform: Bool = false) {
         assertUnimplemented()
     }
     
-    @MainActor @preconcurrency public func removeChild(_ entity: Entity, preservingWorldTransform: Bool = false) {
+    @MainActor @preconcurrency public func removeChild(_ entity: MyRealityFoundation::Entity, preservingWorldTransform: Bool = false) {
         assertUnimplemented()
     }
     

@@ -37,8 +37,8 @@ public struct RealityViewEntityCollection : MyRealityFoundation::EntityCollectio
         assertUnimplemented()
     }
     
-    public mutating func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : MyRealityFoundation::Entity {
-        assertUnimplemented()
+    public mutating func append<S>(contentsOf sequence: S) where S : Sequence & Sendable, S.Element : MyRealityFoundation::Entity {
+        self.entity.children.append(contentsOf: sequence)
     }
     
     public mutating func remove(_ child: MyRealityFoundation::Entity) {
