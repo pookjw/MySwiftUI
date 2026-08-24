@@ -245,7 +245,12 @@ extension Entity {
                 __EntityRef(core: unsafeBitCast(reChild, to: OpaquePointer.self))
             )
             
-            assertUnimplemented()
+            do {
+                let childCount = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount
+                assert(!(x22 >= childCount))
+            }
+            
+            Entity.updateInteractions(root: child)
         }
     }
 }
