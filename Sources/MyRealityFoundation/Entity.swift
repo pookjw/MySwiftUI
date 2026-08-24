@@ -603,9 +603,7 @@ extension Entity {
         }
     }
     
-    @MainActor @preconcurrency public static var __disableUpdateInteractionEntities: [Entity]? {
-        assertUnimplemented()
-    }
+    @MainActor @preconcurrency public static var __disableUpdateInteractionEntities: [Entity]?
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     @MainActor @preconcurrency open var __accessibilityElements: [Any]? {
@@ -1268,6 +1266,15 @@ fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation::Entity) -> Vo
 
 extension Entity {
     static func updateInteractions(root: Entity) {
+        // entity -> x0 -> x20
+        if
+            let disableUpdateInteractionEntities = Entity.__disableUpdateInteractionEntities,
+            disableUpdateInteractionEntities.contains(root)
+        {
+            return
+        }
+        
+        // <+112>
         assertUnimplemented()
     }
     

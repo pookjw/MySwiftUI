@@ -168,9 +168,9 @@ extension Entity.ChildCollection {
             )
             
             var v0 = matrix_2.columns.0
-            let v1 = matrix_2.columns.1
-            let v2 = matrix_2.columns.2
-            let v3 = matrix_2.columns.3
+            var v1 = matrix_2.columns.1
+            var v2 = matrix_2.columns.2
+            var v3 = matrix_2.columns.3
             
             let v18 = matrix_1.columns.0
             let v17 = matrix_1.columns.1
@@ -200,6 +200,11 @@ extension Entity.ChildCollection {
             v7 = v7 + v17 * v3.y
             v7 = v7 + v16 * v3.z
             v7 = v7 + v0 * v3.w
+            
+            v0 = v4
+            v1 = v5
+            v2 = v6
+            v3 = v7
             
             // x29 - 0x70
             let srt = CoreRE::SRT(matrix: simd_float4x4(v0, v1, v2, v3))
