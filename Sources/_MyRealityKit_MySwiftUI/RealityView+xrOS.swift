@@ -27,7 +27,45 @@ struct _RealityViewAsync<Placeholder : View> : View {
     @State private var componentAddedSubscription: (any Cancellable)? // 0x4c (field)
     
     func setIdealSize() {
-        assertUnimplemented()
+        guard
+            let model,
+            self.layoutOption != RealityViewLayoutOption.flexible
+        else {
+            return
+        }
+        
+        let content = model.content
+        let visualBounds = content._base.visualBounds(
+            recursive: true,
+            relativeTo: content._rep,
+            excludeInactive: false
+        )
+        
+        guard !visualBounds.isEmpty else {
+            return
+        }
+        
+        if (self.layoutOption == .fixedSize) || (self.layoutOption == .centered) {
+            // <+232>
+            let base = model.content._base
+            var v0 = visualBounds.center
+            var v1 = SIMD3<Float>.zero
+            v1 = v1 - v0
+            v0.x = v0.z
+            let v2 = SIMD3<Float>.zero
+            v0.x = v2.x - v0.x
+            v1.z = v0.x
+            v0 = v1
+            base.position = v0
+        }
+        
+        // <+292>
+        if self.layoutOption == .fixedSize {
+            let size_1 = Size3D(vector: SIMD3<Double>(visualBounds.extents))
+            let pointsPerMeter = self.pointsPerMeter
+            let size_2 = unsafe Size3D(vector: SIMD3<Double>(size_1.vector * pointsPerMeter))
+            model.idealSize = size_2
+        }
     }
     
     init(

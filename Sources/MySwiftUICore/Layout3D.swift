@@ -136,8 +136,11 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
     private var cachedDepthAlignmentGeometry: [ViewDepthGeometry] = [] // 0x2c
     private var cachedDepthAlignment = Cache3<ObjectIdentifier, CGFloat?>() // 0x30
     
-    func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
-        assertUnimplemented()
+    mutating func update(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {
+        self.depthCache = Cache3()
+        self.cachedDepthAlignmentGeometry = []
+        self.cachedDepthAlignment = Cache3()
+        self.base.update(layout: layout, context: context, children: children)
     }
     
     init(layout: L, context: SizeAndSpacingContext, children: LayoutProxyCollection) {

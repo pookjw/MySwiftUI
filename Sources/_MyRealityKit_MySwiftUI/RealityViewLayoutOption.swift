@@ -4,7 +4,7 @@ public import MySwiftUICore
 @available(visionOS 26.0, macOS 26.0, iOS 26.0, macCatalyst 26.0, tvOS 26.0, *)
 @available(watchOS, unavailable)
 public struct RealityViewLayoutOption : Equatable, Sendable {
-    private var value: UInt8
+    private(set) var value: UInt8
     
     public static let flexible = RealityViewLayoutOption(value: 0)
     public static let centered = RealityViewLayoutOption(value: 1)
