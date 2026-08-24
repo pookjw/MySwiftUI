@@ -2,6 +2,8 @@
 internal import MySwiftUICore
 private import AttributeGraph
 private import CoreGraphics
+private import Spatial
+private import RealityKit
 
 protocol EntityViewFactory : PrimitiveView, UnaryView {
     associatedtype EntityType
@@ -141,11 +143,96 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
     
     typealias Value = DisplayList
     
-    func updateValue() {
+    mutating func updateValue() {
+        // <+984>
+        // x27 (x29 - 0xe0), x29 - 0x1e8
+        let (view, viewChanged) = self.$view.changedValue(options: [])
+        // x26 (x29 - 0xa8), w20
+        let (size, sizeChanged) = self.$size.changedValue(options: [])
+        // x25/x24, w21
+        let (depth, depthChanged) = self.$depth.changedValue(options: [])
+        
+        // <+1200>
+        let version = DisplayList.Version(forUpdate: ())
+        if viewChanged || sizeChanged || depthChanged {
+            self.contentSeed = DisplayList.Seed(version)
+        }
+        
+        // <+1300>
+        var d8: CGFloat
+        var d9: CGFloat
+        do {
+            let position = self.position
+            d8 = position.x
+            d9 = position.y
+        }
+        
+        let d0: CGFloat
+        let d1: CGFloat
+        do {
+            let containerPosition = self.containerPosition
+            d0 = containerPosition.x
+            d1 = containerPosition.y
+        }
+        
+        d8 = d8 - d0
+        d9 = d9 - d1
+        
+        var d10: CGFloat
+        var d11: CGFloat
+        do {
+            let value = size.value
+            d10 = value.width
+            d11 = value.height
+        }
+        
+        // <+1444>
+        // x29 - 0xc8
+        let factory = ViewFactory<T>(
+            factory: view,
+            size: Size3D(width: d10, height: d11, depth: depth.value),
+            identity: self.identity
+        )
+        
+        // <+1564>
         assertUnimplemented()
     }
     
     var description: String {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
+    private var factory: ResolvedEntityFactory<T>
+    private var size: Size3D
+    private var identity: _DisplayList_Identity
+    
+    init(factory: ResolvedEntityFactory<T>, size: Size3D, identity: _DisplayList_Identity) {
+        assertUnimplemented()
+    }
+    
+    func makePlatformView() -> AnyObject? {
+        assertUnimplemented()
+    }
+    
+    func updatePlatformView(_ view: inout AnyObject) {
+        assertUnimplemented()
+    }
+    
+    func updateGeometry(_: _EntityViewFactory_Geometry, for: RealityKit::Entity) {
+        assertUnimplemented()
+    }
+    
+    func updateProjectiveShadow(for: RealityKit::Entity) {
+        assertUnimplemented()
+    }
+    
+    func updateShareMode(for: RealityKit::Entity) {
+        assertUnimplemented()
+    }
+    
+    var features: DisplayList.Features {
         assertUnimplemented()
     }
 }

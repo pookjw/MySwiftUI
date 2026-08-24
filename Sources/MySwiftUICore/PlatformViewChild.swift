@@ -430,19 +430,19 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
         return unsafe unsafeBitCast(platformView.coreRepresentedViewProvider, to: Representable.PlatformViewProvider.self)
     }
     
-    func makePlatformView() -> AnyObject? {
+    package func makePlatformView() -> AnyObject? {
         return platformView
     }
     
-    func updatePlatformView(_ platformView: inout AnyObject) {
+    package func updatePlatformView(_ platformView: inout AnyObject) {
         platformView = self.platformView
     }
     
-    func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
+    package func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
         assertUnimplemented()
     }
     
-    var capabilities: DisplayList.PlatformViewCapabilities {
+    package var capabilities: DisplayList.PlatformViewCapabilities {
         assertUnimplemented()
     }
     

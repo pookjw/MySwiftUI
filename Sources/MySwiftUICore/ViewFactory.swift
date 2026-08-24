@@ -1,4 +1,4 @@
-internal import CoreGraphics
+package import CoreGraphics
 
 package protocol AnyViewFactory {
     var viewType: Any.Type {
@@ -9,12 +9,17 @@ package protocol AnyViewFactory {
 }
 
 extension AnyViewFactory {
+    package var viewType: Any.Type {
+        assertUnimplemented()
+    }
+    
+    
     package func encoding() -> (id: String, data: any (Decodable & Encodable))? {
         assertUnimplemented()
     }
 }
 
-protocol PlatformViewFactory : AnyViewFactory {
+package protocol PlatformViewFactory : AnyViewFactory {
     func makePlatformView() -> AnyObject?
     func updatePlatformView(_ view: inout AnyObject)
     func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer)
@@ -29,8 +34,16 @@ protocol PlatformViewFactory : AnyViewFactory {
 }
 
 extension PlatformViewFactory {
-    var features: DisplayList.Features {
+    package var features: DisplayList.Features {
         return [.required]
+    }
+    
+    package var capabilities: DisplayList.PlatformViewCapabilities {
+        assertUnimplemented()
+    }
+    
+    package func renderPlatformView(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
+        assertUnimplemented()
     }
 }
 

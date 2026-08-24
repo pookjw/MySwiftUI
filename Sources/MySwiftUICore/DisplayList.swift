@@ -513,7 +513,7 @@ extension DisplayList {
             value = decodedValue
         }
         
-        @inlinable init(_ version: DisplayList.Version) {
+        package init(_ version: DisplayList.Version) {
             var w9 = version.value
             if w9 == 0 {
                 value = 0
@@ -844,10 +844,10 @@ extension DisplayList {
         }
     }
     
-    struct PlatformViewCapabilities : OptionSet {
-        var rawValue: UInt8
+    package struct PlatformViewCapabilities : OptionSet {
+        package var rawValue: UInt8
         
-        init(rawValue: UInt8) {
+        package init(rawValue: UInt8) {
             self.rawValue = rawValue
         }
     }
