@@ -154,7 +154,68 @@ extension Entity.ChildCollection : @MainActor EntityCollection {
 }
 
 extension Entity.ChildCollection {
-    fileprivate func doAppend(_: MyRealityFoundation::Entity, preservingWorldTransform: Bool) {
+    fileprivate func doAppend(_ child: MyRealityFoundation::Entity, preservingWorldTransform: Bool) {
+        if preservingWorldTransform {
+            // <+36>
+            let rotation = simd_quatf.identity
+            // sp + 0x10
+            let matrix_1 = MyRealityFoundation::Entity.conversionMatrix(from: child, to: self.entity)
+            let matrix_2 = simd_float4x4(
+                translation: .zero,
+                rotation: rotation,
+                scale: SIMD3<Float>(1, 1, 1)
+            )
+            
+            var v0 = matrix_2.columns.0
+            let v1 = matrix_2.columns.1
+            let v2 = matrix_2.columns.2
+            let v3 = matrix_2.columns.3
+            
+            let v18 = matrix_1.columns.0
+            let v17 = matrix_1.columns.1
+            
+            var v4 = v18 * v0.x
+            v4 = v4 + v17 * v0.y
+            
+            let v16 = matrix_1.columns.2
+            var v7 = matrix_1.columns.3
+            
+            v4 = v4 + v16 * v0.z
+            v4 = v4 + v7 * v0.w
+            
+            var v5 = v18 * v1.x
+            v5 = v5 + v17 * v1.y
+            v5 = v5 + v16 * v1.z
+            v5 = v5 + v7 * v1.w
+            
+            var v6 = v18 * v2.x
+            v6 = v6 + v17 * v2.y
+            v6 = v6 + v16 * v2.z
+            v6 = v6 + v7 * v2.w
+            
+            v0 = v7
+            
+            v7 = v18 * v3.x
+            v7 = v7 + v17 * v3.y
+            v7 = v7 + v16 * v3.z
+            v7 = v7 + v0 * v3.w
+            
+            // x29 - 0x70
+            let srt = CoreRE::SRT(matrix: simd_float4x4(v0, v1, v2, v3))
+            
+            // <+212>
+            let component = Transform(
+                scale: srt.s,
+                rotation: srt.r,
+                translation: srt.t
+            )
+            
+            child.components.set(component)
+        }
+        
+        // <+264>
+        unsafe unsafeBitCast(child.coreEntity, to: CoreRE::Entity.self)
+            .parent = unsafeBitCast(self.entity.coreEntity, to: CoreRE::Entity.self)
         assertUnimplemented()
     }
     

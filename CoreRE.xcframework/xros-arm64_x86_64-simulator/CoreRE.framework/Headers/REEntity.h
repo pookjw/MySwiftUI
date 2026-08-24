@@ -19,5 +19,7 @@ RE_EXTERN void * _Nullable REEntityGetObservationRegistrar(REEntityRef) NS_SWIFT
 RE_EXTERN bool REEntityIsBeingDestroyed(REEntityRef) NS_SWIFT_NAME(getter:Entity.isBeingDestroyed(self:));
 RE_EXTERN bool REEntityIsNonHiddenAndInHierarchy(REEntityRef, REEntityRef _Nullable) NS_SWIFT_NAME(Entity.isNonHiddenAndInHierarchy(self:_:));
 RE_EXTERN REComponentRef _Nullable REEntityAddComponentByClass(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.addComponent(self:ofType:));
+RE_EXTERN REEntityRef _Nullable REEntityGetParent(REEntityRef) NS_SWIFT_NAME(getter:Entity.parent(self:));
+RE_EXTERN void REEntitySetParent(REEntityRef, REEntityRef _Nullable) NS_SWIFT_NAME(setter:Entity.parent(self:_:));
 
 NS_ASSUME_NONNULL_END

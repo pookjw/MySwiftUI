@@ -103,3 +103,4 @@
 #import <CoreRE/RERigComponent.h>
 #import <CoreRE/REMaterialRenderStateArrayComponent.h>
 #import <CoreRE/REDirectMaterialParametersArrayComponent.h>
+#import <CoreRE/RESRT.h>

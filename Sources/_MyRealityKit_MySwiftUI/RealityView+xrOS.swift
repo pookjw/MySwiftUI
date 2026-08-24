@@ -385,7 +385,7 @@ final class _RealityViewModel {
          columns.2 -> x29 - 0xf0
          columns.3 -> x29 - 0xd0
          */
-        var srtMatrix = RESRTMatrix(windowScene._mrui_relativeTransform)
+        var srtMatrix = windowScene._mrui_relativeTransform.matrix
         
         if windowScene.session.role == .windowApplicationVolumetric {
             // <+468>

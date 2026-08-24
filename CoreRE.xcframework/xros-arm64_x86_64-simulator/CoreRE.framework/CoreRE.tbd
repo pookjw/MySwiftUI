@@ -292,7 +292,10 @@ exports:
     _REEntityAddComponentByClass,
     _REMeshDeformationComponentGetMeshDeformationDefinition,
     _REMeshDeformationComponentSetMeshDeformationDefinition,
-    _REMeshPartInstancesComponentGetVertexLimit ]
+    _REMeshPartInstancesComponentGetVertexLimit,
+    _REMakeSRTFromMatrix,
+    _REEntityGetParent,
+    _REEntitySetParent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -155,3 +155,9 @@ extension HasTransform {
         assertUnimplemented()
     }
 }
+
+extension HasTransform {
+    static func conversionMatrix<T : MyRealityFoundation::Entity, U : MyRealityFoundation::Entity>(from: T?, to: U?) -> simd_float4x4 {
+        assertUnimplemented()
+    }
+}
