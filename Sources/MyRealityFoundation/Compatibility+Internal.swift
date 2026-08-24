@@ -23,7 +23,7 @@ extension CoreRE::EventBus : _RealityKitCompatibility {
     }
 }
 
-extension CoreRE::ECSService : _RealityKitCompatibility {
+extension CoreRE::ECSManager : _RealityKitCompatibility {
     typealias RealityKitType = AnyObject
     typealias MyRealityKitType = MyRealityFoundation::SceneManager
     

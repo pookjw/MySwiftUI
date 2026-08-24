@@ -171,8 +171,8 @@ typedef NS_ENUM(uint32_t, REEventHandlerResult) {
 struct REServiceLocator {};
 typedef const struct REServiceLocator * REServiceLocatorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceLocator);
 
-struct REECSService {};
-typedef const struct REECSService * REECSServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSService);
+struct REECSManager {};
+typedef const struct REECSManager * REECSManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSManager);
 
 struct REEventBus {};
 typedef const struct REEventBus * REEventBusRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(EventBus);
@@ -477,6 +477,10 @@ typedef NS_ENUM(uint32_t, REVideoViewingMode) {
     REVideoViewingModeMono = 1,
     REVideoViewingModeStereo = 2
 } NS_SWIFT_NAME(VideoViewingMode);
+
+
+struct REPhysicsSimulationService {};
+typedef const struct REPhysicsSimulationService * REPhysicsSimulationServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(PhysicsSimulationService);
 
 NS_ASSUME_NONNULL_END
 

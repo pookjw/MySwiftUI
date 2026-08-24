@@ -1254,6 +1254,50 @@ fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation::Entity) -> Vo
 
 extension Entity {
     func updateSceneGravityIfNeeded() {
-        assertUnimplemented()
+        guard let reScene = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self).scene else {
+            return
+        }
+        
+        let scene: MyRealityFoundation::Scene
+#if RealityKitCompatibility
+        if let bridgedScene = reScene.myRealityKitRef {
+            scene = bridgedScene
+        } else {
+            scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+        }
+#else
+        if let swiftObject = unsafe reScene.swiftObject {
+            scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
+        } else {
+            scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+        }
+#endif
+        
+        // <+116>
+        guard
+            let registration = unsafe __RKScenePhysics.registration,
+            let component = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self).componentsOfCustomType(
+                unsafeBitCast(registration.componentType, to: CoreRE::Component.ClassPtr.self)
+            ),
+            let object = unsafe component.customComponentObject
+        else {
+            return
+        }
+        
+        let values_1 = unsafe object
+            .assumingMemoryBound(to: SIMD4<Float>.self)
+            .pointee
+        
+        guard
+            let ecsManager = reScene.ecsManager,
+            let physicsSimulationService = ecsManager.serviceLocator.physicsSimulationService
+        else {
+            return
+        }
+        
+        let values_2 = physicsSimulationService.defaultGravity
+        if values_1 != values_2 {
+            physicsSimulationService.defaultGravity = values_1
+        }
     }
 }

@@ -40,7 +40,7 @@ private import Observation
         unsafe __RERetain(coreECSManager)
         
 #if RealityKitCompatibility
-        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)
+        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSManager.self)
             .myRealityKitRef = self
 #else
         unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)

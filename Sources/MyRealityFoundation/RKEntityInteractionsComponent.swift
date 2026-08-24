@@ -228,12 +228,18 @@ extension Entity {
         
         // <+200>
         if !root.__interactions.isEmpty {
-            root.__interactions = root.__interactions
+            let interactions = root.__interactions
             root.__interactions = []
+            root.__interactions = interactions
         }
         
         // <+300>
-        for x22 in unsafe 0..<unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount {
+        guard !(unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount < 1) else {
+            return
+        }
+        
+        var x22 = 0
+        repeat {
             do {
                 let childCount = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount
                 assert(!(x22 >= childCount))
@@ -250,7 +256,8 @@ extension Entity {
                 assert(!(x22 >= childCount))
             }
             
+            x22 &+= 1
             Entity.updateInteractions(root: child)
-        }
+        } while unsafe x22 < unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount
     }
 }

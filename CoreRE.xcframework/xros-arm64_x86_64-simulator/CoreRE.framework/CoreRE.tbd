@@ -301,7 +301,13 @@ exports:
     _REEntityRemoveCustomComponent,
     _REEntityAddCustomComponent,
     _REEntityGetChildCount,
-    _REEntityGetChild ]
+    _REEntityGetChild,
+    _RESceneGetComponentsOfCustomType,
+    _RESceneGetECSManagerNullable,
+    _REECSManagerGetServiceLocator,
+    _REServiceLocatorGetPhysicsSimulationService,
+    _REPhysicsSimulationServiceGetDefaultGravity,
+    _REPhysicsSimulationServiceSetDefaultGravity ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

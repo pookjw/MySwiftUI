@@ -11,7 +11,4 @@ RE_EXTERN void REComponentTypeSetCloneCallback(REComponentClassPtr, void * (* _N
 RE_EXTERN void RERegisterSwiftCodableComponent(const char *) NS_SWIFT_NAME(Component.registerSwiftCodableComponent(_:));
 RE_EXTERN uint64_t REEntityGetLocalId(REEntityRef) NS_SWIFT_NAME(getter:Component.localId(self:));
 RE_EXTERN void * _Nullable RECustomComponentGetObject(REComponentRef) NS_SWIFT_NAME(getter:Component.customComponentObject(self:));
-RE_EXTERN void REEntityRemoveCustomComponent(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.removeCustomComponent(self:_:));
-RE_EXTERN REComponentRef _Nullable REEntityAddCustomComponent(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.addCustomComponent(self:_:));
-
 NS_ASSUME_NONNULL_END
