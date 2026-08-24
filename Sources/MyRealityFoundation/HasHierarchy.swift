@@ -27,7 +27,7 @@ extension HasHierarchy {
     }
     
     @MainActor @preconcurrency public func addChild(_ entity: MyRealityFoundation::Entity, preservingWorldTransform: Bool = false) {
-        assertUnimplemented()
+        self.children.append(entity, preservingWorldTransform: preservingWorldTransform)
     }
     
     @MainActor @preconcurrency public func removeChild(_ entity: MyRealityFoundation::Entity, preservingWorldTransform: Bool = false) {

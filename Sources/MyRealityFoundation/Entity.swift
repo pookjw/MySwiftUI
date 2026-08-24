@@ -1289,14 +1289,14 @@ extension Entity {
             .pointee
         
         guard
-            let ecsManager = reScene.ecsManager,
+            let ecsManager = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self).ecsManager,
             let physicsSimulationService = ecsManager.serviceLocator.physicsSimulationService
         else {
             return
         }
         
         let values_2 = physicsSimulationService.defaultGravity
-        if values_1 != values_2 {
+        if values_1.x != values_2.x || values_1.y != values_2.y || values_1.z != values_2.z {
             physicsSimulationService.defaultGravity = values_1
         }
     }

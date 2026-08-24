@@ -48,7 +48,7 @@ extension Entity {
         }
         
         @MainActor @preconcurrency public func append(_ child: Entity, preservingWorldTransform: Bool = false) {
-            assertUnimplemented()
+            self.doAppend(child, preservingWorldTransform: preservingWorldTransform)
         }
         
         @MainActor @preconcurrency public func append(contentsOf array: [Entity], preservingWorldTransforms: Bool = false) {
