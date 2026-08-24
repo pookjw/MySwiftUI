@@ -590,7 +590,7 @@ extension Scene : Hashable {
     }
     
     nonisolated public static func == (lhs: Scene, rhs: Scene) -> Bool {
-        assertUnimplemented()
+        return lhs.coreScene == rhs.coreScene
     }
     
     nonisolated public var hashValue: Int {
