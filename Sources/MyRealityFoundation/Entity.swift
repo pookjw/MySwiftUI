@@ -5,18 +5,6 @@ public import CoreMedia
 public import Spatial
 private import CoreRE
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-extension Entity {
-    @MainActor @preconcurrency public var __interactions: [__RKEntityInteractionSpecification] {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-}
-
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension Entity {
     @MainActor @preconcurrency public var bindableValues: BindableValuesReference {

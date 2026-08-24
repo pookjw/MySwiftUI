@@ -21,5 +21,7 @@ RE_EXTERN REComponentRef _Nullable REEntityAddComponentByClass(REEntityRef, RECo
 RE_EXTERN REEntityRef _Nullable REEntityGetParent(REEntityRef) NS_SWIFT_NAME(getter:Entity.parent(self:));
 RE_EXTERN void REEntitySetParent(REEntityRef, REEntityRef _Nullable) NS_SWIFT_NAME(setter:Entity.parent(self:_:));
 RE_EXTERN REComponentRef _Nullable REEntityGetCustomComponent(REEntityRef, REComponentClassPtr) NS_SWIFT_NAME(Entity.customComponent(self:_:));
+RE_EXTERN NSInteger REEntityGetChildCount(REEntityRef) NS_SWIFT_NAME(getter:Entity.childCount(self:));
+RE_EXTERN REEntityRef _Nullable REEntityGetChild(REEntityRef, NSInteger) NS_SWIFT_NAME(Entity.child(self:_:));
 
 NS_ASSUME_NONNULL_END

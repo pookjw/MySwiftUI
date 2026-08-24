@@ -2,7 +2,7 @@
 private import CoreRE
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
-public struct __RKEntityInteractionsComponent {
+@safe public struct __RKEntityInteractionsComponent {
     @safe @_hasMissingDesignatedInitializers public class Registration {
         private let introspectionStruct: OpaquePointer
         final public let componentType: OpaquePointer
@@ -110,6 +110,15 @@ public struct __RKEntityInteractionsComponent {
     private weak var  entity: Entity?
     private var didFireStartTrigger: Bool?
     
+    var specifications: [__RKEntityInteractionSpecification] {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
     fileprivate func decodedJSON() -> [__RKEntityInteractionSpecification] {
         assertUnimplemented()
     }
@@ -146,6 +155,68 @@ fileprivate nonisolated func cloneInteractionsComponentComponent(_: OpaquePointe
 }
 
 extension Entity {
+    @MainActor @preconcurrency public var __interactions: [__RKEntityInteractionSpecification] {
+        get {
+            let specifications: [__RKEntityInteractionSpecification]
+            if
+                let registration = __RKEntityInteractionsComponent.registration,
+                let component = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+                    .customComponent(unsafeBitCast(registration.componentType, to: CoreRE::Component.ClassPtr.self)),
+                let object = unsafe component.customComponentObject
+            {
+                let component = unsafe object
+                    .assumingMemoryBound(to: __RKEntityInteractionsComponent.self)
+                    .pointee
+                
+                specifications = component.internalSpecifications ?? component.decodedJSON()
+            } else {
+                specifications = []
+            }
+            
+            return specifications
+        }
+        set {
+            guard let registration = __RKEntityInteractionsComponent.registration else {
+                return
+            }
+            
+            let componentType = unsafe unsafeBitCast(registration.componentType, to: CoreRE::Component.ClassPtr.self)
+            
+            guard !newValue.isEmpty else {
+                let component = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+                    .customComponent(componentType)
+                
+                if component != nil {
+                    unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+                        .removeCustomComponent(componentType)
+                }
+                
+                return
+            }
+            
+            // <+72>
+            var component_2 = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+                .customComponent(componentType)
+            
+            if component_2 == nil {
+                component_2 = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)
+                    .addCustomComponent(componentType)
+            }
+            
+            guard
+                let component_2,
+                let object = unsafe component_2.customComponentObject
+            else {
+                return
+            }
+            
+            unsafe object
+                .assumingMemoryBound(to: __RKEntityInteractionsComponent.self)
+                .pointee
+                .specifications = newValue
+        }
+    }
+    
     static func updateInteractions(root: Entity) {
         // entity -> x0 -> x20
         if
@@ -155,24 +226,26 @@ extension Entity {
             return
         }
         
-        // <+112>
-        let specification: [__RKEntityInteractionSpecification]
-        if
-            let registration = __RKEntityInteractionsComponent.registration,
-            let component = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self)
-                .customComponent(unsafeBitCast(registration.componentType, to: CoreRE::Component.ClassPtr.self)),
-            let object = unsafe component.customComponentObject
-        {
-            let component = unsafe object
-                .assumingMemoryBound(to: __RKEntityInteractionsComponent.self)
-                .pointee
-            
-            specification = component.internalSpecifications ?? component.decodedJSON()
-        } else {
-            specification = []
+        // <+200>
+        if !root.__interactions.isEmpty {
+            root.__interactions = root.__interactions
+            root.__interactions = []
         }
         
-        // <+200>
-        assertUnimplemented()
+        // <+300>
+        for x22 in unsafe 0..<unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount {
+            do {
+                let childCount = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self).childCount
+                assert(!(x22 >= childCount))
+            }
+            
+            let reChild = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self)
+                .child(x22)!
+            let child = unsafe MyRealityFoundation::Entity.__fromCore(
+                __EntityRef(core: unsafeBitCast(reChild, to: OpaquePointer.self))
+            )
+            
+            assertUnimplemented()
+        }
     }
 }

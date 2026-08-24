@@ -297,7 +297,11 @@ exports:
     _REEntityGetParent,
     _REEntitySetParent,
     _REEntityGetCustomComponent,
-    _RECustomComponentGetObject ]
+    _RECustomComponentGetObject,
+    _REEntityRemoveCustomComponent,
+    _REEntityAddCustomComponent,
+    _REEntityGetChildCount,
+    _REEntityGetChild ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
