@@ -57,7 +57,7 @@ public struct __REAnchoring {
                 let info = unsafe CoreRE::CustomComponentTypeInfo(
                     unknown0: 1,
                     unknown1: pointer,
-                    unknown2: 0,
+                    unknown2: nil,
                     unknown3: { p1 in
                         return unsafe createAnchoringComponentObject(
                             componentType: unsafeBitCast(p1, to: OpaquePointer.self)
@@ -86,9 +86,7 @@ public struct __REAnchoring {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
-                        info: pointer
-                    )
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer)
                 }
             }
             

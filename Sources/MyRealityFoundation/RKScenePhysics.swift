@@ -61,7 +61,7 @@ public struct __RKScenePhysics {
                 let info = unsafe CoreRE::CustomComponentTypeInfo(
                     unknown0: 1,
                     unknown1: pointer,
-                    unknown2: 0,
+                    unknown2: nil,
                     unknown3: nil,
                     unknown4: nil,
                     unknown5: nil,
@@ -73,9 +73,7 @@ public struct __RKScenePhysics {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
-                        info: pointer
-                    )
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer)
                 }
             }
             

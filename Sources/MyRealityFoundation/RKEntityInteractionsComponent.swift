@@ -37,7 +37,7 @@ public struct __RKEntityInteractionsComponent {
                 let info = unsafe CoreRE::CustomComponentTypeInfo(
                     unknown0: 1,
                     unknown1: pointer.baseAddress.unsafelyUnwrapped,
-                    unknown2: 0,
+                    unknown2: nil,
                     unknown3: { p1 in
                         return unsafe createInteractionsComponentObject(
                             componentType: unsafeBitCast(p1, to: OpaquePointer.self)
@@ -70,7 +70,7 @@ public struct __RKEntityInteractionsComponent {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(info: pointer)
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer)
                 }
             }
             
@@ -88,7 +88,7 @@ public struct __RKEntityInteractionsComponent {
                 return unsafe unsafeBitCast(result, to: UnsafeMutableRawPointer.self)
             }
             
-            self.componentType = unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
+            unsafe self.componentType = unsafeBitCast(componentType, to: OpaquePointer.self)
             builder.destroy()
         }
         
@@ -101,6 +101,17 @@ public struct __RKEntityInteractionsComponent {
     
     public static var componentType: OpaquePointer? {
         return unsafe __RKEntityInteractionsComponent.registration?.componentType
+    }
+    
+    private var jsonRawPointer: UnsafeMutableRawPointer?
+    private var cleanupHelper: IntrospectionDataCleanupHelper?
+    fileprivate private(set) var internalSpecifications: [__RKEntityInteractionSpecification]?
+    private var internalInteractions: [__RKEntityInteraction]?
+    private weak var  entity: Entity?
+    private var didFireStartTrigger: Bool?
+    
+    fileprivate func decodedJSON() -> [__RKEntityInteractionSpecification] {
+        assertUnimplemented()
     }
 }
 
@@ -132,4 +143,36 @@ fileprivate nonisolated func interactionsComponentEntityDidActivate(componentRef
 
 fileprivate nonisolated func cloneInteractionsComponentComponent(_: OpaquePointer) -> OpaquePointer {
     assertUnimplemented()
+}
+
+extension Entity {
+    static func updateInteractions(root: Entity) {
+        // entity -> x0 -> x20
+        if
+            let disableUpdateInteractionEntities = Entity.__disableUpdateInteractionEntities,
+            disableUpdateInteractionEntities.contains(root)
+        {
+            return
+        }
+        
+        // <+112>
+        let specification: [__RKEntityInteractionSpecification]
+        if
+            let registration = __RKEntityInteractionsComponent.registration,
+            let component = unsafe unsafeBitCast(root.coreEntity, to: CoreRE::Entity.self)
+                .customComponent(unsafeBitCast(registration.componentType, to: CoreRE::Component.ClassPtr.self)),
+            let object = unsafe component.customComponentObject
+        {
+            let component = unsafe object
+                .assumingMemoryBound(to: __RKEntityInteractionsComponent.self)
+                .pointee
+            
+            specification = component.internalSpecifications ?? component.decodedJSON()
+        } else {
+            specification = []
+        }
+        
+        // <+200>
+        assertUnimplemented()
+    }
 }

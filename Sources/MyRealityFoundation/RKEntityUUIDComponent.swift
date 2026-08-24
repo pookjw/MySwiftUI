@@ -63,7 +63,7 @@ public struct __RKEntityUUIDComponent {
             )
             
             let componentType = componentName.withCString { pointer_1 in
-                let context = CoreRE::CustomComponentTypeInfoContext(
+                let context = unsafe CoreRE::CustomComponentTypeInfoContext(
                     unknown0: 0x30,
                     unknown1: 1,
                     unknown2: syncInfoContextPointer,
@@ -93,7 +93,7 @@ public struct __RKEntityUUIDComponent {
                     let info = unsafe CoreRE::CustomComponentTypeInfo(
                         unknown0: 2,
                         unknown1: pointer_1,
-                        unknown2: 0,
+                        unknown2: nil,
                         unknown3: { p1 in
                             return unsafe createEntityUUIDComponentObject(
                                 componentType: unsafeBitCast(p1, to: OpaquePointer.self)
@@ -122,9 +122,7 @@ public struct __RKEntityUUIDComponent {
                     )
                     
                     return withUnsafePointer(to: info) { pointer in
-                        return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
-                            info: pointer
-                        )
+                        return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer)
                     }
                 }
             }

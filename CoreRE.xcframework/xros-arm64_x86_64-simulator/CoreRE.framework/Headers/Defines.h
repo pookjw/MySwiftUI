@@ -144,7 +144,7 @@ typedef struct RECustomComponentTypeInfoContext RECustomComponentTypeInfoContext
 struct RECustomComponentTypeInfo {
     uint32_t unknown0;
     const int8_t *unknown1;
-    uint64_t unknown2;
+    const void * _Nullable unknown2;
     void * (* _Nullable unknown3)(void *);
     void (* _Nullable unknown4)(void *, void *);
     void (* _Nullable unknown5)(void *);

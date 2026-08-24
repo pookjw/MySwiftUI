@@ -181,7 +181,7 @@ private import Observation
                 let info = unsafe CustomComponentTypeInfo(
                     unknown0: 2,
                     unknown1: pointer_1,
-                    unknown2: 0,
+                    unknown2: nil,
                     unknown3: nil,
                     unknown4: { p1, p2 in
                         unsafe deinitComponent(
@@ -199,7 +199,7 @@ private import Observation
                 
                 return withUnsafePointer(to: info) { pointer_3 in
                     // x23
-                    guard let componentClass = unsafe CoreRE::Component.ClassPtr.createCustomComponentType(info: pointer_3, isTransient: flag_3) else {
+                    guard let componentClass = unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer_3, isTransient: flag_3) else {
                         assertionFailure("Could not create custom component type.")
                     }
                     

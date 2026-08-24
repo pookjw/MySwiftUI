@@ -295,7 +295,9 @@ exports:
     _REMeshPartInstancesComponentGetVertexLimit,
     _REMakeSRTFromMatrix,
     _REEntityGetParent,
-    _REEntitySetParent ]
+    _REEntitySetParent,
+    _REEntityGetCustomComponent,
+    _RECustomComponentGetObject ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

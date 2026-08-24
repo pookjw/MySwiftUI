@@ -1265,19 +1265,6 @@ fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation::Entity) -> Vo
 ]
 
 extension Entity {
-    static func updateInteractions(root: Entity) {
-        // entity -> x0 -> x20
-        if
-            let disableUpdateInteractionEntities = Entity.__disableUpdateInteractionEntities,
-            disableUpdateInteractionEntities.contains(root)
-        {
-            return
-        }
-        
-        // <+112>
-        assertUnimplemented()
-    }
-    
     func updateSceneGravityIfNeeded() {
         assertUnimplemented()
     }

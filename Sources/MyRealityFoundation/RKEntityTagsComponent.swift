@@ -60,7 +60,7 @@ public struct __RKEntityTagsComponent {
                 let info = unsafe CoreRE::CustomComponentTypeInfo(
                     unknown0: 1,
                     unknown1: pointer,
-                    unknown2: 0,
+                    unknown2: nil,
                     unknown3: { p1 in
                         return unsafe createTagsComponentObject(
                             componentType: unsafeBitCast(p1, to: OpaquePointer.self)
@@ -81,9 +81,7 @@ public struct __RKEntityTagsComponent {
                 )
                 
                 return withUnsafePointer(to: info) { pointer in
-                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(
-                        info: pointer
-                    )
+                    return unsafe CoreRE::Component.ClassPtr.createCustomComponentType(pointer)
                 }
             }
             
