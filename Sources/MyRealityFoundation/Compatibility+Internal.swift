@@ -1,7 +1,7 @@
 #if RealityKitCompatibility
 internal import CoreRE
 
-extension CoreRE::EventBus : RealityKitCompatibility {
+extension CoreRE::EventBus : _RealityKitCompatibility {
     typealias RealityKitType = AnyObject
     typealias MyRealityKitType = MyRealityFoundation::REEventBus
     
@@ -23,7 +23,7 @@ extension CoreRE::EventBus : RealityKitCompatibility {
     }
 }
 
-extension CoreRE::ECSService : RealityKitCompatibility {
+extension CoreRE::ECSService : _RealityKitCompatibility {
     typealias RealityKitType = AnyObject
     typealias MyRealityKitType = MyRealityFoundation::SceneManager
     

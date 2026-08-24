@@ -758,3 +758,9 @@ extension Scene.CorePublisher {
         }
     }
 }
+
+extension Scene {
+    func updateNewAnchoring(_: MyRealityFoundation::Entity, frame: FrameAR?, allowAnchoringIfRemote: Bool) {
+        assertUnimplemented()
+    } 
+}

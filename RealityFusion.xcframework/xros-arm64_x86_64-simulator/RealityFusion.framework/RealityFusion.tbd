@@ -5,6 +5,8 @@ install-name:    '/System/Library/PrivateFrameworks/RealityFusion.framework/Real
 current-version: 403.120.1
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:         [ _RFGetAnchorSourceComponentType ]
+    symbols:         [ _RFGetAnchorSourceComponentType,
+    _RFServiceManagerGetAnchorManagementService,
+    _RFAnchorManagementUpdateAnchoringInScene ]
     objc-classes:    [ ]
 ...

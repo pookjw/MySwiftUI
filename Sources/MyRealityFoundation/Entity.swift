@@ -534,9 +534,26 @@ extension Entity {
     }
     
     @MainActor @preconcurrency public var scene: Scene? {
-        get {
-            assertUnimplemented()
+        guard let reScene = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self).scene else {
+            return nil
         }
+        
+        let scene: MyRealityFoundation::Scene
+#if RealityKitCompatibility
+        if let bridgedScene = reScene.myRealityKitRef {
+            scene = bridgedScene
+        } else {
+            scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+        }
+#else
+        if let swiftObject = unsafe reScene.swiftObject {
+            scene = unsafe unsafeBitCast(swiftObject, to: AnyObject.self) as! MyRealityFoundation::Scene
+        } else {
+            scene = unsafe MyRealityFoundation::Scene(coreScene: unsafeBitCast(reScene, to: OpaquePointer.self))
+        }
+#endif
+        
+        return scene
     }
     
     @MainActor @preconcurrency public var name: String {
@@ -1248,3 +1265,13 @@ fileprivate let baseTraitSetups: [@MainActor (MyRealityFoundation::Entity) -> Vo
             .setup(entity: entity)
     },
 ]
+
+extension Entity {
+    static func updateInteractions(root: Entity) {
+        assertUnimplemented()
+    }
+    
+    func updateSceneGravityIfNeeded() {
+        assertUnimplemented()
+    }
+}

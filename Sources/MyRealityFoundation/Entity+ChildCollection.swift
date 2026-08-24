@@ -1,6 +1,7 @@
 // 0F9EE5CAB151D0B6FBB6A14640A504DF
 private import CoreRE
 private import simd
+private import RealityFusion
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 extension Entity {
@@ -216,7 +217,55 @@ extension Entity.ChildCollection {
         // <+264>
         unsafe unsafeBitCast(child.coreEntity, to: CoreRE::Entity.self)
             .parent = unsafeBitCast(self.entity.coreEntity, to: CoreRE::Entity.self)
-        assertUnimplemented()
+        
+        if let casted = child as? HasAnchoring {
+            let flag: Bool // true -> <+608> / false -> <+752>
+            if let session = unsafe RealityFusionSession.sharedSession {
+                if let serviceManager = session.serviceManager {
+                    // <+360>
+                    if
+                        let anchorManagementService = serviceManager.anchorManagementService,
+                        let scene = self.entity.scene
+                    {
+                        unsafe anchorManagementService.updateAnchoringInScene(
+                            unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self)
+                        )
+                    }
+                    
+                    // <+544>
+                } else {
+                    // <+476>
+                    // <+544>
+                }
+                
+                if
+                    let session = unsafe RealityFusionSession.sharedSession,
+                    let serviceManager = session.serviceManager,
+                    serviceManager.anchorManagementService != nil
+                {
+                    // <+752>
+                    flag = false
+                } else {
+                    // <+608>
+                    flag = true
+                }
+            } else {
+                // <+464>
+                // <+608>
+                flag = true
+            }
+            
+            // <+608>
+            if flag {
+                if let scene = self.entity.scene {
+                    scene.updateNewAnchoring(child, frame: nil, allowAnchoringIfRemote: false)
+                }
+            }
+        }
+        
+        // <+752>
+        Entity.updateInteractions(root: child)
+        child.updateSceneGravityIfNeeded()
     }
     
     fileprivate func doRemove(_: MyRealityFoundation::Entity, preservingWorldTransform: Bool) {
