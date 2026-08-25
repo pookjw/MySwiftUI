@@ -3,17 +3,17 @@ internal import MySwiftUICore
 private import AttributeGraph
 private import CoreGraphics
 private import Spatial
-private import RealityKit
+internal import RealityKit
 
 protocol EntityViewFactory : PrimitiveView, UnaryView {
-    associatedtype EntityType
+    associatedtype EntityType : RealityKit::Entity
     
-    func makeEntity() -> Self.EntityType
+    nonisolated func makeEntity() -> Self.EntityType
     func updateEntity(_ entity: inout Self.EntityType, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry
     var features: DisplayList.Features { get }
     static var shadowApplicationIsRecursive: Bool { get }
     static var wantsHitTestGeometry: Bool { get }
-    var hostingComponent: AttachmentHostingComponent? { get }
+    nonisolated var hostingComponent: AttachmentHostingComponent? { get }
 }
 
 extension EntityViewFactory {
@@ -264,7 +264,7 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
 }
 
 fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
-    private var factory: ResolvedEntityFactory<T> // 0x0
+    @safe private nonisolated(unsafe) var factory: ResolvedEntityFactory<T> // 0x0
     private var size: Size3D // 0x24 (field)
     private var identity: _DisplayList_Identity // 0x28 (field)
     
@@ -275,7 +275,10 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
     }
     
     func makePlatformView() -> AnyObject? {
-        assertUnimplemented()
+        return EntityHostingView<T.EntityType>(
+            contentEntity: self.factory.factory.makeEntity(),
+            hostingComponent: self.factory.factory.hostingComponent
+        )
     }
     
     func updatePlatformView(_ view: inout AnyObject) {

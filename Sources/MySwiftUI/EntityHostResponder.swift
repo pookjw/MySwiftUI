@@ -1,6 +1,7 @@
 // BB8F5ECFA8AF74AE8152DD1EB3C8CC7B
 internal import _UIKitPrivate
 private import CoreRE
+internal import RealityKit
 
 final class EntityHostResponder : UIEntityResponder {
     private var entityRepresentable: (any EntityRepresentable)? // 0x38
@@ -15,7 +16,8 @@ final class EntityHostResponder : UIEntityResponder {
         assertUnimplemented()
     }
     
-    fileprivate var entityHostingView: EntityHostingView<EntityHostResponder>? {
+    // TODO: Generic Type
+    fileprivate var entityHostingView: EntityHostingView<RealityKit::Entity>? {
         assertUnimplemented()
     }
     

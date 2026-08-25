@@ -489,10 +489,10 @@ extension GestureProxy {
 }
 
 fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency LeafViewLayout3D, EntityViewFactory {
-    typealias EntityType = T.EntityType
+    typealias EntityType = RealityKit::Entity
     
     let content: T // 0x0
-    let hostingComponent: AttachmentHostingComponent? // 0x24 (field)
+    @safe nonisolated(unsafe) let hostingComponent: AttachmentHostingComponent? // 0x24 (field)
     private var platformHost: EntityHost<T> // 0x28 (field)
     private let context: EntityRepresentableContext<T> // 0x2c (field)
     
@@ -514,11 +514,11 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
         return outputs
     }
     
-    func makeEntity() -> T.EntityType {
-        assertUnimplemented()
+    nonisolated func makeEntity() -> RealityKit::Entity {
+        return self.platformHost
     }
     
-    func updateEntity(_ entity: inout T.EntityType, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry {
+    func updateEntity(_ entity: inout RealityKit::Entity, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry {
         assertUnimplemented()
     }
     
