@@ -11,7 +11,7 @@ extension DisplayList.ViewUpdater {
             private(set) var separatedOptions = SeparatedOptionValues() // 0x10
             private(set) var remoteEffects = RemoteEffectsPlatformState() // 0x18
             private(set) var hitTestsAsOpaque: Bool = false // 0x30
-            private(set) var serverResponderID: UInt32? = nil // 0x34
+            fileprivate(set) var serverResponderID: UInt32? = nil // 0x34
             fileprivate private(set) var separatedModifiers: [any _DisplayList_SeparatedItemModifier] = [] // 0x40
             private(set) var hierarchicalProjectiveShadow: ProjectiveShadow? = nil // 0x48
             private(set) var currentProjectiveShadow: ProjectiveShadow? = nil // 0x49
@@ -108,7 +108,7 @@ extension DisplayList.ViewUpdater.Model.PlatformState {
         private(set) var separatedOptions = DisplayList.Version() // 0x10
         var remoteEffects = DisplayList.Version() // 0x18
         private(set) var hitTestsAsOpaque = DisplayList.Version() // 0x20
-        private(set) var serverResponderID = DisplayList.Version() // 0x28
+        fileprivate(set) var serverResponderID = DisplayList.Version() // 0x28
         private(set) var renderingTechnique = DisplayList.Version() // 0x30
         private(set) var hierarchicalProjectiveShadow = DisplayList.Version() // 0x38
         private(set) var currentProjectiveShadow = DisplayList.Version() // 0x40
@@ -313,7 +313,7 @@ extension DisplayList.ViewUpdater.Model {
                 requirements.formUnion(.unknown0)
                 // <+2648>
             }
-        case .effect(let effect, let displayList):
+        case .effect(let effect, _):
             // <+2712>
             switch effect {
             case .transform(let transform):
@@ -336,6 +336,33 @@ extension DisplayList.ViewUpdater.Model {
                 }
             case .identity:
                 break
+            case .platform(let platformEffect):
+                let results = unsafe DisplayList.ViewUpdater.Model._mergePlatformEffect(
+                    platformEffect,
+                    item: item,
+                    into: &state.platformState
+                )
+                
+                switch platformEffect {
+                case .separated(_):
+                    assertUnimplemented()
+                case .renderingTechnique(_):
+                    requirements.formUnion(results)
+                case .projectiveShadow(_):
+                    requirements.formUnion(results)
+                case .opaqueHitTestContainer(_):
+                    requirements.formUnion(results)
+                case .remoteEffects(_, _):
+                    requirements.formUnion(results)
+                case .customHoverEffect(_):
+                    assertUnimplemented()
+                case .serverResponderID(_):
+                    requirements.formUnion(results)
+                case .separatedModifier(_):
+                    requirements.formUnion(results)
+                case .identity:
+                    requirements.formUnion(results)
+                }
             default:
                 assertUnimplemented()
             }
@@ -388,6 +415,10 @@ extension DisplayList.ViewUpdater.Model {
         case .effect(let effect, _):
             // <+708>
             switch effect {
+            case .opacity(_):
+                assertUnimplemented()
+            case .clip:
+                assertUnimplemented()
             case .transform(let transform):
                 switch transform {
                 case .affine(_):
@@ -397,10 +428,8 @@ extension DisplayList.ViewUpdater.Model {
                 case .affine3D(_):
                     return
                 }
-            case .identity:
-                return
             default:
-                assertUnimplemented()
+                return
             }
         default:
             // <+1176>
@@ -417,7 +446,7 @@ extension DisplayList.ViewUpdater.Model {
          transform -> x0 -> x20
          state -> x2 -> x19
          */
-        state.platformState.versions.zPosition = max(state.platformState.versions.zPosition, item.version)
+        unsafe state.platformState.versions.zPosition = max(state.platformState.versions.zPosition, item.version)
         
         if transform.isIdentity {
             return []
@@ -448,12 +477,50 @@ extension DisplayList.ViewUpdater.Model {
         // x29 - 0x80
         let copy_2 = CGAffineTransform(copy_1)
         // sp + 0x30
-        let copy_3 = state.transform
+        let copy_3 = unsafe state.transform
         // sp
         let concat = copy_2.concatenating(copy_3)
-        state.transform = concat
-        state.platformState.zPosition += d8
+        unsafe state.transform = concat
+        unsafe state.platformState.zPosition += d8
         
         return []
+    }
+    
+    fileprivate static func _mergePlatformEffect(
+        _ effect: DisplayList.PlatformEffect,
+        item: DisplayList.Item,
+        into platformState: inout DisplayList.ViewUpdater.Model.PlatformState
+    ) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
+        switch effect {
+        case .separated(_):
+            assertUnimplemented()
+            // <+536>
+        case .renderingTechnique(_):
+            // <+1112>
+            assertUnimplemented()
+        case .projectiveShadow(_):
+            // <+768>
+            assertUnimplemented()
+        case .opaqueHitTestContainer(_):
+            // <+1152>
+            assertUnimplemented()
+        case .remoteEffects(_, _):
+            // <+816>
+            assertUnimplemented()
+        case .customHoverEffect(_):
+            // <+1248>
+            assertUnimplemented()
+        case .serverResponderID(let id):
+            // <+1068>
+            platformState.serverResponderID = id
+            platformState.versions.serverResponderID = max(item.version, platformState.versions.serverResponderID)
+            return []
+        case .separatedModifier(_):
+            // <+248>
+            assertUnimplemented()
+        case .identity:
+            // <+1248>
+            return []
+        }
     }
 }

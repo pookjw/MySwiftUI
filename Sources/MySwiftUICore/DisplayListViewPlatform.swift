@@ -405,7 +405,7 @@ extension DisplayList.ViewUpdater {
                 default:
                     assertUnimplemented()
                 }
-            case .effect(_, _):
+            case .effect(let effect, _):
                 // <+208>
                 assertUnimplemented()
             default:

@@ -213,4 +213,8 @@ enum RemoteLeafEffectDescriptor {
 
 package struct HoverLeafEffect {
     // TODO
+    
+    func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
+        assertUnimplemented()
+    }
 }

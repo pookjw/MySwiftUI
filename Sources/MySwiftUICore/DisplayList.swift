@@ -309,6 +309,10 @@ extension DisplayList {
                         }
                         
                         return
+                    case .platform(_):
+                        // <+1748>
+                        self.canonicalizePlatformEffect(options: options)
+                        return
                     default:
                         assertUnimplemented()
                     }
@@ -342,6 +346,17 @@ extension DisplayList {
         }
         
         func canonicalizePlatformEffect(options: DisplayList.Options) {
+            guard
+                !options.contains(.disableCanonicalization),
+                case .effect(let effect, let displayList) = self.value,
+                case .platform(let platform) = effect,
+                displayList.items.count == 1,
+                case .customHoverEffect(_) = platform
+            else {
+                return
+            }
+            
+            // <+392>
             assertUnimplemented()
         }
         
@@ -475,15 +490,34 @@ extension DisplayList {
                     }
                     return !result
                 }
-            case .effect(let effect, let displayList):
+            case .effect(let effect, _):
                 // <+636>
                 switch effect {
                 case .clip:
                     // <+1016>
                     assertUnimplemented()
-                case .platform:
+                case .platform(let effect):
                     // <+660>
-                    assertUnimplemented()
+                    switch effect {
+                    case .separated(_):
+                        return true
+                    case .renderingTechnique(_):
+                        return true
+                    case .projectiveShadow(_):
+                        return true
+                    case .opaqueHitTestContainer(_):
+                        return true
+                    case .remoteEffects(_, _):
+                        return true
+                    case .customHoverEffect(let effect):
+                        return effect.canMergeWithPlatformState(state: state)
+                    case .serverResponderID(_):
+                        return true
+                    case .separatedModifier(_):
+                        return true
+                    case .identity:
+                        return true
+                    }
                 default:
                     return true
                 }
@@ -672,8 +706,27 @@ extension DisplayList {
                 return []
             case .transform(_):
                 return []
-            case .platform:
-                assertUnimplemented()
+            case .platform(let effect):
+                switch effect {
+                case .separated(_):
+                    return [.required]
+                case .renderingTechnique(_):
+                    return [.required]
+                case .projectiveShadow(_):
+                    return [.required]
+                case .opaqueHitTestContainer(_):
+                    return [.required]
+                case .remoteEffects(_, _):
+                    return [.required]
+                case .customHoverEffect(_):
+                    return [.required]
+                case .serverResponderID(_):
+                    return []
+                case .separatedModifier(_):
+                    return []
+                case .identity:
+                    return []
+                }
             case .interpolatorLayer(_, _):
                 assertUnimplemented()
             case .identity:

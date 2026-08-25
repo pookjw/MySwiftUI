@@ -523,7 +523,7 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     }
     
     var features: DisplayList.Features {
-        assertUnimplemented()
+        return DisplayList.Features([.required, .entities])
     }
     
     static var shadowApplicationIsRecursive: Bool {
