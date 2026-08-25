@@ -18,3 +18,14 @@ extension RealityKit::Entity.ChildCollection {
         }
     }
 }
+
+extension OpaquePointer {
+    var name: String {
+        get {
+            assertUnimplemented()
+        }
+        nonmutating set {
+            assertUnimplemented()
+        }
+    }
+}

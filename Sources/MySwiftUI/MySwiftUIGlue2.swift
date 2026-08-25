@@ -40,7 +40,7 @@ private import CoreRE
         }
         
         // <+500>
-        view._request(requestState, withReason: reason.rawValue)
+        view._request(requestState, withReason: _UIViewSeparatedStateRequestReason(rawValue: reason.rawValue))
         
         // <+548>
         // separatedState -> w22 -> x19
