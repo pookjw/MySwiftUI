@@ -369,9 +369,9 @@ extension PropertyList {
                         value.values[ObjectIdentifier(T.self)] = TrackedValue<T>(value: result)
                         return result
                     }
-                    assertUnimplemented()
                 } else {
                     // <+276>
+                    value.unrecordedDependencies = true
                     return other[T.self]
                 }
             }

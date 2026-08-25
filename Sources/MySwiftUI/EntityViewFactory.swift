@@ -128,14 +128,18 @@ fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, S
 }
 
 fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
-    private var factory: T
-    private var pointScale: PointScale
-    private var castsShadows: Bool
-    private var redactionReasons: RedactionReasons
-    private var isContainedInPlatter: Bool
+    private(set) var factory: T // 0x0
+    private var pointScale: PointScale // 0x24 (field)
+    private var castsShadows: Bool // 0x28 (field)
+    private var redactionReasons: RedactionReasons // 0x2c (field)
+    private var isContainedInPlatter: Bool // 0x30 (field)
     
     init(factory: T, pointScale: PointScale, castsShadows: Bool, redactionReasons: RedactionReasons, isContainedInPlatter: Bool) {
-        assertUnimplemented()
+        self.factory = factory
+        self.pointScale = pointScale
+        self.castsShadows = castsShadows
+        self.redactionReasons = redactionReasons
+        self.isContainedInPlatter = isContainedInPlatter
     }
 }
 
@@ -260,12 +264,14 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
 }
 
 fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
-    private var factory: ResolvedEntityFactory<T>
-    private var size: Size3D
-    private var identity: _DisplayList_Identity
+    private var factory: ResolvedEntityFactory<T> // 0x0
+    private var size: Size3D // 0x24 (field)
+    private var identity: _DisplayList_Identity // 0x28 (field)
     
     init(factory: ResolvedEntityFactory<T>, size: Size3D, identity: _DisplayList_Identity) {
-        assertUnimplemented()
+        self.factory = factory
+        self.size = size
+        self.identity = identity
     }
     
     func makePlatformView() -> AnyObject? {
@@ -289,6 +295,6 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
     }
     
     var features: DisplayList.Features {
-        assertUnimplemented()
+        return self.factory.factory.features
     }
 }

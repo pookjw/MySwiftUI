@@ -1,3 +1,4 @@
+// C9520BDE5A7C30CCB2E95C7B085D6CF4
 internal import CoreGraphics
 
 package struct ResolvedShadowStyle {
@@ -29,13 +30,16 @@ package struct ProjectiveShadow {}
 extension EnvironmentValues {
     package var castsShadows: Bool {
         get {
-            assertUnimplemented()
+            return self[EnvironmentValues.CastsShadows.self]
         }
         set {
-            assertUnimplemented()
+            self[EnvironmentValues.CastsShadows.self] = newValue
         }
-        _modify {
-            assertUnimplemented()
+    }
+    
+    fileprivate struct CastsShadows : EnvironmentKey {
+        static var defaultValue: Bool {
+            return false
         }
     }
 }
