@@ -307,7 +307,9 @@ exports:
     _REECSManagerGetServiceLocator,
     _REServiceLocatorGetPhysicsSimulationService,
     _REPhysicsSimulationServiceGetDefaultGravity,
-    _REPhysicsSimulationServiceSetDefaultGravity ]
+    _REPhysicsSimulationServiceSetDefaultGravity,
+    _REEntitySetName,
+    _REEntityGetName ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

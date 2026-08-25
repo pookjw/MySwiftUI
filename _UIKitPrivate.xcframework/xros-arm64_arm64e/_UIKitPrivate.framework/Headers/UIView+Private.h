@@ -21,6 +21,14 @@ typedef NS_ENUM(NSInteger, _UIViewSeparatedState) {
     _UIViewSeparatedStateTracked = 2
 };
 
+typedef NSString * _UIViewSeparatedStateRequestReason NS_TYPED_EXTENSIBLE_ENUM;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonUnspecified;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonAudioSource;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonPlatter;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonPresentation;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonOffsetLayer;
+UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateRequestReasonLookToScroll;
+
 @interface UIView (Private) <UITraitChangeObservableInternal, _UIGestureRecognizerContainer, UIRealityCoordinateSpace>
 + (BOOL)_supportsInvalidatingFocusCache;
 @property (nonatomic, readonly) BOOL _layoutHeightDependsOnWidth;
@@ -67,7 +75,7 @@ typedef NS_ENUM(NSInteger, _UIViewSeparatedState) {
 - (void)_noteTraitsDidChangeRecursively;
 - (CAPoint3D)convertPoint:(CAPoint3D)point fromRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 - (CAPoint3D)convertPoint:(CAPoint3D)point toRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
-- (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(NSString *)reason;
+- (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(_UIViewSeparatedStateRequestReason)reason;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
