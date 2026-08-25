@@ -47,10 +47,10 @@ extension PlatformViewFactory {
     }
 }
 
-protocol PlatformLayerFactory : AnyViewFactory {
+package protocol PlatformLayerFactory : AnyViewFactory {
     
 }
 
-protocol _DisplayList_ViewFactory : AnyViewFactory {
+package protocol _DisplayList_ViewFactory : AnyViewFactory {
     
 }

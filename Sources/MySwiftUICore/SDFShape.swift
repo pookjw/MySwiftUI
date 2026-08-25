@@ -1,4 +1,3 @@
-
-struct SDFShape {
+package struct SDFShape {
     // TODO
 }

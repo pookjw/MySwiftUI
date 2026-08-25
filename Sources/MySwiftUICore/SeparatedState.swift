@@ -1,10 +1,13 @@
-
 package enum SeparatedState {
     case none
     case tracked
     case separated
 }
 
-protocol _DisplayList_SeparatedItemModifier {
+package protocol _DisplayList_SeparatedItemModifier {
+    // TODO
+}
+
+package struct SeparationProperties {
     // TODO
 }

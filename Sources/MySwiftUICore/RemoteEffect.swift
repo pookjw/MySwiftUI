@@ -81,14 +81,14 @@ struct RemoteEffectsPlatformState {
     }
 }
 
-struct RemoteEffectGroup {
+package struct RemoteEffectGroup {
     var effects: [any RemoteEffect]
     var accessibilityOptions: RemoteEffectAccessibilityOptions
     var properties: RemoteEffectGroup.Properties
 }
 
 extension RemoteEffectGroup {
-    struct Resolved {
+    package struct Resolved {
         var effects: [RemoteEffectEntry]
         var accessibilityID: Int?
         var properties: RemoteEffectGroup.Properties
@@ -208,5 +208,9 @@ extension RemoteLeafEffectCollection {
 }
 
 enum RemoteLeafEffectDescriptor {
+    // TODO
+}
+
+package struct HoverLeafEffect {
     // TODO
 }

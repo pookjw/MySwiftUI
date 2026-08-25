@@ -130,7 +130,7 @@ extension Material.Layer {
         case intelligenceLightSource(IntelligenceLightSourceLayer)
     }
     
-    struct SDFLayer {
+    package struct SDFLayer {
         // TODO
     }
 }

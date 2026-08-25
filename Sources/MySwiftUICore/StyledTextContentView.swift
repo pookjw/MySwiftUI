@@ -1,4 +1,3 @@
-
-struct StyledTextContentView {
-    
+package struct StyledTextContentView {
+    // TODO
 }

@@ -645,7 +645,7 @@ extension DisplayList {
 //        case contentTransition(ContentTransition.State)
 //        case view(_DisplayList_ViewFactory)
 //        case accessibility([AccessibilityNodeAttachment])
-        case platform/*(DisplayList.PlatformEffect)*/
+        case platform(DisplayList.PlatformEffect)
 //        case state(StrongHash)
 //        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
         case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
@@ -858,7 +858,7 @@ extension DisplayList {
         var value: DisplayList.Content.Value
         var seed: DisplayList.Seed
         
-        init(_ value: DisplayList.Content.Value, seed: DisplayList.Seed) {
+        package init(_ value: DisplayList.Content.Value, seed: DisplayList.Seed) {
             self.value = value
             self.seed = seed
         }
@@ -866,7 +866,7 @@ extension DisplayList {
 }
 
 extension DisplayList.Content {
-    enum Value {
+    package enum Value {
         case backdrop(BackdropEffect)
         case color(ColorView)
         case chameleonColor(DisplayList.ChameleonColor)
@@ -959,7 +959,7 @@ extension _ViewInputs {
 }
 
 extension DisplayList {
-    struct ChameleonColor {
+    package struct ChameleonColor {
         private var fallback: Color.ResolvedHDR
         private var allowedDynamicRange: Image.DynamicRange
         private var filters: [GraphicsFilter]
@@ -985,5 +985,17 @@ extension DisplayList {
     
     package final class InterpolatorGroup {
         // TODO
+    }
+    
+    package enum PlatformEffect {
+        case separated(SeparationProperties)
+        case renderingTechnique(RenderingTechnique)
+        case projectiveShadow(ProjectiveShadow?)
+        case opaqueHitTestContainer(applyInPlace: Bool)
+        case remoteEffects(RemoteEffectGroup.Resolved, version: DisplayList.Version)
+        case customHoverEffect(HoverLeafEffect)
+        case serverResponderID(UInt32)
+        case separatedModifier(_DisplayList_SeparatedItemModifier)
+        case identity
     }
 }

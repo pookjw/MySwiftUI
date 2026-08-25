@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct GraphicsImage {
+package struct GraphicsImage {
     private var contents: GraphicsImage.Contents?
     private var scale: CGFloat
     private var uprotatedPixelSize: CGSize

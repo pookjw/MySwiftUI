@@ -840,16 +840,16 @@ extension ShapeStyle where Self == Color {
     }
 }
 
-struct ColorView : ResolvedPaint, RendererLeafView {
+package struct ColorView : ResolvedPaint, RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
     @safe nonisolated(unsafe) private(set) var allowedDynamicRange: Image.DynamicRange
     
-    nonisolated static func == (lhs: ColorView, rhs: ColorView) -> Bool {
+    package nonisolated static func == (lhs: ColorView, rhs: ColorView) -> Bool {
         assertUnimplemented()
     }
     
-    nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+    package nonisolated static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         /*
          $s7SwiftUI9ColorViewV05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyACG_AA01_D6InputsVtFZ
          inlined
@@ -864,7 +864,7 @@ struct ColorView : ResolvedPaint, RendererLeafView {
         self.allowedDynamicRange = allowedDynamicRange
     }
     
-    nonisolated var animatableData: Color.ResolvedHDR._Animatable {
+    package nonisolated var animatableData: Color.ResolvedHDR._Animatable {
         get {
             let animatableData = color.base.animatableData
             return Color.ResolvedHDR._Animatable(color: animatableData, headroom: color._headroom)
@@ -1035,24 +1035,24 @@ extension Color.ResolvedHDR {
         self._headroom = .nan
     }
     
-    struct _Animatable : VectorArithmetic, Equatable {
-        static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
+    package struct _Animatable : VectorArithmetic, Equatable {
+        package static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
             assertUnimplemented()
         }
         
-        static func + (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
+        package static func + (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
             assertUnimplemented()
         }
         
-        static func -= (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
+        package static func -= (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
             assertUnimplemented()
         }
         
-        static func - (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
+        package static func - (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
             assertUnimplemented()
         }
         
-        static var zero: Color.ResolvedHDR._Animatable {
+        package static var zero: Color.ResolvedHDR._Animatable {
             assertUnimplemented()
         }
         
@@ -1064,11 +1064,11 @@ extension Color.ResolvedHDR {
             self.headroom = headroom
         }
         
-        mutating func scale(by rhs: Double) {
+        package mutating func scale(by rhs: Double) {
             assertUnimplemented()
         }
         
-        var magnitudeSquared: Double {
+        package var magnitudeSquared: Double {
             get {
                 assertUnimplemented()
             }

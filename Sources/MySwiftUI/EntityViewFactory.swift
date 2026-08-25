@@ -195,7 +195,35 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
         )
         
         // <+1564>
-        assertUnimplemented()
+        let content = DisplayList.Content(
+            .platformView(factory),
+            seed: self.contentSeed
+        )
+        
+        let item_1 = DisplayList.Item(
+            .content(content),
+            frame: CGRect(
+                origin: CGPoint(x: d8, y: d9),
+                size: size.value
+            ),
+            identity: self.identity,
+            version: version
+        )
+        
+        // <+1908>
+        let effect = DisplayList.Effect.platform(.serverResponderID(self.identity.value))
+        let displayList_1 = DisplayList(item_1)
+        
+        var item_2 = DisplayList.Item(
+            .effect(effect, displayList_1),
+            frame: CGRect(origin: .zero, size: size.value),
+            identity: self.identity,
+            version: version
+        )
+        
+        item_2.canonicalize(options: self.options)
+        let displayList_2 = DisplayList(item_2)
+        self.value = displayList_2
     }
     
     var description: String {

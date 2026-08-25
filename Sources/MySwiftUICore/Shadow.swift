@@ -1,6 +1,6 @@
 internal import CoreGraphics
 
-struct ResolvedShadowStyle {
+package struct ResolvedShadowStyle {
     private(set) var color: Color.ResolvedHDR
     private(set) var radius: CGFloat
     private(set) var offset: CGSize
@@ -24,4 +24,4 @@ extension ShadowStyle {
     }
 }
 
-struct ProjectiveShadow {}
+package struct ProjectiveShadow {}
