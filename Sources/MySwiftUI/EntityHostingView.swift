@@ -28,7 +28,7 @@ final class EntityHostingView<T : RealityKit::Entity> : UIView {
         }
         
         // <+504>
-        let ref = RealityKit::__EntityRef.__fromCore(reEntity)
+        let ref = unsafe RealityKit::__EntityRef.__fromCore(unsafeBitCast(reEntity, to: OpaquePointer.self))
         let entity = RealityKit::Entity.__fromCore(ref)
         entity.components.set(hostingComponent)
     }
