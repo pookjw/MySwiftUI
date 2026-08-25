@@ -5,8 +5,6 @@
 //  Created by Jinwoo Kim on 3/11/26.
 //
 
-#if USE_MYSWIFTUI_APP
-
 import MySwiftUI
 import UIKit
 
@@ -57,5 +55,3 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
     }
 }
-
-#endif
