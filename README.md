@@ -206,6 +206,10 @@ SwiftUI & RealityKit Disassembly
 
 ### RealityKit
 
+- Views
+  - [`RealityView`](https://developer.apple.com/documentation/realitykit/realityview)
+    - [`init(make:update:placeholder:attachments:)`](https://developer.apple.com/documentation/realitykit/realityview/init%28make%3Aupdate%3Aplaceholder%3Aattachments%3A%29)
+
 - Entities
   - [`Entity`](https://developer.apple.com/documentation/realitykit/entity)
   - [`ModelEntity`](https://developer.apple.com/documentation/realitykit/modelentity)
