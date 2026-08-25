@@ -2,7 +2,7 @@
 internal import MySwiftUICore
 private import AttributeGraph
 private import CoreGraphics
-private import Spatial
+internal import Spatial
 internal import RealityKit
 private import CoreRE
 
@@ -81,12 +81,14 @@ extension EntityViewFactory {
 }
 
 struct _EntityViewFactory_Context {
-    fileprivate private(set) var size: Size3D
+    private(set) var size: Size3D
     fileprivate private(set) var pointScale: PointScale
 }
 
 struct _EntityViewFactory_Geometry {
-    // TODO
+    let unknown0: Size3D
+    let unknown1: Size3D
+    let unknown2: Size3D
 }
 
 fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, StatefulRule {

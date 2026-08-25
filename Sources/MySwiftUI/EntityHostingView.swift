@@ -6,7 +6,7 @@ private import AttributeGraph
 private import _UIKitPrivate
 
 final class EntityHostingView<T : RealityKit::Entity> : UIView {
-    var contentEntity: T
+    private(set) var contentEntity: T
     
     init(contentEntity: T, hostingComponent: AttachmentHostingComponent?) {
         self.contentEntity = contentEntity

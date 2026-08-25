@@ -14,6 +14,10 @@ extension Size3D {
         self = Size3D(width: size.width, height: size.height, depth: depth)
     }
     
+    package init(_ value: CGFloat) {
+        self = Size3D(width: value, height: value, depth: value)
+    }
+    
     subscript(axis: _Axis3D) -> Double {
         get {
             assertUnimplemented()

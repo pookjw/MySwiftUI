@@ -519,7 +519,13 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     }
     
     func updateEntity(_ entity: inout RealityKit::Entity, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry {
-        assertUnimplemented()
+        entity = self.platformHost
+        
+        return _EntityViewFactory_Geometry(
+            unknown0: context.size,
+            unknown1: Size3D(1),
+            unknown2: .zero
+        )
     }
     
     var features: DisplayList.Features {
