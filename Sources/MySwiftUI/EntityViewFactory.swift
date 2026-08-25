@@ -4,15 +4,16 @@ private import AttributeGraph
 private import CoreGraphics
 private import Spatial
 internal import RealityKit
+private import CoreRE
 
 protocol EntityViewFactory : PrimitiveView, UnaryView {
     associatedtype EntityType : RealityKit::Entity
     
     nonisolated func makeEntity() -> Self.EntityType
-    func updateEntity(_ entity: inout Self.EntityType, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry
-    var features: DisplayList.Features { get }
-    static var shadowApplicationIsRecursive: Bool { get }
-    static var wantsHitTestGeometry: Bool { get }
+    nonisolated func updateEntity(_ entity: inout Self.EntityType, context: _EntityViewFactory_Context) -> _EntityViewFactory_Geometry
+    nonisolated var features: DisplayList.Features { get }
+    static nonisolated var shadowApplicationIsRecursive: Bool { get }
+    static nonisolated var wantsHitTestGeometry: Bool { get }
     nonisolated var hostingComponent: AttachmentHostingComponent? { get }
 }
 
@@ -80,7 +81,8 @@ extension EntityViewFactory {
 }
 
 struct _EntityViewFactory_Context {
-    // TODO
+    fileprivate private(set) var size: Size3D
+    fileprivate private(set) var pointScale: PointScale
 }
 
 struct _EntityViewFactory_Geometry {
@@ -129,7 +131,7 @@ fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, S
 
 fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
     private(set) var factory: T // 0x0
-    private var pointScale: PointScale // 0x24 (field)
+    private(set) var pointScale: PointScale // 0x24 (field)
     private var castsShadows: Bool // 0x28 (field)
     private var redactionReasons: RedactionReasons // 0x2c (field)
     private var isContainedInPlatter: Bool // 0x30 (field)
@@ -287,8 +289,42 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
          view -> x0 -> x25
          T -> x1 -> x19
          */
+        // x25
+        let casted = view as! EntityHostingView<T.EntityType>
+        var contentEntity = casted.contentEntity
         
-        assertUnimplemented()
+        let geometry = self.factory.factory.updateEntity(
+            &contentEntity,
+            context: _EntityViewFactory_Context(
+                size: self.size,
+                pointScale: self.factory.pointScale
+            )
+        )
+        
+        casted.updateContent(
+            entity: contentEntity,
+            hostingComponent: self.factory.factory.hostingComponent
+        )
+        
+        self.updateGeometry(geometry, for: contentEntity)
+        self.updateProjectiveShadow(for: contentEntity)
+        self.updateShareMode(for: contentEntity)
+        
+        if T.wantsHitTestGeometry {
+            self.updateHitTestGeometry(for: contentEntity)
+        }
+        
+        guard let componentType = CoreRE::Component.ClassPtr.selectableSceneContentIdentifier else {
+            return
+        }
+        
+        let reEntity = unsafe unsafeBitCast(
+            contentEntity.__coreEntity.__as(OpaquePointer.self),
+            to: CoreRE::Entity.self
+        )
+        
+        let component = reEntity.getOrAddComponent(ofType: componentType)
+        component.selectableSceneContentIdentifier_identifier = self.identity.value
     }
     
     func updateGeometry(_: _EntityViewFactory_Geometry, for: RealityKit::Entity) {
@@ -300,6 +336,10 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
     }
     
     func updateShareMode(for: RealityKit::Entity) {
+        assertUnimplemented()
+    }
+    
+    func updateHitTestGeometry(for: RealityKit::Entity) {
         assertUnimplemented()
     }
     
