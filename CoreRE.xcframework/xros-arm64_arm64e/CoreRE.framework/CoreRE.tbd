@@ -292,7 +292,22 @@ exports:
     _REEntityAddComponentByClass,
     _REMeshDeformationComponentGetMeshDeformationDefinition,
     _REMeshDeformationComponentSetMeshDeformationDefinition,
-    _REMeshPartInstancesComponentGetVertexLimit ]
+    _REMeshPartInstancesComponentGetVertexLimit,
+    _REMakeSRTFromMatrix,
+    _REEntityGetParent,
+    _REEntitySetParent,
+    _REEntityGetCustomComponent,
+    _RECustomComponentGetObject,
+    _REEntityRemoveCustomComponent,
+    _REEntityAddCustomComponent,
+    _REEntityGetChildCount,
+    _REEntityGetChild,
+    _RESceneGetComponentsOfCustomType,
+    _RESceneGetECSManagerNullable,
+    _REECSManagerGetServiceLocator,
+    _REServiceLocatorGetPhysicsSimulationService,
+    _REPhysicsSimulationServiceGetDefaultGravity,
+    _REPhysicsSimulationServiceSetDefaultGravity ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

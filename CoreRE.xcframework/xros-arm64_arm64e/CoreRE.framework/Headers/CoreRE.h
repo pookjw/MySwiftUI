@@ -14,7 +14,7 @@
 #import <CoreRE/RECIntrospectionStruct.h>
 #import <CoreRE/REEngine.h>
 #import <CoreRE/REServiceLocator.h>
-#import <CoreRE/REECSService.h>
+#import <CoreRE/REECSManager.h>
 #import <CoreRE/REEventBus.h>
 #import <CoreRE/RERenderManager.h>
 #import <CoreRE/RERigidBodyComponent.h>
@@ -103,3 +103,5 @@
 #import <CoreRE/RERigComponent.h>
 #import <CoreRE/REMaterialRenderStateArrayComponent.h>
 #import <CoreRE/REDirectMaterialParametersArrayComponent.h>
+#import <CoreRE/RESRT.h>
+#import <CoreRE/REPhysicsSimulationService.h>

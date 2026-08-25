@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 struct RFServiceManager {};
 typedef const struct RFServiceManager * RFServiceManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceManager);
 
+struct RFAnchorManagementService {};
+typedef const struct RFAnchorManagementService * RFAnchorManagementServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AnchorManagementService);
+
 NS_ASSUME_NONNULL_END
 
 #endif

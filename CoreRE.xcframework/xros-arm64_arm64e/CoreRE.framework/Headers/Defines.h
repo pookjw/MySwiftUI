@@ -130,7 +130,6 @@ RE_EXTERN NSUInteger REGetRetainCount(const void *);
 
 RE_EXTERN bool REIsRSCompatible(void);
 RE_EXTERN void RERegisterSwiftCodableCallbacks(CFDataRef _Nullable (* _Nullable)(void *, void *, const int8_t *), bool (* _Nullable)(void *, void *, CFDataRef, const int8_t *));
-RE_EXTERN simd_float4x4 RESRTMatrix(RESRT);
 
 struct RECustomComponentTypeInfoContext {
     uint64_t unknown0;
@@ -145,7 +144,7 @@ typedef struct RECustomComponentTypeInfoContext RECustomComponentTypeInfoContext
 struct RECustomComponentTypeInfo {
     uint32_t unknown0;
     const int8_t *unknown1;
-    uint64_t unknown2;
+    const void * _Nullable unknown2;
     void * (* _Nullable unknown3)(void *);
     void (* _Nullable unknown4)(void *, void *);
     void (* _Nullable unknown5)(void *);
@@ -172,8 +171,8 @@ typedef NS_ENUM(uint32_t, REEventHandlerResult) {
 struct REServiceLocator {};
 typedef const struct REServiceLocator * REServiceLocatorRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceLocator);
 
-struct REECSService {};
-typedef const struct REECSService * REECSServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSService);
+struct REECSManager {};
+typedef const struct REECSManager * REECSManagerRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSManager);
 
 struct REEventBus {};
 typedef const struct REEventBus * REEventBusRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(EventBus);
@@ -478,6 +477,10 @@ typedef NS_ENUM(uint32_t, REVideoViewingMode) {
     REVideoViewingModeMono = 1,
     REVideoViewingModeStereo = 2
 } NS_SWIFT_NAME(VideoViewingMode);
+
+
+struct REPhysicsSimulationService {};
+typedef const struct REPhysicsSimulationService * REPhysicsSimulationServiceRef __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(PhysicsSimulationService);
 
 NS_ASSUME_NONNULL_END
 
