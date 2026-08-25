@@ -25,7 +25,7 @@ NSString * _Nullable _getBestLocalization(NSBundle *bundle, NSLocale * _Nullable
     
     static NSMapTable<NSBundle *, NSMutableDictionary<NSString *, NSString *> *> * _Nullable cache = nil;
     if (cache == nil) {
-        cache = [NSMapTable weakToStrongObjectsMapTable];
+        cache = [[NSMapTable weakToStrongObjectsMapTable] retain];
     }
     
     // <+208>
