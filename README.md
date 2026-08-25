@@ -1,5 +1,7 @@
 # MySwiftUI
 
+![](image.png)
+
 SwiftUI & RealityKit Disassembly
 
 ## Requirements
@@ -204,4 +206,33 @@ SwiftUI & RealityKit Disassembly
 
 ### RealityKit
 
-WIP
+- Entities
+  - [`Entity`](https://developer.apple.com/documentation/realitykit/entity)
+  - [`ModelEntity`](https://developer.apple.com/documentation/realitykit/modelentity)
+    - [`init(mesh:materials:)`](https://developer.apple.com/documentation/realitykit/modelentity/init%28mesh%3Amaterials%3A%29)
+
+- Model components
+  - [`ModelComponent`](https://developer.apple.com/documentation/realitykit/modelcomponent)
+    - [`init(mesh:materials:)`](https://developer.apple.com/documentation/realitykit/modelcomponent/init%28mesh%3Amaterials%3A%29)
+    - [`mesh`](https://developer.apple.com/documentation/realitykit/modelcomponent/mesh)
+    - [`materials`](https://developer.apple.com/documentation/realitykit/modelcomponent/materials)
+    - [`boundsMargin`](https://developer.apple.com/documentation/realitykit/modelcomponent/boundsmargin)
+
+- Meshes and materials
+  - [`MeshResource`](https://developer.apple.com/documentation/realitykit/meshresource)
+    - [`generateSphere(radius:)`](https://developer.apple.com/documentation/realitykit/meshresource/generatesphere%28radius%3A%29)
+  - [`SimpleMaterial`](https://developer.apple.com/documentation/realitykit/simplematerial)
+    - [`init(color:roughness:isMetallic:)`](https://developer.apple.com/documentation/realitykit/simplematerial/init%28color%3Aroughness%3Aismetallic%3A%29)
+  - [`MaterialScalarParameter`](https://developer.apple.com/documentation/realitykit/materialscalarparameter)
+    - [`init(floatLiteral:)`](https://developer.apple.com/documentation/realitykit/materialscalarparameter/init%28floatliteral%3A%29)
+    - [`init(integerLiteral:)`](https://developer.apple.com/documentation/realitykit/materialscalarparameter/init%28integerliteral%3A%29)
+
+- Transforms
+  - [`Transform`](https://developer.apple.com/documentation/realitykit/transform)
+    - [`init()`](https://developer.apple.com/documentation/realitykit/transform/init%28%29)
+    - [`init(scale:rotation:translation:)`](https://developer.apple.com/documentation/realitykit/transform/init%28scale%3Arotation%3Atranslation%3A%29)
+    - [`init(pitch:yaw:roll:)`](https://developer.apple.com/documentation/realitykit/transform/init%28pitch%3Ayaw%3Aroll%3A%29)
+    - [`scale`](https://developer.apple.com/documentation/realitykit/transform/scale)
+    - [`rotation`](https://developer.apple.com/documentation/realitykit/transform/rotation)
+    - [`translation`](https://developer.apple.com/documentation/realitykit/transform/translation)
+    - [`matrix`](https://developer.apple.com/documentation/realitykit/transform/matrix)
