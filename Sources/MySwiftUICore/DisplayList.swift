@@ -822,7 +822,7 @@ package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertibl
         self.value = decodedValue
     }
     
-    static var none: _DisplayList_Identity {
+    package static var none: _DisplayList_Identity {
         return _DisplayList_Identity(decodedValue: 0)
     }
     
@@ -837,7 +837,7 @@ extension DisplayList {
             return true
         }
         
-        @safe nonisolated(unsafe) package static let defaultValue = DisplayList()
+        package static let defaultValue = DisplayList()
         
         package static func reduce(value: inout DisplayList, nextValue: () -> DisplayList) {
             value.append(contentsOf: nextValue())

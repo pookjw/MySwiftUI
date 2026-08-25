@@ -3,13 +3,16 @@ private import AttributeGraph
 package struct UniqueID : Hashable, Sendable {
     private let value: Int
     
-    @inlinable
     package init() {
         value = AGMakeUniqueID()
     }
     
-    @inlinable
-    package init(value: Int) {
+    static var invalid: UniqueID {
+        return UniqueID(value: 0)
+    }
+    
+    @inline(always) // 원래 없음
+    fileprivate init(value: Int) {
         self.value = value
     }
 }

@@ -95,7 +95,35 @@ fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, S
     typealias Value = ResolvedEntityFactory<T>
     
     func updateValue() {
-        assertUnimplemented()
+        // <+492>
+        let (factory, factoryChanged) = self.$factory.changedValue(options: [])
+        let (environment, environmentChanged) = self.$environment.changedValue(options: [])
+        
+        if !factoryChanged && self.hasValue {
+            if !environmentChanged {
+                return
+            }
+            
+            if !self.tracker.hasDifferentUsedValues(environment.plist) {
+                return
+            }
+            
+            // <+712>
+        } else {
+            // <+712>
+        }
+        
+        // <+712>
+        self.tracker.reset()
+        let env = EnvironmentValues(environment.plist, tracker: self.tracker)
+        
+        self.value = ResolvedEntityFactory<T>(
+            factory: factory,
+            pointScale: env.pointScale,
+            castsShadows: env.castsShadows,
+            redactionReasons: env.redactionReasons,
+            isContainedInPlatter: env.isContainedInPlatter
+        )
     }
 }
 
@@ -217,7 +245,7 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
         var item_2 = DisplayList.Item(
             .effect(effect, displayList_1),
             frame: CGRect(origin: .zero, size: size.value),
-            identity: self.identity,
+            identity: .none,
             version: version
         )
         

@@ -25,3 +25,17 @@ extension ShadowStyle {
 }
 
 package struct ProjectiveShadow {}
+
+extension EnvironmentValues {
+    package var castsShadows: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+}

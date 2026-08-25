@@ -232,7 +232,7 @@ private import AttributeGraph
     }
     
     package var id: UniqueID {
-        return elements?.id ?? UniqueID(value: 0)
+        return elements?.id ?? .invalid
     }
     
     package func valueWithSecondaryLookup<T : PropertyKeyLookup>(_ type: T.Type) -> T.Primary.Value {
@@ -263,7 +263,7 @@ extension PropertyList {
         
         package init() {
             let trackerData = TrackerData(
-                plistID: UniqueID(value: 0),
+                plistID: .invalid,
                 values: [:],
                 derivedValues: [:],
                 invalidValues: [],
@@ -274,7 +274,7 @@ extension PropertyList {
         
         package func reset() {
             _data.access { value in
-                value.plistID = UniqueID(value: 0)
+                value.plistID = .invalid
                 value.values.removeAll()
                 value.derivedValues.removeAll()
                 value.invalidValues = []
@@ -319,7 +319,7 @@ extension PropertyList {
         }
         
         package func initializeValues(from other: PropertyList) {
-            data.plistID = other.elements?.id ?? UniqueID(value: 0)
+            data.plistID = other.elements?.id ?? .invalid
         }
         
         package func invalidateAllValues(from: PropertyList, to: PropertyList) {
@@ -335,7 +335,46 @@ extension PropertyList {
         }
         
         package func value<T : PropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
-            assertUnimplemented()
+            /*
+             self -> x20
+             other -> x0 -> x26
+             T -> x2 -> x21
+             */
+            self._data.access { value in
+                let flag: Bool // true -> <+156> / false -> <+276>
+                if let elements = other.elements {
+                    if elements.id == value.plistID {
+                        // <+156>
+                        flag = true
+                    } else {
+                        // <+276>
+                        flag = false
+                    }
+                } else {
+                    if value.plistID == .invalid {
+                        // <+156>
+                        flag = true
+                    } else {
+                        // <+276>
+                        flag = false
+                    }
+                }
+                
+                if flag {
+                    // <+156>
+                    if let existing = value.values[ObjectIdentifier(T.self)] {
+                        return existing.unwrap()
+                    } else {
+                        let result = other[T.self]
+                        value.values[ObjectIdentifier(T.self)] = TrackedValue<T>(value: result)
+                        return result
+                    }
+                    assertUnimplemented()
+                } else {
+                    // <+276>
+                    return other[T.self]
+                }
+            }
         }
         
         package func invalidateValue<Key : PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
@@ -714,4 +753,16 @@ fileprivate protocol AnyTrackedValue {
 
 fileprivate struct EmptyKey : PropertyKey {
     static let defaultValue: () = ()
+}
+
+fileprivate struct TrackedValue<T : PropertyKey> : AnyTrackedValue {
+    private(set) var value: T.Value
+    
+    func unwrap<Value>() -> Value {
+        return unsafe unsafeBitCast(self.value, to: Value.self)
+    }
+    
+    func hasMatchingValue(in propertyList: PropertyList) -> Bool {
+        return T.valuesEqual(self.value, propertyList[T.self])
+    }
 }

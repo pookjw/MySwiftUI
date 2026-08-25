@@ -37,7 +37,7 @@ public struct EnvironmentValues : CustomStringConvertible, @unchecked Sendable {
         self.tracker = nil
     }
     
-    init(_ propertyList: PropertyList, tracker: PropertyList.Tracker) {
+    package init(_ propertyList: PropertyList, tracker: PropertyList.Tracker) {
         self._plist = propertyList
         self.tracker = tracker
         tracker.initializeValues(from: propertyList)
