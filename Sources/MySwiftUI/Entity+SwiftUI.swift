@@ -1,4 +1,5 @@
 internal import RealityKit
+private import CoreRE
 
 extension RealityKit::Entity.ChildCollection {
     func forEach(recursive: Bool, using block: (RealityKit::Entity) -> Void) {
@@ -25,7 +26,9 @@ extension OpaquePointer {
             assertUnimplemented()
         }
         nonmutating set {
-            assertUnimplemented()
+            newValue.withCString { pointer in
+                unsafe unsafeBitCast(self, to: CoreRE::Entity.self).name = pointer
+            }
         }
     }
 }
