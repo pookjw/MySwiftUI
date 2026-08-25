@@ -282,6 +282,12 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
     }
     
     func updatePlatformView(_ view: inout AnyObject) {
+        /*
+         self -> x20
+         view -> x0 -> x25
+         T -> x1 -> x19
+         */
+        
         assertUnimplemented()
     }
     
