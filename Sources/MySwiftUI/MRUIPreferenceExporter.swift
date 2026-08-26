@@ -4,9 +4,9 @@ internal import MRUIKit
 private import BaseBoard
 private import UIKit
 
-final class MRUIPreferenceExporter {
+@MainActor final class MRUIPreferenceExporter {
     // $s7SwiftUI25MRUIBridgedPreferenceKeysO03allE0_WZ
-    static let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
+    @safe static nonisolated(unsafe) let allKeys: [any MRUIBridgedPreferenceKey.Type] = [
         PreferredAnchoredPlaneKey.self,
         VideoPassthroughBrightnessKey.self,
         SystemDefinedSurroundingsEffectKey.self,
@@ -19,9 +19,17 @@ final class MRUIPreferenceExporter {
     
     weak var host: (any MRUIPreferenceHostProtocol)? = nil {
         didSet {
-            assertUnimplemented()
+            guard let host else {
+                return
+            }
+            
+            for preference in self.exportedPreferences {
+                var preference = preference
+                preference.apply(to: host)
+            }
         }
     }
+    
     private var exportedPreferences: [any AnyExportedPreference]
     
     init() {
@@ -48,7 +56,6 @@ final class MRUIPreferenceExporter {
         }
     }
     
-    @MainActor
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         guard let host else {
             return

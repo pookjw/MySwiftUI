@@ -927,7 +927,7 @@ public import _UIKitPrivate
         assertUnimplemented()
     }
     
-    final func updateNestedHosts(_ values: ViewGraphRootValues, colorSchemeChanged: Bool) {
+    package final func updateNestedHosts(_ values: ViewGraphRootValues, colorSchemeChanged: Bool) {
         // values는 안 쓰임
         /*
          self -> x20 -> x21

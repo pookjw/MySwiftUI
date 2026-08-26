@@ -321,7 +321,11 @@ final class UIKitPlatformViewHost<Representable : CoreViewRepresentable>: UICore
     var importer: MRUIPreferenceImporter? = nil // 0x2d8
     var focusedValues = FocusedValues() { // 0x2e0
         didSet {
-            assertUnimplemented()
+            guard !(oldValue.version == self.focusedValues.version) else {
+                return
+            }
+            
+            self.updateNestedHosts(.focusedValues, colorSchemeChanged: false)
         }
     }
     weak var responder: UIViewResponder? = nil // 0x300

@@ -202,7 +202,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     package private(set) final var mayDeferUpdate: Bool
     var removedState: GraphHost.RemovedState {
         didSet {
-            assertUnimplemented()
+            self.updateRemovedState()
         }
     }
     
