@@ -7,17 +7,17 @@ NS_ASSUME_NONNULL_BEGIN
 @class MRUIEntityTraitEnvironment;
 @protocol MRUIEntityTraitDelegate <NSObject>
 @optional
-- (MRUIEntityTraitEnvironment * _Nullable)overrideTraitCollectionForChildEntity:(REEntityRef)childEntity ofEntity:(REEntityRef)entity;
-- (void)traitCollectionDidChange:(MRUIEntityTraitEnvironment *)traitEnvironment forEntity:(REEntityRef)entity;
+- (MRUIEntityTraitEnvironment * _Nullable)overrideTraitCollectionForChildEntity:(REEntity)childEntity ofEntity:(REEntity)entity;
+- (void)traitCollectionDidChange:(MRUIEntityTraitEnvironment *)traitEnvironment forEntity:(REEntity)entity;
 @end
 
 @protocol MRUIEntityTraitDelegatePrivate <MRUIEntityTraitDelegate>
 @optional
-- (id<MRUIPreferenceHost> _Nullable)overridePreferenceHostForEntity:(REEntityRef)entity;
+- (id<MRUIPreferenceHost> _Nullable)overridePreferenceHostForEntity:(REEntity)entity;
 @end
 
 @interface MRUIEntityTraitEnvironment : NSObject
-+ (MRUIEntityTraitEnvironment * _Nullable)traitEnvironmentForEntity:(REEntityRef)entity;
++ (MRUIEntityTraitEnvironment * _Nullable)traitEnvironmentForEntity:(REEntity)entity;
 @property (weak, nonatomic, nullable) id<MRUIEntityTraitDelegate> delegate;
 - (void)_dirtyTraitCollection;
 @end

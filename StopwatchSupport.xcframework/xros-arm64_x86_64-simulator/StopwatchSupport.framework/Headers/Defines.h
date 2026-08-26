@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef SP_Defines_h
+#define SP_Defines_h
 
 #import <Foundation/Foundation.h>
 

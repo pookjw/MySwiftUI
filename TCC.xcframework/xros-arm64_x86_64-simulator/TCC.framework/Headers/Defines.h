@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef TCC_Defines_h
+#define TCC_Defines_h
 
 #ifdef __cplusplus
 #define TCC_EXTERN       extern "C"

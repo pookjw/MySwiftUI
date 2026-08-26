@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef RSS_Defines_h
+#define RSS_Defines_h
 
 #import <Foundation/Foundation.h>
 

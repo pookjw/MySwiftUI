@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef MRUI_Defines_h
+#define MRUI_Defines_h
 
 #import <Foundation/Foundation.h>
 

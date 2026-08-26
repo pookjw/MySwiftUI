@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr _Nullable RESelectableSceneContentIdentifierGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.selectableSceneContentIdentifier());
-RE_EXTERN void RESelectableSceneContentIdentifierComponentSetIdentifier(REComponentRef, uint32_t) NS_SWIFT_NAME(setter:Component.selectableSceneContentIdentifier_identifier(self:identifier:));
-RE_EXTERN uint32_t RESelectableSceneContentIdentifierComponentGetIdentifier(REComponentRef) NS_SWIFT_NAME(getter:Component.selectableSceneContentIdentifier_identifier(self:));
+RE_EXTERN void RESelectableSceneContentIdentifierComponentSetIdentifier(REComponent, uint32_t) NS_SWIFT_NAME(setter:Component.selectableSceneContentIdentifier_identifier(self:identifier:));
+RE_EXTERN uint32_t RESelectableSceneContentIdentifierComponentGetIdentifier(REComponent) NS_SWIFT_NAME(getter:Component.selectableSceneContentIdentifier_identifier(self:));
 
 NS_ASSUME_NONNULL_END

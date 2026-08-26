@@ -2,15 +2,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-RE_EXTERN REEntityRef _Nullable RESceneFindEntity(RESceneRef, REEntityID) NS_SWIFT_NAME(Scene.findEntity(self:id:));
-RE_EXTERN void RESceneSetSwiftObject(RESceneRef, void * _Nullable) NS_SWIFT_NAME(setter:Scene.swiftObject(self:_:));
-RE_EXTERN void * _Nullable RESceneGetSwiftObject(RESceneRef) NS_SWIFT_NAME(getter:Scene.swiftObject(self:));
-RE_EXTERN bool RESceneIsFromActiveRealityRendererSceneGroup(RESceneRef) NS_SWIFT_NAME(getter:Scene.isFromActiveRealityRendererSceneGroup(self:));
-RE_EXTERN REEventBusRef RESceneGetEventBus(RESceneRef) NS_SWIFT_NAME(getter:Scene.eventBus(self:));
-RE_EXTERN void RESceneSetPhysicsDebugDrawLevel(RESceneRef, REScenePhysicsDebugDrawLevel) NS_SWIFT_NAME(setter:Scene.physicsDebugDrawLevel(self:_:));
-RE_EXTERN REScenePhysicsDebugDrawLevel RESceneGetPhysicsDebugDrawLevel(RESceneRef) NS_SWIFT_NAME(getter:Scene.physicsDebugDrawLevel(self:));
-RE_EXTERN void RESceneRemovePhysicsDebugComponent(RESceneRef) NS_SWIFT_NAME(Scene.removePhysicsDebugComponent(self:));
-RE_EXTERN REComponentRef _Nullable RESceneGetComponentsOfCustomType(RESceneRef, REComponentClassPtr) NS_SWIFT_NAME(Scene.componentsOfCustomType(self:_:));
-RE_EXTERN REECSManagerRef _Nullable RESceneGetECSManagerNullable(RESceneRef) NS_SWIFT_NAME(getter:Scene.ecsManager(self:));
+RE_EXTERN REEntity _Nullable RESceneFindEntity(REScene, REEntityID) NS_SWIFT_NAME(Scene.findEntity(self:id:));
+RE_EXTERN void RESceneSetSwiftObject(REScene, void * _Nullable) NS_SWIFT_NAME(setter:Scene.swiftObject(self:_:));
+RE_EXTERN void * _Nullable RESceneGetSwiftObject(REScene) NS_SWIFT_NAME(getter:Scene.swiftObject(self:));
+RE_EXTERN bool RESceneIsFromActiveRealityRendererSceneGroup(REScene) NS_SWIFT_NAME(getter:Scene.isFromActiveRealityRendererSceneGroup(self:));
+RE_EXTERN REEventBus RESceneGetEventBus(REScene) NS_SWIFT_NAME(getter:Scene.eventBus(self:));
+RE_EXTERN void RESceneSetPhysicsDebugDrawLevel(REScene, REScenePhysicsDebugDrawLevel) NS_SWIFT_NAME(setter:Scene.physicsDebugDrawLevel(self:_:));
+RE_EXTERN REScenePhysicsDebugDrawLevel RESceneGetPhysicsDebugDrawLevel(REScene) NS_SWIFT_NAME(getter:Scene.physicsDebugDrawLevel(self:));
+RE_EXTERN void RESceneRemovePhysicsDebugComponent(REScene) NS_SWIFT_NAME(Scene.removePhysicsDebugComponent(self:));
+RE_EXTERN REComponent _Nullable RESceneGetComponentsOfCustomType(REScene, REComponentClassPtr) NS_SWIFT_NAME(Scene.componentsOfCustomType(self:_:));
+RE_EXTERN REECSManager _Nullable RESceneGetECSManagerNullable(REScene) NS_SWIFT_NAME(getter:Scene.ecsManager(self:));
 
 NS_ASSUME_NONNULL_END

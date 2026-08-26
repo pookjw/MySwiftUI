@@ -6,11 +6,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class MRUIEntityPreferenceHost;
 @protocol MRUIEntityPreferenceHostDelegate <NSObject>
 @optional
-- (id<MRUIPreferenceHost> _Nullable)overridePreferenceHostForEntity:(REEntityRef)entity;
+- (id<MRUIPreferenceHost> _Nullable)overridePreferenceHostForEntity:(REEntity)entity;
 @end
 
 @interface MRUIEntityPreferenceHost : NSObject <MRUIPreferenceHost>
-+ (MRUIEntityPreferenceHost *)preferenceHostForEntity:(REEntityRef)entity;
++ (MRUIEntityPreferenceHost *)preferenceHostForEntity:(REEntity)entity;
 @property (weak, nonatomic, nullable) id<MRUIEntityPreferenceHostDelegate> delegate;
 @end
 

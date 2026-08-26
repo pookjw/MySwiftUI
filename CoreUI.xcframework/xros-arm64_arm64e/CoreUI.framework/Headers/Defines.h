@@ -1,5 +1,5 @@
-#ifndef Defines_h
-#define Defines_h
+#ifndef CUI_Defines_h
+#define CUI_Defines_h
 
 #import <Foundation/Foundation.h>
 

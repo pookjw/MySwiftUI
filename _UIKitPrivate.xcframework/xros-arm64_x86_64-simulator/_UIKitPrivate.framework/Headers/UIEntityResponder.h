@@ -6,14 +6,14 @@
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface UIEntityResponder : UIResponder
-@property (readonly, nonatomic, nullable) REEntityRef reEntity;
+@property (readonly, nonatomic, nullable) REEntity reEntity;
 - (UIResponder<_UIGestureRecognizerContainer> * _Nullable)_hitTestWithContext:(_UIHitTestContext *)context;
 - (void)addGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer;
 - (void)removeGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer;
 @end
 
 @interface UIEntityResponder (UIEntityResponderCreation)
-+ (UIEntityResponder * _Nullable)responderForEntity:(REEntityRef)entity;
++ (UIEntityResponder * _Nullable)responderForEntity:(REEntity)entity;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

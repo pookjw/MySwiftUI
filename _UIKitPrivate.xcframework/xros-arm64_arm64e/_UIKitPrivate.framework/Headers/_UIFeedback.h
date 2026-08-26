@@ -5,7 +5,7 @@ NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface _UIFeedback : NSObject
 + (_UIFeedback * _Nullable)feedbackWithDictionaryRepresentation:(NSDictionary<NSString *, id> *)dictionaryRepresentation;
-@property (nonatomic, nullable) REEntityRef entityRef;
+@property (nonatomic, nullable) REEntity entityRef;
 - (void)play;
 @end
 

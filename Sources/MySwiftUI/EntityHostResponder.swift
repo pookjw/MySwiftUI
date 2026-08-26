@@ -8,7 +8,7 @@ final class EntityHostResponder : UIEntityResponder {
     
     convenience init?(for entity: OpaquePointer, in representable: any EntityRepresentable) {
         let reEntity = unsafe unsafeBitCast(entity, to: CoreRE::Entity.self)
-        self.init(for: reEntity)
+        self.init(forEntity: reEntity)
         self.entityRepresentable = representable
     }
     

@@ -36,7 +36,7 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
         }
         
         let traitEnvironment = unsafe MRUIEntityTraitEnvironment(
-            for: unsafeBitCast(
+            forEntity: unsafeBitCast(
                 entity.__coreEntity.__as(OpaquePointer.self),
                 to: CoreRE::Entity.self
             )
@@ -45,7 +45,7 @@ final class HostedEntityGraphBridge : NSObject, MRUIEntityTraitDelegatePrivate, 
         traitEnvironment!.delegate = self
         
         let host = unsafe MRUIEntityPreferenceHost(
-            for: unsafeBitCast(
+            forEntity: unsafeBitCast(
                 entity.__coreEntity.__as(OpaquePointer.self),
                 to: CoreRE::Entity.self
             )

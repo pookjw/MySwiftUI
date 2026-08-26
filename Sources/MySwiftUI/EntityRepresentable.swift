@@ -211,7 +211,7 @@ package struct EntityRepresentableContext<T : EntityRepresentable> {
     @MainActor fileprivate func updateHost(_ host: EntityHost<T>) {
         let reEntity = unsafe unsafeBitCast(host.__coreEntity.__as(OpaquePointer.self), to: CoreRE::Entity.self)
         
-        guard let responder = UIEntityResponder(for: reEntity) else {
+        guard let responder = UIEntityResponder(forEntity: reEntity) else {
             return
         }
         

@@ -3,6 +3,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr RERenderOptionsComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.renderOptions());
-RE_EXTERN void RERenderOptionsComponentOverrideContributeToCombinedVignetting(REComponentRef, BOOL, BOOL) NS_SWIFT_NAME(Component.renderOptions_overrideContributeToCombinedVignetting(self:_:_:));
+RE_EXTERN void RERenderOptionsComponentOverrideContributeToCombinedVignetting(REComponent, BOOL, BOOL) NS_SWIFT_NAME(Component.renderOptions_overrideContributeToCombinedVignetting(self:_:_:));
 
 NS_ASSUME_NONNULL_END
