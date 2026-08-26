@@ -46,7 +46,7 @@ extension UIViewControllerRepresentable {
     }
     
     @MainActor @preconcurrency public static func dismantleUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator) {
-        // nop
+        // noop
     }
     
     nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {

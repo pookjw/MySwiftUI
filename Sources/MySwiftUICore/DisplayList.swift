@@ -225,7 +225,7 @@ extension DisplayList {
                             value = .empty
                         } else {
                             // <+3760>
-                            // nop
+                            // noop
                         }
                         
                         return
@@ -242,7 +242,7 @@ extension DisplayList {
                         assertUnimplemented()
                     default:
                         // <+3760>
-                        // nop
+                        // noop
                         return
                     }
                 }

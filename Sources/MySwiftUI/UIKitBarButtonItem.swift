@@ -53,7 +53,7 @@ extension UINavigationItem {
             let selfDocumentProperties = self.documentProperties
             
             if let selfDocumentProperties, !type(of: selfDocumentProperties)._isFromMySwiftUI() {
-                // nop
+                // noop
                 // <+1044>
             } else {
                 // <+1020>
@@ -134,7 +134,7 @@ extension UINavigationItem {
         // <+656>
         if updates.locations.contains(.navigationBarPalette) || forceUpdate {
             // 구현 안 됨
-            // nop
+            // noop
         }
         
         // <+688>

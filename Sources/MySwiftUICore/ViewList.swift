@@ -48,7 +48,7 @@ class _ViewList_Subgraph {
              .assumingMemoryBound(to: UnsafeRawPointer.self)
              .pointee
          */
-        // nop
+        // noop
     }
     
     @inline(always) // 원래 없음

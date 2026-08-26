@@ -111,6 +111,6 @@ fileprivate final class IntVTable : _UnsafeHeterogeneousBuffer_VTable {
     }
     
     override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
-        // nop
+        // noop
     }
 }

@@ -408,10 +408,10 @@ fileprivate final class SystemBox<T : System> {
 public struct SceneUpdateContext {
     static let queryBasedUpdateRate = UserDefaults.standard.bool(forKey: "com.apple.re.queryBasedSystemUpdateRate", default: true)
     
-    public var scene: Scene
-    public var deltaTime: TimeInterval
-    fileprivate private(set) var stats: SceneUpdateContext.Stats?
-    fileprivate private(set) var systemsArePausedInEditor: Bool
+    public var scene: MyRealityFoundation::Scene // 0x0
+    public var deltaTime: TimeInterval // 0x8
+    fileprivate private(set) var stats: SceneUpdateContext.Stats? // 0x10
+    fileprivate private(set) var systemsArePausedInEditor: Bool // 0x18
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)

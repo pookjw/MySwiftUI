@@ -37,7 +37,7 @@ package enum Log {
     @usableFromInline package fileprivate(set) nonisolated(unsafe) static var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
     
     package static func log(_: @autoclosure () -> String) {
-        // nop
+        // noop
     }
     
     package static var subsystem: String {
@@ -45,15 +45,15 @@ package enum Log {
     }
     
     package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString, line: UInt) {
-        // nop
+        // noop
     }
     
     package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool, file: StaticString) {
-        // nop
+        // noop
     }
     
     package static func log(_: @autoclosure () -> String, unless: @autoclosure () -> Bool) {
-        // nop
+        // noop
     }
     
     package static func internalWarning(_ message: @autoclosure @escaping () -> String, file: StaticString = #file, line: UInt = #line) {

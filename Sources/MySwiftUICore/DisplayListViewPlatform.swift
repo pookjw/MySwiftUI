@@ -509,7 +509,7 @@ extension DisplayList.ViewUpdater {
                         }
                     case .platformView(let factory):
                         if case .platformView = viewInfo.state.kind {
-                            // nop
+                            // noop
                         } else {
                             assertUnimplemented()
                         }

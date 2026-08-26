@@ -511,7 +511,7 @@ struct PlatformViewControllerRepresentableAdaptor<Base : UIViewControllerReprese
     }
     
     static func modifyBridgedViewInputs(_ inputs: inout MySwiftUICore::_ViewInputs) {
-        // nop
+        // noop
     }
     
     func makeCoordinator() -> Base.Coordinator {

@@ -23,10 +23,10 @@ package enum CoreTesting {
     }
     
     package static func pushNeedsRunLoopTurn() {
-        // nop
+        // noop
     }
     
     package static func popNeedsRunLoopTur() {
-        // nop
+        // noop
     }
 }

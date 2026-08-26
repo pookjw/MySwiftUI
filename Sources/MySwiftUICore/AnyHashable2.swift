@@ -60,7 +60,7 @@ fileprivate class AnyHashableBox : CustomStringConvertible, CustomDebugStringCon
     }
     
     func hash(into hasher: inout Hasher) {
-        // nop
+        // noop
     }
 }
 

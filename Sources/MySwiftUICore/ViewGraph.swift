@@ -1153,15 +1153,15 @@ package protocol ViewGraphFeature {
 
 extension ViewGraphFeature {
     package func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-        // nop
+        // noop
     }
     
     package func uninstantiate(graph: ViewGraph) {
-        // nop
+        // noop
     }
     
     package func isHiddenForReuseDidChange(graph: ViewGraph) {
-        // nop
+        // noop
     }
     
     package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
@@ -1173,15 +1173,15 @@ extension ViewGraphFeature {
     }
     
     package func update(graph: ViewGraph) {
-        // nop
+        // noop
     }
     
     package func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-        // nop
+        // noop
     }
     
     package func outputsDidChange(graph: ViewGraph) {
-        // nop
+        // noop
     }
 }
 

@@ -75,7 +75,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
                     // <+588>
                 } else {
                     // <+392>
-                    // nop - dragInteraction 없음
+                    // noop - dragInteraction 없음
                     // <+588>
                 }
             }
@@ -110,7 +110,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
             // <+348>
             if canDropValue.value {
                 // <+512>
-                // nop
+                // noop
             } else {
                 // <+384>
                 uiView.removeInteraction(dropInteraction)
@@ -127,7 +127,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
             } else {
                 // <+616>
                 // <+348>
-                // nop - dropInteraction 없음
+                // noop - dropInteraction 없음
                 // <+512>
             }
         }
@@ -150,7 +150,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
         if let springLoadedInteraction {
             // <+356>
             if canSpringLoadValue.value {
-                // nop
+                // noop
                 // <+956>
             } else {
                 // <+384>
@@ -177,7 +177,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
             } else {
                 // <+1060>
                 // <+352>
-                // nop - dropInteraction 없음
+                // noop - dropInteraction 없음
                 // <+956>
             }
         }

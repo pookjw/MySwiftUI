@@ -312,7 +312,8 @@ exports:
     _REEntityGetName,
     _RECALayerGetCALayerClientComponent,
     _REUIShadowConfigurationComponentGetComponentType,
-    _REProjectiveShadowReceiverComponentGetComponentType ]
+    _REProjectiveShadowReceiverComponentGetComponentType,
+    _RENetworkComponentSetNetworkShareMode ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

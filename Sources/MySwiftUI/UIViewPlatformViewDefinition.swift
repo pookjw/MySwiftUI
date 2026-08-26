@@ -33,7 +33,7 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     
     fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
         if case .platformGroup = kind {
-            // nop
+            // noop
         } else {
             view.autoresizesSubviews = false
             if !kind.isContainer {

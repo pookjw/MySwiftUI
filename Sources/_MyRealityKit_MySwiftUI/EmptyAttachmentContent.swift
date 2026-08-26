@@ -6,7 +6,7 @@
 @available(tvOS, unavailable)
 @MainActor @preconcurrency public struct EmptyAttachmentContent : AttachmentContent, PrimitiveAttachmentContent {
     @MainActor @preconcurrency public init() {
-        // nop
+        // noop
     }
     
     @MainActor @preconcurrency public static func _makeAttachmentList(content: EmptyAttachmentContent, inputs: _AttachmentListInputs) -> _AttachmentListOutputs {

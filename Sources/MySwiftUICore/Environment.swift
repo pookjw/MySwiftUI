@@ -204,7 +204,7 @@ fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
     private(set) var hadObservation: Bool
     
     func destroy() {
-        // nop
+        // noop
     }
     
     func reset() {

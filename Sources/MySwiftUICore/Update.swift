@@ -192,7 +192,7 @@ package enum Update {
     }
     
     package static func assertIsActive() {
-        // nop
+        // noop
     }
     
     package static func assertIsLocked() {

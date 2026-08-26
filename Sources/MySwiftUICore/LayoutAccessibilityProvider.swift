@@ -22,6 +22,6 @@ extension _GraphInputs {
 
 struct EmptyLayoutAccessibilityProvider : LayoutAccessibilityProvider {
     static func makeAccessibility(inputs: _ViewInputs, outputs: inout _ViewOutputs) {
-        // nop
+        // noop
     }
 }

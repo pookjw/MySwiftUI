@@ -350,7 +350,7 @@ final class UIKitMainMenuController : UIResponder {
 
 extension UIKitMainMenuController : AppGraphObserver {
     func scenesDidChange(phaseChanged: Bool) {
-        // nop
+        // noop
     }
     
     func commandsDidChange() {

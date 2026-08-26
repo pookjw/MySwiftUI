@@ -99,19 +99,19 @@ package class _AnyAnimatableDataVTable {
     }
     
     class func add(_ toValue: inout Any, _ from: Any) {
-        // nop
+        // noop
     }
     
     class func subtract(_ toValue: inout Any, _ from: Any) {
-        // nop
+        // noop
     }
     
     class func negate(_ value: inout Any) {
-        // nop
+        // noop
     }
     
     class func scale(_ value: inout Any, by scale: Double) {
-        // nop
+        // noop
     }
     
     class func magnitudeSquared(_ value: Any) -> Double {

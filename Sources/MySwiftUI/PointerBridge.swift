@@ -55,7 +55,7 @@ final class PointerBridge : NSObject {
             hasHoverEffectSeed = pref.seed
         } else {
             // <+496>
-            // nop
+            // noop
             return
         }
     }

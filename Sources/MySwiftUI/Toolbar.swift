@@ -225,7 +225,7 @@ struct ToolbarStorage {
     
     func removeRequestedDefaultItems() {
         for _ in requestedRemovedDefaultItems {
-            // nop
+            // noop
         }
     }
     

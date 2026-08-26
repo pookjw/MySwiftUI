@@ -23,7 +23,7 @@ package class AnyShapeStyleBox : @unchecked Sendable {
     init() {}
     
     func apply(to: inout _ShapeStyle_Shape) {
-        // nop
+        // noop
     }
     
     func isEqual(to other: AnyShapeStyleBox) -> Bool {

@@ -142,7 +142,7 @@ struct Registration {
     init<T : RealityKit::Component>(getGuts: @escaping (T) -> AttachmentComponentGuts?) {
         self.init(
             setGuts: { _, _ in
-                // nop
+                // noop
             },
             getGuts: getGuts
         )

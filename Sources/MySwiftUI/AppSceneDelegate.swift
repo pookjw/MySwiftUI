@@ -1476,7 +1476,7 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
 
 extension AppSceneDelegate : UIHostingViewDelegate {
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
@@ -1491,23 +1491,23 @@ extension AppSceneDelegate : UIHostingViewDelegate {
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
 }
 
@@ -1767,7 +1767,7 @@ extension AppSceneDelegate : AppGraphObserver {
     }
     
     func commandsDidChange() {
-        // nop
+        // noop
     }
 }
 

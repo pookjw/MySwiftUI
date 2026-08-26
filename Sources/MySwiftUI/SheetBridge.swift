@@ -161,11 +161,11 @@ internal import UIKit
     }
     
     func update(bridgeProperties: inout ViewGraphBridgeProperties) {
-        // nop
+        // noop
     }
     
     func removePreferences(from graph: ViewGraph) {
-        // nop
+        // noop
         assert(type(of: self) == UIKitInspectorBridgeV5<T>.self)
     }
 }
@@ -184,7 +184,7 @@ extension SheetBridge : UIHostingViewDelegate {
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
-        // nop
+        // noop
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {

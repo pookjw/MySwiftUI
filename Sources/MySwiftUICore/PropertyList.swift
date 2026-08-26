@@ -697,7 +697,7 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
     }
     
     public func encode(with coder: NSCoder) {
-        // nop
+        // noop
     }
     
     public override func isEqual(_ object: Any?) -> Bool {

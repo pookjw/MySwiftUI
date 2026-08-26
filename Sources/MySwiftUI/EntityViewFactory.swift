@@ -136,7 +136,7 @@ fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
     private(set) var factory: T // 0x0
     private(set) var pointScale: PointScale // 0x24 (field)
     private(set) var castsShadows: Bool // 0x28 (field)
-    private var redactionReasons: RedactionReasons // 0x2c (field)
+    private(set) var redactionReasons: RedactionReasons // 0x2c (field)
     private(set) var isContainedInPlatter: Bool // 0x30 (field)
     
     init(factory: T, pointScale: PointScale, castsShadows: Bool, redactionReasons: RedactionReasons, isContainedInPlatter: Bool) {
@@ -414,7 +414,17 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
     }
     
     func updateShareMode(for entity: RealityKit::Entity) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         entity -> x0 -> x19
+         T -> x1 -> x21
+         */
+        // <+108>
+        let hasPrivacy = self.factory.redactionReasons.isSuperset(of: .privacy)
+        let reEntity = unsafe unsafeBitCast(entity.coreEntity, to: CoreRE::Entity.self)
+        let component = reEntity.getOrAddComponent(ofType: .network)
+        component.network_setNetworkShareMode(!hasPrivacy)
+        component.networkMarkComponentDirty()
     }
     
     func updateHitTestGeometry(for entity: RealityKit::Entity) {

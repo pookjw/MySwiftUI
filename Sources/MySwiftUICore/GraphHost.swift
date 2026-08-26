@@ -387,7 +387,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package func isHiddenForReuseDidChange() {
-        // nop
+        // noop
     }
     
     package final func setNeedsUpdate(mayDeferUpdate: Bool, values: ViewGraphRootValues) {
@@ -615,11 +615,11 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     open func instantiateOutputs() {
-        // nop
+        // noop
     }
     
     package func uninstantiateOutputs() {
-        // nop
+        // noop
     }
     
     package final func preferenceValues() -> PreferenceValues {
@@ -1099,7 +1099,7 @@ package enum _GraphMutation_Style : Hashable {
 
 fileprivate struct EmptyGraphMutation : GraphMutation {
     func apply() {
-        // nop
+        // noop
     }
     
     func combine<T>(with other: T) -> Bool where T : GraphMutation {

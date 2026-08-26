@@ -44,7 +44,7 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public static func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator) {
-        // nop
+        // noop
     }
     
     nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -72,16 +72,16 @@ extension UIViewRepresentable {
     }
     
     @MainActor @preconcurrency public func _overrideSizeThatFits(_ size: inout CGSize, in proposedSize: _ProposedSize, uiView: Self.UIViewType) {
-        // nop
+        // noop
     }
     
     @MainActor @preconcurrency public func _overrideLayoutTraits(_ layoutTraits: inout _LayoutTraits, for uiView: Self.UIViewType) {
-        // nop
+        // noop
     }
     
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public static func _modifyBridgedViewInputs(_ inputs: inout _ViewInputs) {
-        // nop
+        // noop
     }
     
     @available(iOS 17.0, tvOS 17.0, watchOS 10.0, *)

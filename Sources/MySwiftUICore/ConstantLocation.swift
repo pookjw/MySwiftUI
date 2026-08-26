@@ -8,7 +8,7 @@ struct ConstantLocation<Value> : Location {
             return true
         }
         set {
-            // nop
+            // noop
         }
     }
     
@@ -17,7 +17,7 @@ struct ConstantLocation<Value> : Location {
     }
     
     func set(_ newValue: Self.Value, transaction: Transaction) {
-        // nop
+        // noop
     }
     
     static func == (lhs: ConstantLocation<Value>, rhs: ConstantLocation<Value>) -> Bool {

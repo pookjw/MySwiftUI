@@ -49,7 +49,7 @@ extension Component {
     }
     
     public static func __addIntrospectionData(_ builder: OpaquePointer?) {
-        // nop
+        // noop
     }
     
     public static func registerComponent() {

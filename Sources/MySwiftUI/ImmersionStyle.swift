@@ -36,7 +36,7 @@ extension ImmersionStyle where Self == AutomaticImmersionStyle {
 @available(tvOS, unavailable)
 public struct AutomaticImmersionStyle : ImmersionStyle {
     public init() {
-        // nop
+        // noop
     }
 }
 
@@ -66,7 +66,7 @@ extension ImmersionStyle where Self == FullImmersionStyle {
 @available(watchOS, unavailable)
 public struct FullImmersionStyle : ImmersionStyle {
     public init() {
-        // nop
+        // noop
     }
 }
 
@@ -98,7 +98,7 @@ extension ImmersionStyle where Self == MixedImmersionStyle {
 @available(watchOS, unavailable)
 public struct MixedImmersionStyle : ImmersionStyle {
     public init() {
-        // nop
+        // noop
     }
 }
 

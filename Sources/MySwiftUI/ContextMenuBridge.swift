@@ -82,7 +82,7 @@ final class ContextMenuBridge : NSObject {
             // <+1180>
             if hasContextMenuValue.value {
                 // <+1356>
-                // nop
+                // noop
             } else {
                 // <+1212>
                 interaction.dismissMenu()
@@ -99,7 +99,7 @@ final class ContextMenuBridge : NSObject {
                 self.interaction = interaction
             } else {
                 // <+1824>
-                // nop - interaction 없음
+                // noop - interaction 없음
                 // <+1360>
             }
         }

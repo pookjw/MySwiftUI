@@ -508,7 +508,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
             }
         } else {
             // <+5244>
-            // nop
+            // noop
         }
         
         // <+5256>

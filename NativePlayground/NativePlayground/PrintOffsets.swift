@@ -240,6 +240,8 @@ func printOffsets() {
     printFields(__RKMaterialParameterBlock.Parameter.self, isClassType: false)
     printFields("7SwiftUI19DynamicViewListItemV", isClassType: false)
     printFields(VideoMaterial.self, isClassType: false)
+    printFields(SceneUpdateContext.self, isClassType: false)
+    printFields("19_RealityKit_SwiftUI26ImplicitAnimationComponentV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -953,7 +953,7 @@ open class _UIHostingView<Content : View>: UIView {
         // <+164>
         let userInterfaceIdiom = self.traitCollection.userInterfaceIdiom
         if let previousTraitCollection, userInterfaceIdiom == previousTraitCollection.userInterfaceIdiom {
-            // nop
+            // noop
         } else {
             updateEventBridge()
         }

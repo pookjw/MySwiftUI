@@ -36,7 +36,7 @@ package protocol EntityRepresentable : View {
 
 extension EntityRepresentable {
     package static func dismantleEntity(_ type: Self.EntityType, coordinator: Self.Coordinator) {
-        // nop
+        // noop
     }
     
     package func _sizeThatFits(in size: _ProposedSize3D, entity: Self.EntityType) -> Size3D {
@@ -188,7 +188,7 @@ extension EntityRepresentable {
 
 extension EntityRepresentable where Coordinator == Void {
     package nonisolated func makeCoordinator() -> Void {
-        // nop
+        // noop
     }
 }
 

@@ -826,7 +826,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
     }
     
     func willSetStorage(_ storage: inout Toolbar.LocationStorage, in location: Toolbar.BarLocation, from entries: [ToolbarStorage.Entry]) {
-        // nop
+        // noop
     }
     
     func willReturnUpdates(_ updates: Toolbar.Updates, preferences: PreferenceValues) {

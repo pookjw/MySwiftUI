@@ -25,7 +25,7 @@ extension WindowLayout {
 
 extension WindowLayout where Cache == Void {
     func makeCache(content: WindowLayoutRootView, context: WindowPlacementContext) -> Void {
-        // nop
+        // noop
     }
 }
 
