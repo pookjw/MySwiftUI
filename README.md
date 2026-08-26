@@ -209,9 +209,24 @@ SwiftUI & RealityKit Disassembly
 - Views
   - [`RealityView`](https://developer.apple.com/documentation/realitykit/realityview)
     - [`init(make:update:placeholder:attachments:)`](https://developer.apple.com/documentation/realitykit/realityview/init%28make%3Aupdate%3Aplaceholder%3Aattachments%3A%29)
+  - [`RealityViewContent`](https://developer.apple.com/documentation/realitykit/realityviewcontent)
+    - [`entities`](https://developer.apple.com/documentation/realitykit/realityviewcontent/entities)
+  - [`RealityViewContentProtocol`](https://developer.apple.com/documentation/realitykit/realityviewcontentprotocol)
+    - [`add(_:)`](https://developer.apple.com/documentation/realitykit/realityviewcontentprotocol/add%28_%3A%29)
+
+- Attachments
+  - [`AttachmentContentBuilder`](https://developer.apple.com/documentation/realitykit/attachmentcontentbuilder)
+    - [`buildBlock()`](https://developer.apple.com/documentation/realitykit/attachmentcontentbuilder)
+  - [`EmptyAttachmentContent`](https://developer.apple.com/documentation/realitykit/emptyattachmentcontent)
+    - [`init()`](https://developer.apple.com/documentation/realitykit/emptyattachmentcontent)
 
 - Entities
   - [`Entity`](https://developer.apple.com/documentation/realitykit/entity)
+    - [`init()`](https://developer.apple.com/documentation/realitykit/entity/init%28%29)
+    - [`components`](https://developer.apple.com/documentation/realitykit/entity/components)
+    - [`scene`](https://developer.apple.com/documentation/realitykit/entity/scene)
+  - [`Entity.ComponentSet`](https://developer.apple.com/documentation/realitykit/entity/componentset)
+    - [`set(_:)`](https://developer.apple.com/documentation/realitykit/entity/componentset/set%28_%3A%29)
   - [`ModelEntity`](https://developer.apple.com/documentation/realitykit/modelentity)
     - [`init(mesh:materials:)`](https://developer.apple.com/documentation/realitykit/modelentity/init%28mesh%3Amaterials%3A%29)
 

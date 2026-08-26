@@ -1,3 +1,4 @@
+// 38667C00BFB8EED8C379D726121E1265
 package import Foundation
 package import Spatial
 internal import CoreGraphics
@@ -32,6 +33,12 @@ extension LengthUnitConvertible {
         result.scale(by: scale)
         return result
     }
+    
+    package func convert(from: LengthUnit, to: LengthUnit, scale: PointScale) -> Self {
+        return self.scaled(
+            by: scale.scaleFactor(from: from, to: to)
+        )
+    }
 }
 
 extension Point3D : LengthUnitConvertible {
@@ -41,6 +48,9 @@ extension Point3D : LengthUnitConvertible {
         self.z *= scale
         unsafe self.vector *= scale
     }
+}
+
+extension Size3D : LengthUnitConvertible {
 }
 
 extension CGRect : LengthUnitConvertible {
@@ -114,5 +124,14 @@ extension EdgeInsets3D : LengthUnitConvertible {
         self.trailing *= scale
         self.front *= scale
         self.back *= scale
+    }
+}
+
+extension Double : LengthUnitConvertible {
+}
+
+extension PointScale {
+    fileprivate func scaleFactor(from: LengthUnit, to: LengthUnit) -> Double {
+        return self.convert(1.0, from: from, to: to)
     }
 }

@@ -460,6 +460,8 @@ typedef NS_ENUM(uint32_t, REVideoViewingMode) {
 
 typedef const void * REPhysicsSimulationService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(PhysicsSimulationService);
 
+RE_EXTERN bool REShadowsGetEnableDefaultShadows(void);
+
 NS_ASSUME_NONNULL_END
 
 #endif

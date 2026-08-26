@@ -310,7 +310,9 @@ exports:
     _REPhysicsSimulationServiceSetDefaultGravity,
     _REEntitySetName,
     _REEntityGetName,
-    _RECALayerGetCALayerClientComponent ]
+    _RECALayerGetCALayerClientComponent,
+    _REUIShadowConfigurationComponentGetComponentType,
+    _REProjectiveShadowReceiverComponentGetComponentType ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

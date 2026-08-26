@@ -31,4 +31,12 @@ extension OpaquePointer {
             }
         }
     }
+    
+    var children: [OpaquePointer] {
+        assertUnimplemented()
+    }
+    
+    func recursively(visit: (OpaquePointer) -> Void) {
+        assertUnimplemented()
+    }
 }

@@ -25,7 +25,11 @@ extension ShadowStyle {
     }
 }
 
-package struct ProjectiveShadow {}
+package struct ProjectiveShadow : Equatable {
+    package static var `default`: ProjectiveShadow {
+        return ProjectiveShadow()
+    }
+}
 
 extension EnvironmentValues {
     package var castsShadows: Bool {

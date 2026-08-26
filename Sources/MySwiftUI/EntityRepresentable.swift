@@ -533,11 +533,11 @@ fileprivate struct EntityLeafView<T : EntityRepresentable> : @preconcurrency Lea
     }
     
     static var shadowApplicationIsRecursive: Bool {
-        assertUnimplemented()
+        return false
     }
     
     static var wantsHitTestGeometry: Bool {
-        assertUnimplemented()
+        return false
     }
     
     func depthThatFits(in proposedSize: _ProposedSize3D) -> CGFloat {

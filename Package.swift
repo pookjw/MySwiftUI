@@ -78,7 +78,8 @@ let package = Package(
                 .byName(name: "UserActivity"),
                 .byName(name: "_MySwiftUIUtils"),
                 .byName(name: "_RealityFoundationPrivate"),
-                .byName(name: "RealitySystemSupport")
+                .byName(name: "RealitySystemSupport"),
+                .byName(name: "FeatureFlags")
             ],
             swiftSettings: [
                 .strictMemorySafety(),

@@ -5,6 +5,7 @@ private import CoreGraphics
 internal import Spatial
 internal import RealityKit
 private import CoreRE
+private import FeatureFlags
 
 protocol EntityViewFactory : PrimitiveView, UnaryView {
     associatedtype EntityType : RealityKit::Entity
@@ -134,9 +135,9 @@ fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, S
 fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
     private(set) var factory: T // 0x0
     private(set) var pointScale: PointScale // 0x24 (field)
-    private var castsShadows: Bool // 0x28 (field)
+    private(set) var castsShadows: Bool // 0x28 (field)
     private var redactionReasons: RedactionReasons // 0x2c (field)
-    private var isContainedInPlatter: Bool // 0x30 (field)
+    private(set) var isContainedInPlatter: Bool // 0x30 (field)
     
     init(factory: T, pointScale: PointScale, castsShadows: Bool, redactionReasons: RedactionReasons, isContainedInPlatter: Bool) {
         self.factory = factory
@@ -268,6 +269,20 @@ fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConverti
 }
 
 fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
+    static func removeGroundingShadowComponent(from entity: OpaquePointer) {
+        if isFeatureEnabled(RSSFeature.surfaceSnappingVerticalShadows) {
+            unsafe unsafeBitCast(entity, to: CoreRE::Entity.self)
+                .removeComponent(ofType: .uiShadowConfiguration)
+        } else {
+            unsafe unsafeBitCast(entity, to: CoreRE::Entity.self)
+                .removeComponent(ofType: .projectiveShadowReceiver)
+        }
+    }
+    
+    static func addGroundingShadowComponent(to entity: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
     @safe private nonisolated(unsafe) var factory: ResolvedEntityFactory<T> // 0x0
     private var size: Size3D // 0x24 (field)
     private var identity: _DisplayList_Identity // 0x28 (field)
@@ -337,18 +352,72 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
          T -> x2 -> x25
          */
         // <+128>
+        var x290x90 = geometry.unknown2
+        let d2 = geometry.unknown0.depth * 0.5
+        x290x90.depth = x290x90.depth + d2
+        x290x90.height = -x290x90.height
+        
+        // x29 - 0x70
+        let converted = x290x90.convert(
+            from: .points,
+            to: .meters,
+            scale: self.factory.pointScale
+        )
+        
+        // <+296>
+        entity.transform.translation = SIMD3<Float>(
+            Float(converted.width),
+            Float(converted.height),
+            Float(converted.depth)
+        )
+        
+        entity.transform.scale = SIMD3<Float>(
+            Float(geometry.unknown1.width),
+            Float(geometry.unknown1.height),
+            Float(geometry.unknown1.depth)
+        )
+    }
+    
+    func updateProjectiveShadow(for entity: RealityKit::Entity) {
+        /*
+         self -> x20
+         entity -> x0 -> x21
+         T -> x1 -> x24
+         */
+        // <+204>
+        let shadow: ProjectiveShadow?
+        if !self.factory.castsShadows || self.factory.isContainedInPlatter {
+            // <+232>
+            shadow = nil
+        } else {
+            // <+252>
+            shadow = .default
+        }
+        
+        // <+296>
+        let visit: (OpaquePointer) -> Void = { reEntity in
+            // $s7SwiftUI11ViewFactory33_278B8B6E01D480C09D89EEF65D03A530LLV22updateProjectiveShadow3fory10RealityKit6EntityC_tFys13OpaquePointerVcfU_
+            if shadow == nil {
+                unsafe ViewFactory<T>.removeGroundingShadowComponent(from: reEntity)
+            } else {
+                unsafe ViewFactory<T>.addGroundingShadowComponent(to: reEntity)
+            }
+        }
+        
+        let coreEntity = unsafe entity.coreEntity
+        
+        if T.shadowApplicationIsRecursive {
+            unsafe coreEntity.recursively(visit: visit)
+        } else {
+            unsafe visit(coreEntity)
+        }
+    }
+    
+    func updateShareMode(for entity: RealityKit::Entity) {
         assertUnimplemented()
     }
     
-    func updateProjectiveShadow(for: RealityKit::Entity) {
-        assertUnimplemented()
-    }
-    
-    func updateShareMode(for: RealityKit::Entity) {
-        assertUnimplemented()
-    }
-    
-    func updateHitTestGeometry(for: RealityKit::Entity) {
+    func updateHitTestGeometry(for entity: RealityKit::Entity) {
         assertUnimplemented()
     }
     
