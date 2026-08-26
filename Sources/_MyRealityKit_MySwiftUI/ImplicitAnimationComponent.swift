@@ -51,10 +51,6 @@ struct ImplicitAnimationComponent : MyRealityFoundation::Component {
         assertUnimplemented()
     }
     
-    static var coreComponentType: CoreComponentType {
-        assertUnimplemented()
-    }
-    
     mutating func update(context: SceneUpdateContext) {
         assertUnimplemented()
     }

@@ -81,11 +81,19 @@ extension QueryPredicate {
 }
 
 extension QueryPredicate {
-    struct Has<T, U> : QueryPredicateProtocol, QueryInternalizable {
+    struct Has<T, U : MyRealityFoundation::Component> : QueryPredicateProtocol, QueryInternalizable {
         private let componentClass: CoreRE::Component.ClassPtr
         
         init() {
-            assertUnimplemented()
+            let sceneManager = (__ServiceLocator.shared.sceneService as! SceneManager)
+            
+            if let componentClass = unsafe sceneManager.componentTypeToComponentClass(U.self) {
+                self.componentClass = unsafe unsafeBitCast(componentClass, to: CoreRE.Component.ClassPtr.self)
+            } else {
+                U.registerComponent()
+                let componentClass = unsafe sceneManager.componentTypeToComponentClass(U.self)!
+                self.componentClass = unsafe unsafeBitCast(componentClass, to: CoreRE.Component.ClassPtr.self)
+            }
         }
         
         func makeInternal() -> OpaquePointer? {
