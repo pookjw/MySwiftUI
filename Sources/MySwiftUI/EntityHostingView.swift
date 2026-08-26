@@ -44,7 +44,29 @@ final class EntityHostingView<T : RealityKit::Entity> : UIView {
          hostingComponent -> x1 -> x23
          */
         // <+292>
-        assertUnimplemented()
+        let oldEntity = self.contentEntity
+        
+        guard entity !== oldEntity else {
+            return
+        }
+        
+        unsafe unsafeBitCast(oldEntity.coreEntity, to: CoreRE::Entity.self)
+            .parent = nil
+        self.contentEntity = entity
+        unsafe unsafeBitCast(entity.coreEntity, to: CoreRE::Entity.self)
+            .parent = self._reEntity
+        
+        guard
+            let reEntity = self._reEntity,
+            let hostingComponent
+        else {
+            return
+        }
+        
+        // <+416>
+        let ref = RealityKit::__EntityRef.__fromCore(reEntity)
+        let entity = RealityKit::Entity.__fromCore(ref)
+        entity.components.set(hostingComponent)
     }
 }
 

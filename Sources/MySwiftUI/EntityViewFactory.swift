@@ -86,9 +86,9 @@ struct _EntityViewFactory_Context {
 }
 
 struct _EntityViewFactory_Geometry {
-    let unknown0: Size3D
-    let unknown1: Size3D
-    let unknown2: Size3D
+    let unknown0: Size3D // 0x0
+    let unknown1: Size3D // 0x20
+    let unknown2: Size3D // 0x40
 }
 
 fileprivate struct EntityFactoryChild<T : EntityViewFactory> : AsyncAttribute, StatefulRule {
@@ -329,7 +329,14 @@ fileprivate struct ViewFactory<T : EntityViewFactory> : PlatformViewFactory {
         component.selectableSceneContentIdentifier_identifier = self.identity.value
     }
     
-    func updateGeometry(_: _EntityViewFactory_Geometry, for: RealityKit::Entity) {
+    func updateGeometry(_ geometry: _EntityViewFactory_Geometry, for entity: RealityKit::Entity) {
+        /*
+         self -> x20
+         geometry -> x0 -> x21
+         entity -> x1 -> x19
+         T -> x2 -> x25
+         */
+        // <+128>
         assertUnimplemented()
     }
     
