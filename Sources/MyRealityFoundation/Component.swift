@@ -53,7 +53,16 @@ extension Component {
     }
     
     public static func registerComponent() {
-        assertUnimplemented()
+        guard self.__coreComponentType.core == .custom else {
+            return
+        }
+        
+        switch self.coreComponentType.originType {
+        case .system(_):
+            return
+        case .custom:
+            let _ = unsafe SceneManager.customComponentType(self)
+        }
     }
     
     @_spi(Internal) public static var componentName: String {

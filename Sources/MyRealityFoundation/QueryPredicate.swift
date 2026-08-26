@@ -2,10 +2,10 @@ private import CoreRE
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 @safe public struct QueryPredicate<Value> {
-    private let evaluateBlock: @MainActor (Value) -> Bool
-    private let makeInternalBlock: @MainActor () -> OpaquePointer?
-    private let enumerateBlock: @MainActor (QueryEnumerator) -> ()
-    private let performNativeEntityQueryBlock: (@MainActor (MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]?)?
+    private let evaluateBlock: @MainActor (Value) -> Bool // 0x0
+    private let makeInternalBlock: @MainActor () -> OpaquePointer? // 0x10
+    private let enumerateBlock: @MainActor (QueryEnumerator) -> () // 0x20
+    private let performNativeEntityQueryBlock: (@MainActor (MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]?)? // 0x30
     
     func enumerate(using enumerator: QueryEnumerator) {
         assertUnimplemented()
@@ -19,8 +19,37 @@ private import CoreRE
         assertUnimplemented()
     }
     
-    init<T : QueryPredicateProtocol>(_ predicate: T) where Self == T.Value {
-        assertUnimplemented()
+    init<T : QueryPredicateProtocol>(_ predicate: T) where Value == T.Value {
+        self.evaluateBlock = { value in
+            // $s17RealityFoundation14QueryPredicateVyACyxGqd__c5ValueQyd__RszAA0cD8ProtocolRd__lufcSbxcqd__cfu_Sbxcfu0_TA
+            return predicate.evaluate(value: value)
+        }
+        
+        self.enumerateBlock = { enumerator in
+            // $s17RealityFoundation14QueryPredicateVyACyxGqd__c5ValueQyd__RszAA0cD8ProtocolRd__lufcyAA0C10Enumerator_pcqd__cfu1_yAaH_pcfu2_TA
+            predicate.enumerate(using: enumerator)
+        }
+        
+        if let casted = predicate as? QueryInternalizable {
+            // <+192>
+            self.makeInternalBlock = {
+                // $s17RealityFoundation14QueryPredicateVyACyxGqd__c5ValueQyd__RszAA0cD8ProtocolRd__lufcs13OpaquePointerVSgycAA0C14Internalizable_pcfu3_AJycfu4_TA
+                return unsafe casted.makeInternal()
+            }
+            
+            self.performNativeEntityQueryBlock = { scene in
+                // $s17RealityFoundation14QueryPredicateVyACyxGqd__c5ValueQyd__RszAA0cD8ProtocolRd__lufcSay0A3Kit6EntityCGSgAH5SceneCcAA0C14Internalizable_pcfu5_AlNcfu6_TA
+                return casted.performNativeEntityQuery(for: scene)
+            }
+        } else {
+            // <+336>
+            self.makeInternalBlock = unsafe unsafeBitCast(
+                makeCustomPredicate(predicate: predicate),
+                to: (@MainActor () -> OpaquePointer?).self
+            )
+            
+            self.performNativeEntityQueryBlock = nil
+        }
     }
 }
 
@@ -131,7 +160,7 @@ protocol QueryEvaluable {
     func enumerate(using enumerator: QueryEnumerator)
 }
 
-protocol QueryPredicateProtocol : QueryEvaluable {
+protocol QueryPredicateProtocol : QueryEvaluable, Sendable where Result == Bool {
 }
 
 extension QueryPredicateProtocol {
@@ -140,11 +169,15 @@ extension QueryPredicateProtocol {
     }
     
     func eraseToQueryPredicate() -> QueryPredicate<Self.Value> {
-        assertUnimplemented()
+        return QueryPredicate<Self.Value>(self)
     }
 }
 
 protocol QueryInternalizable {
     func makeInternal() -> OpaquePointer?
     func performNativeEntityQuery(for scene: MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]?
+}
+
+func makeCustomPredicate<T : QueryPredicateProtocol>(predicate: T) -> (() -> OpaquePointer?) {
+    assertUnimplemented()
 }
