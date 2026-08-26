@@ -9,7 +9,11 @@ public import CoreGraphics
     @available(macCatalyst, introduced: 14, deprecated: 17, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(iOS, introduced: 14, deprecated: 17, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
     @available(tvOS, unavailable)
-    @MainActor @preconcurrency public var audioInputMode: AudioResource.InputMode
+    @MainActor @preconcurrency public var audioInputMode: AudioResource.InputMode {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     
     private var _reverbSendLevel: Double
     private var _preferredViewingMode: VideoPlaybackController.ViewingMode

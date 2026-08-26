@@ -1,12 +1,48 @@
 @_spi(Internal) internal import MySwiftUICore
 private import RealityKit
-private import _UIKitPrivate
+internal import _UIKitPrivate
 private import MRUIKit
 private import CoreRE
+private import _RealityFoundationPrivate
 
 @MainActor
 class UIKitFeedbackGeneratorBridge<Content : View> {
-    weak var host: _UIHostingView<Content>? = nil
+    weak var host: _UIHostingView<Content>? = nil {
+        didSet {
+            /*
+             self -> x20
+             oldValue -> x0 -> x19
+             */
+            guard self.host != oldValue else {
+                return
+            }
+            
+            if let oldValue {
+                oldValue._request(.none, withReason: .audioFeedback)
+            }
+            
+            // <+88>
+            if let host {
+                host._request(.tracked, withReason: .audioFeedback)
+            }
+            
+            if
+                let layer = self.host?.layer,
+                let component = RECALayerGetCALayerClientComponent(layer)
+            {
+                let reEntity = component.entity
+                let entity = unsafe RealityKit::Entity.fromCore(
+                    unsafeBitCast(reEntity, to: OpaquePointer.self),
+                    ignoringEntityInfo: false
+                )
+                
+                self.hostingEntity = entity
+            } else {
+                self.hostingEntity = nil
+            }
+        }
+    }
+    
     private var hostingEntity: RealityKit::Entity? = nil
     private var activeEntities: [ViewIdentity: AudioFeedbackEntity] = [:]
     private var processedFeedbackSeeds: Set<FeedbackRequest.Seed> = []
@@ -80,4 +116,8 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
     private func entity(for: ViewIdentity, logPrefix: String) -> AudioFeedbackEntity {
         assertUnimplemented()
     }
+}
+
+extension _UIViewSeparatedStateRequestReason {
+    static let audioFeedback = _UIViewSeparatedStateRequestReason(rawValue: "SwiftUI.AudioFeedback")
 }

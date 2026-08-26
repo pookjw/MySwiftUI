@@ -7,7 +7,11 @@ private import _UIKitPrivate
 class UIKitNavigationBridge {
     weak var host: ViewRendererHost? = nil // 0x10
     private lazy var presentationModeLocation = LocationBox<UIKitNavigationBridgePresentationModeLocation>(location: UIKitNavigationBridgePresentationModeLocation(bridge: self)) // 0x18
-    private var activePresentation: BridgedPresentation? = nil // 0x20
+    private var activePresentation: BridgedPresentation? = nil { // 0x20
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var navigationDestinationSeed: VersionSeed = .invalid // 0x780
     private var destinations: [Namespace.ID: NavigationDestinationPresentation] = .init() // 0x788
     var hasSearch: Bool = false // 0xc38

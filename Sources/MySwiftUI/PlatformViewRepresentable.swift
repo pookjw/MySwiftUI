@@ -319,7 +319,11 @@ struct RepresentablePreferredFocusableViewInput<Representable : CoreViewRepresen
 
 final class UIKitPlatformViewHost<Representable : CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
     var importer: MRUIPreferenceImporter? = nil // 0x2d8
-    var focusedValues = FocusedValues() // 0x2e0
+    var focusedValues = FocusedValues() { // 0x2e0
+        didSet {
+            assertUnimplemented()
+        }
+    }
     weak var responder: UIViewResponder? = nil // 0x300
     
     required init(_ coreRepresentedViewProvider: Representable.PlatformViewProvider, host: (any ViewGraphRootValueUpdater)?, environment: MySwiftUICore::EnvironmentValues, viewPhase: ViewGraphHost.Phase) {

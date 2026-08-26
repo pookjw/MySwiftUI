@@ -309,7 +309,8 @@ exports:
     _REPhysicsSimulationServiceGetDefaultGravity,
     _REPhysicsSimulationServiceSetDefaultGravity,
     _REEntitySetName,
-    _REEntityGetName ]
+    _REEntityGetName,
+    _RECALayerGetCALayerClientComponent ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

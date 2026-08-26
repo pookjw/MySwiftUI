@@ -8,7 +8,11 @@ final class EditMenuBridge : NSObject {
     private(set) var interaction: UIEditMenuInteraction? = nil
     private var editMenuPresentationSeed: VersionSeed = .empty
     private var lastEditMenuPresentation: EditMenuPresentation? = nil
-    private(set) var presentedMenu: ActiveEditMenu? = nil
+    private(set) var presentedMenu: ActiveEditMenu? = nil {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음

@@ -59,7 +59,11 @@ extension Image.DynamicRange {
 
 extension Image {
     package struct Resolved {
-        private var image: GraphicsImage
+        private var image: GraphicsImage {
+            didSet {
+                assertUnimplemented()
+            }
+        }
 //        private var label: AccessibilityImageLabel?
 //        private var _basePlatformItemImage: EquatableOptionalObject<AnyObject>
 //        private var _layoutMetrics: IndirectOptional<Image.LayoutMetrics>

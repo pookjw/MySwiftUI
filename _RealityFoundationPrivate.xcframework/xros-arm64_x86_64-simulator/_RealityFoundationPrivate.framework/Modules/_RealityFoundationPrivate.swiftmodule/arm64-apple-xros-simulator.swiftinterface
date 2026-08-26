@@ -162,6 +162,7 @@ public protocol USDImportService {
 extension RealityKit.Entity {
   public convenience init(_coreEntity: RealityKit.__EntityRef)
   public var coreEntity: Swift.OpaquePointer { get }
+  public static func fromCore(_: Swift.OpaquePointer, ignoringEntityInfo: Swift.Bool) -> RealityKit.Entity
 }
 
 @available(visionOS 26.0, *)

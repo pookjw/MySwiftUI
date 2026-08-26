@@ -38,6 +38,12 @@ final class EntityHostingView<T : RealityKit::Entity> : UIView {
     }
     
     func updateContent(entity: T, hostingComponent: AttachmentHostingComponent?) {
+        /*
+         self -> x20 -> x27
+         entity -> x0 -> x26
+         hostingComponent -> x1 -> x23
+         */
+        // <+292>
         assertUnimplemented()
     }
 }

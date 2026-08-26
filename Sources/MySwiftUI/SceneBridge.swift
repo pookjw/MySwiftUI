@@ -32,7 +32,11 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
     weak var windowScene: UIWindowScene? = nil // 0x20
-    weak var rootViewController: UIViewController? = nil // 0x28
+    weak var rootViewController: UIViewController? = nil { // 0x28
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var sceneDefinitionOptionsSeedTracker = VersionSeedTracker<ConnectionOptionPayloadStoragePreferenceKey>(seed: .invalid) // 0x30
     private(set) var sceneDefinitionOptions = ConnectionOptionPayloadStorage() // 0x38
     private var titleSeedTracker = VersionSeedTracker<NavigationTitleKey>(seed: .invalid) // 0x48
@@ -41,7 +45,11 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
     private var initialUserActivity: NSUserActivity? = nil // 0x58
     weak var viewGraph: ViewGraph? = nil // 0x60
     private var _preferredActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0x68
-    var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0xc8
+    var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) { // 0xc8
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var userActivityTrackingInfo: UserActivityTrackingInfo? = nil // 0x128
     private var userActivityPreferenceSeed: VersionSeed? = nil // 0x130
     private var activationConditionsPreferenceSeed: VersionSeed? = nil // 0x138

@@ -60,7 +60,11 @@ open class _UIHostingView<Content : View>: UIView {
     private var allowFrameChanges: Bool = true
     final var isInSizeTransition: Bool = false
     private var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = []
-    private var explicitSafeAreaInsets: EdgeInsets?
+    private var explicitSafeAreaInsets: EdgeInsets? {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var legacyKeyboardFrame: CGRect? = nil
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
@@ -146,10 +150,18 @@ open class _UIHostingView<Content : View>: UIView {
     private var scrollTest: ScrollTest? = nil
     final weak var delegate: UIHostingViewDelegate? = nil
     private var rootViewDelegate: RootViewDelegate? = nil
-    final var focusedValues = FocusedValues()
+    final var focusedValues = FocusedValues() {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var disallowAnimations: Bool = false
     nonisolated(unsafe) private weak var windowGeometryScene: UIWindowScene? = nil
-    private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false
+    private var invalidatesIntrinsicContentSizeOnIdealSizeChange: Bool = false {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var appliesContainerBackgroundColor: Bool = false
     private var containerBackgroundColor: UIColor? = nil
     private let surpressGraphUpdateIfNotInHierarchy: Bool = {

@@ -17,7 +17,11 @@ final class MRUIPreferenceExporter {
         SupportedVolumeViewpointsKey.self
     ]
     
-    weak var host: (any MRUIPreferenceHostProtocol)? = nil
+    weak var host: (any MRUIPreferenceHostProtocol)? = nil {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var exportedPreferences: [any AnyExportedPreference]
     
     init() {

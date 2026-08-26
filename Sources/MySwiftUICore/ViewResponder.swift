@@ -14,7 +14,11 @@ private import os.log
     
     package private(set) weak var host: (any ViewGraphDelegate)?
     private(set) final var serverResponderID: UInt32?
-    package private(set) weak var parent: ViewResponder?
+    package private(set) weak var parent: ViewResponder? {
+        willSet {
+            assertUnimplemented()
+        }
+    }
     
     @inline(__always)
     package override init() {

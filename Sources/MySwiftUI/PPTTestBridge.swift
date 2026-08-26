@@ -4,7 +4,11 @@ internal import UIKit
 class PPTTestBridge {
     weak var host: (UIView & ViewRendererHost)?
     private var shouldUpdateEnvironment: Bool
-    private var testCase: PPTTestCase?
+    private var testCase: PPTTestCase? {
+        didSet {
+            assertUnimplemented()
+        }
+    }
     
     init(host: (UIView & ViewRendererHost)?, shouldUpdateEnvironment: Bool, testCase: PPTTestCase?) {
         self.host = host

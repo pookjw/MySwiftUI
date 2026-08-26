@@ -476,8 +476,16 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     @safe package nonisolated(unsafe) let coreScene: OpaquePointer // 0x10
     private var realityAssetCollisionSubscription: (any Cancellable)? = nil // 0x18
     private var session = WeakSessionAR()
-    @MainActor @preconcurrency public var __audioListener: Entity? = nil // 0x40
-    private var internalAudioListener: Entity? = nil // 0x48
+    @MainActor @preconcurrency public var __audioListener: Entity? = nil { // 0x40
+        didSet {
+            assertUnimplemented()
+        }
+    }
+    private var internalAudioListener: Entity? = nil { // 0x48
+        didSet {
+            assertUnimplemented()
+        }
+    }
     private var defaultCamera: Entity? = nil // 0x50
     private var audioMixerEntity: Entity? = nil // 0x58
     private var audioReverbEntity: Entity? = nil // 0x60

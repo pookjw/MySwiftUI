@@ -15,7 +15,11 @@ struct PresentationState {
         }
     }
     
-    private var base: PresentationState.Base = .noPresentation
+    private var base: PresentationState.Base = .noPresentation {
+        willSet {
+            assertUnimplemented()
+        }
+    }
     
     func presentPreemptingDismissal(_ sheetPreference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
         assertUnimplemented()
