@@ -33,6 +33,10 @@ extension Scene {
 extension Scene {
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     @MainActor @preconcurrency public func performQuery(_ query: EntityQuery) -> QueryResult<Entity> {
+        return self.performQuery(query, rootEntity: nil)
+    }
+    
+    @MainActor @preconcurrency func performQuery(_ query: EntityQuery, rootEntity: Entity?) -> QueryResult<Entity> {
         assertUnimplemented()
     }
 }

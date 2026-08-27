@@ -426,14 +426,26 @@ extension SceneUpdateContext {
     }
     
     public func entities(matching query: EntityQuery, updatingSystemWhen condition: SystemUpdateCondition) -> QueryResult<Entity> {
-        assertUnimplemented()
+        let scene = self.scene
+        let stats = self.stats
+        
+        let result = scene.performQuery(query)
+        
+        guard let stats else {
+            return result
+        }
+        
+        stats.queriesExecuted += 1
+        stats.entityCount += result.elements.count
+        
+        return result
     }
 }
 
 extension SceneUpdateContext {
     fileprivate final class Stats {
-        fileprivate private(set) var queriesExecuted: Int = 0
-        fileprivate private(set) var entityCount: Int = 0
+        var queriesExecuted: Int = 0
+        var entityCount: Int = 0
     }
 }
 
