@@ -121,10 +121,10 @@ public struct RealityViewContent : RealityViewContentProtocol {
         unsafe unsafeBitCast(self.baseEntity.coreEntity, to: CoreRE.Entity.self)
             .getOrAddComponent(ofType: .sceneSpaceRoot)
         
-        unsafe unsafeBitCast(self._rep, to: CoreRE.Entity.self)
+        unsafe unsafeBitCast(self._rep.coreEntity, to: CoreRE.Entity.self)
             .hide()
         
-        unsafe unsafeBitCast(self._base, to: CoreRE.Entity.self)
+        unsafe unsafeBitCast(self._base.coreEntity, to: CoreRE.Entity.self)
             .hide()
     }
     

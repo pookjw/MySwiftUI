@@ -13,7 +13,7 @@ private import FrontBoardServices
 private import AttributeGraph
 
 // _TtC7SwiftUI16AppSceneDelegate
-final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
+final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
     @safe nonisolated(unsafe) fileprivate static var hasConnectedFirstScene = false
     
     static func makeRootView(_ view: AnyView) -> ModifiedContent<AnyView, RootModifier> {
@@ -112,7 +112,7 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             // <+3504>
         } else {
             // <+2104>
-            if let delegateClass = session.configuration as? any UIHostingSceneDelegate.Type {
+            if let delegateClass = session.configuration.delegateClass as? any UIHostingSceneDelegate.Type {
                 if let openScene = Log.openScene {
                     openScene.log(level: .debug, "Using namespace from UISceneConfiguration's delegateClass: \(delegateClass)")
                 }
