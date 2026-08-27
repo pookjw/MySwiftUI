@@ -10,11 +10,13 @@ import MySwiftUI
 import _MyRealityKit_MySwiftUI
 import UIKit
 
-fileprivate struct MyView : View {
+struct SphereView : View {
+    let radius: Float
+    
     var body: some View {
         RealityView { content, _ in
             let entity = ModelEntity(
-                mesh: .generateSphere(radius: 0.1),
+                mesh: .generateSphere(radius: radius),
                 materials: [
                     SimpleMaterial(
                         color: .cyan,
@@ -30,6 +32,23 @@ fileprivate struct MyView : View {
             
         } attachments: { 
             
+        }
+    }
+}
+
+fileprivate struct MyView : View {
+    @Environment(\.openWindow) private var openWindow
+    
+    var body: some View {
+        VStack {
+            SphereView(radius: 0.1)
+            
+            MyButton(title: "Show Volumetric") { 
+                openWindow(id: "Volumetric")
+            }
+        }
+        .onAppear { 
+            openWindow(id: "Volumetric")
         }
     }
 }

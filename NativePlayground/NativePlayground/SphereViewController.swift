@@ -9,15 +9,13 @@ import RealityKit
 import SwiftUI
 import UIKit
 
-fileprivate struct MyComponent : Component {
+struct SphereView : View {
+    let radius: Float
     
-}
-
-fileprivate struct MyView : View {
     var body: some View {
-        RealityView { content, attachments in
+        RealityView { content, _ in
             let entity = ModelEntity(
-                mesh: .generateSphere(radius: 0.1),
+                mesh: .generateSphere(radius: radius),
                 materials: [
                     SimpleMaterial(
                         color: .cyan,
@@ -27,24 +25,29 @@ fileprivate struct MyView : View {
             )
             
             content.add(entity)
-            entity.components.set(MyComponent())
-            entity.components.set(MyComponent())
-            
-//            if let glassCubeAttachment = attachments.entity(for: "GlassCubeLabel") {
-//                glassCubeAttachment.position = [0, -0.1, 0]
-//                entity.addChild(glassCubeAttachment)
-//            }
         } update: { content, _ in
             
         } placeholder: { 
             
         } attachments: { 
-//            Attachment(id: "GlassCubeLabel") {
-//                Text("Glass Cube")
-//                    .font(.extraLargeTitle)
-//                    .padding()
-//                    .glassBackgroundEffect()
-//            }
+            
+        }
+    }
+}
+
+fileprivate struct MyView : View {
+    @Environment(\.openWindow) private var openWindow
+    
+    var body: some View {
+        VStack {
+            SphereView(radius: 0.1)
+            
+            MyButton(title: "Show Volumetric") { 
+                openWindow(id: "Volumetric")
+            }
+        }
+        .onAppear { 
+            openWindow(id: "Volumetric")
         }
     }
 }

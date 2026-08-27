@@ -42,6 +42,11 @@ struct MyPlaygroundApp : App {
         WindowGroup(id: "WindowCounter") { 
             WindowCounterView(count: $count)
         }
+        
+        WindowGroup(id: "Volumetric") { 
+            SphereView(radius: 0.3)
+        }
+        .windowStyle(.volumetric)
     }
 }
 

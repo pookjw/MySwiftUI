@@ -119,7 +119,6 @@ extension CoordinateSpaceProtocol where Self == NamedCoordinateSpace {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 public struct LocalCoordinateSpace : CoordinateSpaceProtocol {
     public init() {
-        assertUnimplemented()
     }
     
     public var coordinateSpace: CoordinateSpace {
@@ -134,7 +133,7 @@ extension LocalCoordinateSpace : Sendable {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension CoordinateSpaceProtocol where Self == LocalCoordinateSpace {
     public static var local: LocalCoordinateSpace {
-        assertUnimplemented()
+        return LocalCoordinateSpace()
     }
 }
 
