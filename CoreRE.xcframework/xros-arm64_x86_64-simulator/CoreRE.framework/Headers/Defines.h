@@ -471,6 +471,8 @@ struct REComponents {
 } NS_SWIFT_NAME(Components);
 typedef struct REComponents REComponents;
 
+typedef const void * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
+
 NS_ASSUME_NONNULL_END
 
 #endif

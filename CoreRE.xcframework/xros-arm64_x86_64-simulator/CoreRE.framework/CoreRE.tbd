@@ -318,7 +318,8 @@ exports:
     _REEntityQueryDestroy,
     _REQueryCreateHasEntityPredicate,
     _REQueryConnectEntityPredicates,
-    _RESceneGetComponentsOfClass ]
+    _RESceneGetComponentsOfClass,
+    _REECSManagerGetCustomSystemAtID ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

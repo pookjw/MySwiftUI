@@ -12,7 +12,18 @@ public protocol System {
 
 extension System {
     static func coreCustomSystem(scene: MyRealityFoundation::Scene) -> OpaquePointer? {
-        assertUnimplemented()
+        let reScene = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self)
+        
+        guard let ecsManager = reScene.ecsManager else {
+            return nil
+        }
+        
+        guard let id = SystemRegistry.shared.getId(of: Self.self) else {
+            return nil
+        }
+        
+        let customSystem = ecsManager.customSystem(atId: id)
+        return unsafe unsafeBitCast(customSystem, to: OpaquePointer?.self)
     }
     
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
@@ -450,7 +461,11 @@ extension SceneUpdateContext {
 }
 
 extension UserDefaults {
-    fileprivate func bool(forKey: String, default: Bool) -> Bool {
-        assertUnimplemented()
+    fileprivate func bool(forKey key: String, default: Bool) -> Bool {
+        guard let value = self.object(forKey: key) as? Bool else {
+            return `default`
+        }
+        
+        return value
     }
 }
