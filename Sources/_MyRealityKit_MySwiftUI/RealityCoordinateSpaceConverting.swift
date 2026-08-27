@@ -36,7 +36,9 @@ extension RealityCoordinateSpaceConverting {
     }
     
     public func convert(_ size: Size3D, from space: some CoordinateSpaceProtocol, to realitySpace: some RealityCoordinateSpace) -> SIMD3<Float> {
-        assertUnimplemented()
+        var size = size
+        size.apply(self.transform(from: space, to: realitySpace))
+        return SIMD3<Float>(Float(size.width), Float(size.height), Float(size.depth))
     }
     
     public func convert(size: SIMD3<Float>, from realitySpace: some RealityCoordinateSpace, to space: some CoordinateSpaceProtocol) -> Size3D {

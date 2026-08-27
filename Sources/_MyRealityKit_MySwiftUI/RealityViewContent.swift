@@ -1,9 +1,11 @@
+// 3BD12FE2C3C59F65BC210F741750A332
 public import MySwiftUICore
 public import Spatial
 private import CoreGraphics
 internal import UIKit
 internal import MyRealityFoundation
 private import CoreRE
+private import MySwiftUI
 
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
@@ -175,6 +177,42 @@ extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordina
     }
     
     public func transform(from: some CoordinateSpaceProtocol, to: some RealityCoordinateSpace) -> AffineTransform3D {
+        let result: AffineTransform3D = MapKitUpdate.ensure { 
+            // $s19_RealityKit_SwiftUI0A11ViewContentV9transform4from2toSo19SPAffineTransform3Dax_q_t0cD023CoordinateSpaceProtocolRz0A10Foundation0alM0R_r0_lFAHyXEfU_
+            // <+344>
+            // x20
+            let entity = to
+                ._resolve(in: __RealityCoordinateSpaceContext())
+                .entity
+            
+            guard let proxy else {
+                fatalError("Proxy is nil")
+            }
+            
+            // <+512>
+            // x19
+            let baseEntity = self.baseEntity
+            
+            return RealityViewConversions.transform(
+                for: entity,
+                in: from,
+                convertible: RealityViewConvertible(
+                    base: baseEntity,
+                    proxy: proxy,
+                    role: self.role
+                ),
+                pointsPerMeter: self.pointsPerMeter
+            )
+        }
+        
+        guard let inverted = result.inverse else {
+            self.diagnoseNonInvertibleTransform(from: from, to: to)
+        }
+        
+        return inverted
+    }
+    
+    fileprivate func diagnoseNonInvertibleTransform<T : CoordinateSpaceProtocol, U : RealityCoordinateSpace>(from: T, to: U) -> Never {
         assertUnimplemented()
     }
 }
@@ -186,3 +224,15 @@ extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordina
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension RealityViewContent.Body : Sendable {}
+
+struct RealityViewConversions {
+    static func transform<T : CoordinateSpaceProtocol>(
+        for entity: MyRealityFoundation::Entity?,
+        in space: T,
+        convertible: RealityViewConvertible,
+        pointsPerMeter: CGFloat
+    ) -> AffineTransform3D {
+        let transform = convertible.proxy.transform(in: space)
+        assertUnimplemented()
+    }
+}

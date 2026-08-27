@@ -4,6 +4,6 @@ public struct SceneRealityCoordinateSpace : RealityCoordinateSpace {
     }
     
     public func _resolve(in context: __RealityCoordinateSpaceContext) -> __ResolvedRealityCoordinateSpace {
-        assertUnimplemented()
+        return __ResolvedRealityCoordinateSpace(entity: nil)
     }
 }

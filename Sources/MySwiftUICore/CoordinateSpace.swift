@@ -92,7 +92,6 @@ extension CoordinateSpace.ID {
 
 public protocol CoordinateSpaceProtocol {
     var coordinateSpace: CoordinateSpace { get }
-    // TODO: Extensions
 }
 
 public struct NamedCoordinateSpace : CoordinateSpaceProtocol, Equatable {
