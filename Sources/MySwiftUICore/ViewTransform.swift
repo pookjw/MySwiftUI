@@ -60,9 +60,9 @@ package struct ViewTransform {
     }
     
     package mutating func appendPosition(_ position: CGPoint) {
-        self.positionAdjustment.width = self.pendingTranslation.width - (position.x - self.positionAdjustment.width)
-        self.positionAdjustment.height = self.pendingTranslation.height - (position.y - self.positionAdjustment.height)
-        self.pendingTranslation = CGSize(width: position.x, height: position.y)
+        self.pendingTranslation.width = self.pendingTranslation.width - (position.x - self.positionAdjustment.width)
+        self.pendingTranslation.height = self.pendingTranslation.height - (position.y - self.positionAdjustment.height)
+        self.positionAdjustment = CGSize(width: position.x, height: position.y)
     }
     
     // 원래 없음

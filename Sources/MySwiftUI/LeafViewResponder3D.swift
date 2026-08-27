@@ -63,6 +63,7 @@ struct LeafResponder3DFilter : StatefulRule {
         
         // <+844>
         if x290x14c {
+            responder.helper.transform = transform
             responder.helper.transform.appendPosition(CGPoint(x: d8, y: d9))
         }
         
