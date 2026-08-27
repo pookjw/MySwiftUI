@@ -105,3 +105,6 @@
 #import <CoreRE/REDirectMaterialParametersArrayComponent.h>
 #import <CoreRE/RESRT.h>
 #import <CoreRE/REPhysicsSimulationService.h>
+#import <CoreRE/RECALayerClientComponent.h>
+#import <CoreRE/REUIShadowConfigurationComponent.h>
+#import <CoreRE/REQuery.h>
