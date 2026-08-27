@@ -59,6 +59,22 @@ SwiftUI & RealityKit Disassembly
   - [`HorizontalAlignment`](https://developer.apple.com/documentation/swiftui/horizontalalignment)
   - [`VerticalAlignment`](https://developer.apple.com/documentation/swiftui/verticalalignment)
 
+- Coordinate spaces and transforms
+  - [`CoordinateSpace`](https://developer.apple.com/documentation/swiftui/coordinatespace)
+    - [`global`](https://developer.apple.com/documentation/swiftui/coordinatespace/global)
+    - [`local`](https://developer.apple.com/documentation/swiftui/coordinatespace/local)
+    - [`named(_:)`](https://developer.apple.com/documentation/swiftui/coordinatespace/named%28_%3A%29)
+  - [`CoordinateSpaceProtocol`](https://developer.apple.com/documentation/swiftui/coordinatespaceprotocol)
+    - [`coordinateSpace`](https://developer.apple.com/documentation/swiftui/coordinatespaceprotocol/coordinatespace)
+    - [`local`](https://developer.apple.com/documentation/swiftui/coordinatespaceprotocol/local)
+  - [`LocalCoordinateSpace`](https://developer.apple.com/documentation/swiftui/localcoordinatespace)
+    - [`init()`](https://developer.apple.com/documentation/swiftui/localcoordinatespace/init%28%29)
+    - [`coordinateSpace`](https://developer.apple.com/documentation/swiftui/coordinatespaceprotocol/coordinatespace)
+  - [`GeometryProxy3D`](https://developer.apple.com/documentation/swiftui/geometryproxy3d)
+    - [`size`](https://developer.apple.com/documentation/swiftui/geometryproxy3d/size)
+    - [`transform(in:)`](https://developer.apple.com/documentation/swiftui/geometryproxy3d/transform%28in%3A%29)
+  - [`ProjectionTransform`](https://developer.apple.com/documentation/swiftui/projectiontransform)
+
 - App and scenes
   - [`App`](https://developer.apple.com/documentation/swiftui/app)
   - [`App.main()`](https://developer.apple.com/documentation/swiftui/app/main%28%29)
