@@ -462,6 +462,9 @@ typedef const void * REPhysicsSimulationService __attribute__((swift_wrapper(str
 
 RE_EXTERN bool REShadowsGetEnableDefaultShadows(void);
 
+typedef const void * REQuery __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Query);
+typedef const void * REPredicate __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Predicate);
+
 NS_ASSUME_NONNULL_END
 
 #endif

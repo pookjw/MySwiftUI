@@ -770,7 +770,7 @@ final class AppSceneDelegate : NSObject, UIWindowSceneDelegate {
             }
             
             // <+2888>
-            let predicates: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil)
+            let predicates: (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?) = (nil, nil)
             
             if case .singleWindow = sceneListItem.kind {
                 // <+2968>

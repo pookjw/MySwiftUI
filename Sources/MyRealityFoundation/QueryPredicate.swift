@@ -1,25 +1,29 @@
 private import CoreRE
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
-@safe public struct QueryPredicate<Value> {
+@safe public struct QueryPredicate<Value> : Sendable {
     private let evaluateBlock: @MainActor (Value) -> Bool // 0x0
-    private let makeInternalBlock: @MainActor () -> OpaquePointer? // 0x10
-    private let enumerateBlock: @MainActor (QueryEnumerator) -> () // 0x20
+    let makeInternalBlock: @MainActor () -> OpaquePointer? // 0x10
+    let enumerateBlock: @MainActor (QueryEnumerator) -> () // 0x20
     private let performNativeEntityQueryBlock: (@MainActor (MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]?)? // 0x30
     
-    func enumerate(using enumerator: QueryEnumerator) {
-        assertUnimplemented()
+    @MainActor func enumerate(using enumerator: QueryEnumerator) {
+        self.enumerateBlock(enumerator)
     }
     
-    func performNativeEntityQuery(for scene: MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]? {
-        assertUnimplemented()
+    @MainActor func performNativeEntityQuery(for scene: MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]? {
+        guard let performNativeEntityQueryBlock else {
+            return nil
+        }
+        
+        return performNativeEntityQueryBlock(scene)
     }
     
-    func evaluate(value: Value) -> Bool {
-        assertUnimplemented()
+    @MainActor func evaluate(value: Value) -> Bool {
+        return self.evaluateBlock(value)
     }
     
-    init<T : QueryPredicateProtocol>(_ predicate: T) where Value == T.Value {
+    @MainActor init<T : QueryPredicateProtocol>(_ predicate: T) where Value == T.Value {
         self.evaluateBlock = { value in
             // $s17RealityFoundation14QueryPredicateVyACyxGqd__c5ValueQyd__RszAA0cD8ProtocolRd__lufcSbxcqd__cfu_Sbxcfu0_TA
             return predicate.evaluate(value: value)
@@ -126,7 +130,7 @@ extension QueryPredicate {
         }
         
         func makeInternal() -> OpaquePointer? {
-            assertUnimplemented()
+            return unsafe unsafeBitCast(CoreRE::Predicate.hasEntity, to: OpaquePointer.self)
         }
         
         func performNativeEntityQuery(for scene: MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]? {
@@ -144,7 +148,7 @@ extension QueryPredicate {
 }
 
 protocol QueryEnumerator : AnyObject {
-    func enumerate<T>(_ predicate: QueryPredicate<T>)
+    @MainActor @preconcurrency func enumerate<T>(_ predicate: QueryPredicate<T>)
     func enumerate<T, U>(_ queryType: QueryType<T, U>)
 }
 
@@ -160,7 +164,7 @@ protocol QueryEvaluable {
     func enumerate(using enumerator: QueryEnumerator)
 }
 
-protocol QueryPredicateProtocol : QueryEvaluable, Sendable where Result == Bool {
+protocol QueryPredicateProtocol : QueryEvaluable where Result == Bool {
 }
 
 extension QueryPredicateProtocol {
@@ -168,7 +172,7 @@ extension QueryPredicateProtocol {
         assertUnimplemented()
     }
     
-    func eraseToQueryPredicate() -> QueryPredicate<Self.Value> {
+    @MainActor @preconcurrency func eraseToQueryPredicate() -> QueryPredicate<Self.Value> {
         return QueryPredicate<Self.Value>(self)
     }
 }

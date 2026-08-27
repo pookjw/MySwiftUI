@@ -11,7 +11,7 @@ private import BaseBoard
 final class SceneBridge : CustomStringConvertible, ObservableObject {
     fileprivate static var _devNullSceneBridge: SceneBridge?
     
-    static func merge(predicate: Predicate<String>?, with other: Predicate<String>?) -> Predicate<String>? {
+    static func merge(predicate: Foundation::Predicate<String>?, with other: Foundation::Predicate<String>?) -> Foundation::Predicate<String>? {
         /*
          predicate -> x0 -> x26
          other -> x1 -> x23
@@ -25,7 +25,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         assertUnimplemented()
     }
     
-    fileprivate static func buildActivationConditions(_ predicate: Predicate<String>) -> NSPredicate {
+    fileprivate static func buildActivationConditions(_ predicate: Foundation::Predicate<String>) -> NSPredicate {
         assertUnimplemented()
     }
     
@@ -55,9 +55,9 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
     private var contentCaptureProtectionSeedTracker = VersionSeedTracker<ContentCaptureProtectionPreferenceKey>(seed: .invalid) // 0x50
     private var initialUserActivity: NSUserActivity? = nil // 0x58
     weak var viewGraph: ViewGraph? = nil // 0x60
-    private var _preferredActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) // 0x68
+    private var _preferredActivationConditions: (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?) = (nil, nil) // 0x68
     
-    var defaultActivationConditions: (preferring: Predicate<String>?, allowing: Predicate<String>?) = (nil, nil) { // 0xc8
+    var defaultActivationConditions: (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?) = (nil, nil) { // 0xc8
         didSet {
             if _defaultSwiftUIActivityEnvironmentLoggingEnabled {
                 // $s7SwiftUI11SceneBridgeC27defaultActivationConditions10Foundation9PredicateVySS_QPGSg10preferring_AI8allowingtvWSSyXEfu_TA
@@ -445,7 +445,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         self.enqueuedEvents[identifier] = events
     }
     
-    fileprivate func setActivationConditions(preferred: (preferring: Predicate<String>?, allowing: Predicate<String>?)) {
+    fileprivate func setActivationConditions(preferred: (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?)) {
         /*
          self -> x20
          preferred.preferring -> x0 -> x23
@@ -583,11 +583,11 @@ extension SceneBridge {
     }
     
     struct ActivationConditionsPreferenceKey : HostPreferenceKey {
-        static var defaultValue: (preferring: Predicate<String>?, allowing: Predicate<String>?) {
+        static var defaultValue: (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?) {
             return (nil, nil)
         }
         
-        static func reduce(value: inout (preferring: Predicate<String>?, allowing: Predicate<String>?), nextValue: () -> (preferring: Predicate<String>?, allowing: Predicate<String>?)) {
+        static func reduce(value: inout (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?), nextValue: () -> (preferring: Foundation::Predicate<String>?, allowing: Foundation::Predicate<String>?)) {
             assertUnimplemented()
         }
     }
