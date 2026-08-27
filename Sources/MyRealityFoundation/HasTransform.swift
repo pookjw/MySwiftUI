@@ -77,7 +77,7 @@ extension HasTransform {
     }
     
     @MainActor @preconcurrency public func transformMatrix(relativeTo referenceEntity: Entity?) -> float4x4 {
-        assertUnimplemented()
+        return MyRealityFoundation::Entity.conversionMatrix(from: self, to: referenceEntity)
     }
     
     @MainActor @preconcurrency public func setTransformMatrix(_ transform: float4x4, relativeTo referenceEntity: Entity?) {

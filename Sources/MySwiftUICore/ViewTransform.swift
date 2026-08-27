@@ -207,12 +207,116 @@ package struct ViewTransform {
         }
         
         // <+96>
-        assertUnimplemented()
+        let inverted: Bool
+        var x290x81: Bool
+        var x22 = conversion
+        
+        switch conversion {
+        case .rootToSpace(let tag):
+            // <+192>
+            if tag == .root {
+                return
+            } else {
+                // <+312>
+                inverted = false
+                x290x81 = true
+            }
+        case .spaceToRoot(let tag):
+            // <+260>
+            if tag == .local {
+                // <+276>
+                inverted = true
+                x290x81 = true
+            } else {
+                // <+268>
+                inverted = true
+                x290x81 = false
+            }
+        case .localToSpace(let tag):
+            // <+212>
+            if tag == .local {
+                // <+248>
+                return
+            } else {
+                // <+276>
+                inverted = true
+                x290x81 = true
+            }
+        case .spaceToLocal(let tag):
+            // <+304>
+            if tag != .root {
+                // <+328>
+                inverted = false
+                x290x81 = false
+            } else {
+                // <+312>
+                inverted = false
+                x290x81 = true
+            }
+        case .spaceToSpace(let tag1, let tag2):
+            // <+136>
+            if tag1 == .local {
+                // <+224>
+                x22 = .localToSpace(tag2)
+                
+                if tag2 == .local {
+                    return
+                } else {
+                    // <+276>
+                    inverted = true
+                    x290x81 = true
+                }
+            } else if tag2 == .local {
+                // <+288>
+                x22 = .spaceToLocal(tag1)
+                x290x81 = false
+                
+                if tag1 == .root {
+                    inverted = false
+                    x290x81 = true
+                } else {
+                    inverted = false
+                }
+            } else if tag1 == .root {
+                // <+160>
+                x22 = .rootToSpace(tag2)
+                
+                if tag2 == .root {
+                    // <+248>
+                    return
+                } else {
+                    // <+312>
+                    inverted = false
+                    x290x81 = true
+                }
+            } else if tag2 == .root {
+                // <+344>
+                x22 = .spaceToRoot(tag1)
+                inverted = true
+                x290x81 = false
+            } else {
+                // <+364>
+                x290x81 = false
+                inverted = !self.spaceBeforeSpace(tag1, tag2)
+            }
+        }
+        
+        // capture x22, x290x81
+        forEach(inverted: inverted) { item, stop in
+            // $s7SwiftUI13ViewTransformV7convertyyAC10ConversionO_yAC4ItemOXEtFyAH_SbztXEfU_
+            _ = x22
+            _ = x290x81
+            assertUnimplemented()
+        }
     }
     
     func forEach(inverted: Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
-    } 
+    }
+    
+    fileprivate func spaceBeforeSpace(_: CoordinateSpaceTag, _: CoordinateSpaceTag) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension ViewTransform {
