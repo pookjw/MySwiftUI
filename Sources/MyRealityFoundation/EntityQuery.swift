@@ -6,6 +6,10 @@ public struct EntityQuery : @unchecked Sendable {
     private let _predicate: QueryPredicate<MyRealityFoundation::Entity>
     private var destructor: EntityQuery.Destructor?
     
+    var predicate: QueryPredicate<MyRealityFoundation::Entity> {
+        return self._predicate
+    }
+    
     @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
     public init() {
         assertUnimplemented()

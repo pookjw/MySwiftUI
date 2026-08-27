@@ -37,6 +37,15 @@ extension Scene {
     }
     
     @MainActor @preconcurrency func performQuery(_ query: EntityQuery, rootEntity: Entity?) -> QueryResult<Entity> {
+        if rootEntity == nil {
+            let result = query.predicate.performNativeEntityQuery(for: self)
+            
+            if let result {
+                return QueryResult<Entity>(result)
+            }
+        }
+        
+        // <+108>
         assertUnimplemented()
     }
 }

@@ -317,7 +317,8 @@ exports:
     _REQueryCreateEntityQuery,
     _REEntityQueryDestroy,
     _REQueryCreateHasEntityPredicate,
-    _REQueryConnectEntityPredicates ]
+    _REQueryConnectEntityPredicates,
+    _RESceneGetComponentsOfClass ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...
