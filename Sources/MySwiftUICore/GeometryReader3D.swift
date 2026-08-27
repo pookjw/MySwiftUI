@@ -145,7 +145,7 @@ public struct GeometryProxy3D {
     private var _size: WeakAttribute<ViewSize> // 0x8
     @WeakAttribute private var depth: ViewDepth? // 0x10
     private var _environment: WeakAttribute<EnvironmentValues> // 0x18
-    @WeakAttribute private var transform: ViewTransform? // 0x20
+    private var _transform: WeakAttribute<ViewTransform> // 0x20
     @WeakAttribute private var position: CGPoint? // 0x28
     private var _safeAreaInsets: WeakAttribute<SafeAreaInsets> // 0x30
     private var unit: LengthUnit? = nil // 0x38
@@ -253,7 +253,54 @@ public struct GeometryProxy3D {
     }
     
     public func transform(in coordinateSpace: some CoordinateSpaceProtocol) -> AffineTransform3D? {
-        assertUnimplemented()
+        var d8: CGFloat = 1
+        // sp + 0x80
+        let point = Point3D(x: 1, y: 1, z: 1)
+        // sp
+        var transform_1 = AffineTransform3D(scale: Size3D(point))
+        // x29 - 0xd0
+        let space = coordinateSpace.coordinateSpace
+        // sp + 0x80
+        let transform_2 = self.transform
+        
+        transform_2.convertLocalToSpace(space) { item in
+            // $sSo19SPAffineTransform3Da7SwiftUIE7convert2to9transformyAC15CoordinateSpaceO_AC13ViewTransformVtFyAJ4ItemOXEfU_TA.69
+            transform_1.applyTransform(item: item, isDownwards: false)
+        }
+        
+        // <+208>
+        if let unit {
+            // <+220>
+            // sp + 0x110
+            let pointScale = self.environment.pointScale
+            
+            switch unit {
+            case .length(let length):
+                // <+280>
+                let d9 = pointScale.pointsPerMeter
+                
+                if length == UnitLength.meters {
+                    d8 = 1.0 / d9
+                    // <+440>
+                } else {
+                    let converter = length.converter
+                    let d10: CGFloat = 1
+                    d8 = converter.baseUnitValue(fromValue: 1)
+                    d8 = d10 / (d9 - d8)
+                    // <+440>
+                }
+            case .points:
+                // <+440>
+                break
+            }
+            
+            // <+440>
+            transform_1.uniformlyScale(by: d8)
+        } else {
+            // <+476>
+        }
+        
+        return transform_1
     }
     
     public var safeAreaInsets: EdgeInsets3D {
@@ -278,6 +325,26 @@ public struct GeometryProxy3D {
             
             return result
         }
+    }
+    
+    var transform: ViewTransform {
+        // w22
+        let owner = self.owner
+        
+        guard
+            let transformAttribute = self._transform.attribute, // w21
+            let positionAttribute = self.$position // w20
+        else {
+            return ViewTransform()
+        }
+        
+        // w22
+        let context = AnyRuleContext(attribute: owner._attribute)
+        var transform = context[transformAttribute]
+        let position = context[positionAttribute]
+        transform.appendPosition(position)
+        
+        return transform
     }
     
     fileprivate var sizeInPoints: Size3D {

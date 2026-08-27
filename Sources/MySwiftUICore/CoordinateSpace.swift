@@ -121,7 +121,7 @@ public struct LocalCoordinateSpace : CoordinateSpaceProtocol {
     }
     
     public var coordinateSpace: CoordinateSpace {
-        assertUnimplemented()
+        return .local
     }
 }
 

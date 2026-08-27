@@ -104,6 +104,10 @@ extension AffineTransform3D {
             fatalError()
         }
     }
+    
+    mutating func applyTransform(item: ViewTransform.Item, isDownwards: Bool) {
+        assertUnimplemented()
+    }
 }
 
 extension CGAffineTransform {

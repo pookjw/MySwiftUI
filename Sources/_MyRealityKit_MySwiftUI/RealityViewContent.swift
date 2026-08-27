@@ -232,7 +232,46 @@ struct RealityViewConversions {
         convertible: RealityViewConvertible,
         pointsPerMeter: CGFloat
     ) -> AffineTransform3D {
-        let transform = convertible.proxy.transform(in: space)
-        assertUnimplemented()
+        // x29 - 0xe0
+        let transform_1 = convertible.proxy.transform(in: space) ?? .identity
+        
+        let size_1 = convertible.proxy.size
+        let size_2 = Size3D(
+            vector: SIMD3<Double>(size_1.width * 0.5, size_1.height * 0.5, size_1.depth * 0.5)
+        )
+        // sp
+        let vector = Vector3D(size_2)
+        let size_3 = Size3D(width: pointsPerMeter, height: -pointsPerMeter, depth: pointsPerMeter)
+        // sp + 0x180
+        let transform_2 = AffineTransform3D(scale: size_3)
+        
+        // sp + 0x100
+        let transform_3: AffineTransform3D
+        if let entity {
+            let matrix = entity.transformMatrix(relativeTo: convertible.base)
+            let projectiveTransform = ProjectiveTransform3D(matrix)
+            transform_3 = AffineTransform3D(truncating: projectiveTransform)
+        } else {
+            // <+408>
+            if RELinkedOnOrAfterFall2024OSVersions() {
+                // <+416>
+                let matrix = convertible.base.transformMatrix(relativeTo: nil).inverse
+                let projectiveTransform = ProjectiveTransform3D(matrix)
+                transform_3 = AffineTransform3D(truncating: projectiveTransform)
+            } else {
+                // <+476>
+                transform_3 = .identity
+            }
+        }
+        
+        // <+508>
+        // sp + 0x80
+        let trnasform_4 = transform_1.translated(by: vector)
+        // sp 
+        let trnasform_5 = trnasform_4.concatenating(transform_2)
+        // sp + 0x80
+        let transform_6 = trnasform_5.concatenating(transform_3)
+        
+        return transform_6
     }
 }

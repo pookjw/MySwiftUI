@@ -136,6 +136,93 @@ package struct ViewTransform {
         
         return nil
     }
+    
+    func convertGlobalToSpace(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
+        let tag: CoordinateSpaceTag
+        
+        if let _tag = self.coordinateSpaceTag(space) {
+            tag = _tag
+        } else {
+            if space == .id(.worldReference) {
+                tag = .root
+            } else {
+                tag = .invalid
+            }
+        }
+        
+        self.convert(.unknown4(.global, tag), block)
+    }
+    
+    func convertSpaceToGlobal(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
+        let tag: CoordinateSpaceTag
+        
+        if let _tag = self.coordinateSpaceTag(space) {
+            tag = _tag
+        } else {
+            if space == .id(.worldReference) {
+                tag = .root
+            } else {
+                tag = .invalid
+            }
+        }
+        
+        self.convert(.unknown4(tag, .global), block)
+    }
+    
+    func convertLocalToSpace(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
+        let tag: CoordinateSpaceTag
+        
+        if let _tag = self.coordinateSpaceTag(space) {
+            tag = _tag
+        } else {
+            if space == .id(.worldReference) {
+                tag = .root
+            } else {
+                tag = .invalid
+            }
+        }
+        
+        self.convert(.unknown2(tag, .global), block)
+    }
+    
+    func convertSpaceToLocal(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
+        let tag: CoordinateSpaceTag
+        
+        if let _tag = self.coordinateSpaceTag(space) {
+            tag = _tag
+        } else {
+            if space == .id(.worldReference) {
+                tag = .root
+            } else {
+                tag = .invalid
+            }
+        }
+        
+        self.convert(.unknown3(tag, .global), block)
+    }
+    
+    func convert(_ conversion: ViewTransform.Conversion, _ block: (ViewTransform.Item) -> Void) {
+        guard self.head != nil || self.pendingTranslation.width != 0 || self.pendingTranslation.height != 0 else {
+            return
+        }
+        
+        // <+96>
+        assertUnimplemented()
+    }
+    
+    func forEach(inverted: Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    } 
+}
+
+extension ViewTransform {
+    enum Conversion {
+        case unknown0 // TODO: Associated Value
+        case unknown1 // TODO: Associated Value
+        case unknown2(CoordinateSpaceTag, CoordinateSpaceTag)
+        case unknown3(CoordinateSpaceTag, CoordinateSpaceTag)
+        case unknown4(CoordinateSpaceTag, CoordinateSpaceTag)
+    }
 }
 
 struct CoordinateSpaceTag : Hashable {
@@ -162,14 +249,24 @@ struct CoordinateSpaceTag : Hashable {
     }
 }
 
-protocol ViewTransformElement : Equatable {}
+protocol ViewTransformElement : Equatable {
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void)
+}
 
 fileprivate struct TranslationElement : ViewTransformElement {
     var offset: CGSize
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct Translation3DElement : ViewTransformElement {
     var offset: Size3D
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct AffineTransformElement : ViewTransformElement {
@@ -180,11 +277,19 @@ fileprivate struct AffineTransformElement : ViewTransformElement {
         self.matrix = matrix
         self.inverse = inverse
     }
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct SizedSpaceElement : ViewTransformElement {
     var space: CoordinateSpaceTag
     var size: CGSize
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct CoordinateSpaceElement : ViewTransformElement {
@@ -193,10 +298,19 @@ fileprivate struct CoordinateSpaceElement : ViewTransformElement {
     init(space: CoordinateSpaceTag) {
         self.space = space
     }
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct ProjectionTransformElement : ViewTransformElement {
-    // TODO
+    private var matrix: ProjectionTransform
+    private var inverse: Bool
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate final class Element<T> : AnyElement {
@@ -442,5 +556,9 @@ extension ViewTransform {
     struct ScrollGeometryItem : ViewTransformElement {
         private(set) var base: ScrollGeometry
         private(set) var isClipped: Bool
+        
+        func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+            assertUnimplemented()
+        }
     }
 }

@@ -118,17 +118,33 @@ extension ViewTransform.UnsafeBuffer {
 fileprivate struct SizedSpace3DElement : ViewTransformElement {
     private(set) var space: CoordinateSpaceTag
     private(set) var size3D: Size3D
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct DepthTranslationElement : ViewTransformElement {
     private(set) var depth: CGFloat
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct Translation3DElement : ViewTransformElement {
     private(set) var offset: Size3D
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct AffineTransform3DElement : ViewTransformElement {
     private(set) var matrix: AffineTransform3D
     private(set) var inverse: Bool
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
 }
