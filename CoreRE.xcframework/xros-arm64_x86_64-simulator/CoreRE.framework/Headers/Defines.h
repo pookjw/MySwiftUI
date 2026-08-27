@@ -20,15 +20,19 @@ typedef struct {
     simd_float3 t;
 } RESRT NS_SWIFT_NAME(SRT);
 
-typedef const void * REEntity __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Entity);
+struct REEntity {};
+typedef const struct REEntity * REEntity __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Entity);
 
 typedef unsigned long long REEntityID NS_SWIFT_NAME(Entity.ID);
 
-typedef const void * REScene __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Scene);
+struct REScene {};
+typedef const struct REScene * REScene __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Scene);
 
-typedef const void * RECIntrospectionStruct __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CIntrospectionStruct);
+struct RECIntrospectionStruct {};
+typedef const struct RECIntrospectionStruct * RECIntrospectionStruct __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CIntrospectionStruct);
 
-typedef const void * REStructBuilder __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(StructBuilder);
+struct REStructBuilder {};
+typedef const struct REStructBuilder * REStructBuilder __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(StructBuilder);
 
 typedef NS_ENUM(uint32_t, REComponentType) {
     REComponentTypeImageBasedLight = 5,
@@ -114,9 +118,11 @@ typedef NS_ENUM(uint32_t, REIntrospectedDataType) {
     REIntrospectedDataTypeUnknown17 = 17
 } NS_SWIFT_NAME(IntrospectedDataType);
 
-typedef const void * REComponent __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
+struct REComponent {};
+typedef const struct REComponent * REComponent __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component);
 
-typedef const void * REComponentClassPtr __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component.ClassPtr);
+struct REComponentClassPtr {};
+typedef const struct REComponentClassPtr * REComponentClassPtr __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Component.ClassPtr);
 
 RE_EXTERN void RERelease(const void *);
 RE_EXTERN const void * RERetain(const void *);
@@ -152,27 +158,36 @@ typedef struct RECustomComponentTypeInfo RECustomComponentTypeInfo;
 
 typedef uint32_t RELoadTraceType __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(LoadTraceType);
 
-typedef const void * REEngine __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine);
+struct REEngine {};
+typedef const struct REEngine * REEngine __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine);
 
-typedef const void * REEngineConfiguration __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine.Configuration);
+struct REEngineConfiguration {};
+typedef const struct REEngineConfiguration * REEngineConfiguration __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Engine.Configuration);
 
 typedef NS_ENUM(uint32_t, REEventHandlerResult) {
     REEventHandlerResultUnknown0 = 0
 } NS_SWIFT_NAME(EventHandlerResult);
 
-typedef const void * REServiceLocator __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceLocator);
+struct REServiceLocator {};
+typedef const struct REServiceLocator * REServiceLocator __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ServiceLocator);
 
-typedef const void * REECSManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSManager);
+struct REECSManager {};
+typedef const struct REECSManager * REECSManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(ECSManager);
 
-typedef const void * REEventBus __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(EventBus);
+struct REEventBus {};
+typedef const struct REEventBus * REEventBus __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(EventBus);
 
-typedef const void * REAssetManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AssetManager);
+struct REAssetManager {};
+typedef const struct REAssetManager * REAssetManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AssetManager);
 
-typedef const void * RETimebaseService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TimebaseService);
+struct RETimebaseService {};
+typedef const struct RETimebaseService * RETimebaseService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TimebaseService);
 
-typedef const void * RERenderManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(RenderManager);
+struct RERenderManager {};
+typedef const struct RERenderManager * RERenderManager __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(RenderManager);
 
-typedef const void * REAudioSceneService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AudioSceneService);
+struct REAudioSceneService {};
+typedef const struct REAudioSceneService * REAudioSceneService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(AudioSceneService);
 
 typedef NS_OPTIONS(uint32_t, REEngineServiceMask) {
     REEngineServiceMaskNone = 0,
@@ -411,15 +426,18 @@ struct RESystemDependency {
 } NS_SWIFT_NAME(SystemDependency);
 typedef struct RESystemDependency RESystemDependency;
 
-typedef const void * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
+struct RECustomSystem {};
+typedef const struct RECustomSystem * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
 
 typedef NS_ENUM(uint32_t, RECustomSystemScheduleType) {
     RECustomSystemScheduleTypeUnknown4 = 4
 } NS_SWIFT_NAME(CustomSystemScheduleType);
 
-typedef const void * RECustomSystemUpdateContext __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem.UpdateContext);
+struct RECustomSystemUpdateContext {};
+typedef const struct RECustomSystemUpdateContext * RECustomSystemUpdateContext __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem.UpdateContext);
 
-typedef const void * REAsset __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset);
+struct REAsset {};
+typedef const struct REAsset * REAsset __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset);
 
 /*
 C Runtime에서는 x0 (unknown0 + radius), w1 (unknown1, 2, 3)에 저장되나
@@ -438,9 +456,11 @@ typedef NS_ENUM(uint32_t, REAssetNetworkSharingMode) {
     REAssetNetworkSharingModeUnknown0 = 0
 } NS_SWIFT_NAME(Asset.NetworkSharingMode);
 
-typedef const void * REAssetDescriptor __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.Descriptor);
+struct REAssetDescriptor {};
+typedef const struct REAssetDescriptor * REAssetDescriptor __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.Descriptor);
 
-typedef const void * REAssetLoadRequest __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
+struct REAssetLoadRequest {};
+typedef const struct REAssetLoadRequest * REAssetLoadRequest __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Asset.LoadRequest);
 
 typedef struct __attribute__((objc_bridge(id))) REMaterialParameterBlockValue * REMaterialParameterBlockValueRef NS_SWIFT_NAME(MaterialParameterBlockValue);
 
@@ -458,12 +478,15 @@ typedef NS_ENUM(uint32_t, REVideoViewingMode) {
     REVideoViewingModeStereo = 2
 } NS_SWIFT_NAME(VideoViewingMode);
 
-typedef const void * REPhysicsSimulationService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(PhysicsSimulationService);
+struct REPhysicsSimulationService {};
+typedef const struct REPhysicsSimulationService * REPhysicsSimulationService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(PhysicsSimulationService);
 
 RE_EXTERN bool REShadowsGetEnableDefaultShadows(void);
 
-typedef const void * REQuery __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Query);
-typedef const void * REPredicate __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Predicate);
+struct REQuery {};
+typedef const struct REQuery * REQuery __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Query);
+struct REPredicate {};
+typedef const struct REPredicate * REPredicate __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Predicate);
 
 struct REComponents {
     REComponent *components;
@@ -471,7 +494,7 @@ struct REComponents {
 } NS_SWIFT_NAME(Components);
 typedef struct REComponents REComponents;
 
-typedef const void * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
+typedef const struct RECustomSystem * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
 
 NS_ASSUME_NONNULL_END
 
