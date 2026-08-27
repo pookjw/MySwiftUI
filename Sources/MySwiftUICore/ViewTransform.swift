@@ -150,7 +150,7 @@ package struct ViewTransform {
             }
         }
         
-        self.convert(.unknown4(.global, tag), block)
+        self.convert(.spaceToSpace(.global, tag), block)
     }
     
     func convertSpaceToGlobal(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
@@ -166,7 +166,7 @@ package struct ViewTransform {
             }
         }
         
-        self.convert(.unknown4(tag, .global), block)
+        self.convert(.spaceToSpace(tag, .global), block)
     }
     
     func convertLocalToSpace(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
@@ -182,7 +182,7 @@ package struct ViewTransform {
             }
         }
         
-        self.convert(.unknown2(tag, .global), block)
+        self.convert(.localToSpace(tag), block)
     }
     
     func convertSpaceToLocal(_ space: CoordinateSpace, _ block: (ViewTransform.Item) -> Void) {
@@ -198,7 +198,7 @@ package struct ViewTransform {
             }
         }
         
-        self.convert(.unknown3(tag, .global), block)
+        self.convert(.spaceToLocal(tag), block)
     }
     
     func convert(_ conversion: ViewTransform.Conversion, _ block: (ViewTransform.Item) -> Void) {
@@ -217,11 +217,11 @@ package struct ViewTransform {
 
 extension ViewTransform {
     enum Conversion {
-        case unknown0 // TODO: Associated Value
-        case unknown1 // TODO: Associated Value
-        case unknown2(CoordinateSpaceTag, CoordinateSpaceTag)
-        case unknown3(CoordinateSpaceTag, CoordinateSpaceTag)
-        case unknown4(CoordinateSpaceTag, CoordinateSpaceTag)
+        case rootToSpace(CoordinateSpaceTag)
+        case spaceToRoot(CoordinateSpaceTag)
+        case localToSpace(CoordinateSpaceTag)
+        case spaceToLocal(CoordinateSpaceTag)
+        case spaceToSpace(CoordinateSpaceTag, CoordinateSpaceTag)
     }
 }
 

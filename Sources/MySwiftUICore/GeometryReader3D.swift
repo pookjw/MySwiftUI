@@ -286,7 +286,7 @@ public struct GeometryProxy3D {
                     let converter = length.converter
                     let d10: CGFloat = 1
                     d8 = converter.baseUnitValue(fromValue: 1)
-                    d8 = d10 / (d9 - d8)
+                    d8 = d10 / (d9 * d8)
                     // <+440>
                 }
             case .points:
