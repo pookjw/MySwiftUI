@@ -70,6 +70,8 @@ SwiftUI & RealityKit Disassembly
   - [`LocalCoordinateSpace`](https://developer.apple.com/documentation/swiftui/localcoordinatespace)
     - [`init()`](https://developer.apple.com/documentation/swiftui/localcoordinatespace/init%28%29)
     - [`coordinateSpace`](https://developer.apple.com/documentation/swiftui/coordinatespaceprotocol/coordinatespace)
+  - [`GeometryProxy`](https://developer.apple.com/documentation/swiftui/geometryproxy)
+    - [`size`](https://developer.apple.com/documentation/swiftui/geometryproxy/size)
   - [`GeometryProxy3D`](https://developer.apple.com/documentation/swiftui/geometryproxy3d)
     - [`size`](https://developer.apple.com/documentation/swiftui/geometryproxy3d/size)
     - [`transform(in:)`](https://developer.apple.com/documentation/swiftui/geometryproxy3d/transform%28in%3A%29)
