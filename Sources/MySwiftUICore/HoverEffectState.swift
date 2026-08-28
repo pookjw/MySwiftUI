@@ -26,11 +26,20 @@ struct HoverEffectState {
     }
     
     // finalizePlatformMerge에서 구현을 봐야함
-    func applyEffect(_ effect: DisplayList.Effect) -> Bool {
+    mutating func applyEffect(_ effect: DisplayList.Effect) -> Bool {
         switch effect {
         case .opacity(let opacity):
             return self.updateLeafEffectState { values in
-                assertUnimplemented()
+                guard
+                    var _opacity = values.opacity,
+                    opacity != 1
+                else {
+                    return true
+                }
+                
+                _opacity.inactiveValue *= opacity
+                values.opacity = _opacity
+                return true
             }
         case .clip:
             assertUnimplemented()
@@ -48,52 +57,64 @@ struct HoverEffectState {
         }
     }
     
-    fileprivate func updateLeafEffectState(_ block: (inout HoverEffectLeafValues) -> Bool) -> Bool {
-        assertUnimplemented()
+    fileprivate mutating func updateLeafEffectState(_ block: (inout HoverEffectLeafValues) -> Bool) -> Bool {
+        var result = false
+        
+        for index in self.leafEffects.indices {
+            result = result || block(&self.leafEffects[index].values)
+        }
+        
+        for index in self.groups.indices {
+            result = result || self.groups[index].effects.updateLeafEffectState(block)
+        }
+        
+        return result
     }
 }
 
 extension HoverEffectState {
     struct GroupEffect {
-        // TODO
+        private var context: HoverEffectContext.Group
+        fileprivate var effects: HoverEffectState
     }
     
     struct LeafEffect {
-        // TODO
+        fileprivate private(set) var context: HoverEffectContext.Properties
+        fileprivate var values: HoverEffectLeafValues
     }
 }
 
 struct HoverEffectLeafValues {
-    var opacity: HoverEffectOpacityValue?
-    var affineTransform: HoverEffectAffineTransformValue?
-    var resize: HoverEffectResizeValue?
-    var resizeBy: HoverEffectResizeByValue?
-    var remoteLeafEffects: RemoteLeafEffectCollection?
+    fileprivate var opacity: HoverEffectOpacityValue?
+    private var affineTransform: HoverEffectAffineTransformValue?
+    private var resize: HoverEffectResizeValue?
+    private var resizeBy: HoverEffectResizeByValue?
+    private var remoteLeafEffects: RemoteLeafEffectCollection?
 }
 
 struct HoverEffectOpacityValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: Float
-    var activeValue: Float
+    private let identity: _DisplayList_Identity
+    fileprivate var inactiveValue: Float
+    private var activeValue: Float
 }
 
 struct HoverEffectAffineTransformValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: CGAffineTransform
-    var activeValue: CGAffineTransform
+    private let identity: _DisplayList_Identity
+    private var inactiveValue: CGAffineTransform
+    private var activeValue: CGAffineTransform
 }
 
 struct HoverEffectResizeValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: FixedRoundedRect
-    var activeValue: FixedRoundedRect
-    var clipped: Bool
+    private let identity: _DisplayList_Identity
+    private var inactiveValue: FixedRoundedRect
+    private var activeValue: FixedRoundedRect
+    private var clipped: Bool
 }
 
 struct HoverEffectResizeByValue {
-    let identity: _DisplayList_Identity
-    var activeValue: EdgeInsets
-    var isRecursive: Bool
+    private let identity: _DisplayList_Identity
+    private var activeValue: EdgeInsets
+    private var isRecursive: Bool
 }
 
 package struct HoverLeafEffect {

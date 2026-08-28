@@ -242,6 +242,7 @@ func printOffsets() {
     printFields(VideoMaterial.self, isClassType: false)
     printFields(SceneUpdateContext.self, isClassType: false)
     printFields("19_RealityKit_SwiftUI26ImplicitAnimationComponentV", isClassType: false)
+    printFields("7SwiftUI16HoverEffectStateV04LeafD0V", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

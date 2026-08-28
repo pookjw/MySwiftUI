@@ -1,4 +1,4 @@
-private import _QuartzCorePrivate
+internal import _QuartzCorePrivate
 
 enum GraphicsBlendMode {
     case blendMode(GraphicsContext.BlendMode)
@@ -15,5 +15,32 @@ enum GraphicsBlendMode {
         return .caFilter(filter)
     }
     
-    nonisolated(unsafe) static let normal = GraphicsBlendMode.blendMode(.normal)
+    @safe static nonisolated(unsafe) let normal = GraphicsBlendMode.blendMode(.normal)
+}
+
+extension GraphicsBlendMode : RendererEffect {
+    nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsBlendMode : Equatable {
+    static func == (lhs: GraphicsBlendMode, rhs: GraphicsBlendMode) -> Bool {
+        switch (lhs, rhs) {
+        case (.blendMode(let lhs), .blendMode(let rhs)):
+            return lhs == rhs
+        case (.caFilter(let lhs), .caFilter(let rhs)):
+            return lhs === rhs
+        default:
+            return false
+        }
+    }
+}
+
+extension GraphicsBlendMode : ProtobufEncodableMessage {
+    // TODO
+}
+
+extension GraphicsBlendMode : ProtobufDecodableMessage {
+    // TODO
 }
