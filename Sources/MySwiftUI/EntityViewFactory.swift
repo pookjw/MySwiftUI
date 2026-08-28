@@ -149,6 +149,10 @@ fileprivate struct ResolvedEntityFactory<T : EntityViewFactory> {
 }
 
 fileprivate struct LeafDisplayList<T : EntityViewFactory> : CustomStringConvertible, StatefulRule {
+    static var flags: AnyAttribute.TypeFlags {
+        assertUnimplemented()
+    }
+
     let identity: _DisplayList_Identity // 0x0
     @Attribute var view: ResolvedEntityFactory<T> // 0x24 (field)
     @Attribute var position: CGPoint // 0x28 (field)

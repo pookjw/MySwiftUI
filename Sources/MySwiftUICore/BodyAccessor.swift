@@ -90,6 +90,10 @@ fileprivate struct EmbeddedDynamicPropertyBox<T : DynamicProperty>: DynamicPrope
 
 fileprivate struct StaticBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStringConvertible, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
+
+    static var flags: AnyAttribute.TypeFlags {
+        assertUnimplemented()
+    }
     
     var description: String {
         assertUnimplemented()
@@ -137,6 +141,10 @@ fileprivate struct StaticBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStri
 
 fileprivate struct DynamicBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
+
+    static var flags: AnyAttribute.TypeFlags {
+        assertUnimplemented()
+    }
     
     let accessor: T
     private(set) var _container: Attribute<T.Container> // 0x34 (offset map)
