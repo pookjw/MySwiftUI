@@ -336,7 +336,7 @@ extension HasTransform {
                                                 }
                                                 
                                                 // <+1164>
-                                                assertUnimplemented()
+                                                return (matrix_2.inverse * (matrix_4.inverse * matrix_3)) * matrix_1
                                             } else {
                                                 // <+1148>
                                                 // <+948>
@@ -367,6 +367,6 @@ extension HasTransform {
         }
         
         // <+948>
-        assertUnimplemented()
+        return matrix_2.inverse * matrix_1
     }
 }
