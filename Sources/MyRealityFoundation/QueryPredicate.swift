@@ -135,7 +135,7 @@ extension QueryPredicate {
         
         func performNativeEntityQuery(for scene: MyRealityFoundation::Scene) -> [MyRealityFoundation::Entity]? {
             let components = unsafe unsafeBitCast(scene.coreScene, to: CoreRE::Scene.self)
-                .componentsOfClass
+                .componentsOfClass(self.componentClass)
             
             guard unsafe components.count != 0 else {
                 return []
