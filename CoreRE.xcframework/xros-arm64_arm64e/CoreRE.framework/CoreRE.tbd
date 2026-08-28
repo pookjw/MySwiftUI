@@ -319,7 +319,11 @@ exports:
     _REQueryCreateHasEntityPredicate,
     _REQueryConnectEntityPredicates,
     _RESceneGetComponentsOfClass,
-    _REECSManagerGetCustomSystemAtID ]
+    _REECSManagerGetCustomSystemAtID,
+    _RETransformServiceFromEntity,
+    _RETransformServiceGetWorldMatrix4x4F,
+    _RETransformComponentGetWorldMatrix4x4F,
+    _RESceneSpaceRootComponentGetIsImmersiveSpaceOpen ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

@@ -485,16 +485,18 @@ RE_EXTERN bool REShadowsGetEnableDefaultShadows(void);
 
 struct REQuery {};
 typedef const struct REQuery * REQuery __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Query);
+
 struct REPredicate {};
 typedef const struct REPredicate * REPredicate __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(Predicate);
 
 struct REComponents {
-    REComponent *components;
+    REComponent _Nonnull *components;
     NSInteger count;
 } NS_SWIFT_NAME(Components);
 typedef struct REComponents REComponents;
 
-typedef const struct RECustomSystem * RECustomSystem __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(CustomSystem);
+struct RETransformService {};
+typedef const struct RETransformService * RETransformService __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(TransformService);
 
 NS_ASSUME_NONNULL_END
 
