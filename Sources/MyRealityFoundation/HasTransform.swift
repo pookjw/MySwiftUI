@@ -206,7 +206,6 @@ extension HasTransform {
             // <+212>
             let toTransformService = unsafe unsafeBitCast(to.coreEntity, to: CoreRE::Entity.self).transformService
             let toREEntity = unsafe unsafeBitCast(to.coreEntity, to: CoreRE::Entity.self)
-            let flag: Bool
             
             if let toTransformService {
                 // <+272>
@@ -215,13 +214,10 @@ extension HasTransform {
                 )
                 
                 // <+292>
-                flag = true
             } else {
                 // <+252>
                 if let toComponent = toREEntity.getComponent(ofType: .transform) {
                     matrix_2 = toComponent.transform_worldMatrix4x4F
-                    // <+948>
-                    flag = false
                 } else {
                     // <+692>
                     if let toParent = to.parent {
@@ -232,12 +228,10 @@ extension HasTransform {
                         // <+812>
                         matrix_2 = .identity
                     }
-                    
-                    flag = true
                 }
             }
             
-            if flag, let from {
+            if let from {
                 // <+296>
                 // x22
                 let fromScene = from.scene
@@ -314,14 +308,17 @@ extension HasTransform {
                                         // <+588>
                                         // w23
                                         let fromIsSelfInImmersiveSpace = fromComponent.sceneSpaceRoot_isSelfInImmersiveSpace
-                                        let toIsImmersiveSpaceOpen = toComponent.sceneSpaceRoot_isImmersiveSpaceOpen
+                                        let fromIsImmersiveSpaceOpen = fromComponent.sceneSpaceRoot_isImmersiveSpaceOpen
                                         
-                                        if fromIsSelfInImmersiveSpace {
-                                            if !toIsImmersiveSpaceOpen {
+                                        if fromIsImmersiveSpaceOpen {
+                                            // sp
+                                            let matrix_3: simd_float4x4
+                                            
+                                            if !fromIsSelfInImmersiveSpace {
                                                 // <+1084>
-                                                matrix_2 = toComponent.sceneSpaceRoot_sceneToImmersiveTransform
+                                                matrix_3 = fromComponent.sceneSpaceRoot_sceneToImmersiveTransform
                                             } else {
-                                                matrix_2 = .identity
+                                                matrix_3 = .identity
                                             }
                                             
                                             // <+1100>
@@ -329,12 +326,13 @@ extension HasTransform {
                                             let toIsImmersiveSpaceOpen = toComponent.sceneSpaceRoot_isImmersiveSpaceOpen
                                             
                                             if toIsImmersiveSpaceOpen {
+                                                let matrix_4: simd_float4x4
                                                 if toIsSelfInImmersiveSpace {
                                                     // <+1128>
-                                                    matrix_2 = .identity
+                                                    matrix_4 = .identity
                                                 } else {
                                                     // <+1156>
-                                                    matrix_2 = toComponent.sceneSpaceRoot_sceneToImmersiveTransform
+                                                    matrix_4 = toComponent.sceneSpaceRoot_sceneToImmersiveTransform
                                                 }
                                                 
                                                 // <+1164>
