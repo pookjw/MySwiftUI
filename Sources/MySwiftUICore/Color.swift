@@ -875,7 +875,7 @@ package struct ColorView : ResolvedPaint, RendererLeafView {
         }
     }
     
-    static var requiresMainThread: Bool {
+    nonisolated static var requiresMainThread: Bool {
         return false
     }
     

@@ -4,7 +4,7 @@ package import CoreGraphics
 private import AttributeGraph
 
 protocol RendererLeafView : ContentResponder, PrimitiveView, UnaryView {
-    static var requiresMainThread: Bool {
+    nonisolated static var requiresMainThread: Bool {
         get
     }
     
