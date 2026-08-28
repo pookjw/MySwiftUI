@@ -110,41 +110,6 @@ struct RemoteEffectAccessibilityOptions {
 //    var attachmentBehavior: RemoteEffectAccessibilityOptions.AttachmentBehavior
 }
 
-struct HoverEffectState {
-    private var groups: [HoverEffectState.GroupEffect] = []
-    private(set) var leafEffects: [HoverEffectState.LeafEffect] = []
-    
-    func applyPosition(_ origin: CGPoint) -> Bool {
-        if !groups.isEmpty {
-            assertUnimplemented()
-        }
-        
-        if !leafEffects.isEmpty {
-            assertUnimplemented()
-        }
-        
-        return false
-    }
-    
-    func anyLeafEffectsSatisfy(_ block: (HoverEffectLeafValues) -> Bool) -> Bool {
-        if groups.isEmpty && leafEffects.isEmpty {
-            return false
-        }
-        
-        assertUnimplemented()
-    }
-}
-
-extension HoverEffectState {
-    struct GroupEffect {
-        // TODO
-    }
-    
-    struct LeafEffect {
-        // TODO
-    }
-}
-
 enum RemoteEffectEntry {
 //    case property(RemotePropertyEffect)
 //    case external(RemoteExternalEffectInfo)
@@ -163,39 +128,6 @@ struct RemoteEffectOptions {
 //    var kind: RemoteEffectOptions.Kind
 }
 
-struct HoverEffectLeafValues {
-    var opacity: HoverEffectOpacityValue?
-    var affineTransform: HoverEffectAffineTransformValue?
-    var resize: HoverEffectResizeValue?
-    var resizeBy: HoverEffectResizeByValue?
-    var remoteLeafEffects: RemoteLeafEffectCollection?
-}
-
-struct HoverEffectOpacityValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: Float
-    var activeValue: Float
-}
-
-struct HoverEffectAffineTransformValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: CGAffineTransform
-    var activeValue: CGAffineTransform
-}
-
-struct HoverEffectResizeValue {
-    let identity: _DisplayList_Identity
-    var inactiveValue: FixedRoundedRect
-    var activeValue: FixedRoundedRect
-    var clipped: Bool
-}
-
-struct HoverEffectResizeByValue {
-    let identity: _DisplayList_Identity
-    var activeValue: EdgeInsets
-    var isRecursive: Bool
-}
-
 struct RemoteLeafEffectCollection {
     fileprivate var entries: [RemoteLeafEffectCollection.Entry]
 }
@@ -209,12 +141,4 @@ extension RemoteLeafEffectCollection {
 
 enum RemoteLeafEffectDescriptor {
     // TODO
-}
-
-package struct HoverLeafEffect {
-    // TODO
-    
-    func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
-        assertUnimplemented()
-    }
 }

@@ -28,7 +28,7 @@ extension DisplayList.ViewUpdater {
         
         @unsafe struct State {
             private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            private(set) var opacity: Float = 1
+            var opacity: Float = 1
             private var blend: GraphicsBlendMode = unsafe .normal
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = []
@@ -316,6 +316,9 @@ extension DisplayList.ViewUpdater.Model {
         case .effect(let effect, _):
             // <+2712>
             switch effect {
+            case .opacity(let opacity):
+                unsafe state.opacity = state.opacity * opacity
+                unsafe state.versions.opacity = max(state.versions.opacity, item.version)
             case .transform(let transform):
                 switch transform {
                 case .affine(_):
@@ -414,23 +417,13 @@ extension DisplayList.ViewUpdater.Model {
             }
         case .effect(let effect, _):
             // <+708>
-            switch effect {
-            case .opacity(_):
-                assertUnimplemented()
-            case .clip:
-                assertUnimplemented()
-            case .transform(let transform):
-                switch transform {
-                case .affine(_):
-                    assertUnimplemented()
-                case .projection(_):
-                    assertUnimplemented()
-                case .affine3D(_):
-                    return
-                }
-            default:
-                return
+            // inlined
+            let result = unsafe state.platformState.remoteEffects.hoverEffectState.applyEffect(effect)
+            if result {
+                unsafe state.platformState.versions.remoteEffects = max(state.platformState.versions.remoteEffects, item.version)
             }
+            
+            return
         default:
             // <+1176>
             return
