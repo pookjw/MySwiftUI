@@ -244,6 +244,10 @@ fileprivate struct BodyInput<Body> : ViewInput {
 }
 
 fileprivate enum BodyInputElement : GraphReusable, Equatable {
+    static var isTriviallyReusable: Bool {
+        assertUnimplemented()
+    }
+
     func makeReusable(indirectMap: IndirectAttributeMap) {
         assertUnimplemented()
     }

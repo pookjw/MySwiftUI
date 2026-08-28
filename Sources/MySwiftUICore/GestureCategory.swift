@@ -18,6 +18,10 @@ extension GestureCategory {
 
 extension GestureCategory {
     package struct Key : PreferenceKey {
+        package static var _includesRemovedValues: Bool {
+            assertUnimplemented()
+        }
+
         package static var defaultValue: GestureCategory { return GestureCategory.defaultValue }
         
         package static func reduce(value: inout GestureCategory, nextValue: () -> GestureCategory) {

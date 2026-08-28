@@ -67,6 +67,10 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
 }
 
 extension Color : @preconcurrency ShapeStyle {
+    public func _apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+
     @available(*, deprecated, message: "obsolete")
     @_alwaysEmitIntoClient nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
@@ -374,6 +378,10 @@ extension Color {
         public init(_ resolved: Color.Resolved) {
             assertUnimplemented()
         }
+
+        public func _apply(to shape: inout _ShapeStyle_Shape) {
+            assertUnimplemented()
+        }
         
         init(linearRed: Float, linearGreen: Float, linearBlue: Float, opacity: Float) {
             self.linearRed = linearRed
@@ -586,6 +594,14 @@ extension Color {
             base = color
             _headroom = headroom ?? .nan
         }
+
+        public static func == (lhs: Color.ResolvedHDR, rhs: Color.ResolvedHDR) -> Bool {
+            assertUnimplemented()
+        }
+
+        public func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
         
         static var clear: Color.ResolvedHDR {
             return Color.ResolvedHDR(
@@ -686,7 +702,15 @@ extension Color {
     }
 }
 
-extension Color.ResolvedHDR : BitwiseCopyable, ShapeStyle {}
+extension Color.ResolvedHDR : BitwiseCopyable, ShapeStyle {
+    public static func _apply(to type: inout _ShapeStyle_ShapeType) {
+        assertUnimplemented()
+    }
+
+    public func _apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+}
 
 extension Color {
     public static let red = Color(box: ColorBox(SystemColorType.red))

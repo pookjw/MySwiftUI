@@ -7,6 +7,14 @@ public import Spatial
 @available(watchOS, unavailable)
 @available(macCatalyst, unavailable)
 public struct ManipulationComponent : Component {
+    @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> ManipulationComponent {
+        assertUnimplemented()
+    }
+
+    @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+        assertUnimplemented()
+    }
+
     public init() {
         assertUnimplemented()
     }
@@ -54,6 +62,14 @@ public struct ManipulationComponent : Component {
     }
     
     public struct HitTarget : Component {
+        @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> ManipulationComponent.HitTarget {
+            assertUnimplemented()
+        }
+
+        @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+            assertUnimplemented()
+        }
+
         weak public var redirectedEntity: Entity? {
             get {
                 assertUnimplemented()

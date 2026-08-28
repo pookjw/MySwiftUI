@@ -241,6 +241,10 @@ package struct MacInterfaceIdiom : InterfaceIdiomProtocol {
 }
 
 package struct MacCatalystInterfaceIdiom : InterfaceIdiomProtocol {
+    package static func accepts<T : InterfaceIdiomProtocol>(_ idiom: T.Type) -> Bool {
+        assertUnimplemented()
+    }
+
     package static var interfaceIdiom: InterfaceIdiom {
         return .macCatalyst
     }
@@ -271,6 +275,10 @@ package struct WatchInterfaceIdiom : InterfaceIdiomProtocol {
 }
 
 package struct ComplicationInterfaceIdiom : InterfaceIdiomProtocol {
+    package static func accepts<T : InterfaceIdiomProtocol>(_ idiom: T.Type) -> Bool {
+        assertUnimplemented()
+    }
+
     package static var interfaceIdiom: InterfaceIdiom {
         return .complication
     }

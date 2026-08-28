@@ -31,6 +31,10 @@ struct CoreInteractionRepresentableModifier<T, U> : ViewModifier {
     init(representable: T?, id: U) {
         assertUnimplemented()
     }
+
+    nonisolated static func _makeView(modifier: _GraphValue<CoreInteractionRepresentableModifier<T, U>>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
     
     func body(content: Content) -> some View {
         assertUnimplemented()

@@ -111,6 +111,18 @@ private import UIFoundation
 }
 
 extension Text : View {
+    nonisolated public static func _makeView(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+
+    nonisolated public static func _makeViewList(view: _GraphValue<Text>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+
     public var body: Never {
         assertUnimplemented()
     }

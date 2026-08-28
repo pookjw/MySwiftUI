@@ -1,5 +1,17 @@
 
 public struct Image : View {
+    nonisolated public static func _makeView(view: _GraphValue<Image>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+
+    nonisolated public static func _makeViewList(view: _GraphValue<Image>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+
     public var body: Never {
         assertUnimplemented()
     } // TODO

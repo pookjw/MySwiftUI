@@ -2469,6 +2469,10 @@ extension ModifiedViewList {
     struct Transform : _ViewList_SublistTransform_Item {
         private(set) var listModifier: ModifiedViewList.ListModifier
         
+        static var flags: _ViewList_SublistTransform_ItemFlags {
+            assertUnimplemented()
+        }
+
         func apply(sublist: inout _ViewList_Sublist) {
             let elements = ModifiedElements(
                 base: sublist.elements.base,

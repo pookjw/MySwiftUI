@@ -118,6 +118,10 @@ public struct AnyCompositorContent: CompositorContent, PrimitiveCompositorConten
     nonisolated static func _determineSceneWindowType() -> UIWindow.Type {
         assertUnimplemented()
     }
+
+    nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
     
     nonisolated func _makeSceneWindowType() -> UIWindow.Type {
         assertUnimplemented()

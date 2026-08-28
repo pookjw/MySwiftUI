@@ -55,6 +55,19 @@ extension Material.ResolvedMaterial {
 
 extension Material : ShapeStyle {
     public typealias Resolved = Never
+
+    @available(*, deprecated, message: "obsolete")
+    nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Material>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+        assertUnimplemented()
+    }
+
+    public func _apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+
+    public static func _apply(to type: inout _ShapeStyle_ShapeType) {
+        assertUnimplemented()
+    }
 }
 
 extension Material {

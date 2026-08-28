@@ -1,4 +1,5 @@
 public import CoreGraphics
+public import Metal
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 extension PhysicallyBasedMaterial {
@@ -614,6 +615,42 @@ public struct PhysicallyBasedMaterial : Material {
     public var __resource: __MaterialResource
     
     public var __parameterBlock: __RKMaterialParameterBlock
+
+    @_spi(Internal) public var __triangleFillMode: MTLTriangleFillMode {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __writesDepthInternal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __readsDepthInternal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __faceCullMode: MTLCullMode? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
     
     public init() {
         assertUnimplemented()

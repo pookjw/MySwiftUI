@@ -2,6 +2,10 @@
 package import AttributeGraph
 
 package struct ScrapeableID : Hashable, GraphReusable {
+    package static var isTriviallyReusable: Bool {
+        assertUnimplemented()
+    }
+
     package static var none: ScrapeableID {
         return ScrapeableID(value: 0)
     }

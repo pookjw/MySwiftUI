@@ -8,6 +8,14 @@ private import RealityFusion
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 public struct ARKitAnchorComponent : TransientComponent {
+    @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> ARKitAnchorComponent {
+        assertUnimplemented()
+    }
+
+    @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+        assertUnimplemented()
+    }
+
     @_spi(Internal) public static var componentName: String {
         get {
             assertUnimplemented()

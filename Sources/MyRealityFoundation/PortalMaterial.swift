@@ -1,8 +1,28 @@
+public import Metal
+
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 public struct PortalMaterial : Material, Sendable {
     public var __resource: __MaterialResource
     
     public var __parameterBlock: __RKMaterialParameterBlock
+
+    @_spi(Internal) public var __triangleFillMode: MTLTriangleFillMode {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __faceCullMode: MTLCullMode? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
     
     public init() {
         assertUnimplemented()

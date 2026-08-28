@@ -435,6 +435,10 @@ struct AccessibilityContainerModifier : AccessibilityViewModifier {
     func initialAttachment(for nodes: [AccessibilityNode]) -> AccessibilityAttachment {
         assertUnimplemented()
     }
+
+    func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {
+        assertUnimplemented()
+    }
     
     func createOrUpdateNode(viewRendererHost: (any ViewRendererHost)?, existingNode: AccessibilityNode?) -> AccessibilityNode {
         assertUnimplemented()

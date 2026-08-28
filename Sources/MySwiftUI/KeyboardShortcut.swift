@@ -8,7 +8,13 @@ public struct KeyboardShortcut : Sendable {
 }
 
 extension KeyboardShortcut : Hashable {
+    public static func == (lhs: KeyboardShortcut, rhs: KeyboardShortcut) -> Bool {
+        assertUnimplemented()
+    }
     
+    public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
 }
 
 extension EnvironmentValues {

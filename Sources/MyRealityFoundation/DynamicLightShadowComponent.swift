@@ -1,6 +1,14 @@
 @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, tvOS 26.0, *)
 public struct DynamicLightShadowComponent : Component {
     public var castsShadow: Bool
+
+    @MainActor @preconcurrency public static func __fromCore(_ coreComponent: __ComponentRef) -> DynamicLightShadowComponent {
+        assertUnimplemented()
+    }
+
+    @MainActor @preconcurrency public func __toCore(_ coreComponent: __ComponentRef) {
+        assertUnimplemented()
+    }
     
     public init(castsShadow: Bool) {
         assertUnimplemented()

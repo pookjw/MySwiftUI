@@ -67,6 +67,10 @@ private import _DarwinFoundation2._string
     @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
         assertUnimplemented()
     }
+
+    static func __free(to buffer: UnsafeMutableRawPointer, offset: Int) {
+        assertUnimplemented()
+    }
     
     static func __addIntrospectionData(_ builder: OpaquePointer?) {
         guard let builder = unsafe builder else {

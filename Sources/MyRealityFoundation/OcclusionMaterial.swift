@@ -1,8 +1,28 @@
+public import Metal
+
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public struct OcclusionMaterial : Material, Sendable {
     public let __resource: __MaterialResource
     
     public var __parameterBlock: __RKMaterialParameterBlock
+
+    @_spi(Internal) public var __readsDepthInternal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __faceCullMode: MTLCullMode? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 //    @available(visionOS, unavailable)
     public let receivesDynamicLighting: Bool
     

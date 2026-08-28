@@ -1726,6 +1726,10 @@ extension UIHostingController : UIHostingControllerProvider {
 }
 
 extension UIHostingController : ContentSizedSceneDelegate {
+    package func updateSceneSizing(_ sizingPreferences: SizingPreferences, transaction: Transaction?) {
+        assertUnimplemented()
+    }
+
     package var coalesceChanges: Bool {
         assertUnimplemented()
     }

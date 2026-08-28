@@ -80,6 +80,10 @@ extension MainMenuItemHost : ViewGraphRootValueUpdater {
         assertUnimplemented()
     }
     
+    func updateFocusStore() {
+        assertUnimplemented()
+    }
+
     func updateFocusedValues() {
         assertUnimplemented()
     }
@@ -152,6 +156,10 @@ struct MenuBuilderContext {
 
 fileprivate struct MainMenuItemViewGraph : ViewGraphFeature {
     // TODO
+    
+    mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        assertUnimplemented()
+    }
 }
 
 struct MainMenuItem : Sendable {

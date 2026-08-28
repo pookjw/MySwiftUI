@@ -62,6 +62,14 @@ enum ImmersiveSpaceClientOptionsUpdate {
         func convertedToPrimary() -> ImmersiveSpaceConfigurationAttributes.ClientOptions {
             assertUnimplemented()
         }
+
+        func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+
+        init(from decoder: any Decoder) throws {
+            assertUnimplemented()
+        }
         
         // TODO
     }

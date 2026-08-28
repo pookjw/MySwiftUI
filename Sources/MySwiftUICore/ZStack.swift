@@ -192,6 +192,10 @@ extension _ZStackLayout : @preconcurrency Layout {
 extension _ZStackLayout : BitwiseCopyable {}
 
 extension _ZStackLayout : @preconcurrency Layout3D {
+    static var depthProperties: LayoutDepthProperties {
+        assertUnimplemented()
+    }
+
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Void) -> CGFloat {
         let layout = ZStackLayout3D(alignment: self.alignment, spacing: nil)
         return layout.depthThatFits(proposal: proposal, subviews: subviews, cache: &cache)
@@ -274,6 +278,10 @@ package protocol ZStackParameterSmuggler {
 
 struct EnableZStackTrueDepthLayout : UserDefaultKeyedFeature, ViewInputFlag {
     init() {}
+
+    static var defaultFeatureValue: Bool {
+        assertUnimplemented()
+    }
     
     static var key: String {
         return "com.apple.SwiftUI.EnableZStackTrueDepthLayout"

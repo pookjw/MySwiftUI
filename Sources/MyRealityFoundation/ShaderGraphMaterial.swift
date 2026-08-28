@@ -1,4 +1,5 @@
 public import Foundation
+public import Metal
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension ShaderGraphMaterial {
@@ -42,6 +43,46 @@ extension ShaderGraphMaterial {
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 public struct ShaderGraphMaterial : Material, @unchecked Sendable {
+    @_spi(Internal) public var __triangleFillMode: MTLTriangleFillMode {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __writesDepthInternal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __readsDepthInternal: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __faceCullMode: MTLCullMode? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    @_spi(Internal) public var __directUniformsState: DirectUniformsState {
+        assertUnimplemented()
+    }
+
     public enum Error : LocalizedError {
         case incorrectTypeForParameterName
         case parameterNameNotFound
