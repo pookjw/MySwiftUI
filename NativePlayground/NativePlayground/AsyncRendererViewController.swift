@@ -37,6 +37,17 @@ fileprivate struct MyView : View {
                 }
             }
         }
+        .task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(1))
+                    
+                    withAnimation {
+                        self.isStar.toggle()
+                    }
+                }
+            } catch {}
+        }
     }
 }
 
