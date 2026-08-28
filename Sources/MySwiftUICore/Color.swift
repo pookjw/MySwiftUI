@@ -876,7 +876,7 @@ package struct ColorView : ResolvedPaint, RendererLeafView {
     }
     
     static var requiresMainThread: Bool {
-        assertUnimplemented()
+        return false
     }
     
     func content() -> DisplayList.Content.Value {

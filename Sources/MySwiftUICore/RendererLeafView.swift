@@ -67,7 +67,7 @@ extension RendererLeafView {
     }
     
     static var requiresMainThread: Bool {
-        assertUnimplemented()
+        return false
     }
 }
 
@@ -82,6 +82,10 @@ fileprivate struct LeafDisplayList<Content : RendererLeafView>: CustomStringConv
     
     var description: String {
         assertUnimplemented()
+    }
+
+    static var flags: AnyAttribute.TypeFlags {
+        return Content.requiresMainThread ? AnyAttribute.TypeFlags(rawValue: 0x8) : []
     }
     
     typealias Value = DisplayList
