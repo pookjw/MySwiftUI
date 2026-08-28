@@ -3,9 +3,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 RE_EXTERN REComponentClassPtr RESceneSpaceRootComponentGetComponentType(void) NS_SWIFT_NAME(getter:Component.ClassPtr.sceneSpaceRoot());
-RE_EXTERN BOOL RESceneSpaceRootComponentGetIsSelfInImmersiveSpace(REComponent) NS_SWIFT_NAME(getter:Component.sceneSpaceRoot_isSelfInImmersiveSpace(self:));
+RE_EXTERN bool RESceneSpaceRootComponentGetIsSelfInImmersiveSpace(REComponent) NS_SWIFT_NAME(getter:Component.sceneSpaceRoot_isSelfInImmersiveSpace(self:));
 RE_EXTERN void RESceneSpaceRootComponentSetIsSelfInImmersiveSpace(REComponent, BOOL) NS_SWIFT_NAME(setter:Component.sceneSpaceRoot_isSelfInImmersiveSpace(self:isSelfInImmersiveSpace:));
 RE_EXTERN simd_float4x4 RESceneSpaceRootComponentGetSceneToImmersiveTransform(REComponent) NS_SWIFT_NAME(getter:Component.sceneSpaceRoot_sceneToImmersiveTransform(self:));
 RE_EXTERN void RESceneSpaceRootComponentSetSceneToImmersiveTransform(REComponent, simd_float4x4) NS_SWIFT_NAME(setter:Component.sceneSpaceRoot_sceneToImmersiveTransform(self:sceneToImmersiveTransform:));
+RE_EXTERN bool RESceneSpaceRootComponentGetIsImmersiveSpaceOpen(REComponent) NS_SWIFT_NAME(getter:Component.sceneSpaceRoot_isImmersiveSpaceOpen(self:));
 
 NS_ASSUME_NONNULL_END

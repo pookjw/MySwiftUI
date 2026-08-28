@@ -108,3 +108,4 @@
 #import <CoreRE/RECALayerClientComponent.h>
 #import <CoreRE/REUIShadowConfigurationComponent.h>
 #import <CoreRE/REQuery.h>
+#import <CoreRE/RETransformService.h>
