@@ -674,7 +674,39 @@ extension StackLayout {
         }
         
         func spacing() -> Spacing {
-            assertUnimplemented()
+            let w20 = unsafe self.header.pointee.majorAxis
+            var spacing = unsafe self.header.pointee.proxies.isEmpty ? .zero : Spacing(minima: [:])
+            
+            // <+100>
+            for (index, subview) in unsafe self.header.pointee.proxies.enumerated() {
+                var w8: Edge.Set = (w20 != .horizontal) ? .trailing : .bottom
+                var w9: Edge.Set = (w20 != .horizontal) ? .leading : .top
+                let w28 = w9.union(w8)
+                
+                if index == 0 {
+                    let axis = unsafe self.header.pointee.majorAxis
+                    w8 = (axis != .vertical) ? .leading : .top
+                } else {
+                    w8 = []
+                }
+                
+                if unsafe index != self.header.pointee.proxies.count &- 1 {
+                    w9 = []
+                } else {
+                    let axis = unsafe self.header.pointee.majorAxis
+                    w9 = (axis == .vertical) ? .bottom : .trailing
+                }
+                
+                let edge = unsafe AbsoluteEdge.Set(
+                    w8.union(w28).union(w9),
+                    layoutDirection: self.header.pointee.proxies.layoutDirection
+                )
+                
+                let _spacing = subview.spacing
+                spacing.incorporate(edge, of: _spacing.spacing)
+            }
+            
+            return spacing
         }
         
         func explicitAlignment(_ key: AlignmentKey, at size: ViewSize) -> CGFloat? {
@@ -820,7 +852,7 @@ extension StackLayout {
                     d12 = d0
                 }
                 
-                assert(d13 < d12)
+                assert(!(d13 > d12 || d13.isNaN || d12.isNaN))
             }
             
             // <+380>

@@ -14,8 +14,6 @@ import _SwiftUICorePrivate
 
 @main
 struct NativePlaygroundApp : App {
-    @State private var count = 0
-    
     init() {
         printOffsets()
     }
@@ -24,11 +22,6 @@ struct NativePlaygroundApp : App {
         WindowGroup {
             ContentView()
         }
-        
-        WindowGroup(id: "Volumetric") { 
-            SphereView(radius: 0.3)
-        }
-        .windowStyle(.volumetric)
     }
 }
 
@@ -36,7 +29,7 @@ fileprivate struct ContentView : UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         let navigationController = UINavigationController()
 //        navigationController.viewControllers = [PushViewController(), ViewController()]
-        navigationController.viewControllers = [PushViewController(), SphereViewController()]
+        navigationController.viewControllers = [PushViewController(), HVViewController()]
         return navigationController
     }
     
