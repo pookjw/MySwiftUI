@@ -365,6 +365,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
         // <+216>
         for feature in self.features {
             guard let allowsAsyncUpdate = feature.allowsAsyncUpdate(graph: self) else {
+                feature.flags |= 2
                 continue
             }
             
@@ -405,8 +406,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 
                 if self.updatePreferences() {
                     w27 = true
-                    w19 = true
-                    x290xc8 = w19
+                    x290xc8 = w27
                 }
                 
                 // <+252>
@@ -417,12 +417,19 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 
                 // <+312>
                 for feature in self.features {
-                    guard (feature.flags & 2) == 0 else {
+                    if (feature.flags & 2) != 0 {
+                        continue
+                    }
+                    
+                    if (feature.flags & 1) != 0 {
+                        w19 = true
+                        x23 = true
                         continue
                     }
                     
                     if feature.needsUpdate(graph: self) {
                         feature.flags |= 1
+                        w19 = true
                         x23 = true
                     }
                 }
@@ -511,9 +518,10 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 Update.syncMain {
                     update()
                 }
+                
+                self.mainUpdates &-= 1
             }
             
-            self.mainUpdates &-= 1
             // <+792>
             result = self.rootDisplayList
         }

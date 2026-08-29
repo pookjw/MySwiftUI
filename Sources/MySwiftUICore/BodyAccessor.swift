@@ -53,7 +53,7 @@ extension BodyAccessor {
     package func setBody(_ body: () -> Self.Body) {
         let body = traceRuleBody(type(of: self), body: body)
         
-        unsafe withUnsafePointer(to: body) { pointer in
+        withUnsafePointer(to: body) { pointer in
             unsafe Graph.setOutputValue(pointer)
         }
     }
@@ -67,19 +67,19 @@ protocol BodyAccessorRule {
 }
 
 fileprivate struct MainThreadFlags : RuleThreadFlags {
-    static var flags: AnyAttribute.Flags {
+    static var value: AnyAttribute.TypeFlags {
         return .unknown3
     }
 }
 
 fileprivate struct AsyncThreadFlags : RuleThreadFlags {
-    static var flags: AnyAttribute.Flags {
+    static var value: AnyAttribute.TypeFlags {
         return .unknown5
     }
 }
 
 fileprivate protocol RuleThreadFlags {
-    static var flags: AnyAttribute.Flags { get }
+    static var value: AnyAttribute.TypeFlags { get }
 }
 
 fileprivate struct EmbeddedDynamicPropertyBox<T : DynamicProperty>: DynamicPropertyBox {
@@ -92,7 +92,7 @@ fileprivate struct StaticBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStri
     typealias Value = T.Body
 
     static var flags: AnyAttribute.TypeFlags {
-        return AnyAttribute.TypeFlags(rawValue: UInt32(truncatingIfNeeded: U.flags.rawValue))
+        return U.value
     }
     
     var description: String {
@@ -143,7 +143,7 @@ fileprivate struct DynamicBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStr
     typealias Value = T.Body
     
     static var flags: AnyAttribute.TypeFlags {
-        return AnyAttribute.TypeFlags(rawValue: UInt32(truncatingIfNeeded: U.flags.rawValue))
+        return U.value
     }
     
     let accessor: T

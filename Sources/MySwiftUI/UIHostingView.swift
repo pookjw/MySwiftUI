@@ -1317,7 +1317,7 @@ extension _UIHostingView {
         }
         
         func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            assertUnimplemented()
+            return true
         }
         
         nonisolated func needsUpdate(graph: ViewGraph) -> Bool {

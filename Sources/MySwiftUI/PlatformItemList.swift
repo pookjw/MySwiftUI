@@ -73,7 +73,7 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        return nil
+        assertUnimplemented()
     }
     
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {

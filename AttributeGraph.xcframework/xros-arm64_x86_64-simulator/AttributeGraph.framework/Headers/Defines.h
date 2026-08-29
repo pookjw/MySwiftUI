@@ -210,7 +210,9 @@ typedef NS_OPTIONS(uint8_t, AGAttributeFlags) {
 } NS_SWIFT_NAME(AnyAttribute.Flags);
 
 typedef NS_OPTIONS(uint32_t, AGAttributeTypeFlags) {
-    AGAttributeTypeFlagsUnknown = 10
+    AGAttributeTypeFlagsUnknown1 = 1 << 1,
+    AGAttributeTypeFlagsUnknown3 = 1 << 3,
+    AGAttributeTypeFlagsUnknown5 = 1 << 5
 } NS_SWIFT_NAME(AnyAttribute.TypeFlags);
 
 typedef NS_OPTIONS(uint32_t, AGTypeApplyOptions) {
