@@ -596,11 +596,27 @@ extension Color {
         }
 
         public static func == (lhs: Color.ResolvedHDR, rhs: Color.ResolvedHDR) -> Bool {
-            assertUnimplemented()
+            if lhs.base == rhs.base {
+                let w8 = rhs._headroom.isNaN
+                let result = lhs._headroom == rhs._headroom
+                let w9 = lhs._headroom.isNaN
+                
+                if w9 {
+                    return w8
+                } else {
+                    return result
+                }
+            } else {
+                return false
+            }
         }
 
         public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
+            hasher.combine(self.base)
+            
+            if !self._headroom.isNaN {
+                hasher.combine(self._headroom)
+            }
         }
         
         static var clear: Color.ResolvedHDR {

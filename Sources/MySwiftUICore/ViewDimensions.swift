@@ -68,7 +68,7 @@ extension ViewDimensions : Sendable {}
 
 extension ViewDimensions : Equatable {
     public static func == (lhs: ViewDimensions, rhs: ViewDimensions) -> Bool {
-        assertUnimplemented()
+        return lhs.size == rhs.size && lhs.guideComputer == rhs.guideComputer
     }
 }
 
