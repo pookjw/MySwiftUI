@@ -88,7 +88,7 @@ extension MainMenuItemHost : ViewGraphRootValueUpdater {
         assertUnimplemented()
     }
     
-    func `as`<T>(_ type: T.Type) -> T? {
+    nonisolated func `as`<T>(_ type: T.Type) -> T? {
         if let result = _specialize(self as (any ViewGraphOwner), for: T.self) {
             return result
         } else if let result = _specialize(self as (any ViewGraphDelegate), for: T.self) {

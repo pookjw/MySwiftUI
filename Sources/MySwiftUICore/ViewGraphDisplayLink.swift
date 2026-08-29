@@ -345,7 +345,33 @@ final class ViewGraphDisplayLink : NSObject {
     }
     
     @objc(asyncThreadWithArg:) fileprivate static func asyncThread(arg: Any?) {
-        assertUnimplemented()
+        Update.lock()
+        
+        unsafe ViewGraphDisplayLink.asyncRunloop = .current
+        Update.broadcast()
+        
+        while ViewGraphDisplayLink.asyncPending {
+            // <+344>
+            ViewGraphDisplayLink.asyncPending = false
+            Update.unlock()
+            
+            unsafe ViewGraphDisplayLink.asyncRunloop!.schedule(
+                after: RunLoop.SchedulerTimeType(Date(timeIntervalSinceNow: 1.0)),
+                tolerance: RunLoop.SchedulerTimeType.Stride(0.1),
+                options: nil
+            ) {
+                // noop
+            }
+            
+            unsafe ViewGraphDisplayLink.asyncRunloop!.run()
+            Update.lock()
+        }
+        
+        // <+556>
+        unsafe ViewGraphDisplayLink.asyncRunloop = nil
+        unsafe ViewGraphDisplayLink.asyncThread = nil
+        Update.broadcast()
+        Update.unlock()
     }
 }
 

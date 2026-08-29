@@ -42,7 +42,7 @@ internal import CoreGraphics
         self.renderer = DisplayList.ViewRenderer(platform: DisplayList.ViewUpdater.Platform(definition: viewDefinition))
     }
     
-    package func `as`<T>(_ type: T.Type) -> T? {
+    package nonisolated func `as`<T>(_ type: T.Type) -> T? {
         if let result = _specialize(self as (any ViewGraphOwner), for: T.self) {
             return result
         } else if let result = _specialize(renderer, for: T.self) {

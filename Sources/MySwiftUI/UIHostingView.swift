@@ -69,7 +69,7 @@ open class _UIHostingView<Content : View>: UIView {
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
     private var legacyKeyboardAnimation: Animation? = nil
-    weak var viewController: UIHostingController<Content>? = nil {
+    nonisolated(unsafe) weak var viewController: UIHostingController<Content>? = nil {
         didSet {
             updateBackgroundColor()
         }
@@ -1758,7 +1758,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public final func `as`<T>(_ type: T.Type) -> T? {
+    @_spi(Internal) public final nonisolated func `as`<T>(_ type: T.Type) -> T? {
         if let result = _base._as(type) {
             return result
         } else if let result = viewController?._as(type) {

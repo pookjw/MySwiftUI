@@ -178,13 +178,12 @@ package enum Update {
         }
     }
     
-    @inline(always)
     package static func wait() {
         Update._lock.lockWait()
     }
     
     package static func broadcast() {
-        assertUnimplemented()
+        Update._lock.broadcast()
     }
     
     package static var isActive: Bool {

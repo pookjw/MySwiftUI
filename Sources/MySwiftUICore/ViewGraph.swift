@@ -5,7 +5,7 @@ package import CoreGraphics
 internal import QuartzCore
 private import Spatial
 
-package final class ViewGraph : GraphHost {
+package final class ViewGraph : GraphHost, @unchecked Sendable {
     package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }
@@ -224,8 +224,8 @@ package final class ViewGraph : GraphHost {
         self.rootView.unsafeCast(to: Content.self).value = rootView
     }
     
-    package func updateOutputs(at time: Time) {
-        self.beginNextUpdate(at: time)
+    package func updateOutputs(at timestamp: Time) {
+        self.beginNextUpdate(at: timestamp)
         
         var w27 = false
         var sp = false
@@ -335,6 +335,10 @@ package final class ViewGraph : GraphHost {
         
         update(x29_51, false, sp_18, x29_52)
         self.mainUpdates &-= 1
+    }
+    
+    func updateOutputsAsync(at timestamp: Time) -> (list: DisplayList, version: DisplayList.Version)? {
+        assertUnimplemented()
     }
     
     func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {
@@ -562,9 +566,9 @@ package final class ViewGraph : GraphHost {
         self.updateRemovedState()
     }
     
-    private func beginNextUpdate(at time: Time) {
-        if data.time != time {
-            data.time = time
+    private func beginNextUpdate(at timestamp: Time) {
+        if data.time != timestamp {
+            data.time = timestamp
             nextUpdate.views = ViewGraph.NextUpdate()
         }
         
