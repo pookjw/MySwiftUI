@@ -25,10 +25,6 @@ extension _GraphInputs {
         assertUnimplemented()
     }
     
-    package func pushStyleContext<T : StyleContext>(_ context: T) {
-        assertUnimplemented()
-    }
-    
     @inline(always)
     fileprivate func pushScope<T : StronglyHashable>(id: T) {
         assertUnimplemented()
