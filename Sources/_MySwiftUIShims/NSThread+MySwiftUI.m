@@ -1,8 +1,5 @@
 #import "include/NSThread+MySwiftUI.h"
-
-@interface NSThread (MySwiftUI)
-- (BOOL)startAndReturnError:(NSError * _Nullable __autoreleasing * _Nullable)error;
-@end
+@import _FoundationPrivate;
 
 BOOL _NSThreadStart(NSThread *thread) {
     if ([thread respondsToSelector:@selector(startAndReturnError:)]) {
