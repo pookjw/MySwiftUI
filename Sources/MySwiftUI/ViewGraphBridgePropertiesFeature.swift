@@ -41,7 +41,7 @@ struct ViewGraphBridgePropertiesFeature : ViewGraphFeature {
         self._environment = OptionalAttribute()
     }
     
-    func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated func needsUpdate(graph: ViewGraph) -> Bool {
         /*
          self -> x20 -> x19
          viewGraph -> x0 -> x20

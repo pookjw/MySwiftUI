@@ -338,7 +338,184 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
     }
     
     func updateOutputsAsync(at timestamp: Time) -> (list: DisplayList, version: DisplayList.Version)? {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         return pointer -> x8 -> x19
+         */
+        self.beginNextUpdate(at: timestamp)
+        
+        guard
+            let rootDisplayListAttribute = self.$rootDisplayList,
+            !rootDisplayListAttribute.valueState.contains([.unknown0, .unknown4]),
+            let hostPreferenceValuesAttribute = self.hostPreferenceValues.attribute,
+            !hostPreferenceValuesAttribute.valueState.contains([.unknown0, .unknown4])
+        else {
+            return nil
+        }
+        
+        if !self.sizeThatFitsObservers.store.isEmpty {
+            guard
+                let rootLayoutComputerAttribute = self.$rootLayoutComputer,
+                !rootLayoutComputerAttribute.valueState.contains([.unknown0, .unknown4])
+            else {
+                return nil
+            }
+        }
+        
+        // <+216>
+        for buffer in self.features {
+            guard let allowsAsyncUpdate = buffer.allowsAsyncUpdate(graph: self) else {
+                continue
+            }
+            
+            if !allowsAsyncUpdate {
+                return nil
+            }
+        }
+        
+        var result: (list: DisplayList, version: DisplayList.Version)? = nil
+        
+        self.data.graph!.withMainThreadHandler { _ in
+            // $s7SwiftUI9ViewGraphC18updateOutputsAsync2atAA11DisplayListV4list_AG7VersionV7versiontSgAA4TimeV_tFyyyXEXEfU_
+            assertUnimplemented()
+        } do: { 
+            // $s7SwiftUI9ViewGraphC18updateOutputsAsync2atAA11DisplayListV4list_AG7VersionV7versiontSgAA4TimeV_tFyyXEfU0_TA
+            /*
+             self -> x0 -> x21
+             result -> x1 -> x29 - 0xe0
+             */
+            var x290xc8 = false
+            var x23 = false
+            var x290xd0 = false
+            var x290xd4 = false
+            var w19 = false
+            var w27 = false
+            var x28 = 0
+            
+            while true {
+                self.runTransaction(
+                    nil,
+                    do: { 
+                        // noop
+                    },
+                    id: nil
+                )
+                
+                if self.updatePreferences() {
+                    w27 = true
+                    w19 = true
+                    x290xc8 = w19
+                }
+                
+                // <+252>
+                if self.sizeThatFitsObservers.needsUpdate(graph: self) {
+                    x290xd4 = true
+                    x290xd0 = true
+                }
+                
+                // <+312>
+                for feature in self.features {
+                    guard (feature.flags & 1) == 0 else {
+                        continue
+                    }
+                    
+                    if feature.needsUpdate(graph: self) {
+                        feature.flags |= 0
+                        x23 = true
+                    }
+                }
+                
+                // <+448>
+                x28 &+= 1
+                let isDirtry = self.data.globalSubgraph.isDirty(1)
+                
+                if x28 == 8 {
+                    break
+                }
+                
+                if isDirtry {
+                    continue
+                } else {
+                    break
+                }
+            }
+            
+            // <+476>
+            let shouldUpdate = (w27 || w19 || x290xd4)
+            let x26 = x290xd0
+            let x24 = x290xc8
+            
+            if shouldUpdate {
+                let update: () -> Void = {
+                    /*
+                     x23 -> x0 -> x23
+                     self -> x1 -> x19
+                     true -> w2 -> w22
+                     x24 -> x3 -> x24
+                     x26 -> x4 -> x21
+                     */
+                    if x23 {
+                        // <+84>
+                        for feature in self.features {
+                            if feature.flags & 2 != 0 {
+                                continue
+                            }
+                            
+                            if feature.flags & 1 == 0 {
+                                continue
+                            }
+                            
+                            feature.outputsDidChange(graph: self)
+                        }
+                    }
+                    
+                    // <+220>
+                    if x24 {
+                        if let delegate = self.delegate {
+                            delegate.setNeedsUpdate()
+                        }
+                        
+                        // <+316>
+                        if let preferenceBridge = self._preferenceBridge {
+                            let w20 = self.data.$hostPreferenceKeys
+                            if let viewGraph = preferenceBridge.viewGraph {
+                                viewGraph.graphInvalidation(from: w20.identifier)
+                            }
+                        }
+                    }
+                    
+                    // <+420>
+                    if x23 {
+                        for feature in self.features {
+                            if feature.flags & 2 != 0 {
+                                continue
+                            }
+                            
+                            if feature.flags & 1 == 0 {
+                                continue
+                            }
+                            
+                            feature.update(graph: self)
+                            feature.flags &= 0xfffffffe
+                        }
+                    }
+                    
+                    // <+600>
+                    if x26 {
+                        self.sizeThatFitsObservers.notify()
+                    }
+                }
+                
+                Update.syncMain {
+                    update()
+                }
+            }
+            
+            // <+792>
+            result = self.rootDisplayList
+        }
+        
+        return result
     }
     
     func updateGraphPhase(oldParentPhase: _GraphInputs.Phase?, newParentPhase: _GraphInputs.Phase) {
@@ -1150,7 +1327,7 @@ package protocol ViewGraphFeature {
     mutating func uninstantiate(graph: ViewGraph)
     func isHiddenForReuseDidChange(graph: ViewGraph)
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool?
-    mutating func needsUpdate(graph: ViewGraph) -> Bool
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool
     mutating func update(graph: ViewGraph)
     mutating func outputsDidChange(graph: ViewGraph)
 }
@@ -1172,7 +1349,7 @@ extension ViewGraphFeature {
         return true
     }
     
-    package func needsUpdate(graph: ViewGraph) -> Bool {
+    package nonisolated func needsUpdate(graph: ViewGraph) -> Bool {
         return false
     }
     
@@ -1190,7 +1367,7 @@ extension ViewGraphFeature {
 }
 
 package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
-    private var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
+    fileprivate private(set) var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
     package func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
         assertUnimplemented()
@@ -1247,7 +1424,7 @@ package protocol ViewGraphGeometryMeasurer {
 }
 
 extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard !graph.data.isHiddenForReuse else {
             return false
         }
@@ -1300,7 +1477,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
 }
 
 extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard !graph.data.isHiddenForReuse else {
             return false
         }

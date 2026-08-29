@@ -43,7 +43,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
          */
         
         inputs.needsAccessibility = true
-        unsafe inputs.preferences.add(AccessibilityNodesKey.self)
+        inputs.preferences.add(AccessibilityNodesKey.self)
         inputs.textAccessibilityProvider = SwiftUITextAccessibilityProvider.self
         inputs.imageAccessibilityProvider = SwiftUIImageAccessibilityProvider.self
         inputs.privacyReductionAccessibilityProvider = SwiftUIPrivacyReductionAccessibilityProvider.self
@@ -93,8 +93,8 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
                 for: AccessibilityContainerResolver<AccessibilityChildBehavior.Host>.self
             )
         
-        unsafe outputs[AccessibilityNodesKey.self] = nodeList
-        self._rootNodes = unsafe WeakAttribute(outputs[AccessibilityNodesKey.self])
+        outputs[AccessibilityNodesKey.self] = nodeList
+        self._rootNodes = WeakAttribute(outputs[AccessibilityNodesKey.self])
         self._hostPreferences = WeakAttribute(outputs[HostPreferencesKey.self])
     }
     
@@ -108,11 +108,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         assertUnimplemented()
     }
     
-    func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
-    }
-    
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard graph.accessibilityEnabled else {
             return false
         }

@@ -81,10 +81,10 @@ extension ViewGraph3D : ViewGraphFeature {
     }
     
     package func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
+        return true
     }
     
-    package mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    package nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         return volumeThatFitsObservers.needsUpdate(graph: graph)
     }
     

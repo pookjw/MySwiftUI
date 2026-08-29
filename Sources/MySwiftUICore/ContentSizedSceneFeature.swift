@@ -74,7 +74,7 @@ package struct ContentSizedSceneFeature<GeometryMeasurer : ViewGraphGeometryMeas
         assertUnimplemented()
     }
     
-    package func needsUpdate(graph: ViewGraph) -> Bool {
+    package nonisolated func needsUpdate(graph: ViewGraph) -> Bool {
         return !self.dispatcher.pendingChanges.isEmpty
     }
     

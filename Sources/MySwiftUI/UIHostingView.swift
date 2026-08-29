@@ -1320,7 +1320,7 @@ extension _UIHostingView {
             assertUnimplemented()
         }
         
-        func needsUpdate(graph: ViewGraph) -> Bool {
+        nonisolated func needsUpdate(graph: ViewGraph) -> Bool {
             assertUnimplemented()
         }
         

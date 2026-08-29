@@ -62,7 +62,6 @@ extension ViewGraphFeatureBuffer {
             self.base = base
         }
         
-        // 아래 모두 원래 없으며 추정임
         @inlinable
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
@@ -186,7 +185,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func allowsAsyncUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
-            assertUnimplemented()
+            return unsafe elt.body(as: T.self).pointee.allowsAsyncUpdate(graph: graph)
         }
         
         override class func outputsDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {

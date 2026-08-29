@@ -76,7 +76,7 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
         return nil
     }
     
-    mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard !needsUpdate else {
             return true
         }

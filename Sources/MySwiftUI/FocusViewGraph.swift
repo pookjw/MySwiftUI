@@ -68,11 +68,7 @@ extension FocusViewGraph : @preconcurrency ViewGraphFeature {
         assertUnimplemented()
     }
     
-    func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
-    }
-    
-    @MainActor mutating func needsUpdate(graph: ViewGraph) -> Bool {
+    nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         let needsFocusUpdate = needsFocusUpdate
         
         if

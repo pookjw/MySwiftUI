@@ -75,7 +75,8 @@ typedef NS_OPTIONS(uint32_t, AGComparisonOptions) {
 
 typedef NS_OPTIONS(uint32_t, AGValueState) {
     AGValueStateUnknown0 = 1 << 0,
-    AGValueStateUnknown1 = 1 << 1
+    AGValueStateUnknown1 = 1 << 1,
+    AGValueStateUnknown4 = 1 << 4
 };
 
 typedef NS_OPTIONS(uint32_t, AGInputOptions) {
