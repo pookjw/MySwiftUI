@@ -50,10 +50,6 @@ extension CoordinateSpace : Hashable {
     public func hash(into hasher: inout Hasher) {
         assertUnimplemented()
     }
-
-    public static func == (lhs: CoordinateSpace, rhs: CoordinateSpace) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 extension CoordinateSpace {

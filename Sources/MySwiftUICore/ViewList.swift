@@ -2470,7 +2470,7 @@ extension ModifiedViewList {
         private(set) var listModifier: ModifiedViewList.ListModifier
         
         static var flags: _ViewList_SublistTransform_ItemFlags {
-            assertUnimplemented()
+            return []
         }
 
         func apply(sublist: inout _ViewList_Sublist) {

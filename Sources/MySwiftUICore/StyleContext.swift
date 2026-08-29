@@ -108,7 +108,7 @@ struct AnyStyleContextType : @unchecked Sendable {
     }
     
     func pushing<T : StyleContext>(_ type: T.Type) -> AnyStyleContextType {
-        let pushed = StyleContextTypeBox<NoStyleContext>.pushing(type)
+        let pushed = self.base.pushing(type)
         return AnyStyleContextType(base: pushed)
     }
     
