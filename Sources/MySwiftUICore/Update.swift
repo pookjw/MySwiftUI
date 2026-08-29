@@ -139,7 +139,7 @@ package enum Update {
     package static func syncMain(_ handler: () -> Void) {
         withoutActuallyEscaping(handler) { escapingClosure in
             let casted = unsafe unsafeBitCast(escapingClosure, to: (@MainActor () -> Void).self)
-            unsafe Update.syncMain(unsafeBitCast(escapingClosure, to: (@MainActor () -> Void).self))
+            Update.syncMain(casted)
         }
     }
     
