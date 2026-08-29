@@ -158,7 +158,9 @@ fileprivate struct MainMenuItemViewGraph : ViewGraphFeature {
     // TODO
     
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-        assertUnimplemented()
+        inputs.addPlatformItemListKey(flags: AllPlatformItemListFlags.self, editOperation: nil)
+        inputs.base.animationsDisabled = true
+        inputs.base.pushStyleContext(MenuStyleContext.menu)
     }
 }
 

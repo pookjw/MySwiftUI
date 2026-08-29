@@ -35,7 +35,7 @@ public struct _GraphInputs {
         }
     }
     
-    var animationsDisabled: Bool {
+    package var animationsDisabled: Bool {
         get {
             return options.contains(.animationsDisabled)
         }

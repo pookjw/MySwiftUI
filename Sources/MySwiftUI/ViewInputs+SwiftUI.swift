@@ -15,10 +15,10 @@ struct PlatformItemListFlagsSet : OptionSet {
 }
 
 extension PlatformItemListFlagsSet {
-    // type descriptor는 존재하지 않음
     enum EditOperation {
         case unknown0
         case unknown1
+        // unknown2는 존재하지 않음. 만약 어딘가에서 0x2를 활용한다면 그것은 nil
     }
 }
 
