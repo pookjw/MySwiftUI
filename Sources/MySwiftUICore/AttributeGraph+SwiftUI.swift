@@ -88,6 +88,12 @@ extension Attribute {
     }
 }
 
+extension WeakAttribute {
+    package func allowsAsyncUpdate() -> Bool {
+        assertUnimplemented()
+    }
+}
+
 extension TypeID {
     @inline(always)
     func projectEnum(at pointer: UnsafeRawPointer, tag: Int, _ body: (UnsafeRawPointer) -> Void) {

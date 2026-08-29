@@ -253,7 +253,13 @@ extension DisplayList {
             }
         }
         
-        func renderAsync(to displayList: DisplayList, time: Time, targetTimestamp: Time?, version: DisplayList.Version, maxVersion: DisplayList.Version) -> Time? {
+        func renderAsync(
+            to displayList: DisplayList,
+            time: Time,
+            targetTimestamp: Time?,
+            version: DisplayList.Version,
+            maxVersion: DisplayList.Version
+        ) -> Time? {
             assertUnimplemented()
         }
         

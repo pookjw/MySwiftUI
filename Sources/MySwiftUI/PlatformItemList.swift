@@ -73,7 +73,18 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         graph -> x0 -> x20
+         */
+        guard
+            self.wasReadSinceLastUpdate,
+            graph.requestedOutputs.isSuperset(of: .platformItemList)
+        else {
+            return true
+        }
+        
+        return self.rootList.allowsAsyncUpdate()
     }
     
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
