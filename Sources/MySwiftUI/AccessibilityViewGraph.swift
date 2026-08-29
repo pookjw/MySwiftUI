@@ -108,6 +108,10 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         assertUnimplemented()
     }
     
+    nonisolated func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
+        return nil
+    }
+    
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
         guard graph.accessibilityEnabled else {
             return false

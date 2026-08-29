@@ -363,10 +363,12 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
         }
         
         // <+216>
-        for buffer in self.features {
-            guard let allowsAsyncUpdate = buffer.allowsAsyncUpdate(graph: self) else {
+        for feature in self.features {
+            guard let allowsAsyncUpdate = feature.allowsAsyncUpdate(graph: self) else {
                 continue
             }
+            
+            feature.flags &= 0xfffffffd
             
             if !allowsAsyncUpdate {
                 return nil
@@ -415,12 +417,12 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 
                 // <+312>
                 for feature in self.features {
-                    guard (feature.flags & 1) == 0 else {
+                    guard (feature.flags & 2) == 0 else {
                         continue
                     }
                     
                     if feature.needsUpdate(graph: self) {
-                        feature.flags |= 0
+                        feature.flags |= 1
                         x23 = true
                     }
                 }
@@ -472,7 +474,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                     // <+220>
                     if x24 {
                         if let delegate = self.delegate {
-                            delegate.setNeedsUpdate()
+                            delegate.preferencesDidChange()
                         }
                         
                         // <+316>
@@ -511,6 +513,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 }
             }
             
+            self.mainUpdates &-= 1
             // <+792>
             result = self.rootDisplayList
         }

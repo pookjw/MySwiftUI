@@ -56,7 +56,7 @@ struct FocusViewGraph {
     }
 }
 
-extension FocusViewGraph : @preconcurrency ViewGraphFeature {
+extension FocusViewGraph : ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         inputs.base[FocusedItemInputKey.self] = _focusedItem
         inputs.base[FocusedValuesInputKey.self] = _focusedValues
@@ -66,6 +66,10 @@ extension FocusViewGraph : @preconcurrency ViewGraphFeature {
     
     func isHiddenForReuseDidChange(graph: ViewGraph) {
         assertUnimplemented()
+    }
+    
+    nonisolated func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
+        return nil
     }
     
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {

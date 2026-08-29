@@ -142,6 +142,10 @@ fileprivate struct StaticBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStri
 fileprivate struct DynamicBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStringConvertible, ObservedAttribute, BodyAccessorRule, StatefulRule {
     typealias Value = T.Body
     
+    static var flags: AnyAttribute.TypeFlags {
+        return AnyAttribute.TypeFlags(rawValue: UInt32(truncatingIfNeeded: U.flags.rawValue))
+    }
+    
     let accessor: T
     private(set) var _container: Attribute<T.Container> // 0x34 (offset map)
     @Attribute private(set) var phase: _GraphInputs.Phase // 0x38 (offset map)
