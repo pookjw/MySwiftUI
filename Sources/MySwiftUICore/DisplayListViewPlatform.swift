@@ -1,5 +1,4 @@
 // 8BBC66CBE42B8A65F8A2F3799C81A349
-
 private import CoreGraphics
 internal import _MySwiftUIShims
 
@@ -682,7 +681,6 @@ extension DisplayList.ViewUpdater {
                 // <+1152>
                 return
             }
-            assertUnimplemented()
         }
         
         fileprivate func updateGeometry(
@@ -1208,7 +1206,7 @@ extension DisplayList.ViewUpdater {
         }
         
         // 원래 없음
-        @inlinable
+        @inline(always)
         var definition: PlatformViewDefinition.Type {
             return encoding.definition
         }
@@ -1635,6 +1633,142 @@ extension DisplayList.ViewUpdater.ViewCache {
         )
         
         return result
+    }
+    
+    mutating func updateAsync(
+        oldItem: DisplayList.Item,
+        oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+        newItem: DisplayList.Item,
+        newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+        tag: DisplayList.ViewUpdater.ViewCache.Tag,
+        platform: DisplayList.ViewUpdater.Platform
+    ) -> DisplayList.ViewUpdater.ViewCache.AsyncResult? {
+        /*
+         oldItem -> x0
+         oldState -> x1
+         newItem -> x2 -> x23
+         newState -> x3
+         tag -> x4
+         platform -> x5
+         */
+        let id = self.index.id
+        
+        guard
+            oldItem.identity == newItem.identity,
+            let viewInfo = self.map[DisplayList.ViewUpdater.ViewCache.Key(id: id, system: PlatformViewDefinition.System(base: platform.system), tag: tag)]
+        else {
+            return nil
+        }
+        
+        /*
+         self -> x20 -> x24
+         tag -> x4 -> x21
+         oldState -> x1 -> x27
+         newState -> x3 -> x26
+         oldItem -> x0 -> x22
+         */
+        // sp + 0x28
+        let oldVersion = oldItem.version
+        // sp + 0x20
+        let newVersion = newItem.version
+        // viewInfo -> sp + 0x70
+        // sp + 0x110
+        var copy_1 = viewInfo
+        
+        // <+296>
+        // w22
+        let isInvalid = viewInfo.isInvalid
+        var viewInfoChanged = false
+        
+        let result: Bool = withUnsafeMutablePointer(to: &self) { pointer in
+            // $s7SwiftUI11DisplayListV11ViewUpdaterC0E5CacheV11updateAsync7oldItem0J5State03newK00mL03tag8platformAG0I6ResultVSgAC0K0V_SPyAE5ModelO0L0VGAsxG3TagOAE8PlatformVtFSbSpyAGGXEfU_
+            var layer = unsafe DisplayList.ViewUpdater.AsyncLayer(
+                layer: viewInfo.layer,
+                cache: pointer,
+                kind: viewInfo.state.kind,
+                flags: viewInfo.state.flags,
+                nextUpdate: .infinity,
+                isInvalid: isInvalid
+            )
+            
+            switch tag {
+            case .item:
+                // <+528>
+                // sp + 0x30
+                let copy_2 = unsafe pointer.pointee.index
+                // sp + 0x250
+                let copy_3 = oldItem
+                // x29 - 0xe0
+                var copy_4 = newItem
+                copy_4.identity = oldItem.identity
+                // sp + 0x1b0
+                let _ = viewInfo
+                
+                let result = unsafe copy_1.platform.updateItemViewAsync(
+                    layer: &layer,
+                    index: copy_2,
+                    oldItem: copy_3,
+                    oldState: oldState,
+                    newItem: copy_4,
+                    newState: newState
+                )
+                
+                guard result else {
+                    return false
+                }
+            case .inherited:
+                // <+332>
+                // sp + 0x30
+                let copy_2 = copy_1.platform
+                // sp + 0x250
+                let copy_3 = oldItem
+                // x29 - 0xe0
+                var copy_4 = newItem
+                copy_4.identity = oldItem.identity
+                // sp + 0x1b0
+                let _ = viewInfo
+                
+                let result = unsafe copy_2.updateStateAsync(
+                    layer: &layer,
+                    oldItem: copy_3,
+                    oldSize: oldItem.frame.size,
+                    oldState: oldState,
+                    newItem: copy_4,
+                    newSize: newItem.frame.size,
+                    newState: newState
+                )
+                
+                guard result else {
+                    return false
+                }
+            }
+            
+            viewInfoChanged = !(isInvalid == layer.isInvalid && viewInfo.nextUpdate == layer.nextUpdate)
+            copy_1.isInvalid = layer.isInvalid
+            copy_1.nextUpdate = layer.nextUpdate
+            
+            return true
+        }
+        
+        guard result else {
+            return nil
+        }
+        
+        if viewInfoChanged {
+            self.map[DisplayList.ViewUpdater.ViewCache.Key(id: id, system: PlatformViewDefinition.System(base: platform.system), tag: tag)] = copy_1
+            // <+940>
+        }
+        
+        // <+940>
+        return DisplayList.ViewUpdater.ViewCache.AsyncResult(
+            viewID: viewInfo.id,
+            indexID: id,
+            system: PlatformViewDefinition.System(base: platform.system),
+            tag: tag,
+            changed: oldVersion != newVersion,
+            isValid: !copy_1.isInvalid,
+            nextUpdate: copy_1.nextUpdate
+        )
     }
 }
 

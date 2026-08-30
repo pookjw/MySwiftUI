@@ -1,5 +1,4 @@
 // A9949015C771FF99F7528BB7239FD006
-
 internal import _QuartzCorePrivate
 private import QuartzCore
 private import _MySwiftUIShims
@@ -212,17 +211,6 @@ extension DisplayList.ViewUpdater {
             assertUnimplemented()
         }
         
-        func updateAsync(
-            oldItem: DisplayList.Item,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newItem: DisplayList.Item,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            tag: DisplayList.ViewUpdater.ViewCache.Tag,
-            platform: DisplayList.ViewUpdater.Platform
-        ) -> DisplayList.ViewUpdater.ViewCache.AsyncResult? {
-            assertUnimplemented()
-        }
-        
         func setNextUpdate(_: Time, in: inout DisplayList.ViewUpdater.ViewCache.AsyncResult) {
             assertUnimplemented()
         }
@@ -242,16 +230,8 @@ extension DisplayList.ViewUpdater {
 extension DisplayList.ViewUpdater.ViewCache {
     struct Key : Hashable {
         private(set) var id: DisplayList.Index.ID
-        private var system: PlatformViewDefinition.System
-        private var tag: DisplayList.ViewUpdater.ViewCache.Tag
-        
-        // 원래 없음
-        @inline(always)
-        init(id: DisplayList.Index.ID, system: PlatformViewDefinition.System, tag: DisplayList.ViewUpdater.ViewCache.Tag) {
-            self.id = id
-            self.system = system
-            self.tag = tag
-        }
+        private(set) var system: PlatformViewDefinition.System
+        private(set) var tag: DisplayList.ViewUpdater.ViewCache.Tag
     }
     
     struct Result {
@@ -288,7 +268,13 @@ extension DisplayList.ViewUpdater.ViewCache {
     }
     
     struct AsyncResult {
-        // TODO
+        let viewID: DisplayList.ViewUpdater.ViewInfo.ID // 0x0
+        let indexID: DisplayList.Index.ID // 0x8
+        let system: PlatformViewDefinition.System
+        let tag: DisplayList.ViewUpdater.ViewCache.Tag
+        let changed: Bool
+        let isValid: Bool
+        let nextUpdate: Time
     }
     
     fileprivate struct AsyncValues {

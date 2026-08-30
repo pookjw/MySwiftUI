@@ -311,6 +311,9 @@ extension DisplayList {
 #else
             let rootPlatform = self.rootPlatform
 #endif
+            // sp + 0xa4
+            let tag = DisplayList.ViewUpdater.ViewCache.Tag.inherited
+            let system = rootPlatform.system
             
             // sp + 0x130
             let globals_1 = DisplayList.ViewUpdater.Model.State.Globals(
@@ -414,7 +417,7 @@ extension DisplayList {
                         
                         // <+2316>
                         let d8 = (d0 < d10) ? d0 : d10
-                        self.viewCache.index = index_1
+                        self.viewCache.index = oldIndex
                         
                         // <+2332>
                         // sp + 0x18a0
@@ -470,6 +473,22 @@ extension DisplayList {
                         // <+2860>
                         if requirements_1.contains(.unknown1) {
                             // <+2988>
+                            // inlined
+                            guard let result = unsafe self.viewCache.updateAsync(
+                                oldItem: copy_8,
+                                oldState: &state_2,
+                                newItem: copy_13,
+                                newState: &state_1,
+                                tag: tag,
+                                platform: rootPlatform
+                            ) else {
+                                self.viewCache.index.leave(index: oldIndex)
+                                self.viewCache.invalidateAsyncValues()
+                                self.isValid = self.wasValid
+                                return nil
+                            }
+                            
+                            // <+3796>
                             assertUnimplemented()
                         } else if requirements_1.contains(.unknown2) {
                             // <+7080>
@@ -835,11 +854,11 @@ extension DisplayList.ViewUpdater {
 
 extension DisplayList.ViewUpdater {
     @safe struct AsyncLayer {
-        private var layer: CALayer
-        private let cache: UnsafeMutablePointer<DisplayList.ViewUpdater.ViewCache>
-        private let kind: PlatformViewDefinition.ViewKind
-        private let flags: DisplayList.ViewUpdater.Platform.ViewFlags
-        private var nextUpdate: Time
-        private var isInvalid: Bool
+        private(set) var layer: CALayer
+        let cache: UnsafeMutablePointer<DisplayList.ViewUpdater.ViewCache>
+        let kind: PlatformViewDefinition.ViewKind
+        let flags: DisplayList.ViewUpdater.Platform.ViewFlags
+        private(set) var nextUpdate: Time
+        private(set) var isInvalid: Bool
     }
 }
