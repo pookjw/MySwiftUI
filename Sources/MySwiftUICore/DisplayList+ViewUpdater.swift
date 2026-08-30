@@ -328,12 +328,12 @@ extension DisplayList {
                 environment: self.lastEnv
             )
             
-            return withUnsafePointer(to: globals_1) { pointer_1 in
-                return withUnsafePointer(to: globals_2) { pointer_2 in
+            return withUnsafePointer(to: globals_1) { pointer_1 -> Time? in
+                return withUnsafePointer(to: globals_2) { pointer_2 -> Time? in
                     // sp + 0x1ca0
-                    let state_1 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_1)
+                    var state_1 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_1)
                     // sp + 0x1df0
-                    let state_2 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_2)
+                    var state_2 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_2)
                     
                     // <+1164>
                     self.viewCache.index = DisplayList.Index()
@@ -341,12 +341,14 @@ extension DisplayList {
                     self.isValid = true
                     
                     // self -> x27 -> x22
-                    // x25
-                    let lastList = self.lastList
+                    // self.lastList.items -> x25
+                    let lastListItems = self.lastList.items
                     // x24
-                    let lastListCount = lastList.items.count
+                    let lastListItemsCount = lastListItems.count
+                    // x26
+                    let incomingListItems = displayList.items
                     
-                    guard lastListCount == displayList.items.count else {
+                    guard lastListItemsCount == displayList.items.count else {
                         // <+1392>
                         self.viewCache.invalidateAsyncValues()
                         self.isValid = self.wasValid
@@ -355,8 +357,8 @@ extension DisplayList {
                     
                     // <+1244>
                     // self.viewCache -> sp + 0x108
-                    // lastList -> x25 -> sp + 0xd0
-                    guard lastListCount != 0 else {
+                    // lastListItems -> x25 -> sp + 0xd0
+                    guard lastListItemsCount != 0 else {
                         // <+1464>
                         self.viewCache.commitAsyncValues(targetTimestamp: targetTimestamp)
                         self.lastList = displayList
@@ -367,7 +369,121 @@ extension DisplayList {
                     }
                     
                     // <+1292>
-                    for item in lastList.items {
+                    /*
+                     incomingListItems buffer -> sp + 0xb0
+                     lastListItems buffer -> sp + 0xb8
+                     */
+                    var d10 = Time.infinity
+                    
+                    for index in 0..<lastListItemsCount {
+                        // <+1860>
+                        // sp + 0x1be0
+                        let copy_1 = lastListItems[index]
+                        // sp + 0x1b90
+                        var copy_2 = lastListItems[index]
+                        // sp + 0x1c30
+                        let copy_3 = incomingListItems[index]
+                        // sp + 0x1b40
+                        var copy_4 = incomingListItems[index]
+                        
+                        guard copy_1.identity == copy_3.identity else {
+                            // <+21844>
+                            self.viewCache.invalidateAsyncValues()
+                            self.isValid = self.wasValid
+                            return nil
+                        }
+                        
+                        // <+2084>
+                        guard copy_4.matchesTopLevelStructure(of: copy_2) else {
+                            // <+21896>
+                            self.viewCache.invalidateAsyncValues()
+                            self.isValid = self.wasValid
+                            return nil
+                        }
+                        
+                        // <+2148>
+                        // inlined
+                        self.viewCache.index.enter(identity: copy_4.identity)
+                        let index_1 = self.viewCache.index
+                        
+                        // sp + 0x1660
+                        let copy_5 = rootPlatform
+                        
+                        // <+2240>
+                        var d0 = unsafe self.viewCache.prepare(item: &copy_2, platform: copy_5, parentState: &state_2)
+                        
+                        // <+2316>
+                        let d8 = (d0 < d10) ? d0 : d10
+                        self.viewCache.index = index_1
+                        
+                        // <+2332>
+                        // sp + 0x18a0
+                        let copy_6 = rootPlatform
+                        d0 = unsafe self.viewCache.prepare(item: &copy_4, platform: copy_6, parentState: &state_1)
+                        let d13 = (d0 < d8) ? d0 : d8
+                        
+                        // <+2392>
+                        // sp + 0x1800
+                        let copy_7 = copy_2
+                        // sp + 0x17b0
+                        var copy_8 = copy_2
+                        // sp + 0x1850
+                        let copy_9 = copy_4
+                        // <+2528>
+                        // sp + 0x18a0
+                        let copy_10 = unsafe state_2
+                        // sp + 0x1660
+                        var copy_11 = unsafe state_2
+                        // sp + 0x1370
+                        let copy_12 = self.viewCache.index
+                        
+                        // w19, w20
+                        let requirements_1 = unsafe DisplayList.ViewUpdater.Model.merge(
+                            item: &copy_8,
+                            index: copy_12,
+                            into: &copy_11
+                        )
+                        
+                        // sp + 0x14c0
+                        var copy_13 = copy_9
+                        // sp + 0x19f0
+                        let copy_14 = unsafe state_1
+                        // sp + 0x1510
+                        var copy_15 = unsafe state_1
+                        // sp + 0x1040
+                        let copy_16 = self.viewCache.index
+                        
+                        let requirements_2 = unsafe DisplayList.ViewUpdater.Model.merge(
+                            item: &copy_13,
+                            index: copy_16,
+                            into: &copy_15
+                        )
+                        
+                        guard requirements_1 == requirements_2 else {
+                            // <+21948>
+                            self.viewCache.index.leave(index: index_1)
+                            self.viewCache.invalidateAsyncValues()
+                            self.isValid = self.wasValid
+                            return nil
+                        }
+                        
+                        if requirements_1.contains(.unknown1) {
+                            // <+2988>
+                            assertUnimplemented()
+                        } else if requirements_1.contains(.unknown2) {
+                            // <+7080>
+                            if requirements_1.contains(.unknown0) {
+                                // <+7372>
+                                assertUnimplemented()
+                            } else {
+                                // <+7084>
+                                assertUnimplemented()
+                            }
+                        } else {
+                            // <+2868>
+                            assertUnimplemented()
+                        }
+                        
                         assertUnimplemented()
                     }
                     

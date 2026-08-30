@@ -752,18 +752,17 @@ extension DisplayList {
         
         init() {}
         
-        @inline(always)
         var id: DisplayList.Index.ID {
             return DisplayList.Index.ID(identity: identity, serial: serial, archiveIdentity: archiveIdentity, archiveSerial: archiveSerial)
         }
         
-        @inline(always)
+        @discardableResult
         mutating func enter(identity: _DisplayList_Identity) -> DisplayList.Index {
             var old = self
             if identity.value != 0 {
                 self.identity = identity
                 self.serial = 0
-                self.restored = .unknown1
+                self.restored = .unknown0
             } else {
                 old.serial &+= 1
                 self.serial = old.serial
@@ -773,33 +772,32 @@ extension DisplayList {
             return old
         }
         
-        @inline(always)
         mutating func leave(index: DisplayList.Index) {
             let restored = restored
-            if restored.contains(.unknown4) || restored.contains(.unknown8) {
+            if restored.contains(.unknown2) || restored.contains(.unknown3) {
                 let oldIdentity = identity
                 let oldSerial = serial
                 
-                if restored.contains(.unknown4) {
+                if restored.contains(.unknown2) {
                     // <+1792>
                     self.identity = archiveIdentity
                     self.serial = archiveSerial
                 }
                 
-                if restored.contains([.unknown8]) {
+                if restored.contains([.unknown3]) {
                     // <+1804>
                     self.archiveIdentity = oldIdentity
                     self.archiveSerial = oldSerial
                 }
             }
             
-            if restored.contains(.unknown1) {
+            if restored.contains(.unknown0) {
                 // <+1812>
                 self.identity = index.identity
                 self.serial = index.serial
             }
             
-            if restored.contains(.unknown2) {
+            if restored.contains(.unknown1) {
                 // <+1820>
                 self.archiveIdentity = index.archiveIdentity
                 self.archiveSerial = index.archiveSerial
@@ -824,10 +822,10 @@ extension DisplayList.Index {
     }
     
     fileprivate struct RestoreOptions : OptionSet {
-        static let unknown1 = RestoreOptions(rawValue: 1 << 0)
-        static let unknown2 = RestoreOptions(rawValue: 1 << 1)
-        static let unknown4 = RestoreOptions(rawValue: 1 << 2)
-        static let unknown8 = RestoreOptions(rawValue: 1 << 3)
+        static let unknown0 = RestoreOptions(rawValue: 1 << 0)
+        static let unknown1 = RestoreOptions(rawValue: 1 << 1)
+        static let unknown2 = RestoreOptions(rawValue: 1 << 2)
+        static let unknown3 = RestoreOptions(rawValue: 1 << 3)
         
         let rawValue: UInt8
     }
