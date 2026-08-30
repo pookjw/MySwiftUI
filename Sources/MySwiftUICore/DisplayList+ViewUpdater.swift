@@ -467,6 +467,7 @@ extension DisplayList {
                             return nil
                         }
                         
+                        // <+2860>
                         if requirements_1.contains(.unknown1) {
                             // <+2988>
                             assertUnimplemented()
