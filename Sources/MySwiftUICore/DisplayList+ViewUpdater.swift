@@ -403,8 +403,8 @@ extension DisplayList {
                         
                         // <+2148>
                         // inlined
-                        self.viewCache.index.enter(identity: copy_4.identity)
-                        let index_1 = self.viewCache.index
+                        // sp + 0xe4
+                        let oldIndex = self.viewCache.index.enter(identity: copy_4.identity)
                         
                         // sp + 0x1660
                         let copy_5 = rootPlatform
@@ -461,7 +461,7 @@ extension DisplayList {
                         
                         guard requirements_1 == requirements_2 else {
                             // <+21948>
-                            self.viewCache.index.leave(index: index_1)
+                            self.viewCache.index.leave(index: oldIndex)
                             self.viewCache.invalidateAsyncValues()
                             self.isValid = self.wasValid
                             return nil
