@@ -1806,8 +1806,8 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         }
     }
     
-    @_spi(Internal) public final func requestUpdate(after time: Double) {
-        unsafe base._requestUpdate(after: time)
+    @_spi(Internal) public final nonisolated func requestUpdate(after time: Double) {
+        base._requestUpdate(after: time)
     }
     
     nonisolated package final func startUpdateTimer(delay: Double) {

@@ -165,7 +165,7 @@ extension DisplayList {
             }
             
             if _printTree {
-                print("View at \(time)\n:\(displayList)")
+                print("View at \(time):\n\(displayList.description)")
             }
             
             // <+836>
@@ -184,7 +184,7 @@ extension DisplayList {
                 environment: environment
             )
             
-            return unsafe withUnsafePointer(to: globals) { globals in
+            return withUnsafePointer(to: globals) { globals in
                 var state = unsafe DisplayList.ViewUpdater.Model.State(globals: globals)
                 
                 self.viewCache.index = DisplayList.Index()
@@ -260,7 +260,98 @@ extension DisplayList {
             version: DisplayList.Version,
             maxVersion: DisplayList.Version
         ) -> Time? {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x27
+             return pointer -> x8 -> sp + 0xc0
+             displayList -> x0 -> x24/w25/w26
+             time -> x1 -> d12
+             targetTimestamp -> x2 -> x11/w12
+             version -> x3
+             maxVersion -> x4 -> x23
+             */
+            if self.isValid {
+                // <+132>
+                if DisplayList.Seed(version) == self.asyncSeed {
+                    // <+180>
+                    let d0 = self.nextUpdate
+                    if !(d0 < time) {
+                        // <+21828>
+                        return d0
+                    }
+                } else {
+                    // <+192>
+                }
+            } else {
+                // <+192>
+            }
+            
+            // <+192>
+            let _printTree: Bool
+            if let printTree = printTree {
+                _printTree = printTree
+            } else {
+                if let value = unsafe getenv("SWIFTUI_PRINT_TREE") {
+                    _printTree = unsafe (atoi(value) != 0)
+                } else {
+                    _printTree = false
+                }
+                printTree = _printTree
+            }
+            
+            if _printTree {
+                print("Async view at \(time):\n\(displayList.description)")
+            }
+            
+            // <+668>
+            // displayList -> x24/w25/w26 -> sp + 0xf0 / sp + 0x90 / sp + 0x94
+            // sp + 0xf8
+#if !os(visionOS)
+            let rootPlatform = self.effectiveRootPlatform
+#else
+            let rootPlatform = self.rootPlatform
+#endif
+            
+            // sp + 0x130
+            let globals_1 = DisplayList.ViewUpdater.Model.State.Globals(
+                updater: self,
+                time: time,
+                maxVersion: maxVersion,
+                environment: self.lastEnv
+            )
+            
+            // sp + 0x150
+            let globals_2 = DisplayList.ViewUpdater.Model.State.Globals(
+                updater: self,
+                time: self.lastTime,
+                maxVersion: maxVersion,
+                environment: self.lastEnv
+            )
+            
+            return withUnsafePointer(to: globals_1) { pointer_1 in
+                return withUnsafePointer(to: globals_2) { pointer_2 in
+                    // sp + 0x1ca0
+                    let state_1 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_1)
+                    // sp + 0x1df0
+                    let state_2 = unsafe DisplayList.ViewUpdater.Model.State(globals: pointer_2)
+                    
+                    // <+1164>
+                    self.viewCache.index = DisplayList.Index()
+                    self.wasValid = self.isValid
+                    self.isValid = true
+                    
+                    // self -> x27 -> x22
+                    guard self.lastList.items.count == displayList.items.count else {
+                        // <+1392>
+                        self.viewCache.invalidateAsyncValues()
+                        self.isValid = self.wasValid
+                        return nil
+                    }
+                    
+                    // <+1244>
+                    // self.viewCache -> sp + 0x108
+                    assertUnimplemented()
+                }
+            }
         }
         
         func destroy(rootView: AnyObject) {

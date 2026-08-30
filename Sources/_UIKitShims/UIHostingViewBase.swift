@@ -95,7 +95,7 @@ package final class UIHostingViewBase : NSObject {
         }
     }
     
-    @MainActor
+    @MainActor @preconcurrency
     package var updatesWillBeVisible: Bool {
         guard uiView?.window?._windowHostingScene() != nil else {
             return false
@@ -361,7 +361,7 @@ package final class UIHostingViewBase : NSObject {
         return result
     }
     
-    @MainActor package func _requestUpdate(after time: Double) {
+    @MainActor @preconcurrency package func _requestUpdate(after time: Double) {
         ViewGraphHostUpdate.lock()
         defer {
             ViewGraphHostUpdate.unlock()
@@ -698,8 +698,7 @@ package final class UIHostingViewBase : NSObject {
         updateSceneActivationState()
     }
     
-    @MainActor
-    package func requestUpdateForFidelity() {
+    package nonisolated func requestUpdateForFidelity() {
         guard let uiView else {
             return
         }
@@ -1003,7 +1002,7 @@ package final class UIHostingViewBase : NSObject {
         }
     }
     
-    @MainActor
+    @MainActor @preconcurrency
     package func _setNeedsUpdate() {
         guard let uiView else {
             return

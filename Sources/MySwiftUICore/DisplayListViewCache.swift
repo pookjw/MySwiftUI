@@ -207,6 +207,12 @@ extension DisplayList.ViewUpdater {
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
             assertUnimplemented()
         }
+        
+        @inline(always) // 원래 없음
+        mutating func invalidateAsyncValues() {
+            self.pendingAsyncValues = [:]
+            self.pendingAsyncUpdates = []
+        }
     }
 }
 

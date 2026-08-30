@@ -98,7 +98,7 @@ extension MainMenuItemHost : ViewGraphRootValueUpdater {
         }
     }
     
-    func requestUpdate(after time: Double) {
+    nonisolated func requestUpdate(after time: Double) {
         self.updateViewGraph { graph in
             // $s7SwiftUI16MainMenuItemHostC13requestUpdate5afterySd_tFyAA9ViewGraphCXEfU_TA
             if let delegate {

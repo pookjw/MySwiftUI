@@ -63,6 +63,12 @@ package struct DisplayList : @unchecked Sendable {
     }
 }
 
+extension DisplayList : CustomStringConvertible {
+    package var description: String {
+        assertUnimplemented()
+    }
+}
+
 extension DisplayList {
     package struct Item : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
         package static func == (lhs: DisplayList.Item, rhs: DisplayList.Item) -> Bool {
