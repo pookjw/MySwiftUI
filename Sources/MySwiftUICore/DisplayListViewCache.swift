@@ -57,42 +57,6 @@ extension DisplayList.ViewUpdater {
             self.asyncModifierGroup = nil
         }
         
-        func prepare(
-            item: inout DisplayList.Item,
-            platform: DisplayList.ViewUpdater.Platform,
-            parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Time {
-            /*
-             item -> x0 -> x25
-             platform -> x1 -> x28
-             parentState -> x2 -> x26
-             */
-            switch item.value {
-            case .content(let content):
-                // <+436>
-                switch content.value {
-                case .shape(_, _, _):
-                    assertUnimplemented()
-                default:
-                    return .infinity
-                }
-            case .effect(let effect, _):
-                // <+132>
-                switch effect {
-                case .backdropGroup(_):
-                    // <+436>
-                    assertUnimplemented()
-                case .archive(_):
-                    // <+132>
-                    assertUnimplemented()
-                default:
-                    return .infinity
-                }
-            default:
-                return .infinity
-            }
-        }
-        
         mutating func reclaim(time: Time) {
             for removedKey in self.removed {
                 guard let viewInfo = map[removedKey] else {
@@ -204,6 +168,65 @@ extension DisplayList.ViewUpdater {
             self.cacheSeed &+= 1
         }
         
+        func commitAsyncValues(targetTimestamp: Time?) {
+            assertUnimplemented()
+        }
+        
+        func prepare(
+            item: inout DisplayList.Item,
+            platform: DisplayList.ViewUpdater.Platform,
+            parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) -> Time {
+            /*
+             item -> x0 -> x25
+             platform -> x1 -> x28
+             parentState -> x2 -> x26
+             */
+            switch item.value {
+            case .content(let content):
+                // <+436>
+                switch content.value {
+                case .shape(_, _, _):
+                    assertUnimplemented()
+                default:
+                    return .infinity
+                }
+            case .effect(let effect, _):
+                // <+132>
+                switch effect {
+                case .backdropGroup(_):
+                    // <+436>
+                    assertUnimplemented()
+                case .archive(_):
+                    // <+132>
+                    assertUnimplemented()
+                default:
+                    return .infinity
+                }
+            default:
+                return .infinity
+            }
+        }
+        
+        func setNextUpdate(_: Time, in: inout DisplayList.ViewUpdater.ViewCache.Result) {
+            assertUnimplemented()
+        }
+        
+        func updateAsync(
+            oldItem: DisplayList.Item,
+            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            newItem: DisplayList.Item,
+            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            tag: DisplayList.ViewUpdater.ViewCache.Tag,
+            platform: DisplayList.ViewUpdater.Platform
+        ) -> DisplayList.ViewUpdater.ViewCache.AsyncResult? {
+            assertUnimplemented()
+        }
+        
+        func setNextUpdate(_: Time, in: inout DisplayList.ViewUpdater.ViewCache.AsyncResult) {
+            assertUnimplemented()
+        }
+        
         fileprivate func removeChildren(platform: DisplayList.ViewUpdater.Platform, container: AnyObject) {
             assertUnimplemented()
         }
@@ -262,6 +285,10 @@ extension DisplayList.ViewUpdater.ViewCache {
             self.isValid = isValid
             self.nextUpdate = nextUpdate
         }
+    }
+    
+    struct AsyncResult {
+        // TODO
     }
     
     fileprivate struct AsyncValues {

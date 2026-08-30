@@ -286,6 +286,7 @@ extension DisplayList {
             }
             
             // <+192>
+            // targetTimestamp -> x11 -> sp + 0x88 / sp + 0x84
             let _printTree: Bool
             if let printTree = printTree {
                 _printTree = printTree
@@ -340,7 +341,12 @@ extension DisplayList {
                     self.isValid = true
                     
                     // self -> x27 -> x22
-                    guard self.lastList.items.count == displayList.items.count else {
+                    // x25
+                    let lastList = self.lastList
+                    // x24
+                    let lastListCount = lastList.items.count
+                    
+                    guard lastListCount == displayList.items.count else {
                         // <+1392>
                         self.viewCache.invalidateAsyncValues()
                         self.isValid = self.wasValid
@@ -349,6 +355,22 @@ extension DisplayList {
                     
                     // <+1244>
                     // self.viewCache -> sp + 0x108
+                    // lastList -> x25 -> sp + 0xd0
+                    guard lastListCount != 0 else {
+                        // <+1464>
+                        self.viewCache.commitAsyncValues(targetTimestamp: targetTimestamp)
+                        self.lastList = displayList
+                        self.lastTime = time
+                        self.asyncSeed = self.seed
+                        self.nextUpdate = .infinity
+                        return .infinity
+                    }
+                    
+                    // <+1292>
+                    for item in lastList.items {
+                        assertUnimplemented()
+                    }
+                    
                     assertUnimplemented()
                 }
             }
