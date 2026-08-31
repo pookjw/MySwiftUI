@@ -269,6 +269,7 @@ extension DisplayList {
              version -> x3
              maxVersion -> x4 -> x23
              */
+            let d12 = time
             if self.isValid {
                 // <+132>
                 if DisplayList.Seed(version) == self.asyncSeed {
@@ -313,7 +314,7 @@ extension DisplayList {
 #endif
             // sp + 0xa4
             let tag = DisplayList.ViewUpdater.ViewCache.Tag.inherited
-            let _ = rootPlatform.system
+            let system = rootPlatform.system
             
             // sp + 0x130
             let globals_1 = DisplayList.ViewUpdater.Model.State.Globals(
@@ -488,15 +489,18 @@ extension DisplayList {
                                 return nil
                             }
                             
+                            var d9 = result.nextUpdate
                             // <+3796>
                             self.isValid = self.isValid && result.isValid
                             // <+3812>
                             if copy_8.version != copy_13.version {
                                 // <+4020>
-                                let flag: Bool // true -> <+4488> / false -> <+4112>
+                                let flag_1: Bool // true -> <+1764> / false -> <+18260>
+                                let flag_2: Bool // true -> <+4488> / false -> <+4112>
+                                
                                 if requirements_1.contains(.unknown2) {
                                     // <+4488>
-                                    flag = true
+                                    flag_2 = true
                                 } else {
                                     // <+4024>
                                     // sp + 0xdf0
@@ -506,14 +510,14 @@ extension DisplayList {
                                     
                                     if features_1.contains(.required) {
                                         // <+4488>
-                                        flag = true
+                                        flag_2 = true
                                     } else {
                                         // <+4112>
-                                        flag = false
+                                        flag_2 = false
                                     }
                                 }
                                 
-                                if flag {
+                                if flag_2 {
                                     // <+4488>
                                     if requirements_1.contains(.unknown0) {
                                         // <+5544>
@@ -538,6 +542,7 @@ extension DisplayList {
                                         }
                                         
                                         // <+6208>
+                                        d9 = result.nextUpdate
                                         self.isValid = self.isValid && result.isValid
                                         // sp + 0x1280
                                         let copy_19 = copy_17.value
@@ -561,7 +566,7 @@ extension DisplayList {
                                                 // sp + 0x960
                                                 let copy_24 = list_2
                                                 
-                                                guard let d10 = unsafe self.updateAsync(
+                                                guard let _d10 = unsafe self.updateAsync(
                                                     platform: copy_22,
                                                     oldList: copy_23,
                                                     oldParentState: &copy_11,
@@ -574,9 +579,68 @@ extension DisplayList {
                                                     self.isValid = self.wasValid
                                                     return nil
                                                 }
+                                                d10 = _d10
                                                 
                                                 // <+8544>
-                                                assertUnimplemented()
+                                                var d11: Time
+                                                if
+                                                    case .mask(let list_1, _) = effect_1,
+                                                    case .mask(let list_2, _) = effect_1
+                                                {
+                                                    // <+8600>
+                                                    // sp + 0x820
+                                                    let copy_25 = rootPlatform
+                                                    // sp + 0xb00
+                                                    let copy_26 = list_1
+                                                    // sp + 0x960
+                                                    let copy_27 = list_2
+                                                    
+                                                    guard let _d11 = unsafe self.updateAsync(
+                                                        platform: copy_25,
+                                                        oldList: copy_26,
+                                                        oldParentState: &copy_11,
+                                                        newList: copy_27,
+                                                        newParentState: &copy_15
+                                                    ) else {
+                                                        // <+22928>
+                                                        self.viewCache.index.leave(index: oldIndex_1)
+                                                        self.viewCache.invalidateAsyncValues()
+                                                        self.isValid = self.wasValid
+                                                        return nil
+                                                    }
+                                                    
+                                                    d11 = _d11
+                                                    
+                                                    // <+8744>
+                                                    if !(d11 < d10) {
+                                                        // <+9828>
+                                                        d11 = d10
+                                                        // <+9832>
+                                                    } else {
+                                                        // <+9832>
+                                                    }
+                                                } else {
+                                                    d11 = d10
+                                                    // <+9832>
+                                                }
+                                                
+                                                // <+9832>
+                                                if !(d11 < d9) {
+                                                    // <+18236>
+                                                    // <+18260>
+                                                } else {
+                                                    // <+9868>
+                                                    let key = DisplayList.ViewUpdater.ViewCache.Key(
+                                                        id: result.indexID,
+                                                        system: PlatformViewDefinition.System(base: rootPlatform.system),
+                                                        tag: .item
+                                                    )
+                                                    
+                                                    self.viewCache.map[key]!.nextUpdate = d11
+                                                    // <+18260>
+                                                }
+                                                
+                                                // <+18260>
                                             } else {
                                                 // <+6336>
                                                 if case .mask(let list, _) = effect_1 {
@@ -590,13 +654,16 @@ extension DisplayList {
                                                 }
                                                 
                                                 // <+10560>
-                                                assertUnimplemented()
+                                                self.viewCache.index.skip(list: list_2)
+                                                // <+18260>
                                             }
                                         } else {
                                             // <+6628>
                                             // <+18260>
-                                            assertUnimplemented()
                                         }
+                                        
+                                        // <+18260>
+                                        flag_1 = false
                                     } else {
                                         // <+4496>
                                         // sp + 0x820
@@ -618,7 +685,7 @@ extension DisplayList {
                                             }
                                             
                                             // <+4724>
-                                            var d9 = Time.infinity
+                                            d9 = .infinity
                                             
                                             for index in list_1.items.indices {
                                                 // sp + 0xca0
@@ -698,11 +765,11 @@ extension DisplayList {
                                             // <+9396>
                                             // <+10640>
                                             // <+18260>
-                                            assertUnimplemented()
+                                            flag_1 = false
                                         } else {
                                             // <+19052>
                                             // <+1764>
-                                            assertUnimplemented()
+                                            flag_1 = true
                                         }
                                     }
                                 } else {
@@ -737,8 +804,30 @@ extension DisplayList {
                                     }
                                     
                                     // <+1764>
-                                    assertUnimplemented()
+                                    flag_1 = true
                                 }
+                                
+                                if flag_1 {
+                                    // <+1764>
+                                } else {
+                                    // <+18260>
+                                    if !(d9 < d8) {
+                                        // <+19052>
+                                        // <+1764>
+                                    } else {
+                                        // <+18292>
+                                        let key = DisplayList.ViewUpdater.ViewCache.Key(
+                                            id: result.indexID,
+                                            system: PlatformViewDefinition.System(base: system),
+                                            tag: tag
+                                        )
+                                        
+                                        self.viewCache.map[key]!.nextUpdate = d9
+                                        // <+1764>
+                                    }
+                                }
+                                
+                                // <+1764>
                             } else {
                                 // <+3820>
                                 if case .effect(_, let displayList) = copy_8.value {
@@ -752,8 +841,12 @@ extension DisplayList {
                                 }
                                 
                                 // <+1764>
-                                assertUnimplemented()
                             }
+                            
+                            // <+1764>
+                            d10 = (d8 < d13) ? d8 : d13
+                            self.viewCache.index.leave(index: oldIndex_1)
+                            break
                         } else if requirements_1.contains(.unknown2) {
                             // <+7080>
                             if requirements_1.contains(.unknown0) {
@@ -771,7 +864,14 @@ extension DisplayList {
                         assertUnimplemented()
                     }
                     
-                    assertUnimplemented()
+                    // <+1468>
+                    self.viewCache.commitAsyncValues(targetTimestamp: targetTimestamp)
+                    // <+1604>
+                    self.lastTime = d12
+                    self.seed = self.asyncSeed
+                    self.nextUpdate = d10
+                    
+                    return d10
                 }
             }
         }
