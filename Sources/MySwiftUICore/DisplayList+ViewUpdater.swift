@@ -489,7 +489,7 @@ extension DisplayList {
                             }
                             
                             // <+3796>
-                            self.isValid = self.isValid || result.isValid
+                            self.isValid = self.isValid && result.isValid
                             // <+3812>
                             if copy_8.version != copy_13.version {
                                 // <+4020>
@@ -538,7 +538,7 @@ extension DisplayList {
                                         }
                                         
                                         // <+6208>
-                                        self.isValid = self.isValid || result.isValid
+                                        self.isValid = self.isValid && result.isValid
                                         // sp + 0x1280
                                         let copy_19 = copy_17.value
                                         // sp + 0x12a0
@@ -690,7 +690,7 @@ extension DisplayList {
                                                 // <+5324>
                                                 d0 = (d11 < d9) ? d11 : d9
                                                 d0 = (d14 < d0) ? d14 : d0
-                                                d9 = (d0 > d10) ? d0 : d0
+                                                d9 = (d0 > d10) ? d10 : d0
                                                 
                                                 self.viewCache.index.leave(index: oldIndex_2)
                                             }
