@@ -407,7 +407,7 @@ extension DisplayList {
                         // <+2148>
                         // inlined
                         // sp + 0xe4
-                        let oldIndex = self.viewCache.index.enter(identity: copy_4.identity)
+                        let oldIndex_1 = self.viewCache.index.enter(identity: copy_4.identity)
                         
                         // sp + 0x1660
                         let copy_5 = rootPlatform
@@ -417,7 +417,7 @@ extension DisplayList {
                         
                         // <+2316>
                         let d8 = (d0 < d10) ? d0 : d10
-                        self.viewCache.index = oldIndex
+                        self.viewCache.index = oldIndex_1
                         
                         // <+2332>
                         // sp + 0x18a0
@@ -464,7 +464,7 @@ extension DisplayList {
                         
                         guard requirements_1 == requirements_2 else {
                             // <+21948>
-                            self.viewCache.index.leave(index: oldIndex)
+                            self.viewCache.index.leave(index: oldIndex_1)
                             self.viewCache.invalidateAsyncValues()
                             self.isValid = self.wasValid
                             return nil
@@ -482,7 +482,7 @@ extension DisplayList {
                                 tag: tag,
                                 platform: rootPlatform
                             ) else {
-                                self.viewCache.index.leave(index: oldIndex)
+                                self.viewCache.index.leave(index: oldIndex_1)
                                 self.viewCache.invalidateAsyncValues()
                                 self.isValid = self.wasValid
                                 return nil
@@ -517,7 +517,86 @@ extension DisplayList {
                                     // <+4488>
                                     if requirements_1.contains(.unknown0) {
                                         // <+5544>
-                                        assertUnimplemented()
+                                        // sp + 0x1f40
+                                        let copy_17 = copy_8
+                                        // sp + 0x1f90
+                                        let copy_18 = copy_13
+                                        
+                                        // <+5692>
+                                        guard let result = unsafe self.updateAsync(
+                                            oldItem: copy_17,
+                                            oldState: &state_2,
+                                            newItem: copy_18,
+                                            newState: &state_1,
+                                            tag: .item,
+                                            platform: rootPlatform
+                                        ) else {
+                                            self.viewCache.index.leave(index: oldIndex_1)
+                                            self.viewCache.invalidateAsyncValues()
+                                            self.isValid = self.wasValid
+                                            return nil
+                                        }
+                                        
+                                        // <+6208>
+                                        self.isValid = self.isValid || result.isValid
+                                        // sp + 0x1280
+                                        let copy_19 = copy_17.value
+                                        // sp + 0x12a0
+                                        let copy_20 = copy_18.value
+                                        
+                                        if
+                                            case .effect(let effect_1, let list_1) = copy_19,
+                                            case .effect(let effect_2, let list_2) = copy_20
+                                        {
+                                            // <+6316>
+                                            if (copy_17.version != copy_18.version) || !self.wasValid {
+                                                // <+8368>
+                                                unsafe copy_11.reset()
+                                                unsafe copy_15.reset()
+                                                // <+8444>
+                                                // sp + 0x820
+                                                let copy_22 = rootPlatform
+                                                // sp + 0xb00
+                                                let copy_23 = list_1
+                                                // sp + 0x960
+                                                let copy_24 = list_2
+                                                
+                                                guard let d10 = unsafe self.updateAsync(
+                                                    platform: copy_22,
+                                                    oldList: copy_23,
+                                                    oldParentState: &copy_11,
+                                                    newList: copy_24,
+                                                    newParentState: &copy_15
+                                                ) else {
+                                                    // <+22872>
+                                                    self.viewCache.index.leave(index: oldIndex_1)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                }
+                                                
+                                                // <+8544>
+                                                assertUnimplemented()
+                                            } else {
+                                                // <+6336>
+                                                if case .mask(let list, _) = effect_1 {
+                                                    // sp + 0x8c0
+                                                    let copy_21 = list
+                                                    self.viewCache.index.skip(list: copy_21)
+                                                    // <+10560>
+                                                } else {
+                                                    // <+10500>
+                                                    // <+10560>
+                                                }
+                                                
+                                                // <+10560>
+                                                assertUnimplemented()
+                                            }
+                                        } else {
+                                            // <+6628>
+                                            // <+18260>
+                                            assertUnimplemented()
+                                        }
                                     } else {
                                         // <+4496>
                                         // sp + 0x820
@@ -526,13 +605,13 @@ extension DisplayList {
                                         let copy_18 = copy_13.value
                                         
                                         if
-                                            case .effect(let effect_1, let list_1) = copy_17,
-                                            case .effect(let effect_2, let list_2) = copy_18
+                                            case .effect(_, let list_1) = copy_17,
+                                            case .effect(_, let list_2) = copy_18
                                         {
                                             // <+4644>
                                             guard list_1.items.count == list_2.items.count else {
                                                 // <+22776>
-                                                self.viewCache.index.leave(index: oldIndex)
+                                                self.viewCache.index.leave(index: oldIndex_1)
                                                 self.viewCache.invalidateAsyncValues()
                                                 self.isValid = self.wasValid
                                                 return nil
@@ -545,16 +624,16 @@ extension DisplayList {
                                                 // sp + 0xca0
                                                 let copy_19 = list_1.items[index]
                                                 // sp + 0xb00
-                                                let copy_20 = list_1.items[index]
+                                                var copy_20 = list_1.items[index]
                                                 // sp + 0xdf0
                                                 let copy_21 = list_2.items[index]
                                                 // sp + 0x960
-                                                let copy_22 = list_2.items[index]
+                                                var copy_22 = list_2.items[index]
                                                 
                                                 // <+4980>
                                                 guard copy_21.identity == copy_19.identity else {
                                                     // <+22460>
-                                                    self.viewCache.index.leave(index: oldIndex)
+                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                     self.viewCache.invalidateAsyncValues()
                                                     self.isValid = self.wasValid
                                                     return nil
@@ -562,17 +641,63 @@ extension DisplayList {
                                                 
                                                 guard copy_22.matchesTopLevelStructure(of: copy_20) else {
                                                     // <+22476>
-                                                    self.viewCache.index.leave(index: oldIndex)
+                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                     self.viewCache.invalidateAsyncValues()
                                                     self.isValid = self.wasValid
                                                     return nil
                                                 }
                                                 
                                                 // <+5028>
-                                                assertUnimplemented()
+                                                // sp + 0x58
+                                                let oldIndex_2 = self.viewCache.index.enter(identity: copy_22.identity)
+                                                // sp + 0x1190
+                                                let copy_23 = rootPlatform
+                                                
+                                                // <+5116>
+                                                let d11 = unsafe self.viewCache.prepare(
+                                                    item: &copy_20,
+                                                    platform: copy_23,
+                                                    parentState: &copy_11
+                                                )
+                                                
+                                                self.viewCache.index = oldIndex_2
+                                                // sp + 0x1190
+                                                let copy_24 = rootPlatform
+                                                
+                                                let d14 = unsafe self.viewCache.prepare(
+                                                    item: &copy_22,
+                                                    platform: copy_24,
+                                                    parentState: &copy_15
+                                                )
+                                                
+                                                // sp + 0x1280
+                                                let copy_25 = rootPlatform
+                                                
+                                                guard let d10 = unsafe self.updateInheritedViewAsync(
+                                                    platform: copy_25,
+                                                    oldItem: copy_20,
+                                                    oldParentState: &copy_11,
+                                                    newItem: copy_22,
+                                                    newParentState: &copy_15
+                                                ) else {
+                                                    // <+22552>
+                                                    self.viewCache.index.leave(index: oldIndex_2)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                }
+                                                
+                                                // <+5324>
+                                                d0 = (d11 < d9) ? d11 : d9
+                                                d0 = (d14 < d0) ? d14 : d0
+                                                d9 = (d0 > d10) ? d0 : d0
+                                                
+                                                self.viewCache.index.leave(index: oldIndex_2)
                                             }
                                             
                                             // <+9396>
+                                            // <+10640>
+                                            // <+18260>
                                             assertUnimplemented()
                                         } else {
                                             // <+19052>
@@ -593,7 +718,7 @@ extension DisplayList {
                                     
                                     if features_2 != features_3 {
                                         // <+22748>
-                                        self.viewCache.index.leave(index: oldIndex)
+                                        self.viewCache.index.leave(index: oldIndex_1)
                                         self.viewCache.invalidateAsyncValues()
                                         self.isValid = self.wasValid
                                         return nil
@@ -649,6 +774,27 @@ extension DisplayList {
                     assertUnimplemented()
                 }
             }
+        }
+        
+        func updateAsync(
+            oldItem: DisplayList.Item,
+            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            newItem: DisplayList.Item,
+            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            tag: DisplayList.ViewUpdater.ViewCache.Tag,
+            platform: DisplayList.ViewUpdater.Platform
+        ) -> DisplayList.ViewUpdater.ViewCache.AsyncResult? {
+            assertUnimplemented()
+        }
+        
+        func updateAsync(
+            platform: DisplayList.ViewUpdater.Platform,
+            oldList: DisplayList,
+            oldParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            newList: DisplayList,
+            newParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) -> Time? {
+            assertUnimplemented()
         }
         
         func destroy(rootView: AnyObject) {
@@ -795,6 +941,16 @@ extension DisplayList {
                 unsafe self.updateInheritedView(container: &container, from: item, parentState: parentState)
                 self.viewCache.index.leave(index: oldIndex)
             }
+        }
+        
+        fileprivate func updateInheritedViewAsync(
+            platform: DisplayList.ViewUpdater.Platform,
+            oldItem: DisplayList.Item,
+            oldParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            newItem: DisplayList.Item,
+            newParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) -> Time? {
+            assertUnimplemented()
         }
     }
 }
