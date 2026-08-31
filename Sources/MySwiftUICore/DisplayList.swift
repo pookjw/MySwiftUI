@@ -803,6 +803,14 @@ extension DisplayList {
                 self.archiveSerial = index.archiveSerial
             }
         }
+        
+        mutating func skip(list: DisplayList) {
+            assertUnimplemented()
+        }
+        
+        mutating func skip(effect: DisplayList.Effect) {
+            assertUnimplemented()
+        }
     }
 }
 
