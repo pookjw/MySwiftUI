@@ -585,7 +585,7 @@ extension DisplayList {
                                                 var d11: Time
                                                 if
                                                     case .mask(let list_1, _) = effect_1,
-                                                    case .mask(let list_2, _) = effect_1
+                                                    case .mask(let list_2, _) = effect_2
                                                 {
                                                     // <+8600>
                                                     // sp + 0x820
@@ -846,7 +846,7 @@ extension DisplayList {
                             // <+1764>
                             d10 = (d8 < d13) ? d8 : d13
                             self.viewCache.index.leave(index: oldIndex_1)
-                            break
+                            continue
                         } else if requirements_1.contains(.unknown2) {
                             // <+7080>
                             if requirements_1.contains(.unknown0) {
@@ -867,8 +867,9 @@ extension DisplayList {
                     // <+1468>
                     self.viewCache.commitAsyncValues(targetTimestamp: targetTimestamp)
                     // <+1604>
+                    self.lastList = displayList
                     self.lastTime = d12
-                    self.seed = self.asyncSeed
+                    self.asyncSeed = self.seed
                     self.nextUpdate = d10
                     
                     return d10
