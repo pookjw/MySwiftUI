@@ -637,6 +637,7 @@ extension DisplayList {
                                                     )
                                                     
                                                     self.viewCache.map[key]!.nextUpdate = d11
+                                                    d9 = d11
                                                     // <+18260>
                                                 }
                                                 
@@ -823,6 +824,7 @@ extension DisplayList {
                                         )
                                         
                                         self.viewCache.map[key]!.nextUpdate = d9
+                                        d8 = d9
                                         // <+1764>
                                     }
                                 }
@@ -991,6 +993,7 @@ extension DisplayList {
                                                     return nil
                                                 }
                                                 
+                                                d8 = result.nextUpdate
                                                 self.isValid = self.isValid && result.isValid
                                                 
                                                 // <+13712>
@@ -1186,6 +1189,7 @@ extension DisplayList {
                                                         
                                                         self.viewCache.map[key]!.nextUpdate = d10
                                                         // <+11884>
+                                                        d8 = d10
                                                         // <+12076>
                                                     }
                                                     
