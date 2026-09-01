@@ -105,10 +105,18 @@ extension DisplayList {
                     return displayList.features
                 case .platformView(let factory): // 0x8
                     // <+948>
-                    return factory.features
-                case .text(_, _): // 0xa
+                    return factory.features.union(.platformViews)
+                case .text(let text, _): // 0xa
                     // <+96>
-                    assertUnimplemented()
+                    if
+                        let storage = text.text.storage,
+                        storage.isDynamic,
+                        text.text.archiveOptions.isArchived
+                    {
+                        return .dynamicContent
+                    } else {
+                        return []
+                    }
                 case .flattened(let displayList, _, _): // 0xb
                     // <+476>
                     return displayList.features.union(.flattened)
@@ -125,22 +133,10 @@ extension DisplayList {
             case .effect(let effect, let displayList):
                 // <+356>
                 return effect.features.union(displayList.features)
-            case .states(let array):
+            case .states(let states):
                 // <+328>
-                let count = array.count
-                if count == 0 {
-                    return .states
-                } else if count >= 8 {
-                    // <+504>
-                    if count >= 16 {
-                        // <+664>
-                        assertUnimplemented()
-                    } else {
-                        // <+512>
-                        assertUnimplemented()
-                    }
-                } else {
-                    return .states
+                return states.reduce([.states]) { partialResult, incoming in
+                    partialResult.union(incoming.1.features)
                 }
             case .empty:
                 // <+1128>
@@ -707,7 +703,7 @@ extension DisplayList {
             case .mask(_, _):
                 assertUnimplemented()
             case .platformGroup(let factory):
-                return factory.features
+                return factory.features.union(.platformViews)
             case .opacity(_):
                 return []
             case .transform(_):
@@ -715,11 +711,11 @@ extension DisplayList {
             case .platform(let effect):
                 switch effect {
                 case .separated(_):
-                    return [.required]
+                    assertUnimplemented()
                 case .renderingTechnique(_):
-                    return [.required]
+                    return []
                 case .projectiveShadow(_):
-                    return [.required]
+                    return []
                 case .opaqueHitTestContainer(_):
                     return [.required]
                 case .remoteEffects(_, _):
@@ -802,6 +798,8 @@ extension DisplayList {
                 self.archiveIdentity = index.archiveIdentity
                 self.archiveSerial = index.archiveSerial
             }
+
+            self.restored = index.restored
         }
         
         mutating func skip(list: DisplayList) {

@@ -529,9 +529,9 @@ extension DisplayList {
                                         // <+5692>
                                         guard let result = unsafe self.updateAsync(
                                             oldItem: copy_17,
-                                            oldState: &state_2,
+                                            oldState: &copy_11,
                                             newItem: copy_18,
-                                            newState: &state_1,
+                                            newState: &copy_15,
                                             tag: .item,
                                             platform: rootPlatform
                                         ) else {
@@ -876,7 +876,7 @@ extension DisplayList {
                                 }
                                 
                                 // <+8032>
-                                let d9 = result.nextUpdate
+                                var d9 = result.nextUpdate
                                 self.isValid = self.isValid && result.isValid
                                 
                                 // <+8048>
@@ -1104,6 +1104,7 @@ extension DisplayList {
                                                 )
                                                 
                                                 self.viewCache.map[key]!.nextUpdate = d10
+                                                d9 = d10
                                                 // <+10464>
                                             }
                                             
@@ -1781,7 +1782,7 @@ extension DisplayList {
                                 features_1 = list.features.union(effect.features)
                             case .states(let states):
                                 // <+5448>
-                                features_1 = states.reduce([]) { partialResult, incoming in
+                                features_1 = states.reduce([.states]) { partialResult, incoming in
                                     return partialResult.union(incoming.1.features)
                                 }
                             case .empty:
@@ -1790,7 +1791,7 @@ extension DisplayList {
                             }
                             
                             // <+7076>
-                            if features_1.isEmpty {
+                            if !features_1.contains(.required) {
                                 // <+8912>
                                 // w28
                                 let features_2: DisplayList.Features
@@ -2016,7 +2017,7 @@ extension DisplayList {
                                     }
                                     
                                     // <+8032>
-                                    let d9 = result.nextUpdate
+                                    var d9 = result.nextUpdate
                                     self.isValid = self.isValid && result.isValid
                                     
                                     // <+8048>
@@ -2244,6 +2245,7 @@ extension DisplayList {
                                                     )
                                                     
                                                     self.viewCache.map[key]!.nextUpdate = d10
+                                                    d9 = d10
                                                     // <+10464>
                                                 }
                                                 
