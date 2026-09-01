@@ -658,7 +658,7 @@ extension DisplayList {
                                                 }
                                                 
                                                 // <+10560>
-                                                self.viewCache.index.skip(list: list_2)
+                                                self.viewCache.index.skip(list: list_1)
                                                 // <+18260>
                                             }
                                         } else {
@@ -753,6 +753,7 @@ extension DisplayList {
                                                 ) else {
                                                     // <+22552>
                                                     self.viewCache.index.leave(index: oldIndex_2)
+                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                     self.viewCache.invalidateAsyncValues()
                                                     self.isValid = self.wasValid
                                                     return nil
@@ -973,6 +974,7 @@ extension DisplayList {
                                                 ) else {
                                                     // <+20308>
                                                     self.viewCache.index.leave(index: oldIndex_2)
+                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                     self.viewCache.invalidateAsyncValues()
                                                     self.isValid = self.wasValid
                                                     return nil
@@ -1066,6 +1068,7 @@ extension DisplayList {
                                                         ) else {
                                                             // <+21724>
                                                             self.viewCache.index.leave(index: oldIndex_2)
+                                                            self.viewCache.index.leave(index: oldIndex_1)
                                                             self.viewCache.invalidateAsyncValues()
                                                             self.isValid = self.wasValid
                                                             return nil
@@ -1122,7 +1125,7 @@ extension DisplayList {
                                         }
                                         
                                         // <+19980>
-                                        self.viewCache.index.leave(index: oldIndex_1)
+                                        self.viewCache.index.skip(list: list_1)
                                         d8 = d9
                                         // <+1764>
                                     }
@@ -1250,6 +1253,7 @@ extension DisplayList {
                                             guard requirements_2 == requirements_3 else {
                                                 // <+16464>
                                                 self.viewCache.index.leave(index: oldIndex_2)
+                                                self.viewCache.index.leave(index: oldIndex_1)
                                                 self.viewCache.invalidateAsyncValues()
                                                 self.isValid = self.wasValid
                                                 return nil
@@ -1271,6 +1275,7 @@ extension DisplayList {
                                                 ) else {
                                                     // <+16464>
                                                     self.viewCache.index.leave(index: oldIndex_2)
+                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                     self.viewCache.invalidateAsyncValues()
                                                     self.isValid = self.wasValid
                                                     return nil
@@ -1298,6 +1303,7 @@ extension DisplayList {
                                                             ) else {
                                                                 // <+20508>
                                                                 self.viewCache.index.leave(index: oldIndex_2)
+                                                                self.viewCache.index.leave(index: oldIndex_1)
                                                                 self.viewCache.invalidateAsyncValues()
                                                                 self.isValid = self.wasValid
                                                                 return nil
@@ -1329,6 +1335,7 @@ extension DisplayList {
                                                                 ) else {
                                                                     // <+20508>
                                                                     self.viewCache.index.leave(index: oldIndex_2)
+                                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                                     self.viewCache.invalidateAsyncValues()
                                                                     self.isValid = self.wasValid
                                                                     return nil
@@ -1370,6 +1377,7 @@ extension DisplayList {
                                                                 ) else {
                                                                     // <+20508>
                                                                     self.viewCache.index.leave(index: oldIndex_2)
+                                                                    self.viewCache.index.leave(index: oldIndex_1)
                                                                     self.viewCache.invalidateAsyncValues()
                                                                     self.isValid = self.wasValid
                                                                     return nil
@@ -1401,6 +1409,7 @@ extension DisplayList {
                                                                     ) else {
                                                                         // <+20508>
                                                                         self.viewCache.index.leave(index: oldIndex_2)
+                                                                        self.viewCache.index.leave(index: oldIndex_1)
                                                                         self.viewCache.invalidateAsyncValues()
                                                                         self.isValid = self.wasValid
                                                                         return nil
@@ -1433,6 +1442,7 @@ extension DisplayList {
                                                             guard features_2 == features_3 else {
                                                                 // <+20496>
                                                                 self.viewCache.index.leave(index: oldIndex_2)
+                                                                self.viewCache.index.leave(index: oldIndex_1)
                                                                 self.viewCache.invalidateAsyncValues()
                                                                 self.isValid = self.wasValid
                                                                 return nil
@@ -1512,6 +1522,7 @@ extension DisplayList {
                                                     ) else {
                                                         // <+16504>
                                                         self.viewCache.index.leave(index: oldIndex_2)
+                                                        self.viewCache.index.leave(index: oldIndex_1)
                                                         self.viewCache.invalidateAsyncValues()
                                                         self.isValid = self.wasValid
                                                         return nil
@@ -1543,6 +1554,7 @@ extension DisplayList {
                                                         ) else {
                                                             // <+16504>
                                                             self.viewCache.index.leave(index: oldIndex_2)
+                                                            self.viewCache.index.leave(index: oldIndex_1)
                                                             self.viewCache.invalidateAsyncValues()
                                                             self.isValid = self.wasValid
                                                             return nil
@@ -1553,6 +1565,7 @@ extension DisplayList {
                                                     } else {
                                                         // <+15288>
                                                         self.viewCache.index.leave(index: oldIndex_2)
+                                                        self.viewCache.index.leave(index: oldIndex_1)
                                                         self.viewCache.invalidateAsyncValues()
                                                         self.isValid = self.wasValid
                                                         return nil
@@ -1583,6 +1596,7 @@ extension DisplayList {
                                                         ) else {
                                                             // <+16504>
                                                             self.viewCache.index.leave(index: oldIndex_2)
+                                                            self.viewCache.index.leave(index: oldIndex_1)
                                                             self.viewCache.invalidateAsyncValues()
                                                             self.isValid = self.wasValid
                                                             return nil
@@ -1614,6 +1628,7 @@ extension DisplayList {
                                                             ) else {
                                                                 // <+16504>
                                                                 self.viewCache.index.leave(index: oldIndex_2)
+                                                                self.viewCache.index.leave(index: oldIndex_1)
                                                                 self.viewCache.invalidateAsyncValues()
                                                                 self.isValid = self.wasValid
                                                                 return nil
@@ -1624,6 +1639,7 @@ extension DisplayList {
                                                         } else {
                                                             // <+15288>
                                                             self.viewCache.index.leave(index: oldIndex_2)
+                                                            self.viewCache.index.leave(index: oldIndex_1)
                                                             self.viewCache.invalidateAsyncValues()
                                                             self.isValid = self.wasValid
                                                             return nil
@@ -1645,6 +1661,7 @@ extension DisplayList {
                                                     if features_2 != features_3 {
                                                         // <+15484>
                                                         self.viewCache.index.leave(index: oldIndex_2)
+                                                        self.viewCache.index.leave(index: oldIndex_1)
                                                         self.viewCache.invalidateAsyncValues()
                                                         self.isValid = self.wasValid
                                                         return nil
