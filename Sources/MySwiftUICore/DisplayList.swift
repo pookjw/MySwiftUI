@@ -808,6 +808,10 @@ extension DisplayList {
             assertUnimplemented()
         }
         
+        mutating func skip(item: DisplayList.Item) {
+            assertUnimplemented()
+        }
+        
         mutating func skip(effect: DisplayList.Effect) {
             assertUnimplemented()
         }
