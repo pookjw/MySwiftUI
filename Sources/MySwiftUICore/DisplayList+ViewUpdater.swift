@@ -1407,20 +1407,68 @@ extension DisplayList {
                             }
                         } else {
                             // <+2868>
-                            switch copy_13.value {
-                            case .content(let content):
-                                // <+2932>
-                                assertUnimplemented()
-                            case .effect(let effect, let list):
-                                // <+6492>
-                                assertUnimplemented()
-                            case .states(let states):
-                                // <+5448>
-                                assertUnimplemented()
-                            case .empty:
-                                // <+8912>
-                                assertUnimplemented()
-                            }
+//                            switch copy_13.value {
+//                            case .content(let content):
+//                                // <+2932>
+//                                switch content.value {
+//                                case .backdrop(let effect):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .color(let color):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .chameleonColor(let color):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .image(let image):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .shape(let path, let paint, let fillStyle):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .sdfShape(let shape):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .sdfMask(let displayList, let layer):
+//                                    // <+9376>
+//                                    assertUnimplemented()
+//                                case .shadow(let path, let style):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .platformView(let factory):
+//                                    // <+6752>
+//                                    assertUnimplemented()
+//                                case .platformLayer(let factory):
+//                                    // <+8908>
+//                                    assertUnimplemented()
+//                                case .text(let text, let size):
+//                                    // <+8852>
+//                                    assertUnimplemented()
+//                                case .flattened(let list, let point, let options):
+//                                    // <+2980>
+//                                    assertUnimplemented()
+//                                case .drawing:
+//                                    // <+8912>
+//                                    assertUnimplemented()
+//                                case .view(let factory):
+//                                    // <+8912>
+//                                    assertUnimplemented()
+//                                case .placeholder(let identity):
+//                                    // <+8900>
+//                                    assertUnimplemented()
+//                                }
+//                                
+//                                assertUnimplemented()
+//                            case .effect(let effect, let list):
+//                                // <+6492>
+//                                assertUnimplemented()
+//                            case .states(let states):
+//                                // <+5448>
+//                                assertUnimplemented()
+//                            case .empty:
+//                                // <+8912>
+//                                assertUnimplemented()
+//                            }
                             
                             assertUnimplemented()
                         }
