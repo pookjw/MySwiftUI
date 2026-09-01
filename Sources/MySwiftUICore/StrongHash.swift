@@ -73,7 +73,7 @@ package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, E
     }
     
     package func hash(into hasher: inout Hasher) {
-        unsafe withUnsafePointer(to: words) { pointer in
+        withUnsafePointer(to: words) { pointer in
             let buffer = unsafe UnsafeBufferPointer<UInt32>(
                 start: UnsafeRawPointer(pointer).assumingMemoryBound(to: UInt32.self),
                 count: 5
@@ -96,7 +96,7 @@ package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, E
          str        w19, [x0, #0xc0]
          w20 -> w23 -> w22 -> w21 -> w19 = 4 -> 3 -> 2 -> 1 -> 0
          */
-        String(format: "#%08x%08x%08x%08x%08x", words.4, words.3, words.2, words.1, words.0)
+        return String(format: "#%08x%08x%08x%08x%08x", words.4, words.3, words.2, words.1, words.0)
     }
 }
 
