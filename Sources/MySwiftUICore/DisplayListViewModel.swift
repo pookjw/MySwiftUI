@@ -18,6 +18,10 @@ extension DisplayList.ViewUpdater {
             var versions = DisplayList.ViewUpdater.Model.PlatformState.Versions() // 0x50
             
             init() {}
+            
+            mutating func reset() {
+                assertUnimplemented()
+            }
         }
         
         struct Clip {

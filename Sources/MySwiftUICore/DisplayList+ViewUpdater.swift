@@ -556,8 +556,11 @@ extension DisplayList {
                                             // <+6316>
                                             if (copy_17.version != copy_18.version) || !self.wasValid {
                                                 // <+8368>
+                                                // inlined
                                                 unsafe copy_11.reset()
+                                                // inlined
                                                 unsafe copy_15.reset()
+                                                
                                                 // <+8444>
                                                 // sp + 0x820
                                                 let copy_22 = rootPlatform
@@ -850,7 +853,287 @@ extension DisplayList {
                             // <+7080>
                             if requirements_1.contains(.unknown0) {
                                 // <+7372>
-                                assertUnimplemented()
+                                // sp + 0x1fe0
+                                let copy_17 = copy_8
+                                // x29 - 0x100
+                                let copy_18 = copy_13
+                                
+                                // inlined
+                                guard let result = unsafe self.updateAsync(
+                                    oldItem: copy_17,
+                                    oldState: &copy_11,
+                                    newItem: copy_18,
+                                    newState: &copy_15,
+                                    tag: .item,
+                                    platform: rootPlatform
+                                ) else {
+                                    // <+8800>
+                                    self.viewCache.index.leave(index: oldIndex_1)
+                                    self.viewCache.invalidateAsyncValues()
+                                    self.isValid = self.wasValid
+                                    return nil
+                                }
+                                
+                                // <+8032>
+                                let d9 = result.nextUpdate
+                                self.isValid = self.isValid && result.isValid
+                                
+                                // <+8048>
+                                // sp + 0x1280
+                                let copy_19 = copy_17.value
+                                // sp + 0x12a0
+                                let copy_20 = copy_18.value
+                                
+                                if
+                                    case .effect(let effect_1, let list_1) = copy_19,
+                                    case .effect(let effect_2, let list_2) = copy_20
+                                {
+                                    // <+8140>
+                                    if (copy_17.version != copy_18.version) || !self.wasValid {
+                                        // <+10652>
+                                        // inlined
+                                        unsafe copy_11.reset()
+                                        // inlined
+                                        unsafe copy_15.reset()
+                                        
+                                        // <+11084>
+                                        if list_1.items.count != list_2.items.count {
+                                            // <+20240>
+                                            self.viewCache.index.leave(index: oldIndex_1)
+                                            self.viewCache.invalidateAsyncValues()
+                                            self.isValid = self.wasValid
+                                            return nil
+                                        } else {
+                                            // <+11100>
+                                            d10 = .infinity
+                                            
+                                            for index in list_1.items.indices {
+                                                // <+11104>
+                                                // sp + 0xca0
+                                                let item_1 = list_1.items[index]
+                                                // sp + 0xb00
+                                                var item_2 = list_1.items[index]
+                                                // sp + 0xdf0
+                                                let item_3 = list_2.items[index]
+                                                // sp + 0x960
+                                                var item_4 = list_2.items[index]
+                                                
+                                                // <+11328>
+                                                guard item_1.identity == item_3.identity else {
+                                                    // <+20148>
+                                                    self.viewCache.index.leave(index: oldIndex_1)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                }
+                                                
+                                                // <+11336>
+                                                guard item_4.matchesTopLevelStructure(of: item_2) else {
+                                                    // <+20224>
+                                                    self.viewCache.index.leave(index: oldIndex_1)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                }
+                                                
+                                                // <+11376>
+                                                // sp + 0x58
+                                                let oldIndex_2 = self.viewCache.index.enter(identity: item_4.identity)
+                                                // sp + 0x1230
+                                                let copy_21 = rootPlatform
+                                                
+                                                // <+11520>
+                                                let d11 = unsafe self.viewCache.prepare(
+                                                    item: &item_2,
+                                                    platform: copy_21,
+                                                    parentState: &copy_11
+                                                )
+                                                
+                                                self.viewCache.index = oldIndex_2
+                                                // sp + 0x1230
+                                                let copy_22 = rootPlatform
+                                                
+                                                // <+11568>
+                                                let d14 = unsafe self.viewCache.prepare(
+                                                    item: &item_4,
+                                                    platform: copy_22,
+                                                    parentState: &copy_15
+                                                )
+                                                
+                                                // sp + 0x820
+                                                let copy_23 = rootPlatform
+                                                
+                                                // <+11624>
+                                                guard let _d8 = unsafe self.updateInheritedViewAsync(
+                                                    platform: copy_23,
+                                                    oldItem: item_2,
+                                                    oldParentState: &copy_11,
+                                                    newItem: item_4,
+                                                    newParentState: &copy_15
+                                                ) else {
+                                                    // <+20308>
+                                                    self.viewCache.index.leave(index: oldIndex_2)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                }
+                                                
+                                                d8 = _d8
+                                                // <+11660>
+                                                d0 = (d11 < d10) ? d11 : d10
+                                                d0 = (d14 < d0) ? d14 : d0
+                                                d10 = (d0 > d8) ? d8 : d0
+                                                
+                                                self.viewCache.index.leave(index: oldIndex_2)
+                                            }
+                                            
+                                            // <+19120>
+                                            if
+                                                case .mask(let list_3, _) = effect_1,
+                                                case .mask(let list_4, _) = effect_2
+                                            {
+                                                // <+19180>
+                                                if list_3.items.count != list_4.items.count {
+                                                    // <+20548>
+                                                    self.viewCache.index.leave(index: oldIndex_1)
+                                                    self.viewCache.invalidateAsyncValues()
+                                                    self.isValid = self.wasValid
+                                                    return nil
+                                                } else {
+                                                    // <+19244>
+                                                    var d11 = Time.infinity
+                                                    
+                                                    for index in list_3.items.indices {
+                                                        // sp + 0xca0
+                                                        let item_1 = list_3.items[index]
+                                                        // sp + 0xb00
+                                                        var item_2 = list_3.items[index]
+                                                        // sp + 0xdf0
+                                                        let item_3 = list_4.items[index]
+                                                        // sp + 0x960
+                                                        var item_4 = list_4.items[index]
+                                                        
+                                                        // <+19484>
+                                                        guard item_1.identity == item_3.identity else {
+                                                            // <+21556>
+                                                            self.viewCache.index.leave(index: oldIndex_1)
+                                                            self.viewCache.invalidateAsyncValues()
+                                                            self.isValid = self.wasValid
+                                                            return nil
+                                                        }
+                                                        
+                                                        // <+19492>
+                                                        guard item_4.matchesTopLevelStructure(of: item_2) else {
+                                                            // <+21632>
+                                                            self.viewCache.index.leave(index: oldIndex_1)
+                                                            self.viewCache.invalidateAsyncValues()
+                                                            self.isValid = self.wasValid
+                                                            return nil
+                                                        }
+                                                        
+                                                        // <+19532>
+                                                        // sp + 0x58
+                                                        let oldIndex_2 = self.viewCache.index.enter(identity: item_4.identity)
+                                                        
+                                                        // <+19628>
+                                                        // sp + 0x1230
+                                                        let copy_21 = rootPlatform
+                                                        
+                                                        let d14 = unsafe self.viewCache.prepare(
+                                                            item: &item_2,
+                                                            platform: copy_21,
+                                                            parentState: &copy_11
+                                                        )
+                                                        
+                                                        self.viewCache.index = oldIndex_2
+                                                        // sp + 0x1230
+                                                        let copy_22 = rootPlatform
+                                                        
+                                                        let d15 = unsafe self.viewCache.prepare(
+                                                            item: &item_4,
+                                                            platform: copy_22,
+                                                            parentState: &copy_15
+                                                        )
+                                                        // sp + 0x820
+                                                        let copy_23 = rootPlatform
+                                                        
+                                                        guard let _d8 = unsafe self.updateInheritedViewAsync(
+                                                            platform: copy_23,
+                                                            oldItem: item_2,
+                                                            oldParentState: &copy_11,
+                                                            newItem: item_4,
+                                                            newParentState: &copy_15
+                                                        ) else {
+                                                            // <+21724>
+                                                            self.viewCache.index.leave(index: oldIndex_2)
+                                                            self.viewCache.invalidateAsyncValues()
+                                                            self.isValid = self.wasValid
+                                                            return nil
+                                                        }
+                                                        
+                                                        d8 = _d8
+                                                        // <+19812>
+                                                        d0  = (d14 < d11) ? d14 : d11
+                                                        d11 = (d15 < d0) ? d15 : d0
+                                                        d11 = (d11 > d8) ? d8 : d11
+                                                        
+                                                        self.viewCache.index.leave(index: oldIndex_2)
+                                                    }
+                                                    
+                                                    // <+20632>
+                                                    d10 = (d11 < d10) ? d11 : d10
+                                                    // <+20696>
+                                                }
+                                            } else {
+                                                // <+20696>
+                                            }
+                                            
+                                            // <+20696>
+                                            if !(d10 < d9) {
+                                                // <+21532>
+                                                // <+10464>
+                                            } else {
+                                                // <+20724>
+                                                let key = DisplayList.ViewUpdater.ViewCache.Key(
+                                                    id: result.indexID,
+                                                    system: PlatformViewDefinition.System(base: rootPlatform.system),
+                                                    tag: .item
+                                                )
+                                                
+                                                self.viewCache.map[key]!.nextUpdate = d10
+                                                // <+10464>
+                                            }
+                                            
+                                            // <+10464>
+                                            d8 = d9
+                                            // <+1764>
+                                        }
+                                        
+                                        // <+1764>
+                                    } else {
+                                        // <+8164>
+                                        if case .mask(let list_3, _) = effect_1 {
+                                            // <+8180>
+                                            self.viewCache.index.skip(list: list_3)
+                                            // <+19980>
+                                        } else {
+                                            // <+19924>
+                                            // <+19980>
+                                        }
+                                        
+                                        // <+19980>
+                                        self.viewCache.index.leave(index: oldIndex_1)
+                                        d8 = d9
+                                        // <+1764>
+                                    }
+                                    
+                                    // <+1764>
+                                } else {
+                                    // <+10460>
+                                    d8 = d9
+                                    // <+1764>
+                                }
+                                
                                 // <+1764>
                             } else {
                                 // <+7084>
