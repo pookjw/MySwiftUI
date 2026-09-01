@@ -844,14 +844,12 @@ extension DisplayList {
                             }
                             
                             // <+1764>
-                            d10 = (d8 < d13) ? d8 : d13
-                            self.viewCache.index.leave(index: oldIndex_1)
-                            continue
                         } else if requirements_1.contains(.unknown2) {
                             // <+7080>
                             if requirements_1.contains(.unknown0) {
                                 // <+7372>
                                 assertUnimplemented()
+                                // <+1764>
                             } else {
                                 // <+7084>
                                 // sp + 0x1300
@@ -1389,22 +1387,23 @@ extension DisplayList {
                                             // <+12076>
                                             d8 = (d9 > d8) ? d8 : d9
                                             self.viewCache.index.leave(index: oldIndex_2)
-                                            continue
+                                            // <+1764>
                                         }
                                         
                                         // <+16736>
                                         // <+1764>
-                                        continue
                                     }
+                                    // <+1764>
                                 } else {
                                     // <+1628>
                                     d8 = .infinity
                                     // <+1764>
-                                    d10 = (d8 < d13) ? d8 : d13
-                                    self.viewCache.index.leave(index: oldIndex_1)
-                                    continue
                                 }
+                                
+                                // <+1764>
                             }
+                            
+                            // <+1764>
                         } else {
                             // <+2868>
 //                            switch copy_13.value {
@@ -1471,7 +1470,13 @@ extension DisplayList {
 //                            }
                             
                             assertUnimplemented()
+                            // <+1764>
                         }
+                        
+                        // <+1764>
+                        d10 = (d8 < d13) ? d8 : d13
+                        self.viewCache.index.leave(index: oldIndex_1)
+                        continue
                     }
                     
                     // <+1468>
