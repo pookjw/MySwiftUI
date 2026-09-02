@@ -363,7 +363,58 @@ extension DisplayList {
         }
         
         func matchesTopLevelStructure(of item: DisplayList.Item) -> Bool {
-            assertUnimplemented()
+            /*
+             self.value -> x24/x23/x26/x25
+             item.value -> x22/x27/x21/x19
+             */
+            switch (self.value, item.value) {
+            case (.content(let selfContent), .content(let itemContent)):
+                // <+88>
+                let selfTag = withUnsafePointer(to: selfContent.value) { pointer in
+                    return unsafe TypeID(DisplayList.Content.Value.self)
+                        .getEnumTag(pointer)
+                }
+                
+                let itemTag = withUnsafePointer(to: itemContent.value) { pointer in
+                    return unsafe TypeID(DisplayList.Content.Value.self)
+                        .getEnumTag(pointer)
+                }
+                
+                return selfTag == itemTag
+            case (.effect(let selfEffect, _), .effect(let itemEffect, _)):
+                // <+396>
+                let selfTag = withUnsafePointer(to: selfEffect) { pointer in
+                    return unsafe TypeID(DisplayList.Effect.self)
+                        .getEnumTag(pointer)
+                }
+                
+                let itemTag = withUnsafePointer(to: itemEffect) { pointer in
+                    return unsafe TypeID(DisplayList.Effect.self)
+                        .getEnumTag(pointer)
+                }
+                
+                return selfTag == itemTag
+            case (.states(let selfStates), .states(let itemStates)):
+                // <+296>
+                guard selfStates.count == itemStates.count else {
+                    return false
+                }
+                
+                // <+312>
+                for index in selfStates.indices {
+                    guard selfStates[index].0 == itemStates[index].0 else {
+                        return false
+                    }
+                }
+                
+                return true
+            case (.empty, .empty):
+                // <+868>
+                return true
+            default:
+                // <+728>
+                return false
+            }
         }
         
         private func opaqueContentPath() -> (Path, FillStyle)? {
