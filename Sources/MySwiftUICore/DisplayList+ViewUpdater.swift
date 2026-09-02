@@ -2940,7 +2940,7 @@ extension DisplayList {
             // <+476>
             guard requirements_1.contains(.unknown1) else {
                 // <+484>
-                return updateItemAsync(oldState: &copy_5, newState: &copy_9)
+                return unsafe updateItemAsync(oldState: &copy_5, newState: &copy_9)
             }
             
             // <+604>
