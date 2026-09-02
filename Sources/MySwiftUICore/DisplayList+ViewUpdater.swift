@@ -2954,14 +2954,21 @@ extension DisplayList {
                 tag: .inherited,
                 platform: platform
             ) else {
+                return nil
+            }
+            
+            // <+1480>
+            self.isValid = self.isValid && result.isValid
+            
+            guard result.changed else {
                 // <+1620>
-                if case .effect(let effect, let list) = copy_3.value {
+                if case .effect(_, let list) = copy_3.value {
                     for item in list.items {
                         self.viewCache.index.skip(item: item)
                     }
                 }
                 
-                return .infinity
+                return result.nextUpdate
             }
             
             guard let time = unsafe updateItemAsync(oldState: &copy_5, newState: &copy_9) else {
