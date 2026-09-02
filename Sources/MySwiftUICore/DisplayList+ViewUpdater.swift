@@ -2925,6 +2925,15 @@ extension DisplayList {
             }
             
             func updateItemAsync(oldState: inout DisplayList.ViewUpdater.Model.State, newState: inout DisplayList.ViewUpdater.Model.State) -> Time? {
+                /*
+                 oldState -> x0 -> sp + 0xd0
+                 newState -> x1 -> sp + 0xd8
+                 requirements_1 -> x2 -> x25
+                 copy_7 -> x3 -> x27
+                 copy_3 -> x4 -> x26
+                 self -> x5 -> x21
+                 platform -> x6 -> sp + 0xc0
+                 */
                 assertUnimplemented()
             }
             
