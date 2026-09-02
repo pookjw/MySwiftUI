@@ -2643,16 +2643,6 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func updateAsync(
-            platform: DisplayList.ViewUpdater.Platform,
-            oldList: DisplayList,
-            oldParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newList: DisplayList,
-            newParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
-        ) -> Time? {
-            assertUnimplemented()
-        }
-        
         func destroy(rootView: AnyObject) {
             assertUnimplemented()
         }
@@ -2797,6 +2787,93 @@ extension DisplayList {
                 unsafe self.updateInheritedView(container: &container, from: item, parentState: parentState)
                 self.viewCache.index.leave(index: oldIndex)
             }
+        }
+        
+        fileprivate func updateAsync(
+            platform: DisplayList.ViewUpdater.Platform,
+            oldList: DisplayList,
+            oldParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
+            newList: DisplayList,
+            newParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
+        ) -> Time? {
+            /*
+             self -> x20
+             return pointer -> x8
+             platform -> x0
+             oldList -> x1
+             oldParentState -> x2 -> sp + 0x20
+             newList -> x3
+             newParentState -> x4 -> sp + 0x28
+             */
+            guard oldList.items.count == newList.items.count else {
+                return nil
+            }
+            
+            // <+72>
+            /*
+             return pointer -> x8 -> sp + 0x8
+             platform -> x0 -> sp + 0x18
+             */
+            var d8 = Time.infinity
+            
+            for index in oldList.items.indices {
+                // <+184>
+                // x11 (sp + 0x1a0)
+                let item_1 = oldList.items[index]
+                // x10 + 0xa0 (sp + 0x150)
+                var item_2 = oldList.items[index]
+                // x11 + 0x50 (sp + 0x1f0)
+                let item_3 = newList.items[index]
+                // x10 + 0x50 (sp + 0x100)
+                var item_4 = newList.items[index]
+                
+                guard item_1.identity == item_3.identity else {
+                    return nil
+                }
+                
+                // <+352>
+                guard item_4.matchesTopLevelStructure(of: item_2) else {
+                    return nil
+                }
+                
+                // sp + 0x30
+                let oldIndex = self.viewCache.index.enter(identity: item_4.identity)
+                
+                // <+476>
+                let d9 = unsafe self.viewCache.prepare(
+                    item: &item_2,
+                    platform: platform,
+                    parentState: oldParentState
+                )
+                
+                self.viewCache.index = oldIndex
+                
+                let d10 = unsafe self.viewCache.prepare(
+                    item: &item_4,
+                    platform: platform,
+                    parentState: newParentState
+                )
+                
+                guard let d1 = unsafe self.updateInheritedViewAsync(
+                    platform: platform,
+                    oldItem: item_2,
+                    oldParentState: oldParentState,
+                    newItem: item_4,
+                    newParentState: newParentState
+                ) else {
+                    self.viewCache.index.leave(index: oldIndex)
+                    return nil
+                }
+                
+                var d0 = (d9  < d8) ? d9 : d8
+                d0 = (d10 < d0) ? d10 : d0
+                d8 = (d0 > d1) ? d1 : d0
+                
+                // <+696>
+                self.viewCache.index.leave(index: oldIndex)
+            }
+            
+            return d8
         }
         
         fileprivate func updateInheritedViewAsync(
