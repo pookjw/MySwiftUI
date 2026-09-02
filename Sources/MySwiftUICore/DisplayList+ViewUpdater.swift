@@ -2898,7 +2898,70 @@ extension DisplayList {
             // sp + 0x7f0
             let copy_2 = newItem
             // <+148>
-            assertUnimplemented()
+            // x21
+            var copy_3 = oldItem
+            // sp + 0x848
+            let copy_4 = unsafe oldParentState.pointee
+            // sp + 0x650
+            var copy_5 = unsafe oldParentState.pointee
+            // oldParentState -> x26 -> sp + 0x60
+            // self.viewCache -> x26
+            // sp + 0x4e0
+            let copy_6 = self.viewCache.index
+            // x27/w25
+            let requirements_1 = unsafe DisplayList.ViewUpdater.Model.merge(item: &copy_3, index: copy_6, into: &copy_5)
+            // x22
+            var copy_7 = newItem
+            // sp + 0x998
+            let copy_8 = unsafe newParentState.pointee
+            // sp + 0x4e0
+            var copy_9 = unsafe newParentState.pointee
+            // sp + 0x170
+            let copy_10 = self.viewCache.index
+            let requirements_2 = unsafe DisplayList.ViewUpdater.Model.merge(item: &copy_7, index: copy_10, into: &copy_9)
+            
+            guard requirements_1 == requirements_2 else {
+                return nil
+            }
+            
+            func updateItemAsync(oldState: inout DisplayList.ViewUpdater.Model.State, newState: inout DisplayList.ViewUpdater.Model.State) -> Time? {
+                assertUnimplemented()
+            }
+            
+            // <+476>
+            guard requirements_1.contains(.unknown1) else {
+                // <+484>
+                return updateItemAsync(oldState: &copy_5, newState: &copy_9)
+            }
+            
+            // <+604>
+            // requirements_1 -> sp + 0x4c
+            // inlined
+            guard var result = unsafe self.viewCache.updateAsync(
+                oldItem: copy_3,
+                oldState: &copy_5,
+                newItem: copy_7,
+                newState: &copy_9,
+                tag: .inherited,
+                platform: platform
+            ) else {
+                // <+1620>
+                if case .effect(let effect, let list) = copy_3.value {
+                    for item in list.items {
+                        self.viewCache.index.skip(item: item)
+                    }
+                }
+                
+                return .infinity
+            }
+            
+            guard let time = unsafe updateItemAsync(oldState: &copy_5, newState: &copy_9) else {
+                return nil
+            }
+            
+            // <+1832>
+            self.viewCache.setNextUpdate(time, in: &result)
+            return result.nextUpdate
         }
         
         fileprivate func updateItemViewAsync(
