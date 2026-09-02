@@ -2838,6 +2838,7 @@ extension DisplayList {
                 
                 // sp + 0x30
                 let oldIndex = self.viewCache.index.enter(identity: item_4.identity)
+                let currentIndex = self.viewCache.index
                 
                 // <+476>
                 let d9 = unsafe self.viewCache.prepare(
@@ -2846,7 +2847,7 @@ extension DisplayList {
                     parentState: oldParentState
                 )
                 
-                self.viewCache.index = oldIndex
+                self.viewCache.index = currentIndex
                 
                 let d10 = unsafe self.viewCache.prepare(
                     item: &item_4,
@@ -2883,6 +2884,20 @@ extension DisplayList {
             newItem: DisplayList.Item,
             newParentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Time? {
+            /*
+             self -> x20
+             return pointer -> x8 -> x19
+             platform -> x0 -> sp + 0x70
+             oldItem -> x1 -> x24
+             oldParentState -> x2 -> x26
+             newItem -> x3 -> x23
+             newParentState -> x4 -> x28
+             */
+            // sp + 0x7a0
+            let copy_1 = oldItem
+            // sp + 0x7f0
+            let copy_2 = newItem
+            // <+148>
             assertUnimplemented()
         }
         
