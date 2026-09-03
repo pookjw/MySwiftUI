@@ -2961,9 +2961,9 @@ extension DisplayList {
                         // sp + 0x850
                         let copy_11 = copy_3
                         // sp + 0x6a0
-                        let copy_12 = copy_3
+                        let _ = copy_3
                         // sp + 0x9a0
-                        let copy_13 = copy_7
+                        let _ = copy_7
                         // sp + 0x500
                         let copy_14 = copy_7
                         
@@ -2981,13 +2981,13 @@ extension DisplayList {
                          copy_7.value -> sp + 0xc0 / x25 / x26
                          */
                         if
-                            case .effect(let effect_1, let list_1) = copy_3.value,
-                            case .effect(let effect_2, let list_2) = copy_7.value
+                            case .effect(_, let list_1) = copy_3.value,
+                            case .effect(_, let list_2) = copy_7.value
                         {
                             // <+896>
                             guard list_1.items.count == list_2.items.count else {
-                                // <+1316>
-                                return .infinity
+                                // <+3768>
+                                return nil
                             }
                             
                             // <+896>
@@ -3038,17 +3038,17 @@ extension DisplayList {
                                     platform: platform,
                                     parentState: &newState
                                 )
-                                let d12 = (d8 < d8) ? d0 : d8
+                                let d12 = (d0 < d8) ? d0 : d8
                                 
                                 // <+1916>
                                 // sp + 0x7b0
-                                let copy_11 = item_2
+                                let _ = item_2
                                 // sp + 0x800
-                                let copy_12 = item_4
+                                let _ = item_4
                                 // x27
                                 var copy_13 = item_2
                                 // sp + 0x850
-                                let copy_14 = unsafe oldState
+                                let _ = unsafe oldState
                                 // sp + 0x650
                                 var copy_15 = unsafe oldState
                                 // sp + 0x3b0
@@ -3064,7 +3064,7 @@ extension DisplayList {
                                 // x25
                                 var copy_18 = item_4
                                 // sp + 0x9a0
-                                let copy_19 = unsafe newState
+                                let _ = unsafe newState
                                 // sp + 0x500
                                 var copy_20 = unsafe newState
                                 // sp + 0x2b0
@@ -3096,11 +3096,12 @@ extension DisplayList {
                                         return nil
                                     }
                                     
+                                    d8 = result.nextUpdate
                                     self.isValid = self.isValid && result.isValid
                                     
                                     if copy_13.version == copy_18.version {
                                         // <+3308>
-                                        if case .effect(let effect, let list) = copy_13.value {
+                                        if case .effect(_, let list) = copy_13.value {
                                             for item in list.items {
                                                 self.viewCache.index.skip(item: item)
                                             }
@@ -3233,6 +3234,17 @@ extension DisplayList {
             newItem: DisplayList.Item,
             newState: inout DisplayList.ViewUpdater.Model.State
         ) -> Time? {
+            /*
+             platform -> x0 -> x22
+             oldItem -> x1
+             oldState -> x2 -> x21
+             newItem -> x3
+             newState -> x4 -> x20
+             */
+            // sp + 0x12b0
+            let copy_1 = oldItem
+            // sp + 0x1300
+            let copy_2 = newItem
             assertUnimplemented()
         }
     }
