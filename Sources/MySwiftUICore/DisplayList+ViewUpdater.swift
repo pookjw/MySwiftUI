@@ -2913,7 +2913,7 @@ extension DisplayList {
             // x22
             var copy_7 = newItem
             // sp + 0x998
-            let copy_8 = unsafe newParentState.pointee
+            let _ = unsafe newParentState.pointee
             // sp + 0x4e0
             var copy_9 = unsafe newParentState.pointee
             // sp + 0x170
