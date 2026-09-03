@@ -3235,6 +3235,8 @@ extension DisplayList {
             newState: inout DisplayList.ViewUpdater.Model.State
         ) -> Time? {
             /*
+             self -> x20 -> x25
+             return pointer -> x8 -> x24
              platform -> x0 -> x22
              oldItem -> x1
              oldState -> x2 -> x21
@@ -3245,6 +3247,182 @@ extension DisplayList {
             let copy_1 = oldItem
             // sp + 0x1300
             let copy_2 = newItem
+            
+            /*
+             oldState -> sp + 0xd0
+             newState -> sp + 0xc8
+             */
+            // <+168>
+            // inlined
+            guard let result = unsafe self.viewCache.updateAsync(
+                oldItem: copy_1,
+                oldState: &oldState,
+                newItem: copy_2,
+                newState: &newState,
+                tag: .item,
+                platform: platform
+            ) else {
+                return nil
+            }
+            
+            var d8 = result.nextUpdate
+            self.isValid = self.isValid && result.isValid
+            
+            // <+1000>
+            // sp + 0x11d0 (x27, x11, x26, x19)
+            let copy_3 = copy_1.value
+            // sp + 0x11f0 (x22, x21, x12, x8)
+            let copy_4 = copy_2.value
+            
+            guard
+                case .effect(let effect_1, let list_1) = copy_3,
+                case .effect(let effect_2, let list_2) = copy_4
+            else {
+                return d8
+            }
+            
+            // <+1092>
+            guard (copy_1.version != copy_2.version) || !self.wasValid else {
+                // <+1108>
+                if case .mask(let list_3, _) = effect_1 {
+                    self.viewCache.index.skip(list: list_3)
+                }
+                
+                // <+9128>
+                self.viewCache.index.skip(list: list_1)
+                return d8
+            }
+            
+            // <+1364>
+            unsafe oldState.reset()
+            unsafe newState.reset()
+            
+            // <+1428>
+            guard list_1.items.count == list_2.items.count else {
+                // <+1516>
+                return nil
+            }
+            
+            // <+1448>
+            d8 = .infinity
+            /*
+             x22 -> sp + 0x10e0
+             x28 -> sp + 0x460
+             */
+            
+            for index in list_1.items.indices {
+                // <+1776>
+                // sp + 0x1180
+                let item_1 = list_1.items[index]
+                // sp + 0x1130
+                var item_2 = list_1.items[index]
+                // sp + 0x460
+                let item_3 = list_2.items[index]
+                // sp + 0x10e0
+                var item_4 = list_2.items[index]
+                
+                // <+1960>
+                guard item_1.identity == item_3.identity else {
+                    // <+9404>
+                    return nil
+                }
+                
+                // <+1968>
+                guard item_4.matchesTopLevelStructure(of: item_2) else {
+                    // <+9480>
+                    return nil
+                }
+                
+                // <+2020>
+                // sp + 0x98
+                let oldIndex = self.viewCache.index.enter(identity: item_4.identity)
+                
+                // <+2104>
+                var d0 = unsafe self.viewCache.prepare(
+                    item: &item_2,
+                    platform: platform,
+                    parentState: &oldState
+                )
+                
+                d8 = (d0 < d8) ? d0 : d8
+                self.viewCache.index = oldIndex
+                
+                // <+2184>
+                d0 = unsafe self.viewCache.prepare(
+                    item: &item_4,
+                    platform: platform,
+                    parentState: &newState
+                )
+                
+                let d12 = (d0 < d8) ? d0 : d8
+                
+                // <+2236>
+                /*
+                 x22 -> sp + 0x10e0
+                 x20 -> sp + 0xd50
+                 */
+                // sp + 0xd50
+                var copy_5 = item_2
+                // sp + 0xdf0
+                let copy_6 = item_4
+                // sp + 0xe40
+                let copy_7 = unsafe oldState
+                // sp + 0xc00
+                var copy_8 = unsafe oldState
+                // sp + 0x910
+                let copy_9 = self.viewCache.index
+                
+                // <+2364>
+                // x27/w19
+                let requirements_1 = unsafe DisplayList.ViewUpdater.Model.merge(
+                    item: &copy_5,
+                    index: copy_9,
+                    into: &copy_8
+                )
+                
+                // <+2432>
+                // x23 -> sp + 0x910
+                // sp + 0xa60
+                var copy_10 = item_1
+                // sp + 0xf90
+                let copy_11 = unsafe newState
+                // sp + 0xab0
+                var copy_12 = unsafe newState
+                // sp + 0x1210
+                let copy_13 = self.viewCache.index
+                
+                let requirements_2 = unsafe DisplayList.ViewUpdater.Model.merge(
+                    item: &copy_10,
+                    index: copy_13,
+                    into: &copy_12
+                )
+                
+                guard requirements_1 == requirements_2 else {
+                    // <+9608>
+                    self.viewCache.index.leave(index: oldIndex)
+                    return nil
+                }
+                
+                // <+2576>
+                if requirements_1.contains(.unknown1) {
+                    // <+2676>
+                    assertUnimplemented()
+                } else if requirements_1.contains(.unknown2) {
+                    // <+5556>
+                    if requirements_1.contains(.unknown0) {
+                        // <+1544>
+                        assertUnimplemented()
+                    } else {
+                        // <+5560>
+                        assertUnimplemented()
+                    }
+                } else {
+                    // <+2584>
+                    assertUnimplemented()
+                }
+            }
+            
+            // <+8912>
             assertUnimplemented()
         }
     }
