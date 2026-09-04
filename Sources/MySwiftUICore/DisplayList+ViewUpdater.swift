@@ -3826,6 +3826,7 @@ extension DisplayList {
             }
             
             // <+8912>
+            // sp + 0x118
             var sp0x118 = d8
             
             guard
