@@ -580,7 +580,7 @@ extension DisplayList.ViewUpdater {
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
             /*
-             self -> x20
+             self -> x20 -> x28
              layer -> x0
              index -> x1
              oldItem -> x2
@@ -588,6 +588,28 @@ extension DisplayList.ViewUpdater {
              newItem -> x4
              newState -> x5
              */
+            // sp + 0xf30
+            let copy_1 = oldItem
+            // sp + 0xf80
+            let copy_2 = newItem
+            // <+156>
+            // x29 - 0xe8 (x21, x24, x9, x8)
+            let copy_3 = copy_1.value
+            // x29 - 0xc8  (x19, x23, x11, x10)
+            let copy_4 = copy_2.value
+            
+            switch (copy_3, copy_4) {
+            case (.effect(let effect_1, let list_1), .effect(let effect_2, let list_2)):
+                // <+336>
+                assertUnimplemented()
+            case (.content(let content_1), .content(let content_2)):
+                // <+800>
+                assertUnimplemented()
+            default:
+                // <+664>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
         
