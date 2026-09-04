@@ -3389,7 +3389,7 @@ extension DisplayList {
                  */
 
                 // sp + 0xa60
-                var copy_10 = item_1
+                var copy_10 = copy_6
                 // sp + 0xf90
                 let copy_11 = unsafe newState
                 // sp + 0xab0
@@ -3739,7 +3739,7 @@ extension DisplayList {
                                         parentState: &copy_8
                                     )
                                     
-                                    self.viewCache.index = oldIndex
+                                    self.viewCache.index = oldIndex_1
                                     
                                     let d11 = unsafe self.viewCache.prepare(
                                         item: &item_4,
@@ -3755,6 +3755,7 @@ extension DisplayList {
                                         newParentState: &copy_12
                                     ) else {
                                         // <+7332>
+                                        self.viewCache.index.leave(index: oldIndex_1)
                                         self.viewCache.index.leave(index: oldIndex)
                                         return nil
                                     }
@@ -3825,12 +3826,14 @@ extension DisplayList {
             }
             
             // <+8912>
+            var sp0x118 = d8
+            
             guard
                 case .mask(let list_3, _) = effect_1,
                 case .mask(let list_4, _) = effect_2
             else {
                 // <+9316>
-                self.viewCache.setNextUpdate(d8, in: &result)
+                self.viewCache.setNextUpdate(sp0x118, in: &result)
                 d8 = result.nextUpdate
                 return d8
             }
@@ -4298,13 +4301,15 @@ extension DisplayList {
             }
             
             // <+16316>
+            d8 = sp0x118
             if !(d9 < d8) {
-                self.viewCache.setNextUpdate(d8, in: &result)
+                // <+9340>
             } else {
-                self.viewCache.setNextUpdate(d9, in: &result)
+                sp0x118 = d9
             }
             
             // <+9340>
+            self.viewCache.setNextUpdate(sp0x118, in: &result)
             return result.nextUpdate
         }
     }
