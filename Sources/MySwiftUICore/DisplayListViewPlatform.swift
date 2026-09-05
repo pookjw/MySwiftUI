@@ -691,14 +691,14 @@ extension DisplayList.ViewUpdater {
                     // <+952>
                     // oldState -> x3 -> x20
                     // sp + 0xc40
-                    let copy_5 = unsafe oldState
+                    let copy_5 = unsafe oldState.pointee
                     // sp + 0xaf0
-                    let copy_6 = unsafe oldState
+                    let copy_6 = unsafe oldState.pointee
                     // newState -> sp + 0x100 -> x20
                     // sp + 0xd90
-                    let copy_7 = unsafe newState
+                    let copy_7 = unsafe newState.pointee
                     // sp + 0x9a0
-                    let copy_8 = unsafe newState
+                    let copy_8 = unsafe newState.pointee
                     
                     // <+1028>
                     layer.isInvalid = false
@@ -770,14 +770,14 @@ extension DisplayList.ViewUpdater {
                         // <+3576>
                         // oldState -> sp + 0xf0 -> x20
                         // sp + 0xc40
-                        let copy_5 = unsafe oldState
+                        let copy_5 = unsafe oldState.pointee
                         // sp + 0xaf0
-                        let copy_6 = unsafe oldState
+                        let copy_6 = unsafe oldState.pointee
                         // newState -> sp + 0x100 -> x20
                         // sp + 0xd90
-                        let copy_7 = unsafe newState
+                        let copy_7 = unsafe newState.pointee
                         // sp + 0x9a0
-                        let copy_8 = unsafe newState
+                        let copy_8 = unsafe newState.pointee
                         
                         // <+3648>
                         // <+3712>
