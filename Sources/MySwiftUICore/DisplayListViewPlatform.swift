@@ -358,14 +358,51 @@ extension DisplayList.ViewUpdater {
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
             /*
-             layer -> x0
+             layer -> x0 -> x22
              oldItem -> x1
-             oldSize -> d0/d1
-             oldState -> x2
+             oldSize -> d0/d1 -> d11/d10
+             oldState -> x2 -> x21
              newItem -> x3
-             newSize -> d2/d3
-             newState -> x4
+             newSize -> d2/d3 -> d3/d2
+             newState -> x4 -> x19
              */
+            // sp + 0x8d0
+            let copy_1 = oldItem
+            // sp + 0x920
+            let copy_2 = newItem
+            
+            guard unsafe oldState.pointee.properties == newState.pointee.properties else {
+                // <+2016>
+                return false
+            }
+            
+            let s1 = unsafe oldState.pointee.opacity
+            let s0 = unsafe newState.pointee.opacity
+            if s0 == s1 {
+                // <+188>
+            } else {
+                // <+180>
+                layer.setValue(s0, for: DisplayList.ViewUpdater.Opacity.self)
+            }
+            
+            // <+188>
+            if unsafe oldState.pointee.versions.blend != newState.pointee.versions.blend {
+                // <+2016>
+                return false
+            } else if unsafe oldState.pointee.versions.filters != newState.pointee.versions.filters {
+                // <+224>
+                assertUnimplemented()
+            } else if
+                unsafe (oldState.pointee.versions.clips != newState.pointee.versions.clips) ||
+                    (unsafe oldState.pointee.versions.transform != newState.pointee.versions.transform)
+            {
+                // <+1196>
+                assertUnimplemented()
+            } else {
+                // <+1224>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
         

@@ -283,9 +283,9 @@ extension DisplayList.ViewUpdater.ViewCache {
     }
     
     fileprivate struct PendingAsyncValue {
-        private var keyPath: String
-        private var value: NSObject
-        private var usesPresentationModifier: Bool
+        private(set) var keyPath: String
+        private(set) var value: NSObject
+        private(set) var usesPresentationModifier: Bool
     }
 }
 
@@ -311,4 +311,60 @@ extension DisplayList.ViewUpdater.ViewCache.AnimatorInfo {
 
 fileprivate func isPlatter(_: ViewSystem, _: AnyObject) -> Bool {
     assertUnimplemented()
+}
+
+extension DisplayList.ViewUpdater {
+    @safe struct AsyncLayer {
+        private(set) var layer: CALayer // 0x0
+        let cache: UnsafeMutablePointer<DisplayList.ViewUpdater.ViewCache> // 0x8
+        let kind: PlatformViewDefinition.ViewKind // 0x10
+        let flags: DisplayList.ViewUpdater.Platform.ViewFlags // 0x11
+        private(set) var nextUpdate: Time // 0x18
+        var isInvalid: Bool // 0x20
+        
+        func updateFilterValue<T : _DisplayList_ViewUpdater_AsyncLayerProperty>(_: T.Type, at: Int, from: T.Value, to: T.Value) where T.Value : Equatable {
+            assertUnimplemented()
+        }
+        
+        func update<T : _DisplayList_ViewUpdater_AsyncLayerProperty>(_: T.Type, from: T.Value, to: T.Value) where T.Value : Equatable {
+            assertUnimplemented()
+        }
+        
+        func setValue<T : _DisplayList_ViewUpdater_AsyncLayerProperty>(_ value: T.Value, for type: T.Type) {
+            let pendingAsyncValue = DisplayList.ViewUpdater.ViewCache.PendingAsyncValue(
+                keyPath: type.keyPath,
+                value: type.boxValue(value),
+                usesPresentationModifier: type.supportsPresentationModifier
+            )
+            
+            let layer = self.layer
+            var values = unsafe self.cache.pointee.pendingAsyncValues[ObjectIdentifier(layer)] ?? []
+            values.append(pendingAsyncValue)
+            unsafe self.cache.pointee.pendingAsyncValues[ObjectIdentifier(layer)] = values
+        }
+    }
+}
+
+protocol _DisplayList_ViewUpdater_AsyncLayerProperty {
+    associatedtype Value
+    
+    static var keyPath: String { get }
+    static var supportsPresentationModifier: Bool { get }
+    static func boxValue(_: Self.Value) -> NSObject
+}
+
+extension DisplayList.ViewUpdater {
+    enum Opacity : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "opacity"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: Float) -> NSObject {
+            return value as NSNumber
+        }
+    }
 }

@@ -4507,14 +4507,3 @@ extension DisplayList.ViewUpdater {
         }
     }
 }
-
-extension DisplayList.ViewUpdater {
-    @safe struct AsyncLayer {
-        private(set) var layer: CALayer // 0x0
-        let cache: UnsafeMutablePointer<DisplayList.ViewUpdater.ViewCache> // 0x8
-        let kind: PlatformViewDefinition.ViewKind // 0x10
-        let flags: DisplayList.ViewUpdater.Platform.ViewFlags // 0x11
-        private(set) var nextUpdate: Time // 0x18
-        var isInvalid: Bool // 0x20
-    }
-}

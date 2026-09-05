@@ -31,21 +31,21 @@ extension DisplayList.ViewUpdater {
         }
         
         @unsafe struct State {
-            private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            var opacity: Float = 1
-            fileprivate private(set) var blend = GraphicsBlendMode.normal
-            var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
-            private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = []
-            private(set) var filters: [GraphicsFilter] = []
-            private(set) var shadow: Indirect<ResolvedShadowStyle>? = nil
-            private(set) var properties: DisplayList.Properties = []
-            private(set) var rewriteVibrantColorMatrix: Bool = false
-            private var backdropAwareColorMatrices: Bool = false
-            private var compositingGroup: Bool = false
-            private var backdropGroupID: BackdropGroupID? = nil
-            private var stateHashes: [StrongHash] = []
-            var platformState = DisplayList.ViewUpdater.Model.PlatformState()
-            var versions = DisplayList.ViewUpdater.Model.State.Versions()
+            private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals> // 0x0
+            var opacity: Float = 1 // 0x8
+            fileprivate private(set) var blend = GraphicsBlendMode.normal // 0x10
+            var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0) // 0x20
+            private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
+            private(set) var filters: [GraphicsFilter] = [] // 0x58
+            private(set) var shadow: Indirect<ResolvedShadowStyle>? = nil // 0x60
+            private(set) var properties: DisplayList.Properties = [] // 0x68
+            private(set) var rewriteVibrantColorMatrix: Bool = false // 0x6c
+            private var backdropAwareColorMatrices: Bool = false // 0x6d
+            private var compositingGroup: Bool = false // 0x6e
+            private var backdropGroupID: BackdropGroupID? = nil // 0x70
+            private var stateHashes: [StrongHash] = [] // 0x78
+            var platformState = DisplayList.ViewUpdater.Model.PlatformState() // 0x80
+            var versions = DisplayList.ViewUpdater.Model.State.Versions() // 0x118
             
             @inline(always)
             init(
@@ -93,13 +93,13 @@ extension DisplayList.ViewUpdater.Model.State {
     }
     
     struct Versions {
-        var opacity = DisplayList.Version()
-        var blend = DisplayList.Version()
-        var transform = DisplayList.Version()
-        var clips = DisplayList.Version()
-        var filters = DisplayList.Version()
-        private(set) var shadow = DisplayList.Version()
-        private(set) var properties = DisplayList.Version()
+        var opacity = DisplayList.Version() // 0x0
+        var blend = DisplayList.Version() // 0x8
+        var transform = DisplayList.Version() // 0x10
+        var clips = DisplayList.Version() // 0x18
+        var filters = DisplayList.Version() // 0x20
+        private(set) var shadow = DisplayList.Version() // 0x28
+        private(set) var properties = DisplayList.Version() // 0x30
         
         init() {}
     }
