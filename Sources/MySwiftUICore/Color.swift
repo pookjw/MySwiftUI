@@ -703,8 +703,8 @@ extension Color {
             }
         }
         
-        var cgColor: CGColor? {
-            assertUnimplemented()
+        var cgColor: CGColor {
+            return Self.cache[self]
         }
         
         @_alwaysEmitIntoClient public var headroom: Float? {

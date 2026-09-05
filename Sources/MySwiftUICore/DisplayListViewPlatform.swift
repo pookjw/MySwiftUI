@@ -519,7 +519,7 @@ extension DisplayList.ViewUpdater {
             var d13 = unsafe oldState.pointee.transform.ty
             var d14 = unsafe newState.pointee.transform.tx
             var d12 = unsafe newState.pointee.transform.ty
-            var d4: CGFloat = 4
+            var d4: CGFloat = 0
             let d5: CGFloat
             // w25
             let flags = layer.flags
@@ -622,7 +622,7 @@ extension DisplayList.ViewUpdater {
                     
                     if (d0 != d1) || !(d12 == d13) {
                         // <+1632>
-                        layer.setValue(CGPoint(x: d0, y: d1), for: DisplayList.ViewUpdater.Position.self)
+                        layer.setValue(CGPoint(x: d0, y: d12), for: DisplayList.ViewUpdater.Position.self)
                     }
                     
                     // <+1664>
@@ -635,7 +635,7 @@ extension DisplayList.ViewUpdater {
                     transform_2.tx = 0
                     transform_2.ty = 0
                     
-                    if transform_2 == transform_1 {
+                    if !(transform_2 == transform_1) {
                         // <+1728>
                         layer.setValue(transform_2, for: DisplayList.ViewUpdater.AffineTransform.self)
                         // <+1744>
@@ -661,7 +661,7 @@ extension DisplayList.ViewUpdater {
             } else {
                 // <+1516>
                 switch layer.kind {
-                case .inherited, .color, .image:
+                case .platformView, .platformGroup, .platformLayer:
                     return false
                 default:
                     break
@@ -684,7 +684,7 @@ extension DisplayList.ViewUpdater {
                     
                     if (d0 != d1) || !(d12 == d13) {
                         // <+1632>
-                        layer.setValue(CGPoint(x: d0, y: d1), for: DisplayList.ViewUpdater.Position.self)
+                        layer.setValue(CGPoint(x: d0, y: d12), for: DisplayList.ViewUpdater.Position.self)
                     }
                     
                     // <+1664>
@@ -697,7 +697,7 @@ extension DisplayList.ViewUpdater {
                     transform_2.tx = 0
                     transform_2.ty = 0
                     
-                    if transform_2 == transform_1 {
+                    if !(transform_2 == transform_1) {
                         // <+1728>
                         layer.setValue(transform_2, for: DisplayList.ViewUpdater.AffineTransform.self)
                         // <+1720>
