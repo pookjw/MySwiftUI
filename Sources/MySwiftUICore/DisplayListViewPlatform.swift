@@ -531,7 +531,7 @@ extension DisplayList.ViewUpdater {
             if flags.contains(.unknown3) {
                 // <+1248>
                 // sp + 0x600
-                let copy_3 = unsafe oldState.pointee
+                let _ = unsafe oldState.pointee
                 // sp + 0x470
                 let copy_4 = unsafe oldState.pointee
                 // sp + 0x5c8
@@ -555,9 +555,9 @@ extension DisplayList.ViewUpdater {
                     // sp + 0x2e8
                     let clipRect_2 = unsafe copy_6.clipRect()
                     // sp + 0x470
-                    let copy_7 = unsafe copy_6
+                    let _ = unsafe copy_6
                     // sp + 0x48
-                    let copy_8 = unsafe copy_5
+                    let _ = unsafe copy_5
                     
                     // <+1444>
                     if let clipRect_2 {
