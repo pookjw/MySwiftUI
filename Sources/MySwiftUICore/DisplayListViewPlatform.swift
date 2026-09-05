@@ -357,6 +357,15 @@ extension DisplayList.ViewUpdater {
             newSize: CGSize,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
+            /*
+             layer -> x0
+             oldItem -> x1
+             oldSize -> d0/d1
+             oldState -> x2
+             newItem -> x3
+             newSize -> d2/d3
+             newState -> x4
+             */
             assertUnimplemented()
         }
         
@@ -597,20 +606,86 @@ extension DisplayList.ViewUpdater {
             let copy_3 = copy_1.value
             // x29 - 0xc8  (x19, x23, x11, x10)
             let copy_4 = copy_2.value
+            /*
+             x25 -> sp + 0xd90
+             x20 -> sp + 0xc40
+             */
             
             switch (copy_3, copy_4) {
             case (.effect(let effect_1, let list_1), .effect(let effect_2, let list_2)):
                 // <+336>
-                assertUnimplemented()
+                /*
+                 layer -> x0 -> sp + 0x118
+                 oldState -> sp + 0xf0
+                 newState -> sp + 0x100
+                 */
+                if copy_1.version == copy_2.version {
+                    // <+376>
+                    if case .transform(let transform_1) = effect_1 {
+                        // <+388>
+                        assertUnimplemented()
+                    } else {
+                        // <+1400>
+                        // <+3396>
+                        if layer.flags.contains(.unknown5) {
+                            // <+3576>
+                            assertUnimplemented()
+                        } else {
+                            // <+3412>
+                            // sp + 0xd90
+                            let copy_5 = copy_1
+                            // sp + 0xc40
+                            let copy_6 = copy_2
+                            let result = unsafe self.updateStateAsync(
+                                layer: &layer,
+                                oldItem: copy_5,
+                                oldSize: copy_1.frame.size,
+                                oldState: oldState,
+                                newItem: copy_6,
+                                newSize: copy_2.frame.size,
+                                newState: newState
+                            )
+                            // <+720>
+                            return result
+                        }
+                    }
+                } else {
+                    switch (effect_1, effect_2) {
+                    case (.platformGroup(let factory_1), .platformGroup(let factory_2)):
+                        // <+2564>
+                        assertUnimplemented()
+                    case (.sdfShape(_), .sdfShape(_)):
+                        // <+1832>
+                        assertUnimplemented()
+                    case (.transform(_), .transform(_)):
+                        // <+4268>
+                        assertUnimplemented()
+                    default:
+                        // <+4668>
+                        // sp + 0xd90
+                        let copy_5 = copy_1
+                        // sp + 0xc40
+                        let copy_6 = copy_2
+                        let result = unsafe self.updateStateAsync(
+                            layer: &layer,
+                            oldItem: copy_5,
+                            oldSize: copy_1.frame.size,
+                            oldState: oldState,
+                            newItem: copy_6,
+                            newSize: copy_2.frame.size,
+                            newState: newState
+                        )
+                        // <+720>
+                        return result
+                    }
+                }
             case (.content(let content_1), .content(let content_2)):
                 // <+800>
                 assertUnimplemented()
             default:
                 // <+664>
-                assertUnimplemented()
+                return false
             }
-            
-            assertUnimplemented()
         }
         
         fileprivate func updateShapeViewAsync(
