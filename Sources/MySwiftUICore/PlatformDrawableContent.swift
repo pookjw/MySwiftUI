@@ -1,5 +1,4 @@
-
-struct PlatformDrawableContent {
+@_spi(Internal) public struct PlatformDrawableContent {
     private var storage: PlatformDrawableContent.Storage
 }
 

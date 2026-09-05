@@ -36,7 +36,7 @@ extension DisplayList.ViewUpdater {
             fileprivate private(set) var blend = GraphicsBlendMode.normal // 0x10
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0) // 0x20
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
-            private(set) var filters: [GraphicsFilter] = [] // 0x58
+            var filters: [GraphicsFilter] = [] // 0x58
             private(set) var shadow: Indirect<ResolvedShadowStyle>? = nil // 0x60
             private(set) var properties: DisplayList.Properties = [] // 0x68
             private(set) var rewriteVibrantColorMatrix: Bool = false // 0x6c

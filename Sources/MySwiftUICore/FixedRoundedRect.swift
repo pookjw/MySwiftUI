@@ -8,9 +8,9 @@ package struct FixedRoundedRect : Equatable {
         assertUnimplemented()
     }
     
-    var rect: CGRect
-    var cornerSize: CGSize
-    var style: RoundedCornerStyle
+    var rect: CGRect // 0x0
+    var cornerSize: CGSize // 0x20
+    var style: RoundedCornerStyle // 0x30
     
     init(_ rect: CGRect) {
         assertUnimplemented()

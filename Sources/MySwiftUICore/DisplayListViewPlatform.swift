@@ -360,12 +360,15 @@ extension DisplayList.ViewUpdater {
             /*
              layer -> x0 -> x22
              oldItem -> x1
-             oldSize -> d0/d1 -> d11/d10
+             oldSize -> d0/d1
              oldState -> x2 -> x21
              newItem -> x3
-             newSize -> d2/d3 -> d3/d2
+             newSize -> d2/d3
              newState -> x4 -> x19
              */
+            var d10 = oldSize.height
+            var d11 = oldSize.width
+            // x24 -> sp + 0x750
             // sp + 0x8d0
             let copy_1 = oldItem
             // sp + 0x920
@@ -375,6 +378,9 @@ extension DisplayList.ViewUpdater {
                 // <+2016>
                 return false
             }
+            
+            var d8 = newSize.height
+            var d9 = newSize.width
             
             let s1 = unsafe oldState.pointee.opacity
             let s0 = unsafe newState.pointee.opacity
@@ -389,21 +395,381 @@ extension DisplayList.ViewUpdater {
             if unsafe oldState.pointee.versions.blend != newState.pointee.versions.blend {
                 // <+2016>
                 return false
-            } else if unsafe oldState.pointee.versions.filters != newState.pointee.versions.filters {
+            }
+            
+            // <+204>
+            if unsafe oldState.pointee.versions.filters != newState.pointee.versions.filters {
                 // <+224>
-                assertUnimplemented()
-            } else if
+                if case .drawing = layer.kind {
+                    // <+248>
+                    let oldFilter: Color.ResolvedHDR?
+                    let newFilter: Color.ResolvedHDR?
+                    
+                    if
+                        let filter = unsafe oldState.pointee.filters.last,
+                        case .colorMultiply(let resolved) = filter
+                    {
+                        // <+324>
+                        if
+                            let delegate = layer.layer.delegate,
+                            let casted = type(of: delegate) as? (any PlatformDrawable.Type),
+                            casted.allowsContentsMultiplyColor
+                        {
+                            // <+452>
+                            unsafe UnsafeMutablePointer(mutating: oldState)
+                                .pointee
+                                .filters
+                                .removeLast()
+                            
+                            oldFilter = resolved
+                        } else {
+                            // <+672>
+                            oldFilter = nil
+                        }
+                    } else {
+                        // <+616>
+                        oldFilter = nil
+                    }
+                    
+                    if
+                        let filter = unsafe newState.pointee.filters.last,
+                        case .colorMultiply(let resolved) = filter
+                    {
+                        // <+776>
+                        if
+                            let delegate = layer.layer.delegate,
+                            let casted = type(of: delegate) as? (any PlatformDrawable.Type),
+                            casted.allowsContentsMultiplyColor
+                        {
+                            // <+880>
+                            unsafe UnsafeMutablePointer(mutating: newState)
+                                .pointee
+                                .filters
+                                .removeLast()
+                            
+                            newFilter = resolved
+                        } else {
+                            // <+1012>
+                            newFilter = nil
+                        }
+                    } else {
+                        newFilter = nil
+                    }
+                    
+                    // <+1024>
+                    if (oldFilter != nil) || (newFilter != nil) {
+                        //<+1040>
+                        layer.update(DisplayList.ViewUpdater.ContentsMultiplyColor.self, from: oldFilter, to: newFilter)
+                        // <+1076>
+                    }
+                    
+                    // <+1076>
+                    let result = unsafe GraphicsFilter.updateAsync(
+                        layer: &layer,
+                        oldFilters: oldState.pointee.filters,
+                        newFilters: newState.pointee.filters
+                    )
+                    
+                    guard result else {
+                        // <+2016>
+                        return false
+                    }
+                    
+                    // <+1160>
+                } else {
+                    // <+588>
+                    // <+1076>
+                    let result = unsafe GraphicsFilter.updateAsync(
+                        layer: &layer,
+                        oldFilters: oldState.pointee.filters,
+                        newFilters: newState.pointee.filters
+                    )
+                    
+                    if result {
+                        // <+1160>
+                    } else {
+                        // <+2016>
+                        return false
+                    }
+                }
+            }
+            
+            // <+1160>
+            if
                 unsafe (oldState.pointee.versions.clips != newState.pointee.versions.clips) ||
                     (unsafe oldState.pointee.versions.transform != newState.pointee.versions.transform)
             {
                 // <+1196>
-                assertUnimplemented()
-            } else {
-                // <+1224>
-                assertUnimplemented()
+                let result = unsafe self.updateClipShapesAsync(
+                    layer: &layer,
+                    oldState: oldState,
+                    newState: newState
+                )
+                
+                if result {
+                    // <+1224>
+                } else {
+                    // <+2016>
+                    return false
+                }
             }
             
-            assertUnimplemented()
+            // <+1224>
+            var d15 = unsafe oldState.pointee.transform.tx
+            var d13 = unsafe oldState.pointee.transform.ty
+            var d14 = unsafe newState.pointee.transform.tx
+            var d12 = unsafe newState.pointee.transform.ty
+            var d4: CGFloat = 4
+            let d5: CGFloat
+            // w25
+            let flags = layer.flags
+            // sp + 0x28
+            var sp0x28 = d15
+            // sp + 0x30
+            var sp0x30 = d14
+            
+            if flags.contains(.unknown3) {
+                // <+1248>
+                // sp + 0x600
+                let copy_3 = unsafe oldState.pointee
+                // sp + 0x470
+                let copy_4 = unsafe oldState.pointee
+                // sp + 0x5c8
+                let clipRect_1 = unsafe copy_4.clipRect()
+                
+                if let clipRect_1 {
+                    // <+1344>
+                    d14 = clipRect_1.rect.size.height
+                    d15 = clipRect_1.rect.size.width
+                    var d1 = clipRect_1.rect.origin.y
+                    var d0 = clipRect_1.rect.origin.x
+                    // sp + 0x18
+                    let sp0x18 = d0
+                    // sp + 0x20
+                    let sp0x20 = d1
+                    
+                    // sp + 0x320
+                    let copy_5 = unsafe newState.pointee
+                    // sp + 0x198
+                    let copy_6 = unsafe newState.pointee
+                    // sp + 0x2e8
+                    let clipRect_2 = unsafe copy_6.clipRect()
+                    // sp + 0x470
+                    let copy_7 = unsafe copy_6
+                    // sp + 0x48
+                    let copy_8 = unsafe copy_5
+                    
+                    // <+1444>
+                    if let clipRect_2 {
+                        // <+2068>
+                        d8 = clipRect_2.rect.size.height
+                        d9 = clipRect_2.rect.size.width
+                        d11 = d15
+                        d15 = clipRect_2.rect.origin.y
+                        d10 = d14
+                        d14 = clipRect_2.rect.origin.x
+                        // <+2092>
+                        d4 = sp0x18
+                        d5 = sp0x20
+                        d0 = sp0x28
+                        d1 = d0 + d4
+                        d13 = d13 + d5
+                        d0 = sp0x30
+                        d0 = d0 + d14
+                        sp0x28 = d1
+                        sp0x30 = d0
+                        d12 = d12 + d15
+                        // <+1472>
+                    } else {
+                        // <+1456>
+                        d4 = 0
+                        d5 = 0
+                        d14 = 0
+                        d15 = 0
+                        // <+1472>
+                    }
+                    
+                    // <+1472>
+                } else {
+                    // <+1460>
+                    d5 = 0
+                    d14 = 0
+                    d15 = 0
+                    // <+1472>
+                }
+                
+                // <+1472>
+            } else {
+                // <+1460>
+                d5 = 0
+                d14 = 0
+                d15 = 0
+                // <+1472>
+            }
+            
+            // <+1472>
+            let w23 = CGRect(x: d14, y: d15, width: d9, height: d8) == CGRect(x: d4, y: d5, width: d11, height: d10)
+            var boundsChanged: Bool?
+            
+            if w23 {
+                // <+1508>
+                if flags.contains(.unknown2) {
+                    // <+1744>
+                } else {
+                    // <+1612>
+                    let d1 = sp0x28
+                    let d0 = sp0x30
+                    
+                    if (d0 != d1) || !(d12 == d13) {
+                        // <+1632>
+                        layer.setValue(CGPoint(x: d0, y: d1), for: DisplayList.ViewUpdater.Position.self)
+                    }
+                    
+                    // <+1664>
+                    // sp + 0x470
+                    var transform_1 = unsafe oldState.pointee.transform
+                    transform_1.tx = 0
+                    transform_1.ty = 0
+                    // sp + 0x320
+                    var transform_2 = unsafe newState.pointee.transform
+                    transform_2.tx = 0
+                    transform_2.ty = 0
+                    
+                    if transform_2 == transform_1 {
+                        // <+1728>
+                        layer.setValue(transform_2, for: DisplayList.ViewUpdater.AffineTransform.self)
+                        // <+1744>
+                    } else {
+                        // <+1716>
+                        // <+1744>
+                    }
+                    
+                    // <+1744>
+                }
+                
+                // <+1744>
+                boundsChanged = false
+                // <+1748>
+                if unsafe oldState.pointee.versions.shadow != newState.pointee.versions.shadow {
+                    // <+1772>
+                } else if oldItem.version == newItem.version {
+                    // <+1876
+                    boundsChanged = nil
+                } else {
+                    // <+1772>
+                }
+            } else {
+                // <+1516>
+                switch layer.kind {
+                case .inherited, .color, .image:
+                    return false
+                default:
+                    break
+                }
+                
+                // <+1532>
+                layer.setValue(CGRect(x: d14, y: d15, width: d9, height: d8), for: DisplayList.ViewUpdater.Bounds.self)
+                
+                if case .mask = layer.kind {
+                    layer.setMaskValue(CGRect(x: d14, y: d15, width: d9, height: d8), for: DisplayList.ViewUpdater.Bounds.self)
+                }
+                
+                // <+1608>
+                if flags.contains(.unknown2) {
+                    // <+1720>
+                } else {
+                    // <+1612>
+                    let d1 = sp0x28
+                    let d0 = sp0x30
+                    
+                    if (d0 != d1) || !(d12 == d13) {
+                        // <+1632>
+                        layer.setValue(CGPoint(x: d0, y: d1), for: DisplayList.ViewUpdater.Position.self)
+                    }
+                    
+                    // <+1664>
+                    // sp + 0x470
+                    var transform_1 = unsafe oldState.pointee.transform
+                    transform_1.tx = 0
+                    transform_1.ty = 0
+                    // sp + 0x320
+                    var transform_2 = unsafe newState.pointee.transform
+                    transform_2.tx = 0
+                    transform_2.ty = 0
+                    
+                    if transform_2 == transform_1 {
+                        // <+1728>
+                        layer.setValue(transform_2, for: DisplayList.ViewUpdater.AffineTransform.self)
+                        // <+1720>
+                    } else {
+                        // <+1716>
+                        // <+1720>
+                    }
+                    
+                    // <+1720>
+                }
+                
+                // <+1720>
+                boundsChanged = true
+                // <+1772>
+            }
+            
+            if let boundsChanged {
+                // <+1772>
+                // sp + 0x750
+                let copy_3 = copy_1
+                // sp + 0x600
+                let copy_4 = copy_2
+                let result = unsafe self.updateShadowAsync(
+                    layer: &layer, 
+                    oldState: oldState,
+                    oldItem: copy_3,
+                    newState: newState,
+                    newItem: copy_4,
+                    boundsChanged: boundsChanged
+                )
+                
+                guard result else {
+                    // <+2016>
+                    return false
+                }
+                
+                // <+1876>
+            } else {
+                // <+1876>
+            }
+            
+            // <+1876>
+            if
+                layer.flags.contains(.unknown2) ||
+                    (unsafe oldState.pointee.platformState.versions.zPosition == newState.pointee.platformState.versions.zPosition)
+            {
+                // <+1948>
+            } else {
+                // <+1900>
+                let d1 = unsafe oldState.pointee.platformState.zPosition
+                let d0 = unsafe newState.pointee.platformState.zPosition
+                
+                if d0 == d1 {
+                    // <+1948>
+                } else {
+                    // <+1916>
+                    layer.setValue(d0, for: DisplayList.ViewUpdater.ZPosition.self)
+                    // <+1948>
+                }
+            }
+            
+            // <+1948>
+            if (unsafe oldState.pointee.platformState.versions.separatedOptions != newState.pointee.platformState.versions.separatedOptions) ||
+                (unsafe oldState.pointee.platformState.versions.renderingTechnique != newState.pointee.platformState.versions.renderingTechnique) ||
+                (unsafe oldState.pointee.platformState.versions.separatedState != newState.pointee.platformState.versions.separatedState)
+            {
+                // <+2016>
+                return false
+            } else {
+                // <+2020>
+                return (unsafe oldState.pointee.platformState.versions.serverResponderID == newState.pointee.platformState.versions.serverResponderID)
+            }
         }
         
         fileprivate func _makeItemView(

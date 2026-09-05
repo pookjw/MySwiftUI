@@ -30,6 +30,14 @@ enum GraphicsFilter {
     case luminanceToAlpha
     case colorInvert
     
+    static func updateAsync(
+        layer: inout DisplayList.ViewUpdater.AsyncLayer,
+        oldFilters: [GraphicsFilter],
+        newFilters: [GraphicsFilter]
+    ) -> Bool {
+        assertUnimplemented()
+    }
+    
     fileprivate func makeCAFilter() -> CAFilter? {
         assertUnimplemented()
     }

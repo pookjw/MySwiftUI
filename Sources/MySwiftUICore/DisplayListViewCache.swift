@@ -2,6 +2,7 @@
 internal import _QuartzCorePrivate
 private import QuartzCore
 private import _MySwiftUIShims
+internal import Foundation
 
 extension DisplayList.ViewUpdater {
     @safe struct ViewCache {
@@ -342,6 +343,19 @@ extension DisplayList.ViewUpdater {
             values.append(pendingAsyncValue)
             unsafe self.cache.pointee.pendingAsyncValues[ObjectIdentifier(layer)] = values
         }
+        
+        func setMaskValue<T : _DisplayList_ViewUpdater_AsyncLayerProperty>(_ value: T.Value, for type: T.Type) {
+            let pendingAsyncValue = DisplayList.ViewUpdater.ViewCache.PendingAsyncValue(
+                keyPath: type.keyPath,
+                value: type.boxValue(value),
+                usesPresentationModifier: type.supportsPresentationModifier
+            )
+            
+            let mask = self.layer.mask!
+            var values = unsafe self.cache.pointee.pendingAsyncValues[ObjectIdentifier(mask)] ?? []
+            values.append(pendingAsyncValue)
+            unsafe self.cache.pointee.pendingAsyncValues[ObjectIdentifier(mask)] = values
+        }
     }
 }
 
@@ -365,6 +379,80 @@ extension DisplayList.ViewUpdater {
         
         static func boxValue(_ value: Float) -> NSObject {
             return value as NSNumber
+        }
+    }
+    
+    enum Position : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "position"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: CGPoint) -> NSObject {
+            return value as NSValue
+        }
+    }
+    
+    enum Bounds : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "bounds"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: CGRect) -> NSObject {
+            return value as NSValue
+        }
+    }
+    
+    enum AffineTransform : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "transform"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: CGAffineTransform) -> NSObject {
+            return CATransform3DMakeAffineTransform(value) as NSValue
+        }
+    }
+    
+    enum ZPosition : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "zPosition"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: CGFloat) -> NSObject {
+            return value as NSValue
+        }
+    }
+    
+    enum ContentsMultiplyColor : _DisplayList_ViewUpdater_AsyncLayerProperty {
+        static var keyPath: String {
+            return "contentsMultiplyColor"
+        }
+        
+        static var supportsPresentationModifier: Bool {
+            return true
+        }
+        
+        static func boxValue(_ value: Color.ResolvedHDR?) -> NSObject {
+            if let value {
+                return unsafe unsafeBitCast(value.cgColor, to: NSObject.self)
+            } else {
+                return NSNull()
+            }
         }
     }
 }
