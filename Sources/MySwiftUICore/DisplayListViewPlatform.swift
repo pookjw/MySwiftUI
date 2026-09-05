@@ -615,9 +615,9 @@ extension DisplayList.ViewUpdater {
             case (.effect(let effect_1, let list_1), .effect(let effect_2, let list_2)):
                 // <+336>
                 /*
-                 layer -> x0 -> sp + 0x118
-                 oldState -> sp + 0xf0
-                 newState -> sp + 0x100
+                 layer -> x0 -> x0 -> sp + 0x118
+                 oldState -> x3 -> sp + 0xf0
+                 newState -> x5 -> sp + 0x100
                  */
                 if copy_1.version == copy_2.version {
                     // <+376>
@@ -629,7 +629,9 @@ extension DisplayList.ViewUpdater {
                         // <+3396>
                         if layer.flags.contains(.unknown5) {
                             // <+3576>
-                            assertUnimplemented()
+                            // <+3656>
+                            // <+716>
+                            return false
                         } else {
                             // <+3412>
                             // sp + 0xd90
@@ -681,7 +683,138 @@ extension DisplayList.ViewUpdater {
                 }
             case (.content(let content_1), .content(let content_2)):
                 // <+800>
-                assertUnimplemented()
+                /*
+                 layer -> x0 -> x0 -> sp + 0x118
+                 newState -> x5 -> sp + 0x100
+                 */
+                if content_1.seed != content_2.seed {
+                    // <+952>
+                    // oldState -> x3 -> x20
+                    // sp + 0xc40
+                    let copy_5 = unsafe oldState
+                    // sp + 0xaf0
+                    let copy_6 = unsafe oldState
+                    // newState -> sp + 0x100 -> x20
+                    // sp + 0xd90
+                    let copy_7 = unsafe newState
+                    // sp + 0x9a0
+                    let copy_8 = unsafe newState
+                    
+                    // <+1028>
+                    layer.isInvalid = false
+                    
+                    switch (content_1.value, content_2.value) {
+                    case (.backdrop(_), .backdrop(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.color(_), .color(_)):
+                        // <+5872>
+                        assertUnimplemented()
+                    case (.chameleonColor(_), .chameleonColor(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.image(_), .image(_)):
+                        // <+7124>
+                        assertUnimplemented()
+                    case (.shape(_, _, _), .shape(_, _, _)):
+                        // <+1456>
+                        assertUnimplemented()
+                    case (.sdfShape(_), .sdfShape(_)):
+                        // <+6136>
+                        assertUnimplemented()
+                    case (.sdfMask(_, _), .sdfMask(_, _)):
+                        // <+1080>
+                        assertUnimplemented()
+                    case (.shadow(_, _), .shadow(_, _)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.platformView(_), .platformView(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.platformLayer(_), .platformLayer(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.text(_, _), .text(_, _)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.flattened(_, _, _), .flattened(_, _, _)):
+                        // <+6764>
+                        assertUnimplemented()
+                    case (.drawing, .drawing):
+                        // <+2924>
+                        assertUnimplemented()
+                    case (.view(_), .view(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    case (.placeholder(_), .placeholder(_)):
+                        // <+7296>
+                        // <+716>
+                        return false
+                    default:
+                        // <+7296>
+                        // <+716>
+                        return false
+                    }
+                } else {
+                    // <+820>
+                    // oldState -> x3 -> sp + 0xf0
+                    // <+3400>
+                    if layer.flags.contains(.unknown5) {
+                        // <+3576>
+                        // oldState -> sp + 0xf0 -> x20
+                        // sp + 0xc40
+                        let copy_5 = unsafe oldState
+                        // sp + 0xaf0
+                        let copy_6 = unsafe oldState
+                        // newState -> sp + 0x100 -> x20
+                        // sp + 0xd90
+                        let copy_7 = unsafe newState
+                        // sp + 0x9a0
+                        let copy_8 = unsafe newState
+                        
+                        // <+3648>
+                        // <+3712>
+                        switch (content_1.value, content_2.value) {
+                        case (.image(_), .image(_)):
+                            // <+3760>
+                            assertUnimplemented()
+                        case (.shape(_, _, _), .shape(_, _, _)):
+                            // <+7504>
+                            assertUnimplemented()
+                        case (.sdfShape(_), .sdfShape(_)):
+                            // <+7808>
+                            assertUnimplemented()
+                        default:
+                            // <+7320>
+                            // <+716>
+                            return false
+                        }
+                    } else {
+                        // <+3412>
+                        // sp + 0xd90
+                        let copy_5 = copy_1
+                        // sp + 0xc40
+                        let copy_6 = copy_2
+                        let result = unsafe self.updateStateAsync(
+                            layer: &layer,
+                            oldItem: copy_5,
+                            oldSize: copy_1.frame.size,
+                            oldState: oldState,
+                            newItem: copy_6,
+                            newSize: copy_2.frame.size,
+                            newState: newState
+                        )
+                        // <+720>
+                        return result
+                    }
+                }
             default:
                 // <+664>
                 return false

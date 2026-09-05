@@ -4515,6 +4515,6 @@ extension DisplayList.ViewUpdater {
         let kind: PlatformViewDefinition.ViewKind // 0x10
         let flags: DisplayList.ViewUpdater.Platform.ViewFlags // 0x11
         private(set) var nextUpdate: Time // 0x18
-        private(set) var isInvalid: Bool // 0x20
+        var isInvalid: Bool // 0x20
     }
 }
