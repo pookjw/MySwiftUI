@@ -168,7 +168,7 @@ extension DisplayList.ViewUpdater {
             self.cacheSeed &+= 1
         }
         
-        func commitAsyncValues(targetTimestamp: Time?) {
+        mutating func commitAsyncValues(targetTimestamp: Time?) {
             /*
              self -> x20 -> x26
              targetTimestamp -> x0 -> d8/sp + 0x14
@@ -183,6 +183,31 @@ extension DisplayList.ViewUpdater {
             }
             
             // <+116>
+            // sp + 0x10
+            let disableActions = CATransaction.disableActions()
+            if !disableActions {
+                CATransaction.setDisableActions(true)
+            }
+            
+            // <+152>
+            // x29 - 0x70
+            var set: Set<AnyHashable> = []
+            // kCAFillModeForwards -> sp + 0x40
+            
+            for (id, pendingValues) in self.pendingAsyncValues {
+                if self.asyncValues[id] == nil { 
+                    self.asyncValues[id] = DisplayList.ViewUpdater.ViewCache.AsyncValues(animations: [], modifiers: [:])
+                }
+                
+                guard !pendingValues.isEmpty else {
+                    continue
+                }
+                
+                // <+928>
+                assertUnimplemented()
+            }
+            
+            // <+1720>
             assertUnimplemented()
         }
         
