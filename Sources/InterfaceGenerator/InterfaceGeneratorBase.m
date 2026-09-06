@@ -134,7 +134,7 @@
 + (NSString * _Nullable)_updatedSwiftHeaderWithExisting:(NSString *)existing source:(NSString *)source {
     if (([existing componentsSeparatedByString:@"\n"].count < 4) || ([source componentsSeparatedByString:@"\n"].count < 4)) {
         NSLog(@"Invalid swiftinterface.");
-        return NO;
+        return nil;
     }
     
     NSString *result = existing;
