@@ -207,7 +207,7 @@ extension DisplayList.ViewUpdater {
                 
                 // <+928>
                 for pendingValue in pendingValues {
-                    if pendingValue.usesPresentationModifier {
+                    if !pendingValue.usesPresentationModifier {
                         // <+696>
                         let animation = CABasicAnimation(keyPath: pendingValue.keyPath)
                         animation.beginTime = -1.0
@@ -267,6 +267,7 @@ extension DisplayList.ViewUpdater {
                 }
                 
                 self.asyncValues[id] = values
+                self.asyncModifierGroup = asyncModifierGroup
             }
             
             // <+1720>
@@ -277,10 +278,16 @@ extension DisplayList.ViewUpdater {
             // <+1748>
             for object in objects {
                 unsafe unsafeBitCast(object, to: CAPresentationModifierGroup.self)
-                    .flushLocally(withTargetTime: targetTimestamp?.seconds ?? 0)
+                    .flushWithTransaction(andTargetTime: targetTimestamp?.seconds ?? 0)
             }
             
+            // <+1952>
+            for update in self.pendingAsyncUpdates {
+                update()
+            }
+
             self.pendingAsyncValues = [:]
+            self.pendingAsyncUpdates = []
         }
         
         func prepare(
