@@ -9,3 +9,4 @@
 #import <_QuartzCorePrivate/CATransactionCompletionItem.h>
 #import <_QuartzCorePrivate/CADisplayLink+Private.h>
 #import <_QuartzCorePrivate/CADisplay.h>
+#import <_QuartzCorePrivate/CATransaction+Private.h>

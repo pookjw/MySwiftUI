@@ -31,11 +31,11 @@ fileprivate struct MyView : View {
                 }
             }
             
-            MyButton(title: "Toggle") { 
-                withAnimation {
-                    self.isStar.toggle()
-                }
-            }
+//            MyButton(title: "Toggle") { 
+//                withAnimation {
+//                    self.isStar.toggle()
+//                }
+//            }
         }
         .task {
             do {

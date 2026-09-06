@@ -169,6 +169,20 @@ extension DisplayList.ViewUpdater {
         }
         
         func commitAsyncValues(targetTimestamp: Time?) {
+            /*
+             self -> x20 -> x26
+             targetTimestamp -> x0 -> d8/sp + 0x14
+             */
+            guard !self.pendingAsyncValues.isEmpty || !self.pendingAsyncUpdates.isEmpty else {
+                return
+            }
+            
+            // <+76>
+            if !Thread.isMainThread {
+                CATransaction.activateBackground(true)
+            }
+            
+            // <+116>
             assertUnimplemented()
         }
         
