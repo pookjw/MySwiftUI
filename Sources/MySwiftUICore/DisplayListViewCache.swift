@@ -191,24 +191,96 @@ extension DisplayList.ViewUpdater {
             
             // <+152>
             // x29 - 0x70
-            var set: Set<AnyHashable> = []
-            // kCAFillModeForwards -> sp + 0x40
+            var objects: Set<ObjectIdentifier> = []
             
             for (id, pendingValues) in self.pendingAsyncValues {
-                if self.asyncValues[id] == nil { 
-                    self.asyncValues[id] = DisplayList.ViewUpdater.ViewCache.AsyncValues(animations: [], modifiers: [:])
-                }
+                // sp + 0x48
+                var asyncModifierGroup = self.asyncModifierGroup
                 
-                guard !pendingValues.isEmpty else {
-                    continue
+                var values: DisplayList.ViewUpdater.ViewCache.AsyncValues
+                if let _values = self.asyncValues[id] {
+                    values = _values
+                } else {
+                    values = DisplayList.ViewUpdater.ViewCache.AsyncValues(animations: [], modifiers: [:])
+                    self.asyncValues[id] = values
                 }
                 
                 // <+928>
-                assertUnimplemented()
+                for pendingValue in pendingValues {
+                    if pendingValue.usesPresentationModifier {
+                        // <+696>
+                        let animation = CABasicAnimation(keyPath: pendingValue.keyPath)
+                        animation.beginTime = -1.0
+                        animation.duration = 1.0
+                        animation.fillMode = .forwards
+                        animation.toValue = pendingValue.value
+                        animation.isRemovedOnCompletion = false
+                        unsafe unsafeBitCast(id, to: CALayer.self)
+                            .add(animation, forKey: pendingValue.keyPath)
+                        values.animations.insert(pendingValue.keyPath)
+                    } else {
+                        // <+968>
+                        if let modifier = values.modifiers[pendingValue.keyPath] {
+                            // <+1020>
+                            modifier.value = pendingValue.value
+                            objects.insert(ObjectIdentifier(modifier.group!))
+                        } else {
+                            // <+1288>
+                            var _group: CAPresentationModifierGroup
+                            if let __group = asyncModifierGroup {
+                                // <+1304>
+                                let count = __group.count
+                                let capacity = __group.capacity
+                                
+                                if count < capacity {
+                                    // <+1408>
+                                    _group = __group
+                                } else {
+                                    // <+1348>
+                                    _group = CAPresentationModifierGroup(capacity: 100)!
+                                    asyncModifierGroup = _group
+                                    asyncModifierGroup!.updatesAsynchronously = false
+                                    // <+1408>
+                                }
+                            } else {
+                                // <+1348>
+                                _group = CAPresentationModifierGroup(capacity: 100)!
+                                asyncModifierGroup = _group
+                                asyncModifierGroup!.updatesAsynchronously = false
+                                // <+1408>
+                            }
+                            
+                            // <+1408>
+                            let modifier = CAPresentationModifier(
+                                keyPath: pendingValue.keyPath,
+                                initialValue: pendingValue.value,
+                                additive: false,
+                                group: _group
+                            )
+                            
+                            unsafe unsafeBitCast(id, to: CALayer.self)
+                                .addPresentationModifier(modifier)
+                            values.modifiers[pendingValue.keyPath] = modifier
+                            objects.insert(ObjectIdentifier(modifier.group!))
+                        }
+                    }
+                }
+                
+                self.asyncValues[id] = values
             }
             
             // <+1720>
-            assertUnimplemented()
+            if !disableActions {
+                CATransaction.setDisableActions(false)
+            }
+            
+            // <+1748>
+            for object in objects {
+                unsafe unsafeBitCast(object, to: CAPresentationModifierGroup.self)
+                    .flushLocally(withTargetTime: targetTimestamp?.seconds ?? 0)
+            }
+            
+            self.pendingAsyncValues = [:]
         }
         
         func prepare(
