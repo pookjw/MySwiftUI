@@ -918,6 +918,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
         if let phase = self.info.items[index].phase {
             if case .didDisappear = phase {
                 // <+176>
+                self.info.removedCount &-= 1
                 self.info.items[index].removalOrder = 0
                 // <+344>
                 w23 = true
@@ -928,6 +929,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
             }
         } else {
             // <+208>
+            self.info.unusedCount &-= 1
             let subgraph = self.info.items[index].subgraph
             self.parentSubgraph.addChild(subgraph)
             subgraph.didReinsert()
