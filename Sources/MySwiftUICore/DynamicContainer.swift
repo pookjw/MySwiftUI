@@ -96,17 +96,17 @@ extension DynamicContainer {
     }
     
     class ItemInfo {
-        let subgraph: Subgraph
-        let uniqueId: UInt32
-        let viewCount: Int32
-        let outputs: _ViewOutputs
-        let needsTransitions: Bool
-        fileprivate var listener: DynamicAnimationListener? = nil
-        fileprivate var zIndex: Double = 0
-        fileprivate var removalOrder: UInt32 = 0
-        fileprivate var precedingViewCount: Int32 = 0
-        fileprivate(set) var resetSeed: UInt32 = 0
-        fileprivate(set) var phase: TransitionPhase? = nil
+        let subgraph: Subgraph // 0x10
+        let uniqueId: UInt32 // 0x18
+        let viewCount: Int32 // 0x1c
+        let outputs: _ViewOutputs // 0x20
+        let needsTransitions: Bool // 0x30
+        fileprivate var listener: DynamicAnimationListener? = nil // 0x38
+        fileprivate var zIndex: Double = 0 // 0x40
+        fileprivate var removalOrder: UInt32 = 0 // 0x48
+        fileprivate var precedingViewCount: Int32 = 0 // 0x4c
+        fileprivate(set) var resetSeed: UInt32 = 0 // 0x50
+        fileprivate(set) var phase: TransitionPhase? = nil // 0x54
         
         init(subgraph: Subgraph, uniqueId: UInt32, viewCount: Int32, phase: TransitionPhase, needsTransitions: Bool, outputs: _ViewOutputs) {
             self.subgraph = subgraph
@@ -913,7 +913,41 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
     }
     
     mutating func unremoveItem(at index: Int) {
-        assertUnimplemented()
+        let w23: Bool
+        
+        if let phase = self.info.items[index].phase {
+            if case .didDisappear = phase {
+                // <+176>
+                self.info.items[index].removalOrder = 0
+                // <+344>
+                w23 = true
+            } else {
+                // <+136>
+                self.info.items[index].resetSeed &+= 1
+                w23 = false
+            }
+        } else {
+            // <+208>
+            let subgraph = self.info.items[index].subgraph
+            self.parentSubgraph.addChild(subgraph)
+            subgraph.didReinsert()
+            w23 = false
+        }
+        
+        // <+492>
+        let needsTransitions = self.info.items[index].needsTransitions
+        let phase: TransitionPhase = needsTransitions ? (w23 ? .identity : .willAppear) : .identity
+        self.info.items[index].phase = phase
+        
+        if case .identity = phase {
+            // <+624>
+        } else {
+            self.needsPhaseUpdate = true
+            let invalidation = unsafe InvalidatingGraphMutation(
+                attribute: AnyWeakAttribute(.current.unsafelyUnwrapped)
+            )
+            GraphHost.currentHost.continueTransaction(invalidation)
+        }
     }
     
     mutating func eraseItem(at index: Int) {

@@ -1794,6 +1794,25 @@ extension DisplayList.ViewUpdater {
             oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
             newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Bool {
+            /*
+             layer -> x0 -> x19
+             oldState -> x1 -> x22
+             newState -> x2 -> x21
+             */
+            guard unsafe !oldState.pointee.clips.isEmpty || !newState.pointee.clips.isEmpty else {
+                // <+796>
+                return true
+            }
+            
+            // <+72>
+            if layer.flags.contains(.unknown3) {
+                // <+372>
+                assertUnimplemented()
+            } else {
+                // <+80>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
         
@@ -1805,6 +1824,28 @@ extension DisplayList.ViewUpdater {
             newItem: DisplayList.Item,
             boundsChanged: Bool
         ) -> Bool {
+            /*
+             layer -> x0
+             oldState -> x1
+             oldItem -> x2
+             newState -> x3
+             newItem -> x4
+             boundsChanged -> w5
+             */
+            if unsafe (oldState.pointee.shadow == nil) {
+                // <+424>
+                if unsafe (newState.pointee.shadow != nil) {
+                    // <+712>
+                    return false
+                } else {
+                    return true
+                }
+            } else if unsafe (newState.pointee.shadow == nil) {
+                // <+712>
+                return false
+            }
+            
+            // <+80>
             assertUnimplemented()
         }
         

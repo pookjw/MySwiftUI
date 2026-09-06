@@ -527,7 +527,7 @@ extension DisplayList {
                                         let copy_18 = copy_13
                                         
                                         // <+5692>
-                                        guard let result = unsafe self.updateAsync(
+                                        guard let result = unsafe self.viewCache.updateAsync(
                                             oldItem: copy_17,
                                             oldState: &copy_11,
                                             newItem: copy_18,
@@ -860,7 +860,7 @@ extension DisplayList {
                                 let copy_18 = copy_13
                                 
                                 // inlined
-                                guard let result = unsafe self.updateAsync(
+                                guard let result = unsafe self.viewCache.updateAsync(
                                     oldItem: copy_17,
                                     oldState: &copy_11,
                                     newItem: copy_18,
@@ -1759,7 +1759,7 @@ extension DisplayList {
                                     let copy_18 = copy_13
                                     
                                     // inlined
-                                    guard let result = unsafe self.updateAsync(
+                                    guard let result = unsafe self.viewCache.updateAsync(
                                         oldItem: copy_17,
                                         oldState: &copy_11,
                                         newItem: copy_18,
@@ -2630,17 +2630,6 @@ extension DisplayList {
                     return d10
                 }
             }
-        }
-        
-        func updateAsync(
-            oldItem: DisplayList.Item,
-            oldState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            newItem: DisplayList.Item,
-            newState: UnsafePointer<DisplayList.ViewUpdater.Model.State>,
-            tag: DisplayList.ViewUpdater.ViewCache.Tag,
-            platform: DisplayList.ViewUpdater.Platform
-        ) -> DisplayList.ViewUpdater.ViewCache.AsyncResult? {
-            assertUnimplemented()
         }
         
         func destroy(rootView: AnyObject) {

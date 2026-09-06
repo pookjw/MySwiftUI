@@ -216,7 +216,7 @@ extension ViewResponder {
 
 package struct ViewRespondersKey : PreferenceKey {
     package static var _includesRemovedValues: Bool {
-        assertUnimplemented()
+        return true
     }
 
     package static var defaultValue: [ViewResponder] {
