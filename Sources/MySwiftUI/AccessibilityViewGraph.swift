@@ -1,5 +1,5 @@
 @_spi(Internal) internal import MySwiftUICore
-private import AttributeGraph
+internal import AttributeGraph
 
 struct AccessibilityViewGraph {
     private var relationshipScope: AccessibilityRelationshipScope? = nil
@@ -184,7 +184,9 @@ struct SwiftUIGestureAccessibilityProvider : GestureAccessibilityProvider {
 }
 
 struct SwiftUIOpacityAccessibilityProvider : OpacityAccessibilityProvider {
-    
+    static func makeOpacity(effect: @autoclosure () -> Attribute<_OpacityEffect>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUIContentShapeAccessibilityProvider : ContentShapeAccessibilityProvider {
