@@ -185,6 +185,11 @@ struct SwiftUIGestureAccessibilityProvider : GestureAccessibilityProvider {
 
 struct SwiftUIOpacityAccessibilityProvider : OpacityAccessibilityProvider {
     static func makeOpacity(effect: @autoclosure () -> Attribute<_OpacityEffect>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        /*
+         effect -> x0/x1
+         inputs -> x2
+         outputs -> x3
+         */
         assertUnimplemented()
     }
 }
