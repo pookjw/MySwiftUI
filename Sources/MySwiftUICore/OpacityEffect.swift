@@ -58,7 +58,7 @@ extension View {
                     // <+324>
                     let effect = outputs.preferences[ViewRespondersKey.self]
                     // inlined
-                    let responder = OpacityViewResponder(inputs: inputs)
+                    let responder = OpacityViewResponder(inputs: incoming)
                     let filter = OpacityResponderFilter(
                         effect: modifier.value,
                         children: OptionalAttribute(effect),
