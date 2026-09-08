@@ -1085,7 +1085,8 @@ extension Color.ResolvedHDR {
         }
         
         package static func -= (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
-            assertUnimplemented()
+            lhs.color -= rhs.color
+            lhs.headroom = (lhs.headroom <= rhs.headroom) ? rhs.headroom : lhs.headroom
         }
         
         package static func - (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {

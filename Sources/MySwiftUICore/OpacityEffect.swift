@@ -151,7 +151,7 @@ extension _OpacityEffect : ProtobufEncodableMessage {}
 extension _OpacityEffect : ProtobufDecodableMessage {}
 
 fileprivate final class OpacityViewResponder : DefaultLayoutViewResponder {
-    private var _opacity: Double
+    var _opacity: Double
     
     var opacity: Double {
         return self._opacity
@@ -176,7 +176,7 @@ struct OpacityResponderFilter : StatefulRule {
     @OptionalAttribute private var children: [ViewResponder]?
     private let responder: OpacityViewResponder
     
-    @inline(always)
+    @inline(always) // 원래 없음
     fileprivate init(effect: Attribute<_OpacityEffect>, children: OptionalAttribute<[ViewResponder]>, responder: OpacityViewResponder) {
         self._effect = effect
         self._children = children
@@ -186,6 +186,23 @@ struct OpacityResponderFilter : StatefulRule {
     typealias Value = [ViewResponder]
     
     func updateValue() {
-        assertUnimplemented()
+        let responder = self.responder
+        responder._opacity = self.effect.opacity
+        
+        if let attribute = self.$children {
+            let (children, changed) = attribute.changedValue(options: [])
+            
+            if changed {
+                responder.children = children
+            }
+        }
+        
+        // <+208>
+        guard !self.hasValue else {
+            return
+        }
+        
+        // <+228>
+        self.value = [responder]
     }
 }

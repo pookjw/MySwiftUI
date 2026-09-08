@@ -31,7 +31,16 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     }
     
     func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        assertUnimplemented()
+        let resolved = environment
+            .systemColorDefinition
+            .value(for: self, environment: environment)
+        
+        return Color.Resolved(
+            linearRed: resolved.linearRed,
+            linearGreen: resolved.linearGreen,
+            linearBlue: resolved.linearBlue,
+            opacity: resolved.opacity
+        )
     }
     
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
