@@ -336,8 +336,8 @@ extension AccessibilityViewModifier {
         
         // <+1772>
         // x25
-        let propertiesTransform = unsafe PropertiesTransform(
-            accessor: AccessibilityViewModifierAccessor<AccessibilityAttachmentModifier>.self,
+        let propertiesTransform = PropertiesTransform(
+            accessor: AccessibilityViewModifierAccessor<Self>.self,
             modifier: modifier,
             localID: scrapeableID,
             parentID: inputs.scrapeableParentID,
@@ -352,7 +352,7 @@ extension AccessibilityViewModifier {
             resolvableModifier: resolvableModifier,
             responderUpdater: responderUpdater,
             geometryUpdater: geometryUpdater,
-            isInPlatformItemList: inputs.needsGeometry,
+            isInPlatformItemList: !inputs.needsGeometry,
             parentNode: nil,
             removedParentNode: nil,
             resetSeed: 0
@@ -406,15 +406,41 @@ extension AccessibilityViewModifier {
         assertUnimplemented()
     }
     
-    // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform7context6inputs7outputs15includeGeometry3for14AttributeGraph0O0VyAA0C8NodeListVGSgALy7ContextQyd__G_AA01_D6InputsVAA01_D7OutputsVSbqd__mt5ValueQyd__RszAA0gcE4RuleRd__lFZAA0c7OpacityE0V_AA0cX10AttachmentVTt3t4g5
     nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierRule>(
         context: Attribute<T.Context>,
         inputs: _ViewInputs,
         outputs: _ViewOutputs,
         includeGeometry: Bool,
         for type: T.Type
-    ) -> Attribute<AccessibilityNodeList>? where T.Value == Self, Self == AccessibilityOpacityModifier, T == AccessibilityOpacityAttachment {
-        assertUnimplemented()
+    ) -> Attribute<AccessibilityNodeList>? where T.Value == Self, Self == AccessibilityOpacityModifier {
+        if type == AccessibilityOpacityAttachment.self {
+            // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform7context6inputs7outputs15includeGeometry3for14AttributeGraph0O0VyAA0C8NodeListVGSgALy7ContextQyd__G_AA01_D6InputsVAA01_D7OutputsVSbqd__mt5ValueQyd__RszAA0gcE4RuleRd__lFZAA0c7OpacityE0V_AA0cX10AttachmentVTt3t4g5
+            /*
+             context -> x0 -> x25
+             inputs -> x1 -> x22
+             outputs -> x2 -> x29 - 0x58
+             includeGeometry -> w3 -> w23
+             */
+            // <+156>
+            guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
+                return nil
+            }
+            
+            // <+224>
+            return AccessibilityOpacityModifier.makePropertiesTransform(
+                modifier: .empty,
+                inputs: inputs,
+                outputs: outputs,
+                includeGeometry: includeGeometry,
+                resolvableModifier: ResolvableModifier(
+                    context: context.identifier,
+                    type: AccessibilityOpacityAttachment.self
+                ),
+                scrapeableID: .none
+            )
+        } else {
+            assertUnimplemented()
+        }
     }
     
     nonisolated static func makeResolvableTransform<T : AnyResolvableAccessibilityViewModifier>(

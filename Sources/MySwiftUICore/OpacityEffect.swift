@@ -150,16 +150,6 @@ extension _OpacityEffect : RendererEffect {
 extension _OpacityEffect : ProtobufEncodableMessage {}
 extension _OpacityEffect : ProtobufDecodableMessage {}
 
-extension Color {
-    public func opacity(_ opacity: Double) -> Color {
-        assertUnimplemented()
-    }
-    
-    public func mix(with rhs: Color, by fraction: Double, in colorSpace: Gradient.ColorSpace = .perceptual) -> Color {
-        assertUnimplemented()
-    }
-}
-
 fileprivate final class OpacityViewResponder : DefaultLayoutViewResponder {
     private var _opacity: Double
     

@@ -35,7 +35,9 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     }
     
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        return environment.systemColorDefinition.value(for: self, environment: environment)
+        return environment
+            .systemColorDefinition
+            .value(for: self, environment: environment)
     }
     
     func apply(color: Color, to: inout _ShapeStyle_Shape) {
