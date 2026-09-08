@@ -61,6 +61,8 @@ extension ResolvedGradient {
                         v3 = sp0x30
                         v1 = Float(bitPattern: 0x3f870a3d)
                         v0 = v0 * v1
+                        v1 = Float(bitPattern: 0xbd6147ae)
+                        v1 = v0 + v1
                         // <+396>
                     }
                 }
@@ -99,6 +101,8 @@ extension ResolvedGradient {
                         v2 = sp0x20
                         v3 = sp0x30
                         v1 = Float(bitPattern: 0x3f870a3d)
+                        v0 = v0 * v1
+                        v1 = Float(bitPattern: 0xbd6147ae)
                         v1 = v0 + v1
                         // <+536>
                     }
@@ -147,12 +151,14 @@ extension ResolvedGradient {
                 
                 // <+676>
                 if v2 <= 0 {
+                    v2 = -v1
+                } else {
                     v2 = v1
                 }
                 
                 return ResolvedGradient.ColorSpace.InterpolatableColor(
-                    r: v0 * v3,
-                    g: v4 * v3,
+                    r: v4 * v3,
+                    g: v5 * v3,
                     b: v3 * v2,
                     a: v3
                 )
@@ -217,23 +223,23 @@ extension ResolvedGradient {
                 let v2_1 = v0
                 
                 // <+220>
-                v0_0 = (v1_0.sign == .minus) ? -v2_0.magnitude : v2_0.magnitude
-                v0_1 = (v1_1.sign == .minus) ? -v2_1.magnitude : v2_1.magnitude
+                v0_0 = Float(signOf: v1_0, magnitudeOf: v2_0)
+                v0_1 = Float(signOf: v1_1, magnitudeOf: v2_1)
                 sp0x10 = (v0_0, v0_1)
                 v0 = sp0x20
                 v0 = abs(v0)
                 v1 = v8
                 v0 = powf(v0, v1)
-                let v4 = sp0x10.0
-                v2 = sp0x10.1
+                (v4_0, v4_1) = sp0x10
+                v2 = sp0x20
                 v3 = sp0x30
                 
                 // <+256>
-                v2 = Float(bitPattern: v2.bitPattern & v0.bitPattern | (~v2.bitPattern & 0x7fffffff))
+                v2 = Float(signOf: v2, magnitudeOf: v0)
                 // <+700>
                 return ResolvedGradient.ColorSpace.InterpolatableColor(
-                    r: v6 * v3,
-                    g: v4 * v3,
+                    r: v4_0 * v3,
+                    g: v4_1 * v3,
                     b: v3 * v2,
                     a: v3
                 )
@@ -241,6 +247,31 @@ extension ResolvedGradient {
         }
         
         func convertOut(_ converted: ResolvedGradient.ColorSpace.InterpolatableColor) -> Color.Resolved {
+            var v5_0 = converted.r
+            var v5_1 = converted.g
+            let s2 = converted.b
+            let s3 = converted.a
+            
+            if s3 != 0 {
+                // <+168>
+                var s0: Float = 1.0
+                s0 = 1.0 / s3
+                v5_0 = v5_0 * s0
+                v5_1 = v5_1 * s0
+            }
+            
+            switch self {
+            case .device:
+                // <+188>
+                assertUnimplemented()
+            case .linear:
+                // <+652>
+                assertUnimplemented()
+            case .perceptual:
+                // <+52>
+                assertUnimplemented()
+            }
+            
             assertUnimplemented()
         }
     }
