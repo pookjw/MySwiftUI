@@ -2507,3 +2507,9 @@ public struct CUIDesignLibraryCacheKey {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 public struct ViewGeometry3D {}
+
+extension SwiftUI.Color {
+  public enum ProviderTag {
+    case opacity
+  }
+}
