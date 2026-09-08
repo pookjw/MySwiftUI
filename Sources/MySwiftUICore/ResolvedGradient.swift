@@ -249,8 +249,8 @@ extension ResolvedGradient {
         func convertOut(_ converted: ResolvedGradient.ColorSpace.InterpolatableColor) -> Color.Resolved {
             var v5_0 = converted.r
             var v5_1 = converted.g
-            let s2 = converted.b
-            let s3 = converted.a
+            var s2 = converted.b
+            var s3 = converted.a
             
             if s3 != 0 {
                 // <+168>
@@ -258,21 +258,200 @@ extension ResolvedGradient {
                 s0 = 1.0 / s3
                 v5_0 = v5_0 * s0
                 v5_1 = v5_1 * s0
+                s2 = s2 * s0
             }
             
             switch self {
             case .device:
                 // <+188>
-                assertUnimplemented()
+                var s0 = -v5_0
+                var s1 = (v5_0 > 0) ? v5_0 : s0
+                s0 = Float(bitPattern: 0x3d25aee6)
+                
+                if s1 <= s0 {
+                    // <+308>
+                    s0 = Float(bitPattern: 0x3d9e8391)
+                    s0 = s1 * s0
+                    // <+324>
+                } else {
+                    s0 = 1.0
+                    
+                    if s1 == s0 {
+                        // <+324>
+                    } else {
+                        // <+232>
+                        s0 = Float(bitPattern: 0x3f72a76f)
+                        s0 = s1 * s0
+                        s1 = Float(bitPattern: 0x3d55891a)
+                        s0 = s0 + s1
+                        s1 = Float(bitPattern: 0x4019999a)
+                        let s8 = s3
+                        let s9 = s2
+                        // sp + 0x10
+                        let sp0x10 = (v5_0, v5_1)
+                        s0 = powf(s0, s1)
+                        (v5_0, v5_1) = sp0x10
+                        s2 = s9
+                        s3 = s8
+                        // <+324>
+                    }
+                }
+                
+                // <+324>
+                s1 = -s0
+                var s4 = (v5_0 > 0) ? s0 : s1
+                let s8 = v5_1
+                s0 = -s8
+                s1 = (s8 > 0) ? s8 : s0
+                s0 = Float(bitPattern: 0x3d25aee6)
+                
+                if s1 <= s0 {
+                    // <+460>
+                    s0 = Float(bitPattern: 0x3d9e8391)
+                    s0 = s1 * s0
+                } else {
+                    // <+476>
+                    // <+372>
+                    s0 = 1.0
+                    
+                    if s1 == s0 {
+                        // <+476>
+                    } else {
+                        // <+384>
+                        s0 = Float(bitPattern: 0x3f72a76f)
+                        s0 = s1 * s0
+                        s1 = Float(bitPattern: 0x3d55891a)
+                        s0 = s0 + s1
+                        s1 = Float(bitPattern: 0x4019999a)
+                        let s9 = s3
+                        let s10 = s2
+                        // sp + 0x10
+                        let sp0x10 = s4
+                        s0 = powf(s0, s1)
+                        s4 = sp0x10
+                        s2 = s10
+                        s3 = s9
+                        // <+476>
+                    }
+                }
+                
+                // <+476>
+                s1 = -s0
+                var s5 = (s8 > 0) ? s0 : s1
+                s0 = -s2
+                s1 = (s2 > 0) ? s2 : s0
+                s0 = Float(bitPattern: 0x3d25aee6)
+                
+                if s1 <= s0 {
+                    // <+608>
+                    s0 = Float(bitPattern: 0x3d9e8391)
+                    s0 = s1 * s1
+                    // <+624>
+                } else {
+                    s0 = 1.0
+                    
+                    if s1 == s0 {
+                        // <+624>
+                    } else {
+                        // <+532>
+                        s0 = Float(bitPattern: 0x3f72a76f)
+                        s0 = s1 * s0
+                        s1 = Float(bitPattern: 0x3d55891a)
+                        s0 = s0 + s1
+                        s1 = Float(bitPattern: 0x4019999a)
+                        let s8 = s3
+                        let s9 = s2
+                        // sp
+                        let sp = (s5, s4)
+                        s0 = powf(s0, s1)
+                        s5 = sp.0
+                        s4 = sp.1
+                        s2 = s9
+                        s3 = s8
+                        // <+624>
+                    }
+                }
+                
+                // <+624>
+                v5_0 = s4
+                v5_1 = s5
+                
+                if s2 <= 0 {
+                    s2 = -s0
+                } else {
+                    s2 = s0
+                }
+                
+                return Color.Resolved(
+                    linearRed: v5_0,
+                    linearGreen: v5_1,
+                    linearBlue: s2,
+                    opacity: s3
+                )
             case .linear:
                 // <+652>
-                assertUnimplemented()
+                return Color.Resolved(
+                    linearRed: v5_0,
+                    linearGreen: v5_1,
+                    linearBlue: s2,
+                    opacity: s3
+                )
             case .perceptual:
                 // <+52>
-                assertUnimplemented()
+                var v0_0 = v5_0 * v5_0
+                var v0_1 = v5_1 * v5_1
+                var s1 = s2 * s2
+                s1 = s2 * s1
+                v0_0 = v5_0 * v0_0
+                v0_1 = v5_1 * v0_1
+                
+                // <+68>
+                var v2_0 = Float(bitPattern: 0x3fa25c2d)
+                var v2_1 = Float(bitPattern: 0x4053b18c)
+                v2_0 = v0_0 * v2_0
+                v2_1 = v0_1 * v2_1
+                swap(&v2_0, &v2_1)
+                
+                // <+84>
+                var v4_0 = Float(bitPattern: 0x408274ab)
+                var v4_1 = Float(bitPattern: 0x40270644)
+                v4_0 = v0_0 * v4_0
+                v4_1 = v0_1 * v4_1
+                v2_0 = v4_0 - v2_0
+                v2_1 = v4_1 - v2_1
+                
+                // <+100>
+                v4_0 = Float(bitPattern: 0x3e6c8362)
+                v4_1 = Float(bitPattern: 0x3eaec16a)
+                v4_0 = v4_0 * s1
+                v4_1 = v4_1 * s1
+                v5_0 = v2_0 + v4_0
+                v5_1 = v2_1 + v4_1
+                v2_0 = v2_0 - v4_0
+                v2_1 = v2_1 - v4_1
+                v5_1 = v2_1
+                
+                // <+124>
+                v2_0 = Float(bitPattern: 0xbb897f53)
+                v2_1 = Float(bitPattern: 0x3f34133e)
+                v0_0 = v0_0 * v2_0
+                v0_1 = v0_1 * v2_1
+                v2_0 = v0_1
+                v2_1 = v0_1
+                v0_0 = v0_0 - v2_0
+                v0_1 = v0_1 - v2_1
+                s2 = Float(bitPattern: 0x3fda931e)
+                s1 = s1 * s2
+                s2 = s1 + v0_0
+                
+                // <+652>
+                return Color.Resolved(
+                    linearRed: v5_0,
+                    linearGreen: v5_1,
+                    linearBlue: s2,
+                    opacity: s3
+                )
             }
-            
-            assertUnimplemented()
         }
     }
 }
