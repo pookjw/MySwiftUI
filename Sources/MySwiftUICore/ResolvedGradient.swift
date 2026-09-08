@@ -345,7 +345,7 @@ extension ResolvedGradient {
                 if s1 <= s0 {
                     // <+608>
                     s0 = Float(bitPattern: 0x3d9e8391)
-                    s0 = s1 * s1
+                    s0 = s1 * s0
                     // <+624>
                 } else {
                     s0 = 1.0
