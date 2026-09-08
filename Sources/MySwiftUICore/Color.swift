@@ -1077,7 +1077,8 @@ extension Color.ResolvedHDR {
     
     package struct _Animatable : VectorArithmetic, Equatable {
         package static func += (lhs: inout Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) {
-            assertUnimplemented()
+            lhs.color += rhs.color
+            lhs.headroom = (lhs.headroom <= rhs.headroom) ? rhs.headroom : lhs.headroom
         }
         
         package static func + (lhs: Color.ResolvedHDR._Animatable, rhs: Color.ResolvedHDR._Animatable) -> Color.ResolvedHDR._Animatable {
@@ -1094,7 +1095,29 @@ extension Color.ResolvedHDR {
         }
         
         package static var zero: Color.ResolvedHDR._Animatable {
-            assertUnimplemented()
+            guard !Color.Resolved.legacyInterpolation else {
+                // <+124>
+                return Color.ResolvedHDR._Animatable(color: .zero, headroom: 0)
+            }
+            
+            // <+76>
+            let converted = ResolvedGradient.ColorSpace.perceptual.convertIn(
+                Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+            )
+            
+            return Color.ResolvedHDR._Animatable(
+                color: AnimatablePair(
+                    converted.r * 128,
+                    AnimatablePair(
+                        converted.g * 128,
+                        AnimatablePair(
+                            converted.b * 128,
+                            converted.a * 128
+                        )
+                    )
+                ),
+                headroom: 0
+            )
         }
         
         fileprivate private(set) var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
@@ -1106,16 +1129,17 @@ extension Color.ResolvedHDR {
         }
         
         package mutating func scale(by rhs: Double) {
-            assertUnimplemented()
+            self.color.first *= Float(rhs)
+            self.color.second.first *= Float(rhs)
+            self.color.second.second.first *= Float(rhs)
+            self.color.second.second.second *= Float(rhs)
         }
         
         package var magnitudeSquared: Double {
-            get {
-                assertUnimplemented()
-            }
-            set {
-                assertUnimplemented()
-            }
+            return Double(self.color.second.second.first * self.color.second.second.first) +
+            Double(self.color.second.second.second * self.color.second.second.second) +
+            Double(self.color.second.first * self.color.second.first) +
+            Double(self.color.first * self.color.first)
         }
     }
 }

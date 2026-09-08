@@ -63,10 +63,6 @@ extension Color {
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
-        
-        static func == (lhs: Color.OpacityColor, rhs: Color.OpacityColor) -> Bool {
-            assertUnimplemented()
-        }
     }
     
     struct MixProvider {
