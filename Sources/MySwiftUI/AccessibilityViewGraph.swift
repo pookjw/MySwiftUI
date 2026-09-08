@@ -186,11 +186,24 @@ struct SwiftUIGestureAccessibilityProvider : GestureAccessibilityProvider {
 struct SwiftUIOpacityAccessibilityProvider : OpacityAccessibilityProvider {
     static func makeOpacity(effect: @autoclosure () -> Attribute<_OpacityEffect>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
         /*
-         effect -> x0/x1
-         inputs -> x2
-         outputs -> x3
+         effect -> x0/x1 -> x22/x23
+         inputs -> x2 -> x21
+         outputs -> x3 -> x19
          */
-        assertUnimplemented()
+        // <+96>
+        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
+            return
+        }
+        
+        let list = AccessibilityOpacityModifier.makeResolvableTransform(
+            context: effect(),
+            inputs: inputs,
+            outputs: outputs,
+            includeGeometry: false,
+            for: AccessibilityOpacityAttachment.self
+        )
+        
+        outputs[AccessibilityNodesKey.self] = list
     }
 }
 
@@ -212,6 +225,58 @@ struct SwiftUICustomHoverEffectsAccessibilityProvider : CustomHoverEffectAccessi
 
 struct SwiftUIRemoteEffectsAccessibilityProvider : RemoteEffectsAccessibilityProvider {
     
+}
+
+struct AccessibilityOpacityModifier : AccessibilityViewModifier {
+    private let opacity: Double
+    
+    static var options: AccessibilityModifierOptions {
+        return []
+    }
+    
+    func willCreateNode(for nodes: [AccessibilityNode]) -> Bool {
+        return false
+    }
+    
+    func initialAttachment(for nodes: [AccessibilityNode]) -> AccessibilityAttachment {
+        assertUnimplemented()
+    }
+    
+    func updatedAttachment(for token: AccessibilityAttachmentToken, nodes: [AccessibilityNode], atIndex index: Int) -> AccessibilityAttachment {
+        assertUnimplemented()
+    }
+    
+    func createOrUpdateNode(viewRendererHost: ViewRendererHost?, existingNode: AccessibilityNode?) -> AccessibilityNode {
+        assertUnimplemented()
+    }
+    
+    func scrapeableContent(environment: EnvironmentValues, idiom: AnyInterfaceIdiom) -> ScrapeableContent.Content? {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    var supportsPlaceholders: Bool {
+        return false
+    }
+}
+
+struct AccessibilityOpacityAttachment : ResolvableAccessibilityModifierRule {
+    @Attribute private var context: _OpacityEffect
+    
+    static func makeAnyAccessibilityModifier(context: AnyAttribute) -> AnyAttribute {
+        assertUnimplemented()
+    }
+    
+    init(context: Attribute<_OpacityEffect>) {
+        self._context = context
+    }
+    
+    var value: AccessibilityOpacityModifier {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {

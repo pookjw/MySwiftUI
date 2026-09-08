@@ -370,7 +370,13 @@ extension AccessibilityViewModifier {
         return attribute
     }
     
-    nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierStatefulRule>(context: Attribute<T.Context>, inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for type: T.Type) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+    nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierStatefulRule>(
+        context: Attribute<T.Context>,
+        inputs: _ViewInputs,
+        outputs: _ViewOutputs,
+        includeGeometry: Bool,
+        for type: T.Type
+    ) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
         /*
          self -> w0 -> x29 - 0x7c
          inputs -> x1 -> x24
@@ -378,7 +384,7 @@ extension AccessibilityViewModifier {
          includeGeometry -> w3 -> x29 - 0x6c
          */
         // <+176>
-        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
+        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
             return nil
         }
         
@@ -390,7 +396,33 @@ extension AccessibilityViewModifier {
         return attribute
     }
     
-    static func makeResolvableTransform<T : AnyResolvableAccessibilityViewModifier>(inputs: _ViewInputs, outputs: _ViewOutputs, includeGeometry: Bool, for: T.Type) -> Attribute<AccessibilityNodeList>? {
+    nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierRule>(
+        context: Attribute<T.Context>,
+        inputs: _ViewInputs,
+        outputs: _ViewOutputs,
+        includeGeometry: Bool,
+        for type: T.Type
+    ) -> Attribute<AccessibilityNodeList>? where T.Value == Self {
+        assertUnimplemented()
+    }
+    
+    // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform7context6inputs7outputs15includeGeometry3for14AttributeGraph0O0VyAA0C8NodeListVGSgALy7ContextQyd__G_AA01_D6InputsVAA01_D7OutputsVSbqd__mt5ValueQyd__RszAA0gcE4RuleRd__lFZAA0c7OpacityE0V_AA0cX10AttachmentVTt3t4g5
+    nonisolated static func makeResolvableTransform<T : ResolvableAccessibilityModifierRule>(
+        context: Attribute<T.Context>,
+        inputs: _ViewInputs,
+        outputs: _ViewOutputs,
+        includeGeometry: Bool,
+        for type: T.Type
+    ) -> Attribute<AccessibilityNodeList>? where T.Value == Self, Self == AccessibilityOpacityModifier, T == AccessibilityOpacityAttachment {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeResolvableTransform<T : AnyResolvableAccessibilityViewModifier>(
+        inputs: _ViewInputs,
+        outputs: _ViewOutputs,
+        includeGeometry: Bool,
+        for: T.Type
+    ) -> Attribute<AccessibilityNodeList>? {
         // $s7SwiftUI25AccessibilityViewModifierPAAE23makeResolvableTransform6inputs7outputs15includeGeometry3for14AttributeGraph0N0VyAA0C8NodeListVGSgAA01_D6InputsV_AA01_D7OutputsVSbqd__mtAA03AnygcdE0Rd__lFZAA0c9ContainerE0V_AA0cU8ResolverVyAA0C13ChildBehaviorV4HostVGTt2t3g5
         /*
          inputs = x22
@@ -398,7 +430,7 @@ extension AccessibilityViewModifier {
          includeGeometry = x23
          */
         
-        guard unsafe inputs.preferences.contains(AccessibilityNodesKey.self) else {
+        guard inputs.preferences.contains(AccessibilityNodesKey.self) else {
             return nil
         }
         

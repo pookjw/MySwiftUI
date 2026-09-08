@@ -130,6 +130,18 @@ extension _OpacityEffect : RendererEffect {
         return .opacity(Float(self.opacity))
     }
     
+    nonisolated static var isolatesChildPosition: Bool {
+        return false
+    }
+    
+    nonisolated static var disabledForFlattenedContent: Bool {
+        return false
+    }
+    
+    nonisolated static var preservesEmptyContent: Bool {
+        return false
+    }
+    
     nonisolated static var isScrapeable: Bool {
         return true
     }
