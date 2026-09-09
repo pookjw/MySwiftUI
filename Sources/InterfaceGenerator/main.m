@@ -77,6 +77,10 @@ BOOL updateSwiftSyntaxVersion(NSURL *resolvedURL) {
     NSNumber *minor = swiftSyntaxVersionForMacroTemplate[@"minor"];
     NSNumber *patch = swiftSyntaxVersionForMacroTemplate[@"patch"];
     NSString *prereleaseIdentifier = swiftSyntaxVersionForMacroTemplate[@"prereleaseIdentifier"];
+    if ((major == nil) || (minor == nil) || (patch == nil) || (prereleaseIdentifier == nil)) {
+        NSLog(@"JSON Error");
+        return NO;
+    }
     
     NSURL *packageURL = [resolvedURL URLByAppendingPathComponent:@"Package.swift" isDirectory:NO];
     exists = [NSFileManager.defaultManager fileExistsAtPath:packageURL.path isDirectory:&isDirectory];
