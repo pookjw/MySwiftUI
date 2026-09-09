@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.opacityEffectView
+        let item = DemoViewController.Item.hiddenModifierView
         pushToItem(item)
         
 //        Task {
@@ -138,6 +138,7 @@ extension DemoViewController {
         case transactionModifierView
         case groupView
         case opacityEffectView
+        case hiddenModifierView
         case subviewsView
         case containerValueView
         case hostingViewController
@@ -260,6 +261,8 @@ extension DemoViewController {
                 return _typeName(GroupViewController.self, qualified: false)
             case .opacityEffectView:
                 return _typeName(OpacityEffectViewController.self, qualified: false)
+            case .hiddenModifierView:
+                return _typeName(HiddenModifierViewController.self, qualified: false)
             case .subviewsView:
                 return _typeName(SubviewsViewController.self, qualified: false)
             case .containerValueView:
@@ -399,6 +402,8 @@ extension DemoViewController {
                 return GroupViewController()
             case .opacityEffectView:
                 return OpacityEffectViewController()
+            case .hiddenModifierView:
+                return HiddenModifierViewController()
             case .subviewsView:
                 return SubviewsViewController()
             case .containerValueView:

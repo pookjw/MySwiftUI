@@ -367,7 +367,7 @@ extension _ViewInputs {
         }
     }
     
-    package var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type) {
+    package var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type)? {
         get {
             return base.hiddenAccessibilityProvider
         }

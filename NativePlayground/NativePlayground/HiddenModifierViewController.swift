@@ -1,41 +1,24 @@
 //
-//  OpacityEffectViewController.swift
+//  HiddenModifierViewController.swift
 //  NativePlayground
 //
-//  Created by Jinwoo Kim on 9/7/26.
+//  Created by Jinwoo Kim on 9/9/26.
 //
 
 import UIKit
 import SwiftUI
 
 fileprivate struct MyView : View {
-    @State private var flag = false
-    
     var body: some View {
         VStack {
-            Group {
-                Color.orange
-                Color.green
-            }
-            .opacity(self.flag ? 1.0 : 0.0)
-            
-            Color.blue
-                .opacity(self.flag ? 1.0 : 0.0)
-        }
-        .task {
-            do {
-                while true {
-                    try await Task.sleep(for: .seconds(1))
-                    withAnimation {
-                        self.flag.toggle()
-                    }
-                }
-            } catch {}
+            Color.orange
+                .hidden()
+            Color.green
         }
     }
 }
 
-final class OpacityEffectViewController : UIViewController {
+final class HiddenModifierViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

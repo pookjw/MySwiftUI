@@ -216,7 +216,9 @@ struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibil
 }
 
 struct SwiftUIHiddenAccessibilityProvider : HiddenAccessibilityProvider {
-    
+    static func removeAccessibilityKeys(inputs: inout _ViewInputs) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUICustomHoverEffectsAccessibilityProvider : CustomHoverEffectAccessibilityProvider {

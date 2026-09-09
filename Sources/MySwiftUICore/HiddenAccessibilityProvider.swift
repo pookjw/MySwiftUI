@@ -1,9 +1,9 @@
 package protocol HiddenAccessibilityProvider {
-    
+    static func removeAccessibilityKeys(inputs: inout _ViewInputs)
 }
 
 extension _GraphInputs {
-    var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type) {
+    var hiddenAccessibilityProvider: (any HiddenAccessibilityProvider.Type)? {
         get {
             return self[HiddenAccessibilityProviderKey.self]
         }
@@ -16,10 +16,14 @@ extension _GraphInputs {
     }
     
     fileprivate struct HiddenAccessibilityProviderKey : GraphInput {
-        static let defaultValue: (any HiddenAccessibilityProvider.Type) = EmptyHiddenAccessibilityProvider.self
+        static var defaultValue: (any HiddenAccessibilityProvider.Type)? {
+            return nil
+        }
     }
 }
 
 struct EmptyHiddenAccessibilityProvider : HiddenAccessibilityProvider {
-    
+    static func removeAccessibilityKeys(inputs: inout _ViewInputs) {
+        assertUnimplemented()
+    }
 }
