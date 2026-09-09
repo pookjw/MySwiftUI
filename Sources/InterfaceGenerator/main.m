@@ -32,6 +32,7 @@
 #import "Subclasses/UIKitInterfaceGenerator.h"
 #import "Subclasses/UIKitServicesInterfaceGenerator.h"
 #import "Subclasses/UserActivityInterfaceGenerator.h"
+#import "XCSelect.h"
 
 NSURL * _Nullable resolveURL(const char *path) {
     NSString *string = [[NSString alloc] initWithCString:path encoding:NSUTF8StringEncoding];
@@ -50,6 +51,79 @@ NSURL * _Nullable resolveURL(const char *path) {
     }
 }
 
+BOOL updateSwiftSyntaxVersion(NSURL *resolvedURL) {
+    NSURL *configURL = [XCSelect.developerDirectoryURL URLByAppendingPathComponent:@"Toolchains/XcodeDefault.xctoolchain/usr/share/pm/config.json" isDirectory:NO];
+    BOOL isDirectory = NO;
+    BOOL exists = [NSFileManager.defaultManager fileExistsAtPath:configURL.path isDirectory:&isDirectory];
+    
+    if (isDirectory || !exists) {
+        NSLog(@"Not found: %@", configURL);
+        return NO;
+    }
+    
+    NSData *configJSONData = [[NSData alloc] initWithContentsOfURL:configURL];
+    NSError * _Nullable error = nil;
+    NSDictionary<NSString *, id> *configJSON = [NSJSONSerialization JSONObjectWithData:configJSONData options:0 error:&error];
+    if (configJSON == nil) {
+        NSLog(@"%@", error);
+        return NO;
+    }
+    NSDictionary<NSString *, id> *swiftSyntaxVersionForMacroTemplate = configJSON[@"swiftSyntaxVersionForMacroTemplate"];
+    if (swiftSyntaxVersionForMacroTemplate == nil) {
+        NSLog(@"JSON Error");
+        return NO;
+    }
+    NSNumber *major = swiftSyntaxVersionForMacroTemplate[@"major"];
+    NSNumber *minor = swiftSyntaxVersionForMacroTemplate[@"minor"];
+    NSNumber *patch = swiftSyntaxVersionForMacroTemplate[@"patch"];
+    NSString *prereleaseIdentifier = swiftSyntaxVersionForMacroTemplate[@"prereleaseIdentifier"];
+    
+    NSURL *packageURL = [resolvedURL URLByAppendingPathComponent:@"Package.swift" isDirectory:NO];
+    exists = [NSFileManager.defaultManager fileExistsAtPath:packageURL.path isDirectory:&isDirectory];
+    
+    if (isDirectory || !exists) {
+        NSLog(@"Not found: %@", packageURL);
+        return NO;
+    }
+    
+    NSData *packageData = [[NSData alloc] initWithContentsOfURL:packageURL];
+    NSString *packageString = [[NSString alloc] initWithData:packageData encoding:NSUTF8StringEncoding];
+    [packageData release];
+    NSMutableArray<NSString *> *packageStrings = [[packageString componentsSeparatedByString:@"\n"] mutableCopy];
+    [packageString release];
+    
+    __block BOOL found = NO;
+    [packageStrings enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj containsString:@"https://github.com/swiftlang/swift-syntax.git"]) {
+            packageStrings[idx] = [NSString stringWithFormat:@"        .package(url: \"https://github.com/swiftlang/swift-syntax.git\", from: \"%@.%@.%@-%@\")", major, minor, patch, prereleaseIdentifier];
+            *stop = YES;
+            found = YES;
+        }
+    }];
+    
+    if (!found) {
+        return NO;
+    }
+    
+    BOOL result = [NSFileManager.defaultManager removeItemAtURL:packageURL error:&error];
+    if (!result) {
+        NSLog(@"%@", error);
+        return NO;
+    }
+    
+    packageString = [packageStrings componentsJoinedByString:@"\n"];
+    [packageStrings release];
+    
+    packageData = [packageString dataUsingEncoding:NSUTF8StringEncoding];
+    result = [packageData writeToURL:packageURL options:0 error:&error];
+    if (!result) {
+        NSLog(@"%@", error);
+        return NO;
+    }
+    
+    return YES;
+}
+
 int main(int argc, const char * argv[]) {
     if (argc < 3) {
         NSLog(@"InterfaceGenerator -p $PATH");
@@ -62,6 +136,8 @@ int main(int argc, const char * argv[]) {
         NSLog(@"Does not exist: %s", path);
         return EXIT_FAILURE;
     }
+    
+    assert(updateSwiftSyntaxVersion(resolvedURL));
     
     assert([AccessibilityInterfaceGenerator generateToURL:resolvedURL]);
     assert([AttributeGraphInterfaceGenerator generateToURL:resolvedURL]);
