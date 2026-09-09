@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
     name: "MySwiftUI",
@@ -44,6 +45,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", branch: "main")
     ],
     targets: [
         .target(
@@ -79,7 +81,9 @@ let package = Package(
                 .byName(name: "_MySwiftUIUtils"),
                 .byName(name: "_RealityFoundationPrivate"),
                 .byName(name: "RealitySystemSupport"),
-                .byName(name: "FeatureFlags")
+                .byName(name: "FeatureFlags"),
+                .byName(name: "MyRealityKit"),
+                .byName(name: "MyPreviewsMacros")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -120,6 +124,14 @@ let package = Package(
             ],
             linkerSettings: [
                 .linkedFramework("UIKit")
+            ]
+        ),
+        .macro(
+            name: "MyPreviewsMacros",
+            dependencies: [
+                .byName(name: "_MySwiftUIUtils"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
             ]
         ),
         .target(
