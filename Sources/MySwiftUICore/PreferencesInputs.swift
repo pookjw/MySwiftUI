@@ -36,7 +36,7 @@ package struct PreferencesInputs {
     }
     
     package mutating func remove<T : PreferenceKey>(_ key: T.Type) {
-        remove(key)
+        keys.remove(key)
     }
     
     mutating func remove(_ key: any PreferenceKey.Type) {

@@ -89,7 +89,9 @@ package func makeHiddenView(
         let allowedKeys: AllowedPreferenceKeysWhileHidden
         
         var value: PreferenceKeys {
-            assertUnimplemented()
+            var keys = self.hostKeys
+            keys.removeHiddenKeys(allowing: self.allowedKeys)
+            return keys
         }
     }
     
@@ -117,8 +119,22 @@ package func makeHiddenView(
 }
 
 extension PreferenceKeys {
-    fileprivate func removeHiddenKeys(allowing: AllowedPreferenceKeysWhileHidden) {
+    fileprivate mutating func removeHiddenKeys(allowing: AllowedPreferenceKeysWhileHidden) {
         // allowing -> x0 -> w21
-        assertUnimplemented()
+        if !allowing.contains(.displayList) {
+            self.remove(DisplayList.Key.self)
+        }
+        
+        // <+84>
+        if !allowing.contains(.viewResponders) {
+            self.remove(ViewRespondersKey.self)
+        }
+        
+        // <+164>
+        if !allowing.contains(.hostPreference) {
+            self.remove(HostPreferencesKey .self)
+        }
+        
+        // <+228>
     }
 }

@@ -217,7 +217,9 @@ struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibil
 
 struct SwiftUIHiddenAccessibilityProvider : HiddenAccessibilityProvider {
     static func removeAccessibilityKeys(inputs: inout _ViewInputs) {
-        assertUnimplemented()
+        // inputs -> x0 -> x19
+        inputs.preferences.remove(AccessibilityNodesKey.self)
+        inputs.preferences.remove(AccessibilityAttachment.Key.self)
     }
 }
 
