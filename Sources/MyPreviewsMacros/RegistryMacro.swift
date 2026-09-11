@@ -49,10 +49,14 @@ extension RegistryMacro {
         // 0x41ffc
         // 0xf20
         // 0x114c
-        var array: [Any] = []
+        var availablities: [AvailabilitySet]
+        var array: [Any]
+        var flag: Bool
         
         if let attributes = node.attributes {
             // 0x119c
+            var x19: [Any] = []
+            
             for attribute in attributes {
                 // 0x136c
                 // 0x14d8
@@ -64,34 +68,50 @@ extension RegistryMacro {
                         switch availabilitySpec.parse() {
                         case .success(let availability):
                             // 0x1a30
+                            // (0x0 - strb)
                             assertUnimplemented()
                         case .failure(let error):
                             // 0x18c4
+                            // (0x2 - enum case)
+                            // (0x1 - strb)
                             assertUnimplemented()
                         }
                     } else {
                         // 0x16b4
+                        // (0x1 - enum case)
+                        // (0x1 - strb)
                         assertUnimplemented()
                     }
                 case .ifConfigDecl(let syntax):
                     // 0x17b0
+                    // (0x0 - enum case)
+                    // (0x1 - strb)
                     assertUnimplemented()
                 @unknown default:
                     // 0x19b4
+                    // (0x1 - strb)
+                    let _ = attribute._syntaxNode
                     assertUnimplemented()
                 }
                 
                 // 0x13d4
                 assertUnimplemented()
             }
+            
+            // 0x12cc
+            assertUnimplemented()
         } else {
             // 0x116c
+            availablities = []
             array = []
+            flag = false
         }
         
         // 0x42038
         assertUnimplemented()
         // 0x41d3c
+        assertUnimplemented()
+        // 0x410d8
         assertUnimplemented()
     }
 }
