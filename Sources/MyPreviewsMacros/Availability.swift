@@ -45,7 +45,7 @@ extension AvailabilitySet {
     }
 }
 
-struct AvailabilityParseError {
+struct AvailabilityParseError : Error {
     private var specList: AvailabilityArgumentListSyntax
     private var problem: AvailabilityParseError.Problem
 }
