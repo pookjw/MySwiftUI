@@ -40,8 +40,8 @@ final class DemoViewController : UICollectionViewController {
         self.activateSceneBarButtonItem = activateSceneBarButtonItem
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
-        let item = DemoViewController.Item.allCases.last!
-//        let item = DemoViewController.Item.previewView
+//        let item = DemoViewController.Item.allCases.last!
+        let item = DemoViewController.Item.sheetView
         pushToItem(item)
         
 //        Task {
@@ -139,6 +139,7 @@ extension DemoViewController {
         case groupView
         case opacityEffectView
         case hiddenModifierView
+        case sheetView
         case subviewsView
         case containerValueView
         case hostingViewController
@@ -263,6 +264,8 @@ extension DemoViewController {
                 return _typeName(OpacityEffectViewController.self, qualified: false)
             case .hiddenModifierView:
                 return _typeName(HiddenModifierViewController.self, qualified: false)
+            case .sheetView:
+                return _typeName(SheetViewController.self, qualified: false)
             case .subviewsView:
                 return _typeName(SubviewsViewController.self, qualified: false)
             case .containerValueView:
@@ -404,6 +407,8 @@ extension DemoViewController {
                 return OpacityEffectViewController()
             case .hiddenModifierView:
                 return HiddenModifierViewController()
+            case .sheetView:
+                return SheetViewController()
             case .subviewsView:
                 return SubviewsViewController()
             case .containerValueView:

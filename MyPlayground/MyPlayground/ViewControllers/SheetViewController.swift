@@ -1,24 +1,32 @@
 //
-//  HiddenModifierViewController.swift
-//  NativePlayground
+//  SheetViewController.swift
+//  MyPlayground
 //
-//  Created by Jinwoo Kim on 9/9/26.
+//  Created by Jinwoo Kim on 9/13/26.
 //
 
 import UIKit
-import SwiftUI
+import MySwiftUI
 
 fileprivate struct MyView : View {
+    @State private var isPresented = false
+    
     var body: some View {
-        VStack {
-            Color.orange
-                .hidden()
-            Color.green
+        MyButton(title: "Present") {
+            self.isPresented = true
+        }
+        .sheet(isPresented: self.$isPresented) {
+            MyButton(title: "Dismiss") { 
+                self.isPresented = false
+            }
+        }
+        .task {
+            self.isPresented = true
         }
     }
 }
 
-final class HiddenModifierViewController : UIViewController {
+final class SheetViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {
