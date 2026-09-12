@@ -22,15 +22,15 @@ protocol RegistryMacro : DeclarationMacro {
 }
 
 extension RegistryMacro {
-    public static var propagateFreestandingMacroAttributes: Bool {
+    package static var propagateFreestandingMacroAttributes: Bool {
         assertUnimplemented()
     }
 
-    public static var propagateFreestandingMacroModifiers: Bool {
+    package static var propagateFreestandingMacroModifiers: Bool {
         assertUnimplemented()
     }
 
-    public static func expansion<T : FreestandingMacroExpansionSyntax, U : MacroExpansionContext>(
+    package static func expansion<T : FreestandingMacroExpansionSyntax, U : MacroExpansionContext>(
         of node: T,
         in context: U
     ) throws -> [DeclSyntax] {
@@ -69,17 +69,20 @@ extension RegistryMacro {
                         case .success(let availability):
                             // 0x1a30
                             // (0x0 - strb)
+                            // swiftEmptyArrayStorage
                             assertUnimplemented()
                         case .failure(let error):
                             // 0x18c4
                             // (0x2 - enum case)
                             // (0x1 - strb)
+                            // swiftEmptyArrayStorage
                             assertUnimplemented()
                         }
                     } else {
                         // 0x16b4
                         // (0x1 - enum case)
                         // (0x1 - strb)
+                        // swiftEmptyArrayStorage
                         assertUnimplemented()
                     }
                 case .ifConfigDecl(let syntax):
@@ -90,6 +93,7 @@ extension RegistryMacro {
                 @unknown default:
                     // 0x19b4
                     // (0x1 - strb)
+                    // swiftEmptyArrayStorage
                     let _ = attribute._syntaxNode
                     assertUnimplemented()
                 }
@@ -99,6 +103,7 @@ extension RegistryMacro {
             }
             
             // 0x12cc
+            // 0x1981c
             assertUnimplemented()
         } else {
             // 0x116c

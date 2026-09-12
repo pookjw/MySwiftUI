@@ -1,5 +1,6 @@
 public import DeveloperToolsSupport
 
+#if MyPreviewsMacrosWIP
 @available(visionOS 1.0, *)
 @available(iOS, unavailable)
 @available(macOS, unavailable)
@@ -103,3 +104,6 @@ public struct _Previewable {
 @available(*, unavailable)
 extension _Previewable : Sendable {
 }
+#else
+
+#endif

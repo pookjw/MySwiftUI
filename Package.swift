@@ -37,6 +37,7 @@ let package = Package(
     traits: [
         .trait(name: "SwiftUICompatibility"),
         .trait(name: "RealityKitCompatibility"),
+        .trait(name: "MyPreviewsMacrosWIP"),
         .`default`(
             enabledTraits: [
                 "SwiftUICompatibility",
@@ -83,7 +84,7 @@ let package = Package(
                 .byName(name: "RealitySystemSupport"),
                 .byName(name: "FeatureFlags"),
                 .byName(name: "MyRealityKit"),
-                .byName(name: "MyPreviewsMacros")
+                .byName(name: "MyPreviewsMacros", condition: .when(traits: ["MyPreviewsMacrosWIP"]))
             ],
             swiftSettings: [
                 .strictMemorySafety(),

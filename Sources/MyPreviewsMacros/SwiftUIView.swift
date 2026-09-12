@@ -1,6 +1,6 @@
 internal import SwiftSyntax
 
-public struct SwiftUIView : SwiftUIViewMacro {
+package struct SwiftUIView : SwiftUIViewMacro {
     static var bodyClosureOffset: Int {
         assertUnimplemented()
     }
