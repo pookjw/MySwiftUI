@@ -51,7 +51,7 @@ extension BodyAccessor {
     }
     
     package func setBody(_ body: () -> Self.Body) {
-        let body = traceRuleBody(type(of: self), body: body)
+        let body = traceRuleBody(Self.Container.self, body: body)
         
         withUnsafePointer(to: body) { pointer in
             unsafe Graph.setOutputValue(pointer)

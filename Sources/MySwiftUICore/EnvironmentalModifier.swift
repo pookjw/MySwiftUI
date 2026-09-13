@@ -155,7 +155,7 @@ fileprivate struct EnvironmentalBodyAccessor<T : EnvironmentalModifier> : BodyAc
         } else {
             if envChanged {
                 // <+356>
-                if self.tracksDependencies {
+                if !self.tracksDependencies {
                     // <+316>
                 } else {
                     if self.tracker.hasDifferentUsedValues(env.plist) {
@@ -174,8 +174,10 @@ fileprivate struct EnvironmentalBodyAccessor<T : EnvironmentalModifier> : BodyAc
         self.tracker.reset()
         
         // <+480>
-        self.setBody { 
-            container.resolve(in: env)
+        let newEnv = EnvironmentValues(env.plist, tracker: self.tracker)
+        
+        self.setBody {
+            container.resolve(in: newEnv)
         }
     }
 }
