@@ -1093,6 +1093,100 @@ extension _ViewList_ID {
     }
 }
 
+extension _ViewListOutputs {
+    static func unaryViewList<T : View>(
+        viewType: T.Type = T.self,
+        inputs: _ViewListInputs,
+        body: @escaping (_ViewInputs) -> _ViewOutputs
+    ) -> _ViewListOutputs {
+        /*
+         viewType -> x0
+         inputs -> x1 -> x22
+         body -> x2/x3 -> x23/x20
+         */
+        // x29 - 0x90
+        let copy_1 = inputs
+        
+        let elements = UnaryElements(
+            body: BodyUnaryViewGenerator(body: body, viewType: T.self),
+            baseInputs: inputs.base
+        )
+        
+        let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
+        if inputs.base.options.contains(.needsStableDisplayListIDs) {
+            // <+252>
+            let attribute = inputs[_DisplayList_StableIdentityScope.self]
+            scope = (attribute.attribute != nil) ? attribute : nil
+        } else {
+            // <+200>
+            scope = nil
+        }
+        
+        // <+336>
+        let traits = inputs.$traits
+        
+        if traits != nil {
+            // <+428>
+        } else {
+            let canTransition = inputs.options.intersection([.canTransition, .disableTransitions]) == .canTransition
+            
+            if canTransition {
+                // <+428> 
+            } else if scope != nil {
+                // <+428> 
+            } else {
+                let flag: Bool
+                
+                switch inputs.contentOffset {
+                case .staticCount(_, let needsDynamicView):
+                    if needsDynamicView {
+                        // <+428>
+                        flag = false
+                    } else {
+                        // <+396>
+                        flag = true
+                    }
+                case .dynamic(_, _):
+                    // <+428>
+                    flag = false
+                case nil:
+                    // <+396>
+                    flag = true
+                }
+                
+                if flag {
+                    // <+640>
+                    return _ViewListOutputs(
+                        .staticList(elements),
+                        nextImplicitID: inputs.implicitID &+ 1,
+                        staticCount: 1
+                    )
+                }
+            }
+        }
+        
+        
+        // <+428>
+        let list = BaseViewList.Init(
+            elements: elements,
+            implicitID: inputs.implicitID,
+            canTransition: inputs.options.intersection([.canTransition, .disableTransitions]) == .canTransition,
+            stableIDScope: scope,
+            contentOffset: inputs.contentOffset,
+            traitKeys: inputs.traitKeys,
+            traits: OptionalAttribute(inputs.$traits)
+        )
+        
+        let listAttribute = Attribute(list)
+        
+        return _ViewListOutputs(
+            .dynamicList(listAttribute, nil),
+            nextImplicitID: inputs.implicitID &+ 1,
+            staticCount: 1
+        )
+    }
+}
+
 fileprivate protocol UnaryViewGenerator {
     func tryToReuse(by other: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
     func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs
@@ -3009,5 +3103,18 @@ extension SpatialLayout where Self == ZStackLayout3D {
                 list: attribute
             )
         }
+    }
+}
+
+fileprivate struct BodyUnaryViewGenerator : UnaryViewGenerator {
+    let body: (_ViewInputs) -> _ViewOutputs
+    let viewType: Any.Type
+    
+    func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    func tryToReuse(by other: BodyUnaryViewGenerator, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        assertUnimplemented()
     }
 }

@@ -390,12 +390,6 @@ extension _ViewOutputs {
     }
 }
 
-extension _ViewListOutputs {
-    static func unaryViewList<T : View>(viewType: T.Type = T.self, inputs: _ViewListInputs, body: (_ViewInputs) -> _ViewOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
-    }
-}
-
 fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
     var inputs: _ViewInputs
     var body: (_Graph, _ViewInputs) -> _ViewListOutputs

@@ -2,10 +2,10 @@
 internal import AttributeGraph
 
 public protocol EnvironmentalModifier : ViewModifier where Self.Body == Never {
-  associatedtype ResolvedModifier : ViewModifier
-  nonisolated func resolve(in environment: EnvironmentValues) -> Self.ResolvedModifier
-  nonisolated static var _requiresMainThread: Bool { get }
-  nonisolated static var _tracksEnvironmentDependencies: Bool { get }
+    associatedtype ResolvedModifier : ViewModifier
+    nonisolated func resolve(in environment: EnvironmentValues) -> Self.ResolvedModifier
+    nonisolated static var _requiresMainThread: Bool { get }
+    nonisolated static var _tracksEnvironmentDependencies: Bool { get }
 }
 
 extension EnvironmentalModifier {

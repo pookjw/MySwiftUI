@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.sheetView
+        let item = DemoViewController.Item.environmentalModifierView
         pushToItem(item)
         
 //        Task {
@@ -140,6 +140,7 @@ extension DemoViewController {
         case opacityEffectView
         case hiddenModifierView
         case sheetView
+        case environmentalModifierView
         case subviewsView
         case containerValueView
         case hostingViewController
@@ -266,6 +267,8 @@ extension DemoViewController {
                 return _typeName(HiddenModifierViewController.self, qualified: false)
             case .sheetView:
                 return _typeName(SheetViewController.self, qualified: false)
+            case .environmentalModifierView:
+                return _typeName(EnvironmentalModifierViewController.self, qualified: false)
             case .subviewsView:
                 return _typeName(SubviewsViewController.self, qualified: false)
             case .containerValueView:
@@ -409,6 +412,8 @@ extension DemoViewController {
                 return HiddenModifierViewController()
             case .sheetView:
                 return SheetViewController()
+            case .environmentalModifierView:
+                return EnvironmentalModifierViewController()
             case .subviewsView:
                 return SubviewsViewController()
             case .containerValueView:
