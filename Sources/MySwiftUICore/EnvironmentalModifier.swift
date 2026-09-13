@@ -148,6 +148,34 @@ fileprivate struct EnvironmentalBodyAccessor<T : EnvironmentalModifier> : BodyAc
     typealias Body = T.ResolvedModifier
     
     func updateBody(of container: T, changed: Bool) {
-        assertUnimplemented()
+        let (env, envChanged) = self.$environment.changedValue(options: [])
+        
+        if changed {
+            // <+316>
+        } else {
+            if envChanged {
+                // <+356>
+                if self.tracksDependencies {
+                    // <+316>
+                } else {
+                    if self.tracker.hasDifferentUsedValues(env.plist) {
+                        // <+316>
+                    } else {
+                        return
+                    }
+                }
+            } else {
+                // <+1428>
+                return
+            }
+        }
+        
+        // <+316>
+        self.tracker.reset()
+        
+        // <+480>
+        self.setBody { 
+            container.resolve(in: env)
+        }
     }
 }
