@@ -64,10 +64,16 @@ extension AnyLocation : Equatable {
     }
 }
 
-protocol Projection {
+package protocol Projection {
     associatedtype Base
     associatedtype Projected
     
     func get(base: Self.Base) -> Self.Projected
     func set(base: inout Self.Base, newValue: Self.Projected)
+}
+
+extension Binding {
+    package func projecting<T : Projection>(_: T) -> Binding<T.Projected> where Value == T.Base {
+        assertUnimplemented()
+    }
 }

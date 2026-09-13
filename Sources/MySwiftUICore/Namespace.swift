@@ -1,4 +1,3 @@
-
 @frozen
 @propertyWrapper
 public struct Namespace : Sendable {

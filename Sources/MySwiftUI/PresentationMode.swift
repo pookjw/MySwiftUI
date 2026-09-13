@@ -28,3 +28,18 @@ extension EnvironmentValues {
 fileprivate struct PresentationModeKey : EnvironmentKey {
     static let defaultValue = Binding<PresentationMode>.constant(PresentationMode(isPresented: false))
 }
+
+extension PresentationMode {
+    struct FromIsPresented : Projection {
+        typealias Base = Bool
+        typealias Projected = PresentationMode
+        
+        func get(base: Bool) -> PresentationMode {
+            return PresentationMode(isPresented: base)
+        }
+        
+        func set(base: inout Bool, newValue: PresentationMode) {
+            base = newValue.isPresented
+        }
+    }
+}

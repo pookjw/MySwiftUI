@@ -1,4 +1,4 @@
-private import AttributeGraph
+internal import AttributeGraph
 
 protocol EnvironmentalView : PrimitiveView, UnaryView {
     associatedtype EnvironmentBody : View
@@ -23,26 +23,6 @@ extension EnvironmentalView {
         let outputs = EnvironmentBody.makeDebuggableView(view: _GraphValue(child), inputs: inputs)
         
         return outputs
-    }
-}
-
-protocol EnvironmentalModifier : ViewModifier {}
-
-extension EnvironmentalModifier {
-    static var _tracksEnvironmentDependencies: Bool {
-        assertUnimplemented()
-    }
-    
-    static var _requiresMainThread: Bool {
-        assertUnimplemented()
-    }
-    
-    static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
     }
 }
 
