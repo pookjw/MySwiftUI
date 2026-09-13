@@ -96,23 +96,27 @@ extension SheetPresentationModifier where U == NullSheetAnchor<SheetPreference.K
     }
 }
 
-fileprivate struct CoreSheetPresentationModifier<T> : EnvironmentalModifier {
+fileprivate struct CoreSheetPresentationModifier<T : SheetAnchorProvider> : EnvironmentalModifier {
     @Namespace var namespace: Namespace.ID // 0x0
     var content: AnyView? // 0x8
     var onDismiss: ((Bool) -> Void)? // 0x10
     var placement: SheetPreference.Placement // 0x20
     var drawsBackground: Bool // 0x21
     var itemID: AnyHashable? // 0x28
-    var anchorProvider: T // 0x38 (offset field)
+    @safe nonisolated(unsafe) var anchorProvider: T // 0x38 (offset field)
     var activeInspector: Bool? // 0x3c (offset field)
     
+    nonisolated static var _tracksEnvironmentDependencies: Bool {
+        return !isLinkedOnOrAfter(.v5)
+    }
+
     nonisolated func resolve(in environment: EnvironmentValues) -> some ViewModifier {
         /*
          self -> x20 -> x21/x20 - 0xa8
          environment -> x0 -> x29 - 0x78
          */
         // <+252>
-        TransactionalPreferenceTransformModifier<SheetPreference.Key> { _, _ in
+        self.anchorProvider.preferenceTransformModifier { _, _ in
             // $s7SwiftUI29CoreSheetPresentationModifier33_6DB75E0CE0288E045EA78648825F4153LLV7resolve2inQrAA17EnvironmentValuesV_tFyAA0D10PreferenceV5ValueOz_AA11TransactionVtcfU_TA
             assertUnimplemented()
         }
@@ -121,12 +125,21 @@ fileprivate struct CoreSheetPresentationModifier<T> : EnvironmentalModifier {
 }
 
 fileprivate protocol SheetAnchorProvider {
-    associatedtype Modifier
+    associatedtype Modifier : ViewModifier
+
+    nonisolated func preferenceTransformModifier(
+        for transform: @escaping (inout SheetPreference.Value, Transaction) -> Void
+    ) -> Modifier
 }
 
-fileprivate struct NullSheetAnchor<T> : SheetAnchorProvider {
-    typealias Modifier = Never // TODO
-    // TODO
+fileprivate struct NullSheetAnchor<T : PreferenceKey> : SheetAnchorProvider where T.Value == SheetPreference.Value {
+    typealias Modifier = TransactionalPreferenceTransformModifier<T>
+
+    nonisolated func preferenceTransformModifier(
+        for transform: @escaping (inout SheetPreference.Value, Transaction) -> Void
+    ) -> Modifier {
+        return TransactionalPreferenceTransformModifier<T>(transform: transform)
+    }
 }
 
 struct SheetPreference {

@@ -36,7 +36,7 @@ extension EnvironmentalModifier {
         let outputs = Self.ResolvedModifier.makeDebuggableView(modifier: value, inputs: copy_3, body: body)
         
         if let buffer {
-            unsafe buffer.traceMountedProperties(to: value, fields: fields)
+            unsafe buffer.traceMountedProperties(to: modifier, fields: fields)
         }
         
         return outputs
@@ -69,7 +69,7 @@ extension EnvironmentalModifier {
         )
         
         if let buffer {
-            unsafe buffer.traceMountedProperties(to: value, fields: fields)
+            unsafe buffer.traceMountedProperties(to: modifier, fields: fields)
         }
         
         return outputs
@@ -104,9 +104,13 @@ extension EnvironmentalModifier {
             if unsafe copy_1.behaviors.contains(.requiresMainThread) {
                 // <+284>
             } else {
-                if isLinkedOnOrAfter(.v4) {
+                if self._requiresMainThread {
+                    // <+300>
+                } else if !isLinkedOnOrAfter(.v4) {
+                    // <+300>
+                } else {
                     // <+528>
-                    unsafe copy_1.behaviors.formUnion(.requiresMainThread)
+                    unsafe copy_1.behaviors.formUnion(.allowsAsync)
                 }
             }
             
