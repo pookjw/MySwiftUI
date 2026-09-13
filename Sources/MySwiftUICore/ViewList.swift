@@ -1094,7 +1094,7 @@ extension _ViewList_ID {
 }
 
 extension _ViewListOutputs {
-    static func unaryViewList<T : View>(
+    static func unaryViewList<T>(
         viewType: T.Type = T.self,
         inputs: _ViewListInputs,
         body: @escaping (_ViewInputs) -> _ViewOutputs
@@ -1104,9 +1104,6 @@ extension _ViewListOutputs {
          inputs -> x1 -> x22
          body -> x2/x3 -> x23/x20
          */
-        // x29 - 0x90
-        let copy_1 = inputs
-        
         let elements = UnaryElements(
             body: BodyUnaryViewGenerator(body: body, viewType: T.self),
             baseInputs: inputs.base
@@ -3111,7 +3108,7 @@ fileprivate struct BodyUnaryViewGenerator : UnaryViewGenerator {
     let viewType: Any.Type
     
     func makeView(inputs: _ViewInputs, indirectMap: IndirectAttributeMap?) -> _ViewOutputs {
-        assertUnimplemented()
+        return self.body(inputs)
     }
     
     func tryToReuse(by other: BodyUnaryViewGenerator, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
