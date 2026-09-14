@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.environmentalModifierView
+        let item = DemoViewController.Item.sheetView
         pushToItem(item)
         
 //        Task {
