@@ -2,6 +2,7 @@
 public import MySwiftUICore
 internal import AttributeGraph
 private import os.log
+private import CoreGraphics
 
 extension View {
     nonisolated public func sheet<Item, Content>(
@@ -97,12 +98,12 @@ extension SheetPresentationModifier where U == NullSheetAnchor<SheetPreference.K
 }
 
 fileprivate struct CoreSheetPresentationModifier<T : SheetAnchorProvider> : EnvironmentalModifier {
-    @Namespace var namespace: Namespace.ID // 0x0
-    var content: AnyView? // 0x8
-    var onDismiss: ((Bool) -> Void)? // 0x10
+    @Namespace nonisolated var namespace: Namespace.ID // 0x0
+    @safe nonisolated(unsafe) var content: AnyView? // 0x8
+    @safe nonisolated(unsafe) var onDismiss: ((Bool) -> Void)? // 0x10
     var placement: SheetPreference.Placement // 0x20
     var drawsBackground: Bool // 0x21
-    var itemID: AnyHashable? // 0x28
+    @safe nonisolated(unsafe) var itemID: AnyHashable? // 0x28
     @safe nonisolated(unsafe) var anchorProvider: T // 0x38 (offset field)
     var activeInspector: Bool? // 0x3c (offset field)
     
@@ -116,9 +117,70 @@ fileprivate struct CoreSheetPresentationModifier<T : SheetAnchorProvider> : Envi
          environment -> x0 -> x29 - 0x78
          */
         // <+252>
-        self.anchorProvider.preferenceTransformModifier { _, _ in
+        self.anchorProvider.preferenceTransformModifier { value, transaction in
             // $s7SwiftUI29CoreSheetPresentationModifier33_6DB75E0CE0288E045EA78648825F4153LLV7resolve2inQrAA17EnvironmentValuesV_tFyAA0D10PreferenceV5ValueOz_AA11TransactionVtcfU_TA
-            assertUnimplemented()
+            /*
+             value -> x0 -> x19
+             transaction -> x1 -> x25
+             environment -> x2 -> x21
+             self -> x3 -> x20
+             */
+            // <+164>
+            // x23
+            var copy_1 = environment
+            ResetGlassEnvironmentModifier.makeEnvironment(&copy_1)
+            // x28
+            let copy_2 = value
+            
+            if let content {
+                // <+232>
+                switch copy_2 {
+                case .notPresented(_):
+                    // <+364>
+                    // <+412>
+                    break
+                case .sheet(_):
+                    // <+264>
+                    Log.externalWarning("Currently, only presenting a single sheet is supported.\nThe next sheet will be presented when the currently presented sheet gets dismissed.")
+                    // <+328>
+                    return
+                case .unspecified:
+                    // <+396>
+                    // <+412>
+                    break
+                }
+                
+                // <+412>
+                let preference = SheetPreference(
+                    content: content,
+                    onDismiss: self.onDismiss,
+                    viewID: self.namespace,
+                    itemID: self.itemID,
+                    placement: self.placement,
+                    drawsBackground: self.drawsBackground,
+                    transaction: transaction,
+                    environment: environment,
+                    activeInspector: self.activeInspector,
+                    entityContext: nil,
+                    sourceRect: nil
+                )
+                
+                value = .sheet(preference)
+            } else {
+                // <+296>
+                switch copy_2 {
+                case .notPresented(var views):
+                    // <+668>
+                    views[self.namespace] = transaction
+                    value = .notPresented(views: views)
+                case .sheet(_):
+                    // <+328>
+                    break
+                case .unspecified:
+                    // <+772>
+                    value = .notPresented(views: [self.namespace: transaction])
+                }
+            }
         }
         .requiring(AllowPresentationPredicate.self)
     }
@@ -143,7 +205,17 @@ fileprivate struct NullSheetAnchor<T : PreferenceKey> : SheetAnchorProvider wher
 }
 
 struct SheetPreference {
-    // TODO
+    fileprivate private(set) var content: AnyView
+    fileprivate private(set) var onDismiss: ((Bool) -> Void)?
+    fileprivate private(set) var viewID: Namespace.ID
+    fileprivate private(set) var itemID: AnyHashable?
+    fileprivate private(set) var placement: SheetPreference.Placement
+    fileprivate private(set) var drawsBackground: Bool
+    fileprivate private(set) var transaction: Transaction
+    fileprivate private(set) var environment: EnvironmentValues
+    fileprivate private(set) var activeInspector: Bool?
+    fileprivate private(set) var entityContext: EntityPresentationContext?
+    fileprivate private(set) var sourceRect: Anchor<CGRect>?
 }
 
 extension SheetPreference {
@@ -158,7 +230,7 @@ extension SheetPreference {
     }
     
     struct InspectorKey : HostPreferenceKey {
-        static let defaultValue: SheetPreference.Value = {
+        @safe static nonisolated(unsafe) let defaultValue: SheetPreference.Value = {
             assertUnimplemented()
         }()
         

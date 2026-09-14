@@ -552,7 +552,7 @@ package struct PreferenceValues {
          */
         let index = self._index(of: key)
         var value: PreferenceValues.Value<T.Value>
-        if self.entries.endIndex == index {
+        if self.entries.endIndex == index || self.entries[index].key != key {
             value = PreferenceValues.Value(value: T.defaultValue, seed: .empty)
         } else {
             value = self.entries[index][]
@@ -577,7 +577,7 @@ package struct PreferenceValues {
     fileprivate func _index(of key: (any PreferenceKey.Type)) -> Int {
         var i = 0
         for entry in entries {
-            if entry.key == key {
+            if ObjectIdentifier(entry.key) >= ObjectIdentifier(key) {
                 return i
             }
             i += 1

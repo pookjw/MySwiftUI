@@ -246,6 +246,7 @@ func printOffsets() {
     printFields("7SwiftUI18ResolvedStyledTextC", isClassType: true)
     printFields("7SwiftUI11DisplayListV11ViewUpdaterC10AsyncLayerV", isClassType: false)
     printFields("7SwiftUI16DynamicContainerV8ItemInfoC", isClassType: true)
+    printFields("7SwiftUI15SheetPreferenceV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
