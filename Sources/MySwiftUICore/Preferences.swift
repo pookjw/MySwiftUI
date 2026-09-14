@@ -540,6 +540,10 @@ package struct PreferenceValues {
         // <+976>
     }
     
+    func modifyValue<T : PreferenceKey>(for: T.Type, transform: PreferenceValues.Value<(inout T.Value) -> Void>) {
+        assertUnimplemented()
+    }
+    
     fileprivate func index<T : PreferenceKey>(of key: T.Type) -> Int? {
         let index = _index(of: key.self)
         let count = entries.count

@@ -73,7 +73,7 @@ package protocol Projection {
 }
 
 extension Binding {
-    package func projecting<T : Projection>(_: T) -> Binding<T.Projected> where Value == T.Base {
+    package func projecting<T : Projection>(_ base: T) -> Binding<T.Projected> where Value == T.Base {
         assertUnimplemented()
     }
 }
