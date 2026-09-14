@@ -378,7 +378,72 @@ extension PropertyList {
         }
         
         package func invalidateValue<Key : PropertyKey>(for: Key.Type, from: PropertyList, to: PropertyList) {
-            assertUnimplemented()
+            /*
+             self -> x20
+             from -> x1 -> x23
+             to -> x2 -> x21
+             Key -> x3 -> x22
+             */
+            self.$data.access { data in
+                let toElements: PropertyList.Element?
+                
+                if let fromElements = from.elements {
+                    guard fromElements.id == data.plistID else {
+                        return
+                    } 
+                    
+                    // <+76>
+                    if let _toElements = to.elements {
+                        // <+104>
+                        guard _toElements.id != data.plistID else {
+                            return
+                        }
+                        
+                        toElements = _toElements
+                        // <+120>
+                    } else if data.plistID == .invalid {
+                        return
+                    } else {
+                        toElements = nil
+                        // <+120>
+                    }
+                } else {
+                    guard
+                        data.plistID == .invalid,
+                        let _toElements = to.elements,
+                        _toElements.id != data.plistID
+                    else {
+                        return
+                    }
+                    
+                    // <+116>
+                    toElements = _toElements
+                    // <+120>
+                }
+                
+                // <+120>
+                let removedValue = data.values.removeValue(forKey: ObjectIdentifier(Key.self))
+                
+                // <+136>
+                if let removedValue {
+                    // <+144>
+                    data.invalidValues.append(removedValue)
+                    // <+264>
+                } else {
+                    // <+248>
+                    // <+264>
+                }
+                
+                // <+264>
+                move(&data.derivedValues, to: &data.invalidValues)
+                
+                if let toElements {
+                    data.plistID = toElements.id
+                } else {
+                    data.plistID = .invalid
+                }
+
+            }
         }
         
         package func derivedValue<T : DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
@@ -394,14 +459,14 @@ extension PropertyList {
 extension PropertyList {
     @safe @usableFromInline
     class Element : CustomStringConvertible {
-        fileprivate let keyType: Any.Type
-        fileprivate let before: Element?
-        fileprivate var after: Element?
-        fileprivate var skip: Unmanaged<Element>?
-        fileprivate let length: UInt32
-        fileprivate let skipCount: UInt32
-        fileprivate let skipFilter: BloomFilter
-        final let id = UniqueID()
+        fileprivate let keyType: Any.Type // 0x10
+        fileprivate let before: Element? // 0x18
+        fileprivate var after: Element? // 0x20
+        fileprivate var skip: Unmanaged<Element>? // 0x28
+        fileprivate let length: UInt32 // 0x30
+        fileprivate let skipCount: UInt32 // 0x34
+        fileprivate let skipFilter: BloomFilter // 0x38
+        final let id = UniqueID() // 0x40
         
         fileprivate init(keyType: Any.Type, before: Element?, after: Element?) {
             self.keyType = keyType
