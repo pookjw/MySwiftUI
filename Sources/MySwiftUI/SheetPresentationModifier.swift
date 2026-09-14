@@ -159,7 +159,7 @@ fileprivate struct CoreSheetPresentationModifier<T : SheetAnchorProvider> : Envi
                     placement: self.placement,
                     drawsBackground: self.drawsBackground,
                     transaction: transaction,
-                    environment: environment,
+                    environment: copy_1,
                     activeInspector: self.activeInspector,
                     entityContext: nil,
                     sourceRect: nil
