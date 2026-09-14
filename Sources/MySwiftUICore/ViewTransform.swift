@@ -18,6 +18,10 @@ package struct ViewTransform {
         self.depth = ViewDepth(0, proposal: 0)
     }
     
+    package func withPosition(_ position: CGPoint) -> ViewTransform {
+        assertUnimplemented()
+    }
+    
     package mutating func appendCoordinateSpace(id: CoordinateSpace.ID) {
         // self = x19
         // sp + 0x50

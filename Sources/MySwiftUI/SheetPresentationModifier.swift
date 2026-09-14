@@ -3,6 +3,7 @@ public import MySwiftUICore
 internal import AttributeGraph
 private import os.log
 private import CoreGraphics
+private import Spatial
 
 extension View {
     nonisolated public func sheet<Item, Content>(
@@ -239,10 +240,18 @@ extension SheetPreference {
         }
     }
     
-    enum Value {
+    enum Value : CustomDebugStringConvertible, EntityPresentationContextAware {
         case notPresented(views: [Namespace.ID: Transaction])
         case sheet(SheetPreference)
         case unspecified
+        
+        var debugDescription: String {
+            assertUnimplemented()
+        }
+        
+        mutating func setEntityContext(_ context: EntityPresentationContext?) {
+            assertUnimplemented()
+        }
     }
     
     struct Key : HostPreferenceKey {
@@ -265,12 +274,17 @@ fileprivate struct SheetContent<T> : View {
 }
 
 struct EntityPresentationContext {
-    // TODO
+    fileprivate private(set) var entityId: UInt64
+    fileprivate private(set) var contentSize: Size3D
+    fileprivate private(set) var transform: ViewTransform
 }
 
 extension EntityPresentationContext {
     struct Source {
-        // TODO
+        fileprivate private(set) var entityId: UInt64
+        fileprivate private(set) var transform: Attribute<ViewTransform>
+        fileprivate private(set) var position: Attribute<CGPoint>
+        fileprivate private(set) var size: Attribute<ViewSize>
     }
     
     struct Input : ViewInput {
@@ -281,7 +295,7 @@ extension EntityPresentationContext {
         // TODO
     }
     
-    struct PreferenceTransformModifier<T : PreferenceKey> : PrimitiveViewModifier, MultiViewModifier {
+    struct PreferenceTransformModifier<T : PreferenceKey> : PrimitiveViewModifier, MultiViewModifier where T.Value : EntityPresentationContextAware {
         nonisolated static func _makeView(
             modifier: _GraphValue<EntityPresentationContext.PreferenceTransformModifier<T>>,
             inputs: _ViewInputs,
@@ -316,8 +330,35 @@ extension EntityPresentationContext.PreferenceTransformModifier {
     struct Transform : Rule, AsyncAttribute {
         @OptionalAttribute var contextSource: EntityPresentationContext.Source?
         
+        fileprivate var context: EntityPresentationContext? {
+            // <+160>
+            guard let contextSource else {
+                return nil
+            }
+            
+            // <+256>
+            let entityId = contextSource.entityId
+            let transform_1 = contextSource.transform.value
+            let position = contextSource.position.value
+            let size = contextSource.size.value
+            
+            let contentSize = Size3D(size.value, depth: transform_1.depth.value)
+            let transform_2 = transform_1.withPosition(position)
+            
+            return EntityPresentationContext(
+                entityId: contextSource.entityId,
+                contentSize: contentSize,
+                transform: transform_2
+            )
+        }
+        
         var value: (inout T.Value) -> Void {
-            assertUnimplemented()
+            let context = self.context
+            
+            return { value in
+                // $s7SwiftUI25EntityPresentationContextV27PreferenceTransformModifierV0G0V5valueyy5ValueQzzcvgyAJzcfU_TA
+                value.setEntityContext(context)
+            }
         }
     }
 }
@@ -340,4 +381,8 @@ struct AllowPresentationPredicate : ViewInputPredicate {
             }
         }
     }
+}
+
+protocol EntityPresentationContextAware {
+    mutating func setEntityContext(_ context: EntityPresentationContext?)
 }
