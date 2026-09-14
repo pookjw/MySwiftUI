@@ -86,6 +86,8 @@ fileprivate struct HostPreferencesTransform<T: PreferenceKey> : StatefulRule, As
     }
     
     func updateValue() {
+        let childValues = self.childValues ?? PreferenceValues()
+        // <+152>
         assertUnimplemented()
     }
 }

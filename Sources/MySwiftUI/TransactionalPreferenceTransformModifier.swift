@@ -33,7 +33,7 @@ struct TransactionalPreferenceTransformModifier<T : PreferenceKey> : PrimitiveVi
     }
 }
 
-fileprivate struct IsAnimated<T : PreferenceKey> : StatefulRule, CustomStringConvertible {
+fileprivate struct IsAnimated<T : PreferenceKey> : CustomStringConvertible, AsyncAttribute, StatefulRule {
     @Attribute var modifier: TransactionalPreferenceTransformModifier<T>
     @Attribute var transaction: Transaction
     
@@ -44,6 +44,21 @@ fileprivate struct IsAnimated<T : PreferenceKey> : StatefulRule, CustomStringCon
     typealias Value = (inout T.Value) -> Void
     
     func updateValue() {
-        assertUnimplemented()
+        // x29 - 0x90 / w24
+        let (modifier, modifierChanged) = self.$modifier.changedValue(options: [])
+        
+        if self.hasValue && !modifierChanged {
+            return
+        }
+        
+        // <+216>
+        let transaction = Graph.withoutUpdate { 
+            return self.transaction
+        }
+        
+        self.value = { value in
+            // $s7SwiftUI10IsAnimated33_118F5F06898F710FC0FEC394204027F7LLV11updateValueyyFy0L0QzzcfU0_TA
+            modifier.transform(&value, transaction)
+        }
     }
 }
