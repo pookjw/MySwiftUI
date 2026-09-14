@@ -12,14 +12,24 @@ struct TransactionalPreferenceTransformModifier<T : PreferenceKey> : PrimitiveVi
          body -> x2/x3 -> x29 - 0x108
          */
         // <+192>
-        let attribute = Attribute(
+        let transform = Attribute(
             IsAnimated<T>(
                 modifier: modifier.value,
                 transaction: inputs.transaction
             )
         )
+        transform.flags = .transactional
         
-        assertUnimplemented()
+        // x25
+        var outputs = body(_Graph(), inputs)
+        
+        outputs.preferences.makePreferenceTransformer(
+            inputs: inputs.preferences,
+            key: T.self,
+            transform: transform // $s7SwiftUI40TransactionalPreferenceTransformModifierV9_makeView8modifier6inputs4bodyAA01_H7OutputsVAA11_GraphValueVyACyxGG_AA01_H6InputsVAiA01_M0V_AOtctFZ09AttributeM00P0Vyy0N0QzzcGyXEfu_TA
+        )
+        
+        return outputs
     }
 }
 
@@ -31,7 +41,7 @@ fileprivate struct IsAnimated<T : PreferenceKey> : StatefulRule, CustomStringCon
         assertUnimplemented()
     }
     
-    typealias Value = T.Value
+    typealias Value = (inout T.Value) -> Void
     
     func updateValue() {
         assertUnimplemented()
