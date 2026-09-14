@@ -90,7 +90,7 @@ fileprivate struct HostPreferencesTransform<T: PreferenceKey> : StatefulRule, As
         // w25 (x29 - 0x68)
         var childValuesChanged: Bool
         // x29 - 0x70
-        let childValues: PreferenceValues
+        var childValues: PreferenceValues
         if let attribute = self.$childValues {
             childValuesAttribute = attribute
             (childValues, childValuesChanged) = attribute.changedValue(options: [])
@@ -111,7 +111,7 @@ fileprivate struct HostPreferencesTransform<T: PreferenceKey> : StatefulRule, As
         if keysChanged {
             // <+244>
             let w8 = keys.contains(T.self)
-            let w9 = self.keyRequested || !w8
+            let w9 = self.keyRequested != w8
             
             if w9 {
                 self.keyRequested = w8

@@ -74,6 +74,13 @@ package protocol Projection {
 
 extension Binding {
     package func projecting<T : Projection>(_ base: T) -> Binding<T.Projected> where Value == T.Base {
-        assertUnimplemented()
+        let projected = base.get(base: self._value)
+        let location = self.location.projecting(base)
+        
+        return Binding<T.Projected>(
+            value: projected,
+            location: location,
+            transaction: self.transaction
+        )
     }
 }

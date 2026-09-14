@@ -540,7 +540,10 @@ package struct PreferenceValues {
         // <+976>
     }
     
-    func modifyValue<T : PreferenceKey>(for: T.Type, transform: PreferenceValues.Value<(inout T.Value) -> Void>) {
+    mutating func modifyValue<T : PreferenceKey>(
+        for key: T.Type,
+        transform: PreferenceValues.Value<(inout T.Value) -> Void>
+    ) {
         assertUnimplemented()
     }
     

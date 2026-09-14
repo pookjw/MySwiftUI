@@ -28,13 +28,13 @@ public struct Binding<Value> {
     }
     
     @preconcurrency public init(
-        @_inheritActorContext get: @escaping /*@isolated(any)*/ @Sendable () -> Value,
-        @_inheritActorContext set: @escaping /*@isolated(any)*/ @Sendable (Value) -> Void
+        @_inheritActorContext get: @escaping @isolated(any) @Sendable () -> Value,
+        @_inheritActorContext set: @escaping @isolated(any) @Sendable (Value) -> Void
     ) {
         let functions = FunctionalLocation<Value>.Functions(
-            getValue: get,
+            getValue: unsafe unsafeBitCast(get, to: (() -> Value).self),
             setValue: { newValue, _ in
-                set(newValue)
+                unsafe unsafeBitCast(set, to: ((Value) -> Void).self)(newValue)
             }
         )
         
@@ -42,7 +42,7 @@ public struct Binding<Value> {
             functions: functions
         )
         
-        let value = get()
+        let value = unsafe unsafeBitCast(get, to: (() -> Value).self)()
         self.transaction = Transaction()
         self.location = LocationBox(location: location)
         self._value = value
@@ -57,6 +57,12 @@ public struct Binding<Value> {
     
     @_alwaysEmitIntoClient public init(projectedValue: Binding<Value>) {
         self = projectedValue
+    }
+    
+    init(value: Value, location: AnyLocation<Value>, transaction: Transaction) {
+        self.transaction = transaction
+        self.location = location
+        self._value = value
     }
     
     package init(value: Value, location: AnyLocation<Value>) {
