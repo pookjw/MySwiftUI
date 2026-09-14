@@ -456,7 +456,7 @@ package struct PreferenceValues {
             if let value = index(of: key).map({ index -> Value<T.Value> in entries[index][] }) {
                 return value
             } else {
-                return Value(value: T.defaultValue, seed: .empty)
+                return PreferenceValues.Value(value: T.defaultValue, seed: .empty)
             }
         }
         set {
@@ -544,7 +544,22 @@ package struct PreferenceValues {
         for key: T.Type,
         transform: PreferenceValues.Value<(inout T.Value) -> Void>
     ) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x28
+         key -> x0 -> x27
+         transform -> x1 -> x20
+         T -> x2 -> x26
+         */
+        let index = self._index(of: key)
+        var value: PreferenceValues.Value<T.Value>
+        if self.entries.endIndex == index {
+            value = PreferenceValues.Value(value: T.defaultValue, seed: .empty)
+        } else {
+            value = self.entries[index][]
+        }
+        value.seed.merge(transform.seed)
+        transform.value(&value.value)
+        self.setValue(value, of: key, at: index)
     }
     
     fileprivate func index<T : PreferenceKey>(of key: T.Type) -> Int? {
