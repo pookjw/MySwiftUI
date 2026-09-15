@@ -150,7 +150,12 @@ open class _UIHostingView<Content : View>: UIView {
     private var scrollTest: ScrollTest? = nil
     final weak var delegate: UIHostingViewDelegate? = nil
     private var rootViewDelegate: RootViewDelegate? = nil
-    final var focusedValues = FocusedValues() {
+    final var focusedValues = FocusedValues(
+        plist: PropertyList(),
+        storageOptions: [],
+        navigationDepth: -1,
+        version: DisplayList.Version()
+    ) {
         didSet {
             assertUnimplemented()
         }

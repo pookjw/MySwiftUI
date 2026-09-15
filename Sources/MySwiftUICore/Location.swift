@@ -64,7 +64,7 @@ extension AnyLocation : Equatable {
     }
 }
 
-package protocol Projection {
+package protocol Projection : Hashable {
     associatedtype Base
     associatedtype Projected
     

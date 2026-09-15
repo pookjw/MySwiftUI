@@ -6,15 +6,15 @@ private import _UIKitPrivate
 
 @MainActor
 final class FocusBridge {
-    private var flags: Flags = []
-    weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil
-    private(set) var focusStore = FocusStore()
-    private var currentEnvironment: EnvironmentValues = EnvironmentValues()
-    private var _focusItem: FocusItem? = nil
-    private weak var parentFocusBridge: FocusBridge? = nil
-    private var requestedFocusItem: FocusItem? = nil
-    private var defaultFocusNamespace: Namespace.ID? = nil
-    private var ignoreTextFocusEvents: Bool = false
+    private var flags: FocusBridge.Flags = [] // 0x10
+    weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil // 0x18
+    private(set) var focusStore = FocusStore() // 0x30
+    private var currentEnvironment = EnvironmentValues() // 0x48
+    private var _focusItem: FocusItem? = nil // 0x58
+    private weak var parentFocusBridge: FocusBridge? = nil // 0x98
+    private var requestedFocusItem: FocusItem? = nil // 0xa0
+    private var defaultFocusNamespace: Namespace.ID? = nil // 0xa8
+    private var ignoreTextFocusEvents: Bool = false // 0xb1
     
     var focusedItem: FocusItem? {
         get {
@@ -132,56 +132,73 @@ final class FocusBridge {
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         /*
-         self = x29, #-0xf8
-         preferenceValues = x29, #-0xa8
+         self -> x20 -> x29 - 0xe0
+         preferenceValues -> x29 - 0x98
          */
+        // <+616>
+        // x29 - 0x100
         guard let host else {
             return
         }
         
-        // x21 / x29 - 0x8 - 0x100
-        let focusStoreList = preferenceValues[FocusStoreList.Key.self]
-        let value_1 = focusStoreList.value
-        
-        // x27
+        // x24 -> x29 - 0xf8
+        let focusStoreList_1 = preferenceValues[FocusStoreList.Key.self]
+        // x29 - 0x70
+        let value_1 = focusStoreList_1.value
+        // x28
         var version_1 = DisplayList.Version()
         for item in value_1 {
             version_1.combine(with: item.version)
         }
         
-        // <+840>
-        // self = x28
-        // x24
-        let focusStore = self.focusStore
-        
-        if focusStore.version != version_1 {
-            // <+1024>
-            //x29 - 0x88
-            _ = focusStoreList.value
-            // x22
-            _ = DisplayList.Version()
-            assertUnimplemented()
-        }
-        
-        // <+1244>
-        // x22
-        let focusedValueList = preferenceValues[FocusedValueList.Key.self]
-        // x29 - 0x88
-        let values_2 = focusedValueList.value
-        // x27
-        let version_2 = values_2.version
-        // x24
-        let focusedValues = host.focusedValues
-        
-        if focusedValues.version == version_2 {
-            // <+1484>
-            // <+1864>
-            return
+        // <+836>
+        // self -> x29 - 0xe0 -> x25
+        if self.focusStore.version == version_1 {
+            // <+1232>
         } else {
-            // <+1516>
-            assertUnimplemented()
+            // <+1020>
+            // x29 - 0x88 -> x21
+            let value_2 = focusStoreList_1.value
+            self.focusStore = FocusStore(value_2)
+            
+            if let host = self.host {
+                host.invalidateProperties([.focusStore], mayDeferUpdate: true)
+                // <+1232>
+            } else {
+                // <+1232>
+            }
         }
-        assertUnimplemented()
+        
+        // <+1232>
+        // x21 (x29 - 0xa8)
+        let focusValueList_2 = preferenceValues[FocusedValueList.Key.self]
+        // x29 - 0x88
+        let value_3 = focusValueList_2.value
+        // x24 (x29 - 0xb8)
+        let version_2 = value_3.version
+        // x22 (x29 - 0xb0)
+        let focusedValues_1 = host.focusedValues
+        // x20 (x29 - 0xa0)
+        let version_3 = focusedValues_1.version
+        
+        if version_3 == version_2 {
+            return
+        }
+        
+        // <+1536>
+        // x29 - 0x88
+        let value_4 = focusValueList_2.value
+        // x19 -> x20 (x29 - 0xb0)
+        let focusedValues_2 = FocusedValues(
+            plist: PropertyList(),
+            storageOptions: [],
+            navigationDepth: -1,
+            version: value_4.version
+        )
+        
+        // <+1744>
+        host.focusedValues = focusedValues_2
+        _ = host.isRootHost
     }
     
     func didChangeFocusItem(from: FocusItem?, to: FocusItem?) {
@@ -443,12 +460,6 @@ protocol FocusHost : AnyObject {
     func focusDidChange()
 }
 
-struct FocusStore {
-    var version = DisplayList.Version()
-    var focusedResponders: [WeakBox<ViewResponder>] = []
-    var plists: [ObjectIdentifier: PropertyList] = [:]
-}
-
 struct FocusItem {
     private var base: FocusItem.Base
     private var prefersFocusSystem: Bool
@@ -515,80 +526,6 @@ extension FocusedValueList {
         }
         
         static func reduce(value: inout FocusedValueList, nextValue: () -> FocusedValueList) {
-            assertUnimplemented()
-        }
-    }
-}
-
-struct FocusStoreList : Equatable, Collection {
-    private var items: [FocusStoreList.Item]
-    
-    init() {
-        items = []
-    }
-    
-    func index(after i: [FocusStoreList.Item].Index) -> [FocusStoreList.Item].Index {
-        return items.index(after: i)
-    }
-    
-    var indices: [FocusStoreList.Item].Indices {
-        return items.indices
-    }
-    
-    var startIndex: [FocusStoreList.Item].Index {
-        return items.startIndex
-    }
-    
-    var endIndex: [FocusStoreList.Item].Index {
-        return items.endIndex
-    }
-    
-    func makeIterator() -> [FocusStoreList.Item].Iterator {
-        return items.makeIterator()
-    }
-    
-    subscript(position: Int) -> FocusStoreList.Item {
-        _read {
-            yield items[position]
-        }
-    }
-    
-    static func == (lhs: FocusStoreList, rhs: FocusStoreList) -> Bool {
-        var displayList_1 = DisplayList.Version()
-        for item in lhs.items {
-            displayList_1.combine(with: item.version)
-        }
-        
-        var displayList_2 = DisplayList.Version()
-        for item in rhs.items {
-            displayList_2.combine(with: item.version)
-        }
-        
-        return displayList_1 == displayList_2
-    }
-    
-    func replaceSubrange<C>(_ subrange: Range<[FocusStoreList.Item].Index>, with newElements: C) where C : Collection, C.Element == FocusStoreList.Item {
-        assertUnimplemented()
-    }
-}
-
-extension FocusStoreList {
-    struct Item {
-        private(set) var version: DisplayList.Version
-        private var propertyID: ObjectIdentifier
-//        private var bindingUpdateAction: FocusStateBindingUpdateAction
-//        private var storeUpdateAction: FocusStoreUpdateAction
-        private weak var responder: ResponderNode?
-        private weak var bridge: FocusBridge?
-        private var isFocused: Bool
-    }
-    
-    struct Key : HostPreferenceKey {
-        static var defaultValue: FocusStoreList {
-            return FocusStoreList()
-        }
-        
-        static func reduce(value: inout FocusStoreList, nextValue: () -> FocusStoreList) {
             assertUnimplemented()
         }
     }

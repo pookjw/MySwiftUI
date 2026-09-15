@@ -175,7 +175,15 @@ struct PlatformViewRepresentableFeature : @preconcurrency CoreViewRepresentableF
             if let _focusedValues = self.focusedValues {
                 focusedValues = (_focusedValues, true)
             } else {
-                focusedValues = (FocusedValues(), false)
+                focusedValues = (
+                    FocusedValues(
+                        plist: PropertyList(),
+                        storageOptions: [],
+                        navigationDepth: -1,
+                        version: DisplayList.Version()
+                    ),
+                    false
+                )
             }
             
             // <+900>
@@ -319,7 +327,12 @@ struct RepresentablePreferredFocusableViewInput<Representable : CoreViewRepresen
 
 final class UIKitPlatformViewHost<Representable : CoreViewRepresentable>: UICorePlatformViewHost<Representable> {
     var importer: MRUIPreferenceImporter? = nil // 0x2d8
-    var focusedValues = FocusedValues() { // 0x2e0
+    var focusedValues = FocusedValues(
+        plist: PropertyList(),
+        storageOptions: [],
+        navigationDepth: -1,
+        version: DisplayList.Version()
+    ) { // 0x2e0
         didSet {
             guard !(oldValue.version == self.focusedValues.version) else {
                 return
