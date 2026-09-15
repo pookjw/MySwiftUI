@@ -206,17 +206,17 @@ fileprivate struct NullSheetAnchor<T : PreferenceKey> : SheetAnchorProvider wher
 }
 
 struct SheetPreference {
-    fileprivate private(set) var content: AnyView
-    fileprivate private(set) var onDismiss: ((Bool) -> Void)?
-    fileprivate private(set) var viewID: Namespace.ID
-    fileprivate private(set) var itemID: AnyHashable?
-    fileprivate private(set) var placement: SheetPreference.Placement
-    fileprivate private(set) var drawsBackground: Bool
-    fileprivate private(set) var transaction: Transaction
-    fileprivate private(set) var environment: EnvironmentValues
-    fileprivate private(set) var activeInspector: Bool?
-    fileprivate private(set) var entityContext: EntityPresentationContext?
-    fileprivate private(set) var sourceRect: Anchor<CGRect>?
+    fileprivate private(set) var content: AnyView // 0x0
+    fileprivate private(set) var onDismiss: ((Bool) -> Void)? // 0x8
+    fileprivate private(set) var viewID: Namespace.ID // 0x18
+    fileprivate private(set) var itemID: AnyHashable? // 0x20
+    fileprivate private(set) var placement: SheetPreference.Placement // 0x48
+    fileprivate private(set) var drawsBackground: Bool // 0x49
+    fileprivate private(set) var transaction: Transaction // 0x50
+    fileprivate private(set) var environment: EnvironmentValues // 0x58
+    fileprivate private(set) var activeInspector: Bool? // 0x68
+    fileprivate var entityContext: EntityPresentationContext? // 0x70 (0x34 - offset field)
+    fileprivate private(set) var sourceRect: Anchor<CGRect>? // 0xe0
 }
 
 extension SheetPreference {
@@ -250,7 +250,23 @@ extension SheetPreference {
         }
         
         mutating func setEntityContext(_ context: EntityPresentationContext?) {
-            assertUnimplemented()
+            /*
+             self -> x20
+             context -> x0 -> x26
+             */
+            // <+260>
+            switch self {
+            case .notPresented(_):
+                // <+432>
+                break
+            case .sheet(var preference):
+                // <+324>
+                preference.entityContext = context
+                self = .sheet(preference)
+            case .unspecified:
+                // <+460>
+                break
+            }
         }
     }
     
