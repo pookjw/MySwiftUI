@@ -96,7 +96,14 @@ final class AppGraph : GraphHost {
         CustomEventTrace.instantiateBegin(data.globalSubgraph)
         self._rootScenePhase = Attribute(value: .background)
         self._primarySceneSummaries = Attribute(value: [])
-        self._focusedValues = Attribute(value: FocusedValues())
+        self._focusedValues = Attribute(
+            value: FocusedValues(
+                plist: PropertyList(),
+                storageOptions: [],
+                navigationDepth: -1,
+                version: DisplayList.Version()
+            )
+        )
         self._focusStore = Attribute(value: FocusStore())
         self._sceneKeyboardShortcuts = Attribute(value: [:])
         self._activeWindows = Attribute(value: [])

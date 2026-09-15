@@ -424,7 +424,18 @@ fileprivate final class MainMenuItemCoordinator {
     private var needsUpdate: Bool = true // 0x48
     
     init(_ item: MainMenuItem, environment: EnvironmentValues) {
-        let menuHost = MainMenuItemHost(item, environment: environment, focusedValues: FocusedValues(), focusStore: FocusStore())
+        let menuHost = MainMenuItemHost(
+            item,
+            environment: environment,
+            focusedValues: FocusedValues(
+                plist: PropertyList(),
+                storageOptions: [],
+                navigationDepth: -1,
+                version: DisplayList.Version()
+            ),
+            focusStore: FocusStore()
+        )
+        
         self.menuHost = menuHost
         menuHost.delegate = self
     }

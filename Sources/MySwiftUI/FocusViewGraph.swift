@@ -28,7 +28,14 @@ struct FocusViewGraph {
             CustomEventTrace.recordNamedProperty(.focusedItem, focustedItemAttribute)
             focusedItem = OptionalAttribute(focustedItemAttribute)
             
-            let focusedValuesAttribute = Attribute(value: FocusedValues())
+            let focusedValuesAttribute = Attribute(
+                value: FocusedValues(
+                    plist: PropertyList(),
+                    storageOptions: [],
+                    navigationDepth: -1,
+                    version: DisplayList.Version()
+                )
+            )
             CustomEventTrace.recordNamedProperty(.focusedValues, focusedValuesAttribute)
             focusedValues = OptionalAttribute(focusedValuesAttribute)
             

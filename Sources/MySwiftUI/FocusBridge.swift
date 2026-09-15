@@ -189,13 +189,17 @@ final class FocusBridge {
         // x29 - 0x88
         let value_4 = focusValueList_2.value
         // x19 -> x20 (x29 - 0xb0)
-        let focusedValues_2 = FocusedValues(
+        var focusedValues_2 = FocusedValues(
             plist: PropertyList(),
             storageOptions: [],
             navigationDepth: -1,
             version: value_4.version
         )
         
+        for item in value_4.items {
+            item.update(&focusedValues_2)
+        }
+
         // <+1744>
         host.focusedValues = focusedValues_2
         _ = host.isRootHost
@@ -500,7 +504,7 @@ struct FocusableOptions : OptionSet {
 }
 
 struct FocusedValueList {
-    private var items: [FocusedValueList.Item] = []
+    fileprivate var items: [FocusedValueList.Item] = []
     
     var version: DisplayList.Version {
         var version = DisplayList.Version()
@@ -517,7 +521,7 @@ extension FocusedValueList {
     struct Item {
         fileprivate var version: DisplayList.Version
         private var isFocused: Bool
-        private var update: (inout FocusedValues) -> ()
+        fileprivate var update: (inout FocusedValues) -> ()
     }
     
     struct Key : HostPreferenceKey {
