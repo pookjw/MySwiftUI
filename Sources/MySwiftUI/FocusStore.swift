@@ -4,7 +4,7 @@
 struct FocusStore {
     var version = DisplayList.Version()
     private(set) var focusedResponders: [WeakBox<ViewResponder>] = []
-    private(set) var plists: [ObjectIdentifier: PropertyList] = [:]
+    private(set) var plists: [ObjectIdentifier : PropertyList] = [:]
     
     @inline(always) // 원래 없음
     init() {}
@@ -14,8 +14,50 @@ struct FocusStore {
         self.makeStoreContent(list)
     }
     
-    fileprivate func makeStoreContent(_ list: FocusStoreList) {
-        assertUnimplemented()
+    fileprivate mutating func makeStoreContent(_ list: FocusStoreList) {
+        /*
+         self -> x20 -> x28
+         list -> x0 -> x26
+         */
+        // <+320>
+        // x20
+        var version = DisplayList.Version()
+        
+        if !list.isEmpty {
+            for item in list {
+                version.combine(with: item.version)
+            }
+            
+            self.version = version
+            
+            for item in list {
+                // <+540>
+                var plist = self.plists[item.propertyID] ?? PropertyList()
+                
+                // <+636>
+                if let update = item.storeUpdateAction.update {
+                    update(&plist)
+                }
+                
+                // <+668>
+                self.plists[item.propertyID] = plist
+                
+                // <+896>
+                guard
+                    item.isFocused,
+                    let responder = item.responder,
+                    let casted = responder as? ViewResponder
+                else {
+                    continue
+                }
+                
+                // <+968>
+                let box = WeakBox(casted)
+                self.focusedResponders.append(box)
+            }
+        } else {
+            self.version = version
+        }
     }
 }
 
@@ -74,12 +116,12 @@ struct FocusStoreList : Equatable, Collection {
 extension FocusStoreList {
     struct Item {
         private(set) var version: DisplayList.Version
-        private var propertyID: ObjectIdentifier
-//        private var bindingUpdateAction: FocusStateBindingUpdateAction
-//        private var storeUpdateAction: FocusStoreUpdateAction
-        private weak var responder: ResponderNode?
+        fileprivate private(set) var propertyID: ObjectIdentifier // 0x14 (offset field)
+        private var bindingUpdateAction: FocusStateBindingUpdateAction
+        fileprivate private(set) var storeUpdateAction: FocusStoreUpdateAction // 0x1c (offset field)
+        fileprivate private(set) weak var responder: ResponderNode? // 0x20 (offset field)
         private weak var bridge: FocusBridge?
-        private var isFocused: Bool
+        fileprivate private(set) var isFocused: Bool // 0x28 (offset field)
     }
     
     struct Key : HostPreferenceKey {
@@ -91,4 +133,12 @@ extension FocusStoreList {
             assertUnimplemented()
         }
     }
+}
+
+struct FocusStateBindingUpdateAction {
+    private let update: () -> Void
+}
+
+struct FocusStoreUpdateAction {
+    fileprivate let update: ((inout PropertyList) -> Void)?
 }
