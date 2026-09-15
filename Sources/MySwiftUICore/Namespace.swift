@@ -3,7 +3,7 @@ private import AttributeGraph
 
 @frozen
 @propertyWrapper
-public struct Namespace : Sendable {
+public struct Namespace : DynamicProperty, Sendable {
     @usableFromInline var id: Int
     
     public var wrappedValue: Namespace.ID {
@@ -23,7 +23,15 @@ public struct Namespace : Sendable {
         self.id = id
     }
     
-    public static func makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: _GraphInputs) {
+    public static func _makeProperty<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
+    
+    public static var _propertyBehaviors: UInt32 {
+        assertUnimplemented()
+    }
+
+    public func update() {
         assertUnimplemented()
     }
 }

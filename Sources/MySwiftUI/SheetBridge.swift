@@ -45,7 +45,9 @@ internal import UIKit
                 present(delayedPresentation.presentation, from: viewController, animated: delayedPresentation.animated, existingPresentedVC: nil, isPreempting: false)
             }
             
-            self.presentationState = presentationState
+            assertUnimplemented()
+            // TODO: 제거되어야 하는데 검토 필요
+//            self.presentationState = presentationState
         } else {
             hasWindow = false
         }
@@ -53,22 +55,22 @@ internal import UIKit
     
     final func preferencesDidChange(_ preferenceValues: PreferenceValues) {
         /*
-         preferenceValues -> x19 + 0x178
          self -> x20 -> x19 + 0x1b8
-         */
-        /*
-         self = x28
-         preferenceValues = x21
+         preferenceValues -> x0 -> x19 + 0x178
+         x19 = x29 - 0x380
          */
         // <+1628>
         // x19 + 0x1b0
-        let _ = preferenceValues[SheetPreference.Key.self]
-        // self -> x19 + 0x1b8 -> x21
+        let sheet = preferenceValues[SheetPreference.Key.self]
+        // <+1648>
+        // self -> x21
         // x25
         let lastEnvironment = lastEnvironment
         
+        // <+1716>
+        // x19 + 0x250 -> w8
         let presentationWantsTransparentBackground = lastEnvironment.presentationWantsTransparentBackground
-        // x25
+        // x26 -> x19 + 0x158
         let value: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
         if presentationWantsTransparentBackground {
             // <+1760>
@@ -78,35 +80,42 @@ internal import UIKit
             value = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
         }
         
-        // <+1836>
+        // <+1840>
         // x19 + 0x1a0
         let _ = preferenceValues[PresentationOptionsPreferenceKey.self]
-        // self -> x19 + 0x1b8 -> x26
         
-        // x22
+        // <+1900>
+        // self -> x26
+        // x28
         let interactiveDismissAttempt = preferenceValues[InteractiveDismissAttemptKey.self]
         
+        // <+1948>
         if !interactiveDismissHandlerSeed.seed.matches(interactiveDismissAttempt.seed) {
             // <+1996>
             interactiveDismissHandlerSeed = VersionSeedTracker<InteractiveDismissAttemptKey>(seed: interactiveDismissAttempt.seed)
+            // <+2032>
             interactiveDismissHandler = interactiveDismissAttempt.value
         }
         
         // <+2120>
-        // x19
         if let _ = host!.uiViewController as? PresentationHostingController<AnyView> {
             // <+2280>
             assertUnimplemented()
         }
         
         // <+2692>
-        if self.seed.matches(value.seed) {
+        // self -> x26
+        // sheet -> x24
+        // TODO: if self.seed.matches(value.seed) 대신 아래가 되어야 하는데 검토
+        assertUnimplemented()
+        if self.seed.matches(sheet.seed) {
             // <+2824>
             guard let _ = self.host!.uiViewController as? PresentationHostingController<AnyView> else {
+                // <+5720>
                 return
             }
             
-            // <+2896>
+            // <+2956>
             assertUnimplemented()
         } else {
             // <+3920>
