@@ -14,10 +14,11 @@ UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState)
 
 @interface UIViewController (Private) <UITraitChangeObservableInternal>
 @property (nonatomic, readonly) NSUInteger childViewControllersCount;
-
++ (void)_performWithoutDeferringTransitions:(void (NS_NOESCAPE ^)(void))block;
 - (BOOL)_canShowWhileLocked;
 - (BOOL)_shouldIgnoreChildFocusRegions;
 - (_UIAppearState)_appearState;
+- (void)_endDelayingPresentation;
 
 // API_UNAVAILABLE(visionos) 제거용
 @property (nonatomic, readonly, nullable, getter=childViewControllerForInterfaceOrientationLock) UIViewController *msui_childViewControllerForInterfaceOrientationLock;
