@@ -4,6 +4,7 @@
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface UIPresentationController (Private) <UITraitChangeObservableInternal>
+- (BOOL)dismissing;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withHandler:(UITraitChangeHandler)handler;
 - (id<UITraitChangeRegistration>)_registerForTraitTokenChanges:(NSArray<id<_UITraitTokenProtocol>> *)changes withTarget:(id)target action:(SEL)action;
 @end

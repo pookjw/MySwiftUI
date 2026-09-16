@@ -66,10 +66,24 @@ struct PresentationState {
         assertUnimplemented()
     }
     
+    func present(_: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
+        assertUnimplemented()
+    }
+    
     @inline(always) // 원래 없음
     mutating func didMoveToNonNilWindow() {
         if case .delayedPresentationPendingNonNilWindow = base {
             base = .waitingToPresentDelayedPresentationSheetPreference
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    var presentedVC: PresentationHostingController<AnyView>? {
+        switch self.base {
+        case .requestedPresentation, .presented:
+            return self.base.presentedVC!
+        case .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+            return nil
         }
     }
 }

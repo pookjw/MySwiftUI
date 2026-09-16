@@ -1,10 +1,11 @@
 internal import MySwiftUICore
 
 struct InteractiveDismissDisabledKey : HostPreferenceKey {
-    // TODO
-    typealias Value = Never?
+    static var defaultValue: Bool? {
+        return nil
+    }
     
-    static func reduce(value: inout Never?, nextValue: () -> Never?) {
+    static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
         assertUnimplemented()
     }
 }

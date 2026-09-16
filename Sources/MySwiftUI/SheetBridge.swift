@@ -1,5 +1,6 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
+private import _UIKitPrivate
 
 @MainActor class SheetBridge<T> : NSObject {
     weak var host: ViewRendererHost? = nil
@@ -67,18 +68,18 @@ internal import UIKit
         // x19 + 0x250 -> w8
         let presentationWantsTransparentBackground = lastEnvironment.presentationWantsTransparentBackground
         // x26 -> x19 + 0x158
-        let value: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
+        let transparency_1: PreferenceValues.Value<ContainerBackgroundKeys.Transparency>
         if presentationWantsTransparentBackground {
             // <+1760>
-            value = PreferenceValues.Value(value: .transparent, seed: .empty)
+            transparency_1 = PreferenceValues.Value(value: .transparent, seed: .empty)
         } else {
             // <+1804>
-            value = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
+            transparency_1 = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
         }
         
         // <+1840>
         // x19 + 0x1a0
-        let _ = preferenceValues[PresentationOptionsPreferenceKey.self]
+        let presentationOptions_1 = preferenceValues[PresentationOptionsPreferenceKey.self]
         
         // <+1900>
         // self -> x26
@@ -94,7 +95,7 @@ internal import UIKit
         }
         
         // <+2120>
-        if let _ = host!.uiViewController as? PresentationHostingController<AnyView> {
+        if let hostingController = host!.uiViewController as? PresentationHostingController<AnyView> {
             // <+2280>
             assertUnimplemented()
         }
@@ -104,13 +105,52 @@ internal import UIKit
         // sheet -> x24
         if self.seed.matches(sheet.seed) {
             // <+2824>
-            guard let _ = self.host!.uiViewController as? PresentationHostingController<AnyView> else {
+            guard
+                let presented = self.host!.uiViewController as? PresentationHostingController<AnyView>,
+                case .sheetBridge = presented.presentingBridgeKind,
+                let presenter = (self.presenterOverride ?? self.host!.uiPresenterViewController) as? PresentationHostingController<AnyView>
+            else {
                 // <+5720>
                 return
             }
             
-            // <+2956>
-            assertUnimplemented()
+            // presenter -> x19 + 0x198
+            // <+3084>
+            let presentationOptions_2 = preferenceValues[PresentationOptionsPreferenceKey.self]
+            
+            if !self.presentationOptionsTracker.seed.matches(presentationOptions_2.seed) {
+                // <+3216>
+                self.presentationOptionsTracker.seed = presentationOptions_2.seed
+                _ = presentationOptions_2.value
+                presenter.updateSheet(with: presentationOptions_1.value)
+            }
+            
+            // <+3312>
+            // <+3364>
+            let transparency_2 = preferenceValues[ContainerBackgroundKeys.HostTransparency.self]
+            
+            if !self.backgroundTracker.seed.matches(transparency_2.seed) {
+                // <+3468>
+                self.backgroundTracker.seed = transparency_2.seed
+                _ = transparency_2.value
+                presenter.setBackgroundTransparency(preferenceValue: transparency_1.value)
+            }
+            
+            // <+3548>
+            // <+3608>
+            let interactiveDismissDisabled_1 = preferenceValues[InteractiveDismissDisabledKey.self]
+            if !self.interactiveDismissTracker.seed.matches(interactiveDismissDisabled_1.seed) {
+                // <+3696>
+                self.interactiveDismissTracker.seed = interactiveDismissDisabled_1.seed
+                _ = interactiveDismissDisabled_1.value
+            }
+            
+            // <+3748>
+            let interactiveDismissDisabled_2 = preferenceValues[InteractiveDismissDisabledKey.self].value
+            presenter.lastInteractiveDismissDisabled = interactiveDismissDisabled_2
+            
+            // <+5780>
+            return
         } else {
             // <+3920>
             self.seed = sheet.seed
@@ -184,10 +224,90 @@ internal import UIKit
             )
             
             // <+4772>
-            assertUnimplemented()
+            if let presentedVC = self.presentationState.presentedVC /* inlined */ {
+                // <+4996>
+                if let sheetPreference {
+                    // <+5376>
+                    if let transaction {
+                        // <+5812>
+                        if self.presentationState.hasIdentityMatching(sheetPreference) {
+                            // <+5952>
+                            self.update(presentation: sheetPreference, in: presentedVC, transaction: transaction)
+                            // <+5776>
+                            return
+                        } else {
+                            // <+6264>
+                            if let presenter = self.presenterOverride ?? self.host!.uiPresenterViewController {
+                                // <+6352>
+                                // inlined
+                                self.dismissAndPresentAgain(
+                                    preference: sheetPreference,
+                                    presented: presentedVC,
+                                    animated: animated,
+                                    hasNoModifier: hasNoModifier,
+                                    presenter: presenter
+                                )
+                                
+                                // <+5780>
+                                return
+                            } else {
+                                // <+7028>
+                                return
+                            }
+                        }
+                    } else {
+                        // <+5428>
+                    }
+                } else {
+                    // <+5056>
+                    // <+5428>
+                }
+                
+                // <+5428>
+                self.presentationState.dismiss(willPresentAgain: false, hasNoModifier: hasNoModifier)
+                
+                if hasNoModifier {
+                    presentedVC.didPresenterLoseModifierRecursively = true
+                }
+                
+                // <+5504>
+                onNextMainRunLoop { [weak self] in
+                    // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_AA0cH0V3KeyV_Tg5TA
+                    NotificationCenter.default.post(
+                        name: SheetBridgeNotifications.willDismis,
+                        object: nil
+                    )
+                    
+                    let presentingViewController = presentedVC.presentingViewController ?? presentedVC
+                    presentingViewController.dismiss(animated: animated) { 
+                        // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_yycfU_AA0cH0V3KeyV_Tg5TA
+                        // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_yycfU_AA0cH0V12InspectorKeyV_Tg5Tm
+                        guard let self else {
+                            return
+                        }
+                        
+                        self.host!.invalidateProperties(.transform, mayDeferUpdate: false)
+                    }
+                }
+                
+                // <+5780>
+                return
+            } else {
+                // <+5088>
+                guard let presenter = self.presenterOverride ?? self.host!.uiPresenterViewController else {
+                    return
+                }
+                
+                // <+5196>
+                guard let sheetPreference else {
+                    return
+                }
+                
+                // <+6108>
+                self.contingentlyPresent(sheetPreference, from: presenter, animated: animated)
+                return
+            }
         }
-        
-        assertUnimplemented()
     }
     
     // unnamed
@@ -239,9 +359,127 @@ internal import UIKit
         // noop
     }
     
+    func update(presentation: SheetPreference, in viewController: PresentationHostingController<AnyView>, transaction: Transaction) {
+        assertUnimplemented()
+    }
+    
     func removePreferences(from graph: ViewGraph) {
         // noop
         assert(type(of: self) == UIKitInspectorBridgeV5<T>.self)
+    }
+    
+    func contingentlyPresent(_: SheetPreference, from: UIViewController, animated: Bool) {
+        assertUnimplemented()
+    }
+    
+    fileprivate final func dismissAndPresentAgain(
+        preference: SheetPreference?,
+        presented: PresentationHostingController<AnyView>,
+        animated: Bool,
+        hasNoModifier: Bool,
+        presenter: UIViewController
+    ) {
+        self.presentationState.dismiss(willPresentAgain: true, hasNoModifier: true)
+        presented.didPresenterLoseModifierRecursively = true
+        
+        let completion: () -> Void = { [weak self] in
+            // $s7SwiftUI11SheetBridgeC22dismissAndPresentAgain33_9124433AF4D3FE5B3E95880733BE7575LL10preference9presented8animated13hasNoModifier9presenteryAA0C10PreferenceVSg_AA29PresentationHostingControllerCyAA7AnyViewVGS2bSo06UIViewY0CtFyycfU_AL12InspectorKeyV_Tg5TA
+            // $s7SwiftUI11SheetBridgeC22dismissAndPresentAgain33_9124433AF4D3FE5B3E95880733BE7575LL10preference9presented8animated13hasNoModifier9presenteryAA0C10PreferenceVSg_AA29PresentationHostingControllerCyAA7AnyViewVGS2bSo06UIViewY0CtFyycfU_AL12InspectorKeyV_Tg5Tm
+            // <+460>
+            guard
+                let self,
+                let preference
+            else {
+                return
+            }
+            
+            // <+584>
+            guard self.presentationState.presentedVC == nil else {
+                return
+            }
+            
+            // <+824>
+            let host = presented.host
+            host.rootView = preference.content
+            // <+1072>
+            host.environmentOverride = preference.environment
+            // <+1256>
+            presented.setupSheet(
+                for: .sheetBridge,
+                presenter: presenter,
+                placement: preference.placement
+            )
+            
+            if let popoverPresentationController = presented.popoverPresentationController {
+                popoverPresentationController.configureSourceEntity(with: preference.entityContext)
+            }
+            
+            // <+1320>
+            if let presentationController = presented.presentationController as? UISheetPresentationController {
+                // <+1432>
+                presentationController.configureSourceEntity(with: preference.entityContext)
+            } else {
+                // <+1384>
+                if let popoverPresentationController = presented.popoverPresentationController {
+                    let adaptiveSheetPresentationController: UISheetPresentationController?
+#if os(visionOS)
+                    adaptiveSheetPresentationController = popoverPresentationController.msui_adaptiveSheetPresentationController
+#else
+                    adaptiveSheetPresentationController = popoverPresentationController.adaptiveSheetPresentationController
+#endif
+                    
+                    if let adaptiveSheetPresentationController {
+                        adaptiveSheetPresentationController.configureSourceEntity(with: preference.entityContext)
+                    }
+                }
+            }
+            
+            // <+1448>
+            presenter.present(presented, animated: animated, completion: nil)
+            
+            // <+1476>
+            self.presentationState.present(preference, presentedVC: presented, presentationSeed: self.seed)
+        }
+        
+        Update.enqueueAction(reason: nil) {
+            // $s7SwiftUI11SheetBridgeC22dismissAndPresentAgain33_9124433AF4D3FE5B3E95880733BE7575LL10preference9presented8animated13hasNoModifier9presenteryAA0C10PreferenceVSg_AA29PresentationHostingControllerCyAA7AnyViewVGS2bSo06UIViewY0CtFyycfU0_TA
+            if
+                let transitionCoordinator = presented.transitionCoordinator,
+                let presentationController = presented.presentationController
+            {
+                if presentationController.dismissing() {
+                    // <+96>
+                    transitionCoordinator.animate(alongsideTransition: nil) { context in
+                        completion()
+                    }
+                    
+                    return
+                } else {
+                    // <+400>
+                }
+            }
+            
+            // <+252>
+            if animated {
+                // <+256>
+                let viewController = presented.presentingViewController ?? presented
+                // <+288>
+                viewController.dismiss(animated: true) {
+                    completion()
+                }
+                
+                return
+            } else {
+                // <+416>
+                UIViewController._performWithoutDeferringTransitions {
+                    // $s7SwiftUI11SheetBridgeC22dismissAndPresentAgain33_9124433AF4D3FE5B3E95880733BE7575LL10preference9presented8animated13hasNoModifier9presenteryAA0C10PreferenceVSg_AA29PresentationHostingControllerCyAA7AnyViewVGS2bSo06UIViewY0CtFyycfU0_yyXEfU0_TA
+                    let viewController = presented.presentingViewController ?? presented
+                    viewController.dismiss(animated: false) { 
+                        completion()
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -273,4 +511,8 @@ extension SheetBridge : UIHostingViewDelegate {
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
+}
+
+enum SheetBridgeNotifications {
+    static let willDismis = Notification.Name(rawValue: "SheetBridgeWillDismiss")
 }

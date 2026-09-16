@@ -69,3 +69,5 @@
 #import <_UIKitPrivate/UISceneDisplayZoomBehaviorComponent.h>
 #import <_UIKitPrivate/UISceneWorldAlignmentBehaviorClientComponent.h>
 #import <_UIKitPrivate/UISceneClippingMarginsClientComponent.h>
+#import <_UIKitPrivate/UISize3D.h>
+#import <_UIKitPrivate/UIPopoverPresentationController+Private.h>

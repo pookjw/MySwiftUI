@@ -14,7 +14,7 @@ UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState)
 
 @interface UIViewController (Private) <UITraitChangeObservableInternal>
 @property (nonatomic, readonly) NSUInteger childViewControllersCount;
-
++ (void)_performWithoutDeferringTransitions:(void (NS_NOESCAPE ^)(void))block;
 - (BOOL)_canShowWhileLocked;
 - (BOOL)_shouldIgnoreChildFocusRegions;
 - (_UIAppearState)_appearState;
