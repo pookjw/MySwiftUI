@@ -5,7 +5,10 @@ install-name:    '/System/Library/Frameworks/SwiftUI.framework/SwiftUI'
 swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:              [  ]
+    symbols:              [ _$s7SwiftUI11LayoutTraceV8RecorderCMa,
+    _$s7SwiftUI11ObjectCacheCMn,
+    _$s7SwiftUI12_ViewList_IDV8ExplicitVMa,
+    _$s7SwiftUI24CUIDesignLibraryCacheKeyV5PropsVMa ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 reexported-libraries:
