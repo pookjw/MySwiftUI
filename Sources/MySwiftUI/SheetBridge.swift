@@ -2,7 +2,7 @@
 internal import UIKit
 private import _UIKitPrivate
 
-@MainActor class SheetBridge<T> : NSObject {
+@MainActor class SheetBridge<T: PreferenceKey> : NSObject where T.Value == SheetPreference.Value {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
@@ -22,7 +22,7 @@ private import _UIKitPrivate
     }
     
     func addPreferences(to viewGraph: ViewGraph) {
-        viewGraph.addPreference(SheetPreference.Key.self)
+        viewGraph.addPreference(T.self)
         viewGraph.addPreference(ContainerBackgroundKeys.HostTransparency.self)
         viewGraph.addPreference(PresentationOptionsPreferenceKey.self)
         viewGraph.addPreference(InteractiveDismissAttemptKey.self)
@@ -58,7 +58,7 @@ private import _UIKitPrivate
          */
         // <+1628>
         // x19 + 0x1b0
-        let sheet = preferenceValues[SheetPreference.Key.self]
+        let sheet = preferenceValues[T.self]
         // <+1648>
         // self -> x21
         // x25
@@ -98,20 +98,20 @@ private import _UIKitPrivate
         if
             let hostingController = host!.uiViewController as? PresentationHostingController<AnyView>,
             case .sheetBridge = hostingController.presentingBridgeKind,
-            let presenter = (self.presenterOverride ?? self.host!.uiPresenterViewController) as? PresentationHostingController<AnyView>
+            let delayedController = self.host!.uiViewController as? PresentationHostingController<AnyView>
         {
             // <+2372>
-            // presenter -> x19 + 0x148
+            // delayedController -> x19 + 0x148
             let remotePresentationDelay = preferenceValues[RemotePresentationDelayKey.self]
             
             if !self.remotePresentationDelayTracker.seed.matches(remotePresentationDelay.seed) {
                 self.remotePresentationDelayTracker.seed = remotePresentationDelay.seed
                 let value = remotePresentationDelay.value
                 
-                if presenter.isDelayingRemotePresentation && !value {
+                if delayedController.isDelayingRemotePresentation && !value {
                     // <+2648>
-                    presenter._endDelayingPresentation()
-                    presenter.isDelayingRemotePresentation = false
+                    delayedController._endDelayingPresentation()
+                    delayedController.isDelayingRemotePresentation = false
                 }
             }
         }

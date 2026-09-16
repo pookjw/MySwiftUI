@@ -1,6 +1,6 @@
 @_spi(Internal) internal import MySwiftUICore
 
-final class UIKitInspectorBridgeV5<T> : SheetBridge<T> {
+final class UIKitInspectorBridgeV5<T> : SheetBridge<SheetPreference.InspectorKey> {
     override init() {
         super.init()
     }
