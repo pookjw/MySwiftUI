@@ -95,9 +95,25 @@ private import _UIKitPrivate
         }
         
         // <+2120>
-        if let hostingController = host!.uiViewController as? PresentationHostingController<AnyView> {
-            // <+2280>
-            assertUnimplemented()
+        if
+            let hostingController = host!.uiViewController as? PresentationHostingController<AnyView>,
+            case .sheetBridge = hostingController.presentingBridgeKind,
+            let presenter = (self.presenterOverride ?? self.host!.uiPresenterViewController) as? PresentationHostingController<AnyView>
+        {
+            // <+2372>
+            // presenter -> x19 + 0x148
+            let remotePresentationDelay = preferenceValues[RemotePresentationDelayKey.self]
+            
+            if !self.remotePresentationDelayTracker.seed.matches(remotePresentationDelay.seed) {
+                self.remotePresentationDelayTracker.seed = remotePresentationDelay.seed
+                let value = remotePresentationDelay.value
+                
+                if presenter.isDelayingRemotePresentation && !value {
+                    // <+2648>
+                    presenter._endDelayingPresentation()
+                    presenter.isDelayingRemotePresentation = false
+                }
+            }
         }
         
         // <+2692>

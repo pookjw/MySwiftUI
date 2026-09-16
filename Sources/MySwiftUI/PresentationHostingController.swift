@@ -6,6 +6,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     private(set) var presentingBridgeKind: PresentationHostingControllerPresenterKind?
     var didPresenterLoseModifierRecursively: Bool
     var lastInteractiveDismissDisabled: Bool?
+    var isDelayingRemotePresentation: Bool
     
     required init?(coder: NSCoder) {
         assertUnimplemented()

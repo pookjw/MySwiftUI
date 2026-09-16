@@ -1,9 +1,11 @@
 internal import MySwiftUICore
 
 struct RemotePresentationDelayKey : HostPreferenceKey {
-    typealias Value = Never? // TODO
+    static var defaultValue: Bool {
+        return false
+    }
     
-    static func reduce(value: inout Never?, nextValue: () -> Never?) {
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
         assertUnimplemented()
     }
 }
