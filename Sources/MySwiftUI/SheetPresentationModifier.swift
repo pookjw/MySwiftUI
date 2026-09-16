@@ -212,7 +212,7 @@ struct SheetPreference {
     fileprivate private(set) var itemID: AnyHashable? // 0x20
     fileprivate private(set) var placement: SheetPreference.Placement // 0x48
     fileprivate private(set) var drawsBackground: Bool // 0x49
-    fileprivate private(set) var transaction: Transaction // 0x50
+    private(set) var transaction: Transaction // 0x50
     fileprivate private(set) var environment: EnvironmentValues // 0x58
     fileprivate private(set) var activeInspector: Bool? // 0x68
     fileprivate var entityContext: EntityPresentationContext? // 0x70 (0x34 - offset field)
@@ -245,6 +245,10 @@ extension SheetPreference {
         case sheet(SheetPreference)
         case unspecified
         
+        var viewIDs: Set<Namespace.ID> {
+            assertUnimplemented()
+        }
+        
         var debugDescription: String {
             assertUnimplemented()
         }
@@ -267,6 +271,10 @@ extension SheetPreference {
                 // <+460>
                 break
             }
+        }
+        
+        func dismissalTransaction(for id: Namespace.ID) -> Transaction? {
+            assertUnimplemented()
         }
     }
     

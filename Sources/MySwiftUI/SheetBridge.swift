@@ -44,10 +44,6 @@ internal import UIKit
             {
                 present(delayedPresentation.presentation, from: viewController, animated: delayedPresentation.animated, existingPresentedVC: nil, isPreempting: false)
             }
-            
-            assertUnimplemented()
-            // TODO: 제거되어야 하는데 검토 필요
-//            self.presentationState = presentationState
         } else {
             hasWindow = false
         }
@@ -106,8 +102,6 @@ internal import UIKit
         // <+2692>
         // self -> x26
         // sheet -> x24
-        // TODO: if self.seed.matches(value.seed) 대신 아래가 되어야 하는데 검토
-        assertUnimplemented()
         if self.seed.matches(sheet.seed) {
             // <+2824>
             guard let _ = self.host!.uiViewController as? PresentationHostingController<AnyView> else {
@@ -119,12 +113,84 @@ internal import UIKit
             assertUnimplemented()
         } else {
             // <+3920>
+            self.seed = sheet.seed
+            
+            // <+3984>
+            // x19 + 0x190 -> x19 + 0xf0
+            let sheetPreference: SheetPreference?
+            switch sheet.value {
+            case .notPresented(_):
+                // <+4088>
+                sheetPreference = nil
+            case .sheet(let preference):
+                // <+4060>
+                sheetPreference = preference
+            case .unspecified:
+                // <+4124>
+                sheetPreference = nil
+            }
+            
+            // <+4192>
+            // x21
+            let transaction: Transaction?
+            
+            if let sheetPreference {
+                // <+4360>
+                transaction = sheetPreference.transaction
+                // <+4496>
+            } else {
+                // <+4232>
+                if let presentingViewID = self.presentationState.presentingViewID {
+                    // <+4428>
+                    transaction = sheet.value.dismissalTransaction(for: presentingViewID)
+                } else {
+                    // <+4496>
+                    transaction = nil
+                }
+                
+                // <+4496>
+            }
+            
+            // <+4496>
+            let hasNoModifier: Bool
+            if let presentingViewID = self.presentationState.presentingViewID {
+                // <+4588>
+                if sheet.value.viewIDs.contains(presentingViewID) {
+                    // <+4664>
+                    hasNoModifier = false
+                } else {
+                    // <+4704>
+                    hasNoModifier = true
+                }
+            } else {
+                // <+4704>
+                hasNoModifier = true
+            }
+            
+            let animated: Bool
+            if let transaction {
+                // <+4676>
+                animated = !transaction.disablesAnimations
+            } else {
+                // <+4716>
+                animated = false
+            }
+            
+            // <+4720>
+            self.presentationState.presentationDidChange(
+                sheetPreference,
+                animated: animated,
+                hasNoModifier: hasNoModifier
+            )
+            
+            // <+4772>
             assertUnimplemented()
         }
+        
         assertUnimplemented()
     }
     
-    // ___lldb_unnamed_symbol264926
+    // unnamed
     final func _update(environment: EnvironmentValues) {
         // environment = x23
         // x22
