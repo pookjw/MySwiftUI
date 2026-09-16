@@ -18,10 +18,24 @@ struct PresentationState {
     }
     
     var presentingViewID: Namespace.ID? {
-        assertUnimplemented()
+        switch self.base {
+        case .requestedPresentation(let preference, _, _):
+            return preference.viewID
+        case .presented(let preference, _, _):
+            return preference.viewID
+        case .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+            return nil
+        }
     }
     
-    func presentationDidChange(_: SheetPreference?, animated: Bool, hasNoModifier: Bool) {
+    func presentationDidChange(_ preference: SheetPreference?, animated: Bool, hasNoModifier: Bool) {
+        /*
+         self -> x20
+         preference -> x0 -> x29 - 0x68
+         animated -> w1 -> x29 - 0x74
+         hasNoModifier -> w2 -> x29 - 0xa4
+         */
+        // <+544>
         assertUnimplemented()
     }
     

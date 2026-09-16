@@ -208,7 +208,7 @@ fileprivate struct NullSheetAnchor<T : PreferenceKey> : SheetAnchorProvider wher
 struct SheetPreference {
     private(set) var content: AnyView // 0x0
     fileprivate private(set) var onDismiss: ((Bool) -> Void)? // 0x8
-    fileprivate private(set) var viewID: Namespace.ID // 0x18
+    private(set) var viewID: Namespace.ID // 0x18
     fileprivate private(set) var itemID: AnyHashable? // 0x20
     private(set) var placement: SheetPreference.Placement // 0x48
     fileprivate private(set) var drawsBackground: Bool // 0x49
@@ -231,9 +231,7 @@ extension SheetPreference {
     }
     
     struct InspectorKey : HostPreferenceKey {
-        @safe static nonisolated(unsafe) let defaultValue: SheetPreference.Value = {
-            assertUnimplemented()
-        }()
+        @safe static nonisolated(unsafe) let defaultValue = SheetPreference.Value.unspecified
         
         static func reduce(value: inout SheetPreference.Value, nextValue: () -> SheetPreference.Value) {
             assertUnimplemented()
