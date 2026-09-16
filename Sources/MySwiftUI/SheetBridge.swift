@@ -2,7 +2,7 @@
 internal import UIKit
 private import _UIKitPrivate
 
-@MainActor class SheetBridge<T: PreferenceKey> : NSObject where T.Value == SheetPreference.Value {
+@MainActor class SheetBridge<T: HostPreferenceKey> : NSObject where T.Value == SheetPreference.Value {
     weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
