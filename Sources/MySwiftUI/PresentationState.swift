@@ -43,7 +43,7 @@ struct PresentationState {
             assertUnimplemented()
         case .presented, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain:
             return
-        case .delayedPresentationPendingDismissal(_, _, _):
+        case .delayedPresentationPendingDismissal(_, _, _, _):
             // <+604>
             assertUnimplemented()
         case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
@@ -90,7 +90,7 @@ struct PresentationState {
         case .waitingToPresentAgain(_):
             // <+156>
             return false
-        case .delayedPresentationPendingDismissal(_, _, _):
+        case .delayedPresentationPendingDismissal(_, _, _, _):
             // <+188>
             return true
         case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
@@ -118,7 +118,7 @@ struct PresentationState {
     
     var delayedPresentation : (presentation: SheetPreference, presentedVC: PresentationHostingController<AnyView>?, animated: Bool)? {
         switch base {
-        case .delayedPresentationPendingDismissal(let presentation, let presentedVC, let animated):
+        case .delayedPresentationPendingDismissal(let presentation, let presentedVC, let animated, _):
             return (presentation, presentedVC, animated)
         case .delayedPresentationPendingNonSheetBridgeDismissal(let presentation, _, let animated):
             return (presentation, nil, animated)
@@ -218,14 +218,54 @@ extension PresentationState {
         case dismissingToPresentAgain(PresentationHostingController<AnyView>, last: SheetPreference)
         case dormantInspector(last: SheetPreference)
         case waitingToPresentAgain(PresentationHostingController<AnyView>)
-        case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>, animated: Bool)
+        case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>, animated: Bool, last: SheetPreference)
         case delayedPresentationPendingNonSheetBridgeDismissal(SheetPreference, presentedVC: UIViewController, animated: Bool)
         case delayedPresentationPendingNonNilWindow(SheetPreference, animated: Bool)
         case waitingToPresentDelayedPresentationSheetPreference
         case noPresentation
         
         var presentedVC: PresentationHostingController<AnyView>? {
-            assertUnimplemented()
+            switch self {
+            case .requestedPresentation(_, let presentedVC, _):
+                // <+208>
+                return presentedVC
+            case .presented(_, let presentedVC, _):
+                // <+164>
+                return presentedVC
+            case .programmaticallyDismissing(let controller, _):
+                // <+148>
+                return controller
+            case .interactivelyDismissing(let controller, _):
+                // <+148>
+                return controller
+            case .dismissingForLackOfModifier(_):
+                // <+136>
+                return nil
+            case .dismissingToPresentAgain(let controller, _):
+                // <+328>
+                return controller
+            case .dormantInspector(_):
+                // <+136>
+                return nil
+            case .waitingToPresentAgain(let controller):
+                // <+360>
+                return controller
+            case .delayedPresentationPendingDismissal(_, let presentedVC, _, _):
+                // <+276>
+                return presentedVC
+            case .delayedPresentationPendingNonSheetBridgeDismissal(_, let presentedVC, _):
+                // <+368>
+                return presentedVC as? PresentationHostingController<AnyView>
+            case .delayedPresentationPendingNonNilWindow(_, _):
+                // <+136>
+                return nil
+            case .waitingToPresentDelayedPresentationSheetPreference:
+                // <+184>
+                return nil
+            case .noPresentation:
+                // <+472>
+                return nil
+            }
         }
         
         var lastPresentation: SheetPreference? {

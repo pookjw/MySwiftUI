@@ -359,7 +359,14 @@ private import _UIKitPrivate
         self.lastEnvironment = environment
     }
     
-    fileprivate final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
+    // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtF
+    fileprivate final func present(
+        _ preference: SheetPreference,
+        from viewController: UIViewController,
+        animated: Bool,
+        existingPresentedVC: PresentationHostingController<AnyView>?,
+        isPreempting: Bool
+    ) {
         assertUnimplemented()
     }
     
