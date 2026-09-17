@@ -1,6 +1,7 @@
 // BC4133B0B62555DBC7A28B2CD8C5E5B8
-private import UIKit
+internal import UIKit
 internal import MySwiftUICore
+private import os.log
 
 struct PresentationState {
     private var base: PresentationState.Base = .noPresentation {
@@ -111,12 +112,57 @@ struct PresentationState {
     }
     
     @inline(always) // 원래 없음
-    var presentedVC: PresentationHostingController<AnyView>? {
+    var resolvedPresentedVC: PresentationHostingController<AnyView>? {
         switch self.base {
         case .requestedPresentation, .presented:
             return self.base.presentedVC!
         case .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
             return nil
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    var presentedVC: PresentationHostingController<AnyView>? {
+        return self.base.presentedVC
+    }
+    
+    @inline(always) // 원래 없음
+    @MainActor mutating func configuraPresentation<T : HostPreferenceKey>(
+        sheetBridge: SheetBridge<T>,
+        viewController: UIViewController,
+        preference: SheetPreference,
+        animated: Bool
+    ) -> PresentationHostingController<AnyView>?? where T.Value == SheetPreference.Value {
+        switch self.base {
+        case .requestedPresentation, .presented, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+            break
+        case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+            if let presentedVC = self.base.presentedVC {
+                self.base = .delayedPresentationPendingNonSheetBridgeDismissal(preference, presentedVC: presentedVC, animated: animated)
+                return nil
+            }
+        }
+        
+        if
+            let presentedViewController = viewController.presentedViewController,
+            presentedViewController.isBeingDismissed,
+            let casted = presentedViewController as? PresentationHostingController<AnyView>
+        {
+            self.base = .delayedPresentationPendingNonSheetBridgeDismissal(preference, presentedVC: casted, animated: animated)
+            casted.configureSecondaryDismissDelegate(sheetBridge)
+            return nil
+        } else {
+            if sheetBridge.clientNeedsOutOfWindowPresentationSuppression && !sheetBridge.presenterHasWindow {
+                if sheetBridge.presenterOverride != nil {
+                    Log.externalWarning("A sheet was presented from a toolbar item while out of\nwindow, and the presenter is not yet in the window.\nThis is invalid and the presentation will be ignored.")
+                } else {
+                    self.base = .delayedPresentationPendingNonNilWindow(preference, animated: animated)
+                }
+                
+                return nil
+            } else {
+                return self.base.presentedVC
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+// 9124433AF4D3FE5B3E95880733BE7575
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 private import _UIKitPrivate
@@ -14,8 +15,19 @@ private import _UIKitPrivate
     private var hasWindow: Bool = false
     private(set) var transitioningDelegate = SheetTransitioningDelegate()
     private var presentationState = PresentationState()
-    private weak var presenterOverride: UIViewController? = nil
+    private(set) weak var presenterOverride: UIViewController? = nil
     private var lastEnvironment = EnvironmentValues()
+    let clientNeedsOutOfWindowPresentationSuppression: Bool = {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return false
+        }
+        
+        return bundleIdentifier == "com.apple.Translate"
+    }()
+    
+    var presenterHasWindow: Bool {
+        assertUnimplemented()
+    }
     
     override init() {
         super.init()
@@ -240,7 +252,7 @@ private import _UIKitPrivate
             )
             
             // <+4772>
-            if let presentedVC = self.presentationState.presentedVC /* inlined */ {
+            if let presentedVC = self.presentationState.resolvedPresentedVC /* inlined */ {
                 // <+4996>
                 if let sheetPreference {
                     // <+5376>
@@ -347,7 +359,7 @@ private import _UIKitPrivate
         self.lastEnvironment = environment
     }
     
-    private final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
+    fileprivate final func present(_: SheetPreference, from: UIViewController, animated: Bool, existingPresentedVC: PresentationHostingController<AnyView>?, isPreempting: Bool) {
         assertUnimplemented()
     }
     
@@ -385,7 +397,45 @@ private import _UIKitPrivate
     }
     
     func contingentlyPresent(_ preference: SheetPreference, from viewController: UIViewController, animated: Bool) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         preference -> x0 -> x29 - 0xc8
+         viewController -> x1 -> x29 - 0xd0
+         animated -> w2 -> x29 - 0xbc
+         */
+        // <+300>
+        if self.presentationState.isDismissingFromSheetBridge {
+            // <+380>
+            if self.presentationState.isDismissalPreemptable && viewController._willPreemptRunningPresentationTransition {
+                // <+464>
+                if let presentedVC = self.presentationState.presentedVC {
+                    presentedVC.wasPreempted = true
+                }
+                
+                self.present(
+                    preference,
+                    from: viewController,
+                    animated: animated,
+                    existingPresentedVC: nil,
+                    isPreempting: true
+                )
+            } else {
+                // <+928>
+                self.presentationState.enqueueDelayedPresentation_IsDismissing(preference, animated: animated)
+            }
+        } else {
+            // <+592>
+            // inlined
+            if let existingPresentedVC = self.presentationState.configuraPresentation(sheetBridge: self, viewController: viewController, preference: preference, animated: animated) {
+                self.present(
+                    preference,
+                    from: viewController,
+                    animated: animated,
+                    existingPresentedVC: existingPresentedVC,
+                    isPreempting: false
+                )
+            }
+        }
     }
     
     fileprivate final func dismissAndPresentAgain(
@@ -410,7 +460,7 @@ private import _UIKitPrivate
             }
             
             // <+584>
-            guard self.presentationState.presentedVC == nil else {
+            guard self.presentationState.resolvedPresentedVC == nil else {
                 return
             }
             
@@ -525,6 +575,12 @@ extension SheetBridge : UIHostingViewDelegate {
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
+        assertUnimplemented()
+    }
+}
+
+extension SheetBridge : PresentationHostingControllerDismissDelegate {
+    nonisolated func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool) {
         assertUnimplemented()
     }
 }

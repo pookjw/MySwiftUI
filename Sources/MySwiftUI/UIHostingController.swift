@@ -410,7 +410,7 @@ open class UIHostingController<Content : View>: UIViewController {
         }
     }
     
-    final func update(_ environmentValues: inout EnvironmentValues) {
+    func update(_ environmentValues: inout EnvironmentValues) {
         _update(&environmentValues)
     }
     

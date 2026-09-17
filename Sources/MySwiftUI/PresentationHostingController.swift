@@ -12,7 +12,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     private var lastColumnCount: Int
     var lastInteractiveDismissDisabled: Bool?
     var didPresenterLoseModifierRecursively: Bool
-    private var wasPreempted: Bool
+    var wasPreempted: Bool
     private var lastPresentationOptions: PresentationOptionsPreference?
     private var lastPreferenceForSheetControllerConfiguration: PresentationOptionsPreference?
     private let oscillationDetector: OscillationDetector<PresentationOptionsPreference>?
@@ -62,6 +62,26 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     @objc fileprivate func escapeKeyPressed() {
+        assertUnimplemented()
+    }
+    
+    override func sizingOptionsDidChange(from oldValue: UIHostingControllerSizingOptions) {
+        assertUnimplemented()
+    }
+    
+    fileprivate var shouldUsePresentationSizing: Bool {
+        assertUnimplemented()
+    }
+    
+    override func update(_ environment: inout EnvironmentValues) {
+        assertUnimplemented()
+    }
+    
+    fileprivate var presentationKind: PresentationKind {
+        assertUnimplemented()
+    }
+    
+    func configureSecondaryDismissDelegate<T: PresentationHostingControllerDismissDelegate>(_: T) {
         assertUnimplemented()
     }
 }

@@ -15,6 +15,8 @@ UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState)
 
 @interface UIViewController (Private) <UITraitChangeObservableInternal>
 @property (nonatomic, readonly) NSUInteger childViewControllersCount;
+@property (readonly, nonatomic) BOOL _willPreemptRunningPresentationTransition;
+@property (readonly, nonatomic) BOOL _willPreemptRunningTransitionForDismissal;
 @property (nonatomic, readonly) _UIBreakthroughMode _preferredBreakthroughMode;
 @property (nonatomic, readonly, nullable) UIView *_showcaseView;
 + (void)_performWithoutDeferringTransitions:(void (NS_NOESCAPE ^)(void))block;
