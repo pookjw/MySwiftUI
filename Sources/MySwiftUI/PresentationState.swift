@@ -64,7 +64,48 @@ struct PresentationState {
     }
     
     var isDismissingFromSheetBridge: Bool {
-        assertUnimplemented()
+        // <+80>
+        switch self.base {
+        case .requestedPresentation(_, _, _):
+            // <+248>
+            return false
+        case .presented(_, _, _):
+            // <+168>
+            return false
+        case .programmaticallyDismissing(_, _):
+            // <+136>
+            return true
+        case .interactivelyDismissing(_, _):
+            // <+136>
+            return true
+        case .dismissingForLackOfModifier(_):
+            // <+324>
+            return true
+        case .dismissingToPresentAgain(_, _):
+            // <+340>
+            return true
+        case .dormantInspector(_):
+            // <+428>
+            return false
+        case .waitingToPresentAgain(_):
+            // <+156>
+            return false
+        case .delayedPresentationPendingDismissal(_, _, _):
+            // <+188>
+            return true
+        case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+            // <+384>
+            return false
+        case .delayedPresentationPendingNonNilWindow(_, _):
+            // <+428>
+            return false
+        case .waitingToPresentDelayedPresentationSheetPreference:
+            // <+156>
+            return false
+        case .noPresentation:
+            // <+448>
+            return false
+        }
     }
     
     var isDismissalPreemptable: Bool {
