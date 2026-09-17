@@ -384,7 +384,7 @@ private import _UIKitPrivate
         assert(type(of: self) == UIKitInspectorBridgeV5<T>.self)
     }
     
-    func contingentlyPresent(_: SheetPreference, from: UIViewController, animated: Bool) {
+    func contingentlyPresent(_ preference: SheetPreference, from viewController: UIViewController, animated: Bool) {
         assertUnimplemented()
     }
     

@@ -30,13 +30,32 @@ struct PresentationState {
     
     func presentationDidChange(_ preference: SheetPreference?, animated: Bool, hasNoModifier: Bool) {
         /*
-         self -> x20
+         self -> x20 -> x29 - 0x58
          preference -> x0 -> x29 - 0x68
          animated -> w1 -> x29 - 0x74
          hasNoModifier -> w2 -> x29 - 0xa4
          */
         // <+544>
-        assertUnimplemented()
+        switch self.base {
+        case .requestedPresentation(_, _, _):
+            // <+956>
+            assertUnimplemented()
+        case .presented, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain:
+            return
+        case .delayedPresentationPendingDismissal(_, _, _):
+            // <+604>
+            assertUnimplemented()
+        case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+            // <+1064>
+            assertUnimplemented()
+        case .delayedPresentationPendingNonNilWindow(_, _):
+            // <+840>
+            assertUnimplemented()
+        case .waitingToPresentDelayedPresentationSheetPreference:
+            return
+        case .noPresentation:
+            return
+        }
     }
     
     func hasIdentityMatching(_: SheetPreference?) -> Bool {

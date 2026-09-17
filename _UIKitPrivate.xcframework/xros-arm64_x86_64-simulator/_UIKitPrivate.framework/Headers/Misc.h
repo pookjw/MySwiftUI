@@ -10,4 +10,8 @@ typedef struct NS_SWIFT_SENDABLE API_AVAILABLE(watchos(2.0)) _UIEdgeInsets3D {
 
 UIKIT_EXTERN _UIEdgeInsets3D _UIEdgeInsets3DZero;
 
+typedef NS_ENUM(NSInteger, _UIBreakthroughMode) {
+    _UIBreakthroughModeNonw = 0
+};
+
 NS_HEADER_AUDIT_END(nullability, sendability)
