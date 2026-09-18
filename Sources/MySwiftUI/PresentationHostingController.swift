@@ -66,7 +66,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         ) { (traitEnvironment: PresentationHostingController<Content>, previousTraitCollection: UITraitCollection) in
             // $s7SwiftUI29PresentationHostingControllerC8rootView8delegate9placement21legacyDrawsBackgroundACyxGx_AA0cdE8Delegate_pSgAA15SheetPreferenceV9PlacementOSgSbtcfcyAHXD_So17UITraitCollectionCtcfU0_AA03AnyG0V_Tg5Tf4nnd_n
             if let preference = traitEnvironment.lastPresentationOptions {
-                self.updateSheet(with: preference)
+                traitEnvironment.updateSheet(with: preference)
             }
         }
     }
