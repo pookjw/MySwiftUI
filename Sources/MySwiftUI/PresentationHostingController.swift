@@ -3,22 +3,50 @@ internal import UIKit
 internal import MySwiftUICore
 internal import _UIKitPrivate
 
+let clientNeedsOscillationSuppression = isLinkedOnOrAfter(.v6)
+
 final class PresentationHostingController<Content : View>: UIHostingController<Content> {
-    private weak var secondaryDismissDelegate: PresentationHostingControllerDismissDelegate?
+    private weak var delegate: PresentationHostingControllerDelegate? = nil
+    private weak var secondaryDismissDelegate: PresentationHostingControllerDismissDelegate? = nil
     private var legacyPresentationWantsTransparentBackground: Bool
-    private var bridgedPresentationWantsTransparentBackground: Bool
-    private(set) var presentingBridgeKind: PresentationHostingControllerPresenterKind?
-    private var placement: SheetPreference.Placement?
-    private var lastColumnCount: Int
-    var lastInteractiveDismissDisabled: Bool?
-    var didPresenterLoseModifierRecursively: Bool
-    var wasPreempted: Bool
-    private var lastPresentationOptions: PresentationOptionsPreference?
-    private var lastPreferenceForSheetControllerConfiguration: PresentationOptionsPreference?
-    private let oscillationDetector: OscillationDetector<PresentationOptionsPreference>?
-    private var observedSize: CGSize?
-    var isDelayingRemotePresentation: Bool
-    private var breakthroughEffect: BreakthroughEffect?
+    private var bridgedPresentationWantsTransparentBackground: Bool = false
+    private(set) var presentingBridgeKind: PresentationHostingControllerPresenterKind? = nil
+    private var placement: SheetPreference.Placement? = nil
+    private var lastColumnCount: Int = 0
+    var lastInteractiveDismissDisabled: Bool? = nil
+    var didPresenterLoseModifierRecursively: Bool = false
+    var wasPreempted: Bool = false
+    private var lastPresentationOptions: PresentationOptionsPreference? = nil
+    private var lastPreferenceForSheetControllerConfiguration: PresentationOptionsPreference? = nil
+    private let oscillationDetector: OscillationDetector<PresentationOptionsPreference>? = nil
+    private var observedSize: CGSize? = nil
+    var isDelayingRemotePresentation: Bool = false
+    private var breakthroughEffect: BreakthroughEffect? = nil
+    
+    init(
+        rootView: Content,
+        delegate: PresentationHostingControllerDelegate?, 
+        placement: SheetPreference.Placement?,
+        legacyDrawsBackground: Bool
+    ) {
+        /*
+         content -> x0 -> x19
+         delegate -> x1/x2 -> x21/x23
+         placement -> w3 -> w24
+         legacyDrawsBackground -> w4 -> w25
+         */
+        // <+364>
+        self.legacyPresentationWantsTransparentBackground  = !legacyDrawsBackground
+        self.placement = placement
+        
+        if clientNeedsOscillationSuppression {
+            // <+420>
+            assertUnimplemented()
+        }
+        
+        // <+708>
+        assertUnimplemented()
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -120,10 +148,6 @@ extension PresentationHostingController where Content == AnyView {
     }
     
     func sizingOptionsDidChange(from sizingOptions: UIHostingControllerSizingOptions) {
-        assertUnimplemented()
-    }
-    
-    convenience init(rootView: Content, delegate: PresentationHostingControllerDelegate?, placement: SheetPreference.Placement?, legacyDrawsBackground: Bool) {
         assertUnimplemented()
     }
     

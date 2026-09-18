@@ -6,6 +6,8 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct BreakthroughEffect : Equatable, Sendable {
+    private let rawValue: Int8
+    
     public static let automatic: BreakthroughEffect = {
         assertUnimplemented()
     }()

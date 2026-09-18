@@ -36,13 +36,13 @@ fileprivate struct ItemSheetPresentationModifier {
 }
 
 fileprivate struct SheetPresentationModifier<T, U : SheetAnchorProvider> : ViewModifier {
-    @Binding private var isPresented: Bool
-    @safe private nonisolated(unsafe) var onDismiss: (() -> Void)?
-    @safe private nonisolated(unsafe) var sheetContent: () -> T
-    private var placement: SheetPreference.Placement
-    private var drawsBackground: Bool
-    private var anchorProvider: U
-    private var activeInspector: Bool?
+    @Binding private var isPresented: Bool // 0x0
+    @safe private nonisolated(unsafe) var onDismiss: (() -> Void)? // 0x8
+    @safe private nonisolated(unsafe) var sheetContent: () -> T // 0x18
+    private var placement: SheetPreference.Placement // 0x30
+    private var drawsBackground: Bool // 0x34
+    private var anchorProvider: U // 0x44 (offset field)
+    private var activeInspector: Bool? // 0x48 (offset field)
     
     func body(content: Content) -> some View {
         /*
