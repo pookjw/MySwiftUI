@@ -109,7 +109,47 @@ struct PresentationState {
     }
     
     var isDismissalPreemptable: Bool {
-        assertUnimplemented()
+        switch self.base {
+        case .requestedPresentation(_, _, _):
+            // <+272>
+            return false
+        case .presented(_, _, _):
+            // <+252>
+            return false
+        case .programmaticallyDismissing(_, _):
+            // <+136>
+            return true
+        case .interactivelyDismissing(_, _):
+            // <+136>
+            return true
+        case .dismissingForLackOfModifier(_):
+            // <+392>
+            return false
+        case .dismissingToPresentAgain(_, _):
+            // <+432>
+            return false
+        case .dormantInspector(_):
+            // <+392>
+            return false
+        case .waitingToPresentAgain(_):
+            // <+180>
+            return false
+        case .delayedPresentationPendingDismissal(_, _, _, _):
+            // <+192>
+            return false
+        case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+            // <+348>
+            return false
+        case .delayedPresentationPendingNonNilWindow(_, _):
+            // <+392>
+            return false
+        case .waitingToPresentDelayedPresentationSheetPreference:
+            // <+180>
+            return false
+        case .noPresentation:
+            // <+412>
+            return false
+        }
     }
     
     func enqueueDelayedPresentation_IsDismissing(_: SheetPreference, animated: Bool) {

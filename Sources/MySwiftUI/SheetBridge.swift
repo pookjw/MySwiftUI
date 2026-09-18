@@ -359,7 +359,6 @@ private import _UIKitPrivate
         self.lastEnvironment = environment
     }
     
-    // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtF
     fileprivate final func present(
         _ preference: SheetPreference,
         from viewController: UIViewController,
@@ -367,7 +366,132 @@ private import _UIKitPrivate
         existingPresentedVC: PresentationHostingController<AnyView>?,
         isPreempting: Bool
     ) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         preference -> x0 -> x23 -> x29 - 0x98
+         viewController -> x1 -> x28 -> x29 - 0xa0
+         animated -> w2 -> x29 - 0xbc
+         existingPresentedVC -> x3 -> x21
+         isPreempting -> w4 -> x29 - 0xa4
+         */
+        // <+612>
+        if let existingPresentedVC {
+            existingPresentedVC.rootView = preference.content
+        }
+        
+        // <+792>
+        NotificationCenter.default.post(name: SheetPopoverBridgeNotifications.willPresent, object: nil)
+        
+        // <+868>
+        let hostingController: PresentationHostingController<AnyView> = Update.ensure { 
+            // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtFARyXEfU_TA
+            @MainActor func makeHostingController() -> PresentationHostingController<AnyView> {
+                let hostingController = PresentationHostingController<AnyView>(
+                    rootView: preference.content,
+                    delegate: self,
+                    placement: preference.placement,
+                    legacyDrawsBackground: preference.drawsBackground
+                )
+                
+                hostingController
+                    .host
+                    .viewGraph
+                    .addPreference(CompositeNavigationSplitViewVisibility.Key.self)
+                
+                return hostingController
+            }
+            
+            if let existingPresentedVC {
+                return existingPresentedVC
+            } else {
+                return makeHostingController()
+            }
+        }
+        
+        // <+988>
+        hostingController.host.delegate = self
+        // <+1044>
+        self.transitioningDelegate.sourceRect = preference.sourceRect
+        // <+1096>
+        hostingController.transitioningDelegate = self.transitioningDelegate
+        
+        // <+1164>
+        hostingController.host.base.environmentOverride = preference.environment
+        hostingController.setupDelayIfNeeded()
+        hostingController.setupSheet(for: .sheetBridge, presenter: viewController, placement: preference.placement)
+        
+        if let explicitPreferredColorScheme = self.lastEnvironment.explicitPreferredColorScheme {
+            hostingController.setPresentationColorScheme(explicitPreferredColorScheme)
+        }
+        
+        // <+1568>
+        if let popoverPresentationController = hostingController.popoverPresentationController {
+            popoverPresentationController.configureSourceEntity(with: preference.entityContext)
+        }
+        
+        // <+1636>
+        if let presentationController = hostingController.presentationController as? UISheetPresentationController {
+            presentationController.configureSourceEntity(with: preference.entityContext)
+            // <+1760>
+        } else {
+            // <+1700>
+            if let popoverPresentationController = hostingController.popoverPresentationController {
+                let adaptiveSheetPresentationController: UISheetPresentationController?
+#if os(visionOS)
+                adaptiveSheetPresentationController = popoverPresentationController.msui_adaptiveSheetPresentationController
+#else
+                adaptiveSheetPresentationController = popoverPresentationController.adaptiveSheetPresentationController
+#endif
+                
+                adaptiveSheetPresentationController?.configureSourceEntity(with: preference.entityContext)
+                // <+1760>
+            } else {
+                // <+1760>
+            }
+        }
+        
+        // <+1760>
+        let presentationSeed = self.seed
+        
+        if isPreempting {
+            self.presentationState.presentPreemptingDismissal(
+                preference,
+                presentedVC: hostingController,
+                presentationSeed: presentationSeed
+            )
+        } else {
+            self.presentationState.present(
+                preference,
+                presentedVC: hostingController,
+                presentationSeed: presentationSeed
+            )
+        }
+        
+        // <+1868>
+        let seed = self.seed
+        
+        Update.enqueueAction(reason: nil) { [weak self] in
+            // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtFyycfU1_TA
+            /*
+             self -> x0 -> x24
+             isPreempting -> w1 -> w25
+             viewController -> x2 -> x29 - 0xd8
+             animated -> w3 -> x29 - 0xec
+             seed -> x4 -> x29 - 0xe8
+             hostingController -> x5 -> x23
+             T -> x6/x7
+             */
+            // <+336>
+            // x24
+            guard let self else {
+                return
+            }
+            
+            // <+372>
+            // hostingController -> x23 -> x29 - 0x100
+            _ = self.presentationState
+            assertUnimplemented()
+        }
     }
     
     final func update(environment: inout EnvironmentValues) {
@@ -586,6 +710,24 @@ extension SheetBridge : UIHostingViewDelegate {
     }
 }
 
+extension SheetBridge : PresentationHostingControllerDelegate {
+    nonisolated func didBeginInteractiveDismissal(_ viewController: UIViewController) {
+        assertUnimplemented()
+    }
+    
+    nonisolated func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool, modifierRemoved: Bool) {
+        assertUnimplemented()
+    }
+    
+    nonisolated var isBackingV5Inspector: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated func willTransitionToRegularSizeClass() {
+        assertUnimplemented()
+    }
+}
+
 extension SheetBridge : PresentationHostingControllerDismissDelegate {
     nonisolated func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool) {
         assertUnimplemented()
@@ -594,4 +736,8 @@ extension SheetBridge : PresentationHostingControllerDismissDelegate {
 
 enum SheetBridgeNotifications {
     static let willDismis = Notification.Name(rawValue: "SheetBridgeWillDismiss")
+}
+
+enum SheetPopoverBridgeNotifications {
+    static let willPresent = Notification.Name(rawValue: "PopoverBridgeWillPresent")
 }

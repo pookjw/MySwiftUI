@@ -211,12 +211,12 @@ struct SheetPreference {
     private(set) var viewID: Namespace.ID // 0x18
     fileprivate private(set) var itemID: AnyHashable? // 0x20
     private(set) var placement: SheetPreference.Placement // 0x48
-    fileprivate private(set) var drawsBackground: Bool // 0x49
+    private(set) var drawsBackground: Bool // 0x49
     private(set) var transaction: Transaction // 0x50
     private(set) var environment: EnvironmentValues // 0x58 (0x2c - offset field)
     fileprivate private(set) var activeInspector: Bool? // 0x68
     private(set) var entityContext: EntityPresentationContext? // 0x70 (0x34 - offset field)
-    fileprivate private(set) var sourceRect: Anchor<CGRect>? // 0xe0
+    private(set) var sourceRect: Anchor<CGRect>? // 0xe0
 }
 
 extension SheetPreference {

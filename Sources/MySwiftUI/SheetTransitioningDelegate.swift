@@ -3,7 +3,7 @@ internal import MySwiftUICore
 
 final class SheetTransitioningDelegate : NSObject {
     weak var host: ViewRendererHost? = nil
-    private var sourceRect: Anchor<CGRect>? = nil
+    var sourceRect: Anchor<CGRect>? = nil
 }
 
 extension SheetTransitioningDelegate : UIViewControllerTransitioningDelegate {
