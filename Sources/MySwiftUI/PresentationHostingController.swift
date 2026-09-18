@@ -46,6 +46,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
                 size: 3,
                 retentionCount: 10,
                 predicate: { to, from in
+                    // $s7SwiftUI29PresentationHostingControllerC8rootView8delegate9placement21legacyDrawsBackgroundACyxGx_AA0cdE8Delegate_pSgAA15SheetPreferenceV9PlacementOSgSbtcfcSbAA0c7OptionsO0V_AQSgtcfU_
                     return !to.sheetConfigurationChanged(from: from)
                 }
             )
