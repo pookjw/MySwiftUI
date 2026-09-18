@@ -499,7 +499,7 @@ private import _UIKitPrivate
                 !isPreempting,
                 let presentedViewController = viewController.presentedViewController,
                 !presentedViewController.isBeingDismissed,
-                presentedViewController is UISearchController
+                !(presentedViewController is UISearchController)
             {
                 // <+628>
                 if
