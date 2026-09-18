@@ -252,7 +252,9 @@ private import _UIKitPrivate
             )
             
             // <+4772>
-            if let presentedVC = self.presentationState.resolvedPresentedVC /* inlined */ {
+            if self.presentationState.isPresentationMode {
+                let presentedVC = self.presentationState.presentedVC!
+                
                 // <+4996>
                 if let sheetPreference {
                     // <+5376>
@@ -489,8 +491,53 @@ private import _UIKitPrivate
             
             // <+372>
             // hostingController -> x23 -> x29 - 0x100
-            _ = self.presentationState
-            assertUnimplemented()
+            guard self.presentationState.isPresentationMode else {
+                return
+            }
+            
+            if
+                !isPreempting,
+                let presentedViewController = viewController.presentedViewController,
+                !presentedViewController.isBeingDismissed,
+                presentedViewController is UISearchController
+            {
+                // <+628>
+                if
+                    presentedViewController.preferredTransition != nil,
+                    let casted = presentedViewController as? PresentationHostingController<AnyView>,
+                    let lastZoomPresentationSource = casted.lastZoomPresentationSource
+                {
+                    if lastZoomPresentationSource.window == nil {
+                        casted.preferredTransition = nil
+                    }
+                    
+                    // <+792>
+                } else {
+                    // <+792>
+                }
+                
+                // <+792>
+                viewController.dismiss(animated: animated, completion: nil)
+            }
+            
+            // <+816>
+            guard
+                let presentationSeed = self.presentationState.presentationSeed,
+                presentationSeed.matches(seed)
+            else {
+                return
+            }
+            
+            // <+996>
+            if animated {
+                // <+1004>
+                viewController.present(hostingController, animated: true, completion: nil)
+            } else {
+                UIViewController._performWithoutDeferringTransitions {
+                    // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtFyycfU1_yyXEfU_TA
+                    viewController.present(hostingController, animated: false, completion: nil)
+                }
+            }
         }
     }
     
@@ -591,7 +638,7 @@ private import _UIKitPrivate
             }
             
             // <+584>
-            guard self.presentationState.resolvedPresentedVC == nil else {
+            guard !self.presentationState.isPresentationMode else {
                 return
             }
             

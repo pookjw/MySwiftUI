@@ -193,18 +193,23 @@ struct PresentationState {
     }
     
     @inline(always) // 원래 없음
-    var resolvedPresentedVC: PresentationHostingController<AnyView>? {
+    var isPresentationMode: Bool {
         switch self.base {
         case .requestedPresentation, .presented:
-            return self.base.presentedVC!
+            return true
         case .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
-            return nil
+            return false
         }
     }
     
     @inline(always) // 원래 없음
     var presentedVC: PresentationHostingController<AnyView>? {
         return self.base.presentedVC
+    }
+    
+    @inline(always) // 원래 없음
+    var presentationSeed: VersionSeed? {
+        return self.base.presentationSeed
     }
     
     @inline(always) // 원래 없음
