@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <_UIKitPrivate/UITraitChangeObservableInternal.h>
+#import <_UIKitPrivate/Misc.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -14,6 +15,10 @@ UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState)
 
 @interface UIViewController (Private) <UITraitChangeObservableInternal>
 @property (nonatomic, readonly) NSUInteger childViewControllersCount;
+@property (readonly, nonatomic) BOOL _willPreemptRunningPresentationTransition;
+@property (readonly, nonatomic) BOOL _willPreemptRunningTransitionForDismissal;
+@property (nonatomic, readonly) _UIBreakthroughMode _preferredBreakthroughMode;
+@property (nonatomic, readonly, nullable) UIView *_showcaseView;
 + (void)_performWithoutDeferringTransitions:(void (NS_NOESCAPE ^)(void))block;
 - (BOOL)_canShowWhileLocked;
 - (BOOL)_shouldIgnoreChildFocusRegions;

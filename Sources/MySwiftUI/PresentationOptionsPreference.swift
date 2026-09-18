@@ -15,6 +15,10 @@ struct PresentationOptionsPreference {
 //    private var breakthroughEffect: BreakthroughEffect?
 //    private var useFormSheetSPISizing: Bool
 //    private var popoverEdgeAppearance: PopoverEdgeAppearance?
+    
+    func sheetConfigurationChanged(from: PresentationOptionsPreference?) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 struct PresentationOptionsPreferenceKey : HostPreferenceKey {

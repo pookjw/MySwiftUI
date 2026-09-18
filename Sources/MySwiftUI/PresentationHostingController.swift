@@ -18,7 +18,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     var wasPreempted: Bool = false
     private var lastPresentationOptions: PresentationOptionsPreference? = nil
     private var lastPreferenceForSheetControllerConfiguration: PresentationOptionsPreference? = nil
-    private let oscillationDetector: OscillationDetector<PresentationOptionsPreference>? = nil
+    private let oscillationDetector: OscillationDetector<PresentationOptionsPreference>?
     private var observedSize: CGSize? = nil
     var isDelayingRemotePresentation: Bool = false
     private var breakthroughEffect: BreakthroughEffect? = nil
@@ -41,11 +41,34 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         
         if clientNeedsOscillationSuppression {
             // <+420>
-            assertUnimplemented()
+            self.oscillationDetector = OscillationDetector(
+                type: PresentationOptionsPreference.self,
+                size: 3,
+                retentionCount: 10,
+                predicate: { to, from in
+                    return !to.sheetConfigurationChanged(from: from)
+                }
+            )
+        } else {
+            self.oscillationDetector = nil
         }
         
-        // <+708>
-        assertUnimplemented()
+        // <+728>
+        let hostingView = PresentationHostingController<Content>.HostingView(rootView: rootView)
+        super.init(_hostingView: hostingView)
+        
+        // <+848>
+        self.delegate = delegate
+        self.setBackgroundTransparency(preferenceValue: .automatic)
+        
+        self.registerForTraitChanges(
+            [UITraitHorizontalSizeClass.self, UITraitVerticalSizeClass.self, UITraitPresentationSemanticContext.self]
+        ) { (traitEnvironment: PresentationHostingController<Content>, previousTraitCollection: UITraitCollection) in
+            // $s7SwiftUI29PresentationHostingControllerC8rootView8delegate9placement21legacyDrawsBackgroundACyxGx_AA0cdE8Delegate_pSgAA15SheetPreferenceV9PlacementOSgSbtcfcyAHXD_So17UITraitCollectionCtcfU0_AA03AnyG0V_Tg5Tf4nnd_n
+            if let preference = traitEnvironment.lastPresentationOptions {
+                self.updateSheet(with: preference)
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -93,10 +116,6 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         assertUnimplemented()
     }
     
-    override func sizingOptionsDidChange(from oldValue: UIHostingControllerSizingOptions) {
-        assertUnimplemented()
-    }
-    
     fileprivate var shouldUsePresentationSizing: Bool {
         assertUnimplemented()
     }
@@ -112,9 +131,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     func configureSecondaryDismissDelegate<T: PresentationHostingControllerDismissDelegate>(_: T) {
         assertUnimplemented()
     }
-}
-
-extension PresentationHostingController where Content == AnyView {
+    
     func setPresentationColorScheme(_ colorScheme: ColorScheme) {
         assertUnimplemented()
     }
@@ -147,7 +164,7 @@ extension PresentationHostingController where Content == AnyView {
         assertUnimplemented()
     }
     
-    func sizingOptionsDidChange(from sizingOptions: UIHostingControllerSizingOptions) {
+    override func sizingOptionsDidChange(from sizingOptions: UIHostingControllerSizingOptions) {
         assertUnimplemented()
     }
     
@@ -177,11 +194,11 @@ extension PresentationHostingController {
         }
         
         required init(rootView: Content) {
-            assertUnimplemented()
+            super.init(rootView: rootView)
         }
         
         required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+            super.init(coder: coder)
         }
     }
 }

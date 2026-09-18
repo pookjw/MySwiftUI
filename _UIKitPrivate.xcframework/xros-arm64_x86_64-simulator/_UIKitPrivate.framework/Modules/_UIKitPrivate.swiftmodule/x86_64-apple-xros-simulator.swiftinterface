@@ -117,3 +117,14 @@ extension UIKit.UIScene {
 extension UIKit.UISceneSessionActivationRequest {
   public init(configuration: UIKit.UISceneConfiguration, userActivity: Foundation.NSUserActivity?, options: UIKit.UIScene.ActivationRequestOptions?)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "UIKit", visionOS 26.0)
+public struct UITraitPresentationSemanticContext : UIKit.UITraitDefinition {
+  public static var defaultValue: _UIKitPrivate._UIUserInterfacePresentationSemanticContext { get }
+  public static var name: Swift.String { get }
+  public static var identifier: Swift.String { get }
+  public static var affectsColorAppearance: Swift.Bool { get }
+  public static var _defaultValueRepresentsUnspecified: Swift.Bool { get }
+  public static var _isPrivate: Swift.Bool { get }
+}
