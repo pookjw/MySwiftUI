@@ -1,6 +1,6 @@
 // EA2FC9BF0979B2FBDEE9FB25F07E8D92
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
 
 let clientNeedsOscillationSuppression = isLinkedOnOrAfter(.v6)
@@ -158,7 +158,47 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func setBackgroundTransparency(preferenceValue: ContainerBackgroundKeys.Transparency?) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         preferenceValue -> x0 -> x21/w26
+         */
+        let host_1 = self.host
+        // w25
+        let wantsTransparentBackground = host_1.wantsTransparentBackground
+        
+        host_1.setWantsTransparentBackground(
+            for: [.legacyPresentationSPI],
+            self.legacyPresentationWantsTransparentBackground
+        )
+        
+        if let preferenceValue {
+            // <+144>
+            let defaultBackgroundIsTransparent = self.host.defaultBackgroundIsTransparent
+            
+            let flag: Bool
+            switch preferenceValue {
+            case .transparent:
+                flag = true
+            case .notTransparent:
+                flag = false
+            case .automatic:
+                flag = defaultBackgroundIsTransparent
+            }
+            
+            self.host.setWantsTransparentBackground(
+                for: [.containerBackground],
+                flag
+            )
+        }
+        
+        // <+248>
+        let host_2 = self.host
+        
+        guard wantsTransparentBackground != host_2.wantsTransparentBackground else {
+            return
+        }
+        
+        host_2.invalidateProperties([.environment], mayDeferUpdate: true)
     }
     
     func prepareModalPresentationStyle(_ style: UIModalPresentationStyle, presentationOptions: PresentationOptionsPreference) {
@@ -190,8 +230,12 @@ extension PresentationHostingController {
     fileprivate final class HostingView : _UIHostingView<Content> {
         weak var backgroundDelegate: PresentationBackgroundDelegate?
         
-        var defaultBackgroundIsTransparent: Bool {
-            assertUnimplemented()
+        override var defaultBackgroundIsTransparent: Bool {
+            if let backgroundDelegate {
+                return backgroundDelegate.defaultBackgroundIsTransparent
+            } else {
+                return false
+            }
         }
         
         required init(rootView: Content) {

@@ -59,17 +59,26 @@ open class _UIHostingView<Content : View>: UIView {
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
     final var isInSizeTransition: Bool = false
-    private var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = []
+    
+    private final var transparentBackgroundReasons: HostingViewTransparentBackgroundReason = [] {
+        didSet {
+            if oldValue.isEmpty != self.transparentBackgroundReasons.isEmpty {
+                self.updateBackgroundColor()
+            }
+        }
+    }
+    
     private var explicitSafeAreaInsets: EdgeInsets? {
         didSet {
             assertUnimplemented()
         }
     }
+    
     private var legacyKeyboardFrame: CGRect? = nil
     private var legacyKeyboardSeed: UInt32 = 0
     private var legacyKeyboardScreen: MyUIScreen? = nil
     private var legacyKeyboardAnimation: Animation? = nil
-    nonisolated(unsafe) weak var viewController: UIHostingController<Content>? = nil {
+    nonisolated(unsafe) final weak var viewController: UIHostingController<Content>? = nil {
         didSet {
             updateBackgroundColor()
         }
@@ -124,7 +133,7 @@ open class _UIHostingView<Content : View>: UIView {
     private var pointerBridge: PointerBridge? = nil
     private var feedbackBridge: UIKitFeedbackGeneratorBridge<Content>? = nil
     private let mruiPreferenceExporter = MRUIPreferenceExporter()
-    var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
+    final var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
     private var objectManipluateBridge = UIKitObjectManipulationBridge<Content>()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
     private lazy var feedbackCache = UIKitSensoryFeedbackCache()
@@ -144,6 +153,10 @@ open class _UIHostingView<Content : View>: UIView {
     
     final var defaultNextResponder: UIResponder? {
         return super.next
+    }
+    
+    var defaultBackgroundIsTransparent: Bool {
+        assertUnimplemented()
     }
     
     private var _boundsDepth: CGFloat = 0
@@ -1022,6 +1035,17 @@ open class _UIHostingView<Content : View>: UIView {
     
     final func updateTransformWithoutGeometryObservation() {
         base.updateTransformWithoutGeometryObservation()
+    }
+    
+    final func setWantsTransparentBackground(for reason: HostingViewTransparentBackgroundReason, _ wantsTransparentBackground: Bool) {
+        var w0 = reason
+        var w8 = self.transparentBackgroundReasons
+        var w9 = HostingViewTransparentBackgroundReason(rawValue: .max)
+        w9 = w8.intersection(w0).isEmpty ? w9 : HostingViewTransparentBackgroundReason(rawValue: ~w0.rawValue)
+        w9.formIntersection(w8)
+        w8.formUnion(w0)
+        w0 = !wantsTransparentBackground ? w9 : w8
+        self.transparentBackgroundReasons = w0
     }
     
     private func updateWindowGeometryScene() {
