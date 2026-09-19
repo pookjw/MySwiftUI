@@ -37,7 +37,13 @@ package struct MyUIScreen {
     
     package var scale: CGFloat {
         let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
-        let cmd = #selector(NSDecimalNumberBehaviors.scale)
+        let cmd =  Selector(("scale"))
+        return casted(screen, cmd)
+    }
+    
+    package var bounds: CGRect {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGRect).self)
+        let cmd = Selector(("bounds"))
         return casted(screen, cmd)
     }
     

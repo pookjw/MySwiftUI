@@ -7,7 +7,6 @@ const void * _Nonnull msui_objc_msgSend(void) {
     return objc_msgSend;
 }
 
-
 const void * _Nonnull msui_objc_msgSendSuper2(void) {
     return objc_msgSendSuper2;
 }

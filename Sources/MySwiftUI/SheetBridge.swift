@@ -2,6 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 private import _UIKitPrivate
+private import _UIKitShims
 
 @MainActor class SheetBridge<T: HostPreferenceKey> : NSObject where T.Value == SheetPreference.Value {
     weak var host: ViewRendererHost? = nil
@@ -25,8 +26,21 @@ private import _UIKitPrivate
         return bundleIdentifier == "com.apple.Translate"
     }()
     
-    var presenterHasWindow: Bool {
+    fileprivate final var presenter: UIViewController? {
+        if let presenterOverride {
+            return presenterOverride
+        }
+        
+        return self.host!.uiPresenterViewController
+    }
+    
+    fileprivate final var presenterHasWindow: Bool {
         assertUnimplemented()
+    }
+    
+    @inline(__always) // 원래 없음
+    final var needsDelayedPresentation: Bool {
+        return self.clientNeedsOutOfWindowPresentationSuppression && !self.presenterHasWindow
     }
     
     override init() {
@@ -53,7 +67,7 @@ private import _UIKitPrivate
             
             if
                 let delayedPresentation,
-                let viewController = presenterOverride ?? host!.uiPresenterViewController
+                let viewController = self.presenter
             {
                 present(delayedPresentation.presentation, from: viewController, animated: delayedPresentation.animated, existingPresentedVC: nil, isPreempting: false)
             }
@@ -136,7 +150,7 @@ private import _UIKitPrivate
             guard
                 let presented = self.host!.uiViewController as? PresentationHostingController<AnyView>,
                 case .sheetBridge = presented.presentingBridgeKind,
-                let presenter = (self.presenterOverride ?? self.host!.uiPresenterViewController) as? PresentationHostingController<AnyView>
+                let presenter = self.presenter as? PresentationHostingController<AnyView>
             else {
                 // <+5720>
                 return
@@ -267,7 +281,7 @@ private import _UIKitPrivate
                             return
                         } else {
                             // <+6264>
-                            if let presenter = self.presenterOverride ?? self.host!.uiPresenterViewController {
+                            if let presenter = self.presenter {
                                 // <+6352>
                                 // inlined
                                 self.dismissAndPresentAgain(
@@ -324,7 +338,7 @@ private import _UIKitPrivate
                 return
             } else {
                 // <+5088>
-                guard let presenter = self.presenterOverride ?? self.host!.uiPresenterViewController else {
+                guard let presenter = self.presenter else {
                     return
                 }
                 
@@ -739,13 +753,30 @@ extension SheetBridge : UIHostingViewDelegate {
         /*
          self -> x20
          hostingView -> x0 -> x25
-         environment -> x1 -> x29
+         environment -> x1 -> x19
          */
-        assertUnimplemented()
+        // <+176>
+        if
+            let presenter,
+            let viewIfLoadded = presenter.viewIfLoaded,
+            let window = viewIfLoadded.window,
+            let screen = window.myUIScreen
+        {
+            let sheetSize = UIViewController.defaultFormSheetSize(forScreenSize: screen.bounds.size)
+            environment.defaultPresentationSize = sheetSize
+        }
+        
+        // <+352>
+        if let colorScheme = hostingView.colorScheme {
+            environment.explicitPreferredColorScheme = colorScheme
+        }
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate environment: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
-        assertUnimplemented()
+    final func hostingView<Content>(
+        _ hostingView: _UIHostingView<Content>,
+        didUpdate environment: MySwiftUICore::EnvironmentValues
+    ) where Content : MySwiftUICore::View {
+        // noop
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
@@ -757,11 +788,11 @@ extension SheetBridge : UIHostingViewDelegate {
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : MySwiftUICore::View {
-        assertUnimplemented()
+        // noop
     }
     
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
-        assertUnimplemented()
+        // noop
     }
 }
 

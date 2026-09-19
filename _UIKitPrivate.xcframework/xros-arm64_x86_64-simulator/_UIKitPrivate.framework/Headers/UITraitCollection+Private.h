@@ -2,6 +2,7 @@
 #import <_UIKitPrivate/UIUserInterfaceContainerVibrancy.h>
 #import <_UIKitPrivate/UIGlassElevationLevel.h>
 #import <_UIKitPrivate/UIVolumetricWindowSceneActivationRequestOptions.h>
+#import <_UIKitPrivate/Misc.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -42,6 +43,7 @@ UIKIT_EXTERN const CGFloat _UITraitCollectionDisplayCornerRadiusUnspecified NS_S
 - (_UIUserInterfaceContainerVibrancy)_containerVibrancy;
 - (CGFloat)displayCornerRadius;
 - (UIPlatterStatus)_platterStatus;
+- (_UIUserInterfacePresentationSemanticContext)_presentationSemanticContext; 
 - (NSInteger)_userInterfaceRenderingMode;
 - (id _Nullable)_objectForTraitToken:(id<_UITraitTokenProtocol>)token;
 - (NSInteger)_valueForNSIntegerTraitToken:(id<_UITraitTokenProtocol>)token;

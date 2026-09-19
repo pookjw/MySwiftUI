@@ -290,6 +290,67 @@ extension SheetPreference {
 fileprivate struct SheetContent<T> : View {
     private(set) var content: T
     
+    /*
+     ModifiedContent
+     ├─ content: ModifiedContent
+     │  ├─ content: ModifiedContent
+     │  │  ├─ content: ModifiedContent
+     │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  │  │  │  │  ├─ content: ModifiedContent
+     │  │  │  │  │  │  │  │  │  │  │  ├─ content: NativePlayground.MyButton
+     │  │  │  │  │  │  │  │  │  │  │  └─ modifier:
+     │  │  │  │  │  │  │  │  │  │  │     StyleContextWriter<SheetStyleContext>
+     │  │  │  │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  │  │  │  └─ modifier:
+     │  │  │  │  │  │  │  │  │  │     _BackgroundPreferenceModifier<
+     │  │  │  │  │  │  │  │  │  │       ContainerBackgroundKeys.PresentationKey,
+     │  │  │  │  │  │  │  │  │  │       _ConditionalContent<
+     │  │  │  │  │  │  │  │  │  │         ModifiedContent<
+     │  │  │  │  │  │  │  │  │  │           ModifiedContent<
+     │  │  │  │  │  │  │  │  │  │             AnyView,
+     │  │  │  │  │  │  │  │  │  │             _SafeAreaRegionsIgnoringLayout
+     │  │  │  │  │  │  │  │  │  │           >,
+     │  │  │  │  │  │  │  │  │  │           _PreferenceWritingModifier<
+     │  │  │  │  │  │  │  │  │  │             ContainerBackgroundKeys.HostTransparency
+     │  │  │  │  │  │  │  │  │  │           >
+     │  │  │  │  │  │  │  │  │  │         >,
+     │  │  │  │  │  │  │  │  │  │         EmptyView
+     │  │  │  │  │  │  │  │  │  │       >
+     │  │  │  │  │  │  │  │  │  │     >
+     │  │  │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  │  │  └─ modifier:
+     │  │  │  │  │  │  │  │  │     _EnvironmentKeyWritingModifier<
+     │  │  │  │  │  │  │  │  │       Optional<TintAdjustmentMode>
+     │  │  │  │  │  │  │  │  │     >
+     │  │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  │  └─ modifier: ResetScrollEnvironmentModifier
+     │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  └─ modifier:
+     │  │  │  │  │  │  │     _EnvironmentKeyWritingModifier<ListStackBehavior>
+     │  │  │  │  │  │  │
+     │  │  │  │  │  │  └─ modifier: ResetSearchEnvironmentModifier
+     │  │  │  │  │  │
+     │  │  │  │  │  └─ modifier: ResetFormEnvironmentModifier
+     │  │  │  │  │
+     │  │  │  │  └─ modifier: ResetTabViewEnvironmentModifier
+     │  │  │  │
+     │  │  │  └─ modifier:
+     │  │  │     _EnvironmentKeyWritingModifier<Bool>
+     │  │  │
+     │  │  └─ modifier: ClearNavigationContextModifier
+     │  │
+     │  └─ modifier:
+     │     _EnvironmentKeyWritingModifier<NavigationEnabled>
+     │
+     └─ modifier:
+        _EnvironmentKeyWritingModifier<NavigationState.SelectionSeed>
+     */
     var body: some View {
         assertUnimplemented()
     }

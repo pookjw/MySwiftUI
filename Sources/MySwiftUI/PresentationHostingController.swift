@@ -122,11 +122,85 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     override func update(_ environment: inout EnvironmentValues) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x19
+         environment -> x0 -> x21
+         */
+        // <+148>
+        environment.presentationKind = self.presentationKind.tag
+        environment.presentationWantsTransparentBackground = self.host.wantsTransparentBackground
+        
+        if environment.isVisionEnabled {
+            environment.backgroundInfo = BackgroundInfo(layer: 0, groupCount: 0)
+            environment.backgroundMaterial = nil
+        }
+        
+        super.update(&environment)
     }
     
     fileprivate var presentationKind: PresentationKind {
-        assertUnimplemented()
+        guard
+            let viewIfLoaded,
+            viewIfLoaded.superview != nil
+        else {
+            return PresentationKind(tag: .none)
+        }
+        
+        // <+72>
+        // x21
+        let presentationSemanticContext = self.traitCollection._presentationSemanticContext()
+        
+        if let activePresentationController = self.activePresentationController {
+            let presentationStyle = activePresentationController.presentationStyle
+            
+            switch presentationSemanticContext {
+            case .unspecified:
+                // <+176>
+                switch presentationStyle {
+                case .fullScreen:
+                    return PresentationKind(tag: .none)
+                case .pageSheet:
+                    return PresentationKind(tag: .fullScreenCover)
+                case .formSheet:
+                    return PresentationKind(tag: .fullScreenCover)
+                case .currentContext:
+                    return PresentationKind(tag: .none)
+                case .custom:
+                    return PresentationKind(tag: .none)
+                case .overFullScreen:
+                    return PresentationKind(tag: .fullScreenCover)
+                case .overCurrentContext:
+                    return PresentationKind(tag: .none)
+                case .popover:
+                    return PresentationKind(tag: .none)
+                case .blurOverFullScreen:
+                    return PresentationKind(tag: .blurOverFullScreen)
+                case .none:
+                    return PresentationKind(tag: .none)
+                case .automatic:
+                    return PresentationKind(tag: .none)
+                @unknown default:
+                    return PresentationKind(tag: .none)
+                }
+            case .sheet:
+                return PresentationKind(tag: .sheet)
+            case .popover:
+                return PresentationKind(tag: .popover)
+            default:
+                return PresentationKind(tag: .none)
+            }
+        } else {
+            switch presentationSemanticContext {
+            case .unspecified:
+                return PresentationKind(tag: .none)
+            case .sheet:
+                return PresentationKind(tag: .sheet)
+            case .popover:
+                return PresentationKind(tag: .popover)
+            default:
+                return PresentationKind(tag: .none)
+            }
+        }
     }
     
     func configureSecondaryDismissDelegate<T: PresentationHostingControllerDismissDelegate>(_: T) {

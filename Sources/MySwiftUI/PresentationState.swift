@@ -238,7 +238,7 @@ struct PresentationState {
             casted.configureSecondaryDismissDelegate(sheetBridge)
             return nil
         } else {
-            if sheetBridge.clientNeedsOutOfWindowPresentationSuppression && !sheetBridge.presenterHasWindow {
+            if sheetBridge.needsDelayedPresentation {
                 if sheetBridge.presenterOverride != nil {
                     Log.externalWarning("A sheet was presented from a toolbar item while out of\nwindow, and the presenter is not yet in the window.\nThis is invalid and the presentation will be ignored.")
                 } else {
