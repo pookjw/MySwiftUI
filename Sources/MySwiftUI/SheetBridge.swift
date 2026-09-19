@@ -732,7 +732,10 @@ extension SheetBridge : UIHostingViewDelegate {
         assertUnimplemented()
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(
+        _ hostingView: _UIHostingView<Content>,
+        willUpdate values: inout MySwiftUICore::EnvironmentValues
+    ) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     

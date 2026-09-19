@@ -146,7 +146,25 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func setupDelayIfNeeded() {
-        assertUnimplemented()
+        // self -> x20 -> x19
+        guard self.host.preferenceValue(RemotePresentationDelayKey.self) else {
+            return
+        }
+        
+        let view = unsafe self.view.unsafelyUnwrapped
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        
+        self._beginDelayingPresentation(5.0) { [weak self] _ in
+            // $s7SwiftUI29PresentationHostingControllerC18setupDelayIfNeededyyFS2bcfU_AA7AnyViewV_Tg5TA
+            if let self {
+                self.isDelayingRemotePresentation = false
+            }
+            
+            return true
+        }
+        
+        self.isDelayingRemotePresentation = true
     }
     
     func setupSheet(for kind: PresentationHostingControllerPresenterKind, presenter: UIViewController, placement: SheetPreference.Placement) {

@@ -1477,7 +1477,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
             }
             
             // <+1544>
-            if let viewController {
+            if let viewController = unsafe self.viewController {
                 viewController.resolveRequiredBridges(resolved.viewGraphBridgeProperties, allowedActions: [.unknown0, .unknown1])
             }
         }

@@ -743,7 +743,8 @@ package final class UIHostingViewBase : NSObject {
         let traitCollection = traitCollectionOverride ?? uiView.traitCollection
         // <+408>
         // x23
-        let environmentValues: MySwiftUICore::EnvironmentValues
+        var environmentValues: MySwiftUICore::EnvironmentValues
+        
         if traitCollection._environmentWrapper != nil {
             // <+440>
             // x26
@@ -787,9 +788,9 @@ package final class UIHostingViewBase : NSObject {
         }
         
         // <+856>
-        if let _ = self.environmentOverride {
+        if let environmentOverride = self.environmentOverride {
             // <+952>
-            assertUnimplemented()
+            environmentValues.override(with: environmentOverride)
         }
         
         return environmentValues

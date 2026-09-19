@@ -24,6 +24,7 @@ UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState)
 - (BOOL)_shouldIgnoreChildFocusRegions;
 - (_UIAppearState)_appearState;
 - (void)_endDelayingPresentation;
+- (void)_beginDelayingPresentation:(NSTimeInterval)delay cancellationHandler:(BOOL (^)(BOOL))cancellationHandler;
 
 // API_UNAVAILABLE(visionos) 제거용
 @property (nonatomic, readonly, nullable, getter=childViewControllerForInterfaceOrientationLock) UIViewController *msui_childViewControllerForInterfaceOrientationLock;

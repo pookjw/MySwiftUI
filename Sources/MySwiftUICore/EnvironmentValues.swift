@@ -87,6 +87,17 @@ public struct EnvironmentValues : CustomStringConvertible, @unchecked Sendable {
     package func removingTracker() -> EnvironmentValues {
         return EnvironmentValues(plist)
     }
+    
+    package mutating func override(with other: EnvironmentValues) {
+        let oldElements = self.plist.elements
+        var result = self.plist
+        
+        result.override(with: other.plist)
+        
+        if (oldElements?.id ?? .invalid) != (result.elements?.id ?? .invalid) {
+            self.plist = result
+        }
+    }
 }
 
 extension EnvironmentValues {

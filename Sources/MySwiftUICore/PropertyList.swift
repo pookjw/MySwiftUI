@@ -89,8 +89,8 @@ private import AttributeGraph
         // x20
         if let selfElements = elements {
             if let otherElements = other.elements {
-                if let selfBefore = selfElements.before {
-                    elements = PropertyList.Element(keyType: EmptyKey.self, before: otherElements, after: selfBefore)
+                if selfElements.before != nil {
+                    elements = TypedElement<EmptyKey>(value: (), before: otherElements, after: selfElements)
                 } else {
                     elements = selfElements.copy(before: otherElements, after: selfElements.after)
                 }
@@ -722,7 +722,7 @@ fileprivate func find<T : PropertyKey>(_ element: Unmanaged<PropertyList.Element
 fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
     let value: Key.Value // 0x48
     
-    @inlinable
+    @inline(__always)
     init(value: Key.Value, before: PropertyList.Element?, after: PropertyList.Element?) {
         self.value = value
         super.init(keyType: Key.self, before: before, after: after)
