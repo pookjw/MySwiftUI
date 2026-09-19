@@ -14,6 +14,8 @@ typedef NS_ENUM(int, _UIAppearState) {
 UIKIT_EXTERN NSString * _NSStringFromUIViewControllerAppearState(_UIAppearState);
 
 @interface UIViewController (Private) <UITraitChangeObservableInternal>
++ (CGSize)defaultFormSheetSizeForScreenSize:(CGSize)screenSize;
+
 @property (nonatomic, readonly) NSUInteger childViewControllersCount;
 @property (readonly, nonatomic) BOOL _willPreemptRunningPresentationTransition;
 @property (readonly, nonatomic) BOOL _willPreemptRunningTransitionForDismissal;

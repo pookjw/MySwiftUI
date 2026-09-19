@@ -16,7 +16,9 @@ typedef NS_ENUM(NSInteger, _UIBreakthroughMode) {
 
 typedef NS_ENUM(NSInteger, _UIUserInterfacePresentationSemanticContext) {
     _UIUserInterfacePresentationSemanticContextNone = 0,
-    _UIUserInterfacePresentationSemanticContextUnspecified = 1
+    _UIUserInterfacePresentationSemanticContextUnspecified = 1,
+    _UIUserInterfacePresentationSemanticContextSheet = 2,
+    _UIUserInterfacePresentationSemanticContextPopover = 3
 };
 
 NS_HEADER_AUDIT_END(nullability, sendability)
