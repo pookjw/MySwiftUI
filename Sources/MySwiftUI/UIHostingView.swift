@@ -1319,11 +1319,11 @@ open class _UIHostingView<Content : View>: UIView {
 
 protocol UIHostingViewDelegate : AnyObject {
     @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout EnvironmentValues)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didUpdate values: EnvironmentValues)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: PreferenceValues)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate environment: inout EnvironmentValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didUpdate environment: EnvironmentValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: PreferenceValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList)
     func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
 }
 

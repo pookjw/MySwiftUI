@@ -166,17 +166,17 @@ extension RootViewDelegate : UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environmentValues: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
-        environmentValues.explicitPreferredColorScheme = hostingView.colorScheme
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environment: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+        environment.explicitPreferredColorScheme = hostingView.colorScheme
         
         if let nextDelegate {
-            nextDelegate.hostingView(hostingView, willUpdate: &environmentValues)
+            nextDelegate.hostingView(hostingView, willUpdate: &environment)
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate environment: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         if let nextDelegate {
-            nextDelegate.hostingView(hostingView, didUpdate: values)
+            nextDelegate.hostingView(hostingView, didUpdate: environment)
         }
     }
     
@@ -186,21 +186,21 @@ extension RootViewDelegate : UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         updateAppFocus(view: hostingView)
         
-        let value = values[PreferredColorSchemeKey.self]
+        let value = environment[PreferredColorSchemeKey.self]
         if !colorSchemeSeed.seed.matches(value.seed) {
             colorSchemeSeed.seed = value.seed
             hostingView.colorScheme = value.value
         }
         
         if let nextDelegate {
-            nextDelegate.hostingView(hostingView, didChangePreferences: values)
+            nextDelegate.hostingView(hostingView, didChangePreferences: environment)
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     

@@ -734,24 +734,29 @@ extension SheetBridge : UIHostingViewDelegate {
     
     final func hostingView<Content>(
         _ hostingView: _UIHostingView<Content>,
-        willUpdate values: inout MySwiftUICore::EnvironmentValues
+        willUpdate environment: inout MySwiftUICore::EnvironmentValues
     ) where Content : MySwiftUICore::View {
+        /*
+         self -> x20
+         hostingView -> x0 -> x25
+         environment -> x1 -> x29
+         */
         assertUnimplemented()
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate environment: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
         // noop
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : MySwiftUICore::View {
         assertUnimplemented()
     }
     

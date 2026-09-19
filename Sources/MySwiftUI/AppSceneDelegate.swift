@@ -1479,7 +1479,7 @@ extension AppSceneDelegate : UIHostingViewDelegate {
         // noop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate values: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate environment: inout MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         guard
             let delegate = AppDelegate.shared,
             let mainMenuController = delegate.mainMenuController
@@ -1487,22 +1487,22 @@ extension AppSceneDelegate : UIHostingViewDelegate {
             return
         }
         
-        mainMenuController.updateDocumentCommands(environment: &values)
+        mainMenuController.updateDocumentCommands(environment: &environment)
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate values: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didUpdate environment: MySwiftUICore::EnvironmentValues) where Content : MySwiftUICore::View {
         // noop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
         // noop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences values: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         // noop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList: PlatformItemList) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : MySwiftUICore::View {
         // noop
     }
     
