@@ -23,3 +23,11 @@ class NotificationSendingSplitViewController : UISplitViewController {
 class NotifyingMulticolumnSplitViewController : UISplitViewController {
     // TODO
 }
+
+struct UISplitViewControllerProxy {
+    // TODO
+}
+
+class UISplitViewControllerProxyStorage {
+    // TODO
+}

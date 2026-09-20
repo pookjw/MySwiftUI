@@ -6,6 +6,18 @@ struct NavigationState {
 }
 
 extension NavigationState {
+    struct Seeds {
+        // TODO
+    }
+    
+    struct StackContent {
+        // TODO
+    }
+    
+    struct ListKey {
+        // TODO
+    }
+    
     struct SelectionSeed {
         static let invalid: NavigationState.SelectionSeed = {
             assertUnimplemented()
@@ -16,5 +28,11 @@ extension NavigationState {
         }()
         
         private var storage: VersionSeed
+    }
+}
+
+extension NavigationState.StackContent {
+    struct Key {
+        // TODO
     }
 }
