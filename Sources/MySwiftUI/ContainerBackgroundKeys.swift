@@ -54,7 +54,7 @@ extension ContainerBackgroundKeys {
 }
 
 struct ContainerBackgroundValue {
-    private var content: ContainerBackgroundValue.Content
+    private(set) var content: ContainerBackgroundValue.Content
     private var allowsVibrancy: Bool
     private var environment: EnvironmentValues
 }

@@ -65,13 +65,36 @@ extension View {
             alignment: .center
         ) { value in
             // $s7SwiftUI4ViewPAAE034renderContainerBackgroundInHostingC0yQrqd__mAA0eF12PlacementKeyRd__lFAA19_ConditionalContentVyAcAE10preference3key5valueQrqd__m_5ValueQyd__tAA010PreferenceJ0Rd__lFQOyAcAE15ignoresSafeArea_5edgesQrAA0sT7RegionsV_AA4EdgeO3SetVtFQOyAA03AnyC0V_Qo__AA0eF4KeysO16HostTransparencyVQo_AA05EmptyC0VGAA0efP0VcfU_
-            assertUnimplemented()
+            if let content = value.content.content {
+                content
+                    .ignoresSafeArea(.all, edges: .all)
+                    .preference(
+                        key: ContainerBackgroundKeys.HostTransparency.self,
+                        value: .transparent
+                    )
+            } else {
+                EmptyView()
+            }
         }
     }
 }
 
-protocol ContainerBackgroundPlacementKey : PreferenceKey {
+protocol ContainerBackgroundPlacementKey : PreferenceKey where Value == ContainerBackgroundValue {
     static var placement: ContainerBackgroundPlacement {
         get
+    }
+}
+
+extension ContainerBackgroundValue.Content {
+    @inline(always) // 원래 없음
+    fileprivate var content: AnyView? {
+        switch self {
+        case .view(let content):
+            return content
+        case .shapeStyle(let content, _):
+            return content
+        case .none:
+            return nil
+        }
     }
 }

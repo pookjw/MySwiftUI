@@ -11,6 +11,7 @@ extension View {
 
 struct ClearNavigationContextModifier : PrimitiveViewModifier, ViewInputsModifier {
     nonisolated static func _makeViewInputs(modifier: _GraphValue<ClearNavigationContextModifier>, inputs: inout _ViewInputs) {
+        // inputs -> x1 -> x19
         assertUnimplemented()
     }
 }
