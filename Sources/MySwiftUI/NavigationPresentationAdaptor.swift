@@ -2,13 +2,17 @@
 internal import MySwiftUICore
 internal import AttributeGraph
 
+protocol UINavigationPresentationAdaptor {
+    // TODO
+}
+
 struct UINavigationPresentationAdaptorContext {
     // TODO
 }
 
 extension _GraphInputs {
     @inline(always) // 원래 없음
-    var navigationPresentationAdaptorContext: OptionalAttribute<UINavigationPresentationAdaptorContext> {
+    var navigationPresentationAdaptorContext: OptionalAttribute<(any UINavigationPresentationAdaptor)?> {
         get {
             return self[_GraphInputs.NavigationPresentationAdaptorKey.self]
         }
@@ -18,6 +22,6 @@ extension _GraphInputs {
     }
     
     fileprivate struct NavigationPresentationAdaptorKey : GraphInput {
-        static let defaultValue = OptionalAttribute<UINavigationPresentationAdaptorContext>() 
+        static let defaultValue = OptionalAttribute<(any UINavigationPresentationAdaptor)?>()
     }
 }

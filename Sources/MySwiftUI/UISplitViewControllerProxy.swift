@@ -4,7 +4,7 @@ internal import MySwiftUICore
 
 extension _GraphInputs {
     @inline(always) // 원래 없음
-    var splitViewControllerProxy: WeakAttribute<UISplitViewControllerProxyStorage>? {
+    var splitViewControllerProxy: WeakAttribute<UISplitViewControllerProxyStorage> {
         get {
             return self[UISplitViewControllerProxyKey.self]
         }
@@ -15,7 +15,7 @@ extension _GraphInputs {
 }
 
 fileprivate struct UISplitViewControllerProxyKey : GraphInput {
-    static var defaultValue: WeakAttribute<UISplitViewControllerProxyStorage>? {
-        return nil
+    static var defaultValue: WeakAttribute<UISplitViewControllerProxyStorage> {
+        return WeakAttribute()
     }
 }

@@ -8,8 +8,8 @@ struct NavigationAuthority {
 
 extension NavigationAuthority {
     fileprivate struct SeedInputs : ViewInput, PropertyKey {
-        static var defaultValue: WeakAttribute<NavigationState.Seeds>? {
-            return nil
+        static var defaultValue: WeakAttribute<NavigationState.Seeds> {
+            return WeakAttribute()
         }
     }
     
@@ -18,30 +18,30 @@ extension NavigationAuthority {
     }
     
     struct ViewInputKey : ViewInput, PropertyKey {
-        static var defaultValue: WeakAttribute<NavigationAuthority>? {
-            return nil
+        static var defaultValue: WeakAttribute<NavigationAuthority?> {
+            return WeakAttribute()
         }
     }
     
     struct StackKeyViewInputKey : ViewInput, PropertyKey {
-        static var defaultValue: WeakAttribute<NavigationState.StackContent.Key>? {
-            return nil
+        static var defaultValue: WeakAttribute<NavigationState.StackContent.Key?> {
+            return WeakAttribute()
         }
     }
     
     fileprivate struct ListKeyViewInputKey : ViewInput, PropertyKey {
-        static var defaultValue: WeakAttribute<NavigationState.ListKey>? {
-            return nil
+        static var defaultValue: WeakAttribute<NavigationState.ListKey?> {
+            return WeakAttribute()
         }
     }
     
     fileprivate struct ListSelectionCanonicalIDKey : ViewInput, PropertyKey {
-        static var defaultValue: WeakAttribute<_ViewList_ID.Canonical>? {
-            return nil
+        static var defaultValue: WeakAttribute<_ViewList_ID.Canonical?> {
+            return WeakAttribute()
         }
     }
     
-    enum RequestError {
+    enum RequestError : Error {
         case presentationTypeMismatch(presented: String, expected: String)
         case listSelectionTypeMismatch(presented: String)
         case noDestinationInScope(presented: String)
@@ -67,17 +67,17 @@ extension View {
 struct ClearNavigationContextModifier : PrimitiveViewModifier, ViewInputsModifier {
     nonisolated static func _makeViewInputs(modifier: _GraphValue<ClearNavigationContextModifier>, inputs: inout _ViewInputs) {
         // inputs -> x1 -> x19
-        inputs[NavigationAuthority.StackKeyViewInputKey.self] = nil
-        inputs[NavigationAuthority.ListKeyViewInputKey.self] = nil
-        inputs[NavigationAuthority.ViewInputKey.self] = nil
+        inputs[NavigationAuthority.StackKeyViewInputKey.self] = WeakAttribute()
+        inputs[NavigationAuthority.ListKeyViewInputKey.self] = WeakAttribute()
+        inputs[NavigationAuthority.ViewInputKey.self] = WeakAttribute()
         inputs[IsInNavigationV4Context.self] = false
-        inputs[NavigationAuthority.SeedInputs.self] = nil
+        inputs[NavigationAuthority.SeedInputs.self] = WeakAttribute()
         
         inputs.base.resetCurrentStyleableView()
         
         // <+236>
-        inputs[NavigationAuthority.ListSelectionCanonicalIDKey.self] = nil
-        inputs.base.splitViewControllerProxy = nil
+        inputs[NavigationAuthority.ListSelectionCanonicalIDKey.self] = WeakAttribute()
+        inputs.base.splitViewControllerProxy = WeakAttribute()
         inputs.base.navigationPresentationAdaptorContext = OptionalAttribute()
     }
 }
