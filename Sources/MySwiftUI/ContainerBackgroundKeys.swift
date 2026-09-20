@@ -20,11 +20,11 @@ extension ContainerBackgroundKeys {
     }
     
     struct PresentationKey : ContainerBackgroundPlacementKey, HostPreferenceKey {
-        static var defaultValue: ContainerBackgroundValue.Content {
+        static var defaultValue: ContainerBackgroundValue {
             assertUnimplemented()
         }
         
-        static func reduce(value: inout ContainerBackgroundValue.Content, nextValue: () -> ContainerBackgroundValue.Content) {
+        static func reduce(value: inout ContainerBackgroundValue, nextValue: () -> ContainerBackgroundValue) {
             assertUnimplemented()
         }
         

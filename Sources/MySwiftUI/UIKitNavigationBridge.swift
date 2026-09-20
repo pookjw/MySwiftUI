@@ -42,10 +42,10 @@ class UIKitNavigationBridge {
         }
         
         // <+284>
-        if !environment.internalNavigationEnabled {
+        if environment.isNavigationEnabledInternal == .unknown {
             // <+320>
             if pushTargetComponents(isDetail: true).navController != nil {
-                environment.internalNavigationEnabled = true
+                environment.isNavigationEnabledInternal = .enabled
             }
         }
         

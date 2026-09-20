@@ -52,7 +52,7 @@ public struct EnvironmentValues : CustomStringConvertible, @unchecked Sendable {
         }
     }
     
-    subscript<K>(key: K.Type) -> K.Value where K : DerivedEnvironmentKey {
+    package subscript<K>(key: K.Type) -> K.Value where K : DerivedEnvironmentKey {
         return K.value(in: self)
     }
     
