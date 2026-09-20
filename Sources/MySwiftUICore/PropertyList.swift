@@ -562,6 +562,7 @@ extension PropertyKey where Value : Equatable {
 
 package protocol DerivedPropertyKey {
     associatedtype Value
+    static func value(in propertyList: PropertyList) -> Self.Value
 }
 
 fileprivate func findValueWithSecondaryLookup<T : PropertyKeyLookup>(

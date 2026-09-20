@@ -18,6 +18,30 @@ package struct MenuStyleContext : StyleContext {
     // TODO
 }
 
+package struct SheetStyleContext : StyleContext {
+    package init() {}
+    
+    package static func accepts<T>(_: T.Type, at index: Int) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package static func acceptsAny<each T : StyleContext>(_: repeat (each T).Type) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package static func visitStyle<T>(_: inout T) where T : StyleContextVisitor {
+        assertUnimplemented()
+    }
+    
+    // TODO
+}
+
+extension View {
+    package func styleContext<T : StyleContext>(_ context: T) -> some View {
+        self.modifier(StyleContextWriter<T>())
+    }
+}
+
 extension ViewModifier {
     package func requiring<each T : StyleContext>(_ contexts: repeat each T) -> StaticIf<StyleContextAcceptsPredicate<(repeat each T)>, Self, EmptyModifier> {
         StaticIf(
@@ -54,6 +78,12 @@ extension StyleContext {
 extension StyleContext where Self == MenuStyleContext {
     package static var menu: MenuStyleContext {
         return MenuStyleContext()
+    }
+}
+
+extension StyleContext where Self == SheetStyleContext {
+    package static var sheet: SheetStyleContext {
+        return SheetStyleContext()
     }
 }
 
@@ -153,4 +183,12 @@ struct NoStyleContext : StyleContext {
     }
     
     // TODO
+}
+
+struct StyleContextWriter<T> : PrimitiveViewModifier, _GraphInputsModifier {
+    init() {}
+    
+    static func _makeInputs(modifier: _GraphValue<StyleContextWriter<T>>, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
 }

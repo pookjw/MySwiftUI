@@ -40,6 +40,7 @@ extension Axis {
         
         public static let horizontal = Axis.Set(rawValue: 1 << 0)
         public static let vertical = Axis.Set(rawValue: 1 << 1)
+        package static let both = Axis.Set(rawValue: (1 << 0) | (1 << 1))
     }
 }
 

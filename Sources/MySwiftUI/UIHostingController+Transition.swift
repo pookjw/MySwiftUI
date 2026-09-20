@@ -86,7 +86,6 @@ extension UIHostingController {
 }
 
 extension EnvironmentValues {
-    @inline(always)
     var internalNavigationEnabled: Bool {
         get {
             return self[InternalNavigationEnabledKey.self]
@@ -94,6 +93,31 @@ extension EnvironmentValues {
         set {
             self[InternalNavigationEnabledKey.self] = newValue
         }
+    }
+    
+    var isNavigationEnabledInternal: NavigationEnabled {
+        get {
+            return self[NavigationEnabledKey.self]
+        }
+        set {
+            self[NavigationEnabledKey.self] = newValue
+        }
+    }
+}
+
+enum NavigationEnabled {
+    case unknown
+    case enabled
+    case disabled
+}
+
+fileprivate struct NavigationEnabledKey : EnvironmentKey, DerivedEnvironmentKey {
+    static var defaultValue: NavigationEnabled {
+        return .unknown
+    }
+    
+    static func value(in environment: EnvironmentValues) -> NavigationEnabled {
+        assertUnimplemented()
     }
 }
 
