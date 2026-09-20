@@ -153,8 +153,9 @@ extension EnvironmentValues {
     }
 }
 
-@available(*, unavailable)
-extension EnvironmentValues : Sendable {}
+//@available(*, unavailable)
+//extension EnvironmentValues : Sendable {}
+extension EnvironmentValues : @unchecked Sendable {}
 
 package protocol DerivedEnvironmentKey {
     associatedtype Value : Equatable
