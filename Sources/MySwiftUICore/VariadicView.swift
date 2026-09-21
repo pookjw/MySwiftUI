@@ -429,11 +429,11 @@ fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
 }
 
 fileprivate struct ImplicitRootType : ViewInput {
-    static let defaultValue: any _VariadicView_AnyImplicitRoot.Type = _VStackLayout.self
+    @safe static nonisolated(unsafe) let defaultValue: (any _VariadicView_AnyImplicitRoot.Type) = _VStackLayout.self
 }
 
 extension _ViewInputs {
-    var implicitRootType: any _VariadicView_AnyImplicitRoot.Type {
+    var implicitRootType: (any _VariadicView_AnyImplicitRoot.Type) {
         get {
             return self[ImplicitRootType.self]
         }
