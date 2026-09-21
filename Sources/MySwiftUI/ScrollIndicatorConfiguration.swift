@@ -5,19 +5,19 @@ public struct ScrollIndicatorVisibility {
     private var role: ScrollIndicatorVisibility.Role
     
     public static var automatic: ScrollIndicatorVisibility {
-        assertUnimplemented()
+        return ScrollIndicatorVisibility(role: .automatic)
     }
     
     public static var visible: ScrollIndicatorVisibility {
-        assertUnimplemented()
+        return ScrollIndicatorVisibility(role: .visible)
     }
     
     public static var hidden: ScrollIndicatorVisibility {
-        assertUnimplemented()
+        return ScrollIndicatorVisibility(role: .hidden)
     }
     
     public static var never: ScrollIndicatorVisibility {
-        assertUnimplemented()
+        return ScrollIndicatorVisibility(role: .never)
     }
 }
 
@@ -71,9 +71,9 @@ extension EnvironmentValues {
 }
 
 struct ScrollIndicatorConfiguration : Equatable {
-    private var visibility: ScrollIndicatorVisibility
-    private var options: ScrollIndicatorOptions
-    private var style: ScrollIndicatorStyle
+    var visibility: ScrollIndicatorVisibility
+    private(set) var options: ScrollIndicatorOptions
+    private(set) var style: ScrollIndicatorStyle
 }
 
 struct ScrollIndicatorOptions : OptionSet {
@@ -81,7 +81,7 @@ struct ScrollIndicatorOptions : OptionSet {
 }
 
 struct ScrollIndicatorStyle : Equatable {
-    private var value: ScrollIndicatorStyle.Value
+    private(set) var value: ScrollIndicatorStyle.Value
 }
 
 extension ScrollIndicatorStyle {

@@ -55,6 +55,7 @@ extension _OverlayPreferenceModifier : PrimitiveViewModifier {}
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, macOS 13.0, *)
     public typealias Body = Never
 }
+
 @available(*, unavailable)
 extension _BackgroundPreferenceModifier : Sendable {
 }
