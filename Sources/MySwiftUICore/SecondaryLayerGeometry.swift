@@ -107,15 +107,16 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
      inputs -> x1
      body -> x2/x3 -> x19 + 0x58 / x19 + 0x60
      flipOrder -> w4 -> x19 + 0x4c
+     return pointer -> x8 -> x19 + 0x50
      */
-    // x19 + 0x220 (sp + 0x320)
+    // x19 + 0x220 (sp + 0x220)
     let copy_1 = inputs
-    // x19 + 0x160 (sp + 0x260)
+    // x19 + 0x160 (sp + 0x160)
     var copy_2 = inputs
     // x19 + 0x1c0 (sp + 0x1c0)
     let copy_3 = copy_1
     // x28 + 0x60 (sp + 0x160)
-    let copy_4 = inputs.base
+    let copy_4 = inputs
     
     // <+188>
     copy_2.preferences.add(T.self)
@@ -164,46 +165,40 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     
     let newBody: (_Graph, _ViewInputs) -> _ViewOutputs = { _, incoming in
         // $s7SwiftUI27makeSecondaryPreferenceView33_E16FB36220E60E9D0940B6710E02DAD2LL8modifier6inputs4body9flipOrderAA01_F7OutputsV14AttributeGraph0U0VyAA08_OverlayE8ModifierVyxq_GG_AA01_F6InputsVAiA01_V0V_ARtcSbtAA0E3KeyRzAA0F0R_r0_lFAiT_ARtcfU0_
-        assertUnimplemented()
+        /*
+         incoming -> x1 -> x24
+         modifier/value -> x2 -> sp + 0xc0
+         T -> x3
+         */
+        // x29 - 0xa0
+        let copy = incoming
+        let child = SecondaryChild(
+            modifier: modifier,
+            preferenceValue: OptionalAttribute(value)
+        )
+        let childValue = _GraphValue(child)
+        
+        return U.makeDebuggableView(view: childValue, inputs: copy)
     }
     
-    // x19 + 0xa0 (sp + 0xa0)
+    // x28 + 0xc0 (sp + 0x1c0)
     let copy_9 = copy_4
-    // x19 + 0x1c0 (sp + 0x1c0)
+    // x19 + 0xa0 (sp + 0xa0)
     let copy_10 = copy_4
     
     // x19 + 0x68 (sp + 0xc8)
     let outputs_2: _ViewOutputs
     
-    if IsVisionEnabledPredicate.evaluate(inputs: copy_9) {
+    if IsVisionEnabledPredicate.evaluate(inputs: copy_10.base) {
         // <+880>
-        var x190x9c: Attribute<ViewTransform>? = nil
-        
-        // x19 + 0xa0 (sp + 0xa0)
-        let copy_11 = copy_6
-        
-        outputs_2 = _ViewOutputs.makeDepthTransform(
-            inputs: copy_11,
-            geometry: {
-                // $s7SwiftUI25makePlatformSecondaryView13primaryInputs0G7Outputs09secondaryH09flipOrder4bodyAA01_fI0VAA01_fH0V_AiKSbAiA6_GraphV_AKtctF09AttributeN00O0VyAA0F13DepthGeometryVGyXEfU_TA.19
-                assertUnimplemented()
-            },
-            body: { inputs in
-                // $s7SwiftUI27ViewModifierContentProvider33_2BA0A33A15B7F322F46AFB9D0D1A262DLLPAAE012providerMakeC4List4view6inputsAA01_cS7OutputsVAA11_GraphValueVyxG_AA01_cS6InputsVtFZAA01_cV0VAA01_cY0VcfU_TA.110
-                return newBody(_Graph(), inputs)
-            }
+        // inlined
+        outputs_2 = makePlatformSecondaryView(
+            primaryInputs: copy_9,
+            primaryOutputs: outputs_1,
+            secondaryInputs: copy_10,
+            flipOrder: flipOrder,
+            body: newBody
         )
-        
-        if let x190x9c {
-            // <+1196>
-            x190x9c.mutateBody(as: RootDepthTransform.self, invalidating: true) { transform in
-                transform.$childLayoutComputer = outputs_2.layoutComputer
-            }
-            
-            // <+1316>
-        } else {
-            // <+1316>
-        }
     } else {
         // <+1100>
         // x19 + 0xa0 (sp + 0xa0)
@@ -213,7 +208,30 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     }
     
     // <+1320>
-    assertUnimplemented()
+    query.mutateBody(as: SecondaryLayerGeometryQuery.self, invalidating: true) { query in
+        // $s7SwiftUI27makeSecondaryPreferenceView33_E16FB36220E60E9D0940B6710E02DAD2LL8modifier6inputs4body9flipOrderAA01_F7OutputsV14AttributeGraph0U0VyAA08_OverlayE8ModifierVyxq_GG_AA01_F6InputsVAiA01_V0V_ARtcSbtAA0E3KeyRzAA0F0R_r0_lFyAA0D18LayerGeometryQueryVzXEfU1_TA.17
+        query.$primaryLayoutComputer = outputs_2.layoutComputer
+    }
+    
+    // <+1432>
+    // x19 + 0xa0 (sp + 0xa0)
+    var visitor: PairwisePreferenceCombinerVisitor
+    if flipOrder {
+        visitor = PairwisePreferenceCombinerVisitor(outputs: (outputs_2.preferences, copy_5.preferences))
+    } else {
+        visitor = PairwisePreferenceCombinerVisitor(outputs: (copy_5.preferences, outputs_2.preferences))
+    }
+    
+    // <+1488>
+    for key in copy_1.preferences.keys {
+        key.visitKey(&visitor)
+    }
+    
+    // <+1616>
+    return _ViewOutputs(
+        preferences: visitor.result,
+        layoutComputer: OptionalAttribute(outputs_1.layoutComputer)
+    )
 }
 
 struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
@@ -241,6 +259,15 @@ struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
     }
     
     var value: ViewGeometry {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct SecondaryChild<T : PreferenceKey, U : View> : AsyncAttribute, Rule {
+    @Attribute private(set) var modifier: _OverlayPreferenceModifier<T, U>
+    @OptionalAttribute var preferenceValue: T.Value?
+    
+    var value: U {
         assertUnimplemented()
     }
 }

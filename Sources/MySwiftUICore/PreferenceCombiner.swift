@@ -1,10 +1,17 @@
 package import AttributeGraph
 
-struct PairwisePreferenceCombinerVisitor {
-    let outputs: (PreferencesOutputs, PreferencesOutputs)
-    var result: PreferencesOutputs
+struct PairwisePreferenceCombinerVisitor : PreferenceKeyVisitor {
+    let outputs: (PreferencesOutputs, PreferencesOutputs) // 0x0
+    var result: PreferencesOutputs // 0x20
     
-    // TODO
+    init(outputs: (PreferencesOutputs, PreferencesOutputs)) {
+        self.result = PreferencesOutputs()
+        self.outputs = outputs
+    }
+    
+    func visit<Key>(key: Key.Type) where Key : PreferenceKey {
+        assertUnimplemented()
+    }
 }
 
 package struct MultiPreferenceCombinerVisitor : PreferenceKeyVisitor {
