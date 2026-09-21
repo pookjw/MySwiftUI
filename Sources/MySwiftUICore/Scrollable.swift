@@ -1,6 +1,6 @@
 // 425A368F5B4FB640C2ED9A96D72B5AF3
 public import CoreGraphics
-internal import AttributeGraph
+package import AttributeGraph
 
 struct ScrollablePreferenceKey : PreferenceKey {
     static var defaultValue: [any Scrollable] {
@@ -12,7 +12,7 @@ struct ScrollablePreferenceKey : PreferenceKey {
     }
 }
 
-protocol Scrollable {
+package protocol Scrollable {
     func scroll<T : Hashable>(to value: T) -> Bool
     func setContentTarget(_ block: (ScrollGeometry, LayoutDirection) -> ScrollTarget?) -> Bool
     var allowsContentOffsetAdjustments: Bool { get }
@@ -21,12 +21,12 @@ protocol Scrollable {
 }
 
 extension Scrollable {
-    func scrollToPosition(_ position: ScrollPosition) -> Bool {
+    package func scrollToPosition(_ position: ScrollPosition) -> Bool {
         assertUnimplemented()
     }
 }
 
-protocol ScrollableCollection : Scrollable {
+package protocol ScrollableCollection : Scrollable {
     var visibleCollectionViewIDs: [_ViewList_ID.Canonical] { get }
     func forEachVisibleSubview(_ block: (ScrollableCollectionSubview, inout Bool) -> Void)
     func subviewClosestTo(rect: CGRect) -> ScrollableCollectionSubview?
@@ -41,15 +41,15 @@ protocol ScrollableCollection : Scrollable {
 }
 
 extension ScrollableCollection {
-    static var accessibilityRole: AccessibilityLayoutRole? {
+    package static var accessibilityRole: AccessibilityLayoutRole? {
         return nil
     }
     
-    var visibleCollectionViewIDs: [_ViewList_ID.Canonical] {
+    package var visibleCollectionViewIDs: [_ViewList_ID.Canonical] {
         return []
     }
     
-    func siblingID(going: AccessibilityScrollableNavigationType, from viewID: _ViewList_ID.Canonical) -> _ViewList_ID.Canonical? {
+    package func siblingID(going: AccessibilityScrollableNavigationType, from viewID: _ViewList_ID.Canonical) -> _ViewList_ID.Canonical? {
         assertUnimplemented()
     }
 }
@@ -111,19 +111,19 @@ extension ScrollTarget : Hashable, Equatable {
 extension ScrollTarget : Sendable {
 }
 
-enum ContentOffsetAdjustmentReason : UInt32, Hashable, CustomStringConvertible {
+package enum ContentOffsetAdjustmentReason : UInt32, Hashable, CustomStringConvertible {
     case translation
     case positionTranslation
     case alignment
     case reset
     case resetPosition
     
-    var description: String {
+    package var description: String {
         assertUnimplemented()
     }
 }
 
-struct ScrollableCollectionSubview {
+package struct ScrollableCollectionSubview {
     private var id: _ViewList_ID
     private var frame: CGRect
     private var frameInContent: CGRect
@@ -142,12 +142,12 @@ public struct PinnedScrollableViews : OptionSet, Sendable {
     public static let sectionFooters = PinnedScrollableViews(rawValue: 1 << 1)
 }
 
-enum AccessibilityLayoutRole : Hashable {
+package enum AccessibilityLayoutRole : Hashable {
     case stack
     case grid
 }
 
-enum AccessibilityScrollableNavigationType : Hashable {
+package enum AccessibilityScrollableNavigationType : Hashable {
     case previous
     case next
     case up

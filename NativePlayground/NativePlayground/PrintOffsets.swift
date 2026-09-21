@@ -250,6 +250,7 @@ func printOffsets() {
     printFields("7SwiftUI12PropertyListV7ElementC", isClassType: true)
     printFields("7SwiftUI29PresentationHostingControllerCyAA7AnyViewVG", isClassType: true)
     printFields("7SwiftUI19OscillationDetectorCyAA29PresentationOptionsPreferenceVG", isClassType: true)
+    printFields("7SwiftUI27ScrollEnvironmentPropertiesV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
