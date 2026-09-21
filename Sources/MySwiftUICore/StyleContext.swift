@@ -185,10 +185,12 @@ struct NoStyleContext : StyleContext {
     // TODO
 }
 
-struct StyleContextWriter<T> : PrimitiveViewModifier, _GraphInputsModifier {
+struct StyleContextWriter<T : StyleContext> : PrimitiveViewModifier, _GraphInputsModifier {
     init() {}
     
     static func _makeInputs(modifier: _GraphValue<StyleContextWriter<T>>, inputs: inout _GraphInputs) {
-        assertUnimplemented()
+        // inputs -> x1 -> x21
+        let context = inputs[StyleContextInput.self].pushing(T.self)
+        inputs[StyleContextInput.self] = context
     }
 }
