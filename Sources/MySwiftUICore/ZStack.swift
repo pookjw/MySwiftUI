@@ -193,7 +193,9 @@ extension _ZStackLayout : BitwiseCopyable {}
 
 extension _ZStackLayout : @preconcurrency Layout3D {
     static var depthProperties: LayoutDepthProperties {
-        assertUnimplemented()
+        return LayoutDepthProperties(
+            stackOrientationIsDepth: ZStackLayout.EnableDepthAwareSpacers.isEnabled
+        )
     }
 
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Void) -> CGFloat {
@@ -208,7 +210,7 @@ extension _ZStackLayout : @preconcurrency Layout3D {
 
 extension _ZStackLayout : _VariadicView_ImplicitRoot {
     static var implicitRoot: _ZStackLayout {
-        assertUnimplemented()
+        return _ZStackLayout(alignment: .center)
     }
 }
 
@@ -1315,5 +1317,36 @@ struct StaticSpatialLayoutComputer<L : SpatialLayout> : StatefulRule {
             environment: self.$environment,
             attributes: self.childAttributes
         )
+    }
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+@frozen public struct ZStackLayout /*: Layout*/ {
+    public var alignment: Alignment
+    
+    @inlinable public init(alignment: Alignment = .center) {
+        self.alignment = alignment
+    }
+    
+    @available(iOS 16.0, tvOS 16.0, watchOS 9.0, macOS 13.0, *)
+    public typealias AnimatableData = EmptyAnimatableData
+    @available(iOS 16.0, tvOS 16.0, watchOS 9.0, macOS 13.0, *)
+    public typealias Cache = Void
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension ZStackLayout : BitwiseCopyable {}
+
+//extension ZStackLayout : DerivedLayout, DerivedSpatialLayout {
+//}
+
+extension ZStackLayout {
+    struct EnableDepthAwareSpacers : UserDefaultKeyedFeature {
+        static var key: String {
+            return "com.apple.SwiftUI.EnableDepthAwareSpacersInZStack"
+        }
+        
+        static let defaultFeatureValue: Bool = isLinkedOnOrAfter(.v6)
+        @safe static nonisolated(unsafe) var cachedValue: Bool?
     }
 }
