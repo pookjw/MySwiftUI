@@ -114,14 +114,14 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     // x19 + 0x160 (sp + 0x160)
     var copy_2 = inputs
     // x19 + 0x1c0 (sp + 0x1c0)
-    let copy_3 = copy_1
-    // x28 + 0x60 (sp + 0x160)
-    let copy_4 = inputs
+    let _ = copy_1
     
     // <+188>
     copy_2.preferences.add(T.self)
     // inlined
     copy_2.base.pushStableIndex(0)
+    // x28 + 0x60 (sp + 0x160)
+    let copy_4 = copy_2
     
     // <+216>
     // x19 + 0x24 (sp + 0x24)
@@ -148,7 +148,7 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     // x28 (sp + 0x100)
     var copy_6 = copy_1
     // x19 + 0x1c0 (sp + 0x1c0)
-    let copy_7 = copy_1
+    let _ = copy_1
     
     // <+564>
     copy_6.position = query.origin
@@ -195,7 +195,7 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
         outputs_2 = makePlatformSecondaryView(
             primaryInputs: copy_9,
             primaryOutputs: outputs_1,
-            secondaryInputs: copy_10,
+            secondaryInputs: copy_6,
             flipOrder: flipOrder,
             body: newBody
         )
@@ -210,7 +210,7 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     // <+1320>
     query.mutateBody(as: SecondaryLayerGeometryQuery.self, invalidating: true) { query in
         // $s7SwiftUI27makeSecondaryPreferenceView33_E16FB36220E60E9D0940B6710E02DAD2LL8modifier6inputs4body9flipOrderAA01_F7OutputsV14AttributeGraph0U0VyAA08_OverlayE8ModifierVyxq_GG_AA01_F6InputsVAiA01_V0V_ARtcSbtAA0E3KeyRzAA0F0R_r0_lFyAA0D18LayerGeometryQueryVzXEfU1_TA.17
-        query.$primaryLayoutComputer = outputs_2.layoutComputer
+        query.$secondaryLayoutComputer = outputs_2.layoutComputer
     }
     
     // <+1432>
