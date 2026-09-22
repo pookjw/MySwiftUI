@@ -9,8 +9,23 @@ struct PairwisePreferenceCombinerVisitor : PreferenceKeyVisitor {
         self.outputs = outputs
     }
     
-    func visit<Key>(key: Key.Type) where Key : PreferenceKey {
-        assertUnimplemented()
+    mutating func visit<Key>(key: Key.Type) where Key : PreferenceKey {
+        let first = self.outputs.0[Key.self]
+        let second = self.outputs.1[Key.self]
+        
+        if let first, let second {
+            // <+176>
+            let pair = PairPreferenceCombiner<Key>(attributes: (first, second))
+            self.result[Key.self] = Attribute(pair)
+        } else if let first {
+            // <+368>
+            self.result[Key.self] = first
+        } else if let second {
+            // <+368>
+            self.result[Key.self] = second
+        } else {
+            // <+388>
+        }
     }
 }
 
