@@ -183,6 +183,8 @@ Inspired by [OpenSwiftUI](https://github.com/OpenSwiftUIProject/OpenSwiftUI).
   - [`onPreferenceChange(_:perform:)`](<https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:)>)
   - [`transformPreference(_:transform:)`](<https://developer.apple.com/documentation/swiftui/view/transformpreference(_:_:)>)
   - [`containerValue(_:_:)`](<https://developer.apple.com/documentation/swiftui/view/containervalue(_:_:)>)
+  - [`overlayPreferenceValue(_:alignment:_:)`](<https://developer.apple.com/documentation/swiftui/view/overlaypreferencevalue(_:alignment:_:)>)
+  - [`backgroundPreferenceValue(_:alignment:_:)`](<https://developer.apple.com/documentation/swiftui/view/backgroundpreferencevalue(_:alignment:_:)>)
 - [`withAnimation(_:)`](<https://developer.apple.com/documentation/swiftui/withanimation(_:)>)
 - [`UIViewRepresentable`](<https://developer.apple.com/documentation/swiftui/uiviewrepresentable>)
 - [`UIViewControllerRepresentable`](<https://developer.apple.com/documentation/swiftui/uiviewcontrollerrepresentable>)
