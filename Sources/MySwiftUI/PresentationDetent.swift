@@ -1,4 +1,8 @@
 public import CoreGraphics
+internal import UIKit
+#if os(visionOS)
+internal import _UIKitShims
+#endif
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 public struct PresentationDetent : Hashable, Sendable {
@@ -38,6 +42,16 @@ public struct PresentationDetent : Hashable, Sendable {
     public func hash(into hasher: inout Hasher) {
         assertUnimplemented()
     }
+    
+#if os(visionOS)
+    var uiSheetDetentId: MySheetPresentationControllerDetentIdentifier {
+        assertUnimplemented()
+    }
+#else
+    var uiSheetDetentId: UISheetPresentationController.Detent.Identifier {
+        assertUnimplemented()
+    }
+#endif
 }
 
 @available(*, unavailable)

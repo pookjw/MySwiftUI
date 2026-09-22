@@ -2,6 +2,7 @@
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
+private import os.log
 
 let clientNeedsOscillationSuppression = isLinkedOnOrAfter(.v6)
 
@@ -278,7 +279,141 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         // transparency -> w21
         
         // <+164>
-        assertUnimplemented()
+        let style: UIModalPresentationStyle
+        
+        switch placement {
+        case .automatic:
+            // <+264>
+            if _SemanticFeature<Semantics_v6>.isEnabled {
+                // <+320>
+                if isLinkedOnOrAfter(.v7) {
+                    style = .formSheet
+                } else {
+                    style = .automatic
+                }
+            } else {
+                // <+376>
+                style = .automatic
+            }
+        case .overFullScreen:
+            // <+208>
+            style = .overFullScreen
+        case .formSheet:
+            // <+484>
+            style = .formSheet
+        case .blurOverFullScreen:
+            // <+188>
+            style = .mrui_blurOverFullScreen
+        case .fullScreenSheet:
+            // <+484>
+            style = .formSheet
+        case .popover:
+            // <+224>
+            if let popoverPresentationController {
+                // <+244>
+                if let popoverEdgeAppearance = copy_1.popoverEdgeAppearance {
+                    // <+408>
+                    popoverPresentationController._prefersZoomTransitions = (popoverEdgeAppearance == .automatic)
+                    style = .popover
+                } else {
+                    // <+428>
+                    style = .popover
+                }
+            } else {
+                // <+428>
+                style = .popover
+            }
+        case .pageSheet:
+            // <+368>
+            style = .pageSheet
+        }
+        
+        // <+496>
+        self.prepareModalPresentationStyle(style, presentationOptions: copy_1)
+        
+        let sheetPresentationController: UISheetPresentationController
+        if let _sheetPresentationController = self.presentationController as? UISheetPresentationController {
+            // <+620>
+            sheetPresentationController = _sheetPresentationController
+        } else {
+            // <+568>
+            if let popoverPresentationController {
+                let adaptiveSheetPresentationController: UISheetPresentationController?
+#if os(visionOS)
+                adaptiveSheetPresentationController = popoverPresentationController.msui_adaptiveSheetPresentationController
+#else
+                adaptiveSheetPresentationController = popoverPresentationController.adaptiveSheetPresentationController
+#endif
+                
+                if let adaptiveSheetPresentationController {
+                    sheetPresentationController = adaptiveSheetPresentationController
+                } else {
+                    return
+                }
+            } else {
+                return
+            }
+        }
+        
+        // <+620>
+        self.configureSizingOptions(for: copy_1, sheetController: sheetPresentationController)
+        
+        // <+640>
+        // sp + 0x50
+        let sizing: (any PresentationSizing)?
+        if _SemanticFeature<Semantics_v6>.isEnabled {
+            // <+696>
+            sizing = copy_1.sizing ?? .automatic
+        } else {
+            // <+740>
+            sizing = nil
+        }
+        
+        self.updatePreferredContentSizeIfNeeded(presenter: presenter, sizing: sizing)
+        
+        // <+808>
+        if (self.traitCollection.horizontalSizeClass == .regular) && (self.traitCollection.verticalSizeClass == .regular) {
+            // <+932>
+        } else {
+            // <+888>
+            if !copy_1.detents.isEmpty {
+                self.configureDetents(of: sheetPresentationController, using: copy_1)
+            } else {
+                switch copy_1.dimmingBehavior {
+                case .undimmedUpThrough, .backgroundInteractionEnabled:
+                    self.configureDetents(of: sheetPresentationController, using: copy_1)
+                case .always, nil:
+                    break
+                }
+            }
+            
+            // <+932>
+        }
+        
+        // <+932>
+        if let selection = copy_1.selection {
+            let value = selection.wrappedValue
+            
+            if copy_1.detents.contains(value) {
+                sheetPresentationController.mrui_selectedDetentIdentifier = value.uiSheetDetentId.rawValue
+            } else {
+                Log.externalWarning("Cannot set selected sheet detent if it is not included\nin supported sheet detents.")
+            }
+        }
+        
+        // <+1088>
+        self.lastPresentationOptions = copy_1
+        
+        if
+            let delegate = self.delegate,
+            let casted = delegate as? UISheetPresentationControllerDelegate
+        {
+            sheetPresentationController.delegate = casted
+        } else {
+            sheetPresentationController.delegate = nil
+        }
+        
+        self.setBackgroundTransparency(preferenceValue: transparency)
     }
     
     func updateSheet(with preference: PresentationOptionsPreference) {

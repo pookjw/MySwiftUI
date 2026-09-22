@@ -1,4 +1,4 @@
-private import UIKit
+package import UIKit
 private import ObjectiveC.runtime
 private import ObjectiveC.message
 internal import _UIKitPrivate
@@ -417,5 +417,11 @@ package struct MySheetPresentationControllerDetentIdentifier : RawRepresentable,
     
     package init(rawValue: String) {
         self.rawValue = rawValue
+    }
+}
+
+extension UIModalPresentationStyle {
+    package static var mrui_blurOverFullScreen: UIModalPresentationStyle {
+        return unsafe UIModalPresentationStyle(rawValue: 8).unsafelyUnwrapped
     }
 }
