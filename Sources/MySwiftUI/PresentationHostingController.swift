@@ -246,6 +246,33 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         presenter: UIViewController,
         placement: SheetPreference.Placement
     ) {
+        /*
+         self -> x20 -> x19
+         kind -> w0
+         presenter -> x1 -> x22
+         placement -> w2 -> w20
+         */
+        self.presentingBridgeKind = kind
+        self.placement = placement
+        
+        // sp + 0x50
+        let (preference, transparency): (PresentationOptionsPreference, ContainerBackgroundKeys.Transparency) = Update.ensure { 
+            // $s7SwiftUI29PresentationHostingControllerC10setupSheet3for9presenter9placementyAA0cdE13PresenterKindO_So06UIViewE0CAA0G10PreferenceV9PlacementOtFAA0c7OptionsN0V_AA23ContainerBackgroundKeysO12TransparencyOtyXEfU_AA7AnyViewV_Tg5TA
+            // self -> x0 -> x21
+            // <+256>
+            let preferenceValues = self
+                .host
+                .base
+                .viewGraph
+                .viewGraph
+                .preferenceValues()
+            
+            let options = preferenceValues[PresentationOptionsPreferenceKey.self].value
+            let transparency = preferenceValues[ContainerBackgroundKeys.HostTransparency.self].value
+            
+            return (options, transparency)
+        }
+        
         assertUnimplemented()
     }
     

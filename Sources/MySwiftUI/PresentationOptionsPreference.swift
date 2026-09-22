@@ -1,28 +1,41 @@
 internal import MySwiftUICore
+private import CoreGraphics
 
-struct PresentationOptionsPreference {
-//    private var detents: Set<PresentationDetent>
-//    private var selection: Binding<PresentationDetent>?
-//    private var horizontalAdaptation: PresentationAdaptation?
-//    private var verticalAdaptation: PresentationAdaptation?
-//    private var dimmingBehavior: PresentationDimmingBehavior?
-//    private var passthroughBehavior: PresentationPassthroughBehavior?
-//    private var swipeUpBehavior: PresentationContentInteraction
-//    private var dragIndicatorVisibility: Visibility
-//    private var cornerRadius: CGFloat?
-//    private var dragIndicatorOffset: CGFloat?
-//    private var sizing: PresentationSizing?
-//    private var breakthroughEffect: BreakthroughEffect?
-//    private var useFormSheetSPISizing: Bool
-//    private var popoverEdgeAppearance: PopoverEdgeAppearance?
+struct PresentationOptionsPreference : CustomStringConvertible { // 0x8c
+    private var detents: Set<PresentationDetent> = [] // 0x0
+    private var selection: Binding<PresentationDetent>? = nil // 0x8
+    private var horizontalAdaptation: PresentationAdaptation? = nil // 0x28
+    private var verticalAdaptation: PresentationAdaptation? = nil // 0x29
+    private var dimmingBehavior: PresentationDimmingBehavior? = nil // 0x30
+    private var passthroughBehavior: PresentationPassthroughBehavior? = nil // 0x38
+    private var swipeUpBehavior: PresentationContentInteraction = .automatic // 0x39
+    private var dragIndicatorVisibility: Visibility = .automatic // 0x3a
+    private var cornerRadius: CGFloat? = nil // 0x40
+    private var dragIndicatorOffset: CGFloat? = nil // 0x50
+    private var sizing: PresentationSizing? = nil // 0x60
+    private var breakthroughEffect: BreakthroughEffect? = .automatic // 0x88
+    private var useFormSheetSPISizing: Bool = false // 0x8a
+    private var popoverEdgeAppearance: PopoverEdgeAppearance? = nil // 0x8b
     
-    func sheetConfigurationChanged(from: PresentationOptionsPreference?) -> Bool {
+    func sheetConfigurationChanged(from other: PresentationOptionsPreference?) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func differenceMessage(from other: PresentationOptionsPreference) -> String {
+        assertUnimplemented()
+    }
+    
+    func merge(_ other: PresentationOptionsPreference) {
+        assertUnimplemented()
+    }
+    
+    var description: String {
         assertUnimplemented()
     }
 }
 
 struct PresentationOptionsPreferenceKey : HostPreferenceKey {
-    static let defaultValue = PresentationOptionsPreference()
+    @safe static nonisolated(unsafe) let defaultValue = PresentationOptionsPreference()
     
     static func reduce(value: inout PresentationOptionsPreference, nextValue: () -> PresentationOptionsPreference) {
         assertUnimplemented()

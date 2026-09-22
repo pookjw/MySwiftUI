@@ -8,26 +8,12 @@ public import MySwiftUICore
 public struct BreakthroughEffect : Equatable, Sendable {
     private let rawValue: Int8
     
-    public static let automatic: BreakthroughEffect = {
-        assertUnimplemented()
-    }()
-    
-    public static let subtle: BreakthroughEffect = {
-        assertUnimplemented()
-    }()
-    
-    public static let prominent: BreakthroughEffect = {
-        assertUnimplemented()
-    }()
-    
-    public static let none: BreakthroughEffect = {
-        assertUnimplemented()
-    }()
-    
-    public static func == (a: BreakthroughEffect, b: BreakthroughEffect) -> Bool {
-        assertUnimplemented()
-    }
+    public static let automatic = BreakthroughEffect(rawValue: 1 << 0)
+    public static let subtle = BreakthroughEffect(rawValue: 1 << 1)
+    public static let prominent = BreakthroughEffect(rawValue: 1 << 2)
+    public static let none = BreakthroughEffect(rawValue: 1 << 3)
 }
+
 extension View {
     @available(visionOS 26.0, *)
     @available(iOS, unavailable)
