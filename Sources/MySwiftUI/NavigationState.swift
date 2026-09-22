@@ -19,13 +19,8 @@ extension NavigationState {
     }
     
     struct SelectionSeed {
-        static let invalid: NavigationState.SelectionSeed = {
-            assertUnimplemented()
-        }()
-        
-        static let empty: NavigationState.SelectionSeed = {
-            assertUnimplemented()
-        }()
+        static let invalid = NavigationState.SelectionSeed(storage: .invalid)
+        static let empty = NavigationState.SelectionSeed(storage: .empty)
         
         private var storage: VersionSeed
     }

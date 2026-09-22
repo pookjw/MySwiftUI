@@ -268,6 +268,16 @@ fileprivate struct SecondaryChild<T : PreferenceKey, U : View> : AsyncAttribute,
     @OptionalAttribute var preferenceValue: T.Value?
     
     var value: U {
-        assertUnimplemented()
+        return ObservationCenter.current._withObservation(
+            attribute: Attribute<U>(identifier: .current!)
+        ) {
+            // $s7SwiftUI14SecondaryChild33_E16FB36220E60E9D0940B6710E02DAD2LLV5valueq_vgq_yXEfU_TA
+            return self.$modifier.syncMainIfReferences { modifier in
+                // $s7SwiftUI14SecondaryChild33_E16FB36220E60E9D0940B6710E02DAD2LLV5valueq_vgq_yXEfU_q_AA26_OverlayPreferenceModifierVyxq_GXEfU_TA
+                // modifier -> x0 -> x26
+                let value = self.preferenceValue ?? T.defaultValue
+                return modifier.transform(value)
+            }
+        }
     }
 }
