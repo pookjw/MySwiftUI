@@ -21,7 +21,11 @@ extension ContainerBackgroundKeys {
     
     struct PresentationKey : ContainerBackgroundPlacementKey, HostPreferenceKey {
         static var defaultValue: ContainerBackgroundValue {
-            assertUnimplemented()
+            return ContainerBackgroundValue(
+                content: .none,
+                allowsVibrancy: false,
+                environment: EnvironmentValues()
+            )
         }
         
         static func reduce(value: inout ContainerBackgroundValue, nextValue: () -> ContainerBackgroundValue) {
@@ -55,8 +59,8 @@ extension ContainerBackgroundKeys {
 
 struct ContainerBackgroundValue {
     private(set) var content: ContainerBackgroundValue.Content
-    private var allowsVibrancy: Bool
-    private var environment: EnvironmentValues
+    fileprivate private(set) var allowsVibrancy: Bool
+    fileprivate private(set) var environment: EnvironmentValues
 }
 
 extension ContainerBackgroundValue {

@@ -241,7 +241,11 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         self.isDelayingRemotePresentation = true
     }
     
-    func setupSheet(for kind: PresentationHostingControllerPresenterKind, presenter: UIViewController, placement: SheetPreference.Placement) {
+    func setupSheet(
+        for kind: PresentationHostingControllerPresenterKind,
+        presenter: UIViewController,
+        placement: SheetPreference.Placement
+    ) {
         assertUnimplemented()
     }
     
