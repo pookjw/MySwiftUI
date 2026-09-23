@@ -9,7 +9,7 @@ public struct _ProposedSize {
     var width: CGFloat?
     var height: CGFloat?
     
-    init(width: CGFloat?, height: CGFloat?) {
+    package init(width: CGFloat?, height: CGFloat?) {
         self.width = width
         self.height = height
     }

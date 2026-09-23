@@ -1,5 +1,6 @@
 public import MySwiftUICore
 public import CoreGraphics
+internal import UIKit
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public protocol PresentationSizing {
@@ -8,6 +9,8 @@ public protocol PresentationSizing {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct PresentationSizingRoot {
+    private(set) weak var host: (any ViewRendererHost)?
+    
     public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
         assertUnimplemented()
     }
@@ -19,6 +22,13 @@ extension PresentationSizingRoot : Sendable {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct PresentationSizingContext {
+    private(set) var presenter: UIView // 0x0
+    private(set) var navigationColumnCount: Int // 0x8
+    private(set) var currentSize: CGSize? // 0x10
+    private(set) var sidebarColumnWidth: CGFloat? // 0x28
+    private(set) var contentColumnWidth: CGFloat? // 0x38
+    private(set) var interfaceIdiom: AnyInterfaceIdiom // 0x24 (offset field)
+    private(set) var readableWidth: CGFloat // 0x28 (offset field)
 }
 
 extension PresentationSizing {

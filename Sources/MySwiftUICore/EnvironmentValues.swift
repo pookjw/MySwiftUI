@@ -142,6 +142,10 @@ extension EnvironmentValues {
 }
 
 extension EnvironmentValues {
+    package mutating func configureForRoot() {
+        self.locale = .current
+    }
+    
     package func configuredForRoot() -> EnvironmentValues {
         /*
          self -> x20

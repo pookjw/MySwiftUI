@@ -38,6 +38,16 @@ extension EnvironmentValues {
             }
         }
     }
+    
+    package var readableWidth: CGFloat {
+        return self[EnvironmentValues.ReadableWidthKey.self]
+    }
+    
+    fileprivate struct ReadableWidthKey : DerivedEnvironmentKey {
+        static func value(in environment: EnvironmentValues) -> CGFloat {
+            assertUnimplemented()
+        }
+    }
 }
 
 fileprivate struct DisplayScaleKey : EnvironmentKey {

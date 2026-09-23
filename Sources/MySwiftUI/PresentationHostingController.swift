@@ -95,10 +95,12 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     
     override var preferredContentSize: CGSize {
         get {
-            assertUnimplemented()
+            return super.preferredContentSize
         }
         set {
-            assertUnimplemented()
+            UIView.performWithoutAnimation { 
+                super.preferredContentSize = newValue
+            }
         }
     }
     
@@ -489,7 +491,208 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     override func sizingOptionsDidChange(from sizingOptions: UIHostingControllerSizingOptions) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x24
+         sizingOptions -> x0 -> x27
+         */
+        // <+484>
+        if let observedSize {
+            self
+                .host
+                .base
+                .viewGraph
+                .viewGraph
+                .sizeThatFitsObservers
+                .stopObserving(
+                    proposal: _ProposedSize(width: observedSize.width, height: nil)
+                )
+            
+            self.observedSize = nil
+            // <+756>
+        }
+        
+        // <+756>
+        guard let presentingViewController else {
+            super.sizingOptionsDidChange(from: sizingOptions)
+            return
+        }
+        
+        let sizing: (any PresentationSizing)?
+        if let lastPresentationOptions {
+            // lastPresentationOptions -> x19 + 0xb8 (sp + 0x218)
+            // <+824>
+            if _SemanticFeature<Semantics_v6>.isEnabled {
+                // <+904>
+                // <+1016>
+                sizing = lastPresentationOptions.sizing ?? .automatic
+            } else {
+                // <+968>
+                super.sizingOptionsDidChange(from: sizingOptions)
+                return
+            }
+        } else {
+            // <+948>
+            super.sizingOptionsDidChange(from: sizingOptions)
+            return
+        }
+        
+        // <+1016>
+        if let sizing {
+            if self.sizingOptions.isEmpty {
+                // <+1160>
+                if
+                    let sheetPresentationController,
+                    sheetPresentationController.presentationStyle == .formSheet
+                {
+                    // <+1208>
+                    if
+                        let lastPresentationOptions, 
+                        lastPresentationOptions.useFormSheetSPISizing
+                    {
+                        // <+1076>
+                    } else {
+                        // <+1224>
+                        let interfaceIdiom = self.traitCollection.userInterfaceIdiom.idiom ?? _GraphInputs.defaultInterfaceIdiom
+                        // <+1420>
+                        let presenter = presentingViewController.nonPresentedAncestor.view!
+                        let navigationColumnCount = self.lastColumnCount
+                        
+                        var environment: EnvironmentValues
+                        let traitCollection = self.traitCollection
+                        if
+                            let wrapper = traitCollection._environmentWrapper,
+                            let casted = wrapper as? EnvironmentWrapper
+                        {
+                            environment = casted.environment
+                        } else {
+                            environment = EnvironmentValues()
+                            environment.configureForRoot()
+                            environment.configureForPlatform(traitCollection: traitCollection)
+                        }
+                        
+                        let readableWidth = environment.readableWidth
+                        
+                        let context = PresentationSizingContext(
+                            presenter: presenter,
+                            navigationColumnCount: navigationColumnCount,
+                            currentSize: nil,
+                            sidebarColumnWidth: nil,
+                            contentColumnWidth: nil,
+                            interfaceIdiom: interfaceIdiom,
+                            readableWidth: readableWidth
+                        )
+                        
+                        let sizing = SheetSizing(
+                            presentationSizing: sizing,
+                            sizeContext: context
+                        )
+                        
+                        let sheetSize = sizing.sheetSizeThatFits(
+                            host: self.host,
+                            subview: PresentationSizingRoot(host: self.host)
+                        )
+                        
+                        // <+1848>
+                        self.preferredContentSize = sheetSize
+                        // <+2112>
+                        self.observedSize = sheetSize
+                        
+                        self
+                            .host
+                            .base
+                            .viewGraph
+                            .viewGraph
+                            .sizeThatFitsObservers
+                            .addObserver(
+                                for: _ProposedSize(width: sheetSize.width, height: nil),
+                                exclusive: true
+                            ) { [weak self] _, _ in
+                                // $s7SwiftUI29PresentationHostingControllerC22sizingOptionsDidChange4fromyAA09UIHostinge6SizingG0V_tFySo6CGSizeV_AItcfU0_AA7AnyViewV_TG5TA
+                                /*
+                                 self -> x0 -> x20
+                                 interfaceIdiom -> x1 -> x21
+                                 */
+                                // <+220>
+                                guard
+                                    let self,
+                                    let lastPresentationOptions // x19 + 0x48
+                                else {
+                                    return
+                                }
+                                
+                                // <+304>
+                                let sizing: (any PresentationSizing)?
+                                if _SemanticFeature<Semantics_v6>.isEnabled {
+                                    // <+380>
+                                    sizing = lastPresentationOptions.sizing ?? .automatic
+                                } else {
+                                    // <+444>
+                                    sizing = nil
+                                }
+                                
+                                // <+496>
+                                guard
+                                    let sizing,
+                                    let presentingViewController = self.presentingViewController
+                                else {
+                                    return
+                                }
+                                
+                                let presenter = presentingViewController.nonPresentedAncestor.view!
+                                let navigationColumnCount = self.lastColumnCount
+                                let preferredContentSize = self.preferredContentSize
+                                
+                                var environment: EnvironmentValues
+                                let traitCollection = self.traitCollection
+                                if
+                                    let wrapper = traitCollection._environmentWrapper,
+                                    let casted = wrapper as? EnvironmentWrapper
+                                {
+                                    environment = casted.environment
+                                } else {
+                                    environment = EnvironmentValues()
+                                    environment.configureForRoot()
+                                    environment.configureForPlatform(traitCollection: traitCollection)
+                                }
+                                
+                                let readableWidth = environment.readableWidth
+                                
+                                let context = PresentationSizingContext(
+                                    presenter: presenter,
+                                    navigationColumnCount: navigationColumnCount,
+                                    currentSize: preferredContentSize,
+                                    sidebarColumnWidth: nil,
+                                    contentColumnWidth: nil,
+                                    interfaceIdiom: interfaceIdiom,
+                                    readableWidth: readableWidth
+                                )
+                                
+                                let sheetSizing = SheetSizing(
+                                    presentationSizing: sizing,
+                                    sizeContext: context
+                                )
+                                
+                                let sheetSize = sheetSizing.sheetSizeThatFits(
+                                    host: self.host,
+                                    subview: PresentationSizingRoot(host: self.host)
+                                )
+                                
+                                self.preferredContentSize = sheetSize
+                            }
+                        
+                        return
+                    }
+                } else {
+                    // <+1076>
+                }
+            } else {
+                // <+1112>
+            }
+        } else {
+            // <+1092>
+        }
+        
+        super.sizingOptionsDidChange(from: sizingOptions)
     }
     
     fileprivate func configureSizingOptions(for preference: PresentationOptionsPreference, sheetController: UISheetPresentationController?) {
@@ -618,4 +821,10 @@ protocol PresentationHostingControllerDismissDelegate : AnyObject {
 
 protocol PresentationBackgroundDelegate : AnyObject {
     var defaultBackgroundIsTransparent: Bool { get }
+}
+
+extension UIViewController {
+    fileprivate var nonPresentedAncestor: UIViewController {
+        assertUnimplemented()
+    }
 }
