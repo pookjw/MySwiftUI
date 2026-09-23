@@ -465,7 +465,27 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func prepareModalPresentationStyle(_ style: UIModalPresentationStyle, presentationOptions: PresentationOptionsPreference) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         style -> x0 -> x21
+         presentationOptions -> x1 -> x19
+         */
+        if (style == .mrui_blurOverFullScreen) || (style == .overFullScreen) {
+            self.modalPresentationCapturesStatusBarAppearance = true
+        }
+        
+        self.modalPresentationStyle = style
+        
+        let currentStyle = self.modalPresentationStyle
+        
+        if (currentStyle == .popover) || (currentStyle == .formSheet) {
+            Update.ensure { 
+                // $s7SwiftUI0A10UIOrnamentC8position16contentAlignment18isRelativeToParent11environment20usesRemoteVisibility8rootViewACyxGSo27MRUIPlatterOrnamentPosition_p_AA11Alignment3DVSbAA17EnvironmentValuesVSgSbxtcfcyyXEfU1_AA03AnyP0V_Tg5TA
+                self.host.base.viewGraph.viewGraph.instantiateIfNeeded()
+            }
+            
+            self.configureSizingOptions(for: presentationOptions, sheetController: nil)
+        }
     }
     
     override func sizingOptionsDidChange(from sizingOptions: UIHostingControllerSizingOptions) {
@@ -473,6 +493,11 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     fileprivate func configureSizingOptions(for preference: PresentationOptionsPreference, sheetController: UISheetPresentationController?) {
+        /*
+         self -> x20
+         preference -> x0 -> x21
+         sheetController -> x1 -> x19
+         */
         assertUnimplemented()
     }
     
