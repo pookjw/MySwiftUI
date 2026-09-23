@@ -498,7 +498,70 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
          preference -> x0 -> x21
          sheetController -> x1 -> x19
          */
-        assertUnimplemented()
+        guard self.modalPresentationStyle != .popover else {
+            self.sizingOptions = [.preferredContentSize]
+            return
+        }
+        
+        // <+100>
+        guard !preference.useFormSheetSPISizing else {
+            self.sizingOptions = [.preferredContentSize]
+            // <+772>
+            if let sheetController {
+                sheetController.prefersPageSizing = false
+            }
+            
+            return
+        }
+        
+        // <+156>
+        // self -> x20 -> x23
+        if self.modalPresentationStyle == .formSheet {
+            // <+176>
+            if _SemanticFeature<Semantics_v6>.isEnabled {
+                // <+232>
+                // <+392>
+            } else {
+                // <+276>
+                self.sizingOptions = [.preferredContentSize]
+                // <+772>
+                if let sheetController {
+                    sheetController.prefersPageSizing = false
+                }
+                
+                return
+            }
+        } else {
+            // <+392>
+        }
+        
+        // <+392>
+        if _SemanticFeature<Semantics_v6>.isEnabled {
+            // <+452>
+            // <+732>
+            self.sizingOptions = []
+            // <+772>
+            if let sheetController {
+                sheetController.prefersPageSizing = false
+            }
+        } else {
+            // <+496>
+            if _SemanticFeature<Semantics_v6>.isEnabled {
+                // noop
+            } else {
+                // <+584>
+                if self.modalPresentationStyle == .pageSheet {
+                    // <+632>
+                    self.sizingOptions = []
+                    // <+772>
+                    if let sheetController {
+                        sheetController.prefersPageSizing = true
+                    }
+                } else {
+                    // noop
+                }
+            }
+        }
     }
     
     func updatePreferredContentSizeIfNeeded(presenter: UIViewController?, sizing: PresentationSizing?) {

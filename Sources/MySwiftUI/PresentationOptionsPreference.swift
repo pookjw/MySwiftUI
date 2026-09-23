@@ -14,7 +14,7 @@ struct PresentationOptionsPreference : CustomStringConvertible { // 0x8c
     private var dragIndicatorOffset: CGFloat? = nil // 0x50
     private(set) var sizing: (any PresentationSizing)? = nil // 0x60
     private var breakthroughEffect: BreakthroughEffect? = .automatic // 0x88
-    private var useFormSheetSPISizing: Bool = false // 0x8a
+    private(set) var useFormSheetSPISizing: Bool = false // 0x8a
     private(set) var popoverEdgeAppearance: PopoverEdgeAppearance? = nil // 0x8b
     
     func sheetConfigurationChanged(from other: PresentationOptionsPreference?) -> Bool {
