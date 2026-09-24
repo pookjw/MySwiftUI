@@ -1,3 +1,3 @@
-protocol GestureConstantsProvider {
+package protocol GestureConstantsProvider {
     // TODO
 }

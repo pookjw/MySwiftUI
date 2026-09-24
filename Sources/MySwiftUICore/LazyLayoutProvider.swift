@@ -1,3 +1,3 @@
-protocol LazyLayoutProvider {
+package protocol LazyLayoutProvider {
     // TODO
 }

@@ -50,16 +50,16 @@ internal import _MySwiftUIShims
 }
 
 @_spi(Internal) public struct CorePlatformProviders : @unchecked Sendable {
-    fileprivate private(set) var defaultAccentColor: (any DefaultAccentColorProvider.Type)?
-    fileprivate private(set) var cuiNamedColor: (any CoreUINamedColorProvider.Type)?
-    fileprivate private(set) var resolvedText: (any ResolvedTextProvider.Type)?
-    fileprivate private(set) var accessibilityTextAttributeResolver: (any AccessibilityTextAttributeResolver.Type)?
-    fileprivate private(set) var bridgedEnvironment: (any BridgedEnvironmentResolver.Type)?
-    private(set) var fallbackFont: (any FallbackFontProvider.Type)?
-    fileprivate private(set) var layerStackBitmap: (any LayerStackBitmapProvider.Type)?
-    fileprivate private(set) var gestureConstants: (any GestureConstantsProvider.Type)?
-    fileprivate private(set)  var lazyContainerInputs: (any LazyContainerInputsProvider.Type)?
-    fileprivate private(set) var lazyLayout: (any LazyLayoutProvider.Type)?
+    package var defaultAccentColor: (any DefaultAccentColorProvider.Type)?
+    package var cuiNamedColor: (any CoreUINamedColorProvider.Type)?
+    package var resolvedText: (any ResolvedTextProvider.Type)?
+    package var accessibilityTextAttributeResolver: (any AccessibilityTextAttributeResolver.Type)?
+    package var bridgedEnvironment: (any BridgedEnvironmentResolver.Type)?
+    package var fallbackFont: (any FallbackFontProvider.Type)?
+    package var layerStackBitmap: (any LayerStackBitmapProvider.Type)?
+    package var gestureConstants: (any GestureConstantsProvider.Type)?
+    package var lazyContainerInputs: (any LazyContainerInputsProvider.Type)?
+    package var lazyLayout: (any LazyLayoutProvider.Type)?
 }
 
 extension EnvironmentValues {

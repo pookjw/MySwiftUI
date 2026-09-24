@@ -1,3 +1,3 @@
-protocol LayerStackBitmapProvider {
+package protocol LayerStackBitmapProvider {
     // TODO
 }

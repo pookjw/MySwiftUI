@@ -1,3 +1,3 @@
-protocol CoreUINamedColorProvider {
+package protocol CoreUINamedColorProvider {
     // TODO
 }

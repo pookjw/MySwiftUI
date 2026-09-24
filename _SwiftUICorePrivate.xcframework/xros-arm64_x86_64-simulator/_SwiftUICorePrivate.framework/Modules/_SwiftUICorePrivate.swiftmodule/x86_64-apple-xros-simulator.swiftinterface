@@ -2513,3 +2513,21 @@ extension SwiftUI.Color {
     case opacity
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum WatchDisplayVariant : Swift.Int, Swift.Hashable, Swift.Codable {
+  public var rawValue: Swift.Int { get }
+  public init?(rawValue: Int)
+
+  case h340
+  case h390
+  case h394
+  case h448
+  case h430
+  case h484
+  case h502
+  case h446
+  case h496
+  case h514
+}

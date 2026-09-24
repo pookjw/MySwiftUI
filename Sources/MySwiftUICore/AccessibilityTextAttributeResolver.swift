@@ -1,3 +1,3 @@
-protocol AccessibilityTextAttributeResolver {
+package protocol AccessibilityTextAttributeResolver {
     // TODO
 }

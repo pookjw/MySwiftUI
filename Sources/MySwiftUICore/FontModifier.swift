@@ -1,7 +1,11 @@
 // 25811D44B7BE5E768C1CBA33158F398B
 internal import CoreText
 
-class AnyFontModifier : @unchecked Sendable {
+class AnyFontModifier : Hashable, @unchecked Sendable {
+    static func == (lhs: AnyFontModifier, rhs: AnyFontModifier) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    
     func modify(descriptor: inout CTFontDescriptor, in context: Font.Context) {
         // noop
     }

@@ -1,4 +1,4 @@
-protocol FallbackFontProvider {
+package protocol FallbackFontProvider {
     static func makeFont(in environment: EnvironmentValues) -> Font
 }
 

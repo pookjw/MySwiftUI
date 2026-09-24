@@ -33,14 +33,6 @@ public enum ContentSizeCategory : Hashable, CaseIterable, Sendable {
     @available(macOS, introduced: 10.15, deprecated: 100000.0, renamed: "DynamicTypeSize")
     public typealias AllCases = [ContentSizeCategory]
     
-    nonisolated public static var allCases: [ContentSizeCategory] {
-        assertUnimplemented()
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
-    }
-    
     init(_ size: DynamicTypeSize) {
         switch size {
         case .xSmall:

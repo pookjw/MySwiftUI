@@ -1,3 +1,3 @@
-protocol ResolvedTextProvider {
+package protocol ResolvedTextProvider {
     // TODO
 }

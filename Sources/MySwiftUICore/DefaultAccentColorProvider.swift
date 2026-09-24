@@ -1,3 +1,3 @@
-protocol DefaultAccentColorProvider {
+package protocol DefaultAccentColorProvider {
     // TODO
 }

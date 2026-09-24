@@ -1,3 +1,3 @@
-protocol BridgedEnvironmentResolver {
+package protocol BridgedEnvironmentResolver {
     // TODO
 }

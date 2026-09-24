@@ -5,11 +5,11 @@ public import CoreText
     @_hasStorage internal private(set) var provider: AnyFontBox
     
     public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        self.provider.hash(into: &hasher)
     }
     
     public static func == (lhs: Font, rhs: Font) -> Bool {
-        assertUnimplemented()
+        return lhs.provider.isEqual(to: rhs.provider)
     }
     
     func platformFont(in context: Font.Context) -> CTFont {
@@ -69,14 +69,6 @@ extension Font {
         private(set) var shouldRedactContent: Bool // 0x19
         private(set) var effectiveFont: Font // 0x20
         fileprivate(set) var fontModifiers: [AnyFontModifier] // 0x28
-        
-        public static func == (a: Font.Context, b: Font.Context) -> Bool {
-            assertUnimplemented()
-        }
-        
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
     }
 }
 
@@ -263,16 +255,7 @@ extension Font {
         case extraLargeTitle2
         
         public static let allCases: [Font.TextStyle] = { assertUnimplemented() } ()
-        
-        public static func == (a: Font.TextStyle, b: Font.TextStyle) -> Bool {
-            assertUnimplemented()
-        }
-        
         public typealias AllCases = [Font.TextStyle]
-        
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
     }
 }
 
@@ -405,14 +388,6 @@ extension Font {
         public static let bold: Font.Weight = { assertUnimplemented() }()
         public static let heavy: Font.Weight = { assertUnimplemented() }()
         public static let black: Font.Weight = { assertUnimplemented() }()
-        
-        public static func == (a: Font.Weight, b: Font.Weight) -> Bool {
-            assertUnimplemented()
-        }
-        
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
     }
     
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
@@ -569,14 +544,6 @@ extension Font {
         case rounded
         @available(watchOS 7.0, *)
         case monospaced
-        
-        public static func == (a: Font.Design, b: Font.Design) -> Bool {
-            assertUnimplemented()
-        }
-        
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
     }
 }
 
@@ -610,14 +577,6 @@ extension Font {
 
 extension Font.FontCache {
     fileprivate struct Key : Hashable {
-        static func == (lhs: Font.FontCache.Key, rhs: Font.FontCache.Key) -> Bool {
-            assertUnimplemented()
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
-        
         private(set) var font: Font // 0x0
         private(set) var modifiers: [AnyFontModifier] // 0x8
         private(set) var context: Font.Context // 0x10
@@ -636,23 +595,36 @@ extension Font {
     }
     
     struct TextStyleProvider : CodableByProxy, FontProvider {
-        fileprivate private(set) var style: Font.TextStyle
-        fileprivate private(set) var design: Font.Design?
-        fileprivate private(set) var weight: Font.Weight?
+        fileprivate private(set) var style: Font.TextStyle // 0x0
+        fileprivate private(set) var design: Font.Design? // 0x1
+        fileprivate private(set) var weight: Font.Weight? // 0x8
+        
+        var tag: Font.ProviderTag {
+            assertUnimplemented()
+        }
+        
+        func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor {
+            return context.fontDefinition.base.resolveTextStyleFont(
+                textStyle: self.style,
+                design: self.design,
+                weight: self.weight,
+                in: context
+            )
+        }
+        
+        func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits {
+            assertUnimplemented()
+        }
+        
+        func removing<T>(_ modifier: T.Type) -> any FontProvider where T : StaticFontModifier {
+            assertUnimplemented()
+        }
         
         func serialize(to encoder: any Encoder) throws {
             assertUnimplemented()
         }
         
         static func deserialize(from decoder: any Decoder) throws -> Font.TextStyleProvider {
-            assertUnimplemented()
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
-        
-        static func == (lhs: Font.TextStyleProvider, rhs: Font.TextStyleProvider) -> Bool {
             assertUnimplemented()
         }
     }
@@ -663,7 +635,10 @@ extension Font {
 }
 
 protocol FontProvider : Hashable, Serializable {
-    // TODO
+    var tag: Font.ProviderTag { get }
+    func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor
+    func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits
+    func removing<T : StaticFontModifier>(_ modifier: T.Type) -> any FontProvider
 }
 
 final class FontBox<T : FontProvider> : AnyFontBox, @unchecked Sendable {
@@ -683,7 +658,7 @@ final class FontBox<T : FontProvider> : AnyFontBox, @unchecked Sendable {
     }
     
     override func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor {
-        assertUnimplemented()
+        return self.base.resolveDescriptor(in: context)
     }
     
     override func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits {
@@ -695,7 +670,7 @@ final class FontBox<T : FontProvider> : AnyFontBox, @unchecked Sendable {
     }
     
     override func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        hasher.combine(self.base)
     }
     
     override func removing<U>(_ modifier: U.Type) -> any FontProvider where U : StaticFontModifier {
