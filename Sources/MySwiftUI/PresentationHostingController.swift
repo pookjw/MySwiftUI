@@ -953,6 +953,24 @@ protocol PresentationBackgroundDelegate : AnyObject {
 
 extension UIViewController {
     fileprivate var nonPresentedAncestor: UIViewController {
-        assertUnimplemented()
+        // x19
+        var viewController = self
+        
+        while
+            let presenting = viewController.presentingViewController,
+            presenting.view.window != nil
+        {
+            viewController = presenting
+        }
+        
+        // <+132>
+        while
+            let parent = viewController.parent,
+            parent.view.window != nil
+        {
+            viewController = parent
+        }
+        
+        return viewController
     }
 }
