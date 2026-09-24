@@ -1,3 +1,4 @@
+// 25811D44B7BE5E768C1CBA33158F398B
 internal import CoreText
 
 class AnyFontModifier : @unchecked Sendable {
@@ -28,4 +29,21 @@ class AnyFontModifier : @unchecked Sendable {
     }
     
     init() {}
+}
+
+extension EnvironmentValues {
+    var fontModifiers: [AnyFontModifier] {
+        get {
+            return self[FontModifiersKey.self]
+        }
+        set {
+            self[FontModifiersKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct FontModifiersKey : EnvironmentKey {
+    static var defaultValue: [AnyFontModifier] {
+        return []
+    }
 }

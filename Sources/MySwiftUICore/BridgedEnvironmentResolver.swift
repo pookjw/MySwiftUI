@@ -1,0 +1,3 @@
+protocol BridgedEnvironmentResolver {
+    // TODO
+}

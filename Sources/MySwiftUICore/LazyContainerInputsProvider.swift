@@ -1,0 +1,3 @@
+protocol LazyContainerInputsProvider {
+    // TODO
+}

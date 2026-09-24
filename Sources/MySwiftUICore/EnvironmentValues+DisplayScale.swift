@@ -98,3 +98,69 @@ fileprivate struct DefaultPixelLengthKey : EnvironmentKey {
         return nil
     }
 }
+
+extension EnvironmentValues {
+    var effectiveFont: Font {
+        return self[EnvironmentValues.EffectiveFontKey.self]
+    }
+    
+    fileprivate struct EffectiveFontKey : DerivedEnvironmentKey {
+        static func value(in environment: EnvironmentValues) -> Font {
+            if let font = environment.font {
+                return font
+            }
+            
+            if let defaultFont = environment.defaultFont {
+                return defaultFont
+            }
+            
+            return environment.fallbackFont
+        }
+    }
+}
+
+extension EnvironmentValues {
+    public var font: Font? {
+        get {
+            return self[FontKey.self]
+        }
+        set {
+            self[FontKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct FontKey : EnvironmentKey {
+    static var defaultValue: Font? {
+        return nil
+    }
+}
+
+extension EnvironmentValues {
+    var defaultFont: Font? {
+        get {
+            return self[DefualtFontKey.self]
+        }
+        set {
+            self[DefualtFontKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct DefualtFontKey : EnvironmentKey {
+    static var defaultValue: Font? {
+        return nil
+    }
+}
+
+extension EnvironmentValues {
+    var fallbackFont: Font {
+        return self[EnvironmentValues.FallbackFontKey.self]
+    }
+    
+    fileprivate struct FallbackFontKey : DerivedEnvironmentKey {
+        static func value(in environment: EnvironmentValues) -> Font {
+            return environment.fallbackFontProvider.makeFont(in: environment)
+        }
+    }
+}

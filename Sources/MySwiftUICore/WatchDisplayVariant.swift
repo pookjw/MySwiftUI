@@ -10,3 +10,20 @@ enum WatchDisplayVariant {
     case h496
     case h514
 }
+
+extension EnvironmentValues {
+    var watchDisplayVariant: WatchDisplayVariant {
+        get {
+            return self[EnvironmentValues.WatchDisplayVariantKey.self]
+        }
+        set {
+            self[EnvironmentValues.WatchDisplayVariantKey.self] = newValue
+        }
+    }
+    
+    struct WatchDisplayVariantKey : EnvironmentKey {
+        static var defaultValue: WatchDisplayVariant {
+            return .h390
+        }
+    }
+}

@@ -16,13 +16,13 @@ public import CoreText
         var context = context
         context.fontModifiers = []
         
-        let key = Font.Cache.Key(
+        let key = Font.FontCache.Key(
             font: self,
             modifiers: [],
             context: context
         )
         
-        return Font.Cache.shared.objectCache[key]
+        return Font.FontCache.shared[key]
     }
 }
 
@@ -95,7 +95,15 @@ extension EnvironmentValues {
     
     fileprivate struct FontContextKey : DerivedEnvironmentKey {
         static func value(in environment: EnvironmentValues) -> Font.Context {
-            assertUnimplemented()
+            return Font.Context(
+                sizeCategory: ContentSizeCategory(environment.dynamicTypeSize),
+                legibilityWeight: environment.legibilityWeight,
+                fontDefinition: FontDefinitionType(base: environment.fontDefinition),
+                watchDisplayVariant: environment.watchDisplayVariant,
+                shouldRedactContent: environment.shouldRedactContent,
+                effectiveFont: environment.effectiveFont,
+                fontModifiers: environment.fontModifiers
+            )
         }
     }
 }
@@ -581,10 +589,8 @@ extension Font.Leading : Equatable {}
 extension Font.Leading : Hashable {}
 
 extension Font {
-    fileprivate struct Cache {
-        static let shared = Font.Cache()
-        
-        let objectCache = ObjectCache<Font.Cache.Key, CTFont> { key in
+    fileprivate struct FontCache {
+        static let shared = ObjectCache<Font.FontCache.Key, CTFont> { key in
             // $s7SwiftUI4FontV0C5Cache33_3D5D82E35921924EBCD40D1BFB222CC3LLV6sharedAA06ObjectD0CyAF3KeyVSo9CTFontRefaGvpZfiAmKcfU_
             // sp + 0x70
             let copy_1 = key.context
@@ -602,9 +608,9 @@ extension Font {
     }
 }
 
-extension Font.Cache {
+extension Font.FontCache {
     fileprivate struct Key : Hashable {
-        static func == (lhs: Font.Cache.Key, rhs: Font.Cache.Key) -> Bool {
+        static func == (lhs: Font.FontCache.Key, rhs: Font.FontCache.Key) -> Bool {
             assertUnimplemented()
         }
         
@@ -616,14 +622,6 @@ extension Font.Cache {
         private(set) var modifiers: [AnyFontModifier] // 0x8
         private(set) var context: Font.Context // 0x10
     }
-}
-
-struct FontDefinitionType : @unchecked Sendable {
-    private var base: any FontDefinition.Type
-}
-
-protocol FontDefinition {
-    // TODO
 }
 
 extension Font {
