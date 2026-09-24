@@ -1,4 +1,3 @@
-
 public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
     case xSmall
     case small

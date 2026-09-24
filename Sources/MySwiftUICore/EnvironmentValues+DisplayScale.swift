@@ -1,5 +1,8 @@
 // 1B17C64D9E901A0054B49B69A4A2439D
 public import CoreGraphics
+private import Synchronization
+private import UIKit
+private import CoreText
 
 extension EnvironmentValues {
     public var displayScale: CGFloat {
@@ -44,8 +47,42 @@ extension EnvironmentValues {
     }
     
     fileprivate struct ReadableWidthKey : DerivedEnvironmentKey {
+        static let cache = Mutex<[DynamicTypeSize: CGFloat]>([:])
+        
         static func value(in environment: EnvironmentValues) -> CGFloat {
-            assertUnimplemented()
+            let cached: CGFloat? = EnvironmentValues.ReadableWidthKey.cache.withLock { cache in
+                // $s7SwiftUI17EnvironmentValuesVAAE16ReadableWidthKey33_1B17C64D9E901A0054B49B69A4A2439DLLV5value2in12CoreGraphics7CGFloatVAC_tFZAKSgSDyAA15DynamicTypeSizeOAKGzYuYTXEfU_
+                return cache[environment.dynamicTypeSize]
+            }
+            
+            // <+104>
+            if let cached {
+                return cached
+            }
+            
+            // x21
+            let body = Font.body
+            let context = environment.fontResolutionContext
+            let cfFont = body.platformFont(in: context)
+            
+            // <+408>
+            let attributedString = NSAttributedString(
+                string: String(repeating: "M", count: 62),
+                attributes: [.font: cfFont]
+            )
+            
+            // <+688>
+            let ctLine = CTLineCreateWithAttributedString(attributedString)
+            var bounds = CTLineGetTypographicBounds(ctLine, nil, nil, nil)
+            bounds = bounds * 0.125
+            bounds = ceil(bounds)
+            bounds = bounds * 8.0
+            
+            EnvironmentValues.ReadableWidthKey.cache.withLock { cache in
+                cache[environment.dynamicTypeSize] = bounds
+            }
+            
+            return bounds
         }
     }
 }

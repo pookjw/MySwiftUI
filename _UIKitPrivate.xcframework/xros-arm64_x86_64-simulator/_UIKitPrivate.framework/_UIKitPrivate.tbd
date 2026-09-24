@@ -13,7 +13,8 @@ exports:
     _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvM,
     _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvg,
     _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvs,
-    __UIWindowSceneSessionRoleVolumetricApplication ]
+    __UIWindowSceneSessionRoleVolumetricApplication,
+    _NSFontAttributeName ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 --- !tapi-tbd
