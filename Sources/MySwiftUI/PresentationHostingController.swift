@@ -767,8 +767,136 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         }
     }
     
-    func updatePreferredContentSizeIfNeeded(presenter: UIViewController?, sizing: PresentationSizing?) {
-        assertUnimplemented()
+    func updatePreferredContentSizeIfNeeded(presenter: UIViewController?, sizing: (any PresentationSizing)?) {
+        /*
+         self -> x20 -> x25
+         presenter -> x0 -> x22
+         sizing -> x1 -> x20
+         */
+        // <+392>
+        guard
+            self.modalPresentationStyle == .formSheet &&
+            self.traitCollection.horizontalSizeClass == .regular
+        else {
+            return
+        }
+        
+        // x29 - 0xc0
+        let resolved: (any PresentationSizing)?
+        if let sizing {
+            resolved = sizing
+        } else {
+            // <+500>
+            if let lastPresentationOptions {
+                // <+540>
+                if _SemanticFeature<Semantics_v6>.isEnabled {
+                    // <+612>
+                    resolved = lastPresentationOptions.sizing ?? .automatic
+                } else {
+                    // <+672>
+                    resolved = nil
+                }
+            } else {
+                // <+656>
+                resolved = nil
+            }
+        }
+        
+        // <+740>
+        // x29 - 0x90
+        guard let resolved else {
+            return
+        }
+        
+        // <+748>
+        // x26
+        guard let presenting = presenter ?? self.presentingViewController else {
+            return
+        }
+        
+        // <+816>
+        guard self.sizingOptions.isEmpty else {
+            return
+        }
+        
+        // <+908>
+        guard
+            let sheetPresentationController,
+            sheetPresentationController.presentationStyle == .formSheet
+        else {
+            return
+        }
+        
+        // <+952>
+        if
+            let lastPresentationOptions,
+            lastPresentationOptions.useFormSheetSPISizing
+        {
+            return
+        }
+        
+        // <+1004>
+        let interfaceIdiom = self.traitCollection.userInterfaceIdiom.idiom ?? _GraphInputs.defaultInterfaceIdiom
+        
+        // <+1180>
+        let presenter = presenting.nonPresentedAncestor.view!
+        let navigationColumnCount = self.lastColumnCount
+        
+        var environment: EnvironmentValues
+        let traitCollection = self.traitCollection
+        if
+            let wrapper = traitCollection._environmentWrapper,
+            let casted = wrapper as? EnvironmentWrapper
+        {
+            environment = casted.environment
+        } else {
+            environment = EnvironmentValues()
+            environment.configureForRoot()
+            environment.configureForPlatform(traitCollection: traitCollection)
+        }
+        
+        let readableWidth = environment.readableWidth
+        
+        let context = PresentationSizingContext(
+            presenter: presenter,
+            navigationColumnCount: navigationColumnCount,
+            currentSize: nil,
+            sidebarColumnWidth: nil,
+            contentColumnWidth: nil,
+            interfaceIdiom: interfaceIdiom,
+            readableWidth: readableWidth
+        )
+        
+        let sizing = SheetSizing(
+            presentationSizing: resolved,
+            sizeContext: context
+        )
+        
+        let sheetSize = sizing.sheetSizeThatFits(
+            host: self.host,
+            subview: PresentationSizingRoot(host: self.host)
+        )
+        
+        self.preferredContentSize = sheetSize
+        
+        // <+1856>
+        guard self.isDelayingRemotePresentation else {
+            return
+        }
+        
+        let proposedSize = resolved.proposedSize(
+            for: PresentationSizingRoot(host: self.host),
+            context: context
+        )
+        
+        guard
+            let width = proposedSize.width,
+            let height = proposedSize.height
+        else {
+            return
+        }
+        
+        self.preferredContentSize = CGSize(width: width, height: height)
     }
     
     func configureDetents(of sheet: UISheetPresentationController, using preference: PresentationOptionsPreference) {
