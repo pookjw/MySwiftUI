@@ -1,5 +1,6 @@
 // 3D5D82E35921924EBCD40D1BFB222CC3
 public import CoreText
+private import _CoreTextPrivate
 
 @frozen public struct Font : Hashable, Sendable {
     @_hasStorage internal private(set) var provider: AnyFontBox
@@ -256,9 +257,38 @@ extension Font {
         
         public static let allCases: [Font.TextStyle] = { assertUnimplemented() } ()
         public typealias AllCases = [Font.TextStyle]
-        
-        var cfTextStyle: CFString {
-            assertUnimplemented()
+    }
+}
+
+extension Font.TextStyle {
+    var cfTextStyle: CFString {
+        switch self {
+        case .largeTitle:
+            return kCTUIFontTextStyleTitle0
+        case .title:
+            return kCTUIFontTextStyleTitle1
+        case .title2:
+            return kCTUIFontTextStyleTitle2
+        case .title3:
+            return kCTUIFontTextStyleTitle3
+        case .headline:
+            return kCTUIFontTextStyleHeadline
+        case .subheadline:
+            return kCTUIFontTextStyleSubhead
+        case .body:
+            return kCTUIFontTextStyleBody
+        case .callout:
+            return kCTUIFontTextStyleCallout
+        case .footnote:
+            return kCTUIFontTextStyleFootnote
+        case .caption:
+            return kCTUIFontTextStyleCaption1
+        case .caption2:
+            return kCTUIFontTextStyleCaption2
+        case .extraLargeTitle:
+            return kCTUIFontTextStyleExtraLargeTitle
+        case .extraLargeTitle2:
+            return kCTUIFontTextStyleExtraLargeTitle2
         }
     }
 }

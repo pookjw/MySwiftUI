@@ -9,6 +9,34 @@ CT_EXPORT const CFStringRef kCTFontUIFontDesignMonospaced;
 CT_EXPORT const CFStringRef kCTFontUIFontDesignDefault;
 CT_EXPORT const CFStringRef kCTFontUIFontDesignRounded;
 CT_EXPORT const CFStringRef kCTFontUIFontDesignSerif;
+
+CT_EXPORT const CFStringRef kCTUIFontTextStyleTitle0;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleTitle1;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleTitle2;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleTitle3;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleHeadline;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleSubhead;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleBody;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleCallout;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleFootnote;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleCaption1;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleCaption2;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleExtraLargeTitle;
+CT_EXPORT const CFStringRef kCTUIFontTextStyleExtraLargeTitle2;
+
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryXS;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryS;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryM;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryXL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryXXL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryXXXL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityM;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityXL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityXXL;
+CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityXXXL;
+
 CT_EXPORT const CFStringRef kCTFontLegibilityWeightAttribute;
 CT_EXPORT const CFStringRef kCTFontTargetEnvironmentAttribute;
 
