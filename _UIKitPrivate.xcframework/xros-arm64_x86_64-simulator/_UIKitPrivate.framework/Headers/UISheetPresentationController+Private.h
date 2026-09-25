@@ -2,6 +2,8 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+UIKIT_EXTERN CGSize _UISheetPageSize(UIView *);
+
 @interface UISheetPresentationController (Private)
 @property (nonatomic, readonly, getter=_isGeneratingAnimations) BOOL _generatingAnimations;
 // API_UNAVAILABLE(visionos) 제거용

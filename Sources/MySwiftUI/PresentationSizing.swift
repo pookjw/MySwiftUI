@@ -2,11 +2,13 @@
 public import MySwiftUICore
 public import CoreGraphics
 internal import UIKit
+private import _UIKitShims
+private import _UIKitPrivate
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public protocol PresentationSizing {
-    func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize
     @_spi(Internal) func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize
+    func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize
     @_spi(Internal) func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions
 }
 
@@ -88,11 +90,11 @@ extension PresentationSizing {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct FormPresentationSizing : PresentationSizing, Sendable {
-    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
@@ -110,11 +112,11 @@ extension PresentationSizing where Self == FormPresentationSizing {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct PagePresentationSizing : PresentationSizing, Sendable {
-    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
@@ -132,11 +134,11 @@ extension PresentationSizing where Self == PagePresentationSizing {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct FittedPresentationSizing : PresentationSizing, Sendable {
-    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
@@ -168,12 +170,17 @@ extension PresentationSizing where Self == AutomaticPresentationSizing {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct AutomaticPresentationSizing : PresentationSizing, Sendable {
-    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
-        assertUnimplemented()
+    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+        let metrics = SharedBuiltinSheetMetrics(
+            builtinSizing: .form,
+            sizeContext: context
+        )
+        
+        return metrics.proposedSize
     }
     
     @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
@@ -227,5 +234,102 @@ struct SheetSizing {
         fittingSize.height = (fittingSize.height <= 136) ? 136 : fittingSize.height
         
         return fittingSize
+    }
+}
+
+fileprivate struct SharedBuiltinSheetMetrics {
+    private(set) var builtinSizing: SharedBuiltinSheetMetrics.BuiltinPresentationSizeSizing
+    private(set) var sizeContext: PresentationSizingContext
+    
+    var proposedSize: ProposedViewSize {
+        switch self.builtinSizing {
+        case .form:
+            // <+104>
+            let screen: MyUIScreen
+            if let window = self.sizeContext.presenter.window {
+                screen = window.myUIScreen ?? .main
+            } else {
+                screen = .main
+            }
+            
+            let sheetSize = UIViewController
+                .defaultFormSheetSize(forScreenSize: screen.bounds.size)
+            
+            let count = self.sizeContext.navigationColumnCount
+            
+            if count == 3 {
+                // <+340>
+                var d2 = self.sizeContext.sidebarColumnWidth ?? 240
+                d2 = d2 + (self.sizeContext.contentColumnWidth ?? 240)
+                
+                return ProposedViewSize(
+                    width: sheetSize.width + d2,
+                    height: sheetSize.height
+                )
+            } else if count == 2 {
+                // <+272>
+                if let sidebarColumnWidth = self.sizeContext.sidebarColumnWidth {
+                    // <+424>
+                    return ProposedViewSize(
+                        width: sheetSize.width + sidebarColumnWidth,
+                        height: sheetSize.height
+                    )
+                } else {
+                    // <+384>
+                    return ProposedViewSize(
+                        width: sheetSize.width + 240,
+                        height: sheetSize.height
+                    )
+                }
+            } else {
+                // <+384>
+                return ProposedViewSize(sheetSize)
+            }
+        case .page:
+            // <+36>
+            let sheetSize = _UISheetPageSize(self.sizeContext.presenter)
+            let count = self.sizeContext.navigationColumnCount
+            
+            if count == 3 {
+                // <+304>
+                var d2 = self.sizeContext.sidebarColumnWidth ?? 240
+                d2 = d2 + (self.sizeContext.contentColumnWidth ?? 240)
+                
+                return ProposedViewSize(
+                    width: sheetSize.width + d2,
+                    height: sheetSize.height
+                )
+            } else if count == 2 {
+                // <+84>
+                if let sidebarColumnWidth = self.sizeContext.sidebarColumnWidth {
+                    // <+96>
+                    // <+384>
+                    return ProposedViewSize(
+                        width: sheetSize.width + sidebarColumnWidth,
+                        height: sheetSize.height
+                    )
+                } else {
+                    // <+284>
+                    return ProposedViewSize(
+                        width: sheetSize.width + 240,
+                        height: sheetSize.height
+                    )
+                }
+            } else {
+                // <+384>
+                return ProposedViewSize(sheetSize)
+            }
+        case .content:
+            // <+296>
+            return .unspecified
+        }
+    }
+}
+
+extension SharedBuiltinSheetMetrics {
+    enum BuiltinPresentationSizeSizing : Hashable {
+        case form
+        case page
+        case content
     }
 }

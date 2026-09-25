@@ -25,6 +25,8 @@ fileprivate struct UpdateEnvironment<T : EnvironmentModifier> : AsyncAttribute, 
     @Attribute private(set) var environment: EnvironmentValues
     
     var value: EnvironmentValues {
-        assertUnimplemented()
+        var environment = self.environment
+        T.makeEnvironment(modifier: self.$modifier, environment: &environment)
+        return environment
     }
 }
