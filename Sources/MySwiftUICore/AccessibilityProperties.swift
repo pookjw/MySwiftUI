@@ -1,4 +1,3 @@
-
 package struct AccessibilityProperties {
 //    private var identifier: AccessibilityIdentifierStorage?
 //    private var label: AccessibilityLabelStorage?

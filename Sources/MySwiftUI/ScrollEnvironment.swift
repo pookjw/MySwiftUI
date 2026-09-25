@@ -13,22 +13,30 @@ extension EnvironmentValues {
     }
     
     fileprivate struct ScrollEnvironmentKey : EnvironmentKey {
-        @safe static nonisolated(unsafe) let defaultValue: ScrollEnvironmentStorage = {
-            assertUnimplemented()
-        }()
+        @safe static nonisolated(unsafe) let defaultValue = ScrollEnvironmentStorage(
+            ScrollEnvironmentProperties(),
+            transform: nil
+        )
     }
 }
 
 @Observable
 final class ScrollEnvironmentStorage {
     var baseProperties: ScrollEnvironmentProperties
-    var transform: ScrollEnvironmentTransform?
+    var transform: (any ScrollEnvironmentTransform)?
     
     var properties: ScrollEnvironmentProperties {
-        assertUnimplemented()
+        var result = self.baseProperties
+        
+        if let transform {
+            transform.update(properties: &result)
+        }
+        
+        return result
     }
     
     init(_ baseProperties: ScrollEnvironmentProperties, transform: ScrollEnvironmentTransform?) {
-        assertUnimplemented()
+        self.baseProperties = baseProperties
+        self.transform = transform
     }
 }

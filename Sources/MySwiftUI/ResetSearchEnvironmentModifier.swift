@@ -10,6 +10,17 @@ extension View {
 
 fileprivate struct ResetSearchEnvironmentModifier : EnvironmentModifier, PrimitiveViewModifier {
     static func makeEnvironment(modifier: Attribute<ResetSearchEnvironmentModifier>, environment: inout EnvironmentValues) {
-        assertUnimplemented()
+        if case .toolbarPrincipal = environment.searchFieldPlacement {
+            environment.toolbarRole = nil
+        }
+        
+        // <+100>
+        environment.searchFieldPlacement = .none
+        environment.searchFieldToolbarItemPlacement = nil
+        environment.searchStorage = nil
+        environment.isSearching = false
+        environment.searchScopeActivation = .automatic
+        environment.searchFocusContext = nil
+        environment.searchTextClearAction = nil
     }
 }

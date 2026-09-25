@@ -12,6 +12,12 @@ extension SourceEntityConfigurable {
     }
 }
 
+extension SourceEntityConfigurable where Self == UISheetPresentationController {
+    func configureSourceEntity(with context: EntityPresentationContext?) {
+        assertUnimplemented()
+    }
+}
+
 extension UIPopoverPresentationController : SourceEntityConfigurable {
     var _sourceEntityId: UInt64 {
         get {

@@ -27,7 +27,14 @@ extension ResetScrollEnvironmentModifier {
     
     fileprivate struct AdditionalResetModifier : _GraphInputsModifier, EnvironmentModifier, PrimitiveViewModifier {
         static func makeEnvironment(modifier: Attribute<ResetScrollEnvironmentModifier.AdditionalResetModifier>, environment: inout EnvironmentValues) {
-            assertUnimplemented()
+            environment.scrollAnchors = ScrollAnchorStorage()
+            environment.onScrollToTopGesture = nil
+            environment.scrollContentBackground = ScrollContentBackground(
+                style: nil,
+                visibility: .automatic,
+                wantsWindowBackground: false
+            )
+            environment.popoverAutomaticallyDismissesWhenScrolledOutOfView = nil
         }
     }
 }
@@ -35,5 +42,26 @@ extension ResetScrollEnvironmentModifier {
 extension View {
     func resetScrollEnvironment() -> some View {
         self.modifier(ResetScrollEnvironmentModifier(axes: .both))
+    }
+}
+
+struct ScrollToTopGestureAction {
+    private let action: () -> Void
+}
+
+extension EnvironmentValues {
+    var onScrollToTopGesture: ScrollToTopGestureAction? {
+        get {
+            return self[ScrollToTopGestureActionKey.self]
+        }
+        set {
+            self[ScrollToTopGestureActionKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct ScrollToTopGestureActionKey : EnvironmentKey {
+    static var defaultValue: ScrollToTopGestureAction? {
+        return nil
     }
 }

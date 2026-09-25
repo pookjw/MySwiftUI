@@ -60,10 +60,6 @@ struct ScrollEnvironmentProperties : Equatable {
     private var gradientMaskLengths: EdgeInsets = .zero // 0xc8 (0x70 - offset field)
     private var gradientMaskEdgeInsets: EdgeInsets = .zero // 0xe8 (0x74 - offset field)
     
-    static func == (lhs: ScrollEnvironmentProperties, rhs: ScrollEnvironmentProperties) -> Bool {
-        assertUnimplemented()
-    }
-    
     init(environment: EnvironmentValues) {
         /*
          environment -> x0 -> x22
@@ -80,7 +76,7 @@ struct ScrollEnvironmentProperties : Equatable {
     }
     
     @inline(always) // 원래 없음
-    fileprivate init() {}
+    init() {}
 }
 
 extension ScrollEnvironmentProperties {

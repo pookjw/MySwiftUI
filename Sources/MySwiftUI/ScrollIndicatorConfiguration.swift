@@ -36,9 +36,6 @@ extension ScrollIndicatorVisibility {
 
 @available(iOS 16.4, macOS 13.3, tvOS 16.4, watchOS 9.4, *)
 extension ScrollIndicatorVisibility : Equatable {
-    public static func == (a: ScrollIndicatorVisibility, b: ScrollIndicatorVisibility) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 extension View {
