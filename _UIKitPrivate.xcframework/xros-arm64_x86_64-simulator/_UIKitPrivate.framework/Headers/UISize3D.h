@@ -9,4 +9,6 @@ struct UISize3D {
 };
 typedef struct UISize3D UISize3D;
 
+UIKIT_EXTERN const UISize3D UISize3DZero NS_SWIFT_NAME(UISize3D.zero);
+
 NS_HEADER_AUDIT_END(nullability, sendability)

@@ -3,7 +3,7 @@ public import MySwiftUICore
 internal import AttributeGraph
 private import os.log
 private import CoreGraphics
-private import Spatial
+internal import Spatial
 
 extension View {
     nonisolated public func sheet<Item, Content>(
@@ -308,8 +308,8 @@ fileprivate struct SheetContent<T : View> : View {
 }
 
 struct EntityPresentationContext {
-    fileprivate private(set) var entityId: UInt64
-    fileprivate private(set) var contentSize: Size3D
+    private(set) var entityId: UInt64
+    private(set) var contentSize: Size3D
     fileprivate private(set) var transform: ViewTransform
 }
 

@@ -181,8 +181,8 @@ struct PresentationState {
         assertUnimplemented()
     }
     
-    func present(_: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
-        assertUnimplemented()
+    func present(_ preference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
+        self.presentPreemptingDismissal(preference, presentedVC: presentedVC, presentationSeed: presentationSeed)
     }
     
     @inline(always) // 원래 없음

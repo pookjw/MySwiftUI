@@ -1,5 +1,6 @@
 internal import UIKit
 internal import _UIKitPrivate
+private import Spatial
 
 protocol SourceEntityConfigurable : AnyObject {
     var _sourceEntityId: UInt64 { get set }
@@ -8,52 +9,26 @@ protocol SourceEntityConfigurable : AnyObject {
 
 extension SourceEntityConfigurable {
     func configureSourceEntity(with context: EntityPresentationContext?) {
-        assertUnimplemented()
-    }
-}
-
-extension SourceEntityConfigurable where Self == UISheetPresentationController {
-    func configureSourceEntity(with context: EntityPresentationContext?) {
-        assertUnimplemented()
+        if let context {
+            self._sourceEntityId = context.entityId
+        } else {
+            self._sourceEntityId = 0
+        }
+        
+        if let context {
+            self._sourceEntitySize = UISize3D(
+                width: context.contentSize.width,
+                height: context.contentSize.height,
+                depth: context.contentSize.depth
+            )
+        } else {
+            self._sourceEntitySize = .zero
+        }
     }
 }
 
 extension UIPopoverPresentationController : SourceEntityConfigurable {
-    var _sourceEntityId: UInt64 {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    var _sourceEntitySize: UISize3D {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
 }
 
 extension UISheetPresentationController : SourceEntityConfigurable {
-    var _sourceEntityId: UInt64 {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-    
-    var _sourceEntitySize: UISize3D {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
 }
