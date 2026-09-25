@@ -240,7 +240,7 @@ extension EdgeInsets {
         
         let trailing: CGFloat
         if edges.contains(.trailing) {
-            trailing = self.top
+            trailing = self.trailing
         } else {
             trailing = 0
         }
