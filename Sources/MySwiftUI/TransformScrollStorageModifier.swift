@@ -109,7 +109,53 @@ struct TransformScrollStorageEnvironment<T : ScrollEnvironmentTransform> : State
     
     typealias Value = EnvironmentValues
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        // self -> x20 -> x19
+        // <+376>
+        // x27 (x29 - 0xc8 / x29 - 0x90) / x29 - 0xd8
+        var (env, envChanged) = self.$environment.changedValue(options: [])
+        // x25 (x29 - 0xb0) / x29 - 0xf8
+        let (transform, transformChanged) = self.$transform.changedValue(options: [])
+        
+        // <+484>
+        let properties: ScrollEnvironmentProperties = self.withObservation { 
+            // $s7SwiftUI33TransformScrollStorageEnvironmentV11updateValueyyFAA0dF10PropertiesVyXEfU_TA
+            return env.scrollStorage.properties
+        }
+        
+        // <+572>
+        let changed = properties == self.oldProperties
+        
+        let storage: ScrollEnvironmentStorage!
+        if let _storage = self.storage {
+            storage = _storage
+        } else {
+            storage = ScrollEnvironmentStorage(
+                properties,
+                transform: transform
+            )
+            
+            self.storage = storage
+        }
+        
+        // <+696>
+        if self.hasValue && !(!transformChanged && changed) {
+            // <+728>
+            Update.enqueueAction(reason: nil) {
+                // $s7SwiftUI33TransformScrollStorageEnvironmentV11updateValueyyFyycfU0_TA
+                storage.baseProperties = properties
+                storage.transform = transform
+            }
+        }
+        
+        // <+992>
+        if !self.hasValue || envChanged {
+            // <+1016>
+            env.scrollStorage = storage
+            self.value = env
+        }
+        
+        // <+1072>
+        self.oldProperties = properties
     }
 }

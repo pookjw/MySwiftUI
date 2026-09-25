@@ -4,7 +4,12 @@ internal import Observation
 
 extension EnvironmentValues {
     var scrollStorage: ScrollEnvironmentStorage {
-        return self[EnvironmentValues.ScrollEnvironmentKey.self]
+        get {
+            return self[EnvironmentValues.ScrollEnvironmentKey.self]
+        }
+        set {
+            self[EnvironmentValues.ScrollEnvironmentKey.self] = newValue
+        }
     }
     
     fileprivate struct ScrollEnvironmentKey : EnvironmentKey {
@@ -16,8 +21,8 @@ extension EnvironmentValues {
 
 @Observable
 final class ScrollEnvironmentStorage {
-    private var baseProperties: ScrollEnvironmentProperties
-    private var transform: ScrollEnvironmentTransform?
+    var baseProperties: ScrollEnvironmentProperties
+    var transform: ScrollEnvironmentTransform?
     
     var properties: ScrollEnvironmentProperties {
         assertUnimplemented()
