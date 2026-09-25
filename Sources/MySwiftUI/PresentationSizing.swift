@@ -1,3 +1,4 @@
+// 3ACFC10CCA4797038C65524AC1888A98
 public import MySwiftUICore
 public import CoreGraphics
 internal import UIKit
@@ -5,6 +6,34 @@ internal import UIKit
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public protocol PresentationSizing {
     func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize
+    @_spi(Internal) func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize
+    @_spi(Internal) func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions
+}
+
+@_spi(Internal) public struct PresentationSubview {
+    private weak var host: (any ViewRendererHost)?
+}
+
+@_spi(Internal) public struct PresentationSizingOptions {
+    fileprivate let options: PresentationSizingOptions.Options
+    
+    static var minimum: PresentationSizingOptions {
+        return PresentationSizingOptions(
+            options: PresentationSizingOptions.Options(rawValue: 1 << 1)
+        )
+    }
+    
+    static var unknown2: PresentationSizingOptions {
+        return PresentationSizingOptions(
+            options: PresentationSizingOptions.Options(rawValue: 1 << 2)
+        )
+    }
+}
+
+extension PresentationSizingOptions {
+    fileprivate struct Options : OptionSet {
+        let rawValue: Int
+    }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
@@ -47,10 +76,28 @@ extension PresentationSizing {
     }
 }
 
+extension PresentationSizing {
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
+        return PresentationSizingOptions(options: [])
+    }
+}
+
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct FormPresentationSizing : PresentationSizing, Sendable {
     public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
+        return .unknown2
     }
 }
 
@@ -66,6 +113,14 @@ public struct PagePresentationSizing : PresentationSizing, Sendable {
     public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }
+    
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
+        return .unknown2
+    }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
@@ -79,6 +134,14 @@ extension PresentationSizing where Self == PagePresentationSizing {
 public struct FittedPresentationSizing : PresentationSizing, Sendable {
     public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
+        return PresentationSizingOptions(options: [])
     }
 }
 
@@ -107,5 +170,62 @@ extension PresentationSizing where Self == AutomaticPresentationSizing {
 public struct AutomaticPresentationSizing : PresentationSizing, Sendable {
     public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func sizingOptions(context: PresentationSizingContext) -> PresentationSizingOptions {
+        return .unknown2
+    }
+}
+
+struct SheetSizing {
+    private(set) var presentationSizing: any PresentationSizing // 0x0
+    private(set) var sizeContext: PresentationSizingContext // 0x28 (0x14 - offset field)
+    
+    func sheetSizeThatFits<T : View>(host: _UIHostingView<T>, subview: PresentationSizingRoot) -> CGSize {
+        /*
+         self -> x20 -> x19
+         subview -> x0 -> x27
+         */
+        // <+100>
+        let proposedSize = self
+            .presentationSizing
+            .proposedSize(for: subview, context: self.sizeContext)
+        
+        var fittingSize: CGSize
+        if let host = subview.host {
+            // <+192>
+            let size = _ProposedSize(proposedSize)
+            fittingSize = host.sizeThatFits(size)
+            // <+320>
+        } else {
+            // <+284>
+            fittingSize = proposedSize.replacingUnspecifiedDimensions(
+                by: CGSize(width: 10, height: 10)
+            )
+        }
+        
+        // <+320>
+        let options = self.presentationSizing.sizingOptions(context: self.sizeContext)
+        
+        if options.options.contains(PresentationSizingOptions.minimum.options) {
+            // <+376>
+            if let width = proposedSize.width {
+                fittingSize.width = (fittingSize.width >= width) ? fittingSize.width : width
+            }
+            
+            if let height = proposedSize.height {
+                fittingSize.height = (fittingSize.height >= height) ? fittingSize.height : height
+            }
+        }
+        
+        // <+424>
+        fittingSize.width = (fittingSize.width <= 272) ? 272 : fittingSize.width
+        fittingSize.height = (fittingSize.height <= 136) ? 136 : fittingSize.height
+        
+        return fittingSize
     }
 }

@@ -253,6 +253,7 @@ func printOffsets() {
     printFields("7SwiftUI27ScrollEnvironmentPropertiesV", isClassType: false)
     printFields("7SwiftUI29PresentationOptionsPreferenceV", isClassType: false)
     printFields(Font.Context.self, isClassType: false)
+    printFields("7SwiftUI11SheetSizingV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
