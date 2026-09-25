@@ -1,0 +1,11 @@
+#import <CoreText/CoreText.h>
+
+CF_IMPLICIT_BRIDGING_ENABLED
+CF_EXTERN_C_BEGIN
+CF_ASSUME_NONNULL_BEGIN
+
+CT_EXPORT CTFontDescriptorRef CTFontDescriptorCreateWithTextStyleAndAttributes(CFStringRef textStyle, CFStringRef textSize, CFDictionaryRef attributes);
+
+CF_ASSUME_NONNULL_END
+CF_EXTERN_C_END
+CF_IMPLICIT_BRIDGING_DISABLED

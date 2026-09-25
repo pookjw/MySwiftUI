@@ -1,0 +1,5 @@
+framework module _CoreTextPrivate {
+    umbrella header "_CoreTextPrivate.h"
+    export *
+    module * { export * }
+}

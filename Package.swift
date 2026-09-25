@@ -109,7 +109,8 @@ let package = Package(
                 .byName(name: "UIFoundation"),
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "_MySwiftUIUtils"),
-                .byName(name: "CoreUI")
+                .byName(name: "CoreUI"),
+                .byName(name: "_CoreTextPrivate")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -386,6 +387,10 @@ let package = Package(
         .binaryTarget(
             name: "RealitySystemSupport",
             path: "RealitySystemSupport.xcframework"
+        ),
+        .binaryTarget(
+            name: "_CoreTextPrivate",
+            path: "_CoreTextPrivate.xcframework"
         ),
         .target(
             name: "_KernPrivate",

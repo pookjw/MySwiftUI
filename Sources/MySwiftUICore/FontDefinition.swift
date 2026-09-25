@@ -1,5 +1,6 @@
 // C17A136ED11B3E0D21D21D182F3B80B2
 internal import CoreText
+private import _CoreTextPrivate
 
 struct FontDefinitionType : Hashable, CustomDebugStringConvertible, @unchecked Sendable {
     private(set) var base: (any FontDefinition.Type)
@@ -32,7 +33,74 @@ protocol FontDefinition {
 
 enum DefaultFontDefinition : FontDefinition {
     static func resolveTextStyleFont(textStyle: Font.TextStyle, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
-        assertUnimplemented()
+        /*
+         textStyle -> x0 -> x29 - 0x51
+         design -> x1 -> w24
+         weight -> x2/x3 -> x22/x23
+         context -> x4
+         */
+        // w26
+        let sizeCategory = context.sizeCategory
+        // w27
+        let legibilityWeight = context.legibilityWeight
+        // x19
+        let cfTextStyle = textStyle.cfTextStyle
+        var attributes_1: [CFString: Any] = [:]
+        var attributes_2: [CFString: Any] = [:]
+        
+        switch design {
+        case .default:
+            // <+128>
+            attributes_1[kCTFontUIFontDesignTrait] = kCTFontUIFontDesignDefault
+        case .serif:
+            // <+184>
+            attributes_1[kCTFontUIFontDesignTrait] = kCTFontUIFontDesignSerif
+        case .rounded:
+            // <+148>
+            attributes_1[kCTFontUIFontDesignTrait] = kCTFontUIFontDesignRounded
+        case .monospaced:
+            // <+104>
+            attributes_1[kCTFontUIFontDesignTrait] = kCTFontUIFontDesignMonospaced
+        case nil:
+            // <+168>
+            break
+        }
+        
+        // <+376>
+        if let weight {
+            // <+396>
+            attributes_1[kCTFontWeightTrait] = weight.value
+        }
+        
+        // <+488>
+        if !attributes_1.isEmpty {
+            attributes_2[kCTFontTraitsAttribute] = attributes_1
+        }
+        
+        if let legibilityWeight {
+            // <+680>
+            switch legibilityWeight {
+            case .regular:
+                attributes_2[kCTFontLegibilityWeightAttribute] = CTFontLegibilityWeight.regular.rawValue
+            case .bold:
+                attributes_2[kCTFontLegibilityWeightAttribute] = CTFontLegibilityWeight.bold.rawValue
+            }
+        }
+        
+        // <+780>
+        attributes_2[kCTFontTargetEnvironmentAttribute] = CTFontTargetEnvironment.unknown3.rawValue
+        
+        // <+868>
+        let dynamicTypeSize = DynamicTypeSize(sizeCategory)
+        let ctTextSize = dynamicTypeSize.ctTextSize
+        
+        let fontDescriptor = CTFontDescriptorCreateWithTextStyleAndAttributes(
+            cfTextStyle,
+            ctTextSize,
+            attributes_2 as CFDictionary
+        )
+        
+        return fontDescriptor
     }
     
     static func resolveTextStyleFontInfo(textStyle: Font.TextStyle, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> Font.ResolvedTraits {

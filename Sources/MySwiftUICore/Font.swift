@@ -256,6 +256,10 @@ extension Font {
         
         public static let allCases: [Font.TextStyle] = { assertUnimplemented() } ()
         public typealias AllCases = [Font.TextStyle]
+        
+        var cfTextStyle: CFString {
+            assertUnimplemented()
+        }
     }
 }
 

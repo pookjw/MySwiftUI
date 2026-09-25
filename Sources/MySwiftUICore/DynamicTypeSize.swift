@@ -1,3 +1,5 @@
+internal import CoreFoundation
+
 public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
     case xSmall
     case small
@@ -18,6 +20,14 @@ public enum DynamicTypeSize : Hashable, Comparable, CaseIterable, Sendable {
     
     static var systemDefault: DynamicTypeSize {
         fatalError()
+    }
+    
+    init(_: ContentSizeCategory) {
+        assertUnimplemented()
+    }
+    
+    var ctTextSize: CFString {
+        assertUnimplemented()
     }
 }
 

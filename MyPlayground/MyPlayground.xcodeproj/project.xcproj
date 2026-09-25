@@ -36,6 +36,7 @@
       "kind": "group",
       "name": "Frameworks",
       "children": [
+        { "path": "../_CoreTextPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../RealitySystemSupport.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../RealityFusion.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../_RealityFoundationPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
