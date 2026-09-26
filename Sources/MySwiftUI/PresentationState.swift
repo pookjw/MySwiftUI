@@ -315,7 +315,8 @@ extension PresentationState {
                         // <+3412>
                         // x27
                         let oldViewID: Namespace.ID
-                        if let lastPresentation = oldValue.lastPresentation {
+                        let oldLastPresentation = oldValue.lastPresentation
+                        if let lastPresentation = oldLastPresentation {
                             // <+3676>
                             oldViewID = lastPresentation.viewID
                         } else {
@@ -325,11 +326,11 @@ extension PresentationState {
                         
                         let flag: Bool
                         if let lastPresentation = newValue.lastPresentation {
+                            // <+3784>
                             // x20
                             let newViewID = lastPresentation.viewID
                             
-                            switch oldValue {
-                            case .requestedPresentation, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                            if oldLastPresentation != nil {
                                 // <+3812>
                                 if oldViewID == newViewID {
                                     // <+3828>
@@ -338,18 +339,18 @@ extension PresentationState {
                                     // <+3856>
                                     flag = false
                                 }
-                            case .presented(_, _, _):
+                            } else {
                                 // <+3856>
                                 flag = false
                             }
                         } else {
-                            switch oldValue {
-                            case .requestedPresentation, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
-                                // <+3856>
-                                flag = false
-                            case .presented(_, _, _):
+                            // <+3748>
+                            if oldLastPresentation == nil {
                                 // <+3828>
                                 flag = true
+                            } else {
+                                // <+3856>
+                                flag = false
                             }
                         }
                         
@@ -434,11 +435,31 @@ extension PresentationState {
                             // <+2880>
                             var results: [SheetPreference] = []
                             results.append(preference_1)
-                            return results
+                            // <+2972>
+                            // <+2984>
+                            if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                // <+3016>
+                                return results
+                            } else {
+                                // <+3028>
+                                results.append(preference_2)
+                                return results
+                            }
                         }
                     } else {
                         // <+2780>
-                        return [preference_1]
+                        // <+2880>
+                        var results: [SheetPreference] = []
+                        results.append(preference_1)
+                        // <+3000>
+                        if preference_2.viewID == preference_1.viewID {
+                            // <+3016>
+                            return results
+                        } else {
+                            // <+3028>
+                            results.append(preference_2)
+                            return results
+                        }
                     }
                 case .programmaticallyDismissing(_, let last):
                     // <+2344>
@@ -472,11 +493,31 @@ extension PresentationState {
                                 // <+2880>
                                 var results: [SheetPreference] = []
                                 results.append(preference_1)
-                                return results
+                                // <+2972>
+                                // <+2984>
+                                if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                    // <+3016>
+                                    return results
+                                } else {
+                                    // <+3028>
+                                    results.append(preference_2)
+                                    return results
+                                }
                             }
                         } else {
+                            // <+2780>
                             // <+2880>
-                            return []
+                            var results: [SheetPreference] = []
+                            results.append(preference_1)
+                            // <+3000>
+                            if preference_2.viewID == preference_1.viewID {
+                                // <+3016>
+                                return results
+                            } else {
+                                // <+3028>
+                                results.append(preference_2)
+                                return results
+                            }
                         }
                     }
                 case .delayedPresentationPendingDismissal(let preference_3, _, _, let preference_4):
@@ -493,12 +534,12 @@ extension PresentationState {
                         // <+4056>
                         if (preference_2.viewID == preference_3.viewID) || (preference_2.viewID == preference_4.viewID) {
                             // <+4092>
-                            results.append(preference_2)
+                            return results
                         } else {
                             // <+4152>
+                            results.append(preference_2)
+                            return results
                         }
-                        
-                        return results
                     } else {
                         // <+3948>
                         var results: [SheetPreference] = []
@@ -506,12 +547,12 @@ extension PresentationState {
                         
                         if (preference_2.viewID == preference_3.viewID) || (preference_2.viewID == preference_4.viewID) {
                             // <+4092>
-                            results.append(preference_2)
+                            return results
                         } else {
                             // <+4152>
+                            results.append(preference_2)
+                            return results
                         }
-                        
-                        return results
                     }
                 case .waitingToPresentDelayedPresentationSheetPreference(let preference_3):
                     // <+1424>
