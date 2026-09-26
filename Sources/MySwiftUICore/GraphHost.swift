@@ -842,7 +842,13 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     
     @discardableResult
     package final func emptyTransaction(_ transaction: Transaction = Transaction()) -> UInt32 {
-        assertUnimplemented()
+        return self.asyncTransaction(
+            transaction,
+            id: Transaction.ID(value: _threadTransactionID(false)),
+            mutation: EmptyGraphMutation(),
+            style: .deferred,
+            mayDeferUpdate: true
+        )
     }
     
     package var environment: EnvironmentValues {
