@@ -755,7 +755,47 @@ extension PresentationState {
         }
         
         var presentationSeed: VersionSeed? {
-            assertUnimplemented()
+            switch self {
+            case .requestedPresentation(_, _, let seed):
+                // <+384>
+                return seed
+            case .presented(_, _, let seed):
+                // <+364>
+                return seed
+            case .programmaticallyDismissing(_, _):
+                // <+212>
+                return nil
+            case .interactivelyDismissing(_, _):
+                // <+212>
+                return nil
+            case .dismissingForLackOfModifier(_):
+                // <+348>
+                return nil
+            case .dismissingToPresentAgain(_, _):
+                // <+488>
+                return nil
+            case .dormantInspector(_):
+                // <+348>
+                return nil
+            case .waitingToPresentAgain(_):
+                // <+232>
+                return nil
+            case .delayedPresentationPendingDismissal(_, _, _, _):
+                // <+244>
+                return nil
+            case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+                // <+304>
+                return nil
+            case .delayedPresentationPendingNonNilWindow(_, _):
+                // <+348>
+                return nil
+            case .waitingToPresentDelayedPresentationSheetPreference(_):
+                // <+232>
+                return nil
+            case .noPresentation:
+                // <+528>
+                return nil
+            }
         }
         
         var description: String {
