@@ -48,7 +48,7 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
         environment.toolbarUpdateContext = context
     }
     
-    func viewWillAppear<Content : View>(hostingController: UIHostingController<Content>) {
+    func willAppear<Content : View>(hostingController: UIHostingController<Content>) {
         assertUnimplemented()
     }
     

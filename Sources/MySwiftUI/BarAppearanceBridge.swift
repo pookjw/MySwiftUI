@@ -14,7 +14,7 @@ private import _MySwiftUIShims
     private(set) var lastNavigationSubtitle: Text? = nil // 0x7e0
     private(set) var lastToolbarInputContent: ToolbarContentDescription? = nil // 0x7e8
     private var barBackgroundViewModels: [ToolbarPlacement.Role: BarEnvironmentViewModel] = [:] // 0x7f0
-    var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = .init() // 0x7f8
+    var barConfigurations: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] = [:] // 0x7f8
     var toUpdateBars: Set<ToolbarPlacement.Role> = [] // 0xeb8
     var seedTracker = VersionSeedSetTracker() // 0xec0
     var pendingUpdates: BarAppearanceBridge.Updates = [] // 0xec8
@@ -23,8 +23,55 @@ private import _MySwiftUIShims
         super.init()
     }
     
-    func viewWillAppear<Content : View>(hostingController: UIHostingController<Content>) {
-        assertUnimplemented()
+    func willAppear<Content : View>(animated: Bool, hostingController: UIHostingController<Content>) {
+        let context = BarAppearanceBridge.UpdateContext(hostingController: hostingController)
+        self.willAppear(animated: animated, updateContext: context)
+    }
+    
+    func willAppear(animated: Bool, updateContext: BarAppearanceBridge.UpdateContext) {
+        /*
+         self -> x20 -> x26
+         animated -> w0 -> x19 + 0x44
+         updateContext -> x1 -> x20
+         */
+        // <+320>
+        self.updateContext = updateContext
+        
+        // <+408>
+        for role in self.barConfigurations.keys {
+            // <+716>
+            /*
+             role -> x29 - 0xc0 -> x19 + 0xe0
+             */
+            // x19 + 0x70
+            var configuration = self.barConfigurations[role]!
+            
+            // <+976>
+            // x20
+            let animation: Animation?
+            if animated {
+                animation = .default
+            } else {
+                animation = nil
+            }
+            
+            // <+1000>
+            // configuration -> x28
+            configuration.animation = animation
+            
+            // <+1032>
+            self.barConfigurations[role] = configuration
+            self.toUpdateBars.insert(role)
+        }
+        
+        self.updateBarsToConfiguration()
+        
+        if self.pendingUpdates.contains(.unknown1) {
+            self.platformUpdateNavigationAdaptor()
+        }
+        
+        self.updateContext = nil
+        self.pendingUpdates = []
     }
     
     func didMoveToWindow<Content : View>(hostingController: UIHostingController<Content>) {
@@ -37,7 +84,7 @@ private import _MySwiftUIShims
         // <+96>
         updateBarsToConfiguration()
         
-        if pendingUpdates.contains(.unknown0) {
+        if pendingUpdates.contains(.unknown1) {
             platformUpdateNavigationAdaptor()
         }
         
@@ -46,7 +93,7 @@ private import _MySwiftUIShims
         self.pendingUpdates = []
     }
     
-    final func update(environment: inout EnvironmentValues) {
+    func update(environment: inout EnvironmentValues) {
         /*
          self -> x20 -> x21
          environment -> x0 -> x19
@@ -445,7 +492,7 @@ private import _MySwiftUIShims
          bar -> x0 -> x19
          */
         if allowedBars.contains(bar) {
-            allowedBars.update(with: bar)
+            toUpdateBars.update(with: bar)
         }
     }
     
@@ -467,7 +514,7 @@ extension BarAppearanceBridge {
         private(set) var containingController: UINavigationController? // 0x8
         private(set) var overrides: HostingControllerOverrides // 0x10
         private(set) var navigationAdaptor = UINavigationItemAdaptorStorage() // 0x48
-        private(set) var customPlacements: [ToolbarPlacement.Role] = []
+        private(set) var customPlacements: [ToolbarPlacement.Role] = [] // 0x50
         
         @MainActor
         init<Content : View>(hostingController: UIHostingController<Content>) {
@@ -583,7 +630,7 @@ struct ToolbarAppearanceConfiguration : Equatable {
     private(set) var backgroundOpacity: Double? = nil // 0x30/0x38
     private(set) var colorScheme: ColorScheme? // 0x39 (actual), 0x38 (offset field)
     private(set) var toolbarLegibility: ToolbarLegibility = .init(role: .unspecified) // 0x3a (actual), 0x30 (offset field)
-    private(set) var animation: Animation? = nil // 0x40 (actual), 0x34 (offset field)
+    fileprivate(set) var animation: Animation? = nil // 0x40 (actual), 0x34 (offset field)
     private var fullScreenVisibility: WindowToolbarFullScreenVisibility = .automatic // 0x48 (actual), 0x38 (offset field)
     
     // TODO

@@ -695,11 +695,11 @@ open class UIHostingController<Content : View>: UIViewController {
         coordinateListSelection(transitionCoordinator: transitionCoordinator, isAnimated: animated)
         
         if let toolbarBridge {
-            toolbarBridge.viewWillAppear(hostingController: self)
+            toolbarBridge.willAppear(hostingController: self)
         }
         
         if let barAppearanceBridge {
-            barAppearanceBridge.viewWillAppear(hostingController: self)
+            barAppearanceBridge.willAppear(animated: animated, hostingController: self)
         }
     }
     
