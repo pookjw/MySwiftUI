@@ -57,6 +57,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-com.apple.SwiftUI.EnablePresentationLogging YES"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-privateEngineMode"
             isEnabled = "NO">
          </CommandLineArgument>

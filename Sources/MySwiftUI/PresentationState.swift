@@ -1,17 +1,45 @@
 // BC4133B0B62555DBC7A28B2CD8C5E5B8
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import os.log
 
 struct PresentationState {
-    private var base: PresentationState.Base = .noPresentation {
+    fileprivate var base: PresentationState.Base = .noPresentation {
         willSet {
-            assertUnimplemented()
+            /*
+             self.base -> x20 -> x19
+             newValue -> x0 -> x28
+             */
+            // <+396>
+            if let log = Log.presentation {
+                let oldValue = self.base
+                log.log(level: .debug, "<Presentation> State change \(oldValue) → \(newValue)")
+            }
+            
+            // <+888>
+            if (newValue.presentedVC == nil), let presentedVC = self.base.presentedVC {
+                // <+920>
+                presentedVC.host.render(interval: 0, updateDisplayList: false, targetTimestamp: nil)
+            }
+            
+            // <+1088>
+            let willPresentAgainAfterDismiss = self.base.willPresentAgainAfterDismiss
+            let preferences = PresentationState.Base.dismissedPresentations(from: self.base, to: newValue)
+            
+            for preference in preferences {
+                guard let onDismiss = preference.onDismiss else {
+                    continue
+                }
+                
+                Update.enqueueAction(reason: nil) { 
+                    onDismiss(!willPresentAgainAfterDismiss)
+                }
+            }
         }
     }
     
-    func presentPreemptingDismissal(_ sheetPreference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
-        assertUnimplemented()
+    mutating func presentPreemptingDismissal(_ sheetPreference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
+        self.base = .requestedPresentation(sheetPreference, presentedVC: presentedVC, presentationSeed: presentationSeed)
     }
     
     func dismiss(willPresentAgain: Bool, hasNoModifier: Bool) {
@@ -181,7 +209,7 @@ struct PresentationState {
         assertUnimplemented()
     }
     
-    func present(_ preference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
+    mutating func present(_ preference: SheetPreference, presentedVC: PresentationHostingController<AnyView>, presentationSeed: VersionSeed) {
         self.presentPreemptingDismissal(preference, presentedVC: presentedVC, presentationSeed: presentationSeed)
     }
     
@@ -263,11 +291,15 @@ extension PresentationState {
         case dismissingToPresentAgain(PresentationHostingController<AnyView>, last: SheetPreference)
         case dormantInspector(last: SheetPreference)
         case waitingToPresentAgain(PresentationHostingController<AnyView>)
-        case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>, animated: Bool, last: SheetPreference)
+        case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>?, animated: Bool, last: SheetPreference)
         case delayedPresentationPendingNonSheetBridgeDismissal(SheetPreference, presentedVC: UIViewController, animated: Bool)
         case delayedPresentationPendingNonNilWindow(SheetPreference, animated: Bool)
         case waitingToPresentDelayedPresentationSheetPreference
         case noPresentation
+        
+        static func dismissedPresentations(from oldValue: PresentationState.Base, to newValue: PresentationState.Base) -> [SheetPreference] {
+            assertUnimplemented()
+        }
         
         var presentedVC: PresentationHostingController<AnyView>? {
             switch self {
@@ -318,7 +350,47 @@ extension PresentationState {
         }
         
         var willPresentAgainAfterDismiss: Bool {
-            assertUnimplemented()
+            switch self {
+            case .requestedPresentation(_, _, _):
+                // <+368>
+                return false
+            case .presented(_, _, _):
+                // <+312>
+                return false
+            case .programmaticallyDismissing(_, _):
+                // <+136>
+                return false
+            case .interactivelyDismissing(_, _):
+                // <+136>
+                return false
+            case .dismissingForLackOfModifier(_):
+                // <+440>
+                return false
+            case .dismissingToPresentAgain(_, _):
+                // <+332>
+                return true
+            case .dormantInspector(_):
+                // <+288>
+                return true
+            case .waitingToPresentAgain(_):
+                // <+172>
+                return true
+            case .delayedPresentationPendingDismissal(_, _, _, _):
+                // <+184>
+                return true
+            case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+                // <+244>
+                return true
+            case .delayedPresentationPendingNonNilWindow(_, _):
+                // <+440>
+                return false
+            case .waitingToPresentDelayedPresentationSheetPreference:
+                // <+172>
+                return true
+            case .noPresentation:
+                // <+460>
+                return false
+            }
         }
         
         var presentationSeed: VersionSeed? {

@@ -207,7 +207,7 @@ fileprivate struct NullSheetAnchor<T : PreferenceKey> : SheetAnchorProvider wher
 
 struct SheetPreference {
     private(set) var content: AnyView // 0x0
-    fileprivate private(set) var onDismiss: ((Bool) -> Void)? // 0x8
+    private(set) var onDismiss: ((Bool) -> Void)? // 0x8
     private(set) var viewID: Namespace.ID // 0x18
     fileprivate private(set) var itemID: AnyHashable? // 0x20
     private(set) var placement: SheetPreference.Placement // 0x48
