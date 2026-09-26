@@ -743,7 +743,15 @@ private import _UIKitShims
 
 extension SheetBridge : UIHostingViewDelegate {
     final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
-        assertUnimplemented()
+        let viewGraph = hostingView.viewGraph
+        
+        if window != nil {
+            viewGraph.addPreference(PreferredColorSchemeKey.self)
+            hostingView.viewGraph.addPreference(CompositeNavigationSplitViewVisibility.Key.self)
+        } else {
+            viewGraph.removePreference(PreferredColorSchemeKey.self)
+            hostingView.viewGraph.removePreference(CompositeNavigationSplitViewVisibility.Key.self)
+        }
     }
     
     final func hostingView<Content>(
