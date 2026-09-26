@@ -80,7 +80,7 @@ struct PresentationState {
         case .delayedPresentationPendingNonNilWindow(_, _):
             // <+840>
             assertUnimplemented()
-        case .waitingToPresentDelayedPresentationSheetPreference:
+        case .waitingToPresentDelayedPresentationSheetPreference(_):
             return
         case .noPresentation:
             return
@@ -127,7 +127,7 @@ struct PresentationState {
         case .delayedPresentationPendingNonNilWindow(_, _):
             // <+428>
             return false
-        case .waitingToPresentDelayedPresentationSheetPreference:
+        case .waitingToPresentDelayedPresentationSheetPreference(_):
             // <+156>
             return false
         case .noPresentation:
@@ -171,7 +171,7 @@ struct PresentationState {
         case .delayedPresentationPendingNonNilWindow(_, _):
             // <+392>
             return false
-        case .waitingToPresentDelayedPresentationSheetPreference:
+        case .waitingToPresentDelayedPresentationSheetPreference(_):
             // <+180>
             return false
         case .noPresentation:
@@ -215,8 +215,8 @@ struct PresentationState {
     
     @inline(always) // 원래 없음
     mutating func didMoveToNonNilWindow() {
-        if case .delayedPresentationPendingNonNilWindow = base {
-            base = .waitingToPresentDelayedPresentationSheetPreference
+        if case .delayedPresentationPendingNonNilWindow(let preference, _) = base {
+            base = .waitingToPresentDelayedPresentationSheetPreference(preference)
         }
     }
     
@@ -294,11 +294,291 @@ extension PresentationState {
         case delayedPresentationPendingDismissal(SheetPreference, presentedVC: PresentationHostingController<AnyView>?, animated: Bool, last: SheetPreference)
         case delayedPresentationPendingNonSheetBridgeDismissal(SheetPreference, presentedVC: UIViewController, animated: Bool)
         case delayedPresentationPendingNonNilWindow(SheetPreference, animated: Bool)
-        case waitingToPresentDelayedPresentationSheetPreference
+        case waitingToPresentDelayedPresentationSheetPreference(SheetPreference)
         case noPresentation
         
         static func dismissedPresentations(from oldValue: PresentationState.Base, to newValue: PresentationState.Base) -> [SheetPreference] {
-            assertUnimplemented()
+            /*
+             oldValue -> x0 -> x26
+             newValue -> x1 -> x27
+             */
+            // newValue -> x27 -> x29 - 0x80 / x23 / x29 - 0x60
+            // <+1272>
+            switch oldValue {
+            case .requestedPresentation, .presented, .programmaticallyDismissing, .interactivelyDismissing, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                // <+1752>
+                switch newValue {
+                case .requestedPresentation, .presented, .programmaticallyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                    // <+2120>
+                    switch oldValue {
+                    case .requestedPresentation, .presented, .programmaticallyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain,. dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                        // <+3412>
+                        // x27
+                        let oldViewID: Namespace.ID
+                        if let lastPresentation = oldValue.lastPresentation {
+                            // <+3676>
+                            oldViewID = lastPresentation.viewID
+                        } else {
+                            // <+3696>
+                            oldViewID = Namespace.ID(id: 0)
+                        }
+                        
+                        let flag: Bool
+                        if let lastPresentation = newValue.lastPresentation {
+                            // x20
+                            let newViewID = lastPresentation.viewID
+                            
+                            switch oldValue {
+                            case .requestedPresentation, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                                // <+3812>
+                                if oldViewID == newViewID {
+                                    // <+3828>
+                                    flag = true
+                                } else {
+                                    // <+3856>
+                                    flag = false
+                                }
+                            case .presented(_, _, _):
+                                // <+3856>
+                                flag = false
+                            }
+                        } else {
+                            switch oldValue {
+                            case .requestedPresentation, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingDismissal, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .waitingToPresentDelayedPresentationSheetPreference, .noPresentation:
+                                // <+3856>
+                                flag = false
+                            case .presented(_, _, _):
+                                // <+3828>
+                                flag = true
+                            }
+                        }
+                        
+                        if flag {
+                            // <+3828>
+                            return []
+                        } else {
+                            // <+3856>
+                            if let lastPresentation = oldValue.lastPresentation {
+                                // <+4352>
+                                return [lastPresentation]
+                            } else {
+                                // <+3912>
+                                return []
+                            }
+                        }
+                    case .interactivelyDismissing(_, _):
+                        return []
+                    }
+                case .interactivelyDismissing(_, _):
+                    // <+2020>
+                    if let lastPresentation = oldValue.lastPresentation {
+                        // <+3256>
+                        return [lastPresentation]
+                    } else {
+                        // <+3384>
+                        return []
+                    }
+                case .delayedPresentationPendingDismissal(let preference_1, _, _, let preference_2):
+                    // <+1796>
+                    if let lastPresentation = oldValue.lastPresentation {
+                        // <+3152>
+                        if (lastPresentation.viewID == preference_1.viewID) || (lastPresentation.viewID == preference_2.viewID) {
+                            // <+3208>
+                            return []
+                        } else {
+                            // <+1928>
+                            if let lastPresentation = oldValue.lastPresentation {
+                                // <+3496>
+                                return [lastPresentation]
+                            } else {
+                                // <+3628>
+                                return []
+                            }
+                        }
+                    } else {
+                        // <+1900>
+                        if let lastPresentation = oldValue.lastPresentation {
+                            return [lastPresentation]
+                        } else {
+                            // <+3628>
+                            return []
+                        }
+                    }
+                }
+            case .dismissingForLackOfModifier(_):
+                // <+1708>
+                return []
+            case .delayedPresentationPendingDismissal(let preference_1, _, _, let preference_2):
+                // <+1352>
+                switch newValue {
+                case .requestedPresentation, .presented, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain, .delayedPresentationPendingNonSheetBridgeDismissal, .delayedPresentationPendingNonNilWindow, .noPresentation:
+                    // <+2700>
+                    /*
+                     preference_1 -> x26
+                     preference_2 -> x27
+                     */
+                    if let lastPresentation = newValue.lastPresentation {
+                        // <+2820>
+                        if preference_1.viewID == lastPresentation.viewID {
+                            // <+2864>
+                            if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                // <+3016>
+                                return []
+                            } else {
+                                // <+3028>
+                                var results: [SheetPreference] = []
+                                results.append(preference_2)
+                                return results
+                            }
+                        } else {
+                            // <+2880>
+                            var results: [SheetPreference] = []
+                            results.append(preference_1)
+                            return results
+                        }
+                    } else {
+                        // <+2780>
+                        return [preference_1]
+                    }
+                case .programmaticallyDismissing(_, let last):
+                    // <+2344>
+                    /*
+                     preference_1 -> x24
+                     preference_2 -> x26
+                     */
+                    if (last.viewID == preference_2.viewID) && (last.viewID == preference_1.viewID) {
+                        // <+2496>
+                        return [preference_1]
+                    } else {
+                        // <+2648>
+                        if let lastPresentation = newValue.lastPresentation {
+                            /*
+                             preference_1 -> x26
+                             preference_2 -> x27
+                             */
+                            // <+2820>
+                            if preference_1.viewID == lastPresentation.viewID {
+                                // <+2864>
+                                if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                    // <+3016>
+                                    return []
+                                } else {
+                                    // <+3028>
+                                    var results: [SheetPreference] = []
+                                    results.append(preference_2)
+                                    return results
+                                }
+                            } else {
+                                // <+2880>
+                                var results: [SheetPreference] = []
+                                results.append(preference_1)
+                                return results
+                            }
+                        } else {
+                            // <+2880>
+                            return []
+                        }
+                    }
+                case .delayedPresentationPendingDismissal(let preference_3, _, _, let preference_4):
+                    // <+2180>
+                    /*
+                     preference_3 -> x27
+                     preference_4 -> x24
+                     preference_1 -> x26
+                     preference_2 -> x28
+                     */
+                    if (preference_1.viewID == preference_3.viewID) || (preference_1.viewID == preference_4.viewID) {
+                        // <+2332>
+                        var results: [SheetPreference] = []
+                        // <+4056>
+                        if (preference_2.viewID == preference_3.viewID) || (preference_2.viewID == preference_4.viewID) {
+                            // <+4092>
+                            results.append(preference_2)
+                        } else {
+                            // <+4152>
+                        }
+                        
+                        return results
+                    } else {
+                        // <+3948>
+                        var results: [SheetPreference] = []
+                        results.append(preference_1)
+                        
+                        if (preference_2.viewID == preference_3.viewID) || (preference_2.viewID == preference_4.viewID) {
+                            // <+4092>
+                            results.append(preference_2)
+                        } else {
+                            // <+4152>
+                        }
+                        
+                        return results
+                    }
+                case .waitingToPresentDelayedPresentationSheetPreference(let preference_3):
+                    // <+1424>
+                    /*
+                     preference_1 -> x24
+                     preference_2 -> x25
+                     preference_3 -> x26
+                     */
+                    if (preference_1.viewID == preference_2.viewID) && (preference_1.viewID == preference_3.viewID) {
+                        // <+1552>
+                        return [preference_1]
+                    } else {
+                        // <+2656>
+                        /*
+                         preference_1 -> x26
+                         preference_2 -> x27
+                         */
+                        let lastPresentation = newValue.lastPresentation
+                        if let lastPresentation {
+                            // <+2820>
+                            if preference_1.viewID == lastPresentation.viewID {
+                                // <+2864>
+                                // <+2984>
+                                if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                    // <+3016>
+                                    return []
+                                } else {
+                                    // <+3028>
+                                    return [preference_2]
+                                }
+                            } else {
+                                // <+2880>
+                            }
+                        } else {
+                            // <+2780>
+                            // <+2880>
+                        }
+                        
+                        // <+2880>
+                        var results: [SheetPreference] = []
+                        results.append(preference_1)
+                        
+                        // <+2972>
+                        if let lastPresentation {
+                            // <+2984>
+                            if (preference_2.viewID == lastPresentation.viewID) || (preference_2.viewID == preference_1.viewID) {
+                                // <+3016>
+                                return results
+                            } else {
+                                // <+3028>
+                                results.append(preference_2)
+                                return results
+                            }
+                        } else {
+                            // <+3000>
+                            if (preference_2.viewID == preference_1.viewID) {
+                                // <+3016>
+                                return results
+                            } else {
+                                // <+3028>
+                                results.append(preference_2)
+                                return results
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         var presentedVC: PresentationHostingController<AnyView>? {
@@ -336,7 +616,7 @@ extension PresentationState {
             case .delayedPresentationPendingNonNilWindow(_, _):
                 // <+136>
                 return nil
-            case .waitingToPresentDelayedPresentationSheetPreference:
+            case .waitingToPresentDelayedPresentationSheetPreference(_):
                 // <+184>
                 return nil
             case .noPresentation:
@@ -384,7 +664,7 @@ extension PresentationState {
             case .delayedPresentationPendingNonNilWindow(_, _):
                 // <+440>
                 return false
-            case .waitingToPresentDelayedPresentationSheetPreference:
+            case .waitingToPresentDelayedPresentationSheetPreference(_):
                 // <+172>
                 return true
             case .noPresentation:
