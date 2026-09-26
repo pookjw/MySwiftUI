@@ -667,7 +667,47 @@ extension PresentationState {
         }
         
         var lastPresentation: SheetPreference? {
-            assertUnimplemented()
+            switch self {
+            case .requestedPresentation(let preference, _, _):
+                // <+384>
+                return preference
+            case .presented(let preference, _, _):
+                // <+284>
+                return preference
+            case .programmaticallyDismissing(_, let preference):
+                // <+244>
+                return preference
+            case .interactivelyDismissing(_, let preference):
+                // <+244>
+                return preference
+            case .dismissingForLackOfModifier(let preference):
+                // <+476>
+                return preference
+            case .dismissingToPresentAgain(_, let preference):
+                // <+484>
+                return preference
+            case .dormantInspector(let preference):
+                // <+264>
+                return preference
+            case .waitingToPresentAgain(_):
+                // <+360>
+                return nil
+            case .delayedPresentationPendingDismissal(_, _, _, let preference):
+                // <+584>
+                return preference
+            case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+                // <+304>
+                return nil
+            case .delayedPresentationPendingNonNilWindow(_, _):
+                // <+348>
+                return nil
+            case .waitingToPresentDelayedPresentationSheetPreference(let preference):
+                // <+264>
+                return preference
+            case .noPresentation:
+                // <+532>
+                return nil
+            }
         }
         
         var willPresentAgainAfterDismiss: Bool {
