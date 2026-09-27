@@ -318,7 +318,7 @@ private import _UIKitShims
                 onNextMainRunLoop { [weak self] in
                     // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_AA0cH0V3KeyV_Tg5TA
                     NotificationCenter.default.post(
-                        name: SheetBridgeNotifications.willDismis,
+                        name: SheetBridgeNotifications.willDismiss,
                         object: nil
                     )
                     
@@ -860,7 +860,7 @@ extension SheetBridge : PresentationHostingControllerDismissDelegate {
 }
 
 enum SheetBridgeNotifications {
-    static let willDismis = Notification.Name(rawValue: "SheetBridgeWillDismiss")
+    static let willDismiss = Notification.Name(rawValue: "SheetBridgeWillDismiss")
 }
 
 enum SheetPopoverBridgeNotifications {
