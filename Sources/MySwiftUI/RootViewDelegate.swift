@@ -186,17 +186,17 @@ extension RootViewDelegate : UIHostingViewDelegate {
         }
     }
     
-    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
+    @MainActor func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences preferences: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         updateAppFocus(view: hostingView)
         
-        let value = environment[PreferredColorSchemeKey.self]
+        let value = preferences[PreferredColorSchemeKey.self]
         if !colorSchemeSeed.seed.matches(value.seed) {
             colorSchemeSeed.seed = value.seed
             hostingView.colorScheme = value.value
         }
         
         if let nextDelegate {
-            nextDelegate.hostingView(hostingView, didChangePreferences: environment)
+            nextDelegate.hostingView(hostingView, didChangePreferences: preferences)
         }
     }
     

@@ -57,7 +57,7 @@ struct PresentationState {
         }
     }
     
-    func presentationDidChange(_ preference: SheetPreference?, animated: Bool, hasNoModifier: Bool) {
+    mutating func presentationDidChange(_ preference: SheetPreference?, animated: Bool, hasNoModifier: Bool) {
         /*
          self -> x20 -> x29 - 0x58
          preference -> x0 -> x29 - 0x68
@@ -66,9 +66,14 @@ struct PresentationState {
          */
         // <+544>
         switch self.base {
-        case .requestedPresentation(_, _, _):
+        case .requestedPresentation(let preference, let presentedVC, let presentationSeed):
             // <+956>
-            assertUnimplemented()
+            if presentedVC.isBeingPresented || presentedVC.isBeingDismissed {
+                // <+1484>
+            } else {
+                // <+1808>
+                self.base = .presented(preference, presentedVC: presentedVC, presenstationSeed: presentationSeed)
+            }
         case .presented, .programmaticallyDismissing, .interactivelyDismissing, .dismissingForLackOfModifier, .dismissingToPresentAgain, .dormantInspector, .waitingToPresentAgain:
             return
         case .delayedPresentationPendingDismissal(_, _, _, _):
@@ -87,8 +92,56 @@ struct PresentationState {
         }
     }
     
-    func hasIdentityMatching(_: SheetPreference?) -> Bool {
-        assertUnimplemented()
+    func hasIdentityMatching(_ preference: SheetPreference?) -> Bool {
+        /*
+         self -> x20 -> x23
+         preference -> x0 -> x22
+         */
+        // <+204>
+        // x29 - 0x80
+        let itemID_1: AnyHashable?
+        if let lastPresentation = self.base.lastPresentation {
+            itemID_1 = lastPresentation.itemID
+        } else {
+            itemID_1 = nil
+        }
+        
+        // <+332>
+        // x19 + 0xa0
+        let itemID_2: AnyHashable?
+        if let preference {
+            itemID_2 = preference.itemID
+        } else {
+            itemID_2 = nil
+        }
+        
+        guard itemID_2 == itemID_1 else {
+            return false
+        }
+        
+        // <+680>
+        guard _SemanticFeature<Semantics_v6>.isEnabled else {
+            return true
+        }
+        
+        // <+736>
+        let viewID_1: Namespace.ID?
+        if let lastPresentation = self.base.lastPresentation {
+            // <+872>
+            viewID_1 = lastPresentation.viewID
+        } else {
+            viewID_1 = nil
+            // <+892>
+        }
+        
+        let viewID_2: Namespace.ID?
+        if let preference {
+            viewID_2 = preference.viewID
+        } else {
+            viewID_2 = nil
+        }
+        
+        return viewID_1 == viewID_2
     }
     
     var isDismissingFromSheetBridge: Bool {

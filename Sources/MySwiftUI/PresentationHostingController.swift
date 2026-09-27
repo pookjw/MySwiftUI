@@ -14,7 +14,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     private var bridgedPresentationWantsTransparentBackground: Bool = false
     private(set) var presentingBridgeKind: PresentationHostingControllerPresenterKind? = nil
     private var placement: SheetPreference.Placement? = nil
-    private var lastColumnCount: Int = 0
+    var lastColumnCount: Int = 0
     var lastInteractiveDismissDisabled: Bool? = nil
     var didPresenterLoseModifierRecursively: Bool = false
     var wasPreempted: Bool = false

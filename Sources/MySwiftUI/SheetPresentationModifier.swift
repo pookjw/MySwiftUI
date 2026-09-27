@@ -209,7 +209,7 @@ struct SheetPreference {
     private(set) var content: AnyView // 0x0
     private(set) var onDismiss: ((Bool) -> Void)? // 0x8
     private(set) var viewID: Namespace.ID // 0x18
-    fileprivate private(set) var itemID: AnyHashable? // 0x20
+    private(set) var itemID: AnyHashable? // 0x20
     private(set) var placement: SheetPreference.Placement // 0x48
     private(set) var drawsBackground: Bool // 0x49
     private(set) var transaction: Transaction // 0x50
@@ -244,7 +244,17 @@ extension SheetPreference {
         case unspecified
         
         var viewIDs: Set<Namespace.ID> {
-            assertUnimplemented()
+            switch self {
+            case .notPresented(let views):
+                // <+292>
+                return Set(views.keys)
+            case .sheet(let preference):
+                // <+176>
+                return [preference.viewID]
+            case .unspecified:
+                // <+304>
+                return []
+            }
         }
         
         var debugDescription: String {

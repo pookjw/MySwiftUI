@@ -1322,7 +1322,7 @@ protocol UIHostingViewDelegate : AnyObject {
     @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate environment: inout EnvironmentValues)
     @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didUpdate environment: EnvironmentValues)
     @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties)
-    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: PreferenceValues)
+    @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePreferences preferences: PreferenceValues)
     @MainActor func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList)
     func hostingView<Content : View>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs)
 }

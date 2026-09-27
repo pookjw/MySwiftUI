@@ -160,12 +160,12 @@ private import _UIKitPrivate
         guard
             let host,
             let uiViewController = host.uiViewController,
-            let _ = uiViewController as? PresentationHostingController<AnyView>
+            let hostingController = uiViewController as? PresentationHostingController<AnyView>
         else {
             return false
         }
         
-        assertUnimplemented()
+        return hostingController.presentingBridgeKind == .popoverInspectorBridge
     }
 }
 

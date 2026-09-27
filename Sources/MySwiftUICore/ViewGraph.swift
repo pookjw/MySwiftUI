@@ -1410,8 +1410,8 @@ package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
 
 extension ViewGraphGeometryObservers {
     fileprivate final class Observer {
-        fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
-        private let callback: (T.Size, T.Size) -> Void
+        var storage: ViewGraphGeometryObservers.Observer.Storage
+        let callback: (T.Size, T.Size) -> Void
         
         init(callback: @escaping (T.Size, T.Size) -> Void) {
             self.storage = .none
@@ -1523,7 +1523,19 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
     }
     
     func notify() {
-        assertUnimplemented()
+        for proposal in self.store.keys {
+            let observer = self.store[proposal]!
+            
+            switch observer.storage {
+            case .pending(let old, let new):
+                if old != new {
+                    observer.callback(old, new)
+                }
+                observer.storage = .value(new)
+            case .value, .none, .invalid:
+                break
+            }
+        }
     }
 }
 
@@ -1594,7 +1606,19 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
     
     func notify() {
-        assertUnimplemented()
+        for proposal in self.store.keys {
+            let observer = self.store[proposal]!
+            
+            switch observer.storage {
+            case .pending(let old, let new):
+                if old != new {
+                    observer.callback(old, new)
+                }
+                observer.storage = .value(new)
+            case .value, .none, .invalid:
+                break
+            }
+        }
     }
 }
 

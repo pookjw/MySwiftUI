@@ -742,7 +742,7 @@ private import _UIKitShims
 }
 
 extension SheetBridge : UIHostingViewDelegate {
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didMoveTo window: UIWindow?) where Content : View {
         let viewGraph = hostingView.viewGraph
         
         if window != nil {
@@ -756,8 +756,8 @@ extension SheetBridge : UIHostingViewDelegate {
     
     final func hostingView<Content>(
         _ hostingView: _UIHostingView<Content>,
-        willUpdate environment: inout MySwiftUICore::EnvironmentValues
-    ) where Content : MySwiftUICore::View {
+        willUpdate environment: inout EnvironmentValues
+    ) where Content : View {
         /*
          self -> x20
          hostingView -> x0 -> x25
@@ -787,19 +787,31 @@ extension SheetBridge : UIHostingViewDelegate {
         // noop
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willUpdate properties: inout ViewGraphBridgeProperties) where Content : View {
         // noop
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
-        assertUnimplemented()
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences preferences: PreferenceValues) where Content : View {
+        // <+328>
+        guard
+            let viewController = unsafe hostingView.viewController,
+            let casted = viewController as? PresentationHostingController<AnyView>
+        else {
+            return
+        }
+        
+        if let colorScheme = preferences[PreferredColorSchemeKey.self].value {
+            casted.setPresentationColorScheme(colorScheme)
+        }
+        
+        casted.lastColumnCount = preferences[CompositeNavigationSplitViewVisibility.Key.self].value
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePlatformItemList list: PlatformItemList) where Content : View {
         // noop
     }
     
-    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout MySwiftUICore::_ViewInputs) where Content : MySwiftUICore::View {
+    final func hostingView<Content>(_ hostingView: _UIHostingView<Content>, willModifyViewInputs inputs: inout _ViewInputs) where Content : View {
         // noop
     }
 }

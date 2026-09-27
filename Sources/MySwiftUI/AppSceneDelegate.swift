@@ -1498,7 +1498,7 @@ extension AppSceneDelegate : UIHostingViewDelegate {
         // noop
     }
     
-    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences environment: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
+    func hostingView<Content>(_ hostingView: _UIHostingView<Content>, didChangePreferences preferences: MySwiftUICore::PreferenceValues) where Content : MySwiftUICore::View {
         // noop
     }
     

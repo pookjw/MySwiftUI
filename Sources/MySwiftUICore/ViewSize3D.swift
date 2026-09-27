@@ -76,7 +76,7 @@ package struct ViewSize3D {
         get {
             return ViewDepth(
                 value.depth,
-                proposal: _proposal.isNaN ? .nan : _proposal.depth
+                proposal: _proposal.depth.isNaN ? .nan : _proposal.depth
             )
         }
         set {
