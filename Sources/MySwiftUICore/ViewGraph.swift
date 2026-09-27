@@ -1444,6 +1444,7 @@ package protocol ViewGraphGeometryMeasurer {
 
 extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        // <+64>
         guard !graph.data.isHiddenForReuse else {
             return false
         }
@@ -1452,15 +1453,23 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
             return false
         }
         
+        // <+132>
         let rootLayoutComputer = graph.$rootLayoutComputer
+        // <+172>
+        // sp + 0xc
+        var needsUpdate = false
         
+        // <+280>
         for size in store.keys {
+            // <+332>
             guard graph.requestedOutputs.contains(.layout) else {
-                fatalError("Cannot fetch layout computer without layout output")
+                preconditionFailure("Cannot fetch layout computer without layout output")
             }
             
+            // <+348>
             graph.instantiateIfNeeded()
             
+            // <+404>
             // (d9, d8)
             let sizeThatFits = ViewGraph.sizeThatFits(
                 size,
@@ -1468,26 +1477,49 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
                 insets: graph.rootViewInsets
             )
             
+            // <+440>
             let observer = store[size]!
             let currentSize: CGSize
+            
+            // <+504>
             switch observer.storage {
             case .value(let size):
+                // <+548>
                 currentSize = size
             case .pending(let size, _):
+                // <+524>
+                if sizeThatFits == size {
+                    // <+220>
+                    observer.storage = .value(sizeThatFits)
+                    continue
+                }
+                
                 currentSize = size
-            case .none, .invalid:
+            case .none:
+                // <+588>
                 let invalidValue = SizeThatFitsMeasurer.invalidValue
-                store[size]!.storage = .pending(invalidValue, invalidValue)
-                return true
+                // <+620>
+                observer.storage = .pending(invalidValue, sizeThatFits)
+                // <+636>
+                needsUpdate = true
+                continue
+            case .invalid:
+                // <+200>
+                // <+220>
+                observer.storage = .value(sizeThatFits)
+                continue
             }
             
             if sizeThatFits != currentSize {
+                // <+568>
                 store[size]!.storage = .pending(currentSize, sizeThatFits)
-                return true
+                // <+636>
+                needsUpdate = true
             }
         }
         
-        return false
+        // <+708>
+        return needsUpdate
     }
     
     func notify() {
@@ -1497,6 +1529,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
 
 extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     nonisolated mutating func needsUpdate(graph: ViewGraph) -> Bool {
+        // <+68>
         guard !graph.data.isHiddenForReuse else {
             return false
         }
@@ -1505,33 +1538,59 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
             return false
         }
         
+        // <+188>
+        var needsUpdate = false
+        
+        // <+284>
         for size in store.keys {
+            // <+336>
             // d10, d9
             let measuredSize = VolumeThatFitsMeasurer.measure(
                 given: size,
                 in: graph
             )
             
+            // <+788>
             let observer = store[size]!
             let currentSize: Size3D
+            // <+852>
             switch observer.storage {
             case .value(let size):
+                // <+908>
                 currentSize = size
             case .pending(let size, _):
+                // <+876>
+                if measuredSize == size {
+                    // <+1000>
+                    observer.storage = .value(measuredSize)
+                    continue
+                }
                 currentSize = size
-            case .none, .invalid:
+            case .none:
+                // <+1024>
                 let invalidValue = VolumeThatFitsMeasurer.invalidValue
-                store[size]!.storage = .pending(invalidValue, invalidValue)
-                return true
+                // <+1056>
+                observer.storage = .pending(invalidValue, measuredSize)
+                // <+1088>
+                needsUpdate = true
+                continue
+            case .invalid:
+                // <+956>
+                // <+1000>
+                observer.storage = .value(measuredSize)
+                continue
             }
             
             if measuredSize != currentSize {
+                // <+936>
                 store[size]!.storage = .pending(currentSize, measuredSize)
-                return true
+                // <+1088>
+                needsUpdate = true
             }
         }
         
-        return false
+        // <+1164>
+        return needsUpdate
     }
     
     func notify() {
