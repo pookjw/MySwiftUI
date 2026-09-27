@@ -2,12 +2,19 @@
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
+UIKIT_EXTERN const CGFloat _UIPopoverPresentationControllerDefaultCornerRadius;
+
 @interface UIPopoverPresentationController (Private)
 @property (nonatomic, setter=_setPrefersZoomTransitions:) BOOL _prefersZoomTransitions;
 @property (nonatomic, setter=_setSourceEntityId:) unsigned long long _sourceEntityId;
 @property (nonatomic, setter=_setSourceEntitySize:) UISize3D _sourceEntitySize;
+@property (nonatomic, setter=_setCornerRadius:) CGFloat _cornerRadius;
+
 // API_UNAVAILABLE(visionos) 제거용
 @property (nonatomic, readonly, strong, nullable, getter=adaptiveSheetPresentationController) UISheetPresentationController *msui_adaptiveSheetPresentationController;
+
+- (BOOL)_overrideAllowsHitTestingOnBackgroundViews;
+- (void)_setOverrideAllowsHitTestingOnBackgroundViews:(BOOL)value;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

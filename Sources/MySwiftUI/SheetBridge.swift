@@ -814,7 +814,7 @@ extension SheetBridge : PresentationHostingControllerDelegate {
     }
     
     nonisolated var isBackingV5Inspector: Bool {
-        assertUnimplemented()
+        return false
     }
     
     nonisolated func willTransitionToRegularSizeClass() {

@@ -47,8 +47,16 @@ public struct PresentationDetent : Hashable, Sendable {
     var uiSheetDetentId: MySheetPresentationControllerDetentIdentifier {
         assertUnimplemented()
     }
+    
+    var uiSheetDetent: MySheetPresentationControllerDetent {
+        assertUnimplemented()
+    }
 #else
     var uiSheetDetentId: UISheetPresentationController.Detent.Identifier {
+        assertUnimplemented()
+    }
+    
+    var uiSheetDetent: UISheetPresentationController.Detent {
         assertUnimplemented()
     }
 #endif

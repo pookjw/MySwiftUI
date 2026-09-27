@@ -6,10 +6,10 @@ internal import _UIKitPrivate
 private import SwiftUI
 internal import _SwiftUIPrivate
 private import _SwiftPrivate
-private import _MySwiftUIShims
 internal import MySwiftUICore
 #endif
 internal import DesignLibrary
+private import _MySwiftUIShims
 
 final class PrivateSelectors {
     @objc(_swiftTypeName) var _swiftTypeName: NSString {
@@ -390,34 +390,6 @@ func swift_dynamicCast(
 
 func getTraitsInternal(_ mutation: any UIMutableTraits) -> any UIMutableTraitsInternal {
     return unsafe unsafeBitCast(mutation, to: (any UIMutableTraitsInternal).self)
-}
-
-@_extern(c, "UISheetPresentationControllerDetentIdentifierMedium") @safe fileprivate nonisolated(unsafe) let _UISheetPresentationControllerDetentIdentifierMedium: UnsafeRawPointer
-@_extern(c, "UISheetPresentationControllerDetentIdentifierLarge") @safe fileprivate nonisolated(unsafe) let _UISheetPresentationControllerDetentIdentifierLarge: UnsafeRawPointer
-
-@frozen
-package struct MySheetPresentationControllerDetentIdentifier : RawRepresentable, Sendable, Hashable {
-    package static var medium: MySheetPresentationControllerDetentIdentifier {
-        return unsafe MySheetPresentationControllerDetentIdentifier(
-            rawValue: Unmanaged<NSString>
-                .fromOpaque(_UISheetPresentationControllerDetentIdentifierMedium)
-                .takeUnretainedValue() as String
-        )
-    }
-    
-    package static var large: MySheetPresentationControllerDetentIdentifier {
-        return unsafe MySheetPresentationControllerDetentIdentifier(
-            rawValue: Unmanaged<NSString>
-                .fromOpaque(_UISheetPresentationControllerDetentIdentifierLarge)
-                .takeUnretainedValue() as String
-        )
-    }
-    
-    package let rawValue: String
-    
-    package init(rawValue: String) {
-        self.rawValue = rawValue
-    }
 }
 
 extension UIModalPresentationStyle {

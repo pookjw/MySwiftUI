@@ -14,4 +14,27 @@ final class OscillationDetector<T> {
         self.predicate = predicate
         self.retentionCount = retentionCount
     }
+    
+    @inline(__always) // 원래 없음
+    func evaluate(with value: T) -> Bool {
+        for other in self.buffer {
+            guard !self.predicate(value, other) else {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func insert(_ value: T) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func enqueueDecay(at index: Int) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func decay() {
+        assertUnimplemented()
+    }
 }

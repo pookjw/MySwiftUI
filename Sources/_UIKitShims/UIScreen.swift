@@ -5,6 +5,7 @@ private import _MySwiftUIShims
 
 fileprivate let UIScreenClass: AnyClass = unsafe objc_getClass("UIScreen") as! AnyClass
 
+@frozen
 package struct MyUIScreen {
     private let screen: AnyObject
     

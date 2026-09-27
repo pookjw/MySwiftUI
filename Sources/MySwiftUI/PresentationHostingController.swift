@@ -3,6 +3,7 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
 private import os.log
+private import _UIKitShims
 
 let clientNeedsOscillationSuppression = isLinkedOnOrAfter(.v6)
 
@@ -113,7 +114,38 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: any UIViewControllerTransitionCoordinator) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         newCollection -> x0 -> x22
+         coordinator -> x1 -> x19
+         */
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        guard
+            let delegate,
+            delegate.isBackingV5Inspector,
+            newCollection.horizontalSizeClass == .regular
+        else {
+            return
+        }
+        
+        delegate.willTransitionToRegularSizeClass()
+        
+        coordinator.animate(
+            alongsideTransition: { _ in
+                // $s7SwiftUI29PresentationHostingControllerC14willTransition2to4withySo17UITraitCollectionC_So06UIVieweG11Coordinator_ptFySo0legM7Context_pcfU_TA
+                /*
+                 context -> x0
+                 self -> x1 -> x19
+                 */
+                self.view.isHidden = true
+                self.dismiss(animated: false) { 
+                    // $s7SwiftUI29PresentationHostingControllerC14willTransition2to4withySo17UITraitCollectionC_So06UIVieweG11Coordinator_ptFySo0legM7Context_pcfU_yycfU_TA
+                    self.view.isHidden = false
+                }
+            },
+            completion: nil
+        )
     }
     
     @objc fileprivate func escapeKeyPressed() {
@@ -419,7 +451,43 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func updateSheet(with preference: PresentationOptionsPreference) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         preference -> x0 -> x19
+         */
+        self.setPassthrough(using: preference)
+        
+        let sheetPresentationController: UISheetPresentationController?
+        if
+            let presentationController,
+            let casted = presentationController as? UISheetPresentationController
+        {
+            sheetPresentationController = casted
+        } else if let popoverPresentationController {
+#if os(visionOS)
+            sheetPresentationController = popoverPresentationController.msui_adaptiveSheetPresentationController
+#else
+            sheetPresentationController = popoverPresentationController.adaptiveSheetPresentationController
+#endif
+        } else {
+            sheetPresentationController = nil
+        }
+        
+        if let sheetPresentationController {
+            self.configureDetents(of: sheetPresentationController, using: preference)
+        }
+        
+        // <+168>
+        self.lastPresentationOptions = preference
+        
+        // <+232>
+        self.updatePreferredContentSizeIfNeeded(presenter: nil, sizing: nil)
+        self.breakthroughEffect = preference.breakthroughEffect
+        self._setNeedsUpdateOfBreakthroughMode()
+        
+        if let popoverPresentationController {
+            popoverPresentationController._cornerRadius = preference.cornerRadius ?? _UIPopoverPresentationControllerDefaultCornerRadius
+        }
     }
     
     func setBackgroundTransparency(preferenceValue: ContainerBackgroundKeys.Transparency?) {
@@ -900,11 +968,223 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func configureDetents(of sheet: UISheetPresentationController, using preference: PresentationOptionsPreference) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x27
+         sheet -> x0 -> x28
+         preference -> x1 -> x24
+         */
+        let flag_1: Bool
+        if (self.traitCollection.horizontalSizeClass == .regular) && (self.traitCollection.verticalSizeClass == .regular) {
+            // <+156>
+            if
+                let delegate,
+                delegate.isBackingV5Inspector
+            {
+                // <+196>
+                flag_1 = true
+            } else {
+                // <+1032>
+                flag_1 = false
+            }
+        } else {
+            // <+196>
+            flag_1 = true
+        }
+        
+        if flag_1 {
+            // <+196>
+            if clientNeedsOscillationSuppression {
+                // <+224>
+                guard preference.sheetConfigurationChanged(from: self.lastPreferenceForSheetControllerConfiguration) else {
+                    return
+                }
+                
+                // <+344>
+            } else {
+                // <+344>
+            }
+            
+            // <+344>
+            if let oscillationDetector {
+                // <+364>
+                // oscillationDetector -> x21
+                // inlined
+                guard !oscillationDetector.evaluate(with: preference) else {
+                    // <+572>
+                    var message = "A presentation preference is rapidly switching between values, possibly because the presentation's preferences depend on its size.\n"
+                    
+                    if let lastPreferenceForSheetControllerConfiguration {
+                        // <+728>
+                        let diff = preference.differenceMessage(from: lastPreferenceForSheetControllerConfiguration)
+                        message.append(diff)
+                    } else {
+                        // <+1452>
+                        message.append("")
+                    }
+                    
+                    message.append("\nThe most recent value was ignored to avoid cyclic layout. Please update your code to avoid this issue. This may become a crash in a future release.")
+                    Log.externalWarning(message)
+                    return
+                }
+                
+                // <+884>
+                self.lastPresentationOptions = preference
+                oscillationDetector.insert(preference)
+                // <+980>
+            } else {
+                // <+816>
+                self.lastPresentationOptions = preference
+                // <+980>
+            }
+            
+            // <+980>
+            var detents = preference.detents.map { detent in
+                return detent.uiSheetDetent
+            }
+            
+            if detents.isEmpty {
+                detents = [.large]
+            }
+            
+            // <+1988>
+            sheet.mrui_detents = detents
+            
+            if
+                let dimmingBehavior = preference.dimmingBehavior,
+                case .backgroundInteractionEnabled = dimmingBehavior
+            {
+                sheet.mrui_largestUndimmedDetentIdentifier = nil
+            }
+            
+            // <+2108>
+            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = (preference.dragIndicatorVisibility != .hidden)
+            sheet.mrui_preferredCornerRadius = preference.cornerRadius ?? mrui_UISheetPresentationControllerAutomaticDimension
+            
+            if let verticalAdaptation = preference.verticalAdaptation {
+                sheet.prefersEdgeAttachedInCompactHeight = (verticalAdaptation.kind == .automatic) || (verticalAdaptation.kind == .popover)
+            } else {
+                sheet.prefersEdgeAttachedInCompactHeight = false
+            }
+            
+            // <+2168>
+            // $s7SwiftUI29PresentationHostingControllerC16configureDetents2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFSbyXEfu10_TA
+            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: !detents.isEmpty)
+            sheet._grabberTopSpacing = preference.dragIndicatorOffset ?? _UISheetGrabberTopSpacing
+            
+            let prefersEdgeAttachedInCompactHeight = sheet.prefersEdgeAttachedInCompactHeight
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = prefersEdgeAttachedInCompactHeight
+            
+            let mode: _UISheetMode
+            if prefersEdgeAttachedInCompactHeight {
+                // <+2328>
+                mode = .unknown1
+            } else {
+                if self.modalPresentationStyle == .formSheet {
+                    // <+2328>
+                    mode = .unknown1
+                } else {
+                    // <+2336>
+                    mode = sheet.prefersPageSizing ? .unknown0 : .unknown1
+                }
+            }
+            
+            sheet._mode = mode
+            self.configureSizingOptions(for: preference, sheetController: sheet)
+            return
+        } else {
+            // <+1032>
+            sheet.mrui_detents = [.large]
+            sheet.mrui_largestUndimmedDetentIdentifier = nil
+            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = true
+            sheet.mrui_preferredCornerRadius = mrui_UISheetPresentationControllerAutomaticDimension
+            sheet.prefersEdgeAttachedInCompactHeight = false
+            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: false)
+            sheet._grabberTopSpacing = preference.dragIndicatorOffset ?? _UISheetGrabberTopSpacing
+            
+            // <+1308>
+            let flag_2: Bool
+            let sizing_1: (any PresentationSizing)? 
+            if let _sizing = preference.sizing {
+                sizing_1 = _sizing
+                // <+1600>
+                if preference.useFormSheetSPISizing {
+                    // <+1612>
+                    flag_2 = true
+                } else {
+                    // <+1652>
+                    flag_2 = false
+                }
+            } else {
+                // <+1352>
+                if _SemanticFeature<Semantics_v6>.isEnabled {
+                    // <+1408>
+                    sizing_1 = preference.sizing ?? .automatic
+                    // <+1600>
+                    if preference.useFormSheetSPISizing {
+                        // <+1612>
+                        flag_2 = true
+                    } else {
+                        // <+1652>
+                        flag_2 = false
+                    }
+                } else {
+                    // <+1532>
+                    sizing_1 = nil
+                    // <+1612>
+                    flag_2 = true
+                }
+            }
+            
+            _ = consume sizing_1
+            
+            if flag_2 {
+                // <+1612>
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = false
+                sheet._mode = (self.modalPresentationStyle == .formSheet) ? .unknown1 : .unknown0
+                // <+2372>
+                return
+            } else {
+                // <+1652>
+                guard _SemanticFeature<Semantics_v6>.isEnabled else {
+                    return
+                }
+                
+                let _ = preference.sizing ?? .automatic
+                
+                // <+1804>
+                if self.modalPresentationStyle != .popover {
+                    sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = false
+                    self.configureSizingOptions(for: preference, sheetController: sheet)
+                }
+                
+                return
+            }
+        }
     }
     
     func setPassthrough(using preference: PresentationOptionsPreference) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         preference -> x0 -> x19
+         */
+        guard let popoverPresentationController else {
+            return
+        }
+        
+        if
+            let passthroughBehavior = preference.passthroughBehavior,
+            case passthroughBehavior = .enabled,
+            let presentingViewController,
+            let view = presentingViewController.view
+        {
+            // <+120>
+            popoverPresentationController._setOverrideAllowsHitTesting(onBackgroundViews: false)
+            popoverPresentationController.passthroughViews = [view]
+        } else {
+            // <+280>
+            popoverPresentationController._setOverrideAllowsHitTesting(onBackgroundViews: true)
+            popoverPresentationController.passthroughViews = []
+        }
     }
 }
 

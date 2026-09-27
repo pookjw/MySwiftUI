@@ -1,6 +1,6 @@
 @available(iOS 16.4, macOS 13.3, tvOS 16.4, watchOS 9.4, *)
 public struct PresentationAdaptation : Sendable {
-    private var kind: PresentationAdaptation.Kind
+    private(set) var kind: PresentationAdaptation.Kind
     
     public static var automatic: PresentationAdaptation {
         return PresentationAdaptation(kind: .automatic)
@@ -28,7 +28,7 @@ public struct PresentationAdaptation : Sendable {
 }
 
 extension PresentationAdaptation {
-    enum Kind {
+    enum Kind : Hashable {
         case automatic
         case none
         case popover
