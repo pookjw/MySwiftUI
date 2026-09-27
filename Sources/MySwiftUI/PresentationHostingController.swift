@@ -337,7 +337,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             style = .formSheet
         case .blurOverFullScreen:
             // <+188>
-            style = .mrui_blurOverFullScreen
+            style = .msui_blurOverFullScreen
         case .fullScreenSheet:
             // <+484>
             style = .formSheet
@@ -429,7 +429,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             let value = selection.wrappedValue
             
             if copy_1.detents.contains(value) {
-                sheetPresentationController.mrui_selectedDetentIdentifier = value.uiSheetDetentId
+                sheetPresentationController.msui_selectedDetentIdentifier = value.uiSheetDetentId
             } else {
                 Log.externalWarning("Cannot set selected sheet detent if it is not included\nin supported sheet detents.")
             }
@@ -541,7 +541,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
          style -> x0 -> x21
          presentationOptions -> x1 -> x19
          */
-        if (style == .mrui_blurOverFullScreen) || (style == .overFullScreen) {
+        if (style == .msui_blurOverFullScreen) || (style == .overFullScreen) {
             self.modalPresentationCapturesStatusBarAppearance = true
         }
         
@@ -1048,17 +1048,17 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             }
             
             // <+1988>
-            sheet.mrui_detents = detents
+            sheet.msui_detents = detents
             
             if let dimmingBehavior = preference.dimmingBehavior {
                 dimmingBehavior.setLargestUndimmedDetentIdentifier(of: sheet, detents: detents)
             } else {
-                sheet.mrui_largestUndimmedDetentIdentifier = nil
+                sheet.msui_largestUndimmedDetentIdentifier = nil
             }
             
             // <+2108>
-            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = (preference.swipeUpBehavior != .scrolls)
-            sheet.mrui_preferredCornerRadius = preference.cornerRadius ?? mrui_UISheetPresentationControllerAutomaticDimension
+            sheet.msui_prefersScrollingExpandsWhenScrolledToEdge = (preference.swipeUpBehavior != .scrolls)
+            sheet.msui_preferredCornerRadius = preference.cornerRadius ?? msui_UISheetPresentationControllerAutomaticDimension
             
             if let verticalAdaptation = preference.verticalAdaptation {
                 sheet.prefersEdgeAttachedInCompactHeight = (verticalAdaptation.kind == .none) || (verticalAdaptation.kind == .sheet)
@@ -1068,7 +1068,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             
             // <+2168>
             // $s7SwiftUI29PresentationHostingControllerC16configureDetents2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFSbyXEfu10_TA
-            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: detents.count > 1)
+            sheet.msui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: detents.count > 1)
             sheet._grabberTopSpacing = preference.dragIndicatorOffset ?? _UISheetGrabberTopSpacing
             
             let prefersEdgeAttachedInCompactHeight = sheet.prefersEdgeAttachedInCompactHeight
@@ -1093,12 +1093,12 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             return
         } else {
             // <+1032>
-            sheet.mrui_detents = [.large]
-            sheet.mrui_largestUndimmedDetentIdentifier = nil
-            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = true
-            sheet.mrui_preferredCornerRadius = mrui_UISheetPresentationControllerAutomaticDimension
+            sheet.msui_detents = [.large]
+            sheet.msui_largestUndimmedDetentIdentifier = nil
+            sheet.msui_prefersScrollingExpandsWhenScrolledToEdge = true
+            sheet.msui_preferredCornerRadius = msui_UISheetPresentationControllerAutomaticDimension
             sheet.prefersEdgeAttachedInCompactHeight = false
-            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: false)
+            sheet.msui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: false)
             sheet._grabberTopSpacing = preference.dragIndicatorOffset ?? _UISheetGrabberTopSpacing
             
             // <+1308>
@@ -1181,7 +1181,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         let detentId = selection.wrappedValue.uiSheetDetentId
         
         if
-            let selectedDetentIdentifier = sheet.mrui_selectedDetentIdentifier,
+            let selectedDetentIdentifier = sheet.msui_selectedDetentIdentifier,
             selectedDetentIdentifier == detentId
         {
             // <+352>
@@ -1193,7 +1193,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             // $s7SwiftUI29PresentationHostingControllerC22updateDetentsSelection2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFyycfU_TA
             sheet.animateChanges {
                 // $s7SwiftUI29PresentationHostingControllerC22updateDetentsSelection2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFyycfU_yyXEfU_TA
-                sheet.mrui_selectedDetentIdentifier = detentId
+                sheet.msui_selectedDetentIdentifier = detentId
             }
         }
     }

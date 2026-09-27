@@ -1,7 +1,7 @@
 package import UIKit
 private import _MySwiftUIShims
 
-@_extern(c, "UISheetPresentationControllerAutomaticDimension") package let mrui_UISheetPresentationControllerAutomaticDimension: CGFloat
+@_extern(c, "UISheetPresentationControllerAutomaticDimension") package let msui_UISheetPresentationControllerAutomaticDimension: CGFloat
 
 @_extern(c, "UISheetPresentationControllerDetentIdentifierMedium") @safe fileprivate nonisolated(unsafe) let _UISheetPresentationControllerDetentIdentifierMedium: UnsafeRawPointer
 @_extern(c, "UISheetPresentationControllerDetentIdentifierLarge") @safe fileprivate nonisolated(unsafe) let _UISheetPresentationControllerDetentIdentifierLarge: UnsafeRawPointer
@@ -45,13 +45,13 @@ package struct MySheetPresentationControllerDetentIdentifier : RawRepresentable,
     
     package let rawValue: String
     
-    package init(rawValue: String) {
+    @inlinable package init(rawValue: String) {
         self.rawValue = rawValue
     }
 }
 
 extension UISheetPresentationController {
-    package var mrui_detents: [MySheetPresentationControllerDetent] {
+    package var msui_detents: [MySheetPresentationControllerDetent] {
         get {
             let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (UISheetPresentationController, Selector) -> [AnyObject]).self)
             let cmd = Selector(("detents"))
@@ -67,7 +67,7 @@ extension UISheetPresentationController {
         }
     }
     
-    package var mrui_largestUndimmedDetentIdentifier: MySheetPresentationControllerDetentIdentifier? {
+    package var msui_largestUndimmedDetentIdentifier: MySheetPresentationControllerDetentIdentifier? {
         get {
             let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (UISheetPresentationController, Selector) -> NSString?).self)
             let cmd = Selector(("largestUndimmedDetentIdentifier"))
@@ -93,7 +93,7 @@ extension UISheetPresentationController {
         }
     }
     
-    package var mrui_selectedDetentIdentifier: MySheetPresentationControllerDetentIdentifier? {
+    package var msui_selectedDetentIdentifier: MySheetPresentationControllerDetentIdentifier? {
         get {
             let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (UISheetPresentationController, Selector) -> NSString?).self)
             let cmd = Selector(("selectedDetentIdentifier"))

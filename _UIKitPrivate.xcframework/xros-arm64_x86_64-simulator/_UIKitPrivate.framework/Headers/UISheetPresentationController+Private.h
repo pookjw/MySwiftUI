@@ -18,9 +18,9 @@ typedef NS_ENUM(NSInteger, _UISheetMode) {
 @property (nonatomic, setter=_setGrabberTopSpacing:) CGFloat _grabberTopSpacing;
 @property (nonatomic, setter=_setMode:) _UISheetMode _mode;
 // API_UNAVAILABLE(visionos) 제거용
-@property (nonatomic, getter=prefersScrollingExpandsWhenScrolledToEdge, setter=setPrefersScrollingExpandsWhenScrolledToEdge:) BOOL mrui_prefersScrollingExpandsWhenScrolledToEdge NS_SWIFT_NAME(UISheetPresentationController.mrui_prefersScrollingExpandsWhenScrolledToEdge);
-@property (nonatomic, getter=preferredCornerRadius, setter=setPreferredCornerRadius:) CGFloat mrui_preferredCornerRadius;
-@property (nonatomic, getter=prefersGrabberVisible, setter=setPrefersGrabberVisible:) BOOL mrui_prefersGrabberVisible NS_SWIFT_NAME(UISheetPresentationController.mrui_prefersGrabberVisible);
+@property (nonatomic, getter=prefersScrollingExpandsWhenScrolledToEdge, setter=setPrefersScrollingExpandsWhenScrolledToEdge:) BOOL msui_prefersScrollingExpandsWhenScrolledToEdge NS_SWIFT_NAME(UISheetPresentationController.msui_prefersScrollingExpandsWhenScrolledToEdge);
+@property (nonatomic, getter=preferredCornerRadius, setter=setPreferredCornerRadius:) CGFloat msui_preferredCornerRadius;
+@property (nonatomic, getter=prefersGrabberVisible, setter=setPrefersGrabberVisible:) BOOL msui_prefersGrabberVisible NS_SWIFT_NAME(UISheetPresentationController.msui_prefersGrabberVisible);
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

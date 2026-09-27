@@ -393,7 +393,7 @@ func getTraitsInternal(_ mutation: any UIMutableTraits) -> any UIMutableTraitsIn
 }
 
 extension UIModalPresentationStyle {
-    package static var mrui_blurOverFullScreen: UIModalPresentationStyle {
+    package static var msui_blurOverFullScreen: UIModalPresentationStyle {
         return unsafe UIModalPresentationStyle(rawValue: 8).unsafelyUnwrapped
     }
 }
