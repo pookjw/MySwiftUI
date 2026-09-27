@@ -810,8 +810,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             
             // <+736>
             let asyncTransaction = AsyncTransaction(transaction: transaction, transactionID: id, mutations: [mutation])
-            pendingTransactions.append(asyncTransaction)
-            self.pendingTransactions = pendingTransactions
+            self.pendingTransactions.append(asyncTransaction)
             CustomEventTrace.transactionEnqueue(asyncTransaction.traceID)
             return asyncTransaction.traceID
         }

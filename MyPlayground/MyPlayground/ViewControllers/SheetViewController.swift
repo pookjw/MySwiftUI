@@ -19,6 +19,12 @@ fileprivate struct MyView : View {
             MyButton(title: "Dismiss") {
                 self.isPresented = false
             }
+            .task {
+                do {
+                    try await Task.sleep(for: .seconds(1))
+                    self.isPresented = false
+                } catch {}
+            }
         }
         .task {
             self.isPresented = true

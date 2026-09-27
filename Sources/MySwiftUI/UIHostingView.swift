@@ -1322,7 +1322,7 @@ open class _UIHostingView<Content : View>: UIView {
          rootView -> x0 -> x23
          transaction -> x1 -> x21
          */
-        self.rootView = rootView
+        self._rootView = rootView
         
         self.viewGraph.asyncTransaction(transaction) { [weak self] in
             // $s7SwiftUI14_UIHostingViewC07setRootD0_11transactionyx_AA11TransactionVtFyycfU_TA
