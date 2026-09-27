@@ -5,7 +5,7 @@ private import _UIKitPrivate
 private import _UIKitShims
 
 @MainActor class SheetBridge<T: HostPreferenceKey> : NSObject where T.Value == SheetPreference.Value {
-    weak var host: ViewRendererHost? = nil
+    final weak var host: ViewRendererHost? = nil
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
     private var backgroundTracker = VersionSeedTracker<ContainerBackgroundKeys.HostTransparency>(seed: .empty)
@@ -18,7 +18,7 @@ private import _UIKitShims
     private var presentationState = PresentationState()
     private(set) weak var presenterOverride: UIViewController? = nil
     private var lastEnvironment = EnvironmentValues()
-    let clientNeedsOutOfWindowPresentationSuppression: Bool = {
+    final let clientNeedsOutOfWindowPresentationSuppression: Bool = {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return false
         }
