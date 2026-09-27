@@ -671,12 +671,18 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     @discardableResult
-    final func asyncTransaction(
+    package final func asyncTransaction(
         _ transaction: Transaction = Transaction(),
         id: Transaction.ID = Transaction.id,
-        _ body: () -> Void
+        _ body: @escaping () -> Void
     ) -> UInt32 {
-        assertUnimplemented()
+        return asyncTransaction(
+            transaction,
+            id: id,
+            mutation: CustomGraphMutation(body: body),
+            style: .deferred,
+            mayDeferUpdate: true
+        )
     }
     
     @discardableResult
@@ -1054,6 +1060,22 @@ struct AssignmentGraphMutation<T> : GraphMutation {
     
     func combine<U>(with other: U) -> Bool where U : GraphMutation {
         assertUnimplemented()
+    }
+}
+
+struct CustomGraphMutation : GraphMutation {
+    private let body: () -> Void
+    
+    init(body: @escaping () -> Void) {
+        self.body = body
+    }
+    
+    func apply() {
+        self.body()
+    }
+    
+    func combine<T>(with other: T) -> Bool where T : GraphMutation {
+        return false
     }
 }
 

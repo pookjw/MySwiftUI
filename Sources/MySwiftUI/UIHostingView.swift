@@ -1292,7 +1292,7 @@ open class _UIHostingView<Content : View>: UIView {
             setBackground(containerBackgroundColor, canOverwriteClientValue: true)
         } else {
             // <+60>
-            guard viewController != nil else {
+            guard unsafe viewController != nil else {
                 return
             }
             
@@ -1314,6 +1314,24 @@ open class _UIHostingView<Content : View>: UIView {
     
     final var shouldDeferToChildViewControllerForStatusBar: Bool {
         return self.statusBarBridge.shouldDeferToChildViewController
+    }
+    
+    final func setRootView(_ rootView: Content, transaction: Transaction) {
+        /*
+         self -> x20
+         rootView -> x0 -> x23
+         transaction -> x1 -> x21
+         */
+        self.rootView = rootView
+        
+        self.viewGraph.asyncTransaction(transaction) { [weak self] in
+            // $s7SwiftUI14_UIHostingViewC07setRootD0_11transactionyx_AA11TransactionVtFyycfU_TA
+            guard let self else {
+                return
+            }
+            
+            self.updateRootView()
+        }
     }
 }
 

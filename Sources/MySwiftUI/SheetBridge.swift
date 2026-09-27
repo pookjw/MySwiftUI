@@ -579,8 +579,27 @@ private import _UIKitShims
         // noop
     }
     
-    func update(presentation: SheetPreference, in viewController: PresentationHostingController<AnyView>, transaction: Transaction) {
-        assertUnimplemented()
+    func update(presentation preference: SheetPreference, in viewController: PresentationHostingController<AnyView>, transaction: Transaction) {
+        /*
+         self -> x20 -> x29 - 0x80
+         preference -> x0 -> x26
+         viewController -> x1 -> x27 / x29 - 0x78
+         transaction -> x2 -> x29 - 0x88
+         */
+        // <+516>
+        let host = viewController.host
+        host.setRootView(preference.content, transaction: transaction)
+        host.base.environmentOverride = preference.environment
+        
+        if host.colorScheme == nil {
+            // <+1272>
+            if let explicitPreferredColorScheme = self.lastEnvironment.explicitPreferredColorScheme {
+                viewController.setPresentationColorScheme(explicitPreferredColorScheme)
+            }
+        }
+        
+        // <+1436>
+        self.transitioningDelegate.sourceRect = preference.sourceRect
     }
     
     func removePreferences(from graph: ViewGraph) {
