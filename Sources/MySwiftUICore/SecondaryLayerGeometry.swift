@@ -318,7 +318,7 @@ struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
             guideComputer: secondaryLayoutComputer,
             size: sizeThatFits,
             proposal: _ProposedSize(primarySize_2.value)
-        )[alignment.horizontal.key]
+        )[alignment.vertical.key]
         
         var result = ViewGeometry(
             origin: CGPoint(x: d13 - horizontalValue_2, y: d12 - vertical_Value_2),
@@ -341,18 +341,17 @@ struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
             
             d12 += ViewDimensions(
                 guideComputer: primaryLayoutComputer,
-                size: CGSize(width: primarySize_1.height, height: primarySize_1.width),
-                proposal: _ProposedSize(primarySize_1.value)
-            )[alignment.horizontal]
+                size: primarySize_1
+            )[alignment.horizontal.key]
             
             let d8 = ViewDimensions(
                 guideComputer: secondaryLayoutComputer,
                 size: sizeThatFits,
                 proposal: _ProposedSize(primarySize_2.value)
-            )[alignment.horizontal]
+            )[alignment.horizontal.key]
             
             var d0 = d12 - d8
-            let d1 = d0 - horizontalValue_2
+            let d1 = d0 - result.origin.x
             d0 = d0 + d1
             result.origin.x = d0
         }
