@@ -92,4 +92,30 @@ extension UISheetPresentationController {
             casted(self, cmd, detent)
         }
     }
+    
+    package var mrui_selectedDetentIdentifier: MySheetPresentationControllerDetentIdentifier? {
+        get {
+            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (UISheetPresentationController, Selector) -> NSString?).self)
+            let cmd = Selector(("selectedDetentIdentifier"))
+            
+            guard let detent = casted(self, cmd) else {
+                return nil
+            }
+            
+            return MySheetPresentationControllerDetentIdentifier(rawValue: detent as String)
+        }
+        set {
+            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (UISheetPresentationController, Selector, NSString?) -> Void).self)
+            let cmd = Selector(("setSelectedDetentIdentifier:"))
+            
+            let detent: NSString?
+            if let newValue {
+                detent = newValue.rawValue as NSString
+            } else {
+                detent = nil
+            }
+            
+            casted(self, cmd, detent)
+        }
+    }
 }

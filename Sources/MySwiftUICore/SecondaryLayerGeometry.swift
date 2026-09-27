@@ -259,7 +259,105 @@ struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
     }
     
     var value: ViewGeometry {
-        assertUnimplemented()
+        /*
+         alignment -> w24
+         layoutDirection -> sp + 0x30
+         primaryPosition -> sp + 0x34
+         primarySize -> w26
+         secondaryLayoutComputer -> w25
+         */
+        // x21, x23
+        let primaryLayoutComputer = self.primaryLayoutComputer ?? .defaultValue
+        
+        // <+144>
+        // d9, d11, d13, d14
+        let primarySize_1 = self.primarySize
+        
+        // x28, x27
+        let alignment = self.alignment ?? .center
+        
+        // <+232>
+        // d10, d12
+        let primaryPosition = self.primaryPosition
+        
+        // d8
+        let horizontalValue_1 = ViewDimensions(
+            guideComputer: primaryLayoutComputer,
+            size: primarySize_1
+        )[alignment.horizontal.key]
+        
+        // d9
+        let verticalValue_1 = ViewDimensions(
+            guideComputer: primaryLayoutComputer,
+            size: primarySize_1
+        )[alignment.vertical.key]
+        
+        // x25, x24
+        let secondaryLayoutComputer = self.secondaryLayoutComputer ?? .defaultValue
+        
+        // <+396>
+        // d15, d11
+        let primarySize_2 = self.primarySize
+        
+        let d13 = primaryPosition.x + horizontalValue_1
+        let d12 = primaryPosition.y + verticalValue_1
+        
+        // d8, d9
+        let sizeThatFits = secondaryLayoutComputer.sizeThatFits(
+            _ProposedSize(primarySize_2.value)
+        )
+        
+        // d10
+        let horizontalValue_2 = ViewDimensions(
+            guideComputer: secondaryLayoutComputer,
+            size: sizeThatFits,
+            proposal: _ProposedSize(primarySize_2.value)
+        )[alignment.horizontal.key]
+        
+        let vertical_Value_2 = ViewDimensions(
+            guideComputer: secondaryLayoutComputer,
+            size: sizeThatFits,
+            proposal: _ProposedSize(primarySize_2.value)
+        )[alignment.horizontal.key]
+        
+        var result = ViewGeometry(
+            origin: CGPoint(x: d13 - horizontalValue_2, y: d12 - vertical_Value_2),
+            dimensions: ViewDimensions(
+                guideComputer: secondaryLayoutComputer,
+                size: sizeThatFits,
+                proposal: _ProposedSize(primarySize_2.value)
+            )
+        )
+        
+        // <+624>
+        switch self.layoutDirection {
+        case .leftToRight:
+            // <+812>
+            break
+        case .rightToLeft:
+            // <+664>
+            var d12 = self.primaryPosition.x
+            let alignment = Alignment.center
+            
+            d12 += ViewDimensions(
+                guideComputer: primaryLayoutComputer,
+                size: CGSize(width: primarySize_1.height, height: primarySize_1.width),
+                proposal: _ProposedSize(primarySize_1.value)
+            )[alignment.horizontal]
+            
+            let d8 = ViewDimensions(
+                guideComputer: secondaryLayoutComputer,
+                size: sizeThatFits,
+                proposal: _ProposedSize(primarySize_2.value)
+            )[alignment.horizontal]
+            
+            var d0 = d12 - d8
+            let d1 = d0 - horizontalValue_2
+            d0 = d0 + d1
+            result.origin.x = d0
+        }
+        
+        return result
     }
 }
 

@@ -5,6 +5,13 @@ public enum Visibility : Int, Hashable, CaseIterable {
     case hidden
     
     package func isVisible(automatic: @autoclosure () -> Bool) -> Bool {
-        assertUnimplemented()
+        switch self {
+        case .automatic:
+            return automatic()
+        case .visible:
+            return true
+        case .hidden:
+            return false
+        }
     }
 }

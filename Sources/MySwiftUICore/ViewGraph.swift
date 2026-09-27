@@ -1380,16 +1380,27 @@ extension ViewGraphFeature {
 package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
     fileprivate private(set) var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
-    package func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: (T.Size, T.Size) -> Void) {
-        assertUnimplemented()
+    package mutating func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: @escaping (T.Size, T.Size) -> Void) {
+        /*
+         sself -> x20 -> x29 - 0x60
+         proposal -> x0 -> x28
+         exclusive -> w1 -> w19
+         callback -> x2/x3 -> x29 - 0x68 / x21
+         */
+        // <+132>
+        if exclusive {
+            self.removeAll()
+        }
+        
+        self.store[proposal] = ViewGraphGeometryObservers<T>.Observer(callback: callback)
     }
     
     package mutating func stopObserving(proposal: T.Proposal) {
-        store.removeValue(forKey: proposal)
+        self.store.removeValue(forKey: proposal)
     }
     
-    func removeAll() {
-        assertUnimplemented()
+    mutating func removeAll() {
+        self.store.removeAll(keepingCapacity: false)
     }
     
     func resetObserver(for proposal: T.Proposal) {
@@ -1402,11 +1413,8 @@ extension ViewGraphGeometryObservers {
         fileprivate var storage: ViewGraphGeometryObservers.Observer.Storage
         private let callback: (T.Size, T.Size) -> Void
         
-        init(
-            storage: ViewGraphGeometryObservers.Observer.Storage,
-            callback: @escaping (T.Size, T.Size) -> Void
-        ) {
-            self.storage = storage
+        init(callback: @escaping (T.Size, T.Size) -> Void) {
+            self.storage = .none
             self.callback = callback
         }
         

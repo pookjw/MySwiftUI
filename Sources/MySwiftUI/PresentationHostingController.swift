@@ -429,7 +429,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             let value = selection.wrappedValue
             
             if copy_1.detents.contains(value) {
-                sheetPresentationController.mrui_selectedDetentIdentifier = value.uiSheetDetentId.rawValue
+                sheetPresentationController.mrui_selectedDetentIdentifier = value.uiSheetDetentId
             } else {
                 Log.externalWarning("Cannot set selected sheet detent if it is not included\nin supported sheet detents.")
             }
@@ -1163,7 +1163,39 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     func updateDetentsSelection(of sheet: UISheetPresentationController, using preference: PresentationOptionsPreference) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         sheet -> x0 -> x24
+         preference -> x1
+         */
+        guard let selection = preference.selection else {
+            return
+        }
+        
+        guard preference.detents.contains(selection.wrappedValue) else {
+            Log.externalWarning("Cannot set selected sheet detent if it is not included\nin supported sheet detents.")
+            return
+        }
+        
+        // <+144>
+        let detentId = selection.wrappedValue.uiSheetDetentId
+        
+        if
+            let selectedDetentIdentifier = sheet.mrui_selectedDetentIdentifier,
+            selectedDetentIdentifier == detentId
+        {
+            // <+352>
+            return
+        }
+        
+        // <+380>
+        onNextMainRunLoop {
+            // $s7SwiftUI29PresentationHostingControllerC22updateDetentsSelection2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFyycfU_TA
+            sheet.animateChanges {
+                // $s7SwiftUI29PresentationHostingControllerC22updateDetentsSelection2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFyycfU_yyXEfU_TA
+                sheet.mrui_selectedDetentIdentifier = detentId
+            }
+        }
     }
 
     func setPassthrough(using preference: PresentationOptionsPreference) {
