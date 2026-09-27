@@ -28,9 +28,9 @@ struct SphereView : View {
             content.add(entity)
         } update: { content, _ in
             
-        } placeholder: { 
+        } placeholder: {
             
-        } attachments: { 
+        } attachments: {
             
         }
     }
@@ -43,11 +43,11 @@ fileprivate struct MyView : View {
         VStack {
             SphereView(radius: 0.1)
             
-            MyButton(title: "Show Volumetric") { 
+            MyButton(title: "Show Volumetric") {
                 openWindow(id: "Volumetric")
             }
         }
-        .onAppear { 
+        .onAppear {
             openWindow(id: "Volumetric")
         }
     }

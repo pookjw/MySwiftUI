@@ -13,9 +13,9 @@ extension GraphDelegate {
         
         onMainThread {
             // $s7SwiftUI13GraphDelegatePAAE16beginTransactionyyFyycfU_
-            RunLoop.addObserver { 
+            RunLoop.addObserver {
                 // $s7SwiftUI13GraphDelegatePAAE16beginTransactionyyFyycfU_yycfU_TA
-                Update.ensure { 
+                Update.ensure {
                     // $s7SwiftUI13GraphDelegatePAAE16beginTransactionyyFyycfU_yycfU_yyXEfU_
                     guard let self = box.base else {
                         return

@@ -69,7 +69,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
     }
     
     mutating func volumeThatFits(_ size: _ProposedSize3D) -> Size3D {
-        return self.volumeCache.get(size) { 
+        return self.volumeCache.get(size) {
             // $s7SwiftUI23ViewSpatialLayoutEngineV14volumeThatFitsySo8SPSize3DaAA15_ProposedSize3DVFAFyXEfU_TA
             let subviews = SpatialLayoutSubviews(
                 subviews: LayoutSubviews(

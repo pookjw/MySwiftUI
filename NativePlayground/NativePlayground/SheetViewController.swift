@@ -16,7 +16,7 @@ fileprivate struct MyView : View {
             self.isPresented = true
         }
         .sheet(isPresented: self.$isPresented) {
-            MyButton(title: "Dismiss") { 
+            MyButton(title: "Dismiss") {
                 self.isPresented = false
             }
         }

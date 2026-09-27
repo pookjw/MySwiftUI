@@ -379,7 +379,7 @@ extension GestureProxy {
             
             if flag {
                 // <+1468>
-                Graph.withoutUpdate { 
+                Graph.withoutUpdate {
                     // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU1_
                     self.entityHost!.updateEnvironment(env, viewPhase: self.phase)
                 }
@@ -412,9 +412,9 @@ extension GestureProxy {
                 gestureProxy: GestureProxy()
             )
             
-            self.entityHost = self.withObservation { 
+            self.entityHost = self.withObservation {
                 // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_TA
-                return Graph.withoutUpdate { 
+                return Graph.withoutUpdate {
                     // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFAA0D4HostCyxGSgyXEfU0_AIyXEfU_
                     // <+292>
                     let entity = view.makeEntity(context: context)
@@ -442,9 +442,9 @@ extension GestureProxy {
         }
         
         // <+2364>
-        self.withObservation { 
+        self.withObservation {
             // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_TA
-            Graph.withoutUpdate { 
+            Graph.withoutUpdate {
                 // $s7SwiftUI19PlatformEntityChild33_BB8F5ECFA8AF74AE8152DD1EB3C8CC7BLLV11updateValueyyFyyXEfU2_yyXEfU_
                 view.updateEntity(
                     self.entityHost!.representedEntity,

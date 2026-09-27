@@ -1203,9 +1203,9 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        Update.locked { 
+        Update.locked {
             viewGraph.cancelAsyncRendering()
-            let interval = viewGraph.nextRenderInterval { 
+            let interval = viewGraph.nextRenderInterval {
                 return renderInterval(from: .systemUptime) / Double(UIAnimationDragCoefficient())
             }
             

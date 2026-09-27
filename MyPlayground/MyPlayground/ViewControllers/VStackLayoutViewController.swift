@@ -16,13 +16,13 @@ fileprivate struct MyView : View {
         VStackLayout(
             alignment: alignment,
             spacing: spacing
-        ) { 
-            MyButton(title: "Alignment") { 
+        ) {
+            MyButton(title: "Alignment") {
                 toggleAlignment()
             }
             .frame(width: 100, height: 100)
             
-            MyButton(title: "Spacing") { 
+            MyButton(title: "Spacing") {
                 adjustSpacing()
             }
             .frame(width: 100, height: 100)

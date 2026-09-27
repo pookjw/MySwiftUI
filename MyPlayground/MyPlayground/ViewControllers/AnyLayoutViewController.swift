@@ -12,7 +12,7 @@ fileprivate struct MyView : View {
     @State private var flag = false
     
     var body: some View {
-        layout { 
+        layout {
             MyButton(title: "Toggle") {
                 withAnimation {
                     flag.toggle()

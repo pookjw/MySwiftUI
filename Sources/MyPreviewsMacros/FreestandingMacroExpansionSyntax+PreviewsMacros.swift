@@ -1,6 +1,6 @@
 internal import SwiftSyntax
 
-extension FreestandingMacroExpansionSyntax { 
+extension FreestandingMacroExpansionSyntax {
     var attributes: AttributeListSyntax? {
         assertUnimplemented()
     }

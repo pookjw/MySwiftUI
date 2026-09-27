@@ -279,7 +279,7 @@ extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
         
         if depends {
             // <+100>
-            return autoreleasepool { 
+            return autoreleasepool {
                 return safeDefinition.resolvedColor(self.platformColor, environment: environment) ?? Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
             }
         } else {
@@ -302,7 +302,7 @@ extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
         
         if depends {
             // <+100>
-            return autoreleasepool { 
+            return autoreleasepool {
                 return safeDefinition.resolvedHDRColor(self.platformColor, environment: environment) ?? Color.ResolvedHDR(Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0), headroom: nil)
             }
         } else {

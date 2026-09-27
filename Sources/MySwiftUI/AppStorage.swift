@@ -451,7 +451,7 @@ fileprivate final class UserDefaultObserver : NSObject {
             return
         }
         
-        Update.enqueueAction(reason: nil) { 
+        Update.enqueueAction(reason: nil) {
             self.target.send()
         }
     }
@@ -522,7 +522,7 @@ fileprivate final class UserDefaultObserver : NSObject {
     }
     
     func noteDefaultChange() {
-        Update.enqueueAction(reason: nil) { 
+        Update.enqueueAction(reason: nil) {
             // $s7SwiftUI19UserDefaultObserver33_F2BB00CEA25D2617C18DE8984EB64B53LLC04noteD6ChangeyyFyycfU_
             assertUnimplemented()
         }

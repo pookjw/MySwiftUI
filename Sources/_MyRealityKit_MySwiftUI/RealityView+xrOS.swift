@@ -210,7 +210,7 @@ struct _RealityViewAsync<Placeholder : View> : View {
             // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyycfU2_TA
             assertUnimplemented()
         }
-        .onDisappear { 
+        .onDisappear {
             // $s19_RealityKit_SwiftUI01_A9ViewAsyncV4bodyQrvgyycfU3_TA
             self.stopObservingRelativeTransform()
         }

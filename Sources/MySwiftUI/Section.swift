@@ -38,15 +38,15 @@ extension Section : PubliclyPrimitiveView where Parent : View, Content : View, F
                 isExpanded: self.isExpanded
             )
         )
-        .viewAlias(SectionStyleConfiguration.Header.self) { 
+        .viewAlias(SectionStyleConfiguration.Header.self) {
             // $s7SwiftUI19NavigationSplitViewV4bodyQrvgxyXEfU_TA
             self.header
         }
-        .viewAlias(SectionStyleConfiguration.Footer.self) { 
+        .viewAlias(SectionStyleConfiguration.Footer.self) {
             // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvgq0_yXEfU0_TA
             self.footer
         }
-        .viewAlias(SectionStyleConfiguration.RawContent.self) { 
+        .viewAlias(SectionStyleConfiguration.RawContent.self) {
             // $s7SwiftUI7SectionVA2A4ViewRzAaDR_AaDR0_rlE12internalBodyQrvgq_yXEfU1_TA
             self.content
         }

@@ -197,7 +197,7 @@ fileprivate struct PreferenceBinder<Key : PreferenceKey> : StatefulRule, AsyncAt
             }
         }
         
-        Update.enqueueAction(reason: .preferenceChange) { 
+        Update.enqueueAction(reason: .preferenceChange) {
             // $s7SwiftUI16PreferenceBinder33_264234112339315C9A664F0B7F8B50C1LLV11updateValueyyFyycfU0_TA
             resolver(keyValue)
         }

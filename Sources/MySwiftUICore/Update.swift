@@ -71,7 +71,7 @@ package enum Update {
     
     @inline(always)
     package static func ensure<T>(_ handler: () throws -> T) rethrows -> T {
-        return try Update.locked { 
+        return try Update.locked {
             Update.begin()
             defer {
                 Update.end()

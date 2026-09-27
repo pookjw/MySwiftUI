@@ -80,7 +80,7 @@ fileprivate struct ImmersionStyleChangeObservation : StatefulRule {
                 style = .animated(nil)
             } else {
                 // <+276>
-                let transaction = Graph.withoutUpdate { 
+                let transaction = Graph.withoutUpdate {
                     return self.transaction
                 }
                 

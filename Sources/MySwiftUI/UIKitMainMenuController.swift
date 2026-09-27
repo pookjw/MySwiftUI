@@ -68,7 +68,7 @@ final class UIKitMainMenuController : UIResponder {
         let focusedValues = appGraph.focusedValues
         
         // x20
-        let rootCommandsList = Graph.withoutUpdate { 
+        let rootCommandsList = Graph.withoutUpdate {
             return appGraph.rootCommandsList ?? CommandsList()
         }
         self.commandsListVersion = rootCommandsList.version

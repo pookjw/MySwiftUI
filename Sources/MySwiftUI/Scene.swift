@@ -90,7 +90,7 @@ fileprivate struct SceneBodyAccessor<T : Scene>: BodyAccessor {
     func updateBody(of container: T, changed: Bool) {
         guard changed else { return }
         
-        setBody { 
+        setBody {
             // $s7SwiftUI35TableRowContentModifierBodyAccessor33_3FCAC41ECA223CCA916A97D58BF9A4E6LLV06updateG02of7changedyx_SbtF0G0QzyXEfU_TA
             return container.body
         }

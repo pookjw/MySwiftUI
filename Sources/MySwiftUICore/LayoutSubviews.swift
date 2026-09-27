@@ -280,7 +280,7 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
         
         // inlined
         var sizeCache = sizeCache
-        let size = sizeCache.get(size) { 
+        let size = sizeCache.get(size) {
             layout.sizeThatFits(
                 proposal: ProposedViewSize(size),
                 subviews: subviews,

@@ -31,7 +31,7 @@ struct PresentationState {
                     continue
                 }
                 
-                Update.enqueueAction(reason: nil) { 
+                Update.enqueueAction(reason: nil) {
                     onDismiss(!willPresentAgainAfterDismiss)
                 }
             }

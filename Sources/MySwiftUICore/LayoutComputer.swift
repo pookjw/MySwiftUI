@@ -104,7 +104,7 @@ package struct LayoutComputer : @unchecked Sendable {
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        return Update.ensure { 
+        return Update.ensure {
             return box.childGeometries(at: viewSize, origin: origin)
         }
     }

@@ -24,7 +24,7 @@ struct BindableView : View {
     var body: some View {
         MyLabel(text: observableModel.count.description)
         MyStepper(value: $observableModel.count)
-        MyButton(title: "Open Window") { 
+        MyButton(title: "Open Window") {
             openWindow(id: "BindableView")
         }
     }

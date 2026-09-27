@@ -25,7 +25,7 @@ package struct UpdateCycleDetector {
          isDebug -> w2 -> w22
          */
         // w24
-        let updateSeed = Graph.withoutUpdate { 
+        let updateSeed = Graph.withoutUpdate {
             return self.updateSeed.value
         }
         

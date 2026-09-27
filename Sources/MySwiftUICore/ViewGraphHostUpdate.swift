@@ -29,7 +29,7 @@ package struct ViewGraphHostUpdate {
     }
     
     package static func dispatchImmediately<T>(_ body: () -> T) -> T {
-        return Update.dispatchImmediately(reason: nil) { 
+        return Update.dispatchImmediately(reason: nil) {
             return body()
         }
     }

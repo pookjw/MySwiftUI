@@ -26,7 +26,7 @@ extension App {
 }
 
 func runApp<T : App>(_ app: T) -> Never {
-    Update.dispatchImmediately(reason: nil) { 
+    Update.dispatchImmediately(reason: nil) {
         // $s7SwiftUI6runAppys5NeverOxAA0D0RzlFyyXEfU_TA
         AppGraph.shared = AppGraph(app: app)
     }

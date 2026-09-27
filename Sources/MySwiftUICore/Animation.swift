@@ -435,7 +435,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
             if let previousModelData /* sp + 0x128 */, animatableData != previousModelData {
                 // <+1304>
                 // x23
-                let transaction = Graph.withoutUpdate { 
+                let transaction = Graph.withoutUpdate {
                     // $s7SwiftUI25AnimatableAttributeHelperV6update5value16defaultAnimation11environment15sampleCollectoryxAE_Sb7changedtz_AA0I0VSg0D5Graph0D0VyAA17EnvironmentValuesVGy0C4DataQz_AA4TimeVtXEtFAA11TransactionVyXEfU_
                     return self.transaction
                 }

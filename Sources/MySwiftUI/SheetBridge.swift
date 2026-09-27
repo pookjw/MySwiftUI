@@ -323,7 +323,7 @@ private import _UIKitShims
                     )
                     
                     let presentingViewController = presentedVC.presentingViewController ?? presentedVC
-                    presentingViewController.dismiss(animated: animated) { 
+                    presentingViewController.dismiss(animated: animated) {
                         // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_yycfU_AA0cH0V3KeyV_Tg5TA
                         // $s7SwiftUI11SheetBridgeC20preferencesDidChangeyyAA16PreferenceValuesVFyycfU4_yycfU_AA0cH0V12InspectorKeyV_Tg5Tm
                         guard let self else {
@@ -399,7 +399,7 @@ private import _UIKitShims
         NotificationCenter.default.post(name: SheetPopoverBridgeNotifications.willPresent, object: nil)
         
         // <+868>
-        let hostingController: PresentationHostingController<AnyView> = Update.ensure { 
+        let hostingController: PresentationHostingController<AnyView> = Update.ensure {
             // $s7SwiftUI11SheetBridgeC7present33_9124433AF4D3FE5B3E95880733BE7575LL_4from8animated19existingPresentedVC12isPreemptingyAA0C10PreferenceV_So16UIViewControllerCSbAA019PresentationHostingU0CyAA7AnyViewVGSgSbtFARyXEfU_TA
             @MainActor func makeHostingController() -> PresentationHostingController<AnyView> {
                 let hostingController = PresentationHostingController<AnyView>(
@@ -732,7 +732,7 @@ private import _UIKitShims
                 UIViewController._performWithoutDeferringTransitions {
                     // $s7SwiftUI11SheetBridgeC22dismissAndPresentAgain33_9124433AF4D3FE5B3E95880733BE7575LL10preference9presented8animated13hasNoModifier9presenteryAA0C10PreferenceVSg_AA29PresentationHostingControllerCyAA7AnyViewVGS2bSo06UIViewY0CtFyycfU0_yyXEfU0_TA
                     let viewController = presented.presentingViewController ?? presented
-                    viewController.dismiss(animated: false) { 
+                    viewController.dismiss(animated: false) {
                         completion()
                     }
                 }

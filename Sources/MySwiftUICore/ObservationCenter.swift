@@ -282,7 +282,7 @@ extension Rule {
     func withObservation<T>(observationCenter: ObservationCenter = .current, do: () throws -> T) rethrows -> T {
         return try observationCenter._withObservation(
             attribute: self.attribute
-        ) { 
+        ) {
             return try `do`()
         }
     }
@@ -292,7 +292,7 @@ extension StatefulRule {
     package func withObservation<T>(observationCenter: ObservationCenter = .current, do: () throws -> T) rethrows -> T {
         return try observationCenter._withObservation(
             attribute: self.attribute
-        ) { 
+        ) {
             return try `do`()
         }
     }

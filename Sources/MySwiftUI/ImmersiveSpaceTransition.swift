@@ -214,14 +214,14 @@ fileprivate struct ImmersiveSpaceTransitionDispatcher<T: Equatable> : StatefulRu
             let result = self.cycleDetector.dispatch(label: "TransitionImmersiveSpaceOnChange")
             if result {
                 // <+1628>
-                let ids: [SceneID]? = Graph.withoutUpdate { 
+                let ids: [SceneID]? = Graph.withoutUpdate {
                     // $s7SwiftUI34ImmersiveSpaceTransitionDispatcher33_84047D77B835AF60A341F749BE017BADLLV11updateValueyyFSayAA7SceneIDOGSgyXEfU_
                     assertUnimplemented()
                 }
                 
                 if let ids {
                     // <+1672>
-                    Update.enqueueAction(reason: nil) { 
+                    Update.enqueueAction(reason: nil) {
                         // $s7SwiftUI34ImmersiveSpaceTransitionDispatcher33_84047D77B835AF60A341F749BE017BADLLV11updateValueyyFyycfU0_TA
                         assertUnimplemented()
                     }

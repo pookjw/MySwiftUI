@@ -2,7 +2,7 @@ private import CoreRE
 
 enum ImplicitAnimationStack {
     static func withModifier<T>(_ modifier: any EntityChangeModifier, operation: () throws -> T) rethrows -> T {
-        return try ImplicitAnimationStack.$current.withValue(modifier) { 
+        return try ImplicitAnimationStack.$current.withValue(modifier) {
             try operation()
         }
     }

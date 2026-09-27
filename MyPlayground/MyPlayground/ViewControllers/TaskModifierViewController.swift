@@ -14,7 +14,7 @@ fileprivate struct MyView : View {
     
     var body: some View {
         _VStackLayout {
-            MyButton(title: "Key") { 
+            MyButton(title: "Key") {
                 key = UUID()
             }
             
@@ -37,7 +37,7 @@ fileprivate struct MyView : View {
                 }
             }
         }
-        .task(id: key) { 
+        .task(id: key) {
             array.removeAll()
         }
     }

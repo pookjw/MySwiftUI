@@ -19,7 +19,7 @@ fileprivate struct MyView : View {
     var body: some View {
         MyStepper(
             value: Binding(
-                get: { 
+                get: {
                     return viewModel.count
                 },
                 set: { newValue in

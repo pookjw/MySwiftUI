@@ -42,7 +42,7 @@ public struct SubviewsCollection : RandomAccessCollection {
     }
 
     public var endIndex: Int {
-        return Update.ensure { 
+        return Update.ensure {
             return self.base.list.count
         }
     }

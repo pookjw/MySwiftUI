@@ -1194,7 +1194,7 @@ open class UIHostingController<Content : View>: UIViewController {
         {
             // <+520>
             if animated {
-                UIView.animate(withDuration: 1.0 / 3.0) { 
+                UIView.animate(withDuration: 1.0 / 3.0) {
                     rootViewController.setNeedsUpdateOfHomeIndicatorAutoHidden()
                 }
             } else {
@@ -1206,7 +1206,7 @@ open class UIHostingController<Content : View>: UIViewController {
         // <+252>
         let viewController = host.viewController
         if animated {
-            UIView.animate(withDuration: 1.0 / 3.0) { 
+            UIView.animate(withDuration: 1.0 / 3.0) {
                 viewController?.setNeedsUpdateOfHomeIndicatorAutoHidden()
             }
         } else {
@@ -1221,7 +1221,7 @@ open class UIHostingController<Content : View>: UIViewController {
          allowedActions -> x4 -> x23
          */
         func graphValue() -> ViewGraphBridgeProperties {
-            return Graph.withoutUpdate { 
+            return Graph.withoutUpdate {
                 // $s7SwiftUI19UIHostingControllerC22resolveRequiredBridges_14allowedActionsyAA25ViewGraphBridgePropertiesVSg_AA07HostingdlI0VtF10graphValueL_AGyAA0J0RzlFAGyXEfU_
                 return host.viewGraph.viewGraphInputs.viewGraphBridgeProperties.wrappedValue ?? .defaultValue
             }

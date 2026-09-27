@@ -10,7 +10,7 @@ import UIKit
 extension UIViewController {
     func dismissAllViewControllers(animated: Bool, completion: (() -> Void)?) {
         if let presentedViewController {
-            presentedViewController.dismiss(animated: animated) { 
+            presentedViewController.dismiss(animated: animated) {
                 self.dismissAllViewControllers(animated: animated, completion: completion)
             }
         } else {

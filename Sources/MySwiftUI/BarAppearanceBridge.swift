@@ -471,7 +471,7 @@ private import _MySwiftUIShims
         }
         
         // <+136>
-        Update.ensure { 
+        Update.ensure {
             // $s7SwiftUI19BarAppearanceBridgeC31platformUpdateNavigationAdaptoryyFyyXEfU_TA
             assertUnimplemented()
         }

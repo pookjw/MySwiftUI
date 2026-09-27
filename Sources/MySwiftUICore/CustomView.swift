@@ -92,7 +92,7 @@ struct ViewBodyAccessor<Container : View>: BodyAccessor {
         guard changed else { return }
         
         setBody { [unchecked = UncheckedSendable(container)] in
-            return MainActor.assumeIsolated { 
+            return MainActor.assumeIsolated {
                 return UncheckedSendable(unchecked.value.body)
             }.value
         }

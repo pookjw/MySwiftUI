@@ -177,7 +177,7 @@ extension RealityViewContent : RealityCoordinateSpaceConverting, RealityCoordina
     }
     
     public func transform(from: some CoordinateSpaceProtocol, to: some RealityCoordinateSpace) -> AffineTransform3D {
-        let result: AffineTransform3D = MapKitUpdate.ensure { 
+        let result: AffineTransform3D = MapKitUpdate.ensure {
             // $s19_RealityKit_SwiftUI0A11ViewContentV9transform4from2toSo19SPAffineTransform3Dax_q_t0cD023CoordinateSpaceProtocolRz0A10Foundation0alM0R_r0_lFAHyXEfU_
             // <+344>
             // x20

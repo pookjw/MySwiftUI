@@ -39,7 +39,7 @@ struct SectionAccumulator {
         }
         
         // <+192>
-        return Update.locked { 
+        return Update.locked {
             // $s7SwiftUI18SectionAccumulatorV4ItemV16implicitSentinel_15contentSubgraph20accumulationStrategyAeA8ViewList_p_So13AGSubgraphRefaSgAC017RowIDAccumulationK0OtFZAEyXEfU_
             /*
              list -> x0

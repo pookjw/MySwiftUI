@@ -52,7 +52,7 @@ fileprivate struct IsAnimated<T : PreferenceKey> : CustomStringConvertible, Asyn
         }
         
         // <+216>
-        let transaction = Graph.withoutUpdate { 
+        let transaction = Graph.withoutUpdate {
             return self.transaction
         }
         

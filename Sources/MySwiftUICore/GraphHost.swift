@@ -288,7 +288,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         let rootSubgraph = self.data.rootSubgraph
-        CustomEventTrace.uninstantiate(root: rootSubgraph) { 
+        CustomEventTrace.uninstantiate(root: rootSubgraph) {
             // $s7SwiftUI9GraphHostC13uninstantiate11immediatelyySb_tFyyXEfU_
             /*
              self -> x0 -> x19
@@ -316,7 +316,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 // <+412>
             } else {
                 // <+344>
-                Update.enqueueAction(reason: nil) { 
+                Update.enqueueAction(reason: nil) {
                     // $s7SwiftUI9GraphHostC13uninstantiate11immediatelyySb_tFyyXEfU_yycfU_TA
                     rootSubgraph.invalidate()
                 }
@@ -426,7 +426,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             
             runTransaction(
                 transaction,
-                do: { 
+                do: {
                     // $s7SwiftUI15withTransactionyxAA0D0V_xyKXEtKlFxyKXEfU_yt_Tg503$s7A74UI16AsyncTransaction33_F9F204BD2F8DB167A76F17F3FB1B3335LLV5applyyyFyyXEfU_AA0gD001_ijklmnopqR0LLVTf1nnc_n
                     withTransaction(transaction) {
                         for mutation in pendingTransaction.mutations {
@@ -607,7 +607,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             graphDelegate.updateGraph(body: { _ in })
         }
         
-        CustomEventTrace.instantiate(root: data.rootSubgraph) { 
+        CustomEventTrace.instantiate(root: data.rootSubgraph) {
             instantiateOutputs()
         }
         
@@ -833,7 +833,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         // <+120>
-        let attribute = data.globalSubgraph.apply { 
+        let attribute = data.globalSubgraph.apply {
             Attribute(value: value)
         }
         self.constants[ConstantKey(type: type, id: id)] = attribute.identifier

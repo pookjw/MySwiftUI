@@ -108,7 +108,7 @@ extension Entity {
                         // _component -> x22
                         let hasValue = (component == nil)
                         
-                        entity.withMutation(componentType: type) { 
+                        entity.withMutation(componentType: type) {
                             // $s10RealityKit6EntityC12ComponentSetV02doE0_8newValue21returnStrongReferenceyxm_xSgSbtAA0D0RzlFyyXEfU1_TA
                             unsafe T.__store(
                                 attribute: copy_2,
@@ -133,7 +133,7 @@ extension Entity {
                 } else {
                     // <+356>
                     if component != nil {
-                        entity.withMutation(componentType: type) { 
+                        entity.withMutation(componentType: type) {
                             // $s10RealityKit6EntityC12ComponentSetV02doE11Existential33_DEDB7026E54141B3B16F1E48333B73DELL_8newValueyAA0D0_pXp_AaI_pSgtFyyXEfU0_TA
                             coreEntity.removeComponent(ofType: componentType)
                         }
@@ -157,7 +157,7 @@ extension Entity {
                         let component = coreEntity.getComponent(ofType: componentClass)
                         
                         if let _component = component ?? coreEntity.addComponentNoEvents(ofType: componentClass) {
-                            entity.withMutation(componentType: type) { 
+                            entity.withMutation(componentType: type) {
                                 // $s10RealityKit6EntityC12ComponentSetV02doE0_8newValue21returnStrongReferenceyxm_xSgSbtAA0D0RzlFyyXEfU_TA
                                 if T.self == ModelComponent.self {
                                     // <+132>
@@ -186,7 +186,7 @@ extension Entity {
                         }
                     } else {
                         // <+524>
-                        entity.withMutation(componentType: type) { 
+                        entity.withMutation(componentType: type) {
                             // $s10RealityKit6EntityC12ComponentSetV02doE0_8newValue21returnStrongReferenceyxm_xSgSbtAA0D0RzlFyyXEfU0_TA
                             coreEntity.removeComponent(ofType: componentClass)
                         }

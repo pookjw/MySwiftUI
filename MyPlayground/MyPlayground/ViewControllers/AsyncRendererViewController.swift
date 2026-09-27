@@ -31,7 +31,7 @@ fileprivate struct MyView : View {
                 }
             }
             
-//            MyButton(title: "Toggle") { 
+//            MyButton(title: "Toggle") {
 //                withAnimation {
 //                    self.isStar.toggle()
 //                }

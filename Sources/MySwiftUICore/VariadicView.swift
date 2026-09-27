@@ -264,7 +264,7 @@ extension _VariadicView_Children : RandomAccessCollection {
     }
     
     public var endIndex: Int {
-        return Update.ensure { 
+        return Update.ensure {
             return self.list.count
         }
     }
@@ -272,7 +272,7 @@ extension _VariadicView_Children : RandomAccessCollection {
     public subscript(index: Int) -> _VariadicView_Children.Element {
         var element: _VariadicView_Children.Element?
         
-        Update.ensure { 
+        Update.ensure {
             // $s7SwiftUI22_VariadicView_ChildrenVyAC7ElementVSicigyyXEfU_
             var transform = self.transform
             

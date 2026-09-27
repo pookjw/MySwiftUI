@@ -529,7 +529,7 @@ extension GeometryReader3D {
             
             // inlined
             // x24 -> x29 - 0x1f0 (x19)
-            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) { 
+            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) {
                 // $s7SwiftUI16GeometryReader3DV5Child33_638EB2064D6D992C8A48A894A8F58A16LLV11updateValueyyFxyXEfU_TA
                 return self.view.content(proxy)
             }

@@ -157,7 +157,7 @@ final class AppGraph : GraphHost {
         self.data.updateSeed &+= 1
         
         // x19
-        let outputs: _SceneOutputs = self.rootSubgraph.apply { 
+        let outputs: _SceneOutputs = self.rootSubgraph.apply {
             // $s7SwiftUI8AppGraphC18instantiateOutputsyyFAA06_SceneF0VyXEfU_
             // self -> x0 -> x21
             // <+224>
@@ -187,7 +187,7 @@ final class AppGraph : GraphHost {
         }
         
         // <+284>
-        self.rootSubgraph.apply { 
+        self.rootSubgraph.apply {
             if let attribute = outputs.preferences[SceneList.Key.self] {
                 self.rootSceneLists = IndirectAttribute(source: attribute)
             }
@@ -220,7 +220,7 @@ final class AppGraph : GraphHost {
     }
     
     func supports(_ command: CommandFlag) -> Bool {
-        return Update.ensure { 
+        return Update.ensure {
             // $s7SwiftUI8AppGraphC8supportsySbAA11CommandFlagVFSbyXEfU_TA
             let rootCommandsList = rootCommandsList ?? CommandsList()
             
@@ -244,7 +244,7 @@ final class AppGraph : GraphHost {
     }
     
     func extendedLaunchTestName() -> String? {
-        return Update.ensure { 
+        return Update.ensure {
             // $s7SwiftUI8AppGraphC22extendedLaunchTestNameSSSgyFAEyXEfU_TA
             return self.extendedLaunchTestName
         }

@@ -12,7 +12,7 @@ fileprivate struct MyView : View {
     @Environment(\.openURL) private var openURL
     
     var body: some View {
-        MyButton(title: "Open URL") { 
+        MyButton(title: "Open URL") {
             openURL(URL(string: "https://www.apple.com")!)
         }
     }

@@ -124,7 +124,7 @@ extension GeometryReader {
             )
             
             // inlined
-            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) { 
+            let content = ObservationCenter.current._withObservation(attribute: Attribute<Self.Value>(identifier: .current!)) {
                 // $s7SwiftUI14GeometryReaderV5Child33_7D6D22DF7076CCC1FC5284D8E2D1B049LLV11updateValueyyFxyXEfU_TA
                 return self.$view.syncMainIfReferences { reader in
                     // $s7SwiftUI14GeometryReaderV5Child33_7D6D22DF7076CCC1FC5284D8E2D1B049LLV11updateValueyyFxyXEfU_xACyxGXEfU_TA

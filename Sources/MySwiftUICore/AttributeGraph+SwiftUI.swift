@@ -28,7 +28,7 @@ extension Attribute {
             return
         }
         
-        let other = indirectMap.subgraph.apply { 
+        let other = indirectMap.subgraph.apply {
             return self.identifier.createIndirectAttribute3(UInt32(truncatingIfNeeded: MemoryLayout<T>.size), withoutInvalidation ? 1 : 0)
         }
         

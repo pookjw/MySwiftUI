@@ -68,7 +68,7 @@ public import Spatial
             return ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: self.children)
         }
         
-        return cache.fetch(key: cacheKey) { 
+        return cache.fetch(key: cacheKey) {
             let children = self.children
             var mask = BitVector64()
             var priority: Double = 0

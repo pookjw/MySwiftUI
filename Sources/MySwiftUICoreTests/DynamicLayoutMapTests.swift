@@ -212,7 +212,7 @@ extension _SwiftUICorePrivate::DynamicLayoutMap {
 
 extension _SwiftUICorePrivate::LayoutProxyAttributes {
     fileprivate static func create() -> _SwiftUICorePrivate::LayoutProxyAttributes {
-        return withGraphContext { 
+        return withGraphContext {
             _SwiftUICorePrivate::LayoutProxyAttributes(
                 layoutComputer: OptionalAttribute(Attribute(SwiftUICoreLayoutComputerRule())),
                 traitsList: OptionalAttribute(Attribute(SwiftUICoreViewListRule()))
@@ -223,7 +223,7 @@ extension _SwiftUICorePrivate::LayoutProxyAttributes {
 
 extension MySwiftUICore.LayoutProxyAttributes {
     fileprivate static func create() -> MySwiftUICore.LayoutProxyAttributes {
-        return withGraphContext { 
+        return withGraphContext {
             MySwiftUICore.LayoutProxyAttributes(
                 layoutComputer: OptionalAttribute(Attribute(MySwiftUICoreLayoutComputerRule())),
                 traitsList: OptionalAttribute(Attribute(MySwiftUICoreViewListRule()))

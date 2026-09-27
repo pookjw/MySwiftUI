@@ -12,10 +12,10 @@ fileprivate struct MyView : View {
     @Environment(\.openWindow) private var openWindow
     
     var body: some View {
-        MyButton(title: "Open Window") { 
+        MyButton(title: "Open Window") {
             openWindow(id: "1")
         }
-        .onAppear { 
+        .onAppear {
             openWindow(id: "2")
         }
     }

@@ -114,7 +114,7 @@ struct TransformScrollStorageEnvironment<T : ScrollEnvironmentTransform> : State
         let (transform, transformChanged) = self.$transform.changedValue(options: [])
         
         // <+484>
-        let properties: ScrollEnvironmentProperties = self.withObservation { 
+        let properties: ScrollEnvironmentProperties = self.withObservation {
             // $s7SwiftUI33TransformScrollStorageEnvironmentV11updateValueyyFAA0dF10PropertiesVyXEfU_TA
             return env.scrollStorage.properties
         }

@@ -13,7 +13,7 @@ fileprivate struct MyView : View {
     
     var body: some View {
         _VStackLayout {
-            MyButton(title: "Move") { 
+            MyButton(title: "Move") {
                 move()
             }
             

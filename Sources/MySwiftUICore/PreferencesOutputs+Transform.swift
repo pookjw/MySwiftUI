@@ -61,7 +61,7 @@ fileprivate struct PreferenceTransform<T: PreferenceKey> : Rule, AsyncAttribute,
         
         $transform.syncMainIfReferences { transform in
             // $s7SwiftUI19PreferenceTransform33_D3405DB583003A73D556A7797845B7F4LLV5value5ValueQzvgyyAGzcXEfU_TA
-            ObservationCenter.current._withObservation(attribute: Attribute<T.Value>(identifier: .current!)) { 
+            ObservationCenter.current._withObservation(attribute: Attribute<T.Value>(identifier: .current!)) {
                 transform(&value)
             }
         }

@@ -13,37 +13,37 @@ struct MyPlaygroundApp : App {
     @State private var count = 0
     
     var body: some Scene {
-        WindowGroup { 
+        WindowGroup {
             ContentView()
         }
         
-        WindowGroup(id: "1") { 
+        WindowGroup(id: "1") {
             Color.black
         }
         
-        WindowGroup(id: "2") { 
+        WindowGroup(id: "2") {
             Color.white
         }
         .windowStyle(.volumetric)
         
-        ImmersiveSpace(id: "3") { 
+        ImmersiveSpace(id: "3") {
             Color.white
         }
         .immersionStyle(selection: .constant(.progressive), in: .progressive)
         
-        ImmersiveSpace(id: "4") { 
+        ImmersiveSpace(id: "4") {
             Color.white
         }
         
-        WindowGroup(id: "BindableView") { 
+        WindowGroup(id: "BindableView") {
             BindableView()
         }
         
-        WindowGroup(id: "WindowCounter") { 
+        WindowGroup(id: "WindowCounter") {
             WindowCounterView(count: $count)
         }
         
-        WindowGroup(id: "Volumetric") { 
+        WindowGroup(id: "Volumetric") {
             SphereView(radius: 0.3)
         }
         .windowStyle(.volumetric)

@@ -36,10 +36,10 @@ final class SubviewsViewController : UIViewController {
         super.viewDidLoad()
         
         let rootView = MyView {
-            Section { 
+            Section {
                 Color.white
                 Color.white
-            } header: { 
+            } header: {
                 Color.white
             } footer: {
                 Color.white
@@ -51,7 +51,7 @@ final class SubviewsViewController : UIViewController {
             Section {
                 Color.white
                 Color.white
-            } header: { 
+            } header: {
                 Color.white
             } footer: {
                 Color.white

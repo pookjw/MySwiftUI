@@ -100,7 +100,7 @@ fileprivate struct ObjectLocation<T : AnyObject, U> : Equatable, Location {
     }
     
     mutating func set(_ value: U, transaction: Transaction) {
-        withTransaction(transaction.current) { 
+        withTransaction(transaction.current) {
             // $s7SwiftUI14ObjectLocation33_7719FABF28E05207C06C2817640AD611LLV3set_11transactionyq__AA11TransactionVtFyyXEfU_
             self.checkIsolation()
             base[keyPath: self.keyPath] = value

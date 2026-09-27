@@ -268,7 +268,7 @@ fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
             
             // <+1056>
             // (sp + 0x1b8, w19)
-            let resolved = ObservationCenter.current._withObservationStashed { 
+            let resolved = ObservationCenter.current._withObservationStashed {
                 // $s7SwiftUI14EnvironmentBox33_24E0E088473ED74681D096110CC5FC9ALLV6update8property5phaseSbAA0C0VyxGz_AA12_GraphInputsV5PhaseVtFxyXEfU_
                 return environment[keyPath: keyPath]
             }

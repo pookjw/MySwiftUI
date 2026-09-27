@@ -76,7 +76,7 @@ fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : Dy
         }
         
         // <+296>
-        MainActor.assumeIsolated { 
+        MainActor.assumeIsolated {
             // $s7SwiftUI25ObservedObjectPropertyBox33_C212C242BFEB175E53A59438AB276A7CLLV6update8property5phaseSbAA0cD0VyxGz_AA12_GraphInputsV5PhaseVtFyyScMYcXEfU_
             /*
              property -> x0 -> x19

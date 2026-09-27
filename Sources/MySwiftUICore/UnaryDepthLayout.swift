@@ -283,7 +283,7 @@ extension UnaryDepthLayoutComputer {
             let copy = self
             
             // <+196>
-            return self.cache.get(proposedSize) { 
+            return self.cache.get(proposedSize) {
                 return copy.layout.depthThatFits(
                     in: proposedSize,
                     context: copy.layoutContext,
@@ -313,7 +313,7 @@ extension UnaryDepthLayoutComputer {
         }
         
         func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-            return self.withUpdatedDepthProposal(proposal2D: proposedSize) { 
+            return self.withUpdatedDepthProposal(proposal2D: proposedSize) {
                 // $s7SwiftUI24UnaryDepthLayoutComputer33_34D3AEC4362799DA2D0B148FCF3EBBB0LLV6EngineV12sizeThatFitsySo6CGSizeVAA13_ProposedSizeVFAIyXEfU_TA
                 return self.child.size(in: proposedSize)
             }
@@ -329,7 +329,7 @@ extension UnaryDepthLayoutComputer {
                         context: self.layoutContext
                     )
                     
-                    return withDepthProposalStashing(depth: depthOffered) { 
+                    return withDepthProposalStashing(depth: depthOffered) {
                         // $s7SwiftUI14LayoutComputerV17withMutableEngine4type2doq_xm_q_xzXEtAA0cG0Rzr0_lFq_xzXEfU_TA
                         return run()
                     }
@@ -340,7 +340,7 @@ extension UnaryDepthLayoutComputer {
         }
         
         func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-            return withUpdatedDepthProposal(proposal2D: viewSize.proposal) { 
+            return withUpdatedDepthProposal(proposal2D: viewSize.proposal) {
                 // $s7SwiftUI24UnaryDepthLayoutComputer33_34D3AEC4362799DA2D0B148FCF3EBBB0LLV6EngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0P3KeyV_AA8ViewSizeVtFALyXEfU_TA
                 return self.child.explicitAlignment(alignmentKey, at: viewSize)
             }

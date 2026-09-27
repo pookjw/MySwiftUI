@@ -387,7 +387,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         }
         
         // <+9096>
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU0_TA
             for type in sceneBridge.sceneDefinitionOptions.types {
                 func _do<T : UISceneConnectionOptionDefinition>(_ type: T.Type) {
@@ -457,7 +457,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         // <+10788>
         AttachmentRegistrationManager.shared.registerSceneIfNeeded(windowScene)
         
-        DispatchQueue.main.async { 
+        DispatchQueue.main.async {
             // $s7SwiftUI16AppSceneDelegateC5scene_13willConnectTo7optionsySo7UISceneC_So0K7SessionCSo0K17ConnectionOptionsCtFyyScMYccfU3_TA
             UIApplication.shared._saveRestorationUserActivityState(for: scene)
         }
@@ -510,7 +510,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         }
         
         // <+768>
-        Update.ensure { 
+        Update.ensure {
             // $s7SwiftUI16AppSceneDelegateC18sceneDidDisconnectyySo7UISceneCFyyXEfU_TA
             appDelegate.immersiveSpaceAuthority.sceneDisconnected(scene: scene, namespace: self.sceneNamespace, item: self.sceneItem())
         }

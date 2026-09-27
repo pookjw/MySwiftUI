@@ -1,6 +1,6 @@
 internal import MySwiftUICore
 
-public struct PaletteSelectionEffect : Sendable, Equatable { 
+public struct PaletteSelectionEffect : Sendable, Equatable {
     let guts: PaletteSelectionEffect.Guts
 
     public static func == (lhs: PaletteSelectionEffect, rhs: PaletteSelectionEffect) -> Bool {

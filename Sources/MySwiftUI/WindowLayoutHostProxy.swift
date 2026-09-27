@@ -12,7 +12,7 @@ final class WindowLayoutHostProxy {
     }
     
     func setLayout(_ layout: AnyWindowLayout) {
-        Update.ensure { 
+        Update.ensure {
             // $s7SwiftUI21WindowLayoutHostProxyC03setD0yyAA03AnycD0VFyyXEfU_TA
             assertUnimplemented()
         }

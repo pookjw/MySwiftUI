@@ -103,7 +103,7 @@ fileprivate struct RendererEffect3DDisplayList<T : _RendererEffect3D>: Rule, Asy
             seed: numericCast(version.value)
         )
         
-        let effect: DisplayList.Effect = proxy.asCurrent { 
+        let effect: DisplayList.Effect = proxy.asCurrent {
             // $s7SwiftUI27RendererEffect3DDisplayList33_B70BDD1D6CCDD38A0422AB36A90F7369LLV5valueAA07DisplayF0VvgAG6EffectOyXEfU_TA
             let effect = self.effect
             let size = self.size.value

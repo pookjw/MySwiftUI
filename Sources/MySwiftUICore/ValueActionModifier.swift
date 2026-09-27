@@ -176,7 +176,7 @@ struct ValueActionDispatcher<Modifier : ValueActionModifierProtocol> : StatefulR
         if result == true {
             // <+492>
             // w21
-            let updateSeed = Graph.withoutUpdate { 
+            let updateSeed = Graph.withoutUpdate {
                 return self.cycleDetector.updateSeed.value
             }
             
@@ -230,7 +230,7 @@ struct ValueActionDispatcher<Modifier : ValueActionModifierProtocol> : StatefulR
             // x29 - 0x88
             let copy_2 = self.oldValue
             
-            Update.enqueueAction(reason: .onChange) { 
+            Update.enqueueAction(reason: .onChange) {
                 // $s7SwiftUI21ValueActionDispatcherV06updateC0yyFyycfU0_TA
                 copy_1.sendAction(old: copy_2)
             }

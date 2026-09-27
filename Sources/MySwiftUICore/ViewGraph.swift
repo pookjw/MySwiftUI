@@ -381,7 +381,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
         self.data.graph!.withMainThreadHandler { _ in
             // $s7SwiftUI9ViewGraphC18updateOutputsAsync2atAA11DisplayListV4list_AG7VersionV7versiontSgAA4TimeV_tFyyyXEXEfU_
             assertUnimplemented()
-        } do: { 
+        } do: {
             // $s7SwiftUI9ViewGraphC18updateOutputsAsync2atAA11DisplayListV4list_AG7VersionV7versiontSgAA4TimeV_tFyyXEfU0_TA
             /*
              self -> x0 -> x21
@@ -398,7 +398,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
             while true {
                 self.runTransaction(
                     nil,
-                    do: { 
+                    do: {
                         // noop
                     },
                     id: nil
@@ -1564,7 +1564,7 @@ fileprivate struct RootDisplayList : AsyncAttribute, Rule {
 extension ViewGraphHost {
     package func tearDown(delegate: ViewGraphRootValueUpdater) {
         delegate.invalidate()
-        Update.ensure { 
+        Update.ensure {
             let viewGraph = viewGraph
             viewGraph.setPreferenceBridge(to: nil, isInvalidating: false)
             viewGraph.invalidate()

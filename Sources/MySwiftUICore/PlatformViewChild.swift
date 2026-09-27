@@ -77,7 +77,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             pattern = 0
         }
         
-        Signpost.platformUpdate.traceInterval(object: platformView, "PlatformUpdate: (%p) %{public}@ [ %p ]", [UInt(bitPattern: ObjectIdentifier(graph)), "\(Representable.self)", pattern]) { 
+        Signpost.platformUpdate.traceInterval(object: platformView, "PlatformUpdate: (%p) %{public}@ [ %p ]", [UInt(bitPattern: ObjectIdentifier(graph)), "\(Representable.self)", pattern]) {
             // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_
             // self -> x0 -> x28
             // <+1124>
@@ -123,7 +123,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             // environment -> x29 - 0x170 -> x20
             // <+1644>
             // x29 - 0xa8
-            let transaction = Graph.withoutUpdate { 
+            let transaction = Graph.withoutUpdate {
                 // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_AA11TransactionVyXEfU0_
                 /*
                  self -> x0 -> x28
@@ -297,7 +297,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
             let delegate = ViewGraph.current.delegate as? ViewRendererHost
             // <+4456>
             let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
-            ObservationCenter.current._withObservation(attribute: attribute) { 
+            ObservationCenter.current._withObservation(attribute: attribute) {
                 Graph.withoutUpdate {
                     // $s7SwiftUI17PlatformViewChildV11updateValueyyFyyXEfU_yyXEfU5_yyXEfU_
                     /*
@@ -333,8 +333,8 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                     }
                     
                     if let delegate {
-                        Update.ensure { 
-                            delegate.performExternalUpdate { 
+                        Update.ensure {
+                            delegate.performExternalUpdate {
                                 block()
                             }
                         }
@@ -466,7 +466,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
              */
             // <+128>
             // x19
-            let context = MainActor.assumeIsolated { 
+            let context = MainActor.assumeIsolated {
                 // $s7SwiftUI08ViewLeafC0V12sizeThatFits2in11environment7contextSo6CGSizeVAA13_ProposedSizeV_14AttributeGraph0N0VyAA17EnvironmentValuesVGAL14AnyRuleContextVtFyyXEfU_AA08Platformc13RepresentableT0VyxGyScMYcXEfU_
                 return PlatformViewRepresentableContext<Representable>(
                     coordinator: self.coordinator,

@@ -77,7 +77,7 @@ final class PlatformSceneCache {
             return
         }
         
-        Update.ensure { 
+        Update.ensure {
             // $s7SwiftUI18PlatformSceneCacheC8setPhase_2id4hostyAA0dG0O_AA0D2IDOSo16UIViewControllerCtFyyXEfU_TA
             /*
              graph -> x0 -> x20

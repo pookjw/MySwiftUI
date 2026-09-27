@@ -14,14 +14,14 @@ fileprivate struct MyView : View {
     var body: some View {
         if flag {
             Color.black
-                .onAppear { 
+                .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         flag.toggle()
                     }
                 }
         } else {
             Color.white
-                .onAppear { 
+                .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         flag.toggle()
                     }

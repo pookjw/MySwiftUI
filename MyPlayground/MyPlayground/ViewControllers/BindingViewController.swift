@@ -42,7 +42,7 @@ fileprivate struct MyChildView : View {
     
     var body: some View {
         Color.white
-            .onAppear { 
+            .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     flag.toggle()
                 }

@@ -343,7 +343,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
             let current = AnyAttribute.current!
             let parentSubgraph = self.parentSubgraph
             
-            Subgraph.addObserver(contentSubgraph) { 
+            Subgraph.addObserver(contentSubgraph) {
                 // $s7SwiftUI15PlaceholderInfo33_9B09D1820E97ECBB666F7560EA2A2D2CLLV8makeItem11placeholder4seedAD5ValueVAA010_ViewList_R0V_s6UInt32VtFyycfU0_TA
                 /*
                  parentSubgraph -> x0

@@ -967,7 +967,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             var countAttribute: Attribute<Int>?
             // countBox -> x21 -> x19 + 0x98
             // x26 (x19 + 0x60)
-            let (content, accessList) = ObservationCenter.current._withObservation { 
+            let (content, accessList) = ObservationCenter.current._withObservation {
                 // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFq0_yXEfU_TA
                 /*
                  self -> x0 -> x19
@@ -982,7 +982,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
             // x19 + 0x110
             var listAttribute: Attribute<any ViewList>? = nil
             // x19 + 0x170
-            let outputs: _ViewListOutputs = subgraph2.apply { 
+            let outputs: _ViewListOutputs = subgraph2.apply {
                 // $s7SwiftUI12ForEachStateC4item2at6offsetAC4ItemCyxq_q0__G5IndexQz_SitFAA16_ViewListOutputsVyXEfU0_
                 /*
                  copy_1 -> x0 -> x29 - 0x130
@@ -1897,7 +1897,7 @@ fileprivate struct ForEachChild<Data : RandomAccessCollection, ID : Hashable, Co
             return
         }
         
-        let content: Content = ObservationCenter.current._withObservation(attribute: Attribute<Content>(identifier: .current!)) { 
+        let content: Content = ObservationCenter.current._withObservation(attribute: Attribute<Content>(identifier: .current!)) {
             // $s7SwiftUI12ForEachChild33_1A3DD35AB7F6976908CD7AF959F34D1FLLV11updateValueyyFq0_yXEfU_TA
             /*
              state -> x0 -> x22

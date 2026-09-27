@@ -130,7 +130,7 @@ extension OrderedCoatCheckBag {
         if let storage = unsafe self._storage {
             var index = 0
             let count = unsafe storage.count
-            return AnyIterator { 
+            return AnyIterator {
                 // $s17RealityFoundation23_OrderedCoatCheckBagRef33_0656128EEB3DF59F097DD6F4D641F2F1LLC12makeIterators03AnyQ0VyxGyFxSgycfU0_TA
                 /*
                  index -> x0 -> x21

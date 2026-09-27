@@ -148,7 +148,7 @@ struct AppearanceEffect : StatefulRule, RemovableAttribute {
         
         // <+340>
         let attribute = AnyWeakAttribute(.current!)
-        Update.enqueueAction(reason: nil) { 
+        Update.enqueueAction(reason: nil) {
             guard let loaded = attribute.attribute else {
                 return
             }

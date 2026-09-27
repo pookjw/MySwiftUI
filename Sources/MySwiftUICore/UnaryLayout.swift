@@ -247,7 +247,7 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
         // dimensionsCache -> x23
         
         // <+340>
-        return self.dimensionsCache.get(copy_1) { 
+        return self.dimensionsCache.get(copy_1) {
             // <+1032>
             return layout.sizeThatFits(in: copy_1, context: layoutContext, child: child)
         }
@@ -296,7 +296,7 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
         let child = self.child
         let layoutContext = self.layoutContext
         
-        return self.placementCache.get(viewSize) { 
+        return self.placementCache.get(viewSize) {
             return layout.placement(of: child, in: PlacementContext(base: layoutContext, parentSize: viewSize))
         }
     }

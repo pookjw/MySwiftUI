@@ -95,7 +95,7 @@ struct MovableLockTests {
     func test_syncMain_1() async {
         let lock = MovableLock.create()
         
-        let task = Task(executorPreference: globalConcurrentExecutor) { 
+        let task = Task(executorPreference: globalConcurrentExecutor) {
             var result = false
             lock.lock()
             lock.syncMain(context: &result) { pointer in

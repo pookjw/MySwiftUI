@@ -344,7 +344,7 @@ fileprivate struct ModifierBodyAccessor<T : ViewModifier>: BodyAccessor {
          */
         let unchecked = UncheckedSendable(container)
         if changed {
-            MainActor.assumeIsolated { 
+            MainActor.assumeIsolated {
                 // $s7SwiftUI20ModifierBodyAccessor33_2BA0A33A15B7F322F46AFB9D0D1A262DLLV06updateD02of7changedyx_SbtFyyScMYcXEfU_
                 setBody {
                     return unchecked.value.body(content: _ViewModifier_Content<T>())

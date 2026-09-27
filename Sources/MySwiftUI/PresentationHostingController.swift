@@ -98,7 +98,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             return super.preferredContentSize
         }
         set {
-            UIView.performWithoutAnimation { 
+            UIView.performWithoutAnimation {
                 super.preferredContentSize = newValue
             }
         }
@@ -259,7 +259,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         self.placement = placement
         
         // sp + 0x50
-        let (preference, transparency): (PresentationOptionsPreference, ContainerBackgroundKeys.Transparency) = Update.ensure { 
+        let (preference, transparency): (PresentationOptionsPreference, ContainerBackgroundKeys.Transparency) = Update.ensure {
             // $s7SwiftUI29PresentationHostingControllerC10setupSheet3for9presenter9placementyAA0cdE13PresenterKindO_So06UIViewE0CAA0G10PreferenceV9PlacementOtFAA0c7OptionsN0V_AA23ContainerBackgroundKeysO12TransparencyOtyXEfU_AA7AnyViewV_Tg5TA
             // self -> x0 -> x21
             // <+256>
@@ -481,7 +481,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         let currentStyle = self.modalPresentationStyle
         
         if (currentStyle == .popover) || (currentStyle == .formSheet) {
-            Update.ensure { 
+            Update.ensure {
                 // $s7SwiftUI0A10UIOrnamentC8position16contentAlignment18isRelativeToParent11environment20usesRemoteVisibility8rootViewACyxGSo27MRUIPlatterOrnamentPosition_p_AA11Alignment3DVSbAA17EnvironmentValuesVSgSbxtcfcyyXEfU1_AA03AnyP0V_Tg5TA
                 self.host.base.viewGraph.viewGraph.instantiateIfNeeded()
             }

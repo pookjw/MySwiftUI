@@ -17,7 +17,7 @@ final class ImmersiveSpaceAuthority {
 
     private(set) lazy var remoteDesiredClientOptions: Attribute<ImmersiveSpaceConfigurationAttributes.ClientOptions?> = {
         let graph = AppGraph.shared ?? (GraphHost.currentHost as! AppGraph)
-        return graph.rootSubgraph.apply { 
+        return graph.rootSubgraph.apply {
             return Attribute(value: nil)
         }
     }() // 0x10

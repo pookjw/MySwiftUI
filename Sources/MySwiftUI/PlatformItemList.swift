@@ -35,7 +35,7 @@ struct PlatformItemListViewGraph {
                 let delegate = graph.delegate,
                 let casted = delegate.as(PlatformItemListHost.self)
             {
-                casted.platformItemListDidChange { 
+                casted.platformItemListDidChange {
                     // $s7SwiftUI25PlatformItemListViewGraphV13readAndUpdate33_5ABD7A14C7C58F4077FE3D37EE0D7F9DLL5graphAA0cdE0VAA0fG0C_tFAHyXEfU_TA
                     assertUnimplemented()
                 }

@@ -297,7 +297,7 @@ extension DynamicViewContainer {
                     parentSubgraph.addChild(newSubgraph)
                     
                     // w24, w22
-                    let (listAttribute, isUnary) = newSubgraph.apply { 
+                    let (listAttribute, isUnary) = newSubgraph.apply {
                         // $s7SwiftUI15DynamicViewList031_3FB6ABB0477B815AB3C89DD5EDC9F0M0LLV11updateValueyyF14AttributeGraph0P0VyAA0dE0_pG_SbtyXEfU_
                         // self -> x26
                         // sp + 0x1b8

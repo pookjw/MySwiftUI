@@ -159,7 +159,7 @@ struct SceneNavigationStrategy_Phone {
                 }
                 
                 // <+2764>
-                MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) { 
+                MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) {
                     // $s7SwiftUI18VolumeSceneBuilderC28buildWorkspaceRequestOptions3for16withContinuationySo024UISceneSessionActivationH0C_ySo012FBSWorkspacedhI0CSg_s5Error_pSgtctFyyScMYcXEfU_TA
                     // buildWorkspaceRequestOptions와 무관하게 공통으로 쓰이는 block 같음
                     assertUnimplemented()
@@ -172,7 +172,7 @@ struct SceneNavigationStrategy_Phone {
             
             // <+2908>
             let defaultScalingBehavior = item.defaultScalingBehavior.value ?? .trueScale
-            MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) { 
+            MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) {
                 // $s7SwiftUI18VolumeSceneBuilderC28buildWorkspaceRequestOptions3for16withContinuationySo024UISceneSessionActivationH0C_ySo012FBSWorkspacedhI0CSg_s5Error_pSgtctFyyScMYcXEfU0_TA
                 options.placementParameters.preferredScalingBehavior = defaultScalingBehavior
             }
@@ -220,7 +220,7 @@ struct SceneNavigationStrategy_Phone {
                 if let windowLayoutComputer = proxy.host.windowLayoutComputer {
                     // <+3972>
                     let windowLayoutComputer = windowLayoutComputer.windowPlacement
-                    MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) { 
+                    MainActor.assumeIsolatedIfLinkedOnOrAfter(.v6, context: nil) {
                         // s7SwiftUI29SceneNavigationStrategy_PhoneV07performC10Activation33_FB4D19B065EC4D2CC549DBA6E2D239A5LL4item8activity15matchingSession18activationBehavior12errorHandleryAA0C4ListV4ItemV_So14NSUserActivityCSo07UISceneV0CSgAA0chX0OyAC5ErrorOcSgtFyyScMYcXEfU1_TA
                         assertUnimplemented()
                         _ = windowLayoutComputer
@@ -481,7 +481,7 @@ struct SceneNavigationStrategy_Phone {
                 // <+3428>
                 let _ = casted.convertedToPrimary()
                 
-                Update.ensure { 
+                Update.ensure {
                     // $s7SwiftUI23ImmersiveSpaceAuthorityC012updateRemotecD013clientOptionsyAA0cD23ConfigurationAttributesV06ClientI0V_tFyyXEfU_TA
                     assertUnimplemented()
                 }

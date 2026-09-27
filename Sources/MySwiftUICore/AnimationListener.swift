@@ -76,7 +76,7 @@ extension Transaction {
         
         // <+100>
         if !listeners.isEmpty {
-            Update.locked { 
+            Update.locked {
                 // $s7SwiftUI11TransactionVAAE15dispatchPending33_390609F81ACEBEAF00AD8179BD31E870LLyyFZyyXEfU0_
                 // listeners -> x0 -> x20
                 for listener in listeners {

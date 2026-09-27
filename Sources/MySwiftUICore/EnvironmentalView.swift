@@ -74,7 +74,7 @@ struct EnvironmentalViewChild<Content : EnvironmentalView>: AsyncAttribute, Cust
         tracker.reset()
         tracker.initializeValues(from: env.plist)
         
-        let body = traceRuleBody(Content.self) { 
+        let body = traceRuleBody(Content.self) {
             // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_ 
             return view.body(environment: env)
         }

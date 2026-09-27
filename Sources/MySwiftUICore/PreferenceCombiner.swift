@@ -103,7 +103,7 @@ package struct PreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribute, Cust
         for attribute in attributes {
             if !w24 {
                 // <+280>
-                T.reduce(value: &result) { 
+                T.reduce(value: &result) {
                     return attribute.wrappedValue ?? T.defaultValue
                 }
             } else {
@@ -129,7 +129,7 @@ fileprivate struct PairPreferenceCombiner<T : PreferenceKey>: Rule, AsyncAttribu
         var result = attributes.0.value
         let next = attributes.1
         
-        T.reduce(value: &result) { 
+        T.reduce(value: &result) {
             return next.value
         }
         

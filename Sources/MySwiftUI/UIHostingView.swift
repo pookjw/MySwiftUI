@@ -614,7 +614,7 @@ open class _UIHostingView<Content : View>: UIView {
         // <+476>
         Update.begin()
         
-        Graph.withoutUpdate { 
+        Graph.withoutUpdate {
             self.updateTransformWithoutGeometryObservation()
         }
         
@@ -1926,7 +1926,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
             }
             
             RunLoop.addObserver {
-                Update.ensure { 
+                Update.ensure {
                     guard let self else { return }
                     self.updateGraph { graphHost in
                         graphHost.flushTransactions()
@@ -2040,7 +2040,7 @@ extension _UIHostingView : @preconcurrency UIHostingViewBaseDelegate {
             return
         }
         
-        Update.enqueueAction(reason: nil) { 
+        Update.enqueueAction(reason: nil) {
             rootViewDelegate.updateAppFocus(view: self)
         }
     }

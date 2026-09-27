@@ -371,7 +371,7 @@ extension SpatialLayout where Self == _ZStackLayout {
                     
                     outputs = _ViewOutputs.makeDepthTransform(
                         inputs: copy_1,
-                        geometry: { 
+                        geometry: {
                             return geometryAtribute.depthGeometry
                         },
                         body: transform
@@ -540,7 +540,7 @@ extension SpatialLayout where Self == ZStackLayout3D {
                     
                     outputs = _ViewOutputs.makeDepthTransform(
                         inputs: copy_1,
-                        geometry: { 
+                        geometry: {
                             return geometryAtribute.depthGeometry
                         },
                         body: transform
