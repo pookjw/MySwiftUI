@@ -8,7 +8,7 @@ struct PresentationOptionsPreference : CustomStringConvertible { // 0x8c
     private(set) var verticalAdaptation: PresentationAdaptation? = nil // 0x29
     private(set) var dimmingBehavior: PresentationDimmingBehavior? = nil // 0x30
     private(set) var passthroughBehavior: PresentationPassthroughBehavior? = nil // 0x38
-    private var swipeUpBehavior: PresentationContentInteraction = .automatic // 0x39
+    private(set) var swipeUpBehavior: PresentationContentInteraction = .automatic // 0x39
     private(set) var dragIndicatorVisibility: Visibility = .automatic // 0x3a
     private(set) var cornerRadius: CGFloat? = nil // 0x40
     private(set) var dragIndicatorOffset: CGFloat? = nil // 0x50

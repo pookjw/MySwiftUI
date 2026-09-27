@@ -475,6 +475,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         
         if let sheetPresentationController {
             self.configureDetents(of: sheetPresentationController, using: preference)
+            self.updateDetentsSelection(of: sheetPresentationController, using: preference)
         }
         
         // <+168>
@@ -1028,12 +1029,12 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
                 }
                 
                 // <+884>
-                self.lastPresentationOptions = preference
+                self.lastPreferenceForSheetControllerConfiguration = preference
                 oscillationDetector.insert(preference)
                 // <+980>
             } else {
                 // <+816>
-                self.lastPresentationOptions = preference
+                self.lastPreferenceForSheetControllerConfiguration = preference
                 // <+980>
             }
             
@@ -1049,26 +1050,25 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
             // <+1988>
             sheet.mrui_detents = detents
             
-            if
-                let dimmingBehavior = preference.dimmingBehavior,
-                case .backgroundInteractionEnabled = dimmingBehavior
-            {
+            if let dimmingBehavior = preference.dimmingBehavior {
+                dimmingBehavior.setLargestUndimmedDetentIdentifier(of: sheet, detents: detents)
+            } else {
                 sheet.mrui_largestUndimmedDetentIdentifier = nil
             }
             
             // <+2108>
-            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = (preference.dragIndicatorVisibility != .hidden)
+            sheet.mrui_prefersScrollingExpandsWhenScrolledToEdge = (preference.swipeUpBehavior != .scrolls)
             sheet.mrui_preferredCornerRadius = preference.cornerRadius ?? mrui_UISheetPresentationControllerAutomaticDimension
             
             if let verticalAdaptation = preference.verticalAdaptation {
-                sheet.prefersEdgeAttachedInCompactHeight = (verticalAdaptation.kind == .automatic) || (verticalAdaptation.kind == .popover)
+                sheet.prefersEdgeAttachedInCompactHeight = (verticalAdaptation.kind == .none) || (verticalAdaptation.kind == .sheet)
             } else {
                 sheet.prefersEdgeAttachedInCompactHeight = false
             }
             
             // <+2168>
             // $s7SwiftUI29PresentationHostingControllerC16configureDetents2of5usingySo07UISheetcE0C_AA0C17OptionsPreferenceVtFSbyXEfu10_TA
-            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: !detents.isEmpty)
+            sheet.mrui_prefersGrabberVisible = preference.dragIndicatorVisibility.isVisible(automatic: detents.count > 1)
             sheet._grabberTopSpacing = preference.dragIndicatorOffset ?? _UISheetGrabberTopSpacing
             
             let prefersEdgeAttachedInCompactHeight = sheet.prefersEdgeAttachedInCompactHeight
@@ -1162,6 +1162,10 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
         }
     }
     
+    func updateDetentsSelection(of sheet: UISheetPresentationController, using preference: PresentationOptionsPreference) {
+        assertUnimplemented()
+    }
+
     func setPassthrough(using preference: PresentationOptionsPreference) {
         /*
          self -> x20
