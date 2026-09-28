@@ -11,7 +11,16 @@ extension View {
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder content: @escaping (Item) -> Content
     ) -> some View where Item : Identifiable, Content : View {
-        assertUnimplemented()
+        let modifier = ItemSheetPresentationModifier<Item, Content, NullSheetAnchor<SheetPreference.Key>>(
+            item: item,
+            onDismiss: onDismiss,
+            sheetContent: content,
+            placement: .automatic,
+            drawsBackground: true,
+            anchorProvider: NullSheetAnchor<SheetPreference.Key>()
+        )
+        
+        return self.modifier(modifier)
     }
     
     nonisolated public func sheet<Content>(
@@ -31,8 +40,76 @@ extension View {
     }
 }
 
-fileprivate struct ItemSheetPresentationModifier {
-    // TODO
+fileprivate struct ItemSheetPresentationModifier<T : Identifiable, U : View, V : SheetAnchorProvider> : ViewModifier {
+    @safe private nonisolated(unsafe) var _item: Binding<T?>
+    @safe private nonisolated(unsafe) var onDismiss: (() -> Void)?
+    @safe private nonisolated(unsafe) var sheetContent: (T) -> U
+    private var placement: SheetPreference.Placement
+    private var drawsBackground: Bool
+    @safe private nonisolated(unsafe)  var anchorProvider: V
+    
+    nonisolated init(
+        item: Binding<T?>,
+        onDismiss: (() -> Void)?,
+        sheetContent: @escaping (T) -> U,
+        placement: SheetPreference.Placement,
+        drawsBackground: Bool,
+        anchorProvider: V
+    ) {
+        self._item = item
+        self.onDismiss = onDismiss
+        self.sheetContent = sheetContent
+        self.placement = placement
+        self.drawsBackground = drawsBackground
+        self.anchorProvider = anchorProvider
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .modifier(
+                CoreSheetPresentationModifier(
+                    content: self._item.wrappedValue.map { value in
+                        AnyView(
+                        SheetContent(content: self.sheetContent(value))
+                            .environment(
+                                \.presentationMode,
+                                 self
+                                    ._item
+                                    .projecting(PresentationMode.FromItem())
+                            )
+                        )
+                    },
+                    onDismiss: { flag in
+                        // $s7SwiftUI29ItemSheetPresentationModifier33_6DB75E0CE0288E045EA78648825F4153LLV4body7contentQrAA05_ViewF8_ContentVyADyxq_q0_GG_tFySbcfU0_
+                        if flag {
+                            self._item.wrappedValue = nil
+                        }
+                        
+                        if let onDismiss {
+                            onDismiss()
+                        }
+                    },
+                    placement: self.placement,
+                    drawsBackground: self.drawsBackground,
+                    itemID: self.itemID,
+                    anchorProvider: self.anchorProvider,
+                    activeInspector: nil
+                )
+            )
+            .modifier(
+                EntityPresentationContext
+                    .PreferenceTransformModifier<SheetPreference.Key>()
+            )
+    }
+    
+    @inline(always) // 원래 없음
+    private var itemID: AnyHashable? {
+        if let item = self._item.wrappedValue {
+            return AnyHashable(item.id)
+        } else {
+            return nil
+        }
+    }
 }
 
 fileprivate struct SheetPresentationModifier<T : View, U : SheetAnchorProvider> : ViewModifier {

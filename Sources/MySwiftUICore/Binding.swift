@@ -198,7 +198,7 @@ extension Binding {
                 // x8
                 let base = location.location.base
                 
-                if base === location {
+                if base === property.location {
                     // <+308>
                 } else {
                     let wasRead = location.wasRead

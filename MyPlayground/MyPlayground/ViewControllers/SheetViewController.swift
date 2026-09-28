@@ -42,25 +42,25 @@ fileprivate struct MyView : View {
                 } catch {}
             }
         }
-//        .sheet(
-//            item: self.$item,
-//            onDismiss: {
-//                print("onDismiss")
-//            }
-//        ) { item in
-//            MyButton(title: "Dismiss") {
-//                self.item = nil
-//            }
-//            .task {
-//                do {
-//                    try await Task.sleep(for: .seconds(1))
-//                    self.item = nil
-//                } catch {}
-//            }
-//        }
+        .sheet(
+            item: self.$item,
+            onDismiss: {
+                print("onDismiss")
+            }
+        ) { item in
+            MyButton(title: "Dismiss") {
+                self.item = nil
+            }
+            .task {
+                do {
+                    try await Task.sleep(for: .seconds(1))
+                    self.item = nil
+                } catch {}
+            }
+        }
         .task {
-            self.isPresented = true
-//            self.item = ItemID(id: UUID())
+//            self.isPresented = true
+            self.item = ItemID(id: UUID())
         }
     }
 }

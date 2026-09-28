@@ -30,7 +30,22 @@ fileprivate struct PresentationModeKey : EnvironmentKey {
 }
 
 extension PresentationMode {
-    struct FromIsPresented : Projection {
+    struct FromItem<T : Identifiable> : Hashable, Projection {
+        typealias Base = T?
+        typealias Projected = PresentationMode
+        
+        func get(base: T?) -> PresentationMode {
+            return PresentationMode(isPresented: base != nil)
+        }
+        
+        func set(base: inout T?, newValue: PresentationMode) {
+            if !newValue.isPresented {
+                base = nil
+            }
+        }
+    }
+    
+    struct FromIsPresented : Hashable, Projection {
         typealias Base = Bool
         typealias Projected = PresentationMode
         
