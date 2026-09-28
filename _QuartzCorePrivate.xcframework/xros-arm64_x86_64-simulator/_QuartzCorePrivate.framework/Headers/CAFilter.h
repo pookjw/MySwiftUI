@@ -13,7 +13,6 @@ CA_EXTERN NSString * const kCAFilterSubtractSIgnoreAlpha;
 CA_EXTERN NSString * const kCAFilterDestOutPassthrough;
 CA_EXTERN NSString * const kCAFilterPlusDIgnoreAlpha;
 CA_EXTERN NSString * const kCAFilterInputAmount;
-
 CA_EXTERN NSString * const kCAFilterMultiplyBlendMode;
 CA_EXTERN NSString * const kCAFilterScreenBlendMode;
 CA_EXTERN NSString * const kCAFilterOverlayBlendMode;
