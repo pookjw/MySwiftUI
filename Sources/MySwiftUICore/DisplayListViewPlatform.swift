@@ -192,43 +192,39 @@ extension DisplayList.ViewUpdater {
             size: CGSize,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            // x28 = sp + 0x160
-            // x26 = sp + 0xa0
             /*
-             state = x19
+             state = x21
              size = d9/d8
-             item = x22
-             viewInfo = x21
+             item = x1
+             viewInfo = x22
              */
-            let x28 = item.version
-            // x26
-            _ = item
-            // x27
+            let x26 = item.version
+            // x28
             let encoding = encoding
             
             if unsafe viewInfo.seeds.opacity != DisplayList.Seed(state.pointee.versions.opacity) {
-                // <+144>
+                // <+184>
                 unsafe CoreViewSetOpacity(encoding.viewSystem, viewInfo.view, CGFloat(state.pointee.opacity))
                 viewInfo.seeds.opacity = unsafe DisplayList.Seed(state.pointee.versions.opacity)
             }
             
-            // <+196>
+            // <+132>
             if unsafe viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
-                // <+244>
+                // <+252>
                 assertUnimplemented()
             }
             
-            // <+636>
+            // <+588>
             if unsafe viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
                 // <+684>
                 assertUnimplemented()
             }
             
-            // <+892>
+            // <+632>
             // w3
             let clipRectChanged: Bool
             if unsafe (viewInfo.seeds.clips != DisplayList.Seed(state.pointee.versions.clips)) || (viewInfo.seeds.transform != DisplayList.Seed(state.pointee.versions.transform)) {
-                // <+992>
+                // <+1184>
                 let w23 = viewInfo.state.flags
                 unsafe self.updateClipShapes(&viewInfo, state: state)
                 viewInfo.seeds.clips = unsafe DisplayList.Seed(state.pointee.versions.clips)
@@ -239,85 +235,84 @@ extension DisplayList.ViewUpdater {
                     clipRectChanged = viewInfo.state.flags.contains(.unknown3)
                 }
             } else {
-                // <+980>
+                // <+1168>
                 clipRectChanged = false
             }
             
-            // <+1072>
-            // sp + 0x10
+            // <+1260>
+            // sp + 0x90
             var item_2 = item
-            // <+1164>
-            var to1260: Bool
+            // <+1324>
+            var to1468: Bool
             if unsafe self.updateGeometry(&viewInfo, item: item_2, size: size, state: state, clipRectChanged: clipRectChanged) {
-                // <+1264>
-                to1260 = true
+                // <+1468>
+                to1468 = true
             } else {
-                // w8
+                // w9/w8
                 let shadowSeed = viewInfo.seeds.shadow
-                // x9
+                // x8
                 let stateShadowVersion = unsafe state.pointee.versions.shadow
                 
                 if stateShadowVersion.value == 0 {
-                    // <+1216>
+                    // <+1372>
                     if shadowSeed.value != 0 {
-                        // <+1264>
-                        to1260 = true
+                        // <+1468>
+                        to1468 = true
                     } else {
-                        // <+1220>
-                        to1260 = false
+                        // <+1380>
+                        to1468 = false
                     }
                 } else {
-                    // w9
+                    // w8
                     let stateShadowSeed = DisplayList.Seed(stateShadowVersion)
                     if shadowSeed == stateShadowSeed {
-                        // <+1220>
-                        to1260 = false
+                        // <+1380>
+                        to1468 = false
                     } else {
-                        // <+1264>
-                        to1260 = true
+                        // <+1468>
+                        to1468 = true
                     }
                 }
             }
             
-            if !to1260 {
-                // <+1220>
-                // w8
+            if !to1468 {
+                // <+1380>
+                // w9/w8
                 let itemSeed = viewInfo.seeds.item
-                if x28.value == 0 && itemSeed.value == 0 {
-                    // <+1380>
+                if x26.value == 0 && itemSeed.value == 0 {
+                    // <+1416>
                 } else {
-                    // <+1228>
-                    let w9 = DisplayList.Seed(x28)
-                    to1260 = itemSeed != w9 // <+1260> or <+1380>
+                    // <+1384>
+                    let w8 = DisplayList.Seed(x26)
+                    to1468 = itemSeed != w8 // <+1468> or <+1416>
                 }   
             }
             
-            if to1260 {
-                // <+1264>
-                // sp + 0x10
+            if to1468 {
+                // <+1468>
+                // sp + 0x90
                 item_2 = item
                 unsafe self.updateShadow(&viewInfo, state: state, item: item_2)
                 viewInfo.seeds.shadow = unsafe DisplayList.Seed(state.pointee.versions.shadow)
             }
             
-            // <+1380>
+            // <+1416>
             if unsafe viewInfo.seeds.properties != DisplayList.Seed(state.pointee.versions.properties) {
-                // <+1428>
+                // <+1572>
                 unsafe self.updateProperties(&viewInfo, state: state)
-                viewInfo.seeds.shadow = unsafe DisplayList.Seed(state.pointee.versions.shadow)
+                viewInfo.seeds.properties = unsafe DisplayList.Seed(state.pointee.versions.properties)
             }
             
-            // <+1484>
+            // <+1624>
             let kind = viewInfo.state.kind
             switch kind {
             case .image,
                     .drawing,
-                    .affine3D,
                     .platformView,
-                    .platformGroup:
-                // <+1680>
-                viewInfo.layer.contentsScale = unsafe state.pointee.globals.pointee.environment.contentsScale
-                // <+1520>
+                    .platformGroup,
+                    .platformLayer:
+                // <+1660>
+                break
             case .inherited,
                     .color,
                     .shape,
@@ -329,14 +324,14 @@ extension DisplayList.ViewUpdater {
                     .compositing,
                     .geometry,
                     .projection,
+                    .affine3D,
                     .mask,
-                    .platformLayer,
                     .platformEffect:
-                // <+1520>
-                break
+                // <+1788>
+                viewInfo.layer.contentsScale = unsafe state.pointee.globals.pointee.environment.contentsScale
             }
             
-            // <+1520>
+            // <+1660>
             var platformViewInfo = unsafe DisplayList.ViewUpdater.PlatformViewInfo(
                 view: viewInfo.view,
                 kind: kind,
