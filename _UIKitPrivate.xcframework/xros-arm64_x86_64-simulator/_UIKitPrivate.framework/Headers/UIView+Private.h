@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import <BaseBoard/BSAnimationSettings.h>
+#import <BaseBoard/BaseBoard.h>
 #import <_UIKitPrivate/UIKeyboardSceneDelegate.h>
 #import <_UIKitPrivate/_UICornerInsets.h>
 #import <_UIKitPrivate/_UIGestureRecognizerContainer.h>

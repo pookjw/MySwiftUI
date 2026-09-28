@@ -1,6 +1,6 @@
 private import CoreGraphics
 private import QuartzCore
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 
 enum GraphicsFilter {
     case blur(BlurStyle)

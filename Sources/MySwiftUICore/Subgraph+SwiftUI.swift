@@ -1,6 +1,6 @@
 // 372497ED4F569296C4450147CA418CD0
 internal import AttributeGraph
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 // AGSubgraphApply는 Subgraph.apply(_:)가 아니라 Subgraph.forEach(_:_:)다.
 

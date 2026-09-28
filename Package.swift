@@ -58,6 +58,9 @@ let package = Package(
         .target(
             name: "MySwiftUI",
             dependencies: [
+                .byName(name: "_MySwiftUICoreShims"),
+                .byName(name: "_MySwiftUIShims"),
+                .byName(name: "BaseBoard"),
                 .byName(name: "_QuartzCorePrivate"),
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "CoreRE"),
@@ -100,7 +103,7 @@ let package = Package(
                 .byName(name: "_DyldPrivate"),
                 .byName(name: "AttributeGraph"),
                 .byName(name: "_KernPrivate"),
-                .byName(name: "_MySwiftUIShims"),
+                .byName(name: "_MySwiftUICoreShims"),
                 .byName(name: "FeatureFlags"),
                 .byName(name: "StopwatchSupport"),
                 .byName(name: "RenderBox"),
@@ -196,13 +199,25 @@ let package = Package(
             ]
         ),
         .target(
-            name: "_MySwiftUIShims",
+            name: "_MySwiftUICoreShims",
             dependencies: [
-                .byName(name: "_UIKitPrivate"),
                 .byName(name: "BaseBoard"),
+                .byName(name: "_UIKitPrivate"),
                 .byName(name: "_DarwinPrivate"),
                 .byName(name: "_QuartzCorePrivate"),
-                .byName(name: "_FoundationPrivate"),
+                .byName(name: "_FoundationPrivate")
+            ],
+            cSettings: [
+                .unsafeFlags(["-fno-objc-arc", "-std=gnu23"])
+            ]
+        ),
+        .target(
+            name: "_MySwiftUIShims",
+            dependencies: [
+                .byName(name: "BaseBoard"),
+                .byName(name: "_MySwiftUICoreShims"),
+                .byName(name: "_UIKitPrivate"),
+                .byName(name: "_QuartzCorePrivate"),
                 .byName(name: "SoftLinking")
             ],
             cSettings: [
@@ -215,6 +230,7 @@ let package = Package(
         .target(
             name: "_UIKitShims",
             dependencies: [
+                .byName(name: "_MySwiftUICoreShims"),
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "DesignLibrary"),
@@ -410,6 +426,7 @@ let package = Package(
         .testTarget(
             name: "MySwiftUITests",
             dependencies: [
+                .byName(name: "_MySwiftUICoreShims"),
                 .byName(name: "MySwiftUI"),
                 .byName(name: "_SwiftUIPrivate"),
                 .byName(name: "MySwiftUITestUtils"),
@@ -425,6 +442,7 @@ let package = Package(
         .testTarget(
             name: "MySwiftUICoreTests",
             dependencies: [
+                .byName(name: "_MySwiftUICoreShims"),
                 .byName(name: "MySwiftUICore"),
                 .byName(name: "MySwiftUITestUtils"),
                 .byName(name: "_SwiftUICorePrivate"),

@@ -3,7 +3,7 @@ internal import AttributeGraph
 internal import Combine
 private import _DarwinFoundation3.pthread
 private import os.log
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::Subscriber, Combine::Cancellable, Combine::CustomCombineIdentifierConvertible {
     private weak var host: GraphHost? = nil

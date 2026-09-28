@@ -9,6 +9,5 @@ MSUI_EXTERN const void * _Nonnull _styleWriterOverrideModifierProtocolDescriptor
 MSUI_EXTERN const void * _Nonnull _viewProtocolDescriptor(void);
 MSUI_EXTERN const void * _Nonnull _removableAttributeProtocolDescriptor(void);
 MSUI_EXTERN const void * _Nonnull _invalidatableAttributeProtocolDescriptor(void);
-MSUI_EXTERN const void * _Nonnull _sceneProtocolDescriptor(void);
 
 #endif

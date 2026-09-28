@@ -1,7 +1,7 @@
 // 4F21368B1C1680817451AC25B55A8D48
 package import AttributeGraph
 private import os.log
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 package class StoredLocationBase<Value> : AnyLocation<Value> {
     @AtomicBox private var data: StoredLocationBase<Value>.Data

@@ -1,6 +1,6 @@
 @preconcurrency private import _SwiftUICorePrivate
 @testable private import MySwiftUICore
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 internal import Testing
 private import SwiftUI
 
@@ -16,7 +16,7 @@ fileprivate struct ProtocolDescriptionTests {
 
 fileprivate struct ImplMyDescriptor : MySwiftUICore::ProtocolDescriptor {
     static var descriptor: UnsafeRawPointer {
-        return _MySwiftUIShims::_viewProtocolDescriptor()
+        return _MySwiftUICoreShims::_viewProtocolDescriptor()
     }
 }
 

@@ -1,6 +1,6 @@
 package import Foundation
 public import CoreGraphics
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 package import Spatial
 
 public struct Color : View, Hashable, CustomStringConvertible, Sendable {

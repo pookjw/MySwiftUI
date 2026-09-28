@@ -1,5 +1,5 @@
 // B2543BCA257433E04979186A1DC2B6BC
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 internal import AttributeGraph
 
 public struct Transaction : @unchecked Sendable {

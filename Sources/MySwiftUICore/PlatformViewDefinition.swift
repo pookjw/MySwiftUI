@@ -1,4 +1,4 @@
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 public import QuartzCore
 
 @_spi(Internal) open class PlatformViewDefinition {

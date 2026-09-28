@@ -2,7 +2,7 @@
 internal import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 protocol Layout3D : Layout {
     static var depthProperties: LayoutDepthProperties { get }

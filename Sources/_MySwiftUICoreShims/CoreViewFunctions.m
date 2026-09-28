@@ -2,7 +2,7 @@
 #include <TargetConditionals.h>
 #include <objc/NSObjCRuntime.h>
 #import "include/NSObject+MySwiftUI.h"
-#import "include/UIView+MySwiftUI.h"
+#import "include/UIView+MySwiftUICore.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>

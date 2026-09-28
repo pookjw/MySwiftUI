@@ -1,7 +1,7 @@
 // A409749AC298CF150D90E447BB4FA064
 internal import MySwiftUICore
 internal import Foundation
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 @preconcurrency internal import UIKit
 internal import _MySwiftUIShims
 

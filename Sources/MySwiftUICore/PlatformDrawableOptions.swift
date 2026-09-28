@@ -1,4 +1,4 @@
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 public import QuartzCore
 public import RenderBox
 

@@ -1,4 +1,4 @@
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 
 @_spi(Internal)
 public struct PlatformSystemDefinition : Hashable {

@@ -1,7 +1,7 @@
 package import UIKit
 private import ObjectiveC.runtime
 private import ObjectiveC.message
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 extension UINavigationItem {
     @available(iOS, unavailable)

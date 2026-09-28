@@ -1,5 +1,5 @@
 // 1ABF77B82C037C602A176AE349787FED
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 struct ViewDescriptor : TupleDescriptor{
     static var descriptor: UnsafeRawPointer {

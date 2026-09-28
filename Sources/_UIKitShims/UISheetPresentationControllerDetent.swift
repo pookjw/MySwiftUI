@@ -1,5 +1,5 @@
 package import UIKit
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 @_extern(c, "UISheetPresentationControllerAutomaticDimension") package let msui_UISheetPresentationControllerAutomaticDimension: CGFloat
 

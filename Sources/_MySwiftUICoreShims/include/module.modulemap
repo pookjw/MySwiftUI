@@ -1,0 +1,4 @@
+module _MySwiftUICoreShims {
+    umbrella header "_MySwiftUICoreShims.h"
+    export *
+}

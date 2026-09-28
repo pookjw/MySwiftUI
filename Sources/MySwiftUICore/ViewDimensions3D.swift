@@ -1,6 +1,6 @@
 public import CoreGraphics
 package import Spatial
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 public struct ViewDimensions3D {
     let guideComputer: LayoutComputer

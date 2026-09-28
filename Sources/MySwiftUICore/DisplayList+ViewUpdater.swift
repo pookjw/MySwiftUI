@@ -2,7 +2,7 @@
 
 private import _DarwinFoundation3._stdlib
 private import CoreGraphics
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 private import AttributeGraph
 
 @safe nonisolated(unsafe) fileprivate var printTree: Bool? = nil

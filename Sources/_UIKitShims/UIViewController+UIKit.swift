@@ -1,6 +1,6 @@
 internal import UIKit
 private import ObjectiveC.runtime
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 extension UIViewController {
     @available(iOS, unavailable)

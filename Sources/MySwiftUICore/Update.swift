@@ -1,7 +1,7 @@
 // 61534957AEEC2EDC447ABDC13B4D426F
 private import os.signpost
 private import os.log
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import Foundation
 private import AttributeGraph
 private import _DarwinFoundation3._stdlib

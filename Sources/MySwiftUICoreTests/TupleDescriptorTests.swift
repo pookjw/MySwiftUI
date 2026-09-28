@@ -1,6 +1,6 @@
 //@preconcurrency private import _SwiftUICorePrivate
 //@testable private import MySwiftUICore
-//private import _MySwiftUIShims
+//private import _MySwiftUICoreShims
 //internal import Testing
 //private import SwiftUI
 //private import AttributeGraph
@@ -51,7 +51,7 @@
 //    nonisolated(unsafe) static var typeCache: [ObjectIdentifier: MySwiftUICore::TupleTypeDescription<ImplMyTupleDescriptor>] = [:]
 //    
 //    static var descriptor: UnsafeRawPointer {
-//        return _MySwiftUIShims::_viewProtocolDescriptor()
+//        return _MySwiftUICoreShims::_viewProtocolDescriptor()
 //    }
 //}
 //

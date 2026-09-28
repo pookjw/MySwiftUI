@@ -1,7 +1,7 @@
 public import CoreGraphics
 public import Spatial
 package import AttributeGraph
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 public struct GeometryProxy {
     private var owner: AnyWeakAttribute

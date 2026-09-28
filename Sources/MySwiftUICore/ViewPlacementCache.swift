@@ -1,5 +1,5 @@
 // 57DDCF0A00C1B77B475771403C904EF9
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import CoreGraphics
 
 struct ViewPlacementCache {

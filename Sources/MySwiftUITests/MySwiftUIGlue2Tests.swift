@@ -1,7 +1,7 @@
 internal import Testing
 @testable private import MySwiftUI
 @testable private import MySwiftUICore
-@testable private import _MySwiftUIShims
+@testable private import _MySwiftUICoreShims
 
 struct MySwiftUIGlue2Tests {
     @Test

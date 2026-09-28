@@ -1,4 +1,4 @@
-public import _MySwiftUIShims
+public import _MySwiftUICoreShims
 public import UIKit
 
 extension UIColor {

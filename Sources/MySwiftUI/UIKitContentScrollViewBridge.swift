@@ -1,7 +1,7 @@
 // 50A236BE05D8013F647BA5A7CED497D1
 internal import UIKit
 internal import MySwiftUICore
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 @MainActor
 final class UIKitContentScrollViewBridge {

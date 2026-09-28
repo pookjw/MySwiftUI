@@ -1,5 +1,5 @@
 public import ObjectiveC
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 @_spi(Internal)
 @objc(MySwiftUICoreGlue2)

@@ -2,7 +2,7 @@
 internal import UIKit
 private import MySwiftUICore
 private import _UIKitPrivate
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import MRUIKit
 private import _SwiftPrivate
 

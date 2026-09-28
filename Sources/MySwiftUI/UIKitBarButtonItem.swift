@@ -1,7 +1,7 @@
 // 9FEFF64B5B735CA46CE24D63DF5C11D3
 internal import UIKit
 private import MySwiftUICore
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import _UIKitShims
 
 final class UIKitBarButtonItem : UIBarButtonItem {

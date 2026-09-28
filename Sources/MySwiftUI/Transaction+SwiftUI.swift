@@ -1,7 +1,7 @@
 internal import MySwiftUICore
 private import UIKit
 private import _UIKitPrivate
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import _QuartzCorePrivate
 
 extension Transaction {

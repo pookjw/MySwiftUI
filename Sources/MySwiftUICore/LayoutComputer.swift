@@ -2,7 +2,7 @@
 package import AttributeGraph
 package import CoreGraphics
 internal import Spatial
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 package struct LayoutComputer : @unchecked Sendable {
     @safe package static let defaultValue = LayoutComputer(LayoutComputer.DefaultEngine())

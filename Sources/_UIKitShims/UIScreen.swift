@@ -1,7 +1,7 @@
 package import UIKit
 private import ObjectiveC.runtime
 private import ObjectiveC.message
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 fileprivate let UIScreenClass: AnyClass = unsafe objc_getClass("UIScreen") as! AnyClass
 

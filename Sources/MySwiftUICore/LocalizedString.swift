@@ -1,6 +1,6 @@
 // 8C53218A357EE528547B0855666BD2E5
 public import Foundation
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 @frozen public struct LocalizedStringKey : Equatable, ExpressibleByStringInterpolation {
     internal var key: String

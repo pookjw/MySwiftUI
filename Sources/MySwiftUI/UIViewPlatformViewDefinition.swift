@@ -3,6 +3,7 @@
 @preconcurrency public import UIKit
 private import _UIKitPrivate
 private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     override class var system : PlatformViewDefinition.System {

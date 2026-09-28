@@ -9,7 +9,7 @@ private import _SwiftPrivate
 internal import MySwiftUICore
 #endif
 internal import DesignLibrary
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 final class PrivateSelectors {
     @objc(_swiftTypeName) var _swiftTypeName: NSString {

@@ -1,6 +1,6 @@
 // 8BBC66CBE42B8A65F8A2F3799C81A349
 private import CoreGraphics
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 
 extension DisplayList.ViewUpdater {
     package struct Platform : Equatable, CustomStringConvertible {

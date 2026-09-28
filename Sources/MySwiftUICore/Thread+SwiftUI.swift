@@ -1,5 +1,5 @@
 internal import Foundation
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 extension Thread {
     func _startAndReturnError() -> Bool {

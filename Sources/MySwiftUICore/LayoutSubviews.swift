@@ -2,7 +2,7 @@
 public import CoreGraphics
 internal import AttributeGraph
 internal import Spatial
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
     public typealias SubSequence = LayoutSubviews

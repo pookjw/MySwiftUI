@@ -1,6 +1,6 @@
 // 9E3352CE4697DF56A738786E16992848
 internal import CoreGraphics
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     case red

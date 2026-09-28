@@ -1,7 +1,7 @@
 // DB20D13822F3237D192A89B71B0DBAEA
 internal import FeatureFlags
 private import Synchronization
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 package struct Solarium : ViewInputPredicate {
     fileprivate static let cachedValues = Mutex<[Solarium.EnablementIdiom: (Solarium.EnablementLevel, Solarium.EnablementCriteria)]>([:])

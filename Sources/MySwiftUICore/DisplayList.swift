@@ -1,6 +1,6 @@
 // F37E3733E490AA5E3BDC045E3D34D9F8
 package import CoreGraphics
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 private import _QuartzCorePrivate
 internal import QuartzCore
 package import Spatial

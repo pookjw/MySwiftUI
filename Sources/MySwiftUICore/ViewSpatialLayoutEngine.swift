@@ -1,6 +1,6 @@
 // 182E3E8D4B483E7956A2DBDA9F7535A2
 internal import Spatial
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 internal import CoreGraphics
 
 struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, DefaultSpatialAlignmentFunctions {

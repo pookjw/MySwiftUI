@@ -2,7 +2,7 @@
 internal import CoreGraphics
 internal import Spatial
 internal import AttributeGraph
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 protocol SpatialLayout : Animatable {
     associatedtype Cache3D

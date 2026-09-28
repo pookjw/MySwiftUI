@@ -4,7 +4,7 @@ package import AttributeGraph
 private import notify
 private import Darwin.POSIX.dlfcn
 private import _DarwinFoundation3._stdlib
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 
 nonisolated(unsafe) fileprivate var threadAssertionTrace = unsafe Trace(
     unknown_block_1: nil,

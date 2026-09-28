@@ -1,7 +1,7 @@
 // A9949015C771FF99F7528BB7239FD006
 internal import _QuartzCorePrivate
 private import QuartzCore
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 internal import Foundation
 
 extension DisplayList.ViewUpdater {

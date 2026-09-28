@@ -1,5 +1,5 @@
 // C648E6A51A5817691B7DBFA00A618C21
-internal import _MySwiftUIShims
+internal import _MySwiftUICoreShims
 
 @_spi(Internal) open class CorePlatformProvidersDefinition {
     static var providers: CorePlatformProviders {

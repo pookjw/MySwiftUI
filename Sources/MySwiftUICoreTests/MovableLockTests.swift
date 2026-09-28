@@ -1,5 +1,5 @@
 internal import Testing
-private import _MySwiftUIShims
+private import _MySwiftUICoreShims
 private import MySwiftUITestUtils
 
 struct MovableLockTests {
