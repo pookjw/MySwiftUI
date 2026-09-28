@@ -34,6 +34,7 @@ MSUI_EXTERN void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatfo
 MSUI_EXTERN void CoreViewSetUsesPerspectiveCorrectRendering(ViewSystem system, id object, BOOL flag);
 MSUI_EXTERN void CoreViewSetPreferredGroundingShadowVisibility(ViewSystem system, id object, _UIPlatterGroundingShadowVisibility visibility);
 MSUI_EXTERN void CoreViewSetSwiftUIServerResponderID(ViewSystem system, id object, NSUInteger responderID);
+MSUI_EXTERN void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable filter);
 
 NS_ASSUME_NONNULL_END
 

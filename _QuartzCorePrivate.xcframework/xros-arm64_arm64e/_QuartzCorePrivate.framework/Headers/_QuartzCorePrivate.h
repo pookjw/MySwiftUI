@@ -10,3 +10,4 @@
 #import <_QuartzCorePrivate/CADisplayLink+Private.h>
 #import <_QuartzCorePrivate/CADisplay.h>
 #import <_QuartzCorePrivate/CATransaction+Private.h>
+#import <_QuartzCorePrivate/CGBlendMode+Private.h>

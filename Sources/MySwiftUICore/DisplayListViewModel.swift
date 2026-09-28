@@ -41,7 +41,7 @@ extension DisplayList.ViewUpdater {
             private(set) var properties: DisplayList.Properties = [] // 0x68
             private(set) var rewriteVibrantColorMatrix: Bool = false // 0x6c
             private var backdropAwareColorMatrices: Bool = false // 0x6d
-            private var compositingGroup: Bool = false // 0x6e
+            private(set) var compositingGroup: Bool = false // 0x6e
             private var backdropGroupID: BackdropGroupID? = nil // 0x70
             private var stateHashes: [StrongHash] = [] // 0x78
             var platformState = DisplayList.ViewUpdater.Model.PlatformState() // 0x80

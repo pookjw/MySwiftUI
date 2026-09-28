@@ -211,17 +211,20 @@ extension DisplayList.ViewUpdater {
             // <+132>
             if unsafe viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
                 // <+252>
-                let blend = unsafe state.pointee.blend
-                
-                switch blend {
+                let filter: Any?
+                switch unsafe state.pointee.blend {
                 case .blendMode(let blendMode):
                     // <+296>
-                    assertUnimplemented()
-                case .caFilter(let filter):
+                    filter = unsafe _RBBlendModeGetCompositingFilter(
+                        CGBlendMode(rawValue: blendMode.rawValue).unsafelyUnwrapped,
+                        state.pointee.compositingGroup
+                    )
+                case .caFilter(let _filter):
                     // <+268>
-                    assertUnimplemented()
+                    filter = _filter
                 }
-                assertUnimplemented()
+                
+                CoreViewSetCompositingFilter(encoding.viewSystem, viewInfo.view, filter)
             }
             
             // <+588>

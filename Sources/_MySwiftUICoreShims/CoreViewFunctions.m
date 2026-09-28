@@ -518,3 +518,14 @@ void CoreViewSetSwiftUIServerResponderID(ViewSystem system, id object, NSUIntege
             break;
     }
 }
+
+void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable filter) {
+    switch (system) {
+        case ViewSystemCALayer:
+            ((CALayer *)object).compositingFilter = filter;
+        case ViewSystemUIView:
+            ((UIView *)object).layer.compositingFilter = filter;
+        default:
+            break;
+    }
+}
