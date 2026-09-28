@@ -140,7 +140,7 @@ private import AttributeGraph
             var flag = false
             while true {
                 // <+164>
-                if x23.length >= x24.length {
+                if x24.length >= x23.length {
                     // <+224>
                     depth += 1
                     if let _x24 = x24.after {
@@ -152,17 +152,16 @@ private import AttributeGraph
                         flag = false
                         break
                     }
-                    continue
-                }
-                
-                // <+180>
-                if let _x23 = x23.after {
-                    x23 = _x23
-                    // <+188>
                 } else {
-                    // <+388>
-                    flag = false
-                    break
+                    // <+180>
+                    if let _x23 = x23.after {
+                        x23 = _x23
+                        // <+188>
+                    } else {
+                        // <+388>
+                        flag = false
+                        break
+                    }
                 }
                 
                 // <+192>
@@ -197,10 +196,10 @@ private import AttributeGraph
                     
                     // <+628>
                     let afterOtherElements: [PropertyList.Element] = unsafe .init(unsafeUninitializedCapacity: depth) { buffer, initializedCount in
-                        initializedCount = depth
                         var current: PropertyList.Element = otherElements
-                        for _ in 0..<depth {
-                            unsafe buffer.baseAddress.unsafelyUnwrapped.initialize(to: current)
+                        for index in 0..<depth {
+                            unsafe buffer.baseAddress.unsafelyUnwrapped.advanced(by: index).initialize(to: current)
+                            initializedCount &+= 1
                             current = current.after!
                         }
                     }

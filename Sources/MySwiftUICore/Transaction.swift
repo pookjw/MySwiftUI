@@ -125,7 +125,8 @@ public func withTransaction<Result>(_ transaction: Transaction, _ body: () throw
         var newCurrent = transaction
         if isDeployedOnOrAfter(.v5) {
             // <+192>
-            newCurrent.plist.merge(Transaction.current.plist)
+            newCurrent = oldCurrent
+            newCurrent.plist.merge(transaction.plist)
         }
         
         Transaction.current = newCurrent
