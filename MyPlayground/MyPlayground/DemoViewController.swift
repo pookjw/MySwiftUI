@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.presentationModeView
+        let item = DemoViewController.Item.dismissActionView
         pushToItem(item)
         
 //        Task {
@@ -141,6 +141,7 @@ extension DemoViewController {
         case hiddenModifierView
         case sheetView
         case presentationModeView
+        case dismissActionView
         case environmentalModifierView
         case subviewsView
         case containerValueView
@@ -270,6 +271,8 @@ extension DemoViewController {
                 return _typeName(SheetViewController.self, qualified: false)
             case .presentationModeView:
                 return _typeName(PresentationModeViewController.self, qualified: false)
+            case .dismissActionView:
+                return _typeName(DismissActionViewController.self, qualified: false)
             case .environmentalModifierView:
                 return _typeName(EnvironmentalModifierViewController.self, qualified: false)
             case .subviewsView:
@@ -417,6 +420,8 @@ extension DemoViewController {
                 return SheetViewController()
             case .presentationModeView:
                 return PresentationModeViewController()
+            case .dismissActionView:
+                return DismissActionViewController()
             case .environmentalModifierView:
                 return EnvironmentalModifierViewController()
             case .subviewsView:
