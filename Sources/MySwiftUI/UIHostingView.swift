@@ -1,4 +1,5 @@
 public import _MySwiftUICoreShims
+public import _MySwiftUIShims
 // FAF0B683EB49BE9BABC9009857940A1E
 public import UIKit
 @_spi(Internal) public import MySwiftUICore

@@ -15,6 +15,5 @@
 #import "NSThread+MySwiftUI.h"
 #import "ObjcC.h"
 #import "ProtocolDescriptors.h"
-#import "UIView+MySwiftUICore.h"
 #import "ViewSystem.h"
 #import "tlv.h"

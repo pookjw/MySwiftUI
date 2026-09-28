@@ -6,6 +6,10 @@
 
 @implementation NSObject (MySwiftUI)
 
+- (void)myswiftui_insertManagedSubview:(UIView *)subview atIndex:(NSInteger)index {
+    [(id)self insertSubview:subview atIndex:index];
+}
+
 + (BOOL)_isFromMySwiftUI {
     return NO;
 }

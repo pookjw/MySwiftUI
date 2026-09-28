@@ -1,4 +1,4 @@
-private import _MySwiftUICoreShims
+private import _MySwiftUIShims
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import _UIKitPrivate
