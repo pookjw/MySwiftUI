@@ -8,7 +8,7 @@ public struct PresentationMode {
     }
     
     public mutating func dismiss() {
-        assertUnimplemented()
+        self.isPresented = false
     }
 }
 

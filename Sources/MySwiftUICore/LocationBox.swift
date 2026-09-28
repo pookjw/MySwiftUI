@@ -94,7 +94,7 @@ struct LocationProjectionCache {
     }
 }
 
-fileprivate struct ProjectedLocation<T : Location, U : Projection> : Equatable, Location {
+fileprivate struct ProjectedLocation<T : Location, U : Projection> : Equatable, Location where T.Value == U.Base {
     private(set) var location: T
     private(set) var projection: U
     
@@ -108,11 +108,17 @@ fileprivate struct ProjectedLocation<T : Location, U : Projection> : Equatable, 
     }
     
     func get() -> U.Projected {
-        assertUnimplemented()
+        return self.projection.get(base: self.location.get())
     }
     
-    func set(_ newValue: U.Projected, transaction: Transaction) {
-        assertUnimplemented()
+    mutating func set(_ newValue: U.Projected, transaction: Transaction) {
+        var value = self.location.get()
+        
+        withTransaction(transaction) { 
+            self.projection.set(base: &value, newValue: newValue)
+        }
+        
+        self.location.set(value, transaction: transaction)
     }
     
     func update() -> (U.Projected, Bool) {
