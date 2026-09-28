@@ -5,7 +5,11 @@ private import _UIKitPrivate
 private import _UIKitShims
 
 @MainActor class SheetBridge<T: HostPreferenceKey> : NSObject where T.Value == SheetPreference.Value {
-    final weak var host: ViewRendererHost? = nil
+    final weak var host: ViewRendererHost? = nil {
+        didSet {
+            self.transitioningDelegate.host = self.host
+        }
+    }
     private var seed: VersionSeed = .empty
     private var presentationOptionsTracker = VersionSeedTracker<PresentationOptionsPreferenceKey>(seed: .empty)
     private var backgroundTracker = VersionSeedTracker<ContainerBackgroundKeys.HostTransparency>(seed: .empty)
@@ -14,7 +18,7 @@ private import _UIKitShims
     private var interactiveDismissHandlerSeed = VersionSeedTracker<InteractiveDismissAttemptKey>(seed: .invalid)
     private var interactiveDismissHandler: (() -> Void)? = nil
     private var hasWindow: Bool = false
-    private(set) var transitioningDelegate = SheetTransitioningDelegate()
+    fileprivate private(set) var transitioningDelegate = SheetTransitioningDelegate()
     private var presentationState = PresentationState()
     private(set) weak var presenterOverride: UIViewController? = nil
     private var lastEnvironment = EnvironmentValues()
@@ -865,4 +869,38 @@ enum SheetBridgeNotifications {
 
 enum SheetPopoverBridgeNotifications {
     static let willPresent = Notification.Name(rawValue: "PopoverBridgeWillPresent")
+}
+
+fileprivate final class SheetTransitioningDelegate : NSObject {
+    weak var host: ViewRendererHost? = nil
+    var sourceRect: Anchor<CGRect>? = nil
+}
+
+extension SheetTransitioningDelegate : UIViewControllerTransitioningDelegate {
+    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        guard
+            let sourceRect,
+            let host,
+            let uiView = host.uiView
+        else {
+            return nil
+        }
+        
+        let controller = _UISheetAnimationController()
+        controller.isReversed = true
+        
+        let transform: ViewTransform = Update.ensure {
+            // $s7SwiftUI18UIKitPopoverBridgeC20popoverHostTransform33_FE44D2068AD13DD2180BAE4B95800306LL3forAA04ViewH0VAA0D12PresentationV_tFAHyXEfU_TA
+            return host.viewGraph.transform
+        }
+        
+        controller.sourceFrame = sourceRect.convert(to: transform)
+        controller.sourceView = uiView
+        
+        return controller
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        assertUnimplemented()
+    }
 }

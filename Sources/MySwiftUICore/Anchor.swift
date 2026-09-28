@@ -1,6 +1,10 @@
 
 @frozen public struct Anchor<Value> {
     fileprivate let box: AnchorValueBoxBase<Value>
+    
+    package func convert(to transform: ViewTransform) -> Value {
+        assertUnimplemented()
+    }
 }
 
 extension Anchor : Sendable where Value : Sendable {}

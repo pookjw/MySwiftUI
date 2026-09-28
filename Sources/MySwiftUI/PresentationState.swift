@@ -42,8 +42,77 @@ struct PresentationState {
         self.base = .requestedPresentation(sheetPreference, presentedVC: presentedVC, presentationSeed: presentationSeed)
     }
     
-    func dismiss(willPresentAgain: Bool, hasNoModifier: Bool) {
-        assertUnimplemented()
+    mutating func dismiss(willPresentAgain: Bool, hasNoModifier: Bool) {
+        /*
+         self -> x20
+         willPresentAgain -> w0 -> w24
+         hasNoModifier -> w1 -> w25
+         */
+        switch self.base {
+        case .requestedPresentation(let preference, let presentedVC, let presentationSeed):
+            // <+388>
+            if hasNoModifier && _SemanticFeature<Semantics_v6>.isEnabled {
+                // <+536>
+                self.base = .dismissingForLackOfModifier(last: preference)
+            } else {
+                // <+552>
+                if willPresentAgain {
+                    // <+560>
+                    self.base = .dismissingToPresentAgain(presentedVC, last: preference)
+                } else {
+                    // <+604>
+                    self.base = .programmaticallyDismissing(presentedVC, last: preference)
+                }
+            }
+        case .presented(let preference, let presentedVC, let presenstationSeed):
+            // <+308>
+            if hasNoModifier && _SemanticFeature<Semantics_v6>.isEnabled {
+                // <+536>
+                self.base = .dismissingForLackOfModifier(last: preference)
+            } else {
+                // <+552>
+                if willPresentAgain {
+                    // <+560>
+                    self.base = .dismissingToPresentAgain(presentedVC, last: preference)
+                } else {
+                    // <+604>
+                    self.base = .programmaticallyDismissing(presentedVC, last: preference)
+                }
+            }
+        case .programmaticallyDismissing(_, _):
+            // <+584>
+            break
+        case .interactivelyDismissing(_, _):
+            // <+584>
+            break
+        case .dismissingForLackOfModifier(_):
+            // <+284>
+            break
+        case .dismissingToPresentAgain(_, _):
+            // <+584>
+            break
+        case .dormantInspector(_):
+            // <+584>
+            break
+        case .waitingToPresentAgain(_):
+            // <+584>
+            break
+        case .delayedPresentationPendingDismissal(_, _, _, _):
+            // <+328>
+            break
+        case .delayedPresentationPendingNonSheetBridgeDismissal(_, _, _):
+            // <+240>
+            break
+        case .delayedPresentationPendingNonNilWindow(_, _):
+            // <+584>
+            break
+        case .waitingToPresentDelayedPresentationSheetPreference(_):
+            // <+584>
+            break
+        case .noPresentation:
+            // <+584>
+            break
+        }
     }
     
     var presentingViewID: Namespace.ID? {

@@ -106,11 +106,59 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        assertUnimplemented()
+        super.viewDidDisappear(animated)
+        
+        guard self.isBeingDismissed else {
+            self.didPresenterLoseModifierRecursively = false
+            return
+        }
+        
+        if let delegate {
+            delegate.didDismissViewController(self, wasPreempted: self.wasPreempted, modifierRemoved: self.didPresenterLoseModifierRecursively)
+        }
+        
+        // <+164>
+        if let secondaryDismissDelegate {
+            secondaryDismissDelegate.didDismissViewController(self, wasPreempted: self.wasPreempted)
+        }
+        
+        self.secondaryDismissDelegate = nil
+        self.didPresenterLoseModifierRecursively = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        assertUnimplemented()
+        super.viewWillDisappear(animated)
+        
+        var viewController = self
+        while let presentingViewController = viewController.presentingViewController as? Self {
+            viewController = presentingViewController
+            
+            if viewController.didPresenterLoseModifierRecursively {
+                self.didPresenterLoseModifierRecursively = true
+            }
+        }
+        
+        // <+228>
+        guard
+            self.isBeingDismissed,
+            let transitionCoordinator = self.transitionCoordinator,
+            transitionCoordinator.isInteractive
+        else {
+            return
+        }
+        
+        transitionCoordinator.notifyWhenInteractionChanges { context in
+            // $s7SwiftUI29PresentationHostingControllerC17viewWillDisappearyySbFySo06UIViewE28TransitionCoordinatorContext_pcfU_TA
+            guard !context.isInteractive && !context.isCancelled else {
+                return
+            }
+            
+            guard let delegate = self.delegate else {
+                return
+            }
+            
+            delegate.didBeginInteractiveDismissal(self)
+        }
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: any UIViewControllerTransitionCoordinator) {

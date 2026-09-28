@@ -1624,7 +1624,6 @@ open class UIHostingController<Content : View>: UIViewController {
             if let inspectorBridgeV5 {
                 let host = host
                 inspectorBridgeV5.host = host
-                inspectorBridgeV5.transitioningDelegate.host = host
             }
             
             // <+1968>

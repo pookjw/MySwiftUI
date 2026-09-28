@@ -282,7 +282,21 @@ extension SheetPreference {
         }
         
         func dismissalTransaction(for id: Namespace.ID) -> Transaction? {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x21
+             id -> x0 -> x19
+             */
+            switch self {
+            case .notPresented(let views):
+                // <+144>
+                return views[id]
+            case .sheet(_):
+                // <+124>
+                return nil
+            case .unspecified:
+                // <+208>
+                return nil
+            }
         }
     }
     

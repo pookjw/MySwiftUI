@@ -17,7 +17,15 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
     private(set) var centersRootView = true
     private let rootView: AnyAttribute
     @Attribute private(set) var rootTransform: ViewTransform
-    @Attribute var transform: ViewTransform
+    private var _transform: Attribute<ViewTransform>
+    package var transform: ViewTransform {
+        get {
+            return self._transform.value
+        }
+        set {
+            self._transform.value = newValue
+        }
+    }
     @Attribute private(set) var zeroPoint: CGPoint
     @Attribute var proposedSize: ViewSize
     @Attribute var safeAreaInsets: _SafeAreaInsetsModifier
@@ -593,7 +601,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
                 data.inputs,
                 position: $position,
                 size: $dimensions,
-                transform: $transform,
+                transform: _transform,
                 containerPosition: $zeroPoint,
                 hostPreferenceKeys: data.$hostPreferenceKeys
             )

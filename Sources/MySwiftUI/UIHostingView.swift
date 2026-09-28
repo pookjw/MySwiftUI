@@ -339,7 +339,6 @@ open class _UIHostingView<Content : View>: UIView {
         
         if let sheetBridge {
             sheetBridge.host = self
-            sheetBridge.transitioningDelegate.host = self
             sheetBridge.addPreferences(to: viewGraph)
         }
         
