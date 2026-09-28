@@ -71,3 +71,5 @@
 #import <_UIKitPrivate/UISceneClippingMarginsClientComponent.h>
 #import <_UIKitPrivate/UISize3D.h>
 #import <_UIKitPrivate/UIPopoverPresentationController+Private.h>
+#import <_UIKitPrivate/UISheetAnimationController.h>
+#import <_UIKitPrivate/UIViewControllerTransitioning+Private.h>

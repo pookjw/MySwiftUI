@@ -3,7 +3,7 @@ public import Spatial
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct _CALayerView<LayerType> : View where LayerType : CALayer {
-    @safe public private(set) nonisolated(unsafe) var update: (LayerType) -> Void
+    @safe public nonisolated(unsafe) var update: (LayerType) -> Void
     
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
     public typealias Body = Never

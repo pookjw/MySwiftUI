@@ -57,9 +57,11 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     }
     
     fileprivate static func initView(_ view: UIView, kind: PlatformViewDefinition.ViewKind) {
-        if case .platformGroup = kind {
+        switch kind {
+        case .platformView, .platformGroup:
             // noop
-        } else {
+            break
+        default:
             view.autoresizesSubviews = false
             if !kind.isContainer {
                 view._isFocusInteractionEnabled = false
@@ -70,14 +72,14 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
         view.anchorPoint = .zero
         
         switch kind {
-        case .inherited:
+        case .inherited, .geometry, .projection, .affine3D, .mask, .platformEffect:
             // <+356>
-            view.allowsGroupOpacity = false
-            view.allowsGroupBlending = false
-        case .shape:
-            break
-        default:
+            view.layer.allowsGroupOpacity = false
+            view.layer.allowsGroupBlending = false
+        case .color, .image, .shape:
             view.layer.allowsEdgeAntialiasing = true
+        default:
+            break
         }
     }
 }

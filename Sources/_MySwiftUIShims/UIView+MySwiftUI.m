@@ -14,5 +14,5 @@
 @end
 
 UIView * _UIKitCreateCustomView(Class viewClass, CALayer *layer) {
-    return [[[viewClass alloc] initWithLayer:layer] autorelease];
+    return [[[viewClass alloc] _initWithLayer:layer] autorelease];
 }

@@ -779,7 +779,7 @@ extension DisplayList.ViewUpdater {
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> DisplayList.ViewUpdater.ViewInfo {
             // x26
-            var encoding = self.encoding
+            var platform = self
             
             switch item.value {
             case .content(let content):
@@ -790,14 +790,14 @@ extension DisplayList.ViewUpdater {
                     assertUnimplemented()
                 case .color(_):
                     // <+2692>
-                    if unsafe encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
-                        encoding = DisplayList.ViewUpdater.Platform.caLayer.encoding
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                        platform = .caLayer
                     }
                     
-                    let definition = encoding.definition
+                    let definition = platform.encoding.definition
                     let view = definition.makeView(kind: .color)
-                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: view, kind: .color)
-                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: view, kind: .color, platform: self)
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: view, kind: .color)
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: view, kind: .color, platform: platform)
                     CoreGlue2.shared.setupPlatformProperties(parameters)
                     
                     return viewInfo
@@ -830,16 +830,16 @@ extension DisplayList.ViewUpdater {
                     return viewInfo
                 case .platformLayer(let factory):
                     // <+2064>
-                    if unsafe encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
-                        encoding = DisplayList.ViewUpdater.Platform.caLayer.encoding
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                        platform = .caLayer
                     }
                     
                     // <+3336>
                     let platformLayerType = factory.platformLayerType
-                    let layerView = encoding.definition.makeLayerView(type: platformLayerType, kind: .platformLayer)
-                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: layerView, kind: .platformLayer)
+                    let layerView = platform.encoding.definition.makeLayerView(type: platformLayerType, kind: .platformLayer)
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: layerView, kind: .platformLayer)
                     
-                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: layerView, kind: .platformLayer, platform: self)
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: layerView, kind: .platformLayer, platform: platform)
                     CoreGlue2.shared.setupPlatformProperties(parameters)
                     
                     return viewInfo
@@ -981,7 +981,7 @@ extension DisplayList.ViewUpdater {
                         preconditionFailure()
                     }
                     
-                    if viewInfo.state.flags == .unknown5 {
+                    if viewInfo.state.flags.contains(.unknown5) {
                         unsafe copy_1.versions.transform.combine(with: item.version)
                     }
                     
@@ -991,7 +991,8 @@ extension DisplayList.ViewUpdater {
                         }
                     }
                     
-                    unsafe self.updateState(&viewInfo, item: item, size: size, state: state)
+                    let platform = viewInfo.platform
+                    unsafe platform.updateState(&viewInfo, item: item, size: size, state: &copy_1)
                     return
                 }
             case .effect(_, _):
