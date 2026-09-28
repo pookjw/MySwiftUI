@@ -323,8 +323,48 @@ struct PresentationState {
         assertUnimplemented()
     }
     
-    func presentationDidDisappear() {
-        assertUnimplemented()
+    mutating func presentationDidDisappear() {
+        switch self.base {
+        case .requestedPresentation(_, _, _):
+            // <+268>
+            self.base = .noPresentation
+        case .presented(_, _, _):
+            // <+348>
+            self.base = .noPresentation
+        case .programmaticallyDismissing(_, _):
+            // <+220>
+            self.base = .noPresentation
+        case .interactivelyDismissing(_, _):
+            // <+220>
+            self.base = .noPresentation
+        case .dismissingForLackOfModifier(_):
+            // <+420>
+            self.base = .noPresentation
+        case .dismissingToPresentAgain(let controller, _):
+            // <+616>
+            self.base = .waitingToPresentAgain(controller)
+        case .dormantInspector(_):
+            // <+420>
+            self.base = .noPresentation
+        case .waitingToPresentAgain(_):
+            // <+256>
+            self.base = .noPresentation
+        case .delayedPresentationPendingDismissal(let preference, _, _, _):
+            // <+288>
+            self.base = .waitingToPresentDelayedPresentationSheetPreference(preference)
+        case .delayedPresentationPendingNonSheetBridgeDismissal(let preference, _, _):
+            // <+496>
+            self.base = .waitingToPresentDelayedPresentationSheetPreference(preference)
+        case .delayedPresentationPendingNonNilWindow(_, _):
+            // <+420>
+            self.base = .noPresentation
+        case .waitingToPresentDelayedPresentationSheetPreference(_):
+            // <+256>
+            self.base = .noPresentation
+        case .noPresentation:
+            // <+436>
+            self.base = .noPresentation
+        }
     }
     
     func dismissInspector() {

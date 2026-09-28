@@ -8,14 +8,30 @@
 import UIKit
 import MySwiftUI
 
+fileprivate struct ItemID : Identifiable {
+    let id: UUID
+}
+
 fileprivate struct MyView : View {
     @State private var isPresented = false
+    @State private var item: ItemID?
     
     var body: some View {
-        MyButton(title: "Present") {
-            self.isPresented = true
+        VStack {
+            MyButton(title: "Present") {
+                self.isPresented = true
+            }
+            
+            MyButton(title: "Present with item") {
+                self.item = ItemID(id: UUID())
+            }
         }
-        .sheet(isPresented: self.$isPresented) {
+        .sheet(
+            isPresented: self.$isPresented,
+            onDismiss: {
+                print("onDismiss")
+            }
+        ) {
             MyButton(title: "Dismiss") {
                 self.isPresented = false
             }
@@ -26,8 +42,25 @@ fileprivate struct MyView : View {
                 } catch {}
             }
         }
+//        .sheet(
+//            item: self.$item,
+//            onDismiss: {
+//                print("onDismiss")
+//            }
+//        ) { item in
+//            MyButton(title: "Dismiss") {
+//                self.item = nil
+//            }
+//            .task {
+//                do {
+//                    try await Task.sleep(for: .seconds(1))
+//                    self.item = nil
+//                } catch {}
+//            }
+//        }
         .task {
             self.isPresented = true
+//            self.item = ItemID(id: UUID())
         }
     }
 }

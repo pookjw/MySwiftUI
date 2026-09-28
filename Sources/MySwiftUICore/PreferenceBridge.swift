@@ -3,7 +3,7 @@ internal import AttributeGraph
 
 @safe package final class PreferenceBridge : @unchecked Sendable {
     private(set) weak var viewGraph: ViewGraph? = nil // 0x10
-    private var isValid: Bool = false // 0x18
+    private var isValid: Bool = true // 0x18
     package private(set) var children: [Unmanaged<ViewGraph>] = unsafe [] // 0x20
     private(set) var requestedPreferences = PreferenceKeys() // 0x28
     private(set) var bridgedViewInputs = PropertyList() // 0x30
@@ -17,7 +17,9 @@ internal import AttributeGraph
     }
 
     deinit {
-        assertUnimplemented()
+        if self.isValid {
+            self.invalidate()
+        }
     }
     
     func wrapInputs(_ inputs: inout _ViewInputs) {
@@ -154,6 +156,7 @@ internal import AttributeGraph
             for index in combiner.children.indices {
                 // AGWeakAttributeGetAttribute를 호출하지 않고 있음 바로 Attribute를 가져오는 것으로 보임
                 if combiner.children[index]._keys.base.attribute == keys.identifier {
+                    combiner.children.remove(at: index)
                     result = true
                     return
                 }
@@ -186,8 +189,6 @@ fileprivate struct MergePreferenceKeys : Rule, AsyncAttribute {
             return lhs
         }
         
-        let lhs = lhs
-        lhs.union(rhs)
-        return lhs
+        return lhs.union(rhs)
     }
 }

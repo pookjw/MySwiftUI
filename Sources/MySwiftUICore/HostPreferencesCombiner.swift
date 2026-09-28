@@ -3,7 +3,7 @@ internal import AttributeGraph
 struct HostPreferencesCombiner : Rule, AsyncAttribute {
     @Attribute private(set) var keys: PreferenceKeys
     @OptionalAttribute var values: PreferenceValues?
-    private(set) var children: [HostPreferencesCombiner.Child]
+    var children: [HostPreferencesCombiner.Child]
     
     mutating func addChild(keys: Attribute<PreferenceKeys>, values: WeakAttribute<PreferenceValues>) {
         /*
@@ -24,7 +24,7 @@ struct HostPreferencesCombiner : Rule, AsyncAttribute {
             HostPreferencesCombiner.Child(_keys: weakKeys, _values: values)
         )
     }
-    
+
     var value: PreferenceValues {
         /*
          keys/values -> x0 -> x22

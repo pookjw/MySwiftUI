@@ -62,9 +62,15 @@ fileprivate struct SheetPresentationModifier<T : View, U : SheetAnchorProvider> 
                                     .projecting(PresentationMode.FromIsPresented())
                             )
                     ) : nil,
-                    onDismiss: { _ in
+                    onDismiss: { flag in
                         // $s7SwiftUI25SheetPresentationModifier33_6DB75E0CE0288E045EA78648825F4153LLV4body7contentQrAA05_ViewE8_ContentVyADyxq_GG_tFySbcfU0_TA
-                        assertUnimplemented()
+                        if flag {
+                            self.isPresented = false
+                        }
+                        
+                        if let onDismiss {
+                            onDismiss()
+                        }
                     },
                     placement: self.placement,
                     drawsBackground: self.drawsBackground,

@@ -1302,7 +1302,7 @@ enum PresentationHostingControllerPresenterKind {
 
 protocol PresentationHostingControllerDelegate : AnyObject {
     func didBeginInteractiveDismissal(_ viewController: UIViewController)
-    func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool, modifierRemoved: Bool)
+    @MainActor func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool, modifierRemoved: Bool)
     var isBackingV5Inspector: Bool { get }
     func willTransitionToRegularSizeClass()
 }

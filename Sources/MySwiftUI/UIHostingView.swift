@@ -192,12 +192,12 @@ open class _UIHostingView<Content : View>: UIView {
     fileprivate final lazy var foreignSubviews = NSHashTable<UIView>.weakObjects()
     private var insertingManagedSubviews: Int = 0
     
-    private var inheritedEnvironment: EnvironmentValues? {
+    final var inheritedEnvironment: EnvironmentValues? {
         get {
-            assertUnimplemented()
+            return self.base.inheritedEnvironment
         }
         set {
-            assertUnimplemented()
+            self.base.inheritedEnvironment = newValue
         }
     }
     

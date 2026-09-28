@@ -212,7 +212,7 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
     }
     
     func destroy() {
-        assertUnimplemented()
+        self.helper.removeListeners()
     }
 }
 

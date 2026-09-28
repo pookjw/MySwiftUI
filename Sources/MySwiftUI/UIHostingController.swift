@@ -179,7 +179,11 @@ open class UIHostingController<Content : View>: UIViewController {
     }
     
     open override dynamic var undoManager: UndoManager? {
-        assertUnimplemented()
+        guard let inheritedEnvironment = self.host.inheritedEnvironment else {
+            return super.undoManager
+        }
+        
+        return inheritedEnvironment.undoManager ?? super.undoManager
     }
     
     open override dynamic func viewDidAppear(_ animated: Bool) {

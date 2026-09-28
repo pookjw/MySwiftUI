@@ -844,8 +844,50 @@ extension SheetBridge : PresentationHostingControllerDelegate {
         assertUnimplemented()
     }
     
-    nonisolated func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool, modifierRemoved: Bool) {
-        assertUnimplemented()
+    @MainActor func didDismissViewController(_ viewController: UIViewController, wasPreempted: Bool, modifierRemoved: Bool) {
+        /*
+         self -> x20 -> x21
+         viewController -> x0 -> x29 - 0x88
+         wasPreempted -> w1 -> w28
+         modifierRemoved -> w2 -> w20
+         */
+        // <+292>
+        guard !wasPreempted else {
+            return
+        }
+        
+        if modifierRemoved && _SemanticFeature<Semantics_v6>.isEnabled {
+            // <+364>
+            self.presentationState.dismiss(willPresentAgain: false, hasNoModifier: true)
+        }
+        
+        // <+412>
+        let delayedPresentation = self.presentationState.delayedPresentation
+        self.presentationState.presentationDidDisappear()
+        
+        guard
+            let delayedPresentation,
+            let presenter
+        else {
+            return
+        }
+        
+        // <+688>
+        if
+            let presentedVC = delayedPresentation.presentedVC,
+            viewController === presentedVC
+        {
+            presentedVC.resetSheetControllerOscillationDetection()
+        }
+        
+        // <+772>
+        self.present(
+            delayedPresentation.presentation,
+            from: presenter,
+            animated: delayedPresentation.animated,
+            existingPresentedVC: delayedPresentation.presentedVC,
+            isPreempting: false
+        )
     }
     
     nonisolated var isBackingV5Inspector: Bool {
