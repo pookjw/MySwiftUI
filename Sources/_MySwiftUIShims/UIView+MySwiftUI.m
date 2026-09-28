@@ -1,4 +1,5 @@
 #import "include/UIView+MySwiftUI.h"
+@import _UIKitPrivate;
 
 @implementation UIView (MySwiftUI)
 
@@ -11,3 +12,7 @@
 }
 
 @end
+
+UIView * _UIKitCreateCustomView(Class viewClass, CALayer *layer) {
+    return [[[viewClass alloc] initWithLayer:layer] autorelease];
+}

@@ -52,6 +52,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 + (BOOL)_isInAnimationBlockWithAnimationsEnabled;
 + (CGFloat)_currentAnimationDuration;
 + (UIViewAnimationCurve)_currentAnimationCurve;
+- (instancetype)initWithLayer:(CALayer *)layer;
 - (__kindof UIViewController * _Nullable)_viewControllerForAncestor;
 - (BOOL)_ancestorHasInvertFilterApplied;
 - (UIColor *)_undimmedTintColor;

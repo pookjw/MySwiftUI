@@ -1,4 +1,5 @@
-package import CoreGraphics
+public import CoreGraphics
+public import Spatial
 
 public protocol Shape {
     // TODO
@@ -10,6 +11,18 @@ public struct _ShapeView<Content : Shape, Style : ShapeStyle>: UnaryView, ShapeS
     }
     
     package func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
         assertUnimplemented()
     }
 }

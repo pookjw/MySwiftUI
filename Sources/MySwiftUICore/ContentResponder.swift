@@ -1,6 +1,11 @@
 public import AttributeGraph
+public import Spatial
 
-@_spi(Internal) public protocol ContentResponder {}
+@_spi(Internal) public protocol ContentResponder {
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64
+    func contentPath(size: CGSize) -> Path
+    func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path
+}
 
 extension _ViewOutputs {
     @_spi(Internal) public func makeContentPathPreferenceWriter<T : ContentResponder>(
@@ -41,4 +46,16 @@ struct MergedContentShapes {
 
 package struct TrivialContentResponder : ContentResponder {
     package init() {}
+    
+    package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
+        assertUnimplemented()
+    }
 }

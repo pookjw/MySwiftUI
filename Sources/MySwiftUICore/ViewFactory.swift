@@ -1,4 +1,4 @@
-package import CoreGraphics
+package import QuartzCore
 
 package protocol AnyViewFactory {
     var viewType: Any.Type {
@@ -48,9 +48,19 @@ extension PlatformViewFactory {
 }
 
 package protocol PlatformLayerFactory : AnyViewFactory {
-    
+    var platformLayerType : CALayer.Type { get }
+    func updatePlatformLayer(_ layer: CALayer)
+    func renderPlatformLayer(in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer)
+    var capabilities: DisplayList.PlatformViewCapabilities { get }
 }
 
 package protocol _DisplayList_ViewFactory : AnyViewFactory {
-    
+    func makeView() -> AnyView
+    var identity: _DisplayList_Identity { get }
+}
+
+extension _DisplayList_ViewFactory {
+    package var identity: _DisplayList_Identity {
+        assertUnimplemented()
+    }
 }

@@ -4,6 +4,8 @@ internal import _MySwiftUIShims
 
 extension DisplayList.ViewUpdater {
     package struct Platform : Equatable, CustomStringConvertible {
+        static let caLayer = DisplayList.ViewUpdater.Platform(definition: CALayerPlatformViewDefinition.self)
+        
         fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
         
         init(definition: PlatformViewDefinition.Type) {
@@ -31,7 +33,7 @@ extension DisplayList.ViewUpdater {
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
             let system = encoding.viewSystem
             
-            let view = unsafe withUnsafeTemporaryAllocation(of: ViewSystem.self, capacity: 1) { pointer in
+            let view = withUnsafeTemporaryAllocation(of: ViewSystem.self, capacity: 1) { pointer in
                 return unsafe CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
             }
             
@@ -776,36 +778,49 @@ extension DisplayList.ViewUpdater {
             item: DisplayList.Item,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> DisplayList.ViewUpdater.ViewInfo {
-            // x29 = sp + 0x460
-            // sp + 0x380
-            _ = item
-            // x27
-            var encoding = encoding
+            // x26
+            var encoding = self.encoding
             
             switch item.value {
             case .content(let content):
-                // <+100>
+                // <+108>
                 switch content.value {
+                case .backdrop(_):
+                    // <+2640>
+                    assertUnimplemented()
                 case .color(_):
-                    // <+2740>
+                    // <+2692>
                     if unsafe encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
-                        encoding = DisplayList.ViewUpdater.Platform.Encoding(definition: CALayerPlatformViewDefinition.self)
+                        encoding = DisplayList.ViewUpdater.Platform.caLayer.encoding
                     }
                     
-                    // x20
-                    // <+3476>
                     let definition = encoding.definition
                     let view = definition.makeView(kind: .color)
-                    // sp + 0xa0
                     let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: view, kind: .color)
-                    // <+3532>
                     let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: view, kind: .color, platform: self)
                     CoreGlue2.shared.setupPlatformProperties(parameters)
                     
                     return viewInfo
+                case .chameleonColor(_):
+                    // <+2536>
+                    assertUnimplemented()
+                case .image(_):
+                    // <+2588>
+                    assertUnimplemented()
+                case .shape(_, _, _):
+                    // <+2148>
+                    assertUnimplemented()
+                case .sdfShape(_):
+                    // <+156>
+                    assertUnimplemented()
+                case .sdfMask(_, _):
+                    // <+156>
+                    assertUnimplemented()
+                case .shadow(_, _):
+                    // <+2484>
+                    assertUnimplemented()
                 case .platformView(let factory):
-                    // factory -> sp + 0x250
-                    // x21
+                    // <+2812>
                     let platformView = factory.makePlatformView() ?? missingPlatformView()
                     encoding.definition.makePlatformView(view: platformView, kind: .platformView)
                     let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: platformView, kind: .platformView)
@@ -813,14 +828,42 @@ extension DisplayList.ViewUpdater {
                     CoreGlue2.shared.setupPlatformProperties(parameters)
                     
                     return viewInfo
-                default:
+                case .platformLayer(let factory):
+                    // <+2064>
+                    if unsafe encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                        encoding = DisplayList.ViewUpdater.Platform.caLayer.encoding
+                    }
+                    
+                    // <+3336>
+                    let platformLayerType = factory.platformLayerType
+                    let layerView = encoding.definition.makeLayerView(type: platformLayerType, kind: .platformLayer)
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: self, view: layerView, kind: .platformLayer)
+                    
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: layerView, kind: .platformLayer, platform: self)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
+                    
+                    return viewInfo
+                case .text(_, _):
+                    // <+2744>
+                    assertUnimplemented()
+                case .flattened(_, _, _):
+                    // <+1852>
+                    assertUnimplemented()
+                case .drawing:
+                    // <+1832>
+                    assertUnimplemented()
+                case .view(_):
+                    // <+5076>
+                    assertUnimplemented()
+                case .placeholder(_):
+                    // <+5084>
                     assertUnimplemented()
                 }
-            case .effect(let effect, _):
-                // <+208>
+            case .effect(_, _):
+                // <+216>
                 assertUnimplemented()
             default:
-                fatalError()
+                preconditionFailure()
             }
         }
         
@@ -830,99 +873,76 @@ extension DisplayList.ViewUpdater {
             item: DisplayList.Item,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            // x29 = sp + 0x840
-            // x19 = sp + 0x30
-            /*
-             viewInfo = x27
-             item = x22
-             state = sp + 0x70
-             */
-            // <+236>
-            // sp + 0x740
-            let item_1 = item
-            // x11
             let encoding = encoding
-            // sp + 0x78
-            _ = item_1.value
             
-            switch item_1.value {
+            switch item.value {
             case .content(let content):
-                // <+284>
-                // w20
                 let seed = content.seed
                 if viewInfo.seeds.content == seed {
-                    // <+296>
-                    // sp + 0x480
-                    let item_2 = item_1
-                    // x28 = sp + 0x740
                     if viewInfo.state.flags.contains(.unknown5) {
-                        // <+2400>
                         assertUnimplemented()
                     } else {
                         if case .drawing = viewInfo.state.kind {
-                            // <+352>
                             assertUnimplemented()
                         }
                         
-                        // <+492>
-                        unsafe updateState(&viewInfo, item: item_2, size: item_1.frame.size, state: state)
+                        unsafe updateState(&viewInfo, item: item, size: item.frame.size, state: state)
                         return
                     }
                 } else {
-                    // <+656>
-                    // sp + 0x60
-                    _ = encoding
-                    // sp + 0x480
-                    let state_1 = unsafe state.pointee
-                    // sp + 0x330
-                    var state_2 = unsafe state.pointee
+                    var copy_1 = unsafe state.pointee
                     
-                    // d9/d13
-                    let size = item_1.size
-                    // <+700>
+                    let size = item.size
                     viewInfo.isInvalid = false
-                    // viewInfo = sp + 0x58
                     viewInfo.state.flags.subtract(.unknown5)
                     
-                    // <+732>
                     switch content.value {
+                    case .backdrop(_):
+                        // <+384>
+                        assertUnimplemented()
                     case .color(let colorView):
-                        // <+4860>
-                        // sp + 0xd0
+                        // <+5464>
                         let color = colorView.color
-                        // w25
                         let isAntialiased = colorView.isAntialiased
-                        // w26
                         let allowedDynamicRange = colorView.allowedDynamicRange
-                        // <+4888>
-                        // seed = x27
-                        // viewInfo = x21
+                        
                         switch viewInfo.state.kind {
                         case .color:
-                            // <+4908>
-                            // sp + 0x1e0
-                            _ = item_1
-                            // sp + 0x1e0
-                            let _ = unsafe state_1
-                            // <+9492>
-                            // x23
                             let layer = viewInfo.layer
                             let cache = Color.ResolvedHDR.cache
                             let cgColor = cache[colorView.color]
                             layer.backgroundColor = cgColor
                             layer.allowsEdgeAntialiasing = isAntialiased
                             
-                            // <+9576> / <+12788> (inlined)
+                            // (inlined)
                             layer.updateEDR(allowedDynamicRange: allowedDynamicRange, contentHeadroom: color._headroom)
                         default:
-                            // <+9292>
                             assertUnimplemented()
                         }
+                    case .chameleonColor(_):
+                        // <+5216>
+                        assertUnimplemented()
+                    case .image(_):
+                        // <+5256>
+                        assertUnimplemented()
+                    case .shape(_, _, _):
+                        // <+4936>
+                        assertUnimplemented()
+                    case .sdfShape(_):
+                        // <+5540>
+                        assertUnimplemented()
+                    case .sdfMask(_, _):
+                        // <+5628>
+                        assertUnimplemented()
+                    case .shadow(_, _):
+                        // <+5364>
+                        assertUnimplemented()
                     case .platformView(let factory):
+                        // <+5768>
                         if case .platformView = viewInfo.state.kind {
                             // noop
                         } else {
-                            assertUnimplemented()
+                            viewInfo = unsafe self._makeItemView(item: item, state: state)
                         }
                         
                         let oldView = viewInfo.view
@@ -933,40 +953,52 @@ extension DisplayList.ViewUpdater {
                             encoding.definition.makePlatformView(view: newView, kind: .platformView)
                             viewInfo.reset()
                         }
-                    default:
+                    case .platformLayer(let factory):
+                        // <+5148>
+                        if case .platformLayer = viewInfo.state.kind {
+                            // noop
+                        } else {
+                            viewInfo = unsafe self._makeItemView(item: item, state: state)
+                        }
+                        
+                        // <+8176>
+                        viewInfo.layer.contentsScale = unsafe state.pointee.globals.pointee.environment.contentsScale
+                        factory.updatePlatformLayer(viewInfo.layer)
+                    case .text(_, _):
+                        // <+5700>
                         assertUnimplemented()
+                    case .flattened(_, _, _):
+                        // <+4832>
+                        assertUnimplemented()
+                    case .drawing:
+                        // <+5056>
+                        assertUnimplemented()
+                    case .view(_):
+                        // <+14476>
+                        preconditionFailure()
+                    case .placeholder(_):
+                        // <+14476>
+                        preconditionFailure()
                     }
                     
-                    // <+13012>
-                    // seed -> x20
                     if viewInfo.state.flags == .unknown5 {
-                        // <+15100>
-                        unsafe state_2.versions.transform.combine(with: item_1.version)
+                        unsafe copy_1.versions.transform.combine(with: item.version)
                     }
                     
-                    // <+15120>
                     if !viewInfo.isInvalid {
-                        // <+15128>
                         if viewInfo.nextUpdate == .infinity {
                             viewInfo.seeds.content = seed
                         }
                     }
                     
-                    // <+15152>
-                    // sp + 0x150
-                    _ = viewInfo
-                    // sp + 0x200
-                    let item_3 = item_1
-                    
-                    // <+15212>
-                    unsafe self.updateState(&viewInfo, item: item_3, size: size, state: &state_2)
+                    unsafe self.updateState(&viewInfo, item: item, size: size, state: state)
                     return
                 }
             case .effect(_, _):
                 // <+572>
                 assertUnimplemented()
             default:
-                fatalError()
+                preconditionFailure()
             }
         }
         

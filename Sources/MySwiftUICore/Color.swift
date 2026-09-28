@@ -1,6 +1,7 @@
 package import Foundation
 public import CoreGraphics
 private import _MySwiftUIShims
+package import Spatial
 
 public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     public static func == (lhs: Color, rhs: Color) -> Bool {
@@ -880,7 +881,7 @@ extension ShapeStyle where Self == Color {
     }
 }
 
-package struct ColorView : ResolvedPaint, RendererLeafView {
+package struct ColorView : ResolvedPaint, @preconcurrency RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
     @safe nonisolated(unsafe) private(set) var allowedDynamicRange: Image.DynamicRange
@@ -921,6 +922,18 @@ package struct ColorView : ResolvedPaint, RendererLeafView {
     
     func content() -> DisplayList.Content.Value {
         return .color(self)
+    }
+    
+    package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
+        assertUnimplemented()
     }
 }
 

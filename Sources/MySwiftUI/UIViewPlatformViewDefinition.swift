@@ -2,6 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 @preconcurrency public import UIKit
 private import _UIKitPrivate
+private import _MySwiftUIShims
 
 final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     override class var system : PlatformViewDefinition.System {
@@ -10,10 +11,9 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     
     override class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {
         switch kind {
-        case .shape:
-            // <+356>
+        case .mask:
             assertUnimplemented()
-        default:
+        case .inherited, .color, .image, .shape, .sdfLayer, .sdfEffect, .shadow, .backdrop, .chameleonColor, .drawing, .compositing, .geometry, .projection, .affine3D, .platformView, .platformGroup, .platformLayer, .platformEffect:
             let view: UIView
             if kind.isContainer {
                 view = _UIInheritedView()
@@ -24,6 +24,31 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
             UIViewPlatformViewDefinition.initView(view, kind: kind)
             return view
         }
+    }
+    
+    override class func makeLayerView(type: CALayer.Type, kind: PlatformViewDefinition.ViewKind) -> AnyObject {
+        /*
+         type -> x0 -> x19
+         kind -> x1 -> x20
+         */
+        let viewType: UIView.Type
+        switch kind {
+        case .shape:
+            assertUnimplemented()
+//            type = _UIShapeHitTestingView.self
+        case .inherited, .color, .image, .sdfLayer, .sdfEffect, .shadow, .backdrop, .chameleonColor, .drawing, .compositing, .geometry, .projection, .affine3D, .mask, .platformView, .platformGroup, .platformLayer, .platformEffect:
+            if kind.isContainer {
+                viewType = _UIInheritedView.self
+            } else {
+                viewType = _UIGraphicsView.self
+            }
+        }
+        
+        let layer = type.init()
+        let customView = _UIKitCreateCustomView(viewType, layer)
+        UIViewPlatformViewDefinition.initView(customView, kind: kind)
+        
+        return customView
     }
     
     override class func makePlatformView(view : AnyObject, kind: PlatformViewDefinition.ViewKind) {
