@@ -33,7 +33,7 @@ extension DisplayList.ViewUpdater {
         @unsafe struct State {
             private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals> // 0x0
             var opacity: Float = 1 // 0x8
-            fileprivate private(set) var blend = GraphicsBlendMode.normal // 0x10
+            private(set) var blend = GraphicsBlendMode.normal // 0x10
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0) // 0x20
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
             var filters: [GraphicsFilter] = [] // 0x58

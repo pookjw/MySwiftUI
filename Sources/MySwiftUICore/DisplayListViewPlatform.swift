@@ -211,6 +211,16 @@ extension DisplayList.ViewUpdater {
             // <+132>
             if unsafe viewInfo.seeds.blend != DisplayList.Seed(state.pointee.versions.blend) {
                 // <+252>
+                let blend = unsafe state.pointee.blend
+                
+                switch blend {
+                case .blendMode(let blendMode):
+                    // <+296>
+                    assertUnimplemented()
+                case .caFilter(let filter):
+                    // <+268>
+                    assertUnimplemented()
+                }
                 assertUnimplemented()
             }
             
