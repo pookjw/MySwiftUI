@@ -16,6 +16,7 @@ CG_EXTERN void CALayerMapGeometry(CALayer * _Nullable, CALayer *, void (*)(void 
 @property CGFloat contentsCDRStrength;
 @property BOOL hitTestsAsOpaque;
 @property unsigned int separatedState;
+@property (nullable) CGColorRef contentsMultiplyColor;
 - (void)addPresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(removePresentationModifier(_:));
 - (BOOL)hasBeenCommitted;

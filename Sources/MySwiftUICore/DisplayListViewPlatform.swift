@@ -230,7 +230,32 @@ extension DisplayList.ViewUpdater {
             // <+588>
             if unsafe viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
                 // <+684>
-                assertUnimplemented()
+                if case .drawing = viewInfo.state.kind {
+                    var contentsMultiplyColor: CGColor? = nil
+                    
+                    if
+                        let filter = unsafe state.pointee.filters.last,
+                        case .colorMultiply(let resolvedColor) = filter,
+                        let drawable = type(of: viewInfo.view) as? PlatformDrawable.Type,
+                        drawable.allowsContentsMultiplyColor
+                    {
+                        unsafe UnsafeMutablePointer(mutating: state)
+                            .pointee
+                            .filters
+                            .removeLast()
+                        
+                        contentsMultiplyColor = resolvedColor.cgColor
+                    }
+                    
+                    viewInfo.layer.contentsMultiplyColor = contentsMultiplyColor
+                    // <+1052>
+                } else {
+                    // <+1012>
+                    // <+1052>
+                }
+                
+                // <+1052>
+                unsafe self.setFilters(state.pointee.filters, of: viewInfo.view)
             }
             
             // <+632>
@@ -1801,15 +1826,16 @@ extension DisplayList.ViewUpdater {
             item: DisplayList.Item
         ) {
             /*
-             state = x28
-             viewInfo = x25
+             self -> x20
+             viewInfo -> x0 -> x25
+             state -> x1 -> x28
+             item -> x2
              */
-            // x21
-            if unsafe state.pointee.shadow != nil {
+            if let shadow = unsafe state.pointee.shadow {
                 // <+84>
                 assertUnimplemented()
             } else {
-                // <+648>
+                // <+624>
                 // w8
                 let shadowSeed = viewInfo.seeds.shadow
                 let shadowVersions = unsafe state.pointee.versions.shadow
