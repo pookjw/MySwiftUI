@@ -97,7 +97,7 @@ CALayer * CoreViewLayer(ViewSystem system, id object) {
 }
 
 id _CAFilterArrayCreate(void) {
-    CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+    return (id)CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 }
 
 void _CAFilterArrayAppend(id array, CAFilter *filter) {

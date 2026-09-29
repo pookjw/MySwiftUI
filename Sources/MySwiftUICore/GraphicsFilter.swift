@@ -48,7 +48,7 @@ extension Array where Element == GraphicsFilter {
     var caFilters: Any {
         let array = _CAFilterArrayCreate()
         
-        for element in self {
+        for element in reversed() {
             if let caFilter = element.makeCAFilter() {
                 _CAFilterArrayAppend(array, caFilter)
             }
