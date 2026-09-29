@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct RemotePresentationDelayKey : HostPreferenceKey {
     static var defaultValue: Bool {

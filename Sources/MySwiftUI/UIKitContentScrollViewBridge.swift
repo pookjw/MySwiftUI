@@ -1,6 +1,6 @@
 // 50A236BE05D8013F647BA5A7CED497D1
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import _MySwiftUICoreShims
 
 @MainActor

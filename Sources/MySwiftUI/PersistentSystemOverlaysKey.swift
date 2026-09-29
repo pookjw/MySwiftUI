@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct PersistentSystemOverlaysKey : HostPreferenceKey {
     static var defaultValue: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) {

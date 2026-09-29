@@ -1,5 +1,5 @@
 internal import Foundation
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 
 struct AnyShareConfiguration {
     private var storage: AnyShareConfiguration.Storage

@@ -1,6 +1,6 @@
 // 0CB5B3FF6C0FCB5BA54DB099807C7833
 internal import Foundation
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 @MainActor
 final class FileImportExportBridge : NSObject {

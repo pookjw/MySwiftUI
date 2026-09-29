@@ -1,6 +1,6 @@
 private import QuartzCore
 
-package struct Time : Hashable, Comparable {
+@_spi(Internal) public struct Time : Hashable, Comparable, Sendable {
     package static var zero: Time {
         return Time(seconds: 0)
     }
@@ -9,82 +9,68 @@ package struct Time : Hashable, Comparable {
         return Time(seconds: .infinity)
     }
     
-    @inlinable package static var systemUptime: Time {
+    package static var systemUptime: Time {
         return Time(seconds: CACurrentMediaTime())
     }
     
     package var seconds: Double
     
-    @inlinable
     package init(seconds: Double) {
         self.seconds = seconds
     }
     
-    @inlinable
     package init() {
         self.seconds = Time.zero.seconds
     }
     
-    @inlinable
     package static func - (lhs: Time, rhs: Time) -> Time {
         return Time(seconds: lhs.seconds - rhs.seconds)
     }
     
-    @inlinable
-    package static func < (lhs : Time, rhs : Time) -> Bool {
+    @_spi(Internal) public static func < (lhs : Time, rhs : Time) -> Bool {
         return lhs.seconds < rhs.seconds
     }
     
-    @inlinable
     package static prefix func - (time: Time) -> Time {
         return Time(seconds: -time.seconds)
     }
     
-    @inlinable
     package static func + (lhs: Time, rhs: Double) -> Time {
         return Time(seconds: lhs.seconds + rhs)
     }
     
-    @inlinable
     package static func += (lhs: inout Time, rhs: Double) {
         lhs.seconds += rhs
     }
     
-    @inlinable
     package static func + (lhs: Double, rhs: Time) -> Time {
         return Time(seconds: lhs + rhs.seconds)
     }
     
-    @inlinable
     package static func * (lhs: Time, rhs: Double) -> Time {
         return Time(seconds: lhs.seconds * rhs)
     }
     
-    @inlinable
     package static func / (lhs: Time, rhs: Double) -> Time {
         return Time(seconds: lhs.seconds / rhs)
     }
     
-    @inlinable
     package static func -= (lhs: inout Time, rhs: Double) {
         lhs.seconds -= rhs
     }
     
-    @inlinable
     package static func *= (lhs: inout Time, rhs: Double) {
         lhs.seconds *= rhs
     }
     
-    @inlinable
     package static func /= (lhs: inout Time, rhs: Double) {
         lhs.seconds /= rhs
     }
     
-    @inlinable
-    package static func == (lhs: Time, rhs: Time) -> Bool {
+    @_spi(Internal) public static func == (lhs: Time, rhs: Time) -> Bool {
         return lhs.seconds == rhs.seconds
     }
 }
 
-// UIKitCore - ___lldb_unnamed_symbol317399에서 memcpy
+// UIKitCore에서 memcpy
 extension Time : BitwiseCopyable {}

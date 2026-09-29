@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct VersionSeedTracker<T : HostPreferenceKey> {
     var seed: VersionSeed

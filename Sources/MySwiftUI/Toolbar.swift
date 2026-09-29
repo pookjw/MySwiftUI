@@ -1,6 +1,6 @@
 // 0E31079E853BF37F2F0477B683D77398
 internal import UIKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 internal import MRUIKit
 private import AttributeGraph

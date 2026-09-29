@@ -1,5 +1,5 @@
 
-enum GesturePhase<T> {
+package enum GesturePhase<T> {
     case possible(T?)
     case active(T)
     case ended(T)

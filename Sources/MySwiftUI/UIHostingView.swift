@@ -56,7 +56,7 @@ open class _UIHostingView<Content : View>: UIView {
     private var _rootView: Content
     private let _base: _UIKitShims::UIHostingViewBase
     private var isBaseConfigured: Bool = false
-    internal final let eventBindingManager = EventBindingManager()
+    package final let eventBindingManager = EventBindingManager()
     private var allowUIKitAnimations: Int32 = 0
     private var disabledBackgroundColor: Bool = false
     private var allowFrameChanges: Bool = true
@@ -1809,7 +1809,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
     @_spi(Internal) public final nonisolated func `as`<T>(_ type: T.Type) -> T? {
         if let result = _base._as(type) {
             return result
-        } else if let result = viewController?._as(type) {
+        } else if let result = unsafe viewController?._as(type) {
             return result
         } else if let result = _specialize(self as (any FocusHost), for: T.self) {
             return result
@@ -2097,8 +2097,46 @@ extension _UIHostingView : AccessibilityHost {
     
 }
 
-extension _UIHostingView : EventGraphHost {
+extension _UIHostingView : @preconcurrency EventGraphHost {
+    package func didBind(to event: EventBinding, id eventID: EventID) {
+        assertUnimplemented()
+    }
     
+    package func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
+        assertUnimplemented()
+    }
+    
+    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+        assertUnimplemented()
+    }
+    
+    package var responderNode: ResponderNode? {
+        assertUnimplemented()
+    }
+    
+    package var focusedResponder: ResponderNode? {
+        assertUnimplemented()
+    }
+    
+    package var nextGestureUpdateTime: Time {
+        assertUnimplemented()
+    }
+    
+    package func sendEvents(_ events: [EventID : EventType], rootNode: ResponderNode, at time: Time) -> GesturePhase<Void> {
+        assertUnimplemented()
+    }
+    
+    package func resetEvents() {
+        assertUnimplemented()
+    }
+    
+    package func gestureCategory() -> GestureCategory? {
+        assertUnimplemented()
+    }
+    
+    package func isDescendant(of object: AnyObject) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView : PointerHost {

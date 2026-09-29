@@ -17,12 +17,36 @@ internal import Foundation
 }
 
 package protocol EventGraphHost : AnyObject, EventBindingManagerDelegate {
+    var eventBindingManager: EventBindingManager { get }
     var responderNode: ResponderNode? { get }
-    // TODO
+    var focusedResponder: ResponderNode? { get }
+    var nextGestureUpdateTime: Time { get }
+    func sendEvents(_ events: [EventID : EventType], rootNode: ResponderNode, at time: Time) -> GesturePhase<Void>
+    func resetEvents()
+    func gestureCategory() -> GestureCategory?
+    func isDescendant(of object: AnyObject) -> Bool
+}
+
+extension EventGraphHost {
+    package func isDescendant(of object: AnyObject) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 package protocol EventBindingManagerDelegate : AnyObject {
+    func didBind(to event: EventBinding, id eventID: EventID)
+    func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager)
+    func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager)
+}
+
+extension EventBindingManagerDelegate {
+    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+        assertUnimplemented()
+    }
     
+    package func didBind(to event: EventBinding, id eventID: EventID) {
+        assertUnimplemented()
+    }
 }
 
 package protocol ForwardedEventDispatcher {

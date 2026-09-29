@@ -1,9 +1,9 @@
-package protocol HostPreferenceKey : PreferenceKey {
+@_spi(Internal) public protocol HostPreferenceKey : PreferenceKey {
     
 }
 
 extension HostPreferenceKey {
-    public static var _isReadableByHost: Bool {
+    @_spi(Internal) public static var _isReadableByHost: Bool {
         return true
     }
 }

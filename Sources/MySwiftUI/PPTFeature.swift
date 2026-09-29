@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct PPTFeature : ViewGraphFeature {
     @safe nonisolated(unsafe) static var isEnabled: Bool = isAppleInternalBuild()

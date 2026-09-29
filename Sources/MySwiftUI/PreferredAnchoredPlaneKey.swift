@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import RealitySimulationServices
 internal import MRUIKit
 

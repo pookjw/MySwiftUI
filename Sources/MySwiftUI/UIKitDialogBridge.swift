@@ -1,5 +1,5 @@
 internal import UIKit
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import AttributeGraph
 
 @MainActor

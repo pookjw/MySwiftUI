@@ -1,7 +1,7 @@
 // 9642BAB01CB0C7550D2DEC01406856AE
 internal import Foundation
 private import RealityKit
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import MRUIKit
 private import CoreRE
 

@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct HasHoverEffectKey : HostPreferenceKey {
     static var defaultValue: Bool {

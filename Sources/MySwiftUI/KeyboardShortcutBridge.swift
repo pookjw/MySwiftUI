@@ -1,5 +1,5 @@
 internal import Foundation
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import UIKit
 
 @MainActor

@@ -1,5 +1,5 @@
 // D7D98064D8079914AC08939D4AA110C8
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import AttributeGraph
 
 struct EditModeScopeFeature : ViewGraphFeature {

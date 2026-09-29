@@ -1,4 +1,4 @@
-public import MySwiftUICore
+@_spi(Internal) public import MySwiftUICore
 internal import MRUIKit
 internal import Foundation
 internal import AttributeGraph

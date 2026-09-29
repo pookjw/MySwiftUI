@@ -1,4 +1,4 @@
-public import MySwiftUICore
+@_spi(Internal) public import MySwiftUICore
 internal import CoreGraphics
 public import Foundation
 

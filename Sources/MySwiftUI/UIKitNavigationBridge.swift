@@ -1,5 +1,5 @@
 // F345616596EA75D1F4200D7666E5E588
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 private import _UIKitPrivate
 

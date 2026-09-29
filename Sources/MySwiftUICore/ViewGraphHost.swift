@@ -42,6 +42,17 @@ internal import CoreGraphics
         self.renderer = DisplayList.ViewRenderer(platform: DisplayList.ViewUpdater.Platform(definition: viewDefinition))
     }
     
+    convenience init<T : View>(
+       rootViewType: T.Type,
+       viewDefinition: PlatformViewDefinition.Type
+    ) {
+        self.init(
+            rootViewType: rootViewType,
+            outputs: .defaults,
+            viewDefinition: viewDefinition
+        )
+    }
+    
     package nonisolated func `as`<T>(_ type: T.Type) -> T? {
         if let result = _specialize(self as (any ViewGraphOwner), for: T.self) {
             return result

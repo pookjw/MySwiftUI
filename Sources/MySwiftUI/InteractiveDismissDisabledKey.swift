@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct InteractiveDismissDisabledKey : HostPreferenceKey {
     static var defaultValue: Bool? {

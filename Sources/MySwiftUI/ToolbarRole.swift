@@ -1,5 +1,5 @@
 // E1AB356368AEADE0EB947F068159CCF0
-public import MySwiftUICore
+@_spi(Internal) public import MySwiftUICore
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 public struct ToolbarRole : Sendable {

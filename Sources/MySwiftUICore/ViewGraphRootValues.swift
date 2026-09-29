@@ -1,5 +1,5 @@
 
-package struct ViewGraphRootValues : OptionSet, Sendable {
+@_spi(Internal) public struct ViewGraphRootValues : OptionSet, Sendable {
     package static var rootView: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 0)) }
     package static var environment: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 1)) }
     package static var transform: ViewGraphRootValues { return ViewGraphRootValues(rawValue: (1 << 2)) }
@@ -24,9 +24,9 @@ package struct ViewGraphRootValues : OptionSet, Sendable {
         ]
     }
     
-    package let rawValue: UInt16
+    @_spi(Internal) public let rawValue: UInt16
     
-    package init(rawValue: UInt16) {
+    @_spi(Internal) public init(rawValue: UInt16) {
         self.rawValue = rawValue
     }
 }

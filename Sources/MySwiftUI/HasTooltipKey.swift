@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct HasTooltipKey : HostPreferenceKey {
     static var defaultValue: Bool {

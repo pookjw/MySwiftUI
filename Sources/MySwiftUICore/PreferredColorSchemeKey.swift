@@ -1,4 +1,4 @@
-public struct PreferredColorSchemeKey : HostPreferenceKey {
+public struct PreferredColorSchemeKey : PreferenceKey {
     public typealias Value = ColorScheme?
 
     public static var _isReadableByHost: Bool {
@@ -12,6 +12,8 @@ public struct PreferredColorSchemeKey : HostPreferenceKey {
         value = nextValue()
     }
 }
+
+@_spi(Internal) extension PreferredColorSchemeKey : HostPreferenceKey {}
 
 @available(*, unavailable)
 extension PreferredColorSchemeKey : Sendable {}

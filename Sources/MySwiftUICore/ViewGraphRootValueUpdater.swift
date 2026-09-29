@@ -1,6 +1,6 @@
 private import AttributeGraph
-package import CoreGraphics
-package import Spatial
+public import CoreGraphics
+public import Spatial
 private import _UIKitPrivate
 
 @_spi(Internal) public protocol ViewGraphRootValueUpdater : ViewGraphDelegate {
@@ -17,7 +17,7 @@ private import _UIKitPrivate
 }
 
 extension ViewGraphRootValueUpdater {
-    package func initializeViewGraph() {
+    @_spi(Internal) public func initializeViewGraph() {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return
         }
@@ -29,7 +29,7 @@ extension ViewGraphRootValueUpdater {
         Signpost.viewHost.traceEvent(type: .event, object: self, "ViewHost: (%p) initialized PlatformHost [ %p ]", args: [counter, UInt(bitPattern: ObjectIdentifier(self))])
     }
     
-    package func invalidate() {
+    @_spi(Internal) public func invalidate() {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return
         }
@@ -49,7 +49,7 @@ extension ViewGraphRootValueUpdater {
         )
     }
     
-    package func render(interval: Double, updateDisplayList: Bool, targetTimestamp: Time?) {
+    @_spi(Internal) public func render(interval: Double, updateDisplayList: Bool, targetTimestamp: Time?) {
         /*
          interval = d8
          */
@@ -145,7 +145,7 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    nonisolated package func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
+    @_spi(Internal) public nonisolated func renderAsync(interval: Double, targetTimestamp: Time?) -> Time? {
         /*
          interval -> d0 -> d8
          targetTimestamp -> x0 -> x27/w28
@@ -200,17 +200,17 @@ extension ViewGraphRootValueUpdater {
         return renderTime
     }
     
-    package func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
+    @_spi(Internal) public func _preferenceValue<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
         return self._updateViewGraph { viewGraph in
             return viewGraph.preferenceValue(key)
         } ?? T.defaultValue
     }
     
-    package func _addPreference<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
+    @_spi(Internal) public func _addPreference<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
         assertUnimplemented()
     }
     
-    package var responderNode: ResponderNode? {
+    @_spi(Internal) public var responderNode: ResponderNode? {
         return _updateViewGraph { graph -> ResponderNode? in
             // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE13responderNodeAA09ResponderI0CSgvgAgA0cD0CXEfU_
             guard let rootResponders = graph.rootResponders else {
@@ -221,7 +221,7 @@ extension ViewGraphRootValueUpdater {
         } ?? nil
     }
     
-    package func invalidateProperties(_ values: ViewGraphRootValues, mayDeferUpdate: Bool) {
+    @_spi(Internal) public func invalidateProperties(_ values: ViewGraphRootValues, mayDeferUpdate: Bool) {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return
         }
@@ -243,34 +243,34 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func _sizeThatFits(_ proposedSize: ProposedViewSize) -> CGSize {
+    @_spi(Internal) public func _sizeThatFits(_ proposedSize: ProposedViewSize) -> CGSize {
         return self._updateViewGraph { viewGraph in
             // $s7SwiftUI25ViewGraphRootValueUpdaterPAAE13_sizeThatFitsySo6CGSizeVAA08ProposedC4SizeVFAfA0cD0CXEfU_TA
             return viewGraph.sizeThatFits(_ProposedSize(width: proposedSize.width, height: proposedSize.height))
         } ?? .zero
     }
     
-    package func updateTransform() {
+    @_spi(Internal) public func updateTransform() {
         assertUnimplemented()
     }
     
-    package func updateFocusStore() {
+    @_spi(Internal) public func updateFocusStore() {
         assertUnimplemented()
     }
     
-    package func updateFocusedItem() {
+    @_spi(Internal) public func updateFocusedItem() {
         assertUnimplemented()
     }
     
-    package func updateAccessibilityEnvironment() {
+    @_spi(Internal) public func updateAccessibilityEnvironment() {
         assertUnimplemented()
     }
     
-    public func updateGraph<T>(body: (GraphHost) -> T) -> T {
+    @_spi(Internal) public func updateGraph<T>(body: (GraphHost) -> T) -> T {
         return _updateViewGraph(body: body)!
     }
     
-    public func graphDidChange() {
+    @_spi(Internal) public func graphDidChange() {
         Update.locked {
             if !self.isRendering {
                 self.requestUpdate(after: 0)
@@ -278,11 +278,11 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func preferencesDidChange() {
+    @_spi(Internal) public func preferencesDidChange() {
         assertUnimplemented()
     }
     
-    nonisolated package var isRendering: Bool {
+    @_spi(Internal) public nonisolated var isRendering: Bool {
         guard let owner = self.as((any ViewGraphOwner).self) else {
             return false
         }
@@ -295,7 +295,7 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func updateGraph() {
+    @_spi(Internal) public func updateGraph() {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return
         }
@@ -356,11 +356,11 @@ extension ViewGraphRootValueUpdater {
         }
     }
     
-    package func _idealSize() -> CGSize {
+    @_spi(Internal) public func _idealSize() -> CGSize {
         assertUnimplemented()
     }
     
-    package func _updateViewGraph<T>(body: (ViewGraph) -> T) -> T? {
+    @_spi(Internal) public func _updateViewGraph<T>(body: (ViewGraph) -> T) -> T? {
         guard let owner = self.as(ViewGraphOwner.self) else {
             return nil
         }
@@ -379,27 +379,27 @@ extension ViewGraphRootValueUpdater {
         return result
     }
     
-    package func _explicitAlignment(of: HorizontalAlignment, at: CGSize) -> CGFloat? {
+    @_spi(Internal) public func _explicitAlignment(of: HorizontalAlignment, at: CGSize) -> CGFloat? {
         assertUnimplemented()
     }
     
-    package func _explicitAlignment(of: VerticalAlignment, at: CGSize) -> CGFloat? {
+    @_spi(Internal) public func _explicitAlignment(of: VerticalAlignment, at: CGSize) -> CGFloat? {
         assertUnimplemented()
     }
     
-    package func _alignment(of: HorizontalAlignment, at: CGSize) -> CGFloat {
+    @_spi(Internal) public func _alignment(of: HorizontalAlignment, at: CGSize) -> CGFloat {
         assertUnimplemented()
     }
     
-    package func _alignment(of: VerticalAlignment, at: CGSize) -> CGFloat {
+    @_spi(Internal) public func _alignment(of: VerticalAlignment, at: CGSize) -> CGFloat {
         assertUnimplemented()
     }
     
-    package func _explicitAlignment(of: DepthAlignment, at: Size3D) -> CGFloat? {
+    @_spi(Internal) public func _explicitAlignment(of: DepthAlignment, at: Size3D) -> CGFloat? {
         assertUnimplemented()
     }
     
-    package func _alignment(of: DepthAlignment, at: Size3D) -> CGFloat {
+    @_spi(Internal) public func _alignment(of: DepthAlignment, at: Size3D) -> CGFloat {
         assertUnimplemented()
     }
 }

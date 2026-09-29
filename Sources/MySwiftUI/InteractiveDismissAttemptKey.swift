@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct InteractiveDismissAttemptKey : HostPreferenceKey {
     static var defaultValue: (() -> Void)? {

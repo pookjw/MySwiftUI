@@ -1,4 +1,4 @@
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 
 struct KeyEvent {
     private var phase: EventPhase

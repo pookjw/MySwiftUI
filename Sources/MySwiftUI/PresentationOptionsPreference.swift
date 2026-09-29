@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import CoreGraphics
 
 struct PresentationOptionsPreference : CustomStringConvertible { // 0x8c

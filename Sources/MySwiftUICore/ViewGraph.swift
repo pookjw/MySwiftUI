@@ -5,7 +5,7 @@ package import CoreGraphics
 internal import QuartzCore
 private import Spatial
 
-package final class ViewGraph : GraphHost, @unchecked Sendable {
+@_spi(Internal) public final class ViewGraph : GraphHost, @unchecked Sendable {
     package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }
@@ -208,7 +208,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
         assertUnimplemented()
     }
     
-    package override var graphDelegate: (any GraphDelegate)? {
+    @_spi(Internal) public override var graphDelegate: (any GraphDelegate)? {
         return delegate
     }
     
@@ -593,7 +593,7 @@ package final class ViewGraph : GraphHost, @unchecked Sendable {
         }
     }
     
-    package override func instantiateOutputs() {
+    @_spi(Internal) public override func instantiateOutputs() {
         let outputs = data.rootSubgraph.apply {
             // self = x22
             // x29 - 0x80
@@ -1638,6 +1638,16 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     func updateRenderContext(_ context: inout ViewGraphRenderContext)
     func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
     func renderIntervalForDisplayLink(timestamp: Time) -> Double
+}
+
+extension ViewGraphRenderDelegate {
+    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time {
+        assertUnimplemented()
+    }
+    
+    package func renderIntervalForDisplayLink(timestamp: Time) -> Double {
+        assertUnimplemented()
+    }
 }
 
 package struct ViewGraphRenderContext : Sendable {

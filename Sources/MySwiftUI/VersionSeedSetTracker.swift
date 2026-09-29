@@ -1,5 +1,5 @@
 // 3F0A9C8FE1DF482BB97A7ECFF3793F1B
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct VersionSeedSetTracker {
     fileprivate var values: [VersionSeedSetTracker.Value] = []

@@ -1,5 +1,5 @@
 // 8CA450E42E2AFC68A9A1CEB51C79EBE5
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct CommandFlag : Hashable, Sendable {
     nonisolated(unsafe) fileprivate static var nextID = 0

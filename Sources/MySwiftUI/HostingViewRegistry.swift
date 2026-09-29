@@ -1,4 +1,4 @@
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 
 final class HostingViewRegistry {
     @safe nonisolated(unsafe) static let shared = HostingViewRegistry()
