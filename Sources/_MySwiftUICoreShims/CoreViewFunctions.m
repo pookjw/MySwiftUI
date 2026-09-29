@@ -5,7 +5,6 @@
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
-@import _UIKitPrivate;
 #endif
 
 #if TARGET_OS_OSX
@@ -534,7 +533,16 @@ void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable fil
 void CoreViewSetSeparatedValue(ViewSystem system, id object, id _Nullable value, NSString *key) {
     switch (system) {
         case ViewSystemUIView:
-            [(UIView *)object _setSeparatedValue:value forKey: key];
+            [(UIView *)object _setSeparatedValue:value forKey:key];
+        default:
+            break;
+    }
+}
+
+void CoreViewRequestRemoteEffects(ViewSystem system, id object, NSArray<CARemoteEffect *> *effects) {
+    switch (system) {
+        case ViewSystemUIView:
+            [(UIView *)object _requestRemoteEffects:effects forKey:@"SwiftUI-Remote-Effects"];
         default:
             break;
     }

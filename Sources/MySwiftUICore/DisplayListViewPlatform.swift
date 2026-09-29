@@ -1984,8 +1984,33 @@ extension DisplayList.ViewUpdater {
             }
         }
         
-        func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo]) {
-            assertUnimplemented()
+        func updateRemoteEffects(
+            of viewInfo: inout DisplayList.ViewUpdater.PlatformViewInfo,
+            to values: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo]
+        ) {
+            /*
+             self -> x20
+             viewInfo -> x0
+             values -> x1 -> x22
+             */
+            let remoteEffects = unsafe Set(viewInfo.state.pointee.platformState.remoteEffects.keys)
+            
+            if !values.isEmpty {
+                assertUnimplemented()
+            }
+            
+            // <+936>
+            if !remoteEffects.isEmpty {
+                assertUnimplemented()
+            }
+            
+            // <+1312>
+            let groups = unsafe Array(viewInfo.state.pointee.platformState.remoteEffects.values)
+            CoreViewRequestRemoteEffects(
+                self.system,
+                viewInfo.view,
+                groups
+            )
         }
         
         func maskContainerView(_: AnyObject, item: DisplayList.Item) -> AnyObject? {
@@ -2073,7 +2098,7 @@ extension DisplayList.ViewUpdater.Platform {
     
     struct PlatformState {
         var separatedOptionKeys: [any AnySeparatedOptionKey.Type] = []
-        private var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup] = [:]
+        private(set) var remoteEffects: [RemoteEffectGroupInfo.ID: CARemoteEffectGroup] = [:]
     }
 }
 

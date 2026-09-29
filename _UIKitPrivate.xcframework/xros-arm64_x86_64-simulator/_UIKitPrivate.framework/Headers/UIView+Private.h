@@ -10,6 +10,7 @@
 #import <_UIKitPrivate/UIPlatterGroundingShadowVisibility.h>
 #import <_UIKitPrivate/UIRealityCoordinateSpace.h>
 #import <CoreRE/CoreRE.h>
+#import <_QuartzCorePrivate/_QuartzCorePrivate.h>
 
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
@@ -78,6 +79,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 - (CAPoint3D)convertPoint:(CAPoint3D)point toRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 - (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(_UIViewSeparatedStateRequestReason)reason;
 - (void)_setSeparatedValue:(id _Nullable) value forKey:(NSString *)key;
+- (void)_requestRemoteEffects:(NSArray<CARemoteEffect *> *)effects forKey:(NSString *)key;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

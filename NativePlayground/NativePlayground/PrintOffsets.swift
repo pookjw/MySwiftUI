@@ -255,6 +255,8 @@ func printOffsets() {
     printFields(Font.Context.self, isClassType: false)
     printFields("7SwiftUI11SheetSizingV", isClassType: false)
     printFields("7SwiftUI19BarAppearanceBridgeC13UpdateContextV", isClassType: false)
+    printFields("7SwiftUI17RemoteEffectGroupV8ResolvedV", isClassType: false)
+    printFields("7SwiftUI17RemoteEffectGroupV10PropertiesV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -77,7 +77,28 @@ struct RemoteEffectsPlatformState {
     var hoverEffectState = HoverEffectState()
     
     var values: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo] {
-        assertUnimplemented()
+        /*
+         legacyEffects -> x0 -> x21
+         hoverEffectState -> x1/x2 -> sp + 0x8
+         */
+        let results: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo] = [:]
+        
+        for (_, _) in self.legacyEffects {
+            assertUnimplemented()
+        }
+        
+        // <+2060>
+        for _ in self.hoverEffectState.groups {
+            assertUnimplemented()
+        }
+        
+        // <+2320>
+        for _ in self.hoverEffectState.leafEffects {
+            assertUnimplemented()
+        }
+        
+        // <+2956>
+        return results
     }
 }
 
@@ -89,15 +110,15 @@ package struct RemoteEffectGroup {
 
 extension RemoteEffectGroup {
     package struct Resolved {
-        var effects: [RemoteEffectEntry]
-        var accessibilityID: Int?
-        var properties: RemoteEffectGroup.Properties
+        var effects: [RemoteEffectEntry] // 0x0
+        var accessibilityID: Int? // 0x8
+        var properties: RemoteEffectGroup.Properties // 0x18
     }
     
     struct Properties {
-        var groupID: RemoteEffectGroupInfo.ID
-        var blendFactor: Double
-        var options: RemoteEffectOptions
+        var groupID: RemoteEffectGroupInfo.ID // 0x0
+        var blendFactor: Double // 0x20
+        var options: RemoteEffectOptions // 0x28
     }
 }
 

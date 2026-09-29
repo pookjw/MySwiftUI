@@ -2,7 +2,7 @@
 internal import CoreGraphics
 
 struct HoverEffectState {
-    private var groups: [HoverEffectState.GroupEffect] = []
+    private(set) var groups: [HoverEffectState.GroupEffect] = []
     private(set) var leafEffects: [HoverEffectState.LeafEffect] = []
     
     func applyPosition(_ origin: CGPoint) -> Bool {

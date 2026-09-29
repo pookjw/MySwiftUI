@@ -36,6 +36,7 @@ MSUI_EXTERN void CoreViewSetPreferredGroundingShadowVisibility(ViewSystem system
 MSUI_EXTERN void CoreViewSetSwiftUIServerResponderID(ViewSystem system, id object, NSUInteger responderID);
 MSUI_EXTERN void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable filter);
 MSUI_EXTERN void CoreViewSetSeparatedValue(ViewSystem system, id object, id _Nullable value, NSString *key);
+MSUI_EXTERN void CoreViewRequestRemoteEffects(ViewSystem system, id object, NSArray<CARemoteEffect *> *effects);
 
 NS_ASSUME_NONNULL_END
 
