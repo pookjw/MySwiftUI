@@ -11,6 +11,7 @@ import SwiftUI
 @_exported import QuartzCore
 @_exported import ObjectiveC
 @_exported import CoreGraphics
+@_exported import QuartzCore
 @_exported import Spatial
 import AttributeGraph
 @_spi(SwiftUI) import _ObservationPrivate
@@ -2530,4 +2531,16 @@ public enum WatchDisplayVariant : Swift.Int, Swift.Hashable, Swift.Codable {
   case h446
   case h496
   case h514
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+@_hasMissingDesignatedInitializers @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+public class CAHostingLayer<Content> : QuartzCore.CALayer where Content : SwiftUI.View {
+  public init(rootView: Content, environment: SwiftUI.EnvironmentValues = .init())
+  @objc override dynamic public func layoutSublayers()
+  public var rootView: Content {
+    get
+    set
+  }
 }
