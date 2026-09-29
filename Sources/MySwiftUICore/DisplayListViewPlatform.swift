@@ -225,25 +225,24 @@ extension DisplayList.ViewUpdater {
                 }
                 
                 CoreViewSetCompositingFilter(encoding.viewSystem, viewInfo.view, filter)
+                viewInfo.seeds.blend = unsafe DisplayList.Seed(state.pointee.versions.blend)
             }
             
             // <+588>
             if unsafe viewInfo.seeds.filters != DisplayList.Seed(state.pointee.versions.filters) {
                 // <+684>
+                var filters = unsafe state.pointee.filters
+                
                 if case .drawing = viewInfo.state.kind {
                     var contentsMultiplyColor: CGColor? = nil
                     
                     if
-                        let filter = unsafe state.pointee.filters.last,
+                        let filter = filters.last,
                         case .colorMultiply(let resolvedColor) = filter,
                         let drawable = type(of: viewInfo.view) as? PlatformDrawable.Type,
                         drawable.allowsContentsMultiplyColor
                     {
-                        unsafe UnsafeMutablePointer(mutating: state)
-                            .pointee
-                            .filters
-                            .removeLast()
-                        
+                        filters.removeLast()
                         contentsMultiplyColor = resolvedColor.cgColor
                     }
                     
@@ -255,7 +254,8 @@ extension DisplayList.ViewUpdater {
                 }
                 
                 // <+1052>
-                unsafe self.setFilters(state.pointee.filters, of: viewInfo.view)
+                self.setFilters(filters, of: viewInfo.view)
+                viewInfo.seeds.filters = unsafe DisplayList.Seed(state.pointee.versions.filters)
             }
             
             // <+632>
@@ -435,13 +435,15 @@ extension DisplayList.ViewUpdater {
             // <+204>
             if unsafe oldState.pointee.versions.filters != newState.pointee.versions.filters {
                 // <+224>
+                var oldFilters = unsafe oldState.pointee.filters
+                var newFilters = unsafe newState.pointee.filters
                 if case .drawing = layer.kind {
                     // <+248>
                     let oldFilter: Color.ResolvedHDR?
                     let newFilter: Color.ResolvedHDR?
                     
                     if
-                        let filter = unsafe oldState.pointee.filters.last,
+                        let filter = oldFilters.last,
                         case .colorMultiply(let resolved) = filter
                     {
                         // <+324>
@@ -451,10 +453,7 @@ extension DisplayList.ViewUpdater {
                             casted.allowsContentsMultiplyColor
                         {
                             // <+452>
-                            unsafe UnsafeMutablePointer(mutating: oldState)
-                                .pointee
-                                .filters
-                                .removeLast()
+                            oldFilters.removeLast()
                             
                             oldFilter = resolved
                         } else {
@@ -467,7 +466,7 @@ extension DisplayList.ViewUpdater {
                     }
                     
                     if
-                        let filter = unsafe newState.pointee.filters.last,
+                        let filter = newFilters.last,
                         case .colorMultiply(let resolved) = filter
                     {
                         // <+776>
@@ -477,10 +476,7 @@ extension DisplayList.ViewUpdater {
                             casted.allowsContentsMultiplyColor
                         {
                             // <+880>
-                            unsafe UnsafeMutablePointer(mutating: newState)
-                                .pointee
-                                .filters
-                                .removeLast()
+                            newFilters.removeLast()
                             
                             newFilter = resolved
                         } else {
@@ -1831,7 +1827,7 @@ extension DisplayList.ViewUpdater {
              state -> x1 -> x28
              item -> x2
              */
-            if let shadow = unsafe state.pointee.shadow {
+            if let _ = unsafe state.pointee.shadow {
                 // <+84>
                 assertUnimplemented()
             } else {
@@ -1840,17 +1836,28 @@ extension DisplayList.ViewUpdater {
                 let shadowSeed = viewInfo.seeds.shadow
                 let shadowVersions = unsafe state.pointee.versions.shadow
                 if shadowSeed != DisplayList.Seed(shadowVersions) {
-                    // <+696>
-                    assertUnimplemented()
+                    // <+676>
+                    switch viewInfo.state.kind {
+                    case .platformView, .platformGroup, .platformLayer:
+                        return
+                    case .inherited, .color, .image, .shape, .sdfLayer, .sdfEffect, .shadow, .backdrop, .chameleonColor, .drawing, .compositing, .geometry, .projection, .affine3D, .mask, .platformEffect:
+                        CoreViewSetShadow(
+                            self.system,
+                            viewInfo.view,
+                            nil,
+                            0,
+                            .zero
+                        )
+                    }
                 } else {
-                    // <+1620>
+                    // <+1544>
                     return
                 }
             }
         }
         
         fileprivate func updateProperties(
-            _: inout DisplayList.ViewUpdater.ViewInfo,
+            _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
             assertUnimplemented()
