@@ -96,9 +96,13 @@ internal import CoreGraphics
     
     package func clearDisplayLink() {
         Update.locked {
-            displayLink?.nextThread = .main
+            if let displayLink {
+                displayLink.nextThread = .main
+            }
         }
-        displayLink?.invalidate()
+        if let displayLink {
+            displayLink.invalidate()
+        }
         displayLink = nil
     }
     
@@ -377,7 +381,10 @@ extension ViewGraphHost : RootTransformProvider {
     func rootTransform() -> ViewTransform {
         var transform = ViewTransform()
         
-        if let adjuster = updateDelegate?.as((any RootTransformAdjuster).self) {
+        if
+            let updateDelegate,
+            let adjuster = updateDelegate.as((any RootTransformAdjuster).self)
+        {
             adjuster.updateRootTransform(&transform)
         }
         
