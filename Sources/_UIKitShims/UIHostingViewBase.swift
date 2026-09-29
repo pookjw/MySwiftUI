@@ -1284,7 +1284,7 @@ extension UIHostingViewBase : ViewGraphRenderDelegate {
         }
     }
     
-    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> MySwiftUICore::Time) -> MySwiftUICore::Time {
+    @MainActor package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> MySwiftUICore::Time) -> MySwiftUICore::Time {
         let baseShouldDisableUIKitAnimationsWhenRendering: Bool
         if let delegate {
             baseShouldDisableUIKitAnimationsWhenRendering = delegate.baseShouldDisableUIKitAnimationsWhenRendering(self)

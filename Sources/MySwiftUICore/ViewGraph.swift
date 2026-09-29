@@ -1265,7 +1265,7 @@ extension ViewGraph : ViewGraphRenderHost {
             return Time(seconds: .nan) 
         }
         
-        func renderOnMainThread() -> Time {
+        @MainActor func renderOnMainThread() -> Time {
             var context = ViewGraphRenderContext(contentsScale: 0, opaqueBackground: false)
             renderDelegate.updateRenderContext(&context)
             CustomEventTrace.animationTick(onMain: true, time: time)
@@ -1312,14 +1312,14 @@ extension ViewGraph : ViewGraphRenderHost {
             
             // <+552>
             var nextTime = nextTime
-            Update.syncMain {
+            Update.syncMain { @MainActor in
                 nextTime = renderOnMainThread()
             }
             return nextTime
         } else {
             // <+1164>
             var renderedTime = Time(seconds: .nan)
-            Update.syncMain {
+            Update.syncMain { @MainActor in
                 renderedTime = renderOnMainThread()
             }
             return renderedTime
@@ -1630,18 +1630,18 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
 }
 
-@MainActor @preconcurrency package protocol ViewGraphRenderDelegate : AnyObject, Sendable {
+package protocol ViewGraphRenderDelegate : AnyObject, Sendable {
     var renderingRootView: AnyObject {
         get
     }
     
     func updateRenderContext(_ context: inout ViewGraphRenderContext)
-    func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
+    @MainActor func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time
     func renderIntervalForDisplayLink(timestamp: Time) -> Double
 }
 
 extension ViewGraphRenderDelegate {
-    package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time {
+    @MainActor package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time {
         assertUnimplemented()
     }
     
