@@ -1950,8 +1950,38 @@ extension DisplayList.ViewUpdater {
             layer.zPosition = zPosition
         }
         
-        func updateSeparatedOptions(fromKeys: [any AnySeparatedOptionKey.Type], to: SeparatedOptionValues, for: AnyObject) {
-            assertUnimplemented()
+        func updateSeparatedOptions(
+            fromKeys: [any AnySeparatedOptionKey.Type],
+            to toValues: SeparatedOptionValues,
+            for view: AnyObject
+        ) {
+            /*
+             self -> x20
+             fromKeys -> x0
+             toValues -> x1 -> x21
+             view -> x2 -> x19
+             */
+            for key in fromKeys {
+                if toValues.storage[SeparatedOptionValues.Key(type: key)] == nil{
+                    // <+72>
+                    CoreViewSetSeparatedValue(
+                        self.system,
+                        view,
+                        nil,
+                        key.keyPath
+                    )
+                }
+            }
+            
+            // <+236>
+            for value in toValues.storage.values {
+                CoreViewSetSeparatedValue(
+                    self.system,
+                    view,
+                    value.boxedValue,
+                    value.keyPath
+                )
+            }
         }
         
         func updateRemoteEffects(of: inout DisplayList.ViewUpdater.PlatformViewInfo, to: [RemoteEffectGroupInfo.ID: RemoteEffectGroupInfo]) {

@@ -77,6 +77,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 - (CAPoint3D)convertPoint:(CAPoint3D)point fromRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 - (CAPoint3D)convertPoint:(CAPoint3D)point toRealityCoordinateSpace:(id<UIRealityCoordinateSpace> _Nullable)coordinateSpace;
 - (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(_UIViewSeparatedStateRequestReason)reason;
+- (void)_setSeparatedValue:(id _Nullable) value forKey:(NSString *)key;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

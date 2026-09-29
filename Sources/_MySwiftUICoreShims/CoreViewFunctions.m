@@ -5,6 +5,7 @@
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+@import _UIKitPrivate;
 #endif
 
 #if TARGET_OS_OSX
@@ -525,6 +526,15 @@ void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable fil
             ((CALayer *)object).compositingFilter = filter;
         case ViewSystemUIView:
             ((UIView *)object).layer.compositingFilter = filter;
+        default:
+            break;
+    }
+}
+
+void CoreViewSetSeparatedValue(ViewSystem system, id object, id _Nullable value, NSString *key) {
+    switch (system) {
+        case ViewSystemUIView:
+            [(UIView *)object _setSeparatedValue:value forKey: key];
         default:
             break;
     }

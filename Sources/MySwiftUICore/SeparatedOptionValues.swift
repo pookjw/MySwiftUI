@@ -1,3 +1,4 @@
+// E14CA9E2450D1DFE1A85139B1E8B1844
 package import CoreGraphics
 
 struct SeparatedOptionValues {
@@ -6,7 +7,7 @@ struct SeparatedOptionValues {
 
 extension SeparatedOptionValues {
     struct Key : Hashable {
-        private var type: [any AnySeparatedOptionKey.Type]
+        private(set) var type: any AnySeparatedOptionKey.Type
         
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
@@ -42,7 +43,16 @@ extension SeparatedOptionKey {
 }
 
 protocol AnySeparatedOption {
-    // TODO
+    var key: any AnySeparatedOptionKey.Type { get }
+    var keyPath: String { get }
+    var requiresSeparation: Bool { get }
+    var boxedValue: NSObject { get }
+}
+
+extension AnySeparatedOption {
+    fileprivate func print(into printer: inout SExpPrinter) {
+        assertUnimplemented()
+    }
 }
 
 package enum SeparatedOptions {
