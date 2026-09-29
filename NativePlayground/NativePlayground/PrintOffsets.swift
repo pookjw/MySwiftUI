@@ -257,6 +257,7 @@ func printOffsets() {
     printFields("7SwiftUI19BarAppearanceBridgeC13UpdateContextV", isClassType: false)
     printFields("7SwiftUI17RemoteEffectGroupV8ResolvedV", isClassType: false)
     printFields("7SwiftUI17RemoteEffectGroupV10PropertiesV", isClassType: false)
+    printFields("7SwiftUI14CAHostingLayerCyAA7AnyViewVG", isClassType: true)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
