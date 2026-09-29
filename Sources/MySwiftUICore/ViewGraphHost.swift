@@ -95,11 +95,11 @@ internal import CoreGraphics
     }
     
     package func clearDisplayLink() {
-        Update.ensure {
-            if let displayLink {
-                displayLink.invalidate()
-            }
+        Update.locked {
+            displayLink?.nextThread = .main
         }
+        displayLink?.invalidate()
+        displayLink = nil
     }
     
     package func clearUpdateTimer() {
@@ -110,6 +110,8 @@ internal import CoreGraphics
         if let updateTimer {
             updateTimer.invalidate()
         }
+        updateTimer = nil
+        nextTimerTime = nil
     }
     
     package func cancelAsyncRendering() {
@@ -375,15 +377,10 @@ extension ViewGraphHost : RootTransformProvider {
     func rootTransform() -> ViewTransform {
         var transform = ViewTransform()
         
-        guard let updateDelegate else {
-            return transform
+        if let adjuster = updateDelegate?.as((any RootTransformAdjuster).self) {
+            adjuster.updateRootTransform(&transform)
         }
         
-        guard let adjuster = updateDelegate.as((any RootTransformAdjuster).self) else {
-            return transform
-        }
-        
-        adjuster.updateRootTransform(&transform)
         transform.appendCoordinateSpace(id: .viewGraphHost)
         
         return transform

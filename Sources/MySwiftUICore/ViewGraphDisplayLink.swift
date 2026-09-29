@@ -62,10 +62,11 @@ final class ViewGraphDisplayLink : NSObject {
     }
     
     func invalidate() {
-        Update.ensure {
-            if let link, !link.isPaused {
+        Update.locked {
+            if let link, link.isPaused {
                 link.invalidate()
             }
+            link = nil
         }
     }
     
