@@ -4389,11 +4389,7 @@ extension DisplayList.ViewUpdater {
             
             let seed: DisplayList.Seed
             switch kind {
-            case .platformGroup:
-                seed = .undefined
-            case .platformLayer:
-                seed = .undefined
-            case .platformEffect:
+            case .platformView, .platformGroup:
                 seed = .undefined
             default:
                 seed = DisplayList.Seed()
@@ -4408,7 +4404,7 @@ extension DisplayList.ViewUpdater {
                 clips: seed,
                 filters: seed,
                 shadow: seed,
-                properties: seed,
+                properties: DisplayList.Seed(),
                 platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds(
                     zPosition: seed,
                     separatedState: seed,
