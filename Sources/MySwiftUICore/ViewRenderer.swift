@@ -2,7 +2,7 @@
 package import AttributeGraph
 package import Spatial
 
-package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater, Sendable {
+package protocol ViewRendererHost : ViewGraphOwner, ViewGraphRootValueUpdater {
     var responderNode: ResponderNode? { get }
 }
 

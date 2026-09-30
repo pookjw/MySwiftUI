@@ -1265,13 +1265,17 @@ extension ViewGraph : ViewGraphRenderHost {
             return Time(seconds: .nan) 
         }
         
+        let casted = unsafe _unsafeReferenceCast(
+            renderDelegate, to: (ViewGraphRenderDelegate & Sendable).self
+        )
+        
         @MainActor func renderOnMainThread() -> Time {
             var context = ViewGraphRenderContext(contentsScale: 0, opaqueBackground: false)
-            renderDelegate.updateRenderContext(&context)
+            casted.updateRenderContext(&context)
             CustomEventTrace.animationTick(onMain: true, time: time)
             
-            let renderingRootView = renderDelegate.renderingRootView
-            return renderDelegate.withMainThreadRender(wasAsync: false) { [displayList] in
+            let renderingRootView = casted.renderingRootView
+            return casted.withMainThreadRender(wasAsync: false) { [displayList] in
                 // $s7SwiftUI9ViewGraphC17renderDisplayList_14asynchronously4time8nextTime15targetTimestamp7version10maxVersionAA0K0VAA0fG0V_SbA3LSgAN0P0VAQtF0E12OnMainThreadL_ALyFALyXEfU_
                 // inlined
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
@@ -1630,7 +1634,7 @@ extension ViewGraphGeometryObservers where T == VolumeThatFitsMeasurer {
     }
 }
 
-package protocol ViewGraphRenderDelegate : AnyObject, Sendable {
+package protocol ViewGraphRenderDelegate : AnyObject {
     var renderingRootView: AnyObject {
         get
     }

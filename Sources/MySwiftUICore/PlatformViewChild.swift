@@ -244,7 +244,11 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                     )
                 }
                 
-                let renderHost = ViewGraph.current.delegate as? ViewRendererHost
+                let renderHost = unsafe _unsafeReferenceCast(
+                    ViewGraph.current.delegate as? ViewRendererHost,
+                    to: (ViewRendererHost & Sendable).self
+                )
+                
                 let attribute = Attribute<ViewLeafView<Representable>>(identifier: .current!)
                 
                 let host: Representable.Host? = ObservationCenter.current._withObservation(attribute: attribute) { [features] in
@@ -271,7 +275,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
                                 // x27
                                 let provider = view.makeViewProvider(context: context)
                                 let host = unsafe Representable.Host(
-                                    unsafeBitCast(provider, to: Representable.Host.Content.PlatformViewProvider.self), // FIXME
+                                    unsafeDowncast(provider, to: Representable.Host.Content.PlatformViewProvider.self), // FIXME
                                     host: renderHost,
                                     environment: environment,
                                     viewPhase: ViewGraphHost.Phase(base: phase)

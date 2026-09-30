@@ -3,21 +3,21 @@ public import QuartzCore
 
 @_spi(Internal)
 public class CAHostingLayer<Content> : CALayer where Content : View {
-    private let viewGraphHost: ViewGraphHost
-    package let eventBindingManager = EventBindingManager()
-    private var lastRenderTime: Time = .zero
-    private var isUpdating: Bool = false
-    private var needsDeferredUpdate: Bool = false
-    package let focusedResponder: ResponderNode? = nil
-    private var displayLinkProvider: ((Any, Selector) -> CADisplayLink?)? = nil
+    @safe private nonisolated(unsafe) let viewGraphHost: ViewGraphHost
+    @safe package nonisolated(unsafe) let eventBindingManager = EventBindingManager()
+    private nonisolated(unsafe) var lastRenderTime: Time = .zero
+    private nonisolated(unsafe) var isUpdating: Bool = false
+    private nonisolated(unsafe) var needsDeferredUpdate: Bool = false
+    @safe package nonisolated(unsafe) let focusedResponder: ResponderNode? = nil
+    private nonisolated(unsafe) var displayLinkProvider: ((Any, Selector) -> CADisplayLink?)? = nil
     
-    public var rootView: Content {
+    public nonisolated(unsafe) var rootView: Content {
         didSet {
             assertUnimplemented()
         }
     }
     
-    private var environment: EnvironmentValues {
+    private nonisolated(unsafe) var environment: EnvironmentValues {
         didSet {
             assertUnimplemented()
         }
@@ -25,7 +25,7 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     
     private let referenceInstant: ContinuousClock.Instant
     
-    private lazy var eventContext: CAHostingLayerEvent.Context = {
+    private lazy nonisolated var eventContext: CAHostingLayerEvent.Context = {
         assertUnimplemented()
     }()
     
@@ -35,8 +35,8 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
          rootView -> x0 -> x29 - 0x68
          environment -> x1 -> x23
          */
-        self.environment = environment
-        self.rootView = rootView
+        unsafe self.environment = environment
+        unsafe self.rootView = rootView
         self.referenceInstant = .now
         
         Update.begin()
@@ -75,7 +75,60 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     }
     
     override dynamic public func layoutSublayers() {
-        assertUnimplemented()
+        super.layoutSublayers()
+        
+        Update.locked { 
+            let viewGraphHost = self.viewGraphHost
+            
+            Update.locked { 
+                if let displayLink = viewGraphHost.displayLink {
+                    displayLink.nextThread = .main
+                }
+            }
+            
+            // <+396>
+            let timestamp: Time = .systemUptime
+            let interval: Double
+            if let viewGraphHost = viewGraphHost.displayLink {
+                let nextUpdate = viewGraphHost.nextUpdate
+                
+                if (nextUpdate < .infinity || nextUpdate > .infinity) {
+                    interval = 0
+                } else {
+                    interval = self.renderInterval(timestamp: timestamp)
+                }
+            } else {
+                interval = self.renderInterval(timestamp: timestamp)
+            }
+            
+            // <+460>
+            unsafe self.isUpdating = true
+            self.render(interval: interval, updateDisplayList: true, targetTimestamp: nil)
+            unsafe self.isUpdating = false
+            
+            // <+536>
+            guard unsafe self.needsDeferredUpdate else {
+                return
+            }
+            
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + (1.0 / 60.0),
+                qos: .unspecified,
+                flags: []
+            ) { [weak self = UncheckedSendable(self).value] in
+                // $s7SwiftUI14CAHostingLayerC15layoutSublayersyyFyyScMYccfU0_TA
+                guard let self else {
+                    return
+                }
+                
+                var d8 = Time.systemUptime - timestamp
+                d8 = d8 + self.viewGraphHost.currentTimestamp.seconds
+                self.viewGraphHost.currentTimestamp = d8
+                self.setNeedsUpdate()
+            }
+            
+            unsafe self.needsDeferredUpdate = false
+        }
     }
     
     public override var contentsScale: CGFloat {
@@ -100,6 +153,10 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
         let eventBindingManager = self.eventBindingManager
         eventBindingManager.host = self
         eventBindingManager.delegate = self
+    }
+    
+    fileprivate final func renderInterval(timestamp: Time) -> Double {
+        assertUnimplemented()
     }
 }
 
@@ -248,5 +305,3 @@ extension CAHostingLayer : ViewGraphRenderDelegate {
         assertUnimplemented()
     }
 }
-
-extension CAHostingLayer : @unchecked Sendable {}
