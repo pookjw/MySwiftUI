@@ -20,6 +20,7 @@ CG_EXTERN void CALayerMapGeometry(CALayer * _Nullable, CALayer *, void (*)(void 
 - (void)addPresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(removePresentationModifier(_:));
 - (BOOL)hasBeenCommitted;
+- (void)setCoordinatedAnimationDelegate;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

@@ -46,6 +46,10 @@ public import QuartzCore
         preconditionFailure() // abstract
     }
     
+    open class func getRBLayer(drawingView: AnyObject) -> AnyObject? {
+        return nil
+    }
+    
     open class func setIgnoresEvents(_ flag : Bool, of object: AnyObject) {
         preconditionFailure() // abstract
     }
@@ -59,8 +63,12 @@ public import QuartzCore
             return nil
         }
         
-        let viewDefinition = unsafe nsObjectType._mySwiftUI_platformViewDefinition()
-        return unsafe unsafeBitCast(viewDefinition, to: PlatformViewDefinition.Type.self)
+        guard let viewDefinition = unsafe nsObjectType._mySwiftUI_platformViewDefinition() else {
+            return nil
+        }
+        
+        let viewDefinitionType: AnyClass = unsafe unsafeBitCast(viewDefinition, to: AnyClass.self)
+        return (viewDefinitionType as! PlatformViewDefinition.Type)
     }
     
     package static func canSupportMixedHierarchy(system: PlatformViewDefinition.System) -> Bool {

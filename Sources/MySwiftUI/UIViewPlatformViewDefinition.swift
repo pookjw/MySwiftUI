@@ -86,7 +86,7 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
 }
 
 extension UIView {
-    @_spi(Internal) open override class func _mySwiftUI_platformViewDefinition() -> UnsafeRawPointer {
+    @_spi(Internal) open override class func _mySwiftUI_platformViewDefinition() -> UnsafeRawPointer? {
         return unsafe unsafeBitCast(UIViewPlatformViewDefinition.self, to: UnsafeRawPointer.self)
     }
 }
