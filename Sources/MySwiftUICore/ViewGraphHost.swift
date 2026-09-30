@@ -58,7 +58,7 @@ internal import CoreGraphics
             return result
         } else if let result = _specialize(renderer, for: T.self) {
             return result
-        } else if let result = _specialize(renderDelegate, for: T.self) {
+        } else if let renderDelegate, let result = _specialize(renderDelegate, for: T.self) {
             return result
         } else if let result = _specialize(viewGraph as (any ViewGraphRenderHost), for: T.self) {
             return result

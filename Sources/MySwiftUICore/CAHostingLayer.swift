@@ -62,10 +62,15 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     
     public override var bounds: CGRect {
         get {
-            assertUnimplemented()
+            return super.bounds
         }
         set {
-            assertUnimplemented()
+            let oldValue = super.bounds
+            super.bounds = newValue
+            
+            if oldValue.size != newValue.size {
+                self.invalidateProperties([.size], mayDeferUpdate: false)
+            }
         }
     }
     
@@ -204,7 +209,21 @@ extension CAHostingLayer : ViewGraphDelegate {
     }
     
     @_spi(Internal) public nonisolated func `as`<T>(_ type: T.Type) -> T? {
-        assertUnimplemented()
+        if let result = self.viewGraphHost.as(T.self) {
+            return result
+        } else if T.self == ViewGraphRenderDelegate.self {
+            return (self as! T)
+        } else if type == CALayer.self {
+            return (self as! T)
+        } else if type == ViewRendererHost.self {
+            return (self as! T)
+        } else if type == EventGraphHost.self {
+            return (self as! T)
+        } else if type == ViewGraphDelegate.self {
+            return (self as! T)
+        } else {
+            return nil
+        }
     }
     
     @_spi(Internal) public nonisolated func requestUpdate(after time: Double) {
