@@ -2110,10 +2110,6 @@ extension _UIHostingView : @preconcurrency EventGraphHost {
         assertUnimplemented()
     }
     
-    package var responderNode: ResponderNode? {
-        assertUnimplemented()
-    }
-    
     package var focusedResponder: ResponderNode? {
         assertUnimplemented()
     }

@@ -144,7 +144,23 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     }
     
     public override init(layer: Any) {
-        assertUnimplemented()
+        let casted = layer as! CAHostingLayer<Content>
+        
+        unsafe self.environment = casted.environment
+        unsafe self.rootView = casted.rootView
+        self.referenceInstant = .now
+        
+        Update.begin()
+        
+        self.viewGraphHost = ViewGraphHost(
+            rootViewType: Content.self,
+            viewDefinition: CALayerPlatformViewDefinition.self
+        )
+        
+        super.init(layer: layer)
+        self.postInit()
+        
+        Update.end()
     }
     
     fileprivate final func postInit() {
