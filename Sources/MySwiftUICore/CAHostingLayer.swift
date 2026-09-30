@@ -176,6 +176,10 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
         
         return d0
     }
+    
+    fileprivate final func startDisplayLink(delay: Double) {
+        assertUnimplemented()
+    }
 }
 
 extension CAHostingLayer : EventGraphHost {
@@ -308,13 +312,81 @@ extension CAHostingLayer : ViewGraphDelegate {
          self -> x20
          time -> d0 -> d8
          */
-        Update.locked { 
-            assertUnimplemented()
+        Update.locked {
+            let flag: Bool
+            
+            if time != 0 {
+                // <+368>
+                flag = true
+            } else {
+                // <+208>
+                if
+                    self.viewGraphHost.viewGraph.mayDeferUpdate,
+                    let displayLink = self.viewGraphHost.displayLink
+                {
+                    let nextUpdate = displayLink.nextUpdate
+                    
+                    if nextUpdate == .infinity || nextUpdate.seconds.isNaN {
+                        // <+436>
+                        flag = false
+                    } else {
+                        // <+368>
+                        flag = true
+                    }
+                } else {
+                    // <+436>
+                    flag = false
+                }
+            }
+            
+            if flag {
+                // <+368>
+                if !(time < 0.25) {
+                    // <+904>
+                    self.viewGraphHost.startUpdateTimer(delay: time)
+                    return
+                }
+                
+                if unsafe self.displayLinkProvider == nil {
+                    // <+964>
+                    if unsafe self.isUpdating {
+                        unsafe self.needsDeferredUpdate = true
+                    } else {
+                        // <+456>
+                        self.setNeedsUpdate()
+                    }
+                } else {
+                    self.startDisplayLink(delay: time)
+                }
+            } else {
+                // <+436>
+                if Thread.isMainThread {
+                    self.setNeedsUpdate()
+                } else {
+                    // <+464>
+                    DispatchQueue.main.async(group: nil, qos: .unspecified, flags: []) { [weak self = UncheckedSendable(self).value] in
+                        // $s7SwiftUI14CAHostingLayerC13requestUpdate5afterySd_tFyyScMYccfU_TA
+                        guard let self else {
+                            return
+                        }
+                        
+                        self.setNeedsUpdate()
+                    }
+                }
+            }
         }
     }
     
     @_spi(Internal) public func setNeedsUpdate() {
-        assertUnimplemented()
+        let viewGraphHost = self.viewGraphHost
+        
+        Update.locked {
+            if let displayLink = viewGraphHost.displayLink {
+                displayLink.nextThread = .main
+            }
+        }
+        
+        self.setNeedsLayout()
     }
 }
 
@@ -324,7 +396,7 @@ extension CAHostingLayer : ViewGraphRenderDelegate {
     }
     
     package func updateRenderContext(_ context: inout ViewGraphRenderContext) {
-        assertUnimplemented()
+        context.contentsScale = self.contentsScale
     }
     
     package func renderIntervalForDisplayLink(timestamp: Time) -> Double {

@@ -1668,7 +1668,7 @@ package protocol ViewGraphRenderDelegate : AnyObject {
 
 extension ViewGraphRenderDelegate {
     @MainActor package func withMainThreadRender(wasAsync: Bool, _ body: @MainActor () -> Time) -> Time {
-        assertUnimplemented()
+        return body()
     }
     
     package func renderIntervalForDisplayLink(timestamp: Time) -> Double {
