@@ -5,7 +5,7 @@ package import QuartzCore
 internal import CoreGraphics
 
 @_spi(Internal) public final class ViewGraphHost {
-    @safe nonisolated(unsafe) package static var isDefaultEnvironmentConfigured: Bool = true
+    @safe nonisolated(unsafe) package static var isDefaultEnvironmentConfigured: Bool = false
     nonisolated(unsafe) fileprivate static var _defaultEnvironment: EnvironmentValues = EnvironmentValues(PropertyList())
     nonisolated(unsafe) package static var defaultEnvironment: EnvironmentValues {
         get {
@@ -17,21 +17,21 @@ internal import CoreGraphics
         }
     }
     
-    package weak var updateDelegate: ViewGraphRootValueUpdater? = nil
-    package weak var renderDelegate: ViewGraphRenderDelegate? = nil
-    package weak var delegate: ViewGraphHostDelegate? = nil
-    private var idiom: ViewGraphHost.Idiom? = nil
-    package var initialInheritedEnvironment: EnvironmentValues? = nil
-    package let viewGraph: ViewGraph
-    package let renderer: DisplayList.ViewRenderer
-    package var currentTimestamp: Time = .zero
-    package var valuesNeedingUpdate: ViewGraphRootValues = .all
-    package var renderingPhase: ViewRenderingPhase = .none
-    package var externalUpdateCount: Int = 0
-    private var parentPhase: _GraphInputs.Phase? = nil
-    var displayLink: ViewGraphDisplayLink? = nil
-    private var nextTimerTime: Time? = nil
-    private var updateTimer: Timer? = nil
+    package weak var updateDelegate: ViewGraphRootValueUpdater? = nil // 0x10
+    package weak var renderDelegate: ViewGraphRenderDelegate? = nil // 0x20
+    package weak var delegate: ViewGraphHostDelegate? = nil // 0x30
+    private var idiom: ViewGraphHost.Idiom? = nil // 0x40
+    package var initialInheritedEnvironment: EnvironmentValues? = nil // 0x48
+    package let viewGraph: ViewGraph // 0x58
+    package let renderer: DisplayList.ViewRenderer // 0x60
+    package var currentTimestamp: Time = .zero // 0x68
+    package var valuesNeedingUpdate: ViewGraphRootValues = .all // 0x70
+    package var renderingPhase: ViewRenderingPhase = .none // 0x72
+    package var externalUpdateCount: Int = 0 // 0x78
+    private var parentPhase: _GraphInputs.Phase? = nil // 0x80
+    var displayLink: ViewGraphDisplayLink? = nil // 0x88
+    private var nextTimerTime: Time? = nil // 0x90
+    private var updateTimer: Timer? = nil // 0xa0
     
     package init<T : View>(
         rootViewType: T.Type,
@@ -138,8 +138,6 @@ internal import CoreGraphics
         }
         
         let viewGraph = viewGraph
-        viewGraph.updateRemovedState()
-        
         viewGraph.removedState = removedState
         
         Update.end()
@@ -155,7 +153,8 @@ internal import CoreGraphics
             return false
         }
         
-        return displayLink.nextUpdate != .infinity
+        let nextUpdate = displayLink.nextUpdate
+        return nextUpdate < .infinity || nextUpdate > .infinity
     }
     
     package func startUpdateTimer(delay: Double) {
@@ -163,8 +162,11 @@ internal import CoreGraphics
     }
     
     package func nextRenderInterval(interval: () -> Double) -> Double {
-        if let displayLink, displayLink.nextUpdate != .infinity {
-            return 0
+        if let displayLink {
+            let nextUpdate = displayLink.nextUpdate
+            if nextUpdate < .infinity || nextUpdate > .infinity {
+                return 0
+            }
         }
         
         return interval()
@@ -178,7 +180,7 @@ internal import CoreGraphics
          */
          // x20
         let viewGraph = self.viewGraph
-        viewGraph.data.environment = environment
+        viewGraph.data.environment = EnvironmentValues(environment)
         
         let newParentPhase = wrapper.phase.base
         viewGraph.updateGraphPhase(oldParentPhase: parentPhase, newParentPhase: newParentPhase)
@@ -277,6 +279,10 @@ internal import CoreGraphics
         if let delegate = viewGraph.delegate {
             delegate.graphDidChange()
         }
+    }
+    
+    func setRootView<T : View>(_ rootView: T) {
+        self.viewGraph.setRootView(rootView)
     }
     
     package var environment: EnvironmentValues {

@@ -75,10 +75,10 @@ private import Spatial
         
         defer {
             Subgraph.current = oldCurrent
-            CustomEventTrace.instantiateEnd(data.rootSubgraph)
+            CustomEventTrace.instantiateEnd(data.globalSubgraph)
         }
         
-        CustomEventTrace.instantiateBegin(data.rootSubgraph)
+        CustomEventTrace.instantiateBegin(data.globalSubgraph)
         
         let rootView = Attribute(type: rootViewType)
         CustomEventTrace.recordNamedProperty(.rootView, rootView)
@@ -99,9 +99,13 @@ private import Spatial
         self._proposedSize = proposedSize
         
         // <+976>
-        let containerSize = Attribute(value: ViewSize.zero)
-        CustomEventTrace.recordNamedProperty(.containerSize, containerSize)
-        self._containerSize = OptionalAttribute(containerSize)
+        if requestedOutputs.contains(.layout) {
+            let containerSize = Attribute(value: ViewSize.zero)
+            CustomEventTrace.recordNamedProperty(.containerSize, containerSize)
+            self._containerSize = OptionalAttribute(containerSize)
+        } else {
+            self._containerSize = OptionalAttribute()
+        }
         
         // <+1148>
         let safeAreaInsets: Attribute<_SafeAreaInsetsModifier>
@@ -230,6 +234,11 @@ private import Spatial
     
     package final func setRootView<Content : View>(_ rootView: Content) {
         self.rootView.unsafeCast(to: Content.self).value = rootView
+    }
+    
+    @discardableResult
+    package final func invalidateTransform() -> Bool {
+        assertUnimplemented()
     }
     
     package func updateOutputs(at timestamp: Time) {

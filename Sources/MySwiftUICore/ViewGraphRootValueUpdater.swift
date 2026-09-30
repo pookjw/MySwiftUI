@@ -251,7 +251,11 @@ extension ViewGraphRootValueUpdater {
     }
     
     @_spi(Internal) public func updateTransform() {
-        assertUnimplemented()
+        guard let owner = self.as(ViewGraphOwner.self) else {
+            return
+        }
+        
+        owner.viewGraph.invalidateTransform()
     }
     
     @_spi(Internal) public func updateFocusStore() {

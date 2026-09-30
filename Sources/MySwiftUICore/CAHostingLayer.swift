@@ -13,13 +13,13 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     
     public nonisolated(unsafe) var rootView: Content {
         didSet {
-            assertUnimplemented()
+            self.invalidateProperties([.rootView], mayDeferUpdate: true)
         }
     }
     
     private nonisolated(unsafe) var environment: EnvironmentValues {
         didSet {
-            assertUnimplemented()
+            self.invalidateProperties([.environment], mayDeferUpdate: true)
         }
     }
     
@@ -57,7 +57,9 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     }
     
     deinit {
-        assertUnimplemented()
+        self.viewGraphHost.tearDown(delegate: self)
+        self.viewGraphHost.clearDisplayLink()
+        self.viewGraphHost.clearUpdateTimer()
     }
     
     public override var bounds: CGRect {
@@ -132,11 +134,12 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     }
     
     public override var contentsScale: CGFloat {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
+        didSet {
+            guard oldValue != self.contentsScale else {
+                return
+            }
+            
+            self.invalidateProperties([.environment], mayDeferUpdate: true)
         }
     }
     
@@ -235,19 +238,21 @@ extension CAHostingLayer : ViewRendererHost {
     }
     
     @_spi(Internal) public func updateRootView() {
-        assertUnimplemented()
+        unsafe self.viewGraphHost.setRootView(self.rootView)
     }
     
     @_spi(Internal) public func updateEnvironment() {
-        assertUnimplemented()
-    }
-    
-    @_spi(Internal) public func updateTransform() {
-        assertUnimplemented()
+        var environment = unsafe self.environment
+        environment.displayScale = self.contentsScale
+        
+        self.viewGraphHost.setEnvironment(environment, wrapper: ViewGraphHostEnvironmentWrapper())
     }
     
     @_spi(Internal) public func updateSize() {
-        assertUnimplemented()
+        let size = self.bounds.size
+        self.viewGraphHost.viewGraph.setSize(
+            ViewSize(size, proposal: _ProposedSize(size))
+        )
     }
     
     @_spi(Internal) public func updateSafeArea() {
