@@ -14,7 +14,7 @@ final class UIHostingConfigurationViewController : UICollectionViewController {
     init() {
         self.cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int> { cell, indexPath, itemIdentifier in
             cell.contentConfiguration = UIHostingConfiguration {
-                MyLabel(text: itemIdentifier.description)
+                AnyView(MyLabel(text: itemIdentifier.description))
             }
         }
         

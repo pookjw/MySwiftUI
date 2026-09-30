@@ -4,6 +4,9 @@ private import UIKit
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct ListItemTint : Sendable {
+    private var effect: ListItemTint.Effect
+    private var isFixed: Bool
+    
     public static func fixed(_ tint: Color) -> ListItemTint {
         assertUnimplemented()
     }
@@ -15,6 +18,13 @@ public struct ListItemTint : Sendable {
     public static let monochrome: ListItemTint = {
         assertUnimplemented()
     }()
+}
+
+extension ListItemTint {
+    enum Effect {
+        case color(Color)
+        case monochrome
+    }
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -45,13 +55,13 @@ extension ListItemTintTraitKey : Sendable {
 }
 
 struct ListContentStyling {
-    private var insets: EdgeInsets
-    private var minHeight: CGFloat
-    private var font: Font?
-    private var foregroundStyle: Color?
-    private var isUppercase: Bool
-    private var labelIconToTitleSpacing: CGFloat
-    private var tint: ListItemTint?
+    private(set) var insets: EdgeInsets
+    private(set) var minHeight: CGFloat
+    private(set) var font: Font?
+    private(set) var foregroundStyle: Color?
+    private(set) var isUppercase: Bool
+    private(set) var labelIconToTitleSpacing: CGFloat
+    private(set) var tint: ListItemTint?
 }
 
 struct ListRowHoverEffectConfiguration {

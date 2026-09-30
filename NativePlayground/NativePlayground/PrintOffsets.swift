@@ -31,7 +31,7 @@ private func dumpFieldOffsets(of type: Any.Type, options: _EachFieldOptions) {
     }
 }
 
-private func printFields(_ type: Any.Type, isClassType: Bool) {
+func printFields(_ type: Any.Type, isClassType: Bool) {
     func project<T>(key: T.Type) {
         let options: _EachFieldOptions = isClassType ? [.classType] : []
         print(_typeName(type, qualified: true), String(format: "(0x%lx)", MemoryLayout<T>.size))
@@ -258,6 +258,7 @@ func printOffsets() {
     printFields("7SwiftUI17RemoteEffectGroupV8ResolvedV", isClassType: false)
     printFields("7SwiftUI17RemoteEffectGroupV10PropertiesV", isClassType: false)
     printFields("7SwiftUI14CAHostingLayerCyAA7AnyViewVG", isClassType: true)
+    printFields(ListItemTint.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

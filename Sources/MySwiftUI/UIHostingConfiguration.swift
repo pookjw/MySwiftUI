@@ -7,9 +7,9 @@ private import _UIKitPrivate
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 public struct UIHostingConfiguration<Content, Background> : UIContentConfiguration where Content : View, Background : View {
-    private var rootView: Content
+    fileprivate private(set) var rootView: Content
     private var backgroundView: Background
-    private var storage = UIHostingConfigurationStorage()
+    fileprivate private(set) var storage = UIHostingConfigurationStorage()
     
     fileprivate init(rootView: Content, backgroundView: Background, storage: UIHostingConfigurationStorage) {
         self.rootView = rootView
@@ -93,12 +93,12 @@ struct IsInHostingConfiguration : ViewInputBoolFlag {}
 
 fileprivate struct UIHostingConfigurationStorage {
     var wantsBackground: Bool = true // 0x0
-    private var margins = OptionalEdgeInsets() // 0x14 (offset field)
-    private var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
+    private(set) var margins = OptionalEdgeInsets() // 0x14 (offset field)
+    private(set) var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
     private(set) var createsUIInteractions: Bool = true // 0x1c (offset field)
     private var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
     var lastState: UICellConfigurationState? = nil // 0x24 (offset field)
-    private var wantsPlatformItemList: Bool = false // 0x28 (offset field)
+    private(set) var wantsPlatformItemList: Bool = false // 0x28 (offset field)
     private weak var delegate: (any UIHostingViewDelegate)? = nil // 0x2c (offset field)
 }
 
@@ -106,7 +106,7 @@ fileprivate final class UIHostingContentViewWithoutInteractions<Content : View, 
 }
 
 fileprivate class UIHostingContentView<Content : View, Background : View> : _UIHostingView<ModifiedContent<Content, HostingContentViewRootModifier>>, _UIContentViewContainerBackgroundViewProviding, _UIContentViewContainerDisplayTracking, _UIContentViewSwipeActionsConfigurationProviding, _UIContentViewSeparatorInsetProviding, _UIContentViewPopupMenuButtonProviding, _UIContentViewDefaultStylingObtaining, _UIContentViewHoverStyleProviding {
-    private var listEnvironment: UIListEnvironment {
+    private var listEnvironment: UIListEnvironment = .none {
         didSet {
             assertUnimplemented()
         }
@@ -118,33 +118,83 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    var _containerBackgroundViewDidChangeHandler: (() -> Void)?
-    private var backgroundHost: _UIHostingView<Background>?
+    var _containerBackgroundViewDidChangeHandler: (() -> Void)? = nil
+    private var backgroundHost: _UIHostingView<Background>? = nil
     
-    private var _defaultListContentConfigurationProvider: (() -> UIListContentConfiguration?)? {
+    private var _defaultListContentConfigurationProvider: (() -> UIListContentConfiguration?)? = nil {
         didSet {
             updateHostedViews()
         }
     }
     
-    var _popupMenuButtonDidChangeHandler: (() -> Void)?
-    private var popUpButton: WeakBox<UIButton>?
-    private var popUpButtonSeed: VersionSeedTracker<BridgedPopUpButtonPreferenceKey>
-    private var lastObservedSize: _ProposedSize?
-    private var lastSizeThatFits: CGSize?
-    private var hasBeenVisible: Bool
-    var _preferredContainerHoverStyleDidChangeHandler: (() -> Void)?
+    var _popupMenuButtonDidChangeHandler: (() -> Void)? = nil
+    private var popUpButton: WeakBox<UIButton>? = nil
+    private var popUpButtonSeed = VersionSeedTracker<BridgedPopUpButtonPreferenceKey>(seed: .invalid)
+    private var lastObservedSize: _ProposedSize? = nil
+    private var lastSizeThatFits: CGSize? = nil
+    private var hasBeenVisible: Bool = false
+    var _preferredContainerHoverStyleDidChangeHandler: (() -> Void)? = nil
     
-    private var hoverEffectConfiguration: ListRowHoverEffectConfiguration? {
+    private var hoverEffectConfiguration: ListRowHoverEffectConfiguration? = nil {
         didSet {
             assertUnimplemented()
         }
     }
     
-    var _preferredSeparatorInsetsDidChangeHandler: (() -> Void)?
+    var _preferredSeparatorInsetsDidChangeHandler: (() -> Void)? = nil
     
     init(configuration: UIHostingConfiguration<Content, Background>) {
-        assertUnimplemented()
+        // <+748>
+        PlatformColorDefinition.setInternalDefinition(UIKitPlatformColorDefinition.self, system: .uiKit)
+        PlatformItemsDefinition.setDefinition(UIKitPlatformItemsDefinition.self, system: .uiKit)
+        
+        // <+844>
+        self._configuration = configuration
+        
+        let rootView = configuration
+            .rootView
+            .modifier(
+                HostingContentViewRootModifier(
+                    defaultStyling: ListContentStyling(
+                        insets: .zero,
+                        minHeight: 0,
+                        font: nil,
+                        foregroundStyle: nil,
+                        isUppercase: false,
+                        labelIconToTitleSpacing: 10,
+                        tint: nil
+                    ),
+                    margins: configuration.storage.margins,
+                    minSize: configuration.storage._minSize,
+                    listEnvironment: .none,
+                    configurationState: nil
+                )
+            )
+        
+        super.init(rootView: rootView)
+        
+        // <+1224>
+        if configuration.storage.wantsPlatformItemList {
+            self.viewGraph.requestedOutputs.insert(.platformItemList)
+        }
+        
+        // <+1360>
+        self.updateHostedViews()
+        
+        Update.ensure { 
+            // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC13configurationADyxq_GAA0C13ConfigurationVyxq_G_tcfcyyXEfU_TA
+            self.viewGraph.addPreference(BridgedPopUpButtonPreferenceKey.self)
+            self.viewGraph.addPreference(ListRowHoverEffectPreferenceKey.self)
+            self.viewGraph.addPreference(DefaultListRowHoverEffectPreferenceKey.self)
+            self.viewGraph.addPreference(ListRowHoverEffectDisabledPreferenceKey.self)
+            self.viewGraph.addPreference(UsesPreferenceBasedListRowHoverEffectsKey.self)
+            self.viewGraph.append(feature: SwipeActions.Feature())
+        }
+        
+        self.delegate = self
+        self.preservesSuperviewLayoutMargins = true
+        
+        self.registerForTraitChanges([UITraitUserInterfaceStyle.self], action: #selector(setNeedsLayout))
     }
     
     required init(rootView: ModifiedContent<Content, HostingContentViewRootModifier>) {
@@ -323,11 +373,11 @@ extension UIHostingContentView : UIContentView {
 }
 
 fileprivate struct HostingContentViewRootModifier : UnaryViewModifier {
-    private var defaultStyling: ListContentStyling
-    private var margins: OptionalEdgeInsets
-    private var minSize: (CGFloat?, CGFloat?)
-    private var listEnvironment: UIListEnvironment
-    private var configurationState: UICellConfigurationState?
+    private(set) var defaultStyling: ListContentStyling
+    private(set) var margins: OptionalEdgeInsets
+    private(set) var minSize: (CGFloat?, CGFloat?)
+    private(set) var listEnvironment: UIListEnvironment
+    private(set) var configurationState: UICellConfigurationState?
     
     var effectivePadding: EdgeInsets {
         assertUnimplemented()
