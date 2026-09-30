@@ -134,7 +134,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             }
         }
         
-        let token: Int32 = unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+        let token: Int32 = withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
             unsafe notify_register_dispatch("com.apple.swiftuitrace.state", outToken.baseAddress, .main, { token in
                 handleTraceNotification(graph: graph, token: token)
             })
@@ -191,16 +191,16 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return nil
     }
     
-    package private(set) final var data: GraphHost.Data
-    private var constants: [ConstantKey: AnyAttribute]
-    private(set) var isInstantiated: Bool
-    package final var hostPreferenceValues: WeakAttribute<PreferenceValues>
-    private var lastHostPreferencesSeed: VersionSeed
-    private var pendingTransactions: [AsyncTransaction]
-    private var inTransaction: Bool
-    private var continuations: [any GraphMutation]
-    package private(set) final var mayDeferUpdate: Bool
-    var removedState: GraphHost.RemovedState {
+    package private(set) final var data: GraphHost.Data // 0x10
+    private var constants: [ConstantKey: AnyAttribute] // 0x78
+    private(set) var isInstantiated: Bool // 0x80
+    package final var hostPreferenceValues: WeakAttribute<PreferenceValues> // 0x84
+    private var lastHostPreferencesSeed: VersionSeed // 0x8c
+    private var pendingTransactions: [AsyncTransaction] // 0x90
+    private var inTransaction: Bool // 0x98
+    private var continuations: [any GraphMutation] // 0xa0
+    package private(set) final var mayDeferUpdate: Bool // 0xa8
+    var removedState: GraphHost.RemovedState { // 0xa9
         didSet {
             self.updateRemovedState()
         }

@@ -304,7 +304,13 @@ extension CAHostingLayer : ViewGraphDelegate {
     }
     
     @_spi(Internal) public nonisolated func requestUpdate(after time: Double) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         time -> d0 -> d8
+         */
+        Update.locked { 
+            assertUnimplemented()
+        }
     }
     
     @_spi(Internal) public func setNeedsUpdate() {

@@ -10,14 +10,14 @@ private import Spatial
         return GraphHost.currentHost as! ViewGraph
     }
     
-    private let rootViewType: Any.Type
-    private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs
-    package internal(set) weak var delegate: ViewGraphDelegate? = nil
-    private(set) var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer())
-    private(set) var centersRootView = true
-    private let rootView: AnyAttribute
-    @Attribute private(set) var rootTransform: ViewTransform
-    private var _transform: Attribute<ViewTransform>
+    private let rootViewType: Any.Type // 0xb0
+    private let makeRootView: (AnyAttribute, _ViewInputs) -> _ViewOutputs // 0xb8
+    package internal(set) weak var delegate: ViewGraphDelegate? = nil // 0xc8
+    private(set) var features = ViewGraphFeatureBuffer(contents: UnsafeHeterogeneousBuffer()) // 0xd8
+    private(set) var centersRootView = true // 0xe8
+    private let rootView: AnyAttribute // 0xec
+    @Attribute private(set) var rootTransform: ViewTransform // 0xf0
+    private var _transform: Attribute<ViewTransform> // 0xf4
     package var transform: ViewTransform {
         get {
             return self._transform.value
@@ -26,29 +26,29 @@ private import Spatial
             self._transform.value = newValue
         }
     }
-    @Attribute private(set) var zeroPoint: CGPoint
-    @Attribute var proposedSize: ViewSize
-    @Attribute var safeAreaInsets: _SafeAreaInsetsModifier
-    @Attribute private var containerShape: UnevenRoundedRectangle
-    @Attribute private var rootGeometry: ViewGeometry
-    @Attribute private var position: CGPoint
-    @Attribute private var dimensions: ViewSize
-    @OptionalAttribute var containerSize: ViewSize?
-    @Attribute private var gestureTime: Time
-    @Attribute private var gestureEvents: [EventID : any EventType]
-    @Attribute private var inheritedPhase: _GestureInputs.InheritedPhase
-    @Attribute private var gestureResetSeed: UInt32
-    @OptionalAttribute private var rootPhase: GesturePhase<Void>?
-    @OptionalAttribute private var gestureDebug: GestureDebug.Data?
-    @OptionalAttribute private var gestureCategory: GestureCategory?
-    @Attribute private var gesturePreferenceKeys: PreferenceKeys
-    private var eventSubgraph: Subgraph? = nil
-    @Attribute private(set) var defaultLayoutComputer: LayoutComputer
-    @WeakAttribute var rootResponders: [ViewResponder]?
-    @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer?
-    @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)?
-    package var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>()
-    package internal(set) var accessibilityEnabled = false
+    @Attribute private(set) var zeroPoint: CGPoint // 0xf8
+    @Attribute var proposedSize: ViewSize // 0xfc
+    @Attribute var safeAreaInsets: _SafeAreaInsetsModifier // 0x100
+    @Attribute private var containerShape: UnevenRoundedRectangle // 0x104
+    @Attribute private var rootGeometry: ViewGeometry // 0x108
+    @Attribute private var position: CGPoint // 0x10c
+    @Attribute private var dimensions: ViewSize // 0x110
+    @OptionalAttribute var containerSize: ViewSize? // 0x114
+    @Attribute private var gestureTime: Time // 0x118
+    @Attribute private var gestureEvents: [EventID : any EventType] // 0x11c
+    @Attribute private var inheritedPhase: _GestureInputs.InheritedPhase // 0x120
+    @Attribute private var gestureResetSeed: UInt32 // 0x124
+    @OptionalAttribute private var rootPhase: GesturePhase<Void>? // 0x128
+    @OptionalAttribute private var gestureDebug: GestureDebug.Data? // 0x12c
+    @OptionalAttribute private var gestureCategory: GestureCategory? // 0x130
+    @Attribute private var gesturePreferenceKeys: PreferenceKeys // 0x134
+    private var eventSubgraph: Subgraph? = nil // 0x138
+    @Attribute private(set) var defaultLayoutComputer: LayoutComputer // 0x140
+    @WeakAttribute var rootResponders: [ViewResponder]? // 0x144
+    @WeakAttribute fileprivate var rootLayoutComputer: LayoutComputer? // 0x14c
+    @WeakAttribute var rootDisplayList: (DisplayList, DisplayList.Version)? // 0x154
+    package var sizeThatFitsObservers = ViewGraphGeometryObservers<SizeThatFitsMeasurer>() // 0x160
+    package internal(set) var accessibilityEnabled = false // 0x168
     package var requestedOutputs: ViewGraph.Outputs {
         didSet {
             if requestedOutputs != oldValue {
@@ -56,11 +56,11 @@ private import Spatial
             }
         }
     }
-    private var disabledOutputs = ViewGraph.Outputs(rawValue: 0)
-    private(set) var mainUpdates: Int = 0
-    var nextUpdate = (views: NextUpdate(), gestures: NextUpdate())
-    private(set) weak var _preferenceBridge: PreferenceBridge? = nil
-    private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = []
+    private var disabledOutputs = ViewGraph.Outputs(rawValue: 0) // 0x16a
+    private(set) var mainUpdates: Int = 0 // 0x170
+    var nextUpdate = (views: NextUpdate(), gestures: NextUpdate()) // 0x178
+    private(set) weak var _preferenceBridge: PreferenceBridge? = nil // 0x1b8
+    private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = [] // 0x1c0
     
     package init<T : View>(rootViewType: T.Type = T.self, requestedOutputs: ViewGraph.Outputs = .defaults) {
         // <+224>
@@ -238,7 +238,19 @@ private import Spatial
     
     @discardableResult
     package final func invalidateTransform() -> Bool {
-        assertUnimplemented()
+        let rootTransform = self.$rootTransform
+        
+        guard !rootTransform.valueState.contains(.unknown0) else {
+            return false
+        }
+        
+        rootTransform.invalidateValue()
+        
+        if let delegate {
+            delegate.graphDidChange()
+        }
+        
+        return true
     }
     
     package func updateOutputs(at timestamp: Time) {
@@ -1303,7 +1315,7 @@ extension ViewGraph : ViewGraphRenderHost {
                 let renderAsyncTime = renderer.renderAsync(to: displayList, time: time, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
                 // d10
                 if let renderAsyncTime {
-                    // <+1772>
+                    // <+1832>
                     // d9
                     let d9: Time
                     if nextTime < renderAsyncTime {
@@ -1312,14 +1324,15 @@ extension ViewGraph : ViewGraphRenderHost {
                         d9 = renderAsyncTime
                     }
                     
+                    let interval = (d9 - time).seconds
                     let d10 = viewRenderer.configuration.minFrameInterval
-                    let d0: Time
-                    if d9.seconds < d10 {
-                        d0 = d9
+                    let d0: Double
+                    if d10 <= interval {
+                        d0 = interval
                     } else {
-                        d0 = Time(seconds: d10)
+                        d0 = d10
                     }
-                    return d0
+                    return time + d0
                 }
             }
             
