@@ -1,5 +1,5 @@
 @frozen public struct EmptyView : PrimitiveView {
-    @inlinable public init() {}
+    @inlinable public nonisolated init() {}
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()

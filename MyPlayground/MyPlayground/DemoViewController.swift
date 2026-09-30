@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.caHostingLayerView
+        let item = DemoViewController.Item.uiHostingConfigurationView
         pushToItem(item)
         
 //        Task {
@@ -160,6 +160,7 @@ extension DemoViewController {
         case asyncRendererView
         case caLayerView
         case caHostingLayerView
+        case uiHostingConfigurationView
         
         var title: String {
             switch self {
@@ -311,6 +312,8 @@ extension DemoViewController {
                 return _typeName(CALayerViewController.self, qualified: false)
             case .caHostingLayerView:
                 return _typeName(CAHostingLayerViewController.self, qualified: false)
+            case .uiHostingConfigurationView:
+                return _typeName(UIHostingConfigurationViewController.self, qualified: false)
             }
         }
         
@@ -464,6 +467,8 @@ extension DemoViewController {
                 return CALayerViewController()
             case .caHostingLayerView:
                 return CAHostingLayerViewController()
+            case .uiHostingConfigurationView:
+                return UIHostingConfigurationViewController()
             }
         }
     }
