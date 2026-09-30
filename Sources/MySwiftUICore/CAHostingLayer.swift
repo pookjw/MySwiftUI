@@ -156,7 +156,22 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     }
     
     fileprivate final func renderInterval(timestamp: Time) -> Double {
-        assertUnimplemented()
+        let d1 = timestamp.seconds
+        var d0 = unsafe self.lastRenderTime.seconds
+        
+        if (d0 != 0) && !(d1 < d0) {
+            // <+84>
+        } else {
+            d0 = -0.000001
+            d0 = d1 + d0
+            unsafe self.lastRenderTime = Time(seconds: d0)
+        }
+        
+        d0 = unsafe self.lastRenderTime.seconds
+        d0 = d1 - d0
+        unsafe self.lastRenderTime = Time(seconds: d1)
+        
+        return d0
     }
 }
 
