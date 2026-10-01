@@ -282,7 +282,11 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     final func _preferredContainerHoverStyle() -> UIHoverStyle? {
-        assertUnimplemented()
+        guard let hoverEffectConfiguration else {
+            return nil
+        }
+        
+        return hoverEffectConfiguration.hoverStyle
     }
     
     func _preferredTrailingSeparatorInset() -> CGFloat {
@@ -597,12 +601,16 @@ extension UIHostingContentView : UIHostingViewDelegate {
 }
 
 extension UIHostingContentView : UIContentView {
-    var configuration: UIContentConfiguration {
+    var configuration: any UIContentConfiguration {
         get {
-            assertUnimplemented()
+            return self._configuration
         }
         set {
-            assertUnimplemented()
+            guard let casted = newValue as? UIHostingConfiguration<Content, Background> else {
+                preconditionFailure("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)")
+            }
+            
+            self._configuration = casted
         }
     }
 }

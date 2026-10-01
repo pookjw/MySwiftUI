@@ -104,10 +104,6 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         self.relationshipScope = nil
     }
     
-    func isHiddenForReuseDidChange(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
     nonisolated func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
         return nil
     }

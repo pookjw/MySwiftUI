@@ -68,8 +68,12 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
         self.rootList = WeakAttribute()
     }
     
-    func isHiddenForReuseDidChange(graph: ViewGraph) {
-        assertUnimplemented()
+    mutating func isHiddenForReuseDidChange(graph: ViewGraph) {
+        guard graph.requestedOutputs.isSuperset(of: .platformItemList) && !graph.data.isHiddenForReuse else {
+            return
+        }
+        
+        self.needsUpdate = true
     }
     
     func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
@@ -92,7 +96,7 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
             return true
         }
         
-        guard !wasReadSinceLastUpdate else {
+        guard wasReadSinceLastUpdate else {
             return false
         }
         
@@ -100,12 +104,12 @@ extension PlatformItemListViewGraph : ViewGraphFeature {
             return false
         }
         
-        guard rootList.wrappedValue != nil else {
+        guard let (_, changed) = rootList.changedValue(options: []) else {
             return false
         }
         
-        needsUpdate = true
-        return true
+        needsUpdate = changed
+        return changed
     }
     
     mutating func update(graph: ViewGraph) {

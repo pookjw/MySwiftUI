@@ -1,6 +1,6 @@
 public import MySwiftUICore
 public import CoreGraphics
-private import UIKit
+internal import UIKit
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct ListItemTint : Sendable {
@@ -74,7 +74,7 @@ struct ListContentStyling {
 }
 
 struct ListRowHoverEffectConfiguration {
-    private var hoverStyle: UIHoverStyle?
+    private(set) var hoverStyle: UIHoverStyle?
     private var isEnabled: Bool
     private var effect: SystemHoverEffect.Info
     private var path: Path?

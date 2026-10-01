@@ -71,10 +71,6 @@ extension FocusViewGraph : ViewGraphFeature {
         inputs.base[_GraphInputs.IsFocusSystemEnabledKey.self] = _isFocusSystemEnabled
     }
     
-    func isHiddenForReuseDidChange(graph: ViewGraph) {
-        assertUnimplemented()
-    }
-    
     nonisolated func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
         return nil
     }
