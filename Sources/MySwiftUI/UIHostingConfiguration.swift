@@ -296,9 +296,22 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     func defaultStyling() -> ListContentStyling {
-//        if let provider = self._defaultListContentConfigurationProvider {
-//            
-//        }
+        if
+            let provider = self._defaultListContentConfigurationProvider,
+            let configuration = provider()
+        {
+            // <+340>
+            _ = configuration.directionalLayoutMargins
+            _ = self.directionalLayoutMargins
+            _ = configuration.textProperties.font
+            _ = self.traitCollection
+            assertUnimplemented()
+        } else {
+            // <+504>
+            assertUnimplemented()
+        }
+        
+        // <+808>
         assertUnimplemented()
     }
     
