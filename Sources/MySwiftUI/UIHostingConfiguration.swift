@@ -2,6 +2,7 @@
 @_spi(Internal) public import MySwiftUICore
 public import UIKit
 private import _UIKitPrivate
+private import UIFoundation
 
 @available(iOS 16.0, tvOS 16.0, *)
 @available(macOS, unavailable)
@@ -136,7 +137,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     var _containerBackgroundViewDidChangeHandler: (() -> Void)? = nil
     private var backgroundHost: _UIHostingView<Background>? = nil
     
-    private var _defaultListContentConfigurationProvider: (() -> UIListContentConfiguration?)? = nil {
+    var _defaultListContentConfigurationProvider: (() -> __UIListContentConfiguration?)? = nil {
         didSet {
             updateHostedViews()
         }
@@ -296,23 +297,114 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     func defaultStyling() -> ListContentStyling {
+        var insets = EdgeInsets.zero
+        let minHeight: CGFloat
+        let font: Font?
+        let foregroundStyle: Color?
+        let isUppercase: Bool
+        let labelIconToTitleSpacing: CGFloat
+        let tint: ListItemTint?
+        
+        var margins: NSDirectionalEdgeInsets
         if
             let provider = self._defaultListContentConfigurationProvider,
             let configuration = provider()
         {
             // <+340>
-            _ = configuration.directionalLayoutMargins
-            _ = self.directionalLayoutMargins
-            _ = configuration.textProperties.font
-            _ = self.traitCollection
-            assertUnimplemented()
+            margins = configuration.directionalLayoutMargins
+            let otherMargins = self.directionalLayoutMargins
+            if !(otherMargins.leading <= margins.leading) {
+                margins.leading = otherMargins.leading
+            }
+            if !(otherMargins.trailing <= margins.trailing) {
+                margins.trailing = otherMargins.trailing
+            }
+            
+            let textProperties = configuration.textProperties
+            
+            if let adjustedFont = unsafe textProperties
+                .font
+                ._fontAdjustedForContentSizeCategory(compatibleWith: self.traitCollection)
+            {
+                font = unsafe Font(adjustedFont.takeUnretainedValue())
+            } else {
+                font = nil
+            }
+            
+            // <+564>
+            foregroundStyle = Color(
+                _platformColor: textProperties.resolvedColor(),
+                definition: UIKitPlatformColorDefinition.self
+            )
+            
+            minHeight = configuration._minimumHeight(for: self.traitCollection)
+            isUppercase = textProperties.transform == .uppercase
+            labelIconToTitleSpacing = configuration.imageToTextPadding
+            
+            if let tintColor = configuration.imageProperties.tintColor {
+                tint = .fixed(
+                    Color(
+                        _platformColor: tintColor,
+                        definition: UIKitPlatformColorDefinition.self
+                    )
+                )
+            } else {
+                tint = nil
+            }
         } else {
             // <+504>
-            assertUnimplemented()
+            margins = self.directionalLayoutMargins
+            minHeight = 0
+            font = nil
+            foregroundStyle = nil
+            isUppercase = false
+            labelIconToTitleSpacing = 10
+            tint = nil
         }
         
+        insets = EdgeInsets(
+            top: margins.top,
+            leading: margins.leading,
+            bottom: margins.bottom,
+            trailing: margins.trailing
+        )
+
         // <+808>
-        assertUnimplemented()
+        if isLinkedOnOrAfter(.v5) && self.insetsLayoutMarginsFromSafeArea {
+            // <+832>
+            // x19 + 0x8, d14, x19, d15
+            let safeAreaInsets = self.safeAreaInsets
+            let layoutDirection = LayoutDirection(self.traitCollection.layoutDirection) ?? .leftToRight
+            let directionalSafeAreaInsets: EdgeInsets
+            
+            if layoutDirection == .leftToRight {
+                directionalSafeAreaInsets = EdgeInsets(
+                    top: safeAreaInsets.top,
+                    leading: safeAreaInsets.left,
+                    bottom: safeAreaInsets.bottom,
+                    trailing: safeAreaInsets.right
+                )
+            } else {
+                directionalSafeAreaInsets = EdgeInsets(
+                    top: safeAreaInsets.top,
+                    leading: safeAreaInsets.right,
+                    bottom: safeAreaInsets.bottom,
+                    trailing: safeAreaInsets.left
+                )
+            }
+            
+            insets = directionalSafeAreaInsets.negatedInsets.adding(insets)
+        }
+        
+        return ListContentStyling(
+            insets: insets,
+            minHeight: minHeight,
+            font: font,
+            foregroundStyle: foregroundStyle,
+            isUppercase: isUppercase,
+            labelIconToTitleSpacing: labelIconToTitleSpacing,
+            tint: tint
+        )
     }
     
     func makeRootView() -> ModifiedContent<Content, HostingContentViewRootModifier> {

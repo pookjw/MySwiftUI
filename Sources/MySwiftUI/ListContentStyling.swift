@@ -8,15 +8,24 @@ public struct ListItemTint : Sendable {
     private var isFixed: Bool
     
     public static func fixed(_ tint: Color) -> ListItemTint {
-        assertUnimplemented()
+        return ListItemTint(
+            effect: .color(tint),
+            isFixed: true
+        )
     }
     
     public static func preferred(_ tint: Color) -> ListItemTint {
-        assertUnimplemented()
+        return ListItemTint(
+            effect: .color(tint),
+            isFixed: false
+        )
     }
     
     public static let monochrome: ListItemTint = {
-        assertUnimplemented()
+        return ListItemTint(
+            effect: .monochrome,
+            isFixed: true
+        )
     }()
 }
 

@@ -135,7 +135,7 @@ extension EdgeInsets {
         return CGSize(width: leading, height: top)
     }
     
-    var negatedInsets: EdgeInsets {
+    package var negatedInsets: EdgeInsets {
         return EdgeInsets(top: -top, leading: -leading, bottom: -bottom, trailing: -trailing)
     }
     
@@ -248,7 +248,7 @@ extension EdgeInsets {
         return EdgeInsets(top: top, leading: leading, bottom: bottom, trailing: trailing)
     }
     
-    func adding(_ other: EdgeInsets) -> EdgeInsets {
+    package func adding(_ other: EdgeInsets) -> EdgeInsets {
         return EdgeInsets(
             top: other.top + top,
             leading: other.leading + leading,
