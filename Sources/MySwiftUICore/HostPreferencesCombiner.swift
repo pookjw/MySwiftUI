@@ -49,6 +49,6 @@ struct HostPreferencesCombiner : Rule, AsyncAttribute {
 extension HostPreferencesCombiner {
     struct Child {
         var _keys: WeakAttribute<PreferenceKeys>
-        fileprivate var _values: WeakAttribute<PreferenceValues>
+        fileprivate(set) var _values: WeakAttribute<PreferenceValues>
     }
 }

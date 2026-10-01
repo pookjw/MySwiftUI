@@ -225,7 +225,89 @@ private import Spatial
     }
     
     package override func isHiddenForReuseDidChange() {
-        assertUnimplemented()
+        if let preferenceBridge = self._preferenceBridge {
+            if self.data.isHiddenForReuse {
+                // <+100>
+                for preference in self.bridgedPreferences {
+                    guard let viewGraph = preferenceBridge.viewGraph else {
+                        continue
+                    }
+                    
+                    guard let existing = preferenceBridge.bridgedPreferences.first(where: { $0.key == preference.0 }) else {
+                        continue
+                    }
+                    
+                    guard let attribute = existing.combiner.attribute else {
+                        continue
+                    }
+                    
+                    // <+356>
+                    var found = false
+                    
+                    func removeChild<T : PreferenceKey>(key: T.Type) {
+                        attribute.mutateBody(as: PreferenceCombiner<T>.self, invalidating: true) { combiner in
+                            // $s7SwiftUI16PreferenceBridgeC11removeValue_3for14isInvalidatingySo11AGAttributea_AA0C3Key_pXpSbtFADL_3keySbxm_tAaIRzlFyAA0C8CombinerVyxGzXEfU_
+                            if let index = combiner.attributes.firstIndex(where: { $0.attribute?.identifier == preference.1 }) {
+                                combiner.attributes.remove(at: index)
+                                found = true
+                            }
+                        }
+                    }
+                    
+                    removeChild(key: preference.0)
+                    
+                    // <+508>
+                    guard found else {
+                        continue
+                    }
+                    
+                    
+                    viewGraph.graphInvalidation(from: preference.1)
+                }
+                
+                // <+964>
+                // inlined
+                preferenceBridge.removeHostValues(
+                    for: self.data.$hostPreferenceKeys,
+                    isInvalidating: false
+                )
+                
+                // <+1460>
+            } else {
+                // <+540>
+                for preference in self.bridgedPreferences {
+                    // inlined
+                    preferenceBridge.addValue(preference.1, for: preference.0)
+                }
+                
+                // <+1188>
+                if !(self.hostPreferenceValues == WeakAttribute()) {
+                    // inlined
+                    preferenceBridge.addHostValues(
+                        self.hostPreferenceValues,
+                        for: self.data.$hostPreferenceKeys
+                    )
+                }
+                
+                // <+1460>
+            }
+            
+            // <+1460>
+        } else {
+            // <+1460>
+        }
+        
+        // <+1460>
+        for feature in self.features {
+            feature.isHiddenForReuseDidChange(graph: self)
+        }
+        
+        if
+            (self.isInstantiated || !self.data.isHiddenForReuse),
+            let delegate
+        {
+            delegate.graphDidChange()
+        }
     }
     
     package final func append<T : ViewGraphFeature>(feature: T) {

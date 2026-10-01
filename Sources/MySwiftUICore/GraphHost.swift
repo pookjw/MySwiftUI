@@ -927,19 +927,19 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
 
 extension GraphHost {
     package struct Data {
-        package private(set) var graph: Graph?
-        package private(set) var globalSubgraph: Subgraph
-        package fileprivate(set) var rootSubgraph: Subgraph
-        fileprivate var isRemoved: Bool
-        package fileprivate(set) var isHiddenForReuse: Bool
-        @Attribute var time: Time
-        @Attribute var environment: EnvironmentValues
-        @Attribute var phase: _GraphInputs.Phase
-        @Attribute package var hostPreferenceKeys: PreferenceKeys
-        @Attribute fileprivate var transaction: Transaction
-        @Attribute package var updateSeed: UInt32
-        @Attribute fileprivate var transactionSeed: UInt32
-        fileprivate(set) var inputs: _GraphInputs
+        package private(set) var graph: Graph? // 0x0
+        package private(set) var globalSubgraph: Subgraph // 0x8
+        package fileprivate(set) var rootSubgraph: Subgraph // 0x10
+        fileprivate var isRemoved: Bool // 0x18
+        package fileprivate(set) var isHiddenForReuse: Bool // 0x19
+        @Attribute var time: Time // 0x1c
+        @Attribute var environment: EnvironmentValues // 0x20
+        @Attribute var phase: _GraphInputs.Phase // 0x24
+        @Attribute package var hostPreferenceKeys: PreferenceKeys // 0x28
+        @Attribute fileprivate var transaction: Transaction // 0x2c
+        @Attribute package var updateSeed: UInt32 // 0x30
+        @Attribute fileprivate var transactionSeed: UInt32 // 0x34
+        fileprivate(set) var inputs: _GraphInputs // 0x38
         
         package init() {
             let graph = Graph(shared: GraphHost.sharedGraph)

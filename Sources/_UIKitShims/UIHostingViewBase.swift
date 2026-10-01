@@ -46,7 +46,21 @@ package final class UIHostingViewBase : NSObject {
     private var _updateFidelity: _UpdateFidelity = .milliseconds
     package var isHiddenForReuse: Bool = false {
         didSet {
-            assertUnimplemented()
+            guard let uiView else {
+                return
+            }
+            
+            let window = uiView.window
+            let isHiddenForReuse = self.isHiddenForReuse
+            
+            if isHiddenForReuse {
+                self.viewGraph.clearDisplayLink()
+            }
+            
+            self.viewGraph.updateRemovedState(
+                isUnattached: window == nil,
+                isHiddenForReuse: isHiddenForReuse
+            )
         }
     }
     private var isEnteringForeground: Bool = false

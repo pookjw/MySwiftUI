@@ -9,7 +9,7 @@ internal import AttributeGraph
     private(set) var bridgedViewInputs = PropertyList() // 0x30
     @WeakAttribute private var hostPreferenceKeys: PreferenceKeys? // 0x38
     @WeakAttribute var hostPreferencesCombiner: PreferenceValues? // 0x40
-    private var bridgedPreferences: [PreferenceBridge.BridgedPreference] = [] // 0x48
+    private(set) var bridgedPreferences: [PreferenceBridge.BridgedPreference] = [] // 0x48
     
     package init() {
         // <+60>
@@ -83,9 +83,7 @@ internal import AttributeGraph
                 // w28
                 let attribute = Attribute(combiner)
                 
-                if let index = requestedPreferences.firstIndex(where: { $0 == type }) {
-                    requestedPreferences.keys[index] = type
-                }
+                requestedPreferences.add(type)
                 
                 // <+820>
                 // w20
@@ -131,8 +129,34 @@ internal import AttributeGraph
         }
     }
     
-    func addValue(_: AnyAttribute, for key: PreferenceKey.Type) {
-        assertUnimplemented()
+    func addValue(_ attribute: AnyAttribute, for key: any PreferenceKey.Type) {
+        guard let viewGraph = self.viewGraph else {
+            return
+        }
+        
+        guard let existing = self.bridgedPreferences.first(where: { $0.key == key }) else {
+            return
+        }
+        
+        guard let combinerAttribute = existing.combiner.attribute else {
+            return
+        }
+        
+        func project<T : PreferenceKey>(key: T.Type) {
+            combinerAttribute.mutateBody(as: PreferenceCombiner<T>.self, invalidating: true) { combiner in
+                // $s7SwiftUI16PreferenceBridgeC8addValue_3forySo11AGAttributea_AA0C3Key_pXptFADL_3keyyxm_tAaHRzlFyAA0C8CombinerVyxGzXEfU_TA
+                combiner
+                    .attributes
+                    .append(
+                        AnyWeakAttribute(attribute)
+                            .unsafeCast(to: T.Value.self)
+                    )
+            }
+        }
+        
+        project(key: key)
+        
+        viewGraph.graphInvalidation(from: attribute)
     }
     
     func removeHostValues(for keys: Attribute<PreferenceKeys>, isInvalidating: Bool = false) {
@@ -168,6 +192,22 @@ internal import AttributeGraph
         if result {
             viewGraph.graphInvalidation(from: isInvalidating ? nil : keys.identifier)
         }
+    }
+    
+    func addHostValues(_ values: WeakAttribute<PreferenceValues>, for keys: Attribute<PreferenceKeys>) {
+        guard
+            let viewGraph = self.viewGraph,
+            let hostPreferencesCombiner = self.$hostPreferencesCombiner
+        else {
+            return
+        }
+        
+        hostPreferencesCombiner.mutateBody(as: HostPreferencesCombiner.self, invalidating: true) { value in
+            // $s7SwiftUI16PreferenceBridgeC13addHostValues_3fory14AttributeGraph04WeakI0VyAA0cG0VG_AF0I0VyAA0C4KeysVGtFyAA0F19PreferencesCombinerVzXEfU_TA_ce63c0
+            value.addChild(keys: keys, values: values)
+        }
+        
+        viewGraph.graphInvalidation(from: keys.identifier)
     }
 }
 

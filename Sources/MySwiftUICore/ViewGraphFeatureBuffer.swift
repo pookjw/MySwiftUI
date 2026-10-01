@@ -177,7 +177,7 @@ extension ViewGraphFeatureBuffer {
         }
         
         override class func isHiddenForReuseDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            assertUnimplemented()
+            unsafe elt.body(as: T.self).pointee.isHiddenForReuseDidChange(graph: graph)
         }
         
         override class func needsUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
