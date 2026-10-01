@@ -56,6 +56,14 @@ public struct UIHostingConfiguration<Content, Background> : UIContentConfigurati
         copy.storage.lastState = (state as? UICellConfigurationState)
         return copy
     }
+    
+    var delegate: (any UIHostingViewDelegate)? {
+        return self.storage.delegate
+    }
+    
+    func animatedSizeInvalidationDisabled() -> UIHostingConfiguration<Content, Background> {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)
@@ -100,7 +108,7 @@ fileprivate struct UIHostingConfigurationStorage {
     private var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
     var lastState: UICellConfigurationState? = nil // 0x24 (offset field)
     private(set) var wantsPlatformItemList: Bool = false // 0x28 (offset field)
-    private weak var delegate: (any UIHostingViewDelegate)? = nil // 0x2c (offset field)
+    private(set) weak var delegate: (any UIHostingViewDelegate)? = nil // 0x2c (offset field)
 }
 
 fileprivate final class UIHostingContentViewWithoutInteractions<Content : View, Background : View> : UIHostingContentView<Content, Background> {
@@ -134,22 +142,22 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    var _containerBackgroundViewDidChangeHandler: (() -> Void)? = nil
+    final var _containerBackgroundViewDidChangeHandler: (() -> Void)? = nil
     private var backgroundHost: _UIHostingView<Background>? = nil
     
-    var _defaultListContentConfigurationProvider: (() -> __UIListContentConfiguration?)? = nil {
+    final var _defaultListContentConfigurationProvider: (() -> __UIListContentConfiguration?)? = nil {
         didSet {
             updateHostedViews()
         }
     }
     
-    var _popupMenuButtonDidChangeHandler: (() -> Void)? = nil
+    final var _popupMenuButtonDidChangeHandler: (() -> Void)? = nil
     private var popUpButton: WeakBox<UIButton>? = nil
     private var popUpButtonSeed = VersionSeedTracker<BridgedPopUpButtonPreferenceKey>(seed: .invalid)
     private var lastObservedSize: _ProposedSize? = nil
     private var lastSizeThatFits: CGSize? = nil
     private var hasBeenVisible: Bool = false
-    var _preferredContainerHoverStyleDidChangeHandler: (() -> Void)? = nil
+    final var _preferredContainerHoverStyleDidChangeHandler: (() -> Void)? = nil
     
     private var hoverEffectConfiguration: ListRowHoverEffectConfiguration? = nil {
         didSet {
@@ -157,7 +165,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    var _preferredSeparatorInsetsDidChangeHandler: (() -> Void)? = nil
+    final var _preferredSeparatorInsetsDidChangeHandler: (() -> Void)? = nil
     
     init(configuration: UIHostingConfiguration<Content, Background>) {
         // <+748>
@@ -221,7 +229,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var bounds: CGRect {
+    override final var bounds: CGRect {
         didSet {
             if oldValue.size != self.bounds.size {
                 self.base.allowUIKitAnimationsForNextUpdate = true
@@ -229,7 +237,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    override var frame: CGRect {
+    override final var frame: CGRect {
         get {
             return super.frame
         }
@@ -252,8 +260,9 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    var _containerBackgroundView: UIView? {
-        assertUnimplemented()
+    final var _containerBackgroundView: UIView? {
+        self.updateBackgroundHostIfNeeded(nil)
+        return self.backgroundHost
     }
     
     func _defaultListContentConfigurationMayHaveChanged() {
@@ -264,8 +273,12 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    var _popupMenuButton: UIButton? {
-        assertUnimplemented()
+    final var _popupMenuButton: UIButton? {
+        if let popUpButton {
+            return popUpButton.base
+        } else {
+            return nil
+        }
     }
     
     func _preferredContainerHoverStyle() -> UIHoverStyle? {
@@ -281,7 +294,15 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     override func layoutMarginsDidChange() {
-        assertUnimplemented()
+        super.layoutMarginsDidChange()
+        
+        self.base.allowUIKitAnimationsForNextUpdate = true
+        
+        if let backgroundHost {
+            backgroundHost.base.allowUIKitAnimationsForNextUpdate = true
+        }
+        
+        self.updateHostedViews()
     }
     
     override func layoutSubviews() {
@@ -296,7 +317,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    func defaultStyling() -> ListContentStyling {
+    final func defaultStyling() -> ListContentStyling {
         var insets = EdgeInsets.zero
         let minHeight: CGFloat
         let font: Font?
@@ -407,7 +428,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         )
     }
     
-    func makeRootView() -> ModifiedContent<Content, HostingContentViewRootModifier> {
+    final func makeRootView() -> ModifiedContent<Content, HostingContentViewRootModifier> {
         return self._configuration.rootView
             .modifier(
                 HostingContentViewRootModifier(
@@ -420,7 +441,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         )
     }
     
-    func updateHostedViews() {
+    final func updateHostedViews() {
         self.listEnvironment = self.traitCollection.listEnvironment
         self.rootView = self.makeRootView()
         
@@ -429,7 +450,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    func updateBackgroundHostIfNeeded(_: (() -> Void)?) {
+    final func updateBackgroundHostIfNeeded(_: (() -> Void)?) {
         assertUnimplemented()
     }
     
@@ -475,7 +496,9 @@ extension UIHostingContentView : PlatformContentViewHoverStyleProviding {
 
 extension UIHostingContentView : UIHostingViewDelegate {
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didMoveTo window: UIWindow?) {
-        assertUnimplemented()
+        if let delegate = self._configuration.delegate {
+            delegate.hostingView(hostingView, didMoveTo: window)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, willUpdate environment: inout EnvironmentValues) {
