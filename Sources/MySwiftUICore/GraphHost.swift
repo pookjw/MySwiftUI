@@ -193,7 +193,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     
     package private(set) final var data: GraphHost.Data // 0x10
     private var constants: [ConstantKey: AnyAttribute] // 0x78
-    private(set) var isInstantiated: Bool // 0x80
+    package final private(set) var isInstantiated: Bool // 0x80
     package final var hostPreferenceValues: WeakAttribute<PreferenceValues> // 0x84
     private var lastHostPreferencesSeed: VersionSeed // 0x8c
     private var pendingTransactions: [AsyncTransaction] // 0x90
@@ -274,7 +274,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         data.invalidate()
     }
     
-    final func uninstantiate() {
+    package final func uninstantiate() {
         uninstantiate(immediately: false)
     }
     

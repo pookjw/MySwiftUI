@@ -108,7 +108,22 @@ fileprivate final class UIHostingContentViewWithoutInteractions<Content : View, 
 fileprivate class UIHostingContentView<Content : View, Background : View> : _UIHostingView<ModifiedContent<Content, HostingContentViewRootModifier>>, _UIContentViewContainerBackgroundViewProviding, _UIContentViewContainerDisplayTracking, _UIContentViewSwipeActionsConfigurationProviding, _UIContentViewSeparatorInsetProviding, _UIContentViewPopupMenuButtonProviding, _UIContentViewDefaultStylingObtaining, _UIContentViewHoverStyleProviding {
     private var listEnvironment: UIListEnvironment = .none {
         didSet {
-            assertUnimplemented()
+            guard oldValue != self.listEnvironment else {
+                return
+            }
+            
+            if let graph = unsafe self.viewGraph[HostingContentViewGraph.self] {
+                unsafe graph.pointee.listEnvironment = self.listEnvironment
+            }
+            
+            guard self.viewGraph.isInstantiated else {
+                return
+            }
+            
+            Update.ensure {
+                // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC15listEnvironmentSo06UIListN0VvWyyXEfU_TA
+                self.viewGraph.uninstantiate()
+            }
         }
     }
     
@@ -206,20 +221,25 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     override var bounds: CGRect {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
+        didSet {
+            if oldValue.size != self.bounds.size {
+                self.base.allowUIKitAnimationsForNextUpdate = true
+            }
         }
     }
     
     override var frame: CGRect {
         get {
-            assertUnimplemented()
+            return super.frame
         }
         set {
-            assertUnimplemented()
+            let oldBounds = self.bounds
+            super.frame = newValue
+            let newBounds = self.bounds
+            
+            if oldBounds.size != newBounds.size {
+                self.base.allowUIKitAnimationsForNextUpdate = true
+            }
         }
     }
     
@@ -276,15 +296,32 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     func defaultStyling() -> ListContentStyling {
+//        if let provider = self._defaultListContentConfigurationProvider {
+//            
+//        }
         assertUnimplemented()
     }
     
     func makeRootView() -> ModifiedContent<Content, HostingContentViewRootModifier> {
-        assertUnimplemented()
+        return self._configuration.rootView
+            .modifier(
+                HostingContentViewRootModifier(
+                    defaultStyling: self.defaultStyling(),
+                    margins: self._configuration.storage.margins,
+                    minSize: self._configuration.storage._minSize,
+                    listEnvironment: self.listEnvironment,
+                    configurationState: self._configuration.storage.lastState
+                )
+        )
     }
     
     func updateHostedViews() {
-        assertUnimplemented()
+        self.listEnvironment = self.traitCollection.listEnvironment
+        self.rootView = self.makeRootView()
+        
+        if let handler = self._containerBackgroundViewDidChangeHandler {
+            self.updateBackgroundHostIfNeeded(handler)
+        }
     }
     
     func updateBackgroundHostIfNeeded(_: (() -> Void)?) {
@@ -392,6 +429,14 @@ struct BridgedPopUpButtonPreferenceKey : HostPreferenceKey {
     static let defaultValue: WeakBox<UIButton>? = nil
     
     static func reduce(value: inout WeakBox<UIButton>?, nextValue: () -> WeakBox<UIButton>?) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct HostingContentViewGraph : ViewGraphFeature {
+    var listEnvironment: UIListEnvironment
+    
+    func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         assertUnimplemented()
     }
 }

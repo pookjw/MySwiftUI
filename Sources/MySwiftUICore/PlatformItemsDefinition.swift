@@ -21,8 +21,16 @@
     static nonisolated(unsafe) var uiKit: PlatformItemsDefinition.Type?
     static nonisolated(unsafe) var appKit: PlatformItemsDefinition.Type?
     
-    public static func setDefinition(_: PlatformItemsDefinition.Type, system: PlatformSystemDefinition) {
-        assertUnimplemented()
+    public static func setDefinition(_ definition: PlatformItemsDefinition.Type, system: PlatformSystemDefinition) {
+        if system == .uiKit {
+            if unsafe PlatformItemsDefinition.uiKit == nil {
+                unsafe PlatformItemsDefinition.uiKit = definition
+            }
+        } else if system == .appKit {
+            if unsafe PlatformItemsDefinition.appKit == nil {
+                unsafe PlatformItemsDefinition.appKit = definition
+            }
+        }
     }
 }
 

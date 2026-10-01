@@ -39,7 +39,7 @@ package final class UIHostingViewBase : NSObject {
     package var traitCollectionOverride: UITraitCollection?
     private var cachedContainerShape: MySwiftUICore::UnevenRoundedRectangle?
     private var canAdvanceTimeAutomatically: Bool = true
-    package private(set) var allowUIKitAnimationsForNextUpdate: Bool = false
+    package var allowUIKitAnimationsForNextUpdate: Bool = false
     private var lastRenderTime: MySwiftUICore::Time = .zero
     private var pendingPreferencesUpdate: Bool = false
     private var pendingPostDisappearPreferencesUpdate: Bool = false
