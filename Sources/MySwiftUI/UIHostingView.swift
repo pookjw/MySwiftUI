@@ -1334,6 +1334,15 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             self.updateRootView()
         }
     }
+    
+    final var isHiddenForReuse: Bool {
+        get {
+            return self.base.isHiddenForReuse
+        }
+        set {
+            self.base.isHiddenForReuse = newValue
+        }
+    }
 }
 
 protocol UIHostingViewDelegate : AnyObject {

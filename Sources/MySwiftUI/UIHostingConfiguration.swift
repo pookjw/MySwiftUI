@@ -9,7 +9,7 @@ private import UIFoundation
 @available(watchOS, unavailable)
 public struct UIHostingConfiguration<Content, Background> : UIContentConfiguration where Content : View, Background : View {
     fileprivate private(set) var rootView: Content
-    private var backgroundView: Background
+    fileprivate private(set) var backgroundView: Background
     fileprivate private(set) var storage = UIHostingConfigurationStorage()
     
     fileprivate init(rootView: Content, backgroundView: Background, storage: UIHostingConfigurationStorage) {
@@ -252,8 +252,8 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    func _containerViewIsHidden(forReuse hidden: Bool) {
-        assertUnimplemented()
+    final func _containerViewIsHidden(forReuse hidden: Bool) {
+        self.updateViewGraphForDisplay(isHidden: hidden)
     }
     
     func _preferredLeadingSeparatorInset() -> CGFloat {
@@ -281,7 +281,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    func _preferredContainerHoverStyle() -> UIHoverStyle? {
+    final func _preferredContainerHoverStyle() -> UIHoverStyle? {
         assertUnimplemented()
     }
     
@@ -450,8 +450,30 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    final func updateBackgroundHostIfNeeded(_: (() -> Void)?) {
-        assertUnimplemented()
+    final func updateBackgroundHostIfNeeded(_ handler: (() -> Void)?) {
+        if self._configuration.storage.wantsBackground {
+            // <+236>
+            if let backgroundHost {
+                // <+240>
+                backgroundHost.rootView = self._configuration.backgroundView
+            } else {
+                // <+356>
+                let backgroundHost = self.makeBackgroundHost()
+                self.backgroundHost = backgroundHost
+                
+                if let handler {
+                    handler()
+                }
+            }
+        } else {
+            // <+324>
+            if self.backgroundHost != nil {
+                self.backgroundHost = nil
+                if let handler {
+                    handler()
+                }
+            }
+        }
     }
     
     func makeBackgroundHost() -> UIHostingBackgroundView<Background> {
@@ -462,12 +484,60 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    func roundSize(_: CGSize) -> CGSize {
+    final func roundSize(_: CGSize) -> CGSize {
         assertUnimplemented()
     }
     
-    func updateViewGraphForDisplay(isHidden: Bool) {
-        assertUnimplemented()
+    final func updateViewGraphForDisplay(isHidden: Bool) {
+        guard self.isHiddenForReuse != isHidden else {
+            return
+        }
+        
+        self.isHiddenForReuse = isHidden
+        self.focusBridge.canAcceptFocus = !isHidden
+        
+        if !isHidden && self.hasBeenVisible && isLinkedOnOrAfter(.v6) {
+            // <+344>
+            Update.ensure { 
+                // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC06updateE15GraphForDisplay8isHiddenySb_tFyyXEfU_TA
+                self.viewGraph.incrementPhase()
+            }
+        }
+        
+        // <+412>
+        self.invalidateProperties([.focusStore], mayDeferUpdate: true)
+        
+        if
+            !isHidden,
+            let lastObservedSize,
+            let lastSizeThatFits
+        {
+            let sizeThatFits = self.sizeThatFits(lastObservedSize)
+            let roundedSize = self.roundSize(sizeThatFits)
+            
+            if lastSizeThatFits != roundedSize {
+                self.lastObservedSize = nil
+                self.lastSizeThatFits = nil
+                
+                UIView.performWithoutAnimation {
+                    // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC06updateE15GraphForDisplay8isHiddenySb_tFyyXEfU0_TA
+                    self.invalidateIntrinsicContentSize()
+                }
+            }
+            
+            // <+1072>
+        } else {
+            // <+1072>
+        }
+        
+        // <+1072>
+        if let backgroundHost {
+            backgroundHost.isHiddenForReuse = isHidden
+        }
+        
+        if !isHidden {
+            self.hasBeenVisible = true
+        }
     }
 }
 

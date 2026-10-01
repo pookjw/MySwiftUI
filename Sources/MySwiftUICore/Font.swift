@@ -552,7 +552,7 @@ extension Font {
     }
     
     public init(_ font: CTFont) {
-        assertUnimplemented()
+        self.provider = FontBox(Font.PlatformFontProvider(font: font))
     }
 }
 
@@ -665,6 +665,42 @@ extension Font {
     
     struct PrivateTextStyleProvider {
         // TODO
+    }
+    
+    struct PlatformFontProvider : CodableByProxy, Hashable, Serializable, FontProvider {
+        fileprivate private(set) var font: CTFont
+        
+        static func == (lhs: Font.PlatformFontProvider, rhs: Font.PlatformFontProvider) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
+        func serialize(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+        
+        static func deserialize(from decoder: any Decoder) throws -> Font.PlatformFontProvider {
+            assertUnimplemented()
+        }
+        
+        var tag: Font.ProviderTag {
+            assertUnimplemented()
+        }
+        
+        func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor {
+            assertUnimplemented()
+        }
+        
+        func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits {
+            assertUnimplemented()
+        }
+        
+        func removing<T : StaticFontModifier>(_ modifier: T.Type) -> any FontProvider {
+            assertUnimplemented()
+        }
     }
 }
 

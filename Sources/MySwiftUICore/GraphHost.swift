@@ -919,6 +919,10 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // <+596>
         host.continuations.append(mutation)
     }
+    
+    package func incrementPhase() {
+        assertUnimplemented()
+    }
 }
 
 extension GraphHost {

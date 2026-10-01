@@ -29,7 +29,7 @@ final class FocusBridge {
                 // <+384>
                 _focusItem = nil
                 didChangeFocusItem(from: focusItem, to: nil)
-                return focusItem
+                return _focusItem
             } else {
                 return focusItem
             }
@@ -320,7 +320,23 @@ final class FocusBridge {
             }
         }
         set {
-            assertUnimplemented()
+            let flags_1 = self.flags
+            let flags_2 = flags_1.subtracting(.unknown1)
+            let flags_3: FocusBridge.Flags = newValue ? [.unknown1] : []
+            let flags_4 = flags_2.union(flags_3)
+            
+            guard flags_1 != flags_4 else {
+                return
+            }
+            
+            self.flags = flags_4
+            self.focusStore.version = DisplayList.Version(forUpdate: ())
+            
+            guard let host else {
+                return
+            }
+            
+            host.invalidateProperties([.focusStore], mayDeferUpdate: true)
         }
     }
     
