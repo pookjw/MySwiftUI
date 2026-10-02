@@ -2544,3 +2544,9 @@ public class CAHostingLayer<Content> : QuartzCore.CALayer where Content : SwiftU
     set
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.EnvironmentValues {
+  public var defaultPadding: SwiftUI.EdgeInsets { get set }
+}

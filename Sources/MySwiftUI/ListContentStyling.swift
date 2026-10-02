@@ -63,6 +63,23 @@ internal struct ListItemTintTraitKey : _ViewTraitKey {
 extension ListItemTintTraitKey : Sendable {
 }
 
+extension EnvironmentValues {
+    var listItemTint: ListItemTint? {
+        get {
+            return self[ListItemTintKey.self]
+        }
+        set {
+            self[ListItemTintKey.self] = newValue
+        }
+    }
+}
+
+fileprivate struct ListItemTintKey : EnvironmentKey {
+    static var defaultValue: ListItemTint? {
+        return nil
+    }
+}
+
 struct ListContentStyling {
     private(set) var insets: EdgeInsets // 0x0
     private(set) var minHeight: CGFloat // 0x20

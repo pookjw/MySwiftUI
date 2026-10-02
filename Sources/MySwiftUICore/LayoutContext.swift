@@ -31,7 +31,7 @@ package struct SizeAndSpacingContext {
             return unsafe EnvironmentFetch<Value>._cachedValue(
                 options: .unknown0,
                 owner: owner,
-                hashValue: $environment.identifier.hashValue,
+                hashValue: fetch.hashValue,
                 bodyPtr: UnsafeRawPointer(pointer),
                 update: {
                     return { body, attribute in

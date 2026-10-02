@@ -848,7 +848,61 @@ struct ContentConfigurationBasedRootEnvironment : EnvironmentModifier, Primitive
     fileprivate private(set) var isEnabled: Bool
     fileprivate private(set) var state: UICellConfigurationState?
     
-    static func makeEnvironment(modifier: Attribute<ContentConfigurationBasedRootEnvironment>, environment: inout EnvironmentValues) {
-        assertUnimplemented()
+    static func makeEnvironment(
+        modifier: Attribute<ContentConfigurationBasedRootEnvironment>,
+        environment: inout EnvironmentValues
+    ) {
+        let value = modifier.value
+        
+        if value.isEnabled {
+            environment.configureListStyling(value.defaultStyling, state: value.state)
+        }
+    }
+}
+
+extension EnvironmentValues {
+    mutating func configureListStyling(_ styling: ListContentStyling, state: UICellConfigurationState?) {
+        /*
+         self -> x20 -> x19
+         styling -> x0 -> x27
+         state -> x1 -> x29 - 0x88
+         */
+        // <+372>
+        self.defaultFont = styling.font
+        
+        if let foregroundStyle = styling.foregroundStyle {
+            self.defaultForegroundStyle = foregroundStyle.copyStyle(in: self, foregroundStyle: nil)
+        } else {
+            self.defaultForegroundStyle = nil
+        }
+        
+        self.defaultLabelIconToTitleSpacing = styling.labelIconToTitleSpacing
+        
+        // <+600>
+        self.listRowInsets = styling.insets
+        self.listItemTint = styling.tint
+        
+        if styling.isUppercase {
+            self.textCase = .uppercase
+        }
+        
+        // <+768>
+        guard let state else {
+            return
+        }
+        
+        if state.isSelected && state.isFocused {
+            self.backgroundProminence = .increased
+        } else {
+            self.backgroundProminence = .standard
+        }
+        
+        // <+908>
+        self.uiKitCellState = UIKitCellState(
+            isEditing: state.isEditing,
+            isSelected: state.isSelected,
+            isPinned: state.isPinned,
+            isFocused: state.isFocused
+        )
     }
 }
