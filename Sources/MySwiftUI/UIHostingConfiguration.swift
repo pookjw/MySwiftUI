@@ -3,6 +3,7 @@
 public import UIKit
 private import _UIKitPrivate
 private import UIFoundation
+internal import AttributeGraph
 
 @available(iOS 16.0, tvOS 16.0, *)
 @available(macOS, unavailable)
@@ -743,18 +744,106 @@ extension UIHostingContentView : UIContentView {
 }
 
 fileprivate struct HostingContentViewRootModifier : UnaryViewModifier {
-    private(set) var defaultStyling: ListContentStyling
-    private(set) var margins: OptionalEdgeInsets
-    private(set) var minSize: (CGFloat?, CGFloat?)
-    private(set) var listEnvironment: UIListEnvironment
-    private(set) var configurationState: UICellConfigurationState?
+    private(set) var defaultStyling: ListContentStyling // 0x0
+    private(set) var margins: OptionalEdgeInsets // 0x14 (offset field)
+    private(set) var minSize: (CGFloat?, CGFloat?) // 0x18 (offset field)
+    private(set) var listEnvironment: UIListEnvironment // 0x1c (offset field)
+    private(set) var configurationState: UICellConfigurationState? // 0x20 (offset field)
     
     var effectivePadding: EdgeInsets {
-        assertUnimplemented()
+        return EdgeInsets(
+            top: self.margins.top ?? self.defaultStyling.insets.top,
+            leading: self.margins.leading ?? self.defaultStyling.insets.leading,
+            bottom: self.margins.bottom ?? self.defaultStyling.insets.bottom,
+            trailing: self.margins.trailing ?? self.defaultStyling.insets.trailing
+        )
     }
     
+    /*
+     SwiftUI.ModifiedContent<
+         SwiftUI.ModifiedContent<
+             SwiftUI.ModifiedContent<
+                 SwiftUI.ModifiedContent<
+                     SwiftUI._ViewModifier_Content<
+                         SwiftUI.(unknown context at $1d2e0f20c).HostingContentViewRootModifier
+                     >,
+                     SwiftUI._PaddingLayout
+                 >,
+                 SwiftUI.ContentConfigurationBasedRootEnvironment
+             >,
+             SwiftUI._FlexFrameLayout
+         >,
+         SwiftUI.AccessibilityAttachmentModifier
+     >
+     
+     .input<IsInHostingConfiguration.self>
+     */
+    
     func body(content: Content) -> some View {
-        assertUnimplemented()
+        content
+            .padding(self.effectivePadding)
+            .modifier(
+                ContentConfigurationBasedRootEnvironment(
+                    defaultStyling: self.defaultStyling,
+                    isEnabled: true,
+                    state: self.configurationState
+                )
+            )
+            .frame(
+                minWidth: self.minSize.0,
+                idealWidth: nil,
+                maxWidth: self.maxWidth,
+                minHeight: self.minSize.1 ?? (self.defaultStyling.minHeight > 0 ? self.defaultStyling.minHeight : nil),
+                idealHeight: nil,
+                maxHeight: nil,
+                alignment: self.alignment
+            )
+            .modifier(
+                AccessibilityAttachmentModifier(
+                    storage: MutableBox(self.accessibilityAttachment),
+                    behavior: nil
+                )
+            )
+            .input(IsInHostingConfiguration.self)
+    }
+    
+    @inline(always) // 원래 없음
+    private var maxWidth: CGFloat? {
+        switch self.listEnvironment {
+        case .unspecified, .none:
+            return nil
+        default:
+            return CGFloat.infinity
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    private var alignment: Alignment {
+        switch self.listEnvironment {
+        case .unspecified, .none:
+            return .center
+        default:
+            return .leading
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    private var accessibilityAttachment: AccessibilityAttachment {
+        var traits = AccessibilityTraits()
+        
+        if
+            let configurationState,
+            configurationState.isSelected
+        {
+            traits.formUnion(.isSelected)
+        }
+        
+        let options = AccessibilityNullableOptionSet<AccessibilityTraitSet>(adding: traits)
+        var properties = AccessibilityProperties()
+        properties.traits = options
+        
+        let attachment = AccessibilityAttachment.properties(properties)
+        return attachment
     }
 }
 
@@ -770,6 +859,16 @@ fileprivate struct HostingContentViewGraph : ViewGraphFeature {
     var listEnvironment: UIListEnvironment
     
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        assertUnimplemented()
+    }
+}
+
+struct ContentConfigurationBasedRootEnvironment : EnvironmentModifier, PrimitiveViewModifier {
+    fileprivate private(set) var defaultStyling: ListContentStyling
+    fileprivate private(set) var isEnabled: Bool
+    fileprivate private(set) var state: UICellConfigurationState?
+    
+    static func makeEnvironment(modifier: Attribute<ContentConfigurationBasedRootEnvironment>, environment: inout EnvironmentValues) {
         assertUnimplemented()
     }
 }

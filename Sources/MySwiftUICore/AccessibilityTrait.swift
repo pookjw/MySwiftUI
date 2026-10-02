@@ -1,3 +1,5 @@
+// 3F072AF2D37E4BBD060A42F9AFFB5042
+
 package enum AccessibilityTrait : UInt64, Hashable, CaseIterable {
     case isButton
     case isHeader
@@ -147,7 +149,7 @@ package struct AccessibilityTraitSet : OptionSet, Hashable, Codable {
     package let rawValue: UInt64
     
     package init(trait: AccessibilityTrait) {
-        self.rawValue = trait.rawValue &<< 1
+        self.rawValue = (1 << trait.rawValue)
     }
     
     package init(rawValue: UInt64) {
@@ -158,9 +160,19 @@ package struct AccessibilityTraitSet : OptionSet, Hashable, Codable {
         var rawValue: UInt64 = 0
         
         for trait in traits {
-            rawValue += trait.rawValue &<< 1
+            rawValue += (1 << trait.rawValue)
         }
         
         self.rawValue = rawValue
+    }
+}
+
+package struct AccessibilityNullableOptionSet<T> {
+    // TODO
+}
+
+extension AccessibilityNullableOptionSet where T == AccessibilityTraitSet {
+    package init(adding: AccessibilityTraits) {
+        assertUnimplemented()
     }
 }

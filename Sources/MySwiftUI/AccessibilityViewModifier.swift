@@ -596,8 +596,8 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
 }
 
 public struct AccessibilityAttachmentModifier : AccessibilityViewModifier {
-    @safe private nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
-    private let behavior: AccessibilityChildBehavior?
+    @safe private(set) nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
+    let behavior: AccessibilityChildBehavior?
     
     static var options: AccessibilityModifierOptions {
         return [.unknown0, .unknown1]

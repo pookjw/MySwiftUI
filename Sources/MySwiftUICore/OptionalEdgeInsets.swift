@@ -9,10 +9,10 @@ package struct OptionalEdgeInsets : Hashable, Sendable {
         return OptionalEdgeInsets(0, edges: .all)
     }
     
-    var top: CGFloat?
-    var leading: CGFloat?
-    var bottom: CGFloat?
-    var trailing: CGFloat?
+    package var top: CGFloat?
+    package var leading: CGFloat?
+    package var bottom: CGFloat?
+    package var trailing: CGFloat?
     
     init(_ value: CGFloat?, edges: Edge.Set) {
         self.top = edges.contains(.top) ? value : nil

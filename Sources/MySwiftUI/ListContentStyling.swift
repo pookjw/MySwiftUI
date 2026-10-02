@@ -5,7 +5,7 @@ internal import UIKit
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct ListItemTint : Sendable {
     private var effect: ListItemTint.Effect
-    private var isFixed: Bool
+    private(set) var isFixed: Bool
     
     public static func fixed(_ tint: Color) -> ListItemTint {
         return ListItemTint(
@@ -64,13 +64,13 @@ extension ListItemTintTraitKey : Sendable {
 }
 
 struct ListContentStyling {
-    private(set) var insets: EdgeInsets
-    private(set) var minHeight: CGFloat
-    private(set) var font: Font?
-    private(set) var foregroundStyle: Color?
-    private(set) var isUppercase: Bool
-    private(set) var labelIconToTitleSpacing: CGFloat
-    private(set) var tint: ListItemTint?
+    private(set) var insets: EdgeInsets // 0x0
+    private(set) var minHeight: CGFloat // 0x20
+    private(set) var font: Font? // 0x28
+    private(set) var foregroundStyle: Color? // 0x30
+    private(set) var isUppercase: Bool // 0x38
+    private(set) var labelIconToTitleSpacing: CGFloat // 0x40
+    private(set) var tint: ListItemTint? // 0x48
 }
 
 struct ListRowHoverEffectConfiguration {
