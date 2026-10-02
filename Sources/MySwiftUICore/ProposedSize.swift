@@ -6,8 +6,8 @@ public struct _ProposedSize {
     package static let infinity = _ProposedSize(width: .infinity, height: .infinity)
     static let unspecified = _ProposedSize(width: nil, height: nil)
     
-    var width: CGFloat?
-    var height: CGFloat?
+    package var width: CGFloat?
+    package var height: CGFloat?
     
     package init(width: CGFloat?, height: CGFloat?) {
         self.width = width

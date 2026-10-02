@@ -105,7 +105,7 @@ fileprivate struct UIHostingConfigurationStorage {
     private(set) var margins = OptionalEdgeInsets() // 0x14 (offset field)
     private(set) var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
     private(set) var createsUIInteractions: Bool = true // 0x1c (offset field)
-    private var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
+    private(set) var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
     var lastState: UICellConfigurationState? = nil // 0x24 (offset field)
     private(set) var wantsPlatformItemList: Bool = false // 0x28 (offset field)
     private(set) weak var delegate: (any UIHostingViewDelegate)? = nil // 0x2c (offset field)
@@ -138,7 +138,26 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     
     private var _configuration: UIHostingConfiguration<Content, Background> {
         didSet {
-            assertUnimplemented()
+            // self -> x20 -> x24
+            guard oldValue.storage.lastState != self._configuration.storage.lastState else {
+                // <+1416>
+                self.updateHostedViews()
+                return
+            }
+           
+            // <+988>
+            self.invalidateProperties([.environment], mayDeferUpdate: true)
+            
+            guard let backgroundHost else {
+                // <+1416>
+                self.updateHostedViews()
+                return
+            }
+            
+            backgroundHost.invalidateProperties([.environment], mayDeferUpdate: true)
+            
+            // <+1416>
+            self.updateHostedViews()
         }
     }
     
@@ -265,8 +284,8 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         return self.backgroundHost
     }
     
-    func _defaultListContentConfigurationMayHaveChanged() {
-        assertUnimplemented()
+    final func _defaultListContentConfigurationMayHaveChanged() {
+        self.updateHostedViews()
     }
     
     func _leadingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
@@ -313,8 +332,29 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        assertUnimplemented()
+    override final func systemLayoutSizeFitting(
+        _ targetSize: CGSize,
+        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
+        verticalFittingPriority: UILayoutPriority
+    ) -> CGSize {
+        var size = _ProposedSize(width: nil, height: nil)
+        
+        if horizontalFittingPriority == .required {
+            size.width = targetSize.width
+        }
+        
+        if verticalFittingPriority == .required {
+            size.height = targetSize.height
+        }
+        
+        // <+216>
+        self.setupSizeInvalidationHandler(size)
+        
+        let sizeThatFits = self.sizeThatFits(size)
+        let rounded = self.roundSize(sizeThatFits)
+        
+        self.lastSizeThatFits = rounded
+        return rounded
     }
     
     func appendViewGraphFeatures() {
@@ -484,8 +524,78 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    func setupSizeInvalidationHandler(_: _ProposedSize) {
-        assertUnimplemented()
+    final func setupSizeInvalidationHandler(_ size: _ProposedSize) {
+        /*
+         self -> x20
+         size -> x0 -> x26
+         */
+        // <+364>
+        guard !(self.lastObservedSize == size) else {
+            return
+        }
+        
+        // <+856>
+        self.lastObservedSize = size
+        
+        self.viewGraph.sizeThatFitsObservers.addObserver(for: size) { [weak self] lhs, rhs in
+            // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC28setupSizeInvalidationHandleryyAA09_ProposedN0VFySo6CGSizeV_AItcfU_TA
+            /*
+             lhs -> x0 -> x23
+             rhs -> x1 -> x22
+             */
+            let d8 = lhs.width
+            let d9 = lhs.height
+            var d10 = rhs.width
+            var d11 = rhs.height
+            
+            guard let self else {
+                return
+            }
+            
+            var d0: CGFloat
+            var d1: CGFloat
+            
+            do {
+                let rounded = self.roundSize(CGSize(width: d10, height: d11))
+                d0 = rounded.width
+                d1 = rounded.height
+            }
+            
+            d11 = d0
+            d10 = d1
+            self.lastSizeThatFits = CGSize(width: d0, height: d1)
+            
+            do {
+                let invalidValue = CGSize.invalidValue
+                d0 = invalidValue.width
+                d1 = invalidValue.height
+            }
+            
+            guard !((d8 == d0) && (d9 == d1)) else {
+                return
+            }
+            
+            do {
+                let rounded = self.roundSize(CGSize(width: d8, height: d9))
+                d0 = rounded.width
+                d1 = rounded.height
+            }
+            
+            guard !((d0 == d11) && (d1 == d10)) else {
+                return
+            }
+            
+            // <+252>
+            if self._configuration.storage.disablesAnimatedSizeInvalidation {
+                // <+308>
+                UIView.performWithoutAnimation {
+                    self.invalidateIntrinsicContentSize()
+                }
+            } else {
+                // <+568>
+                self.invalidateIntrinsicContentSize()
+            }
+        }
     }
     
     final func roundSize(_: CGSize) -> CGSize {
@@ -576,15 +686,28 @@ extension UIHostingContentView : UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, willUpdate environment: inout EnvironmentValues) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x22
+         hostingView -> x0 -> x21
+         environment -> x1 -> x19
+         */
+        hostingView.focusBridge.canAcceptFocus = !self.isHiddenForReuse
+        
+        if let delegate = self._configuration.storage.delegate {
+            delegate.hostingView(hostingView, willUpdate: &environment)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didUpdate environment: EnvironmentValues) {
-        assertUnimplemented()
+        if let delegate = self._configuration.storage.delegate {
+            delegate.hostingView(hostingView, didUpdate: environment)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, willUpdate properties: inout ViewGraphBridgeProperties) {
-        assertUnimplemented()
+        if let delegate = self._configuration.storage.delegate {
+            delegate.hostingView(hostingView, willUpdate: &properties)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePreferences preferences: PreferenceValues) {
@@ -592,11 +715,15 @@ extension UIHostingContentView : UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePlatformItemList list: PlatformItemList) {
-        assertUnimplemented()
+        if let delegate = self._configuration.storage.delegate {
+            delegate.hostingView(hostingView, didChangePlatformItemList: list)
+        }
     }
     
-    func hostingView<T : View>(_ T: _UIHostingView<T>, willModifyViewInputs inputs: inout _ViewInputs) {
-        assertUnimplemented()
+    func hostingView<T : View>(_ hostingView: _UIHostingView<T>, willModifyViewInputs inputs: inout _ViewInputs) {
+        if let delegate = self._configuration.storage.delegate {
+            delegate.hostingView(hostingView, willModifyViewInputs: &inputs)
+        }
     }
 }
 

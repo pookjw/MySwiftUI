@@ -206,6 +206,8 @@ extension CGSize {
 }
 
 extension CGSize {
+    package static let invalidValue = CGSize(width: -.infinity, height: -.infinity)
+    
     func inset(by insets: EdgeInsets) -> CGSize {
         var d0 = height
         var d1 = width

@@ -1496,7 +1496,11 @@ extension ViewGraphFeature {
 package struct ViewGraphGeometryObservers<T : ViewGraphGeometryMeasurer> {
     fileprivate private(set) var store: [T.Proposal: ViewGraphGeometryObservers<T>.Observer] = [:]
     
-    package mutating func addObserver(for proposal: T.Proposal, exclusive: Bool, callback: @escaping (T.Size, T.Size) -> Void) {
+    package mutating func addObserver(
+        for proposal: T.Proposal,
+        exclusive: Bool = true,
+        callback: @escaping (T.Size, T.Size) -> Void
+    ) {
         /*
          sself -> x20 -> x29 - 0x60
          proposal -> x0 -> x28
