@@ -260,6 +260,7 @@ func printOffsets() {
     printFields("7SwiftUI14CAHostingLayerCyAA7AnyViewVG", isClassType: true)
     printFields(ListItemTint.self, isClassType: false)
     printFields("7SwiftUI23AccessibilityPropertiesV", isClassType: false)
+    printFields(_ShapeStyle_Shape.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -65,11 +65,32 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     public func hash(into hasher: inout Hasher) {
         provider.hash(into: &hasher)
     }
+    
+    func applyBackgroundMaterial(shape: inout _ShapeStyle_Shape) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension Color : @preconcurrency ShapeStyle {
     public func _apply(to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+        switch shape.operation {
+        case .fallbackColor(let level):
+            // <+48>
+            if !(level < 1) {
+                let opacity = self.provider.opacity(at: level, environment: shape.environment)
+                shape.result = .color(self.opacity(Double(opacity)))
+            } else {
+                shape.result = .color(self)
+            }
+        default:
+            // <+200>
+            if
+                (shape.environment.materialColorRenderingMode != .adaptiveAllColors) ||
+                    !self.applyBackgroundMaterial(shape: &shape)
+            {
+                self.provider.apply(color: self, to: &shape)
+            }
+        }
     }
 
     @available(*, deprecated, message: "obsolete")
@@ -144,7 +165,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
         preconditionFailure() // abstract
     }
     
-    func opacity(at: Int, environment: EnvironmentValues) {
+    func opacity(at: Int, environment: EnvironmentValues) -> Float {
         preconditionFailure() // abstract
     }
 }
@@ -206,7 +227,7 @@ final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
         assertUnimplemented()
     }
     
-    override func opacity(at: Int, environment: EnvironmentValues) {
+    override func opacity(at: Int, environment: EnvironmentValues) -> Float {
         assertUnimplemented()
     }
 }

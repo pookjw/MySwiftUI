@@ -1,19 +1,21 @@
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 public struct BackgroundProminence : Hashable, Sendable {
-    public static let standard: BackgroundProminence = {
-        assertUnimplemented()
-    }()
+    private var guts: BackgroundProminence.Guts
     
-    public static let increased: BackgroundProminence = {
-        assertUnimplemented()
-    }()
-    
-    public static func == (a: BackgroundProminence, b: BackgroundProminence) -> Bool {
-        assertUnimplemented()
+    public static let standard = BackgroundProminence(guts: .standard)
+    public static let increased = BackgroundProminence(guts: .increased)
+}
+
+extension BackgroundProminence {
+    enum Guts : Hashable {
+        case standard
+        case increased
     }
     
-    public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+    struct Key : EnvironmentKey {
+        static var defaultValue: BackgroundProminence {
+            return .standard
+        }
     }
 }
 
@@ -21,10 +23,10 @@ public struct BackgroundProminence : Hashable, Sendable {
 extension EnvironmentValues {
     public var backgroundProminence: BackgroundProminence {
         get {
-            assertUnimplemented()
+            return self[BackgroundProminence.Key.self]
         }
         set {
-            assertUnimplemented()
+            self[BackgroundProminence.Key.self] = newValue
         }
     }
 }
