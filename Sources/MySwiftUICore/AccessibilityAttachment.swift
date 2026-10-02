@@ -1,14 +1,29 @@
-private import ObjectiveC
+internal import ObjectiveC
 
 package struct AccessibilityAttachment : Equatable {
-    package static func properties(_: AccessibilityProperties) -> AccessibilityAttachment {
-        assertUnimplemented()
+    package static func properties(_ properties: AccessibilityProperties) -> AccessibilityAttachment {
+        return AccessibilityAttachment(properties: properties)
     }
     
-    private var properties: AccessibilityProperties
-    private var platformElement: NSObject & PlatformAccessibilityElementProtocol
+    var properties = AccessibilityProperties()
+    var platformElement: (NSObject & PlatformAccessibilityElementProtocol)? = nil
     
     package init() {
+    }
+    
+    init(
+        properties: AccessibilityProperties,
+        platformElement: (NSObject & PlatformAccessibilityElementProtocol)?
+    ) {
+        self.properties = properties
+        self.platformElement = platformElement
+    }
+    
+    init(properties: AccessibilityProperties) {
+        self.properties = properties
+    }
+    
+    var isEmpty: Bool {
         assertUnimplemented()
     }
     

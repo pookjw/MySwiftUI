@@ -259,6 +259,7 @@ func printOffsets() {
     printFields("7SwiftUI17RemoteEffectGroupV10PropertiesV", isClassType: false)
     printFields("7SwiftUI14CAHostingLayerCyAA7AnyViewVG", isClassType: true)
     printFields(ListItemTint.self, isClassType: false)
+    printFields("7SwiftUI23AccessibilityPropertiesV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

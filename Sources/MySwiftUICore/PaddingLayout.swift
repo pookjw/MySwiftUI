@@ -63,8 +63,4 @@ extension _PaddingLayout : UnaryLayout {
     nonisolated func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
         assertUnimplemented()
     }
-    
-    static nonisolated func makeViewImpl(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
 }

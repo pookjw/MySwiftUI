@@ -224,7 +224,7 @@ fileprivate struct UnaryLayoutEngine<T : UnaryLayout> : LayoutEngine where T.Pla
     }
     
     func layoutPriority() -> Double {
-        return 0
+        return layout.layoutPriority(child: child)
     }
     
     func ignoresAutomaticPadding() -> Bool {
