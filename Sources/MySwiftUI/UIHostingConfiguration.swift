@@ -759,26 +759,6 @@ fileprivate struct HostingContentViewRootModifier : UnaryViewModifier {
         )
     }
     
-    /*
-     SwiftUI.ModifiedContent<
-         SwiftUI.ModifiedContent<
-             SwiftUI.ModifiedContent<
-                 SwiftUI.ModifiedContent<
-                     SwiftUI._ViewModifier_Content<
-                         SwiftUI.(unknown context at $1d2e0f20c).HostingContentViewRootModifier
-                     >,
-                     SwiftUI._PaddingLayout
-                 >,
-                 SwiftUI.ContentConfigurationBasedRootEnvironment
-             >,
-             SwiftUI._FlexFrameLayout
-         >,
-         SwiftUI.AccessibilityAttachmentModifier
-     >
-     
-     .input<IsInHostingConfiguration.self>
-     */
-    
     func body(content: Content) -> some View {
         content
             .padding(self.effectivePadding)
