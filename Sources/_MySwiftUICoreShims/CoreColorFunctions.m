@@ -24,7 +24,13 @@ BOOL CoreColorDependsOnEnvironment(id color, CoreSystem system) {
 
 CGColorRef _Nullable CGColorForCoreColor(CoreSystem system, id<NSObject> _Nullable color) {
     if (color == nil) return nil;
-    return [color CGColor];
+#if TARGET_OS_IPHONE
+    return [(UIColor *)color CGColor];
+#elif TARGET_OS_OSX
+    return [(NSColor *)color CGColor];
+#else
+    return (CGColorRef)[color CGColor];
+#endif
 }
 
 Class _Nullable CoreColorGetKitColorClass(CoreSystem system) {
@@ -40,7 +46,7 @@ Class _Nullable CoreColorClass(CoreSystem system) {
         }
     });
     
-    return uiClass;
+    return system == CoreSystemUIKit ? uiClass : nil;
 }
 
 BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *red, CGFloat *green, CGFloat *blue, CGFloat *alpha) {

@@ -284,11 +284,89 @@ package protocol ColorProvider : Hashable, Serializable {
     var tag: Color.ProviderTag { get }
     func resolve(in environment: EnvironmentValues) -> Color.Resolved
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR
-    func apply(color: Color, to: inout _ShapeStyle_Shape)
+    func apply(color: Color, to shape: inout _ShapeStyle_Shape)
     var staticColor: CGColor? { get }
     var kitColor: AnyObject? { get }
     var colorDescription: String { get }
     func opacity(at: Int, environment: EnvironmentValues) -> Float
+}
+
+extension ColorProvider {
+    package func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+        self._apply(color: color, to: &shape)
+    }
+    
+    func _apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+        switch shape.operation {
+        case .prepareText(let level):
+            // <+292>
+            if !(level < 1) {
+                // <+304>
+                let opacity = color
+                    .provider
+                    .opacity(
+                        at: level,
+                        environment: shape.environment
+                    )
+                
+                shape.result = .preparedText(
+                    .foregroundColor(
+                        color.opacity(Double(opacity))
+                    )
+                )
+            } else {
+                // <+428>
+                shape.result = .preparedText(.foregroundColor(color))
+            }
+        case .resolveStyle(let name, let levels):
+            // <+64>
+            guard !levels.isEmpty else {
+                break
+            }
+            
+            // s8, s9, s10
+            var resolved = self.resolveHDR(in: shape.environment)
+            // s0
+            let opacity = color.provider
+                .opacity(
+                    at: levels.lowerBound,
+                    environment: shape.environment
+                )
+            
+            resolved.opacity *= opacity
+            let style = _ShapeStyle_Pack.Style(.color(resolved))
+            
+            var pack: _ShapeStyle_Pack
+            if case .pack(let _pack) = shape.result {
+                shape.result = .none
+                pack = _pack
+            } else {
+                pack = _ShapeStyle_Pack()
+            }
+            
+            // <+240>
+            pack[name, levels.lowerBound] = style
+            shape.result = .pack(pack)
+        case .fallbackColor(let level):
+            // <+464>
+            if !(level < 1) {
+                // <+476>
+                let opacity = color
+                    .provider
+                    .opacity(
+                        at: level,
+                        environment: shape.environment
+                    )
+                
+                shape.result = .color(color.opacity(Double(opacity)))
+            } else {
+                // <+600>
+                shape.result = .color(color)
+            }
+        case .copyStyle, .modifyBackground, .multiLevel,. primaryStyle:
+            break
+        }
+    }
 }
 
 package protocol PlatformColorProvider : ColorProvider {}
@@ -804,10 +882,6 @@ package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Ser
     }
     
     package var tag: Color.ProviderTag {
-        assertUnimplemented()
-    }
-    
-    package func apply(color: Color, to: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }
     
