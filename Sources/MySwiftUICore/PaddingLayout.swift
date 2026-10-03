@@ -57,7 +57,47 @@ extension _PaddingLayout : UnaryLayout {
     }
     
     nonisolated func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
-        assertUnimplemented()
+        let spacingContext = SizeAndSpacingContext(context)
+        
+        let d8: CGFloat
+        let d9: CGFloat
+        let d10: CGFloat
+        let d11: CGFloat
+        do {
+            let insets = self.effectiveInsets(in: spacingContext)
+            d8 = insets.top
+            d9 = insets.leading
+            d10 = insets.bottom
+            d11 = insets.trailing
+        }
+        
+        let proposedSize = context.proposedSize
+        
+        let width: CGFloat?
+        if var d0 = proposedSize.width {
+            let d1 = d9 + d11
+            d0 = d0 - d1
+            d0 = (d0 >= 0) ? d0 : 0
+            width = d0
+        } else {
+            width = nil
+        }
+        
+        let height: CGFloat?
+        if var d1 = proposedSize.height {
+            let d2 = d8 + d10
+            d1 = d1 - d2
+            d1 = (d1 >= 0) ? d1 : 0
+            height = d1
+        } else {
+            height = nil
+        }
+        
+        return _Placement(
+            proposedSize: _ProposedSize(width: width, height: height),
+            anchoring: UnitPoint(x: 0, y: 0),
+            at: CGPoint(x: d9, y: d8)
+        )
     }
     
     nonisolated func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {

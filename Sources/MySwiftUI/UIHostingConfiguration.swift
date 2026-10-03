@@ -599,7 +599,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    final func roundSize(_: CGSize) -> CGSize {
+    final func roundSize(_ incoming: CGSize) -> CGSize {
         assertUnimplemented()
     }
     
