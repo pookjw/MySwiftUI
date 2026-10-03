@@ -2167,8 +2167,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         // x29 - 0xd0
         let item_1 = item
         
-        // x27
-        let platform_1 = platform
         // <+136>
         // sp + 0x3c
         let system = platform.system
@@ -2288,7 +2286,62 @@ extension DisplayList.ViewUpdater.ViewCache {
             // <+2864>
             if viewInfo_2.view !== oldView {
                 // <+2876>
-                assertUnimplemented()
+                unsafe self.reverseMap.removeValue(
+                    forKey: unsafeBitCast(oldView, to: OpaquePointer.self)
+                )
+                
+                // <+2896>
+                // w27
+                let oldSystem = viewInfo_3.platform.system
+                CoreViewRemoveFromSuperview(oldSystem, oldView)
+                
+                for i in (0..<Int(CoreViewSubviewsCount(oldSystem, oldView))).reversed() {
+                    // sp + 0xd0
+                    var systemOut = oldSystem
+                    
+                    guard let subview = unsafe CoreViewSubviewAtIndex(
+                        oldSystem,
+                        oldView,
+                        i,
+                        &systemOut
+                    ) else {
+                        continue
+                    }
+                    
+                    if systemOut != oldSystem {
+                        // <+3844>
+                        _ = DisplayList.ViewUpdater.Platform.caLayer
+                        // <+3180>
+                    }
+                    
+                    // <+3180>
+                    guard let key = unsafe self.reverseMap[unsafeBitCast(subview, to: OpaquePointer.self)] else {
+                        continue
+                    }
+                    
+                    var viewInfo = map[key]!
+                    guard !viewInfo.isRemoved else {
+                        continue
+                    }
+                    
+                    // <+3512>
+                    viewInfo.isRemoved = true
+                    self.map[key] = viewInfo
+                    map = self.map
+                    
+                    // <+4056>
+                    self.removed.insert(key)
+                }
+                
+                // <+4108>
+                unsafe self.reverseMap[unsafeBitCast(viewInfo_2.view, to: OpaquePointer.self)] = key
+                
+                if (self.index.archiveIdentity.value == 0) && (identity_1.value != 0) {
+                    viewInfo_2.layer.mySwiftUI_displayListID = Int(identity_1.value)
+                }
+                
+                // <+4188>
+                flag = true
             }
             
             // <+4192>
@@ -2349,8 +2402,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         // sp + 0x3f0
         let platform_2 = viewInfo.platform
         
-        // sp + 0x458
-        let seeds = viewInfo.seeds
         let nextUpdate = viewInfo.nextUpdate
         
         // <+2024>

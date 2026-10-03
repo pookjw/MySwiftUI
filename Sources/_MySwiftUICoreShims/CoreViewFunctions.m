@@ -120,7 +120,7 @@ void CoreViewSetFilters(ViewSystem system, id object, id array) {
     layer.filters = array;
 }
 
-id CoreViewLayerView(ViewSystem system, CALayer *layer, ViewSystem *outSystem) {
+id _Nullable CoreViewLayerView(ViewSystem system, CALayer *layer, ViewSystem *outSystem) {
     if (system == ViewSystemCALayer) {
         *outSystem = ViewSystemCALayer;
         return layer;
@@ -181,7 +181,7 @@ NSUInteger CoreViewSubviewsCount(ViewSystem system, id object) {
     return layer.sublayers.count;
 }
 
-id CoreViewSubviewAtIndex(ViewSystem system, id object, NSInteger index, ViewSystem *outSystem) {
+id _Nullable CoreViewSubviewAtIndex(ViewSystem system, id object, NSInteger index, ViewSystem *outSystem) {
     switch (system) {
         case ViewSystemCALayer: {
             CALayer *layer = (CALayer *)object;
