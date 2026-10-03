@@ -3,19 +3,19 @@ public import Foundation
 @_spi(Internal)
 open class PlatformColorDefinition {
     open class var system : PlatformSystemDefinition {
-        preconditionFailure() // abstact
+        fatalError() // abstact
     }
     
     open class var deserializationType : (NSObject & NSSecureCoding).Type {
-        preconditionFailure() // abstact
+        fatalError() // abstact
     }
     
     open class func resolvedColor(_ color : AnyObject, environment: EnvironmentValues) -> Color.Resolved? {
-        preconditionFailure() // abstact
+        fatalError() // abstact
     }
     
     open class func resolvedHDRColor(_ color : AnyObject, environment: EnvironmentValues) -> Color.ResolvedHDR? {
-        preconditionFailure() // abstact
+        fatalError() // abstact
     }
     
     package static func `for`(system: PlatformSystemDefinition) -> PlatformColorDefinition.Type? {

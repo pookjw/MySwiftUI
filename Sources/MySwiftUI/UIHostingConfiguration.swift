@@ -252,7 +252,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     required init(rootView: ModifiedContent<Content, HostingContentViewRootModifier>) {
-        preconditionFailure()
+        fatalError()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -855,7 +855,7 @@ extension UIHostingContentView : UIContentView {
         }
         set {
             guard let casted = newValue as? UIHostingConfiguration<Content, Background> else {
-                preconditionFailure("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)")
+                fatalError("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)", file: #fileID, line: #line)
             }
             
             self._configuration = casted

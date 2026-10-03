@@ -344,59 +344,59 @@ extension LayoutComputer {
 
 fileprivate class AnyLayoutEngineBox {
     func mutateEngine<T : LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func layoutPriority() -> Double {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func ignoresAutomaticPadding() -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func requiresSpacingProjection() -> Bool {
-        preconditionFailure()
+        fatalError()
     }
     
     func spacing() -> Spacing {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func childPlacement(at size: ViewSize) -> _Placement {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func childPlacement(at size: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

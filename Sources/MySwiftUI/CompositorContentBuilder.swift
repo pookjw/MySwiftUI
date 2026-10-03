@@ -299,7 +299,7 @@ protocol PrimitiveCompositorContent : CompositorContent where Body == Never {
 
 extension PrimitiveCompositorContent {
     public var body: Never {
-        preconditionFailure()
+        MySwiftUICore.preconditionFailure("body() should not be called on \(_typeName(Self.self, qualified: false)). `_viewRepresentation` should be implemented.")
     }
     
     nonisolated func _makeSupportedImmersionStyles() -> [ImmersionStyle] {
@@ -360,7 +360,7 @@ extension PrimitiveImmersiveSpaceContent {
     }
     
     static func _makeOverwriteImmersionStyle() -> ImmersionStyle {
-        preconditionFailure()
+        fatalError()
     }
     
     func _makeCompositorContent() -> AnyCompositorContent? {

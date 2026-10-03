@@ -523,7 +523,7 @@ struct SpatialLayoutSubview {
         d6 = v16.1
         
         if v16.0.isNaN || d6.isNaN || d7.isNaN {
-            preconditionFailure("view origin is invalid: \(origin), \(anchor), \(copy_1.size.value)")
+            fatalError("view origin is invalid: \(origin), \(anchor), \(copy_1.size.value)", file: #fileID, line: #line)
         }
         
         let geometry = ViewGeometry3D(

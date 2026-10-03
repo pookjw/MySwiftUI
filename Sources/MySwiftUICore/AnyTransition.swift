@@ -42,15 +42,15 @@ extension AnyTransition : Sendable {
 @usableFromInline
 class AnyTransitionBox {
     var isIdentity: Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     var hasMotion: Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     // TODO

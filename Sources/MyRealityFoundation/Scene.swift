@@ -350,7 +350,7 @@ extension Scene {
         } else if type is ImagePresentationComponent.Spatial3DImage.GenerationProgressUpdatedEvent.Type {
             assertUnimplemented()
         } else {
-            preconditionFailure("Unsupported event encountered")
+            fatalError("Unsupported event encountered")
         }
     }
 }

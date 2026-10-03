@@ -14,15 +14,15 @@ public struct ForEachSubviewCollection<Content> : RandomAccessCollection where C
     }
     
     public var startIndex: Int {
-        preconditionFailure()
+        fatalError()
     }
 
     public var endIndex: Int {
-        preconditionFailure()
+        fatalError()
     }
 
     public subscript(index: Int) -> Subview {
-        preconditionFailure()
+        fatalError()
     }
 
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)

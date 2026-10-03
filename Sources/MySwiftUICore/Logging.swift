@@ -3,6 +3,14 @@ private import Foundation
 package import CoreGraphics
 package import Spatial
 
+package func preconditionFailure(_ message: @autoclosure () -> String) -> Never {
+    Swift.fatalError(message(), file: #fileID, line: #line)
+}
+
+package func preconditionFailure(_ message: @autoclosure () -> String, file: StaticString, line: UInt) -> Never {
+    Swift.fatalError(message(), file: file, line: line)
+}
+
 package func changedBodyProperties<T>(of type: T.Type) -> [String] {
     assertUnimplemented()
 }

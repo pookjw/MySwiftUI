@@ -12,7 +12,7 @@ open class PlatformScrollEdgeEffectTagDefinition {
     }
     
     open class var modifier : any PlatformScrollEdgeEffectTagModifier.Type {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

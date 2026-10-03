@@ -5,11 +5,11 @@ class AnyFallbackDelegateBox {
     init() {}
     
     var delegate: NSObject? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func addDelegate(to environmentValues: inout EnvironmentValues) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

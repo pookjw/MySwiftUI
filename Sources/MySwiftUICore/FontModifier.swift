@@ -23,7 +23,7 @@ class AnyFontModifier : Hashable, @unchecked Sendable {
     }
     
     var typeID: ObjectIdentifier {
-        preconditionFailure() // abtract
+        fatalError() // abtract
     }
     
     var hashValue: Int {

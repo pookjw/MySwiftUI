@@ -41,11 +41,11 @@ extension Component {
     }
     
     @preconcurrency @MainActor public static func __fromCore(_ coreComponent: __ComponentRef) -> Self {
-        preconditionFailure("Built-in component did not provide __fromCore method.")
+        fatalError("Built-in component did not provide __fromCore method.")
     }
     
     @preconcurrency @MainActor public func __toCore(_ coreComponent: __ComponentRef) {
-        preconditionFailure("Built-in component did not provide __toCore method.")
+        fatalError("Built-in component did not provide __toCore method.")
     }
     
     public static func __addIntrospectionData(_ builder: OpaquePointer?) {

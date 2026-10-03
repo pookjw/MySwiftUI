@@ -427,7 +427,7 @@ struct SectionAccumulator {
         // self -> x20 -> x19
         // sp + 0xb0
         guard let copy_1 = self.list else {
-            preconditionFailure("Missing list")
+            fatalError("Missing list", file: #fileID, line: #line)
         }
         
         // <+80>

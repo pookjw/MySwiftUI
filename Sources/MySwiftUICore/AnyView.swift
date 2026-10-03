@@ -58,23 +58,23 @@ extension AnyView : Sendable {}
 
 @usableFromInline class AnyViewStorageBase {
     fileprivate var childType: any Any.Type {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate func makeChildView(view: Attribute<AnyView>, inputs: _ViewInputs) -> _ViewOutputs {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate func makeChildViewList(view: Attribute<AnyView>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate func visitContent<T : ViewVisitor>(_ visitor: inout T) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate var content: any View {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

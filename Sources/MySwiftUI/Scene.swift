@@ -46,7 +46,7 @@ extension Never : Scene {}
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension Scene {
     func sceneBodyError() -> Never {
-        preconditionFailure("body() should not be called on \(_typeName(type(of: self), qualified: false))")
+        fatalError("body() should not be called on \(_typeName(type(of: self), qualified: false))", file: #fileID, line: #line)
     }
 }
 

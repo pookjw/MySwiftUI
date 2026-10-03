@@ -13,12 +13,12 @@ private import _DarwinFoundation3.pthread
     
     @available(*, unavailable, message: "The wrapped value must be an object that conforms to Observable")
     public init(wrappedValue: Value) {
-        preconditionFailure()
+        fatalError()
     }
     
     @available(*, unavailable, message: "The wrapped value must be an object that conforms to Observable")
     public init(projectedValue: Bindable<Value>) {
-        preconditionFailure()
+        fatalError()
     }
 }
 
@@ -31,7 +31,7 @@ extension Bindable where Value : AnyObject {
 extension Bindable where Value : ObservableObject {
     @available(*, unavailable, message: "@Bindable only works with Observable types. For ObservableObject types, use @ObservedObject instead.")
     public init(wrappedValue: Value) {
-        preconditionFailure()
+        fatalError()
     }
 }
 

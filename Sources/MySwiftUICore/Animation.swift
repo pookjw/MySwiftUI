@@ -1129,35 +1129,35 @@ final class AnimatorState<Value : VectorArithmetic> {
 
 class AnimationBoxBase {
     var base: (any CustomAnimation) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     var function: Animation.Function {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func isEqual(to other: AnimationBoxBase) -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func hash(into hasher: inout Hasher) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func animate<A : VectorArithmetic>(value: A, time: Double, context: inout AnimationContext<A>) -> A? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func velocity<A : VectorArithmetic>(value: A, time: Double, context: AnimationContext<A>) -> A? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func shouldMerge<A : VectorArithmetic>(previous: Animation, value: A, time: Double, context: inout AnimationContext<A>) -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func modifier<A : CustomAnimationModifier>(_ modifier: A) -> Animation {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

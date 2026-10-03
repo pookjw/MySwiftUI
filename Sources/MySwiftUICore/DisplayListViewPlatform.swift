@@ -1,6 +1,7 @@
 // 8BBC66CBE42B8A65F8A2F3799C81A349
 private import CoreGraphics
 internal import _MySwiftUICoreShims
+private import os.log
 
 extension DisplayList.ViewUpdater {
     package struct Platform : Equatable, CustomStringConvertible {
@@ -892,7 +893,7 @@ extension DisplayList.ViewUpdater {
                 // <+216>
                 assertUnimplemented()
             default:
-                preconditionFailure()
+                fatalError()
             }
         }
         
@@ -1004,10 +1005,10 @@ extension DisplayList.ViewUpdater {
                         assertUnimplemented()
                     case .view(_):
                         // <+14476>
-                        preconditionFailure()
+                        fatalError()
                     case .placeholder(_):
                         // <+14476>
-                        preconditionFailure()
+                        fatalError()
                     }
                     
                     if viewInfo.state.flags.contains(.unknown5) {
@@ -1028,7 +1029,7 @@ extension DisplayList.ViewUpdater {
                 // <+572>
                 assertUnimplemented()
             default:
-                preconditionFailure()
+                fatalError()
             }
         }
         
@@ -2187,7 +2188,26 @@ extension DisplayList.ViewUpdater.ViewCache {
             let cacheSeed = self.cacheSeed
             guard viewInfo.cacheSeed != cacheSeed else {
                 // <+4568>
-                assertUnimplemented()
+                let description = currentList.minimalDescription
+                
+                // <+4848>
+                let kind = String(describing: viewInfo.state.kind)
+                
+                // <+4952>
+                unsafe os_log(
+                    .error,
+                    log: Log.internalErrorsLog,
+                    "repeated view: %u, %u, %u, %u, %s, %s",
+                    indexID.identity.value,
+                    indexID.serial,
+                    indexID.archiveIdentity.value,
+                    indexID.archiveSerial,
+                    kind,
+                    description
+                )
+                
+                // <+5476>
+                MySwiftUICore.preconditionFailure("repeated view: #\(indexID.identity.value), \(indexID.serial), #\(indexID.archiveIdentity.value), \(indexID.archiveSerial), \(kind), \(description)")
             }
             
             // <+328>

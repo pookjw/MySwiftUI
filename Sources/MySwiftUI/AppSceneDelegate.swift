@@ -664,7 +664,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         // <+1312>
         // x20
         guard let appGraph = AppGraph.shared else {
-            preconditionFailure("Missing app graph.")
+            MySwiftUICore.preconditionFailure("Missing app graph.")
         }
         
         // <+1324>
@@ -1264,7 +1264,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         // <+1260>
         // x27
         guard let appGraph = AppGraph.shared else {
-            preconditionFailure("Missing app graph.")
+            MySwiftUICore.preconditionFailure("Missing app graph.")
         }
         
         // x21 (x19 + 0x128)
@@ -1395,7 +1395,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         
         // <+6320>
         guard !items.isEmpty else {
-            preconditionFailure("Your app was given a scene with scene session role \(role) but no scenes declared in your app body match this role.")
+            fatalError("Your app was given a scene with scene session role \(role) but no scenes declared in your app body match this role.", file: #fileID, line: #line)
         }
         
         return items.first!
@@ -1429,11 +1429,11 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
     
     fileprivate var rootModifier: RootModifier {
         guard let sceneBridge else {
-            preconditionFailure("Application configuration error.")
+            MySwiftUICore.preconditionFailure("Application configuration error.")
         }
         
         guard let sceneStorageValues else {
-            preconditionFailure("State restoration error.")
+            MySwiftUICore.preconditionFailure("State restoration error.")
         }
         
         let presentationDataValue = self.presentationDataValue
@@ -1463,7 +1463,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
             let item = appGraph.sceneList(namespace: self.sceneNamespace).item(id: sceneItemID, where: nil)
         else {
             // $s7SwiftUI14AppPreviewHostC9sceneItemAA9SceneListV0G0VyFSSyXEfu_
-            preconditionFailure("Missing app graph.")
+            MySwiftUICore.preconditionFailure("Missing app graph.")
         }
         
         return item

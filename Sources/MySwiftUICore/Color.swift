@@ -130,7 +130,7 @@ extension Color : Serializable {
 @usableFromInline
 package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     var tag: Color.ProviderTag {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     override func apply(to: inout _ShapeStyle_Shape) {
@@ -138,35 +138,35 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
     
     func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     var staticColor: CGColor? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     package var kitColor: AnyObject? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func hash(into hasher: inout Hasher) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     var description: String {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

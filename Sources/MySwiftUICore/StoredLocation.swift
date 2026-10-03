@@ -127,15 +127,15 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
     }
     
     fileprivate func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate func notifyObservers() {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate var isValid: Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     fileprivate final func beginUpdate() {

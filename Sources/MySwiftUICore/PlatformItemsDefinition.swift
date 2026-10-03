@@ -1,6 +1,6 @@
 @_spi(Internal) open class PlatformItemsDefinition {
     open class var system: PlatformSystemDefinition {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     open class func addAccessibilityKey(inputs: inout _ViewInputs) {

@@ -16,7 +16,7 @@ protocol PrimitiveAttachmentContent : AttachmentContent {
 
 extension PrimitiveAttachmentContent {
     public var body: Never {
-        preconditionFailure()
+        fatalError()
     }
 }
 

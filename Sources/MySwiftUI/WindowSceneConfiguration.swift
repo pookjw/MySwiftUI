@@ -47,7 +47,7 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
             let firstSupported = supported.first // x29 - 0x88
         else {
             // $s7SwiftUI37ImmersiveSpaceConfigurationAttributesV30validatedImmersionStyleOptions9selection7allowed9supportedAA0hI0_p_SayAaH_pGtAA7BindingVyAaH_pGSg_AISgANtFZSSyXEfu_
-            preconditionFailure("The ImmersiveSpaceContent implementation should define at least one supported immersion style.")
+            MySwiftUICore.preconditionFailure("The ImmersiveSpaceContent implementation should define at least one supported immersion style.")
         }
         
         // <+208>

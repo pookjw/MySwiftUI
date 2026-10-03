@@ -230,7 +230,7 @@ public let __privateEngineMode: Bool = {
                 USDImportServiceType = type
             } else {
                 guard let realityIOHandle = unsafe dlopen("/System/Library/PrivateFrameworks/RealityIO.framework/RealityIO", RTLD_LAZY) else {
-                    preconditionFailure("Could not load RealityIO.")
+                    fatalError("Could not load RealityIO.")
                 }
                 
                 unsafe self.realityIOHandle = unsafe realityIOHandle
@@ -270,7 +270,7 @@ public let __privateEngineMode: Bool = {
             _ = consume clone
             
             guard !useMetal else {
-                preconditionFailure("Could not create render service.")
+                fatalError("Could not create render service.")
             }
         }
         
