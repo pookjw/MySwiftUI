@@ -671,7 +671,7 @@ extension Font {
         fileprivate private(set) var font: CTFont
         
         static func == (lhs: Font.PlatformFontProvider, rhs: Font.PlatformFontProvider) -> Bool {
-            assertUnimplemented()
+            return lhs.font == rhs.font
         }
         
         func hash(into hasher: inout Hasher) {
@@ -736,7 +736,11 @@ final class FontBox<T : FontProvider> : AnyFontBox, @unchecked Sendable {
     }
     
     override func isEqual(to other: AnyFontBox) -> Bool {
-        assertUnimplemented()
+        guard let casted = other as? Self else {
+            return false
+        }
+        
+        return self.base == casted.base
     }
     
     override func hash(into hasher: inout Hasher) {

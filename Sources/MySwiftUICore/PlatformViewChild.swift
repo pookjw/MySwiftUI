@@ -2,7 +2,7 @@
 public import AttributeGraph
 internal import CoreGraphics
 
-struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute {
+struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, ObservedAttribute, RemovableAttribute, InvalidatableAttribute, ScrapeableAttribute, @unchecked Sendable {
     @Attribute private var view: Representable // 0x0
     @Attribute private var environment: EnvironmentValues // 0x4
     @Attribute private var transaction: Transaction // 0x8
@@ -14,10 +14,10 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
     private let bridge: PreferenceBridge // 0x20
     private var links: _DynamicPropertyBuffer // 0x28
     private var features: CoreViewRepresentableFeatureBufferProxy // 0x38
-    private var coordinator: Representable.Coordinator? // 0x48 (offset) / 0x4c (offset field)
-    private var platformView: Representable.Host? // 0x50 (offset) / 0x50 (offset field)
-    private var resetSeed: UInt32 // 0x58 (offset) / 0x54 (offset field)
-    private let tracker: PropertyList.Tracker // 0x60 (offset) / 0x58 (offset field)
+    private var coordinator: Representable.Coordinator? // 0x4c (offset field)
+    private var platformView: Representable.Host? // 0x50 (offset field)
+    private var resetSeed: UInt32 // 0x54 (offset field)
+    private let tracker: PropertyList.Tracker // 0x58 (offset field)
     
     static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
         assertUnimplemented()
@@ -355,8 +355,30 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
         }
     }
     
-    func resetPlatformView() {
-        assertUnimplemented()
+    mutating func resetPlatformView() {
+        // <+520>
+        guard let coordinator else {
+            return
+        }
+        
+        // <+588>
+        guard let representedViewProvider else {
+            return
+        }
+        
+        let providerSendable = UncheckedSendable(representedViewProvider)
+        let coordinatorSendable = UncheckedSendable(coordinator)
+        
+        // <+688>
+        MainActor.assumeIsolated {
+            // $s7SwiftUI17PlatformViewChildV05resetcD0yyFyyScMYcXEfU_
+            // <+372>
+            self.view.resetViewProvider(providerSendable.value, coordinator: coordinatorSendable.value) {
+                // $s7SwiftUI17PlatformViewChildV05resetcD0yyFyyScMYcXEfU_yycfU_TA
+                Representable.dismantleViewProvider(providerSendable.value, coordinator: coordinatorSendable.value)
+                self.reset()
+            }
+        }
     }
     
     mutating func destroy() {
@@ -415,7 +437,7 @@ struct PlatformViewChild<Representable : CoreViewRepresentable>: StatefulRule, O
     }
     
     static func didReinsert(attribute: AnyAttribute) {
-        assertUnimplemented()
+        self.willRemove(attribute: attribute)
     }
 }
 
