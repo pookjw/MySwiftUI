@@ -181,7 +181,17 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     
     private var hoverEffectConfiguration: ListRowHoverEffectConfiguration? = nil {
         didSet {
-            assertUnimplemented()
+            /*
+             self -> x20
+             oldValue -> x0 -> x29 - 0x70
+             */
+            // <+240>
+            if
+                !(self.hoverEffectConfiguration == oldValue),
+                let handler = self._preferredContainerHoverStyleDidChangeHandler
+            {
+                handler()
+            }
         }
     }
     
@@ -329,8 +339,12 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         self.updateHostedViews()
     }
     
-    override func layoutSubviews() {
-        assertUnimplemented()
+    override final func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if let handler = self._preferredSeparatorInsetsDidChangeHandler {
+            handler()
+        }
     }
     
     override final func systemLayoutSizeFitting(
@@ -600,7 +614,26 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     final func roundSize(_ incoming: CGSize) -> CGSize {
-        assertUnimplemented()
+        let d8 = incoming.height
+        let d9 = incoming.width
+        let d10 = self.viewGraph.environment.pixelLength
+        var d0: CGFloat = 1
+        var d1: CGFloat
+        
+        if d10 != d0 {
+            // <+164>
+            d0 = d9 / d10
+            d0 = ceil(d0)
+            d0 = d10 * d0
+            d1 = d8 / d10
+            d1 = ceil(d1)
+            d1 = d10 * d1
+        } else {
+            d0 = ceil(d9)
+            d1 = ceil(d8)
+        }
+        
+        return CGSize(width: d0, height: d1)
     }
     
     final func updateViewGraphForDisplay(isHidden: Bool) {
@@ -652,6 +685,14 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         
         if !isHidden {
             self.hasBeenVisible = true
+        }
+    }
+    
+    final func shouldEmitBridgedHoverStyle(for preferences: PreferenceValues) -> Bool {
+        if preferences[ListRowHoverEffectPreferenceKey.self].value != nil {
+            return true
+        } else {
+            return preferences[ListRowHoverEffectDisabledPreferenceKey.self].value
         }
     }
 }
@@ -712,7 +753,86 @@ extension UIHostingContentView : UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePreferences preferences: PreferenceValues) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         hostingView -> x0 -> x29 - 0xe8
+         preferences -> x1 -> x28
+         */
+        // <+952>
+        if let handler = self._popupMenuButtonDidChangeHandler {
+            let currentSeed = self.popUpButtonSeed
+            let value = preferences[BridgedPopUpButtonPreferenceKey.self]
+            
+            if !currentSeed.seed.matches(value.seed) {
+                self.popUpButtonSeed = VersionSeedTracker(seed: value.seed)
+                
+                let block: ((WeakBox<UIButton>?) -> Void) = { button in
+                    // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC07hostingE0_20didChangePreferencesyAA01_cE0Cyqd__G_AA16PreferenceValuesVtAA0E0Rd__lFyAA7WeakBoxVySo8UIButtonCGSgXEfU_
+                    self.popUpButton = button
+                    handler()
+                }
+                
+                block(value.value)
+            }
+        }
+        
+        // <+1264>
+        if self.shouldEmitBridgedHoverStyle(for: preferences) {
+            // <+1296>
+            var configuration: ListRowHoverEffectConfiguration
+            if let _configuration = self.hoverEffectConfiguration {
+                configuration = _configuration
+            } else {
+                // <+1392>
+                configuration = ListRowHoverEffectConfiguration(
+                    hoverStyle: nil,
+                    isEnabled: true,
+                    effect: SystemHoverEffect.Info(.automatic),
+                    path: nil
+                )
+            }
+            
+            // <+1608>
+            configuration.updateEffect(with: preferences)
+            
+            if
+                let backgroundHost,
+                hostingView == backgroundHost
+            {
+                // <+1740>
+                configuration.path = preferences[ListRowHoverEffectContentShapeKey.self].value
+                
+                let uiShape: UIShape?
+                if let shape = configuration.path {
+                    // <+2008>
+                    uiShape = UIShape(shape)
+                } else {
+                    uiShape = nil
+                }
+                
+                // <+2152>
+                let hoverStyle = UIHoverStyle.style(
+                    for: configuration.effect,
+                    shape: uiShape
+                )
+                
+                hoverStyle.isEnabled = configuration.isEnabled
+                configuration.hoverStyle = hoverStyle
+            }
+            
+            // <+2292>
+            self.hoverEffectConfiguration = configuration
+            // <+2368>
+        } else {
+            // <+1560>
+            self.hoverEffectConfiguration = nil
+            // <+2368>
+        }
+        
+        // <+2368>
+        if let delegate = self._configuration.delegate {
+            delegate.hostingView(hostingView, didChangePreferences: preferences)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePlatformItemList list: PlatformItemList) {

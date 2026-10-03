@@ -2,7 +2,7 @@
 
 struct ListRowHoverEffectPreferenceKey : HostPreferenceKey {
     static var defaultValue: HoverEffect? {
-        assertUnimplemented()
+        return nil
     }
     
     static func reduce(value: inout HoverEffect?, nextValue: () -> HoverEffect?) {
@@ -12,7 +12,7 @@ struct ListRowHoverEffectPreferenceKey : HostPreferenceKey {
 
 struct DefaultListRowHoverEffectPreferenceKey : HostPreferenceKey {
     static var defaultValue: HoverEffect? {
-        assertUnimplemented()
+        return nil
     }
     
     static func reduce(value: inout HoverEffect?, nextValue: () -> HoverEffect?) {
@@ -22,7 +22,7 @@ struct DefaultListRowHoverEffectPreferenceKey : HostPreferenceKey {
 
 struct ListRowHoverEffectDisabledPreferenceKey : HostPreferenceKey {
     static var defaultValue: Bool {
-        assertUnimplemented()
+        return false
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
@@ -32,10 +32,20 @@ struct ListRowHoverEffectDisabledPreferenceKey : HostPreferenceKey {
 
 struct UsesPreferenceBasedListRowHoverEffectsKey : HostPreferenceKey {
     static var defaultValue: Bool {
-        assertUnimplemented()
+        return false
     }
     
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        assertUnimplemented()
+    }
+}
+
+struct ListRowHoverEffectContentShapeKey : HostPreferenceKey {
+    static var defaultValue: Path? {
+        return nil
+    }
+    
+    static func reduce(value: inout Path?, nextValue: () -> Path?) {
         assertUnimplemented()
     }
 }

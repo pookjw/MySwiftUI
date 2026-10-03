@@ -1,84 +1,7 @@
+// 29B507D90C2CA5FC124E821FB4208B50
 public import MySwiftUICore
 public import CoreGraphics
 internal import UIKit
-
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-public struct ListItemTint : Sendable {
-    private var effect: ListItemTint.Effect
-    private(set) var isFixed: Bool
-    
-    public static func fixed(_ tint: Color) -> ListItemTint {
-        return ListItemTint(
-            effect: .color(tint),
-            isFixed: true
-        )
-    }
-    
-    public static func preferred(_ tint: Color) -> ListItemTint {
-        return ListItemTint(
-            effect: .color(tint),
-            isFixed: false
-        )
-    }
-    
-    public static let monochrome: ListItemTint = {
-        return ListItemTint(
-            effect: .monochrome,
-            isFixed: true
-        )
-    }()
-}
-
-extension ListItemTint {
-    enum Effect {
-        case color(Color)
-        case monochrome
-    }
-}
-
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-extension View {
-    @inlinable nonisolated public func listItemTint(_ tint: ListItemTint?) -> some View {
-        _trait(ListItemTintTraitKey.self, tint)
-    }
-    
-    @inlinable nonisolated public func listItemTint(_ tint: Color?) -> some View {
-        listItemTint(tint.map { .fixed($0) })
-    }
-}
-
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-@usableFromInline
-internal struct ListItemTintTraitKey : _ViewTraitKey {
-    @inlinable internal static var defaultValue: ListItemTint? {
-        get { nil }
-    }
-    
-    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
-    @usableFromInline
-    internal typealias Value = ListItemTint?
-}
-
-@available(*, unavailable)
-extension ListItemTintTraitKey : Sendable {
-}
-
-extension EnvironmentValues {
-    var listItemTint: ListItemTint? {
-        get {
-            return self[ListItemTintKey.self]
-        }
-        set {
-            self[ListItemTintKey.self] = newValue
-        }
-    }
-}
-
-fileprivate struct ListItemTintKey : EnvironmentKey {
-    static var defaultValue: ListItemTint? {
-        return nil
-    }
-}
 
 struct ListContentStyling {
     private(set) var insets: EdgeInsets // 0x0
@@ -90,9 +13,17 @@ struct ListContentStyling {
     private(set) var tint: ListItemTint? // 0x48
 }
 
-struct ListRowHoverEffectConfiguration {
-    private(set) var hoverStyle: UIHoverStyle?
-    private var isEnabled: Bool
-    private var effect: SystemHoverEffect.Info
-    private var path: Path?
+struct ListRowHoverEffectConfiguration : Equatable {
+    static func == (lhs: ListRowHoverEffectConfiguration, rhs: ListRowHoverEffectConfiguration) -> Bool {
+        assertUnimplemented()
+    }
+    
+    var hoverStyle: UIHoverStyle?
+    private(set) var isEnabled: Bool
+    private(set) var effect: SystemHoverEffect.Info
+    var path: Path?
+    
+    mutating func updateEffect(with preferences: PreferenceValues) {
+        assertUnimplemented()
+    }
 }
