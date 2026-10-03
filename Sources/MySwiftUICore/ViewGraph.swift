@@ -1071,7 +1071,7 @@ private import Spatial
     
     package func sizeThatFits(_ size: _ProposedSize) -> CGSize {
         guard self.requestedOutputs.contains(.layout) else {
-            fatalError("Cannot fetch layout computer without layout output", file: #fileID, line: #line)
+            fatalError("Cannot fetch layout computer without layout output")
         }
         
         self.instantiateIfNeeded()
@@ -1080,7 +1080,7 @@ private import Spatial
     
     package func depthThatFits(_ size: _ProposedSize3D) -> CGFloat {
         guard self.requestedOutputs.contains(.layout) else {
-            fatalError("Cannot fetch layout computer without layout output", file: #fileID, line: #line)
+            fatalError("Cannot fetch layout computer without layout output")
         }
         
         self.instantiateIfNeeded()
@@ -1583,7 +1583,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
         for size in store.keys {
             // <+332>
             guard graph.requestedOutputs.contains(.layout) else {
-                fatalError("Cannot fetch layout computer without layout output", file: #fileID, line: #line)
+                fatalError("Cannot fetch layout computer without layout output")
             }
             
             // <+348>

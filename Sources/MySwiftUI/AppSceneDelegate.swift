@@ -1395,7 +1395,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         
         // <+6320>
         guard !items.isEmpty else {
-            fatalError("Your app was given a scene with scene session role \(role) but no scenes declared in your app body match this role.", file: #fileID, line: #line)
+            fatalError("Your app was given a scene with scene session role \(role) but no scenes declared in your app body match this role.")
         }
         
         return items.first!

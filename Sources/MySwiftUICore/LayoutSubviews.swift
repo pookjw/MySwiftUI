@@ -156,7 +156,7 @@ public struct LayoutSubview : Equatable {
         }
         
         guard !d5.isNaN && !d6.isNaN else {
-            fatalError("view origin is invalid: \(CGPoint(x: d0, y: d1))", file: #fileID, line: #line)
+            fatalError("view origin is invalid: \(CGPoint(x: d0, y: d1))")
         }
         
         place(in: ViewGeometry(origin: CGPoint(x: d5, y: d6), dimensions: dimensions), layoutDirection: .leftToRight)

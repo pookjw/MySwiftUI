@@ -855,7 +855,7 @@ extension UIHostingContentView : UIContentView {
         }
         set {
             guard let casted = newValue as? UIHostingConfiguration<Content, Background> else {
-                fatalError("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)", file: #fileID, line: #line)
+                fatalError("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)")
             }
             
             self._configuration = casted

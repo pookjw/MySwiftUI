@@ -97,7 +97,7 @@ struct LayoutSubview3D : Equatable {
         d2 = (d1 == 0) ? d0 : d2
         
         guard !d2.isNaN else {
-            fatalError("view originZ is invalid: \(d0), \(d1), \(dimensions.size.value)", file: #fileID, line: #line)
+            fatalError("view originZ is invalid: \(d0), \(d1), \(dimensions.size.value)")
         }
         
         // <+64>
