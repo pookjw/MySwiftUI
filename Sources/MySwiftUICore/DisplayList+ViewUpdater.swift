@@ -4423,6 +4423,10 @@ extension DisplayList.ViewUpdater {
             self.nextUpdate = .infinity
         }
         
+        init(platform: DisplayList.ViewUpdater.Platform, kind: PlatformViewDefinition.ViewKind) {
+            assertUnimplemented()
+        }
+        
         mutating func reset() {
             self.layer = CoreViewLayer(self.platform.system, self.view)
             self.seeds = DisplayList.ViewUpdater.ViewInfo.Seeds(

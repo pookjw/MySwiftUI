@@ -2273,7 +2273,36 @@ extension DisplayList.ViewUpdater.ViewCache {
                 unsafe platform_3.updateItemView(&viewInfo_2, index: index, item: item_2, state: state)
             case .inherited:
                 // <+1012>
-                assertUnimplemented()
+                // x27
+                var targetPlatform = platform
+                
+                if platform.encoding.mixedViewHierarchy {
+                    if unsafe !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                        // <+1032>
+                        // inlined
+                        let features = item_1.features
+                        if !features.contains(.platformViews) {
+                            // <+2680>
+                            targetPlatform = .caLayer
+                        }
+                    }
+                }
+
+                // <+2704>
+                if viewInfo_3.platform != targetPlatform {
+                    viewInfo_2 = DisplayList.ViewUpdater.ViewInfo(platform: targetPlatform, kind: .inherited)
+                }
+
+                // <+2744>
+                let copy = viewInfo_2.platform
+                
+                // <+2808>
+                unsafe copy.updateState(
+                    &viewInfo_2,
+                    item: item,
+                    size: item_1.frame.size,
+                    state: state
+                )
             }
             
             // <+2812>
@@ -2401,7 +2430,6 @@ extension DisplayList.ViewUpdater.ViewCache {
         
         // sp + 0x3f0
         let platform_2 = viewInfo.platform
-        
         let nextUpdate = viewInfo.nextUpdate
         
         // <+2024>
