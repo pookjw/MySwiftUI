@@ -2425,7 +2425,29 @@ extension DisplayList.ViewUpdater.ViewCache {
             identity_2 = index_1.archiveIdentity
         case .inherited:
             // <+448>
-            assertUnimplemented()
+            var targetPlatform = platform
+            
+            if platform.encoding.mixedViewHierarchy {
+                if unsafe !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                    let features = item_1.features
+                    if !features.contains(.platformViews) {
+                        targetPlatform = .caLayer
+                    }
+                }
+            }
+            
+            viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: targetPlatform, kind: .inherited)
+            
+            let copy = viewInfo.platform
+            unsafe copy.updateState(
+                &viewInfo,
+                item: item,
+                size: item_1.frame.size,
+                state: state
+            )
+            
+            // <+2016>
+            identity_2 = indexID.archiveIdentity
         }
         
         // sp + 0x3f0
