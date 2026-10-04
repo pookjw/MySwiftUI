@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.uiHostingConfigurationView
+        let item = DemoViewController.Item.equatableView
         pushToItem(item)
         
 //        Task {
@@ -94,6 +94,7 @@ extension DemoViewController {
         case switchingColorsView
         case anyViewSwitchingView
         case bodyView
+        case equatableView
         case conditionalView
         case mutatingLayoutView
         case observableView
@@ -181,6 +182,8 @@ extension DemoViewController {
                 return _typeName(AnyViewSwitchingViewController.self, qualified: false)
             case .bodyView:
                 return _typeName(BodyViewController.self, qualified: false)
+            case .equatableView:
+                return _typeName(EquatableViewController.self, qualified: false)
             case .conditionalView:
                 return _typeName(ConditionalViewController.self, qualified: false)
             case .mutatingLayoutView:
@@ -338,6 +341,8 @@ extension DemoViewController {
                 return AnyViewSwitchingViewController()
             case .bodyView:
                 return BodyViewController()
+            case .equatableView:
+                return EquatableViewController()
             case .conditionalView:
                 return ConditionalViewController()
             case .mutatingLayoutView:

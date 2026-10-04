@@ -64,6 +64,7 @@ typedef NS_OPTIONS(uint32_t, AGGraphCounterOptions) {
 };
 
 typedef NS_ENUM(NSUInteger, AGComparisonMode) {
+    AGComparisonModeUnknown3 = 3,
     AGComparisonModeUnknown103 = 103
 };
 
