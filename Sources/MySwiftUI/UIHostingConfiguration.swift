@@ -306,8 +306,16 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         self.updateViewGraphForDisplay(isHidden: hidden)
     }
     
-    func _preferredLeadingSeparatorInset() -> CGFloat {
-        assertUnimplemented()
+    final func _preferredLeadingSeparatorInset() -> CGFloat {
+        if let inset = self.explicitAlignment(of: HorizontalAlignment.listRowSeparatorLeading, at: self.bounds.size) {
+            return inset
+        }
+        
+        if let inset = self.explicitAlignment(of: HorizontalAlignment.leadingText, at: self.bounds.size) {
+            return inset
+        }
+        
+        return CGFloat(bitPattern: 0x7fefffffffffffff)
     }
     
     final var _containerBackgroundView: UIView? {
@@ -358,8 +366,12 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         return hoverEffectConfiguration.hoverStyle
     }
     
-    func _preferredTrailingSeparatorInset() -> CGFloat {
-        assertUnimplemented()
+    final func _preferredTrailingSeparatorInset() -> CGFloat {
+        if let inset = self.explicitAlignment(of: HorizontalAlignment.listRowSeparatorTrailing, at: self.bounds.size) {
+            return self.bounds.size.width - inset
+        }
+        
+        return CGFloat(bitPattern: 0x7fefffffffffffff)
     }
     
     final func _trailingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {

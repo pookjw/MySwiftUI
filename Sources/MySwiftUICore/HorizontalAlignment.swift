@@ -28,6 +28,10 @@ extension HorizontalAlignment {
     public static let listRowSeparatorTrailing: HorizontalAlignment = {
         assertUnimplemented()
     }()
+    
+    package static let leadingText: HorizontalAlignment = {
+        assertUnimplemented()
+    }()
 }
 
 extension HorizontalAlignment {
