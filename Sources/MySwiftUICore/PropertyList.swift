@@ -751,8 +751,29 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
         assertUnimplemented()
     }
     
-    override func matches(_: PropertyList.Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
-        assertUnimplemented()
+    override func matches(_ element: PropertyList.Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
+        /*
+         self -> x20
+         element -> x0 -> x21
+         ignoredTypes -> x1 -> x19
+         */
+        guard let casted = element as? Self else {
+            return false
+        }
+        
+        for ref in ignoredTypes {
+            if ref == ObjectIdentifier(Key.self) {
+                return true
+            }
+        }
+        
+        // <+100>
+        guard Key.valuesEqual(self.value, casted.value) else {
+            return false
+        }
+        
+        ignoredTypes.append(ObjectIdentifier(Key.self))
+        return true
     }
     
     override func copy(before: PropertyList.Element?, after: PropertyList.Element?) -> PropertyList.Element {
