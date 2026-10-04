@@ -111,7 +111,11 @@ public struct _UIHostingConfigurationBackgroundView<Style> : View where Style : 
     fileprivate private(set) var style: Style
     
     @MainActor @preconcurrency public var body: some View {
-        _ShapeView(shape: Rectangle(), style: self.style, fillStyle: FillStyle())
+        _ShapeView(
+            shape: Rectangle(),
+            style: self.style,
+            fillStyle: FillStyle(eoFill: false, antialiased: true)
+        )
     }
 }
 

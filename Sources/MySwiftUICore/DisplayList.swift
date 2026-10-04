@@ -1103,7 +1103,7 @@ extension DisplayList {
 //        case rotation3D(_Rotation3DEffect.Data)
     }
     
-    package final class InterpolatorGroup {
+    package class InterpolatorGroup {
         // TODO
     }
     

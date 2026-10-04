@@ -1392,3 +1392,87 @@ func combineAnimation<Value : VectorArithmetic>(
 ) {
     assertUnimplemented()
 }
+
+struct AnimatableArray<T> : VectorArithmetic {
+    static func == (lhs: AnimatableArray<T>, rhs: AnimatableArray<T>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static var zero: AnimatableArray<T> {
+        assertUnimplemented()
+    }
+    
+    static func + (lhs: AnimatableArray<T>, rhs: AnimatableArray<T>) -> AnimatableArray<T> {
+        assertUnimplemented()
+    }
+    
+    static func += (lhs: inout AnimatableArray<T>, rhs: AnimatableArray<T>) {
+        assertUnimplemented()
+    }
+    
+    static func - (lhs: AnimatableArray<T>, rhs: AnimatableArray<T>) -> AnimatableArray<T> {
+        assertUnimplemented()
+    }
+    
+    static func -= (lhs: inout AnimatableArray<T>, rhs: AnimatableArray<T>) {
+        assertUnimplemented()
+    }
+    
+    mutating func scale(by rhs: Double) {
+        assertUnimplemented()
+    }
+    
+    var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
+    
+    private var elements: [T]
+}
+
+struct KeyedAnimatableArray<T, U> : VectorArithmetic {
+    static func == (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static var zero: KeyedAnimatableArray<T, U> {
+        assertUnimplemented()
+    }
+    
+    static func + (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> KeyedAnimatableArray<T, U> {
+        assertUnimplemented()
+    }
+    
+    static func += (lhs: inout KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) {
+        assertUnimplemented()
+    }
+    
+    static func - (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> KeyedAnimatableArray<T, U> {
+        assertUnimplemented()
+    }
+    
+    static func -= (lhs: inout KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) {
+        assertUnimplemented()
+    }
+    
+    mutating func scale(by rhs: Double) {
+        assertUnimplemented()
+    }
+    
+    var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
+    
+    private var elements: [KeyedAnimatableArray<T, U>.Element]
+    private var isZero: Bool
+}
+
+extension KeyedAnimatableArray {
+    struct Element : Equatable {
+        static func == (lhs: KeyedAnimatableArray<T, U>.Element, rhs: KeyedAnimatableArray<T, U>.Element) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private var key: T
+        private var data: U
+    }
+}

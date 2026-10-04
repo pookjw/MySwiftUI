@@ -1,5 +1,6 @@
 public import CoreGraphics
 public import Spatial
+internal import AttributeGraph
 
 public protocol Shape : Sendable, Animatable, View, _RemoveGlobalActorIsolation {
     nonisolated func path(in rect: CGRect) -> Path
@@ -35,19 +36,17 @@ extension Shape {
     }
     
     public var body: _ShapeView<Self, ForegroundStyle> {
-        assertUnimplemented()
-    }
-    
-    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
-    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        _ShapeView(
+            shape: self,
+            style: ForegroundStyle(),
+            fillStyle: FillStyle(eoFill: false, antialiased: true)
+        )
     }
 }
 
-@frozen public struct _ShapeView<Content : Shape, Style : ShapeStyle>: UnaryView, ShapeStyledLeafView, PrimitiveView, LeafViewLayout {
+@frozen public struct _ShapeView<Content : Shape, Style : ShapeStyle>: UnaryView, @preconcurrency ShapeStyledLeafView, PrimitiveView, @preconcurrency LeafViewLayout {
+    typealias ShapeUpdateData = Void
+    
     public var shape: Content
     public var style: Style
     public var fillStyle: FillStyle
@@ -59,7 +58,121 @@ extension Shape {
     }
     
     public nonisolated static func _makeView(view: _GraphValue<_ShapeView<Content, Style>>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        /*
+         x29 = sp + 0x200
+         x19 = sp
+         x24 = x19 + 0x80
+         */
+        /*
+         view -> x0 -> w22
+         inputs -> x1 -> x28
+         */
+        // x24 + 0xc0 (sp + 0x140)
+        let copy_1 = inputs
+        
+        let styles: Attribute<_ShapeStyle_Pack>
+        if copy_1.preferences.contains(DisplayList.Key.self) || copy_1.preferences.contains(ViewRespondersKey.self) {
+            // <+156>
+            if Style.self == ForegroundStyle.self {
+                // <+224>
+                let copy_2 = inputs
+                
+                styles = copy_1.base.cachedEnvironment.value.resolvedShapeStyles(
+                    for: copy_2,
+                    role: Content.role,
+                    mode: nil
+                )
+                
+                // <+760>
+            } else {
+                // <+180>
+                // x19 + 0x80 (sp + 0x80)
+                let copy_3 = inputs
+                
+                let resolver = ShapeStyleResolver(
+                    style: OptionalAttribute(view[\.style].value),
+                    mode: OptionalAttribute(),
+                    environment: copy_1.environment,
+                    role: Content.role,
+                    substrate: copy_3.materialSubstrate,
+                    animationsDisabled: copy_1.base.options.contains(.animationsDisabled),
+                    helper: AnimatableAttributeHelper<_ShapeStyle_Pack>(
+                        phase: copy_1.viewPhase,
+                        time: copy_1.time,
+                        transaction: copy_1.transaction
+                    )
+                )
+                
+                styles = Attribute(resolver)
+                styles.flags = [.unknown0]
+                // <+760>
+            }
+        } else {
+            // <+340>
+            return _ViewOutputs()
+        }
+        
+        // <+760>
+        if MemoryLayout<Content.AnimatableData>.size == 0 {
+            // <+1336>
+            // x19 + 0x80
+            let copy_2 = inputs
+            
+            var outputs = Self.makeLeafView(
+                view: view,
+                inputs: copy_2,
+                styles: styles,
+                interpolatorGroup: nil,
+                data: ()
+            )
+            
+            if isLinkedOnOrAfter(.v4) {
+                // <+1776>
+                // x19 + 0x80
+                let copy_3 = inputs
+                Self.makeLeafLayout(&outputs, view: view, inputs: copy_3)
+            }
+            
+            // <+1840>
+            return outputs
+        } else {
+            // x19 + 0xf8 (sp + 0xf8)
+            let copy_2 = inputs.base
+            let animatable = Content.makeAnimatable(value: view[{ .of(&$0.shape) }], inputs: copy_2)
+            let fillStyle = view[\.fillStyle]
+            let shape = _GraphValue(AnimatedShape<Content>.Init(shape: animatable, fillStyle: fillStyle.value))
+            
+            // x19 + 0x80
+            let copy_3 = copy_1
+            
+            // x28 (x19 + 0x28)
+            var outputs = AnimatedShape<Content>
+                .makeLeafView(
+                    view: shape,
+                    inputs: copy_3,
+                    styles: styles,
+                    interpolatorGroup: nil,
+                    data: ()
+                )
+            
+            if isLinkedOnOrAfter(.v4) {
+                // x19 + 0x80
+                let copy_4 = copy_1
+                AnimatedShape<Content>.makeLeafLayout(&outputs, view: shape, inputs: copy_4)
+            }
+            
+            // <+1620>
+            // x19 + 0x80
+            let copy_5 = copy_1
+            
+            outputs.makeContentPathPreferenceWriter(
+                inputs: copy_5,
+                contentResponder: view.value, // $s7SwiftUI10_ShapeViewV05_makeD04view6inputsAA01_D7OutputsVAA11_GraphValueVyACyxq_GG_AA01_D6InputsVtFZ09AttributeI00L0VyAKGyXEfu0_TA
+                kinds: OptionalAttribute()
+            )
+            
+            return outputs
+        }
     }
     
     public typealias Body = Never
@@ -90,6 +203,19 @@ extension _ShapeView : ShapeView {
 }
 
 protocol ShapeStyledLeafView : ContentResponder {
+    associatedtype ShapeUpdateData
+    // TODO
+}
+
+extension ShapeStyledLeafView {
+    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs, styles: Attribute<_ShapeStyle_Pack>, interpolatorGroup: _ShapeStyle_InterpolatorGroup?, data: Self.ShapeUpdateData) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    // TODO
+}
+
+final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
     // TODO
 }
 
@@ -98,5 +224,77 @@ public protocol ShapeView<Content> : View, _RemoveGlobalActorIsolation {
     
     var shape: Self.Content {
         get
+    }
+}
+
+struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, ObservedAttribute {
+    @OptionalAttribute private var style: T?
+    @OptionalAttribute private var mode: _ShapeStyle_ResolverMode?
+    @Attribute private var environment: EnvironmentValues
+    private var role: ShapeRole
+    private var substrate: Material.Substrate?
+    private var animationsDisabled: Bool
+    private var helper: AnimatableAttributeHelper<_ShapeStyle_Pack>
+    private let tracker: PropertyList.Tracker
+    
+    typealias Value = _ShapeStyle_Pack
+    
+    init(
+        style: OptionalAttribute<T>,
+        mode: OptionalAttribute<_ShapeStyle_ResolverMode>,
+        environment: Attribute<EnvironmentValues>,
+        role: ShapeRole,
+        substrate: Material.Substrate?,
+        animationsDisabled: Bool,
+        helper: AnimatableAttributeHelper<_ShapeStyle_Pack>
+    ) {
+        assertUnimplemented()
+    }
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+    
+    func destroy() {
+        assertUnimplemented()
+    }
+}
+
+struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, PrimitiveView, UnaryView, @preconcurrency LeafViewLayout {
+    typealias ShapeUpdateData = Void // TODO
+    
+    func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
+        assertUnimplemented()
+    }
+    
+    private var shape: T
+    private var fillStyle: FillStyle
+}
+
+extension AnimatedShape {
+    struct Init : AsyncAttribute, Rule {
+        @Attribute private var shape: T
+        @Attribute private var fillStyle: FillStyle
+        
+        init(shape: Attribute<T>, fillStyle: Attribute<FillStyle>) {
+            self._shape = shape
+            self._fillStyle = fillStyle
+        }
+        
+        var value: AnimatedShape<T> {
+            assertUnimplemented()
+        }
     }
 }

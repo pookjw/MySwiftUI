@@ -100,6 +100,10 @@ package struct CachedEnvironment {
         }
     }
     
+    func resolvedShapeStyles(for: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
+        assertUnimplemented()
+    }
+    
     fileprivate mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
         let pixelLength = attribute(id: .pixelLength) { environment in
             return environment.pixelLength

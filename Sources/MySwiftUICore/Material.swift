@@ -257,3 +257,9 @@ extension Material {
         fatalError()
     }
 }
+
+extension _ViewInputs {
+    var materialSubstrate: Material.Substrate? {
+        assertUnimplemented()
+    }
+}
