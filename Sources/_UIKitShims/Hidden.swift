@@ -233,7 +233,7 @@ fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration
     var _classType: AnyClass? = type
     
     while let classType = _classType {
-        let (ivarsCount, ivars) = unsafe withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
+        let (ivarsCount, ivars) = withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
             let ivars = unsafe class_copyIvarList(classType, pointer.baseAddress)
             return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
         }

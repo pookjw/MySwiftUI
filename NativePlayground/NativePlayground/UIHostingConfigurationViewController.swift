@@ -16,6 +16,7 @@ final class UIHostingConfigurationViewController : UICollectionViewController {
             cell.contentConfiguration = UIHostingConfiguration {
                 AnyView(MyLabel(text: itemIdentifier.description))
             }
+            .background(Color.green)
         }
         
         let listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)

@@ -20,11 +20,21 @@ public struct UIHostingConfiguration<Content, Background> : UIContentConfigurati
     }
     
     public func background<B>(@ViewBuilder content: () -> B) -> UIHostingConfiguration<Content, B> where B : View {
-        assertUnimplemented()
+        var storage = self.storage
+        storage.wantsBackground = true
+        
+        return UIHostingConfiguration<Content, B>(
+            rootView: self.rootView,
+            backgroundView: content(),
+            storage: storage
+        )
     }
     
     public func background<S>(_ style: S) -> UIHostingConfiguration<Content, _UIHostingConfigurationBackgroundView<S>> where S : ShapeStyle {
-        assertUnimplemented()
+        return self.background {
+            // $s7SwiftUI22UIHostingConfigurationV10backgroundyACyxAA01_cD14BackgroundViewVyqd__GGqd__AA10ShapeStyleRd__lFAGyXEfU_TA
+            _UIHostingConfigurationBackgroundView(style: style)
+        }
     }
     
     public func margins(_ edges: Edge.Set = .all, _ length: CoreFoundation.CGFloat) -> UIHostingConfiguration<Content, Background> {
@@ -90,6 +100,8 @@ extension UIHostingConfiguration where Background == EmptyView {
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 public struct _UIHostingConfigurationBackgroundView<Style> : View where Style : ShapeStyle {
+    fileprivate private(set) var style: Style
+    
     @MainActor @preconcurrency public var body: some View {
         assertUnimplemented()
     }
@@ -591,7 +603,19 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     func makeBackgroundHost() -> UIHostingBackgroundView<Background> {
-        assertUnimplemented()
+        let backgroundView = UIHostingBackgroundView(rootView: self._configuration.backgroundView)
+        
+        if backgroundView.isHiddenForReuse != self.isHiddenForReuse {
+            backgroundView.isHiddenForReuse = self.isHiddenForReuse
+        }
+        
+        // <+336>
+        Update.ensure {
+            // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC18makeBackgroundHostAA0cnE0ACLLCyq_GyFyyXEfU_TA
+            backgroundView.viewGraph.addPreference(ListRowHoverEffectContentShapeKey.self)
+        }
+        
+        return backgroundView
     }
     
     final func setupSizeInvalidationHandler(_ size: _ProposedSize) {
@@ -755,19 +779,24 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
 fileprivate final class UIHostingBackgroundView<Background : View> : _UIHostingView<Background> {
     override var frame: CGRect {
         get {
-            assertUnimplemented()
+            return super.frame
         }
         set {
-            assertUnimplemented()
+            let oldBounds = self.bounds
+            super.frame = newValue
+            let newBounds = self.bounds
+            
+            if oldBounds.size != newBounds.size {
+                self.base.allowUIKitAnimationsForNextUpdate = true
+            }
         }
     }
     
-    override var bounds: CGRect {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
+    override final var bounds: CGRect {
+        didSet {
+            if oldValue.size != self.bounds.size {
+                self.base.allowUIKitAnimationsForNextUpdate = true
+            }
         }
     }
 }
