@@ -37,15 +37,19 @@ public struct UIHostingConfiguration<Content, Background> : UIContentConfigurati
         }
     }
     
-    public func margins(_ edges: Edge.Set = .all, _ length: CoreFoundation.CGFloat) -> UIHostingConfiguration<Content, Background> {
-        assertUnimplemented()
+    public func margins(_ edges: Edge.Set = .all, _ length: CGFloat) -> UIHostingConfiguration<Content, Background> {
+        var copy = self
+        copy.storage.margins = copy.storage.margins.adding(OptionalEdgeInsets(length, edges: edges))
+        return copy
     }
     
     public func margins(_ edges: Edge.Set = .all, _ insets: EdgeInsets) -> UIHostingConfiguration<Content, Background> {
-        assertUnimplemented()
+        var copy = self
+        copy.storage.margins = copy.storage.margins.adding(OptionalEdgeInsets(insets, edges: edges))
+        return copy
     }
     
-    public func minSize(width: CoreFoundation.CGFloat? = nil, height: CoreFoundation.CGFloat? = nil) -> UIHostingConfiguration<Content, Background> {
+    public func minSize(width: CGFloat? = nil, height: CGFloat? = nil) -> UIHostingConfiguration<Content, Background> {
         assertUnimplemented()
     }
     
@@ -115,7 +119,7 @@ struct IsInHostingConfiguration : ViewInputBoolFlag {}
 
 fileprivate struct UIHostingConfigurationStorage {
     var wantsBackground: Bool = true // 0x0
-    private(set) var margins = OptionalEdgeInsets() // 0x14 (offset field)
+    var margins = OptionalEdgeInsets() // 0x14 (offset field)
     private(set) var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
     private(set) var createsUIInteractions: Bool = true // 0x1c (offset field)
     private(set) var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)

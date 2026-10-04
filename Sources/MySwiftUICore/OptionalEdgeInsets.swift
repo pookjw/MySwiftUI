@@ -14,7 +14,7 @@ package struct OptionalEdgeInsets : Hashable, Sendable {
     package var bottom: CGFloat?
     package var trailing: CGFloat?
     
-    init(_ value: CGFloat?, edges: Edge.Set) {
+    package init(_ value: CGFloat?, edges: Edge.Set) {
         self.top = edges.contains(.top) ? value : nil
         self.leading = edges.contains(.leading) ? value : nil
         self.bottom = edges.contains(.bottom) ? value : nil
@@ -28,7 +28,7 @@ package struct OptionalEdgeInsets : Hashable, Sendable {
         self.trailing = trailing
     }
     
-    init(_ insets: EdgeInsets, edges: Edge.Set) {
+    package init(_ insets: EdgeInsets, edges: Edge.Set) {
         if edges.contains(.top) {
             self.top = insets.top
         } else {
@@ -173,6 +173,44 @@ package struct OptionalEdgeInsets : Hashable, Sendable {
         }
         
         return insets
+    }
+    
+    package func adding(_ other: OptionalEdgeInsets) -> OptionalEdgeInsets {
+        var results = self
+        
+        if let top_1 = other.top {
+            if let top_2 = self.top {
+                results.top = top_1 + top_2
+            } else {
+                results.top = top_1
+            }
+        }
+        
+        if let leading_1 = other.leading {
+            if let leading_2 = self.leading {
+                results.leading = leading_1 + leading_2
+            } else {
+                results.leading = leading_1
+            }
+        }
+        
+        if let bottom_1 = other.bottom {
+            if let bottom_2 = self.bottom {
+                results.bottom = bottom_1 + bottom_2
+            } else {
+                results.bottom = bottom_1
+            }
+        }
+        
+        if let trailing_1 = other.trailing {
+            if let trailing_2 = self.trailing {
+                results.trailing = trailing_1 + trailing_2
+            } else {
+                results.trailing = trailing_1
+            }
+        }
+        
+        return results
     }
     
     mutating func add(_ value: CGFloat, on edge: Edge) {
