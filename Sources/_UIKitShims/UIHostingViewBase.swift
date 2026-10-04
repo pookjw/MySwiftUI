@@ -124,7 +124,7 @@ package final class UIHostingViewBase : NSObject {
         }
         
         switch sceneActivationState {
-        case .unattached, .foregroundActive:
+        case .foregroundInactive, .foregroundActive:
             return true
         default:
             return isEnteringForeground || isCapturingSnapshots
@@ -264,6 +264,7 @@ package final class UIHostingViewBase : NSObject {
         if isChaaranaApp {
             if newWindow == nil {
                 if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
+                    pendingPostDisappearPreferencesUpdate = true
                     UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
                         assertUnimplemented()
                     }
@@ -271,6 +272,7 @@ package final class UIHostingViewBase : NSObject {
             }
         } else {
             if !pendingPostDisappearPreferencesUpdate && isLinkedOnOrAfter(.v6) {
+                pendingPostDisappearPreferencesUpdate = true
                 UIHostingViewBase.UpdateCycle.addPreCommitObserver { [weak self] in
                     // ___lldb_unnamed_symbol317393
                     guard let self else {
@@ -1035,10 +1037,15 @@ package final class UIHostingViewBase : NSObject {
         }
         
         self.pendingPreferencesUpdate = true
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             // ___lldb_unnamed_symbol312705
-            self.isEnteringForeground = false
-            self.updateSceneActivationState()
+            guard let self else { return }
+            self.pendingPreferencesUpdate = false
+            guard let updateDelegate = self.viewGraph.updateDelegate, self.canAdvanceTimeAutomatically else {
+                return
+            }
+            let interval = self.interval(time: CACurrentMediaTime()) / Double(UIAnimationDragCoefficient())
+            updateDelegate.render(interval: interval, updateDisplayList: false, targetTimestamp: nil)
         }
     }
     
@@ -1065,7 +1072,7 @@ package final class UIHostingViewBase : NSObject {
         let d1: CGFloat
         
         do {
-            let result = updateDelegate._sizeThatFits(ProposedViewSize(width: !w26 ? x27 : 0, height: !w28 ? x22 : 0))
+            let result = updateDelegate._sizeThatFits(ProposedViewSize(width: !w26 ? x27 : nil, height: !w28 ? x22 : nil))
             d0 = result.width
             d1 = result.height
         }
@@ -1138,7 +1145,7 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        delegate.baseSceneBecameKey(self)
+        delegate.baseSceneResignedKey(self)
     }
     
     @objc private func sceneDidUpdateSystemSceneDisplacement() {
@@ -1256,7 +1263,7 @@ package final class UIHostingViewBase : NSObject {
 
 extension UIHostingViewBase {
     package struct Configuration {
-        package var options = UIHostingViewBase.Options.allowKeyboardSafeArea
+        package var options: UIHostingViewBase.Options = []
         package var colorDefinitions: MySwiftUICore::PlatformColorDefinition.Type? = nil
         
         package init() {}

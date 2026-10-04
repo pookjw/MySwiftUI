@@ -83,7 +83,11 @@ extension ArchivedViewInput {
         }
         
         static var current: ArchivedViewInput.DeploymentVersion {
-            return .v7
+            return .v7_4
+        }
+
+        static var v7_4: ArchivedViewInput.DeploymentVersion {
+            return ArchivedViewInput.DeploymentVersion(rawValue: 4)
         }
         
         static var oldest: ArchivedViewInput.DeploymentVersion {
@@ -91,5 +95,17 @@ extension ArchivedViewInput {
         }
         
         let rawValue: Int8
+
+        init(rawValue: Int8) {
+            self.rawValue = rawValue
+        }
+
+        init(from decoder: any Decoder) throws {
+            assertUnimplemented()
+        }
+
+        func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
     }
 }

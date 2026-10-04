@@ -15,7 +15,11 @@ public struct Subview : View, Identifiable {
 
     public nonisolated var id: Subview.ID {
         return Subview.ID(
-            base: _ViewList_ID(implicitID: Int(base.view.id.implicitID))
+            base: _ViewList_ID(
+                index: Int32(base.view.index),
+                implicitID: base.view.id.implicitID,
+                explicitIDs: base.view.id.explicitIDs
+            )
         )
     }
 
@@ -33,7 +37,7 @@ public struct Subview : View, Identifiable {
         let traits = view[{ .of(&$0.base.traits) }]
         let mergeTraits = MergeTraits(overrideTraits: traits.value, baseTraits: OptionalAttribute(copy.$traits))
         copy.$traits = Attribute(mergeTraits)
-        return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
+        return _ViewListOutputs.unaryViewList(view: view, inputs: copy)
     }
 
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)

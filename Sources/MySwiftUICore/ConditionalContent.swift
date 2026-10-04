@@ -215,11 +215,18 @@ struct ConditionalTypeDescriptor<T : ConditionalProtocolDescriptor>: Sendable {
                 .assumingMemoryBound(to: Any.Type.self)
                 .pointee
             // sp + 0x28 -> x25/x26/x24
-            let first = ConditionalTypeDescriptor(x21)
+            let first = ConditionalTypeDescriptor.descriptor(type: x21)
             // sp + 0x38 -> x27/x28/x22
-            let second = ConditionalTypeDescriptor(x23)
+            let second = ConditionalTypeDescriptor.descriptor(type: x23)
             
-            self.storage = .either(type, f: first, t: second)
+            func storageType<TrueContent>(_: TrueContent.Type) -> Any.Type {
+                func storageType<FalseContent>(_: FalseContent.Type) -> Any.Type {
+                    return _ConditionalContent<TrueContent, FalseContent>.Storage.self
+                }
+                return _openExistential(x21, do: storageType)
+            }
+
+            self.storage = .either(_openExistential(x23, do: storageType), f: first, t: second)
             self.count = first.count + second.count
         } else if unsafe (nominalDescriptor == optionalTypeDescriptor) {
             // <+352>

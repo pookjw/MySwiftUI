@@ -43,7 +43,7 @@ extension EnvironmentValues {
             return self[objectType: T.self]
         }
         set {
-            self[forceUnwrapping: key] = unsafe newValue.unsafelyUnwrapped
+            self[objectType: T.self] = newValue
         }
     }
     

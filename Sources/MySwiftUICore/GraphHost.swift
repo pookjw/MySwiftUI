@@ -358,7 +358,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             if let parentHost {
                 let parentRemovedState = parentHost.removedState
                 removedState = parentRemovedState
-                isRemoved = parentRemovedState.contains(.unattached)
+                isRemoved = parentRemovedState.contains(.hiddenForReuse)
             } else {
                 removedState = []
                 isRemoved = false
@@ -817,7 +817,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package func setEnvironment(_ environmentValues: EnvironmentValues) {
-        data.environment = environmentValues
+        data.environment = EnvironmentValues(environmentValues.plist)
     }
     
     final func intern<T>(_ value: T, for type: Any.Type = T.self, id: GraphHost.ConstantID) -> Attribute<T> {
@@ -830,7 +830,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // x20
         let constants = constants
         
-        if isValid {
+        if !constants.isEmpty {
             let key = ConstantKey(type: type, id: id)
             if let value = constants[key] {
                 return Attribute(identifier: value)
@@ -870,13 +870,13 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // x24
         var host = self
         
-        if !self.mayDeferUpdate {
+        if !self.inTransaction {
             // <+236>
             while true {
                 if let parentHost = host.parentHost {
                     host = parentHost
                     
-                    if parentHost.mayDeferUpdate {
+                    if parentHost.inTransaction {
                         break
                     }
                 } else {
@@ -1123,6 +1123,9 @@ fileprivate struct AsyncTransaction {
     }
     
     mutating func append<T : GraphMutation>(_ mutation: T) {
+        if let index = mutations.indices.last, mutations[index].combine(with: mutation) {
+            return
+        }
         mutations.append(mutation)
     }
 }

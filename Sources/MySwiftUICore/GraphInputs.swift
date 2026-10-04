@@ -160,7 +160,7 @@ public struct _GraphInputs {
         }
         
         customInputs[ReusableInputs.self] = ReusableInputStorage(
-            filter: BloomFilter(type: input),
+            filter: inputs.filter.union(BloomFilter(type: input)),
             stack: .node(value: input, next: inputs.stack)
         )
     }

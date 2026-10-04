@@ -645,12 +645,20 @@ struct ViewSizeCache {
         
         let key3D = _ProposedSize3D(width: key.width, height: key.height, depth: depth)
         
-        let result = cache.get(key3D, makeValue: makeValue)
         if let recorder = unsafe LayoutTrace.recorder {
-            recorder.cacheLookup = (proposal: key, hit: false)
+            var hit = true
+            let result = cache.get(key3D) {
+                hit = false
+                recorder.cacheLookup = (proposal: key, hit: false)
+                return makeValue()
+            }
+            if hit {
+                recorder.cacheLookup = (proposal: key, hit: true)
+            }
+            return result
         }
         
-        return result
+        return cache.get(key3D, makeValue: makeValue)
     }
 }
 
@@ -852,7 +860,7 @@ struct LayoutProxyAttributes : Equatable {
 fileprivate struct PlacementData {
     let signature: DataSignature
     var geometry: [ViewGeometry]
-    let unknown: Int
+    var unknown: Int
     let bounds: CGRect
     let layoutDirection: LayoutDirection
     
@@ -866,6 +874,9 @@ fileprivate struct PlacementData {
         /*
          self.geometry -> x19
          */
+        if self.geometry[index].origin.x.isNaN {
+            unknown &+= 1
+        }
         self.geometry[index] = copy_1
         
         // <+176>

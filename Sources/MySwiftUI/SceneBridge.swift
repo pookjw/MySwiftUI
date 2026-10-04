@@ -18,7 +18,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
          result pointer -> x8 -> x19
          */
         guard predicate != nil else {
-            return nil
+            return other
         }
         
         // <+300>
@@ -297,7 +297,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
                 
                 // <+1764>
                 self.userActivityTrackingInfo = info
-                self.publishEvent(event: Optional<UserActivityTrackingInfo>(info), type: UserActivityTrackingInfo?.self, identifier: "")
+                self.publishEvent(event: Optional<UserActivityTrackingInfo>(info), type: UserActivityTrackingInfo?.self, identifier: "UserActivityTrackingInfo")
                 
                 // <+1876>
                 let activity = info.userActivity
@@ -331,7 +331,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         } else {
             // <+992>
             self.userActivityTrackingInfo = nil
-            self.publishEvent(event: Optional<UserActivityTrackingInfo>(nil), type: UserActivityTrackingInfo?.self, identifier: "")
+            self.publishEvent(event: Optional<UserActivityTrackingInfo>(nil), type: UserActivityTrackingInfo?.self, identifier: "UserActivityTrackingInfo")
             
             if let rootViewController {
                 rootViewController.userActivity = nil
@@ -415,6 +415,7 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
                 let publisher = publishers[identifier]
             {
                 // <+216>
+                publisher.send(event)
                 flag = false
             } else {
                 // <+236>
@@ -508,16 +509,13 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
                 return targetContentIdentifier
             } else if let webpageURL = userActivity.webpageURL {
                 return webpageURL.absoluteString
-            } else {
-                return nil
             }
+        }
+        // <+372>
+        if let url {
+            return url.absoluteString
         } else {
-            // <+372>
-            if let url {
-                return url.absoluteString
-            } else {
-                return nil
-            }
+            return nil
         }
     }
 }

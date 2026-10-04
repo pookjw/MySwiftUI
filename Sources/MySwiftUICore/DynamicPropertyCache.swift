@@ -82,6 +82,7 @@ package struct DynamicPropertyCache {
                 // <+496>
                 if unsafe result.behaviors.contains([.allowsAsync, .requiresMainThread]) {
                     unsafe os_log(.fault, log: Log.runtimeIssuesLog, "%s is marked async, but contains properties that require the main thread.", _typeName(type, qualified: true))
+                    unsafe result.behaviors.subtract(.allowsAsync)
                 }
             }
             

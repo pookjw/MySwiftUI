@@ -1404,7 +1404,7 @@ extension DisplayList.ViewUpdater {
             let d15 = viewInfo.state.size.width
             let d14 = viewInfo.state.size.height
             
-            var w22 = (d9 == d15 && d8 == d14)
+            var w22 = (d9 != d15 || d8 != d14)
             
             // <+88>
             // w26
@@ -1412,9 +1412,8 @@ extension DisplayList.ViewUpdater {
             // w27
             let stateTransformSeed = unsafe DisplayList.Seed(state.pointee.versions.transform)
             viewInfo.seeds.transform = stateTransformSeed
-            w22 = (w22 || (transformSeed != stateTransformSeed))
             
-            guard w22 || clipRectChanged else {
+            guard w22 || transformSeed != stateTransformSeed || clipRectChanged else {
                 return false
             }
             
@@ -1470,7 +1469,7 @@ extension DisplayList.ViewUpdater {
                     
                     //
                     
-                    if (transformSeed != stateTransformSeed) || !w23 {
+                    if (transformSeed != stateTransformSeed) || w23 {
                         // <+392>
                         // d0, d1
                         let position = viewInfo.state.position
@@ -1565,7 +1564,7 @@ extension DisplayList.ViewUpdater {
                             // <+408>
                             // w8 = 1
                             viewInfo.state.position = CGPoint(x: d13, y: d12)
-                            if !w22, (d9 == d15), (d8 == d14) {
+                            if !w22 || (d9 == d15 && d8 == d14) {
                                 // <+436>
                                 w20 = false
                                 w23 = true

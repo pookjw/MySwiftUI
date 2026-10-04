@@ -210,15 +210,13 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
                 // <+1248>
                 var newValue: [GeometryMeasurer.Proposal: GeometryMeasurer.Size] = [:]
                 
-                newValue = oldValue.reduce(into: newValue) { partialResult, incoming in
+                newValue = proposals.reduce(into: newValue) { partialResult, incoming in
                     // $s7SwiftUI16SizeThatFitsRuleV11updateValueyyFySDy8ProposalQz0C0QzGz_AFtXEfU1_TA
-                    let old = partialResult[incoming.key]
-                    let new = GeometryMeasurer.measure(proposal: incoming.key, layoutComputer: layoutComputer, insets: insets)
+                    let old = oldValue[incoming]
+                    let new = GeometryMeasurer.measure(proposal: incoming, layoutComputer: layoutComputer, insets: insets)
                     
-                    if let old, old != new {
-                        partialResult[incoming.key] = incoming.value
-                    } else {
-                        partialResult[incoming.key] = incoming.value
+                    if old != new {
+                        partialResult[incoming] = new
                     }
                 }
                 
@@ -245,13 +243,10 @@ struct SizeThatFitsRule<GeometryMeasurer : ViewGraphGeometryMeasurer>: StatefulR
                 if newValue.isEmpty {
                     // <+2156>
                     // <+768>
-                } else if let dispatcher {
+                } else {
                     // <+1996>
                     let preferences = self.sizeRestrictionsCallback(newValue)
-                    dispatcher.contentSizeDidChange(sizingPreferences: preferences, transaction: transaction)
-                    // <+768>
-                } else {
-                    // <+2156>
+                    dispatcher?.contentSizeDidChange(sizingPreferences: preferences, transaction: transaction)
                     // <+768>
                 }
                 

@@ -53,7 +53,7 @@ final class MRUIPreferenceImporter : NSObject, MRUIPreferenceHostConformer {
         // <+716>
         visitor.writeCustomKeys(excluding: keys)
         
-        self.customImportedPreference = nil
+        self.customImportedPreference = visitor.result
         outputs = visitor.outputs
     }
     
@@ -171,7 +171,12 @@ fileprivate struct ImportedCustomPreferences : StatefulRule {
         }
         
         // <+48>
-        value = host.aggregatedPreferences
+        value = host.aggregatedPreferences.filter { entry in
+            guard let key = entry.key.base as? AnyObject.Type else {
+                return true
+            }
+            return !excludedKeys.contains(where: { $0 == key })
+        }
     }
 }
 

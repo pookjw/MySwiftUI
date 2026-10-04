@@ -230,6 +230,8 @@ let package = Package(
         .target(
             name: "_UIKitShims",
             dependencies: [
+                .byName(name: "_CoreFoundationPrivate"),
+                .byName(name: "_DyldPrivate"),
                 .byName(name: "_MySwiftUICoreShims"),
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "MySwiftUICore"),

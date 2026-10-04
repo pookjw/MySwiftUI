@@ -323,7 +323,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                     case .horizontal:
                         return unsafe pointer1.pointee.layout.explicitAlignment(
                             of: HorizontalAlignment(key.id),
-                            in: .zero,
+                            in: Rect3D(origin: .zero, size: copy_1.value),
                             proposal: copy_1.proposal,
                             subviews: SpatialLayoutSubviews(
                                 subviews: LayoutSubviews(
@@ -337,7 +337,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                     case .vertical:
                         return unsafe pointer1.pointee.layout.explicitAlignment(
                             of: VerticalAlignment(key.id),
-                            in: .zero,
+                            in: Rect3D(origin: .zero, size: copy_1.value),
                             proposal: copy_1.proposal,
                             subviews: SpatialLayoutSubviews(
                                 subviews: LayoutSubviews(
@@ -352,7 +352,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
                 case .depthAlignment(let depthKey):
                     return unsafe pointer1.pointee.layout.explicitAlignment(
                         of: DepthAlignment(depthKey.id),
-                        in: .zero,
+                        in: Rect3D(origin: .zero, size: copy_1.value),
                         proposal: copy_1.proposal,
                         subviews: SpatialLayoutSubviews(
                             subviews: LayoutSubviews(

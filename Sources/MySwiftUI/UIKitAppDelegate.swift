@@ -42,10 +42,6 @@ final class AppDelegate : UIResponder, UIApplicationDelegate {
             return true
         }
         
-        guard let launchOptions else {
-            return false
-        }
-        
         return (fallbackDelegate as AnyObject).application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
@@ -94,11 +90,15 @@ final class AppDelegate : UIResponder, UIApplicationDelegate {
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
+        let delegateType = type(of: self)
+        let delegateResponds: Bool
         if let fallbackDelegate {
-            return fallbackDelegate.responds(to: aSelector)
+            delegateResponds = fallbackDelegate.responds(to: aSelector)
         } else {
-            return type(of: self).instancesRespond(to: aSelector)
+            delegateResponds = false
         }
+        let instancesRespond = delegateType.instancesRespond(to: aSelector)
+        return delegateResponds || instancesRespond
     }
     
     override func forwardingTarget(for aSelector: Selector!) -> Any? {

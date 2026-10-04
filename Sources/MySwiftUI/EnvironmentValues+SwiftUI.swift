@@ -194,7 +194,7 @@ extension OpenURLAction {
                         Log.internalWarning("Failed to open sensitive URL \(input.url). \(error)")
                     }
                     
-                    input.completion(error != nil)
+                    input.completion(error == nil)
                 }
             }
         }

@@ -143,7 +143,7 @@ extension ViewResponder {
              key -> x22
              return pointer -> x8 -> x19
              */
-            if let storage, storage.key == key {
+            if let storage, let storedKey = storage.key, let key, storedKey == key {
                 return storage.value
             } else {
                 let result = make()

@@ -23,7 +23,7 @@ struct Signpost {
         let args = args()
         
         switch style {
-        case .kdebug(let kClass, _):
+        case .kdebug(let kClass, _, _):
             let debugid = style.debugID(.begin)
             kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
             let result = closure()
@@ -58,7 +58,7 @@ struct Signpost {
         let args = args()
         
         switch style {
-        case .kdebug(let kClass, _):
+        case .kdebug(let kClass, _, _):
             let debugid = style.debugID(type)
             kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
         case .os_log(let name):
@@ -97,28 +97,28 @@ struct Signpost {
     }
     
     static let render = Signpost(
-        style: .kdebug(20, 0),
+        style: .kdebug(20, 0x11, 0),
         level: .published
     )
     
     static let renderUpdate = Signpost(
-        style: .kdebug(20, 3),
+        style: .kdebug(20, 0x11, 3),
         level: .published
     )
     
     static let postUpdateActions = Signpost(
-        style: .kdebug(20, 2),
+        style: .kdebug(20, 0x11, 2),
         level: .published
     )
     
     static let renderDisplayList = Signpost(
-        style: .kdebug(20, 4),
+        style: .kdebug(20, 0x11, 4),
         level: .published
     )
     
     // TODO: 잘못된 값이 들어가있음 (OSUI 참고)
     static let bodyInvoke = Signpost(
-        style: .kdebug(20, 5),
+        style: .kdebug(20, 0x11, 5),
         level: .published
     )
     
@@ -138,7 +138,7 @@ struct Signpost {
     )
     
     static let viewHost = Signpost(
-        style: .kdebug(20, 9),
+        style: .kdebug(20, 0x11, 9),
         level: .published
     )
     
@@ -163,17 +163,17 @@ struct Signpost {
     )
     
     static let prefetchMakeView = Signpost(
-        style: .kdebug(43, 5050),
+        style: .kdebug(43, 0x87, 5050),
         level: .internal
     )
     
     static let prefetchOutputs = Signpost(
-        style: .kdebug(43, 5051),
+        style: .kdebug(43, 0x87, 5051),
         level: .internal
     )
     
     static let prefetchNotifyRender = Signpost(
-        style: .kdebug(43, 5052),
+        style: .kdebug(43, 0x87, 5052),
         level: .internal
     )
     
@@ -189,6 +189,12 @@ extension Signpost {
     }
     
     private func kdebugTrace(kClass: UInt8, debugid: UInt32, signpostID: OSSignpostID, args: [CVarArg]) {
+        guard !args.isEmpty else {
+            kdebug_trace(debugid, kClass == DBG_MISC ? signpostID.rawValue : 0, 0, 0, 0)
+            return
+        }
+
+        var rawSignpostID = signpostID.rawValue
         unsafe args.withUnsafeBufferPointer { (pointer: UnsafeBufferPointer<any CVarArg>) in
             let base = unsafe pointer
                 .baseAddress
@@ -223,18 +229,18 @@ extension Signpost {
                         arg4 = (0, false)
                     }
                     
-                    kdebug_trace(debugid, signpostID.rawValue, arg2.arg, arg3.arg, arg4.arg)
+                    kdebug_trace(debugid, rawSignpostID, arg2.arg, arg3.arg, arg4.arg)
                     
                     if arg2.destroy {
-                        kdebug_trace_string(debugid, arg2.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg2.arg, nil)
                     }
                     
                     if arg3.destroy {
-                        kdebug_trace_string(debugid, arg3.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg3.arg, nil)
                     }
                     
                     if arg4.destroy {
-                        kdebug_trace_string(debugid, arg4.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg4.arg, nil)
                     }
                     
                     remaining -= 3
@@ -277,46 +283,41 @@ extension Signpost {
                     kdebug_trace(debugid, arg1.arg, arg2.arg, arg3.arg, arg4.arg)
                     
                     if arg1.destroy {
-                        kdebug_trace_string(debugid, arg1.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg1.arg, nil)
                     }
                     
                     if arg2.destroy {
-                        kdebug_trace_string(debugid, arg2.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg2.arg, nil)
                     }
                     
                     if arg3.destroy {
-                        kdebug_trace_string(debugid, arg3.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg3.arg, nil)
                     }
                     
                     if arg4.destroy {
-                        kdebug_trace_string(debugid, arg4.arg, nil)
+                        kdebug_trace_string(debugid & 0xffff0000, arg4.arg, nil)
                     }
                     
                     remaining -= 4
                 }
+                rawSignpostID = 0x0ea89ce2
             } while remaining > 0
         }
-        
-        kdebug_trace(debugid, signpostID.rawValue, 0, 0, 0)
     }
 }
 
 extension Signpost {
     fileprivate enum Style {
-        case kdebug(UInt8, UInt16)
+        case kdebug(UInt8, UInt8, UInt16)
         case os_log(StaticString)
         
         func debugID(_ event: OSSignpostType) -> UInt32 {
             switch self {
-            case .kdebug(let value1, let value2):
-                let klass = UInt32(value1)
-                let sub = UInt32(value2 & 0x00ff)
-                let codeHi = UInt32(value2 >> 8)
-                let raw = UInt32(event.rawValue)
-                let codeLo = ((raw & KDBG_CODE_MASK) >> KDBG_CODE_OFFSET) & 0x3f
-                let code14 = (codeHi << 6) | codeLo
-                let debugid = KDBG_EVENTID(class: klass, subClass: sub, code: code14) & KDBG_EVENTID_MASK
-                return debugid
+            case .kdebug(let klass, let subclass, let code):
+                return (UInt32(klass) << KDBG_CLASS_OFFSET) |
+                    (UInt32(subclass) << KDBG_SUBCLASS_OFFSET) |
+                    (UInt32(code) << KDBG_CODE_OFFSET) |
+                    UInt32(event.rawValue)
             case .os_log:
                 return KDBG_CLASS_ENCODE(class: DBG_MISC, subClass: DBG_MISC_INSTRUMENTS) | (UInt32(event.rawValue) & KDBG_CODE_MASK)
             }

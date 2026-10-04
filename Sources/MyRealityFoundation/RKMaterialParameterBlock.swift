@@ -136,7 +136,7 @@ public struct __RKMaterialParameterBlock : Sendable {
         if !isKnownUniquelyReferenced(&self.coreParameterBlockValue) {
             self.coreParameterBlockValue = unsafe self.coreParameterBlockValue
                 .copy()
-                .takeUnretainedValue()
+                .takeRetainedValue()
         }
         
         // <+68>
@@ -158,7 +158,7 @@ public struct __RKMaterialParameterBlock : Sendable {
         if !isKnownUniquelyReferenced(&self.coreParameterBlockValue) {
             self.coreParameterBlockValue = unsafe self.coreParameterBlockValue
                 .copy()
-                .takeUnretainedValue()
+                .takeRetainedValue()
         }
         
         // <+136>
@@ -298,7 +298,7 @@ public struct __RKMaterialParameterBlock : Sendable {
         self.transparentPassTechniqueMapping = []
         self.coreParameterBlockValue = unsafe CoreRE::MaterialParameterBlockValue
             .create()
-            .takeUnretainedValue()
+            .takeRetainedValue()
     }
     
     public init(transparentPassTechniqueMappping mapping: [(__RKMaterialParameterBlock.TransparentPass, String)]) {

@@ -165,7 +165,7 @@ struct HeterogeneousViewIDsAccumulator {
                     // x22
                     let collection = HomogeneousCollection(contiguousArray)
                     self.collections.append(collection)
-                    self._count += self.collections.count
+                    self._count += contiguousArray.count
                 }
                 
                 _openExistential(copy_1, do: append)

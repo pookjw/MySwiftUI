@@ -124,6 +124,7 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
                 // <+448>
                 let dropInteraction = UIDropInteraction(delegate: self)
                 uiView.myswiftui_addManagedInteraction(dropInteraction)
+                self.dropInteraction = dropInteraction
                 // <+516>
             } else {
                 // <+616>

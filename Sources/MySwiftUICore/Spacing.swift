@@ -255,7 +255,7 @@ package struct Spacing : Equatable, CustomStringConvertible {
             } else {
                 // <+2072>
                 if d8 <= -.infinity {
-                    return .infinity
+                    return -.infinity
                 } else {
                     return d8
                 }

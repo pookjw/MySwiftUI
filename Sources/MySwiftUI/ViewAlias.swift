@@ -137,14 +137,14 @@ fileprivate struct SourceFormula<U : View> : AnySourceFormula {
         if source.valueIsNil == nil {
             // <+272>
             // x28
-            let view = _GraphValue(attribute.unsafeCast(to: U?.self))
-            outputs = U?.makeDebuggableViewList(view: view, inputs: inputs)
+            let view = _GraphValue(attribute.unsafeCast(to: U.self))
+            outputs = U.makeDebuggableViewList(view: view, inputs: inputs)
             // <+408>
         } else {
             // <+328>
             // x24
-            let view = _GraphValue(attribute.unsafeCast(to: U.self))
-            outputs = U.makeDebuggableViewList(view: view, inputs: inputs)
+            let view = _GraphValue(attribute.unsafeCast(to: U?.self))
+            outputs = U?.makeDebuggableViewList(view: view, inputs: inputs)
             // <+408>
         }
         

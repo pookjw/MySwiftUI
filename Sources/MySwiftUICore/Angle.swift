@@ -42,7 +42,15 @@ extension Angle : Hashable, Comparable {
     }
 }
 
-extension Angle : Codable {}
+extension Angle : Codable {
+    public init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+}
 extension Angle : Animatable {
     public var animatableData: Double {
         get {

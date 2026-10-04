@@ -17,7 +17,7 @@ void * _Nullable _threadTransactionData(void) {
 }
 
 uint32_t _threadTransactionID(bool increment_id) {
-    if (!increment_id) {
+    if (!increment_id && _perThreadTransactionID != 0) {
         return _perThreadTransactionID;
     } else {
         static atomic_uint last_id = 0;

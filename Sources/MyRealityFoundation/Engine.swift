@@ -710,7 +710,6 @@ final class EngineConfiguration {
     
     @inline(__always) // 원래 없음
     init(coreConfiguration: CoreRE::Engine.Configuration) {
-        unsafe __RERetain(unsafeBitCast(coreConfiguration, to: OpaquePointer.self))
         self.coreConfiguration = coreConfiguration
     }
     

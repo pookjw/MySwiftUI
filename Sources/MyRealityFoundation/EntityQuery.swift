@@ -79,8 +79,7 @@ extension EntityQuery {
         predicate.enumerateBlock(self)
         
         if let last = unsafe last  {
-            unsafe unsafeBitCast(last, to: CoreRE::Predicate.self)
-                .connectEntityPredicate(unsafeBitCast(internalPtr, to: CoreRE::Predicate.self))
+            unsafe connect(T.self, from: last, to: internalPtr)
         } else {
             unsafe self.top = internalPtr
         }

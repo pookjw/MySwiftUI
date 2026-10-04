@@ -47,9 +47,11 @@ final class WindowLayoutHostProxy {
             return nil
         }
         
-        let hostingView = unsafe unsafeBitCast(pending, to: _UIHostingView<Content>.self)
+        let hostingView = pending.host as! _UIHostingView<Content>
         hostingView.base.isHiddenForReuse = false
         
-        return UIWindowLayoutHostingController(_hostingView: hostingView)
+        let controller = UIWindowLayoutHostingController(_hostingView: hostingView)
+        controller.setLayout(windowLayoutProvider.makeLayout())
+        return controller
     }
 }

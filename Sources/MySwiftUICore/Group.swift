@@ -162,6 +162,7 @@ extension _ViewListOutputs {
         // <+540>
         // sp + 0x160
         let outputs_1 = Parent.makeDebuggableViewList(view: parent, inputs: copy_2)
+        copy_1.implicitID = outputs_1.nextImplicitID
         
         let w24 = copy_1.options
         if w24.contains(.requiresContentOffsets) {
@@ -185,6 +186,7 @@ extension _ViewListOutputs {
         // <+808>
         // sp + 0x90
         let outputs_2 = body(_Graph(), copy_1)
+        copy_1.implicitID = outputs_2.nextImplicitID
         
         if w24.contains(.requiresContentOffsets) {
             copy_1.updateContentOffset(outputs: outputs_2)
@@ -250,7 +252,9 @@ fileprivate struct SectionedTrait : Rule {
     @OptionalAttribute var traits: ViewTraitCollection?
     
     var value: ViewTraitCollection {
-        return self.traits ?? ViewTraitCollection()
+        var traits = self.traits ?? ViewTraitCollection()
+        traits[IsSectionedTraitKey.self] = true
+        return traits
     }
 }
 

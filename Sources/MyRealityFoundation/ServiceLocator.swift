@@ -103,6 +103,7 @@ public let __privateEngineMode: Bool = {
             } else {
                 if unsafe __ServiceLocator.createdSharedEngine {
                     CoreRE::Engine.shared = nil
+                    unsafe __ServiceLocator.createdSharedEngine = false
                 }
             }
             

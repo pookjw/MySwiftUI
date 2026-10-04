@@ -482,11 +482,11 @@ extension SectionAccumulator {
         var traits: [ViewTraitCollection] // 0x90
         
         var count: Int {
-            return self.traits.count
+            return self.ids.count
         }
         
         var hasRows: Bool {
-            return self.traits.count > 0
+            return self.ids.count > 0
         }
         
         static func implicitSentinel(

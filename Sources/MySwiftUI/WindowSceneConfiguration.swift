@@ -307,7 +307,7 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
             contentBrightness = nil
         }
         
-        return ImmersiveSpaceConfigurationAttributes.ClientOptions(
+        var clientOptions = ImmersiveSpaceConfigurationAttributes.ClientOptions(
             selectedStyle: selectedStyle,
             allowedStyles: allowedStyles,
             minimumAmount: nil,
@@ -319,6 +319,15 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
             backgroundedSceneSessionPersistentIdentifiers: self.orderOutSceneSessionIdentifiersProvider(),
             sceneUpdateTransitionAnimation: self.sceneUpdateTransitionAnimation
         )
+
+        if let style = selectedStyle as? ProgressiveImmersionStyle {
+            clientOptions.minimumAmount = style.minimumImmersionAmount
+            clientOptions.maximumAmount = style.maximumImmersionAmount
+            clientOptions.initialAmount = style.initialImmersionAmount
+            clientOptions.aspectRatio = style.aspectRatio.storage
+        }
+
+        return clientOptions
     }
     
     // TODO
@@ -328,10 +337,10 @@ extension ImmersiveSpaceConfigurationAttributes {
     struct ClientOptions : CustomStringConvertible {
         private(set) var selectedStyle: any ImmersionStyle // 0x0
         fileprivate private(set) var allowedStyles: [any ImmersionStyle] // 0x28
-        fileprivate private(set) var minimumAmount: Double? // 0x30
-        fileprivate private(set) var maximumAmount: Double? // 0x40
-        fileprivate private(set) var initialAmount: Double? // 0x50
-        fileprivate private(set) var aspectRatio: ProgressiveImmersionAspectRatio? // 0x59
+        fileprivate var minimumAmount: Double? // 0x30
+        fileprivate var maximumAmount: Double? // 0x40
+        fileprivate var initialAmount: Double? // 0x50
+        fileprivate var aspectRatio: ProgressiveImmersionAspectRatio.Stroage? // 0x59
         fileprivate private(set) var contentBrightness: CGFloat? // 0x60
         fileprivate private(set) var environmentBehavior: ImmersiveEnvironmentBehavior.Storage // 0x69
         fileprivate private(set) var backgroundedSceneSessionPersistentIdentifiers: Set<String>? // 0x70
@@ -547,7 +556,7 @@ extension ImmersiveSpaceContent {
                     casted = _casted
                     break
                 } else {
-                    body = self.body
+                    body = body.body
                 }
             }
         }

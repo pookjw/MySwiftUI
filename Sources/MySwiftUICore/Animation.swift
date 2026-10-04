@@ -406,12 +406,12 @@ struct AnimatableAttributeHelper<T : Animatable> {
          environment = sp + 0xb8
          */
         // <+744>
-        let time: Time
+        var time: Time
         if animatorState == nil {
             time = -Time.infinity
         } else {
             let (_time, flags) = $time.valueAndFlags(options: [])
-            if flags == .changed {
+            if flags.contains(.changed) {
                 time = _time
             } else {
                 time = -Time.infinity
@@ -446,7 +446,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                     // x28
                     var interval = animatableData
                     interval -= previousModelData
-                    let time = self.time
+                    time = self.time
                     
                     // sp + 0xf8
                     let animatorState: AnimatorState<T.AnimatableData>
@@ -455,7 +455,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                         // <+1564>
                         // time = sp + 0x220
                         animatorState.combine(newAnimation: animation, newInterval: interval, at: time, in: transaction, environment: environment)
-                        CustomEventTrace.animationRetarget(attribute: .current, propertyType: type(of: self), function: animation.function)
+                        CustomEventTrace.animationRetarget(attribute: .current, propertyType: type(of: value.value), function: animation.function)
                         // <+3520>
                         let attribute = AnyAttribute.current!
                         Signpost.animationState.traceEvent(
@@ -465,7 +465,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                             args: [
                                 attribute.graph.counter(options: .unknown2),
                                 attribute.rawValue,
-                                _typeName(type(of: self), qualified: false)
+                                _typeName(T.self, qualified: false)
                             ]
                         )
                     } else {
@@ -479,7 +479,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                             finishingDefinition: T.self as? (any AnimationFinishingDefinition<T.AnimatableData>.Type)
                         )
                         
-                        CustomEventTrace.animationBegin(attribute: .current, propertyType: type(of: self), function: animation.function)
+                        CustomEventTrace.animationBegin(attribute: .current, propertyType: type(of: value.value), function: animation.function)
                         let attribute = AnyAttribute.current!
                         Signpost.animationState.traceEvent(
                             type: .begin,
@@ -488,7 +488,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                             args: [
                                 attribute.graph.counter(options: .unknown2),
                                 attribute.rawValue,
-                                _typeName(type(of: self), qualified: false)
+                                _typeName(T.self, qualified: false)
                             ]
                         )
                         self.animatorState = animatorState
@@ -532,7 +532,7 @@ struct AnimatableAttributeHelper<T : Animatable> {
                 args: [
                     attribute.graph.counter(options: .unknown2),
                     attribute.rawValue,
-                    _typeName(type(of: self), qualified: false)
+                    _typeName(T.self, qualified: false)
                 ]
             )
             

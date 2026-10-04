@@ -75,7 +75,7 @@ fileprivate struct SpringModel {
             // <+80>
             if d11 != 0 {
                 // <+100>
-                d8 = 10.0
+                d8 = 1E-6
                 // <+104>
                 flag = false
             } else {

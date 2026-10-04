@@ -34,10 +34,14 @@ final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::S
     }
     
     fileprivate func invalidateAttribute() {
+        var style: _GraphMutation_Style = .immediate
         if pthread_main_np() == 0 {
             unsafe os_log(.fault, log: .runtimeIssuesLog, "Publishing changes from background threads is not allowed; make sure to publish values from the main thread (via operators like receive(on:)) on model updates.")
-        } else if Update.isOwner && isLinkedOnOrAfter(.v4) {
-            unsafe os_log(.fault, log: .runtimeIssuesLog, "Publishing changes from within view updates is not allowed, this will cause undefined behavior.")
+        } else if Update.threadIsUpdating {
+            if isLinkedOnOrAfter(.v4) {
+                unsafe os_log(.fault, log: .runtimeIssuesLog, "Publishing changes from within view updates is not allowed, this will cause undefined behavior.")
+            }
+            style = .deferred
         }
         
         // <+256>
@@ -53,7 +57,7 @@ final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::S
                 Transaction.current,
                 id: Transaction.ID(value: _threadTransactionID(false)),
                 mutation: InvalidatingGraphMutation(attribute: self.attribute.base),
-                style: .immediate,
+                style: style,
                 mayDeferUpdate: true
             )
         }

@@ -31,11 +31,11 @@ package enum Log {
     }
     
     package static func internalWarning(_ message: @autoclosure @escaping () -> String) {
-        Log.internalWarning(message())
+        Log.internalWarning(message(), file: #fileID, line: #line)
     }
     
     package static func internalError(_ message: @autoclosure @escaping () -> String) {
-        Log.internalError(message())
+        Log.internalError(message(), file: #fileID, line: #line)
     }
     
     package static func eventDebug(_ message: String) {
@@ -69,7 +69,7 @@ package enum Log {
     }
     
     package static func internalError(_ message: @autoclosure @escaping () -> String, file: StaticString = #file, line: UInt = #line) {
-        unsafe os_log(.fault, log: Log.internalErrorsLog, "%s - %s:%s", message(), file.description, line.description)
+        unsafe os_log(.fault, log: Log.internalErrorsLog, "%s %s:%s", message(), file.description, line.description)
         print("\(message()) - \(file):\(line) - please file a bug report.")
     }
     

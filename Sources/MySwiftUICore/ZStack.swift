@@ -124,7 +124,7 @@ extension _ZStackLayout : @preconcurrency Layout {
             .map { subview in
                 // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztFAA0M10DimensionsVAA0D7SubviewVcfU1_TA
                 return subview.proxy.dimensions(
-                    in: _ProposedSize(width: proposal.height, height: proposal.height)
+                    in: _ProposedSize(width: proposal.width, height: proposal.height)
                 )
             }
             .reduce(((x: -CGFloat.infinity, y: -CGFloat.infinity), (x: -CGFloat.infinity, y: -CGFloat.infinity))) { partialResult, dimensions in

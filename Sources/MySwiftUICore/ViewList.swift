@@ -77,7 +77,7 @@ package struct _ViewList_ID : Hashable {
     }
     
     @inline(always) // 원래 없음
-    fileprivate init(index: Int32, implicitID: Int32, explicitIDs: [_ViewList_ID.Explicit]) {
+    init(index: Int32, implicitID: Int32, explicitIDs: [_ViewList_ID.Explicit]) {
         self._index = index
         self.implicitID = implicitID
         self.explicitIDs = explicitIDs
@@ -182,7 +182,7 @@ struct _ViewList_SublistSubgraphStorage {
         }
         
         for subgraph in subgraphs {
-            guard subgraph.subgraph.isValid else {
+            guard subgraph.refcount != 0, subgraph.subgraph.isValid else {
                 return false
             }
         }
@@ -800,7 +800,7 @@ extension _ViewListOutputs {
                     return _ViewListOutputs(
                         .dynamicList(x22[0], nil),
                         nextImplicitID: x20,
-                        staticCount: x19
+                        staticCount: w23 == true ? nil : x19
                     )
                 } else if count != 0 {
                     // <+772>
@@ -1010,7 +1010,7 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
         if self.isDataDependent {
             return self
         } else {
-            return _ViewList_ID_Views(isDataDependent: true)
+            return _ViewList_ID._Views(self, isDataDependent: true)
         }
     }
     
@@ -1242,6 +1242,7 @@ fileprivate struct UnaryElements<T : UnaryViewGenerator>: _ViewList_Elements {
          body -> x4 -> x21
          */
         guard index == 0 else {
+            index = max(index &- 1, 0)
             return (nil, true)
         }
         
@@ -1349,7 +1350,7 @@ extension BaseViewList : ViewList {
          block -> x4/x5 -> sp + 0x8 / x22
          */
         // x20
-        let count = count(style: style)
+        let count = elements.count
         // x8
         var x8 = style.applyGranularity(to: count)
         x8 = index &- x8
@@ -1594,6 +1595,7 @@ struct _ViewList_IteratorStyle : Equatable {
             sublist.pointee.push(item, flags: flags)
             let result = block(self)
             sublist.pointee.items.removeLast()
+            sublist.pointee.subgraphCount &+= flags.contains(.graphDependent) ? 1 : 0
             return result
         }
     }
@@ -1630,6 +1632,7 @@ struct _ViewList_IteratorStyle : Equatable {
         case .node(let pointer):
             // <+68>
             var transform = _ViewList_SublistTransform()
+            transform.subgraphCount = pointer?.pointee.subgraphCount ?? 0
             
             var ptr = pointer
             while let unwrapped = ptr {
@@ -1667,7 +1670,7 @@ extension _ViewList_TemporarySublistTransform {
 
 struct _ViewList_SublistTransform {
     var items: [any _ViewList_SublistTransform_Item] = []
-    fileprivate private(set) var subgraphCount: Int = 0
+    fileprivate var subgraphCount: Int = 0
     
     init() {
     }
@@ -1794,23 +1797,25 @@ enum _ViewList_Node {
             // <+380>
             // sp + 0x80
             let copy_2 = sublist
-            var count = copy_2.count
-            style.alignToPreviousGranularityMultiple(&count)
+            let count = style.applyGranularity(to: copy_2.count)
             
             let x20 = index &- count
             if x20 >= 0 {
+                index = x20
                 return true
             }
             
             // <+456>
             // sp + 0x20
             let copy_3 = copy_2
-            return block(
+            let result = block(
                 &index,
                 style,
                 .sublist(copy_3),
                 transform
             )
+            index = 0
+            return result
         case .group(let group):
             // <+192>
             return group.applyNodes(
@@ -2622,22 +2627,22 @@ extension Layout {
                 options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
                 switch stackOrientation {
                 case .horizontal:
-                    options.formUnion(.viewStackOrientationIsDefined)
-                case .vertical:
                     options.formUnion([.viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
+                case .vertical:
+                    options.formUnion(.viewStackOrientationIsDefined)
                 }
                 copy_2.base.options = options
                 // <+572>
             } else {
                 // <+316>
-                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+                options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
                 copy_2.base.options = options
                 copy_2[DynamicStackOrientation.self] = OptionalAttribute()
                 // <+572>
             }
         } else {
             // <+372>
-            options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsHorizontal])
+            options.subtract([.viewStackOrientationIsDepth, .viewStackOrientationIsDefined, .viewStackOrientationIsHorizontal])
             copy_2.base.options = options
             copy_3 = copy_1
             let rule = AnyLayoutProperties(layout: root.value.identifier.unsafeCast(to: AnyLayout.self))
@@ -3083,7 +3088,7 @@ extension SpatialLayout where Self == ZStackLayout3D {
             // <+416>
             return Self.makeStaticSpatialLayoutView(
                 root: root,
-                inputs: copy_2,
+                inputs: copy_1,
                 properties: SpatialLayoutProperties(value: 0x01010002),
                 list: elements
             )
@@ -3095,7 +3100,7 @@ extension SpatialLayout where Self == ZStackLayout3D {
             
             return Self.makeDynamicSpatialLayoutView(
                 root: root,
-                inputs: copy_2,
+                inputs: copy_1,
                 properties: SpatialLayoutProperties(value: 0x01010002), // dead,
                 list: attribute
             )

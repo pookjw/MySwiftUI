@@ -26,7 +26,14 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
     private var lastVersion = DisplayList.Version() // 0x48
     private var sceneBridge: SceneBridge? = nil // 0x50
     private var remoteSceneBridge: RemoteScenes.Bridge? = nil // 0x58
-    private var scenePhase: ScenePhase = .background // 0x60
+    private var scenePhase: ScenePhase = .background { // 0x60
+        didSet {
+            if let rootViewController = window?.rootViewController, let sceneItemID {
+                scenesDidChange(phaseChanged: true)
+                PlatformSceneCache.shared.setPhase(scenePhase, id: sceneItemID, host: rootViewController)
+            }
+        }
+    }
     private var sceneDelegateBox: AnyFallbackDelegateBox? = nil // 0x68
     private var sceneStorageValues: SceneStorageValues? = nil // 0x70
     private var presentationDataType: Any.Type? = nil // 0x78
@@ -43,11 +50,14 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
     }
     
     override func responds(to aSelector: Selector!) -> Bool {
+        let delegateResponds: Bool
         if let sceneDelegateBox, let delegate = sceneDelegateBox.delegate as? UISceneDelegate {
-            return delegate.responds(to: aSelector)
+            delegateResponds = delegate.responds(to: aSelector)
         } else {
-            return type(of: self).instancesRespond(to: aSelector)
+            delegateResponds = false
         }
+        let instancesRespond = AppSceneDelegate.instancesRespond(to: aSelector)
+        return delegateResponds || instancesRespond
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
@@ -530,15 +540,6 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         self.scenePhase = .background
         
         if
-            let window,
-            let rootViewController = window.rootViewController, // x22
-            let sceneItemID
-        {
-            self.scenesDidChange(phaseChanged: true)
-            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
-        }
-        
-        if
             let sceneDelegateBox,
             let delegate = sceneDelegateBox.delegate as? UISceneDelegate
         {
@@ -553,16 +554,6 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
          */
         self.scenePhase = .active
         
-        if
-            let window,
-            let rootViewController = window.rootViewController,
-            let sceneItemID
-        {
-            // rootViewController -> x22
-            self.scenesDidChange(phaseChanged: true)
-            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
-        }
-        
         // <+244>
         if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
             delegate.sceneWillEnterForeground?(scene)
@@ -575,16 +566,6 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
          scene -> x0 -> x19
          */
         self.scenePhase = .inactive
-        
-        if
-            let window,
-            let rootViewController = window.rootViewController, // x22
-            let sceneItemID
-        {
-            // <+84>
-            self.scenesDidChange(phaseChanged: true)
-            PlatformSceneCache.shared.setPhase(self.scenePhase, id: sceneItemID, host: rootViewController)
-        }
         
         // <+244>
         if
@@ -1795,10 +1776,7 @@ extension AppDelegate {
             }
             
             let array = self.activeWindowProxies
-            if
-                let matchingIndex = array.firstIndex(where: { $0.backingScene == proxy.backingScene }),
-                matchingIndex != indices.endIndex
-            {
+            if let matchingIndex = array.firstIndex(where: { $0.backingScene == proxy.backingScene }) {
                 // <+940>
                 var x23 = matchingIndex
                 var x28 = x23 &+ 1
@@ -1818,8 +1796,6 @@ extension AppDelegate {
                 }
                 
                 self.activeWindowProxies.removeSubrange(x23..<x28)
-            } else {
-                self.activeWindowProxies.remove(at: index)
             }
         }
         

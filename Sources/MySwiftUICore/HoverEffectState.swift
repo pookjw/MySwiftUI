@@ -34,10 +34,11 @@ struct HoverEffectState {
                     var _opacity = values.opacity,
                     opacity != 1
                 else {
-                    return true
+                    return false
                 }
                 
                 _opacity.inactiveValue *= opacity
+                _opacity.activeValue *= opacity
                 values.opacity = _opacity
                 return true
             }
@@ -61,11 +62,11 @@ struct HoverEffectState {
         var result = false
         
         for index in self.leafEffects.indices {
-            result = result || block(&self.leafEffects[index].values)
+            result = block(&self.leafEffects[index].values) || result
         }
         
         for index in self.groups.indices {
-            result = result || self.groups[index].effects.updateLeafEffectState(block)
+            result = self.groups[index].effects.updateLeafEffectState(block) || result
         }
         
         return result
@@ -95,7 +96,7 @@ struct HoverEffectLeafValues {
 struct HoverEffectOpacityValue {
     private let identity: _DisplayList_Identity
     fileprivate var inactiveValue: Float
-    private var activeValue: Float
+    fileprivate var activeValue: Float
 }
 
 struct HoverEffectAffineTransformValue {

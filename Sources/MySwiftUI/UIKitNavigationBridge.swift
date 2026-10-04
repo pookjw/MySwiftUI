@@ -161,7 +161,7 @@ class UIKitNavigationBridge {
         let incomingSeed = preference.seed
         // preference -> sp + 0x40
         // sp + 0xb0 -> sp + 0x48
-        let _ = preference.value
+        let destinations = preference.value
         // x21
         let oldSeed = navigationDestinationSeed
         let matches = incomingSeed.matches(oldSeed)

@@ -369,10 +369,7 @@ extension View {
         return _ViewOutputs.multiView(inputs: inputs) { [view] graph, inputs in
             // $s7SwiftUI4ViewPAAE16makeImplicitRoot4view6inputsAA01_C7OutputsVAA11_GraphValueVyxG_AA01_C6InputsVtFZAA01_c4ListI0VAA01_J0V_AMtcfU_
             let listInputs = inputs.implicitRootBodyInputs
-            // x23 register는 활용하지 않음
-            _ = Self._makeViewList(view: view, inputs: listInputs)
-            
-            return Self.Body.makeDebuggableViewList(view: view, inputs: listInputs)
+            return Self.makeDebuggableViewList(view: view, inputs: listInputs)
         }
     }
 }
@@ -424,7 +421,7 @@ fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
         // sp + 0x160
         let _ = copy_6
         
-        self.outputs = T._makeView(root: graphValue, inputs: copy_7, body: body)
+        self.outputs = T._makeView(root: graphValue, inputs: copy_2, body: body)
     }
 }
 

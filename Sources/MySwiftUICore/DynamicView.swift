@@ -183,6 +183,7 @@ extension DynamicViewContainer {
     mutating func updateValue() {
         // self -> x26
         let view = view
+        let previousItem = lastItem
         // x25/x24 / sp + 0x70
         let (type, id) = view.childInfo(metadata: metadata)
         
@@ -267,6 +268,9 @@ extension DynamicViewContainer {
         if !flag_1 {
             var matchedItem: Unmanaged<DynamicViewList<Content>.Item>?
             for unsafe item in unsafe allItems.value {
+                if unsafe item.takeUnretainedValue() === previousItem {
+                    continue
+                }
                 let matches = unsafe item.takeUnretainedValue().matches(type: type, id: id)
                 if matches {
                     unsafe matchedItem = unsafe item
@@ -564,7 +568,7 @@ extension DynamicViewList.WrappedList : ViewList {
         let keys = self.base.traitKeys
         
         guard Content.traitKeysDependOnView else {
-            return nil
+            return keys
         }
         
         if var keys {

@@ -85,6 +85,11 @@ public struct __RKEntityTagsComponent {
                 }
             }
             
+            guard let componentType else {
+                builder.destroy()
+                throw __RKEntityTagsComponent.Registration.RegistrationError.builderFailed
+            }
+
             self.componentType = unsafe unsafeBitCast(componentType, to: OpaquePointer.self)
             builder.destroy()
         }

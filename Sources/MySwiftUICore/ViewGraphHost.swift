@@ -244,7 +244,14 @@ internal import CoreGraphics
         // d13, d12, d8, d10
         var keyboardElement = SafeAreaInsets.Element(regions: .keyboard, insets: EdgeInsets())
         if let keyboardHeight {
-            keyboardElement.insets = EdgeInsets(edgeInsets.bottom - keyboardHeight, edges: .bottom)
+            let bottom = keyboardHeight - edgeInsets.bottom
+            if bottom < 0 {
+                containerElement.insets.bottom = -bottom
+                keyboardElement.regions = [.container, .keyboard]
+                keyboardElement.insets.bottom = keyboardHeight
+            } else {
+                keyboardElement.insets.bottom = bottom
+            }
         }
         
         // <+396>

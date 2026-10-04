@@ -586,7 +586,7 @@ fileprivate func findValueWithSecondaryLookup<T : PropertyKeyLookup>(
     // x21
     var skip: Unmanaged<PropertyList.Element> = unsafe element
     while true {
-        if unsafe skip.takeUnretainedValue().skipFilter.mayContain(filter) {
+        if unsafe skip.takeUnretainedValue().skipFilter.mayContain(filter) || skip.takeUnretainedValue().skipFilter.mayContain(secondaryFilter) {
             if
                 let before = unsafe skip.takeUnretainedValue().before,
                 let result = unsafe findValueWithSecondaryLookup(Unmanaged.passUnretained(before), secondaryLookupHandler: secondaryLookupHandler, filter: filter, secondaryFilter: secondaryFilter)
@@ -608,10 +608,9 @@ fileprivate func findValueWithSecondaryLookup<T : PropertyKeyLookup>(
                 // offset 0x48에 접근하는 것을 보아 TypedElement.value를 가져오는 것으로 보임
                 let element = unsafe Unmanaged<TypedElement<T.Secondary>>.fromOpaque(skip.toOpaque())
                 let value = unsafe element.takeUnretainedValue().value
-                guard let result = T.lookup(in: value) else {
-                    continue
+                if let result = T.lookup(in: value) {
+                    return result
                 }
-                return result
             }
             
             if let after = unsafe skip.takeUnretainedValue().after {
@@ -677,8 +676,8 @@ fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ again
      source = x20
      against = x19
      */
-    guard unsafe source == against else {
-        return false
+    if unsafe source == against {
+        return true
     }
     
     // ignoredTypes = x21
@@ -686,6 +685,26 @@ fileprivate func compareLists(_ source: Unmanaged<PropertyList.Element>, _ again
         return false
     }
     
+    if let before = unsafe source.takeUnretainedValue().before {
+        guard
+            let otherBefore = unsafe against.takeUnretainedValue().before,
+            unsafe compareLists(Unmanaged.passUnretained(before), Unmanaged.passUnretained(otherBefore), ignoredTypes: &ignoredTypes)
+        else {
+            return false
+        }
+    } else if unsafe against.takeUnretainedValue().before != nil {
+        return false
+    }
+
+    if let after = unsafe source.takeUnretainedValue().after {
+        guard let otherAfter = unsafe against.takeUnretainedValue().after else {
+            return false
+        }
+        return unsafe compareLists(Unmanaged.passUnretained(after), Unmanaged.passUnretained(otherAfter), ignoredTypes: &ignoredTypes)
+    } else if unsafe against.takeUnretainedValue().after != nil {
+        return false
+    }
+
     return true
 }
 

@@ -81,15 +81,15 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
                 let d10 = host.bounds.maxY
                 let b2 = host.bounds
                 
-                let d1 = d10 - b2.origin.y + b2.height * 0.5 - value.0.height
+                let d1 = d10 - (b2.origin.y + b2.height * 0.5) - value.0.height
                 let d0 = d9
                 let size = Size3D(width: d0, height: d1, depth: value.0.depth)
                 
                 entity.position = SIMD3<Float>(
-                    Float(size.width / pointsPerMeter),
-                    Float(size.height / pointsPerMeter),
-                    Float(size.depth / pointsPerMeter)
-                )
+                    Float(size.width),
+                    Float(size.height),
+                    Float(size.depth)
+                ) / Float(pointsPerMeter)
                 Log.log("Positioning entity \(entity.id) at \(entity.position)")
                 
                 for request in value.1 {

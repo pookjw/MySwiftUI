@@ -241,9 +241,9 @@ package struct CustomEventTrace {
     }
     
     package static func animationBegin(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
-        var d0: Double = 1.0
+        var d0: Double = .nan
         var d1: Double = .nan
-        var d2: Double = .nan
+        var d2: Double = 1.0
         var d3: Double = .nan
         CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
         
@@ -317,9 +317,9 @@ package struct CustomEventTrace {
     }
     
     package static func animationRetarget(attribute: AnyAttribute?, propertyType: Any.Type, function: Animation.Function) {
-        var d0: Double = 1.0
+        var d0: Double = .nan
         var d1: Double = .nan
-        var d2: Double = .nan
+        var d2: Double = 1.0
         var d3: Double = .nan
         CustomEventTrace.extractFunctionData(function, &d0, &d1, &d2, &d3)
         

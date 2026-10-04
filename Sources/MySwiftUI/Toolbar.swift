@@ -260,7 +260,7 @@ extension ToolbarStorage {
     
     struct NavigationProperties {
         private var documentProperties: ToolbarStorage.NavigationProperties.DocumentProperties?
-        private var platformActions: ToolbarStorage.NavigationProperties.Actions?
+        private(set) var platformActions: ToolbarStorage.NavigationProperties.Actions?
         private weak var renameDelegate: UINavigationItemRenameDelegate?
         private var backAction: UIAction?
         private var platformTitle: PlatformItemList.Item?

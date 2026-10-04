@@ -1119,6 +1119,7 @@ extension UINavigationItem {
         let w21 = bottomPalette != nil
         let w0 = hasLargeContent
         var w8 = w0 || hasLeftContent
+        w8 = w8 || hasRightContent
         w8 = w21 || w8
         
         if w8 {
@@ -1208,7 +1209,7 @@ extension UIViewController {
             }
         } else {
             // <+504>
-            return hasOrWillHaveBackItem && !hidesBackButton
+            return hasContent || (hasOrWillHaveBackItem && !hidesBackButton)
         }
     }
     

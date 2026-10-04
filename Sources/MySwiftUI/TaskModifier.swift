@@ -414,7 +414,7 @@ extension _TaskValueModifier2 {
                     // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU1_TA
                     guard
                         let taskState,
-                        oldValue != newValue
+                        taskState.id != base.id
                     else {
                         return
                     }
@@ -438,9 +438,11 @@ extension _TaskValueModifier2 {
                 )
             } else {
                 task = Task.detached(
-                    name: base.name,
+                    name: nil,
                     priority: base.priority,
-                    operation: unsafeBitCast(base.action, to: (@Sendable () -> Void).self)
+                    operation: {
+                        await base.action()
+                    }
                 )
             }
             

@@ -243,7 +243,7 @@ struct SceneNavigationStrategy_Phone {
         }
         
         // <+4952>
-        let block: () -> Void = {
+        let block: @MainActor () -> Void = {
             // $s7SwiftUI29SceneNavigationStrategy_PhoneV07performC10Activation33_FB4D19B065EC4D2CC549DBA6E2D239A5LL4item8activity15matchingSession18activationBehavior12errorHandleryAA0C4ListV4ItemV_So14NSUserActivityCSo07UISceneV0CSgAA0chX0OyAC5ErrorOcSgtFyycfU4_Tf4dnnn_n
             let block: () -> Void = {
                 // $s7SwiftUI29SceneNavigationStrategy_PhoneV07performC10Activation33_FB4D19B065EC4D2CC549DBA6E2D239A5LL4item8activity15matchingSession18activationBehavior12errorHandleryAA0C4ListV4ItemV_So14NSUserActivityCSo07UISceneV0CSgAA0chX0OyAC5ErrorOcSgtFyycfU4_yyXEfU_
@@ -281,8 +281,8 @@ struct SceneNavigationStrategy_Phone {
             // <+5228>
             block()
         } else {
-            withoutActuallyEscaping(block) { escapingClosure in
-                DispatchQueue.main.async(execute: escapingClosure)
+            DispatchQueue.main.async {
+                block()
             }
         }
     }
@@ -404,7 +404,7 @@ struct SceneNavigationStrategy_Phone {
                 {
                     // <+2768>
                     let userActivity = self.userActivityForOpeningWindow(id: copy_1.id)
-                    self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: session, activationBehavior: .push(sceneSessionToBeReplaced: session), errorHandler: nil)
+                    self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: session, activationBehavior: withBehavior, errorHandler: nil)
                     return
                 }
             }
@@ -417,7 +417,7 @@ struct SceneNavigationStrategy_Phone {
         
         // <+2600>
         let userActivity = self.userActivityForOpeningWindow(id: copy_1.id)
-        self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: nil, activationBehavior: .default, errorHandler: nil)
+        self.performSceneActivation(item: copy_1, activity: userActivity, matchingSession: nil, activationBehavior: withBehavior, errorHandler: nil)
     }
     
     func openWindow<T : Codable & Hashable>(

@@ -1137,8 +1137,8 @@ private import Spatial
             // <+300>
         } else {
             // <+280>
-            d13 = d12 ?? 10
-            d12 = d14 ?? 10
+            d13 = (w19 == 1) ? 10 : d12
+            d12 = (w21 == 1) ? 10 : d14
             // <+300>
         }
         
@@ -1574,7 +1574,6 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
         }
         
         // <+132>
-        let rootLayoutComputer = graph.$rootLayoutComputer
         // <+172>
         // sp + 0xc
         var needsUpdate = false
@@ -1593,7 +1592,7 @@ extension ViewGraphGeometryObservers where T == SizeThatFitsMeasurer {
             // (d9, d8)
             let sizeThatFits = ViewGraph.sizeThatFits(
                 size,
-                layoutComputer: rootLayoutComputer?.wrappedValue,
+                layoutComputer: graph.rootLayoutComputer,
                 insets: graph.rootViewInsets
             )
             

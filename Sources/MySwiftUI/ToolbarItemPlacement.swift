@@ -143,7 +143,7 @@ public struct ToolbarItemPlacement : Sendable {
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     @available(visionOS, unavailable)
-    public static let largeSubtitle = ToolbarItemPlacement(role: .largeTitle)
+    public static let largeSubtitle = ToolbarItemPlacement(role: .largeSubtitle)
     
     static let tabSidebar = ToolbarItemPlacement(role: .automatic)
 }

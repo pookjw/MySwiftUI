@@ -50,17 +50,6 @@ struct _SafeAreaInsetsModifier : PrimitiveViewModifier, MultiViewModifier {
         var insets = EdgeInsets.zero
         
         if !elements.isEmpty {
-            if elements.count != 1 {
-                for element in elements {
-                    if let cornerInsets = element.cornerInsets {
-                        insets.top += cornerInsets.topLeading.width + cornerInsets.bottomTrailing.width
-                        insets.leading += cornerInsets.topLeading.height + cornerInsets.bottomTrailing.height
-                        insets.trailing += cornerInsets.topTrailing.width + cornerInsets.bottomLeading.width
-                        insets.bottom += cornerInsets.topTrailing.height + cornerInsets.bottomLeading.height
-                    }
-                }
-            }
-            
             for element in elements {
                 insets.top += element.insets.top
                 insets.leading += element.insets.leading
@@ -148,10 +137,10 @@ extension _SafeAreaInsetsModifier {
             
             var adjusted = position
             adjusted -= transform.positionAdjustment
-            adjusted -= transform.pendingTranslation
+            let pendingTranslation = transform.pendingTranslation - CGSize(adjusted)
             
             transform.positionAdjustment = CGSize(width: position.x, height: position.y)
-            transform.pendingTranslation = CGSize(width: adjusted.x, height: adjusted.y)
+            transform.pendingTranslation = pendingTranslation
             
             transform.appendSizedSpace(id: space, size: size.value)
             return transform
@@ -170,7 +159,9 @@ extension _SafeAreaInsetsModifier {
              next -> w22
              */
             let value: SafeAreaInsets.OptionalValue
-            if case .insets(_) = modifier.nextInsets, let next = $next {
+            if let nextInsets = modifier.nextInsets {
+                value = nextInsets
+            } else if let next = $next {
                 value = .insets(next.value)
             } else {
                 value = .empty

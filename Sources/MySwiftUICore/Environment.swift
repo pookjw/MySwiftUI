@@ -25,7 +25,7 @@ private import AttributeGraph
             case let .keyPath(keyPath):
                 if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *) {
                     unsafe os_log(.fault, log: Log.runtimeIssuesLog, """
-                    Accessing Environment<\(Value.self)>'s value outside of \
+                    Accessing Environment<\(_typeName(Value.self, qualified: false))>'s value outside of \
                     being installed on a View. \
                     This will always read the default value \
                     and will not update.
@@ -38,13 +38,6 @@ private import AttributeGraph
                     and will not update.
                     """)
                 }
-                
-                unsafe os_log(.fault, log: Log.runtimeIssuesLog, """
-                Accessing Environment's value outside of being \
-                installed on a View. \
-                This will always read the default value \
-                and will not update.
-                """)
                 
                 return EnvironmentValues()[keyPath: keyPath]
             }
@@ -243,6 +236,7 @@ fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
                 // w20
                 if keyPath != ownKeyPath {
                     // <+1028>
+                    self.keyPath = keyPath
                     updated = true
                 } else {
                     // <+940>
@@ -263,6 +257,7 @@ fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
                 }
             } else {
                 // <+1000>
+                self.keyPath = keyPath
                 updated = true
             }
             
@@ -294,6 +289,8 @@ fileprivate struct EnvironmentBox<Value> : DynamicPropertyBox {
             if !isEqual {
                 // <+2204>
                 self.value = copy_2
+            } else {
+                updated = false
             }
             
             // <+2280>

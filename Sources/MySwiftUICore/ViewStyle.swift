@@ -200,14 +200,14 @@ fileprivate struct StyleModifierType<T : StyleModifier> : AnyStyleModifierType {
     static func makeStyleBody<U : StyleableView>(view: _GraphValue<U>, modifier: AnyStyleModifier, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<T.StyleBody>, _DynamicPropertyBuffer?) {
         if isLinkedOnOrAfter(.v2_3) {
             // <+188>
-            let kind = MetadataKind(TypeID(Self.self))
+            let kind = MetadataKind(TypeID(T.Style.self))
             
             switch kind {
             case .struct, .enum, .optional, .tuple:
                 break
             default:
                 var message = "styles must be value types (either a struct or an enum); "
-                message.append(_typeName(Self.self, qualified: false))
+                message.append(_typeName(T.Style.self, qualified: false))
                 fatalError(message)
             }
         }

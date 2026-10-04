@@ -74,9 +74,10 @@ void CoreViewAddSubview(ViewSystem toSystem, id toView, ViewSystem fromSystem, i
         assert(fromSystem == ViewSystemCALayer);
         [(CALayer *)toView insertSublayer:(CALayer *)fromView atIndex:(unsigned int)index];
     } else if (toSystem == ViewSystemUIView) {
-        if (fromView == ViewSystemCALayer) {
+        if (fromSystem == ViewSystemCALayer) {
             [((UIView *)toView).layer insertSublayer:(CALayer *)fromView atIndex:(unsigned int)index];
         } else {
+            assert(fromSystem == ViewSystemUIView);
             _UIKitAddSubview((UIView *)fromView, (UIView *)toView, index);
         }
     }
@@ -227,13 +228,13 @@ id _Nullable CoreViewMaskView(ViewSystem system, id object) {
 void CoreViewSetMaskView3D(ViewSystem toSystem, id toView, ViewSystem fromSystem, id fromView) {
     if (toSystem == ViewSystemCALayer) {
         assert(fromSystem == ViewSystemCALayer);
-        ((CALayer *)fromView).mask = (CALayer *)toView;
+        ((CALayer *)toView).mask = (CALayer *)fromView;
     } else if (toSystem == ViewSystemUIView) {
         if (fromSystem == ViewSystemCALayer) {
-            ((UIView *)fromView).layer.mask = (CALayer *)toView;
+            ((UIView *)toView).layer.mask = (CALayer *)fromView;
         } else {
             assert(fromSystem == ViewSystemUIView);
-            ((UIView *)fromView).maskView = (UIView *)fromView;
+            ((UIView *)toView).maskView = (UIView *)fromView;
         }
     }
 }
@@ -249,7 +250,7 @@ CALayer * _Nullable CoreViewSpeculativeLayer(id object) {
 }
 
 void CoreViewSetNeedsDisplay(ViewSystem system, id layer) {
-    if (system == ViewSystemCALayer) {
+    if (system == ViewSystemCALayer || system == ViewSystemUIView) {
         [layer setNeedsDisplay];
     }
 }
@@ -413,7 +414,7 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL
                     }
                     
                     // <+280>
-                    if (w8) {
+                    if (!w8) {
                         CGRect _bounds = ((UIView *)object).bounds;
                         bounds.origin = _bounds.origin;
                     }
@@ -453,7 +454,7 @@ void CoreViewSetGeometry(ViewSystem system, id object, BOOL isPlatformView, BOOL
                     }
                     
                     // <+280>
-                    if (w8) {
+                    if (!w8) {
                         CGRect _bounds = ((UIView *)object).bounds;
                         bounds.origin = _bounds.origin;
                     }
@@ -523,8 +524,10 @@ void CoreViewSetCompositingFilter(ViewSystem system, id object, id _Nullable fil
     switch (system) {
         case ViewSystemCALayer:
             ((CALayer *)object).compositingFilter = filter;
+            break;
         case ViewSystemUIView:
             ((UIView *)object).layer.compositingFilter = filter;
+            break;
         default:
             break;
     }

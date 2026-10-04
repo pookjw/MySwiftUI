@@ -64,7 +64,7 @@ private import UIFoundation
         case .anyTextStorage(let _):
             var resolved = Text.ResolvedString(
                 style: Text.Style(),
-                idiom: nil,
+                idiom: idiom,
                 string: "",
                 hasResolvableAttributes: false
             )

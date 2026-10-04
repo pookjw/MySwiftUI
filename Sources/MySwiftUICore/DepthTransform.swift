@@ -198,13 +198,15 @@ struct AnimatableDepthOriginAttribute : ObservedAttribute, AsyncAttribute, State
         var value = (value: ViewDepthOrigin(d0), changed: sp0x10)
         
         // <+144>
-        self.helper.update(
-            value: &value,
-            defaultAnimation: nil,
-            environment: self.$environment,
-            sampleCollector: { _, _ in
-            }
-        )
+        if !animationsDisabled {
+            self.helper.update(
+                value: &value,
+                defaultAnimation: nil,
+                environment: self.$environment,
+                sampleCollector: { _, _ in
+                }
+            )
+        }
         
         if value.changed || !self.hasValue {
             self.value = value.value

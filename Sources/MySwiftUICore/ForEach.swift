@@ -421,7 +421,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                          itemsCount (box) -> x29 + 0x18 -> x20 -> x19 + 0xe0
                          */
                         
-                        for value in buffer {
+                        for (offset, value) in buffer.enumerated() {
                             // <+1072>
                             // x28
                             let resolvedKey = withUnsafePointer(to: value) { pointer in
@@ -439,14 +439,15 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                             let flag: Bool
                             if let item = items[resolvedKey] {
                                 // <+1172>
+                                value_2 = offset
                                 item.index = copy_2
                                 item.contentID = self.contentID
-                                item.offset = value_2
+                                item.offset = offset
                                 item.seed = self.seed
                                 itemsCount &-= 1
                                 
                                 if !item.isRemoved {
-                                    value_1 = value_2
+                                    value_1 = offset
                                     // <+1404>
                                     if evictedIDs.contains(resolvedKey) {
                                         // <+844>
@@ -462,7 +463,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                                         flag = true
                                     } else {
                                         // <+1356>
-                                        editsBuilder.appendInsert(atOffset: value_2)
+                                        editsBuilder.appendInsert(atOffset: offset)
                                         // <+1020>
                                         flag = false
                                     }
@@ -474,7 +475,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                                     flag = true
                                 } else {
                                     // <+1356>
-                                    editsBuilder.appendInsert(atOffset: value_2)
+                                    editsBuilder.appendInsert(atOffset: offset)
                                     // <+1020>
                                     flag = false
                                 }
@@ -809,8 +810,8 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     offset = 0
                     
                     if self.viewCountStyle == style {
-                        let pivot = viewCounts.lowerBound { offset >= $0 }
-                        self.view!.data.formIndex(&startIndex, offsetBy: pivot)
+                        offset = viewCounts.lowerBound { index >= $0 }
+                        self.view!.data.formIndex(&startIndex, offsetBy: offset)
                         
                         // <+792>
                         if offset < 1 {
@@ -1413,7 +1414,7 @@ extension ForEachState {
                 // <+436>
                 state.items = state.items.filter { (_, value) in
                     // $s7SwiftUI12ForEachStateC4ItemC10invalidateyyFSbq_3key_AEyxq_q0__G5valuet_tXEfU_TA
-                    return value === self
+                    return value !== self
                 }
             }
         }
@@ -1729,7 +1730,7 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                 
                 if index >= appliedCount {
                     // <+1200>
-                    index = appliedCount
+                    index = index &- appliedCount
                     return true
                 } else {
                     // <+932>
@@ -1765,11 +1766,9 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                         
                         viewListID
                             .bind(
-                                explicitID: AnyHashable2(
-                                    ForEachConstantID(
-                                        offset,
-                                        listAttribute
-                                    )
+                                explicitID: ForEachConstantID(
+                                    offset,
+                                    listAttribute
                                 ),
                                 owner: listAttribute.identifier,
                                 isUnary: resolvedCount == 1,
@@ -1803,6 +1802,7 @@ fileprivate struct ForEachList<Data : RandomAccessCollection, ID : Hashable, Con
                         return body(&index, style, .sublist(sublist), transform)
                     }
                     
+                    index = 0
                     return result
                 }
             case .dynamicList(let listAttribute, let modifier):
@@ -1960,14 +1960,14 @@ extension ForEachState {
              self.bindID/self.isUnary/self.isConstant -> w2 -> w24
              */
             guard
-                isConstant,
+                bindID,
                 let state = item.state,
                 let list = state.list
             else {
                 return
             }
             
-            if !isUnary {
+            if !isConstant {
                 // <+100>
                 id
                     .bind(

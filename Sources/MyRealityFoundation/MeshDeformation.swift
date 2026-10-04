@@ -134,6 +134,7 @@ extension _Proto_MeshDeformation_v1 {
         
         init(coreAsset: OpaquePointer) {
             unsafe self.coreAsset = coreAsset
+            unsafe __RERetain(coreAsset)
 #if RealityKitCompatibility
             unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
                 .myRealityKitRef = self
@@ -164,6 +165,7 @@ extension _Proto_MeshDeformation_v1 {
                 unsafe unsafeBitCast(coreAsset, to: CoreRE::Asset.self)
                     .swiftObject = nil
 #endif
+                unsafe __RERelease(coreAsset)
             }
         }
     }

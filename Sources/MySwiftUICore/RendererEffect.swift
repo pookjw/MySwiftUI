@@ -100,7 +100,7 @@ extension _RendererEffect {
         // sp + 0x68
         var outputs = body(_Graph(), copy_5)
        
-        if hasDisplayList {
+        do {
             // <+988>
             // sp + 0x18
             let inputOptions = copy_1.base.options
@@ -152,7 +152,7 @@ extension _RendererEffect {
             )
             
             let isScrapeable = Self.isScrapeable
-            if inputOptions.contains(.viewNeedsGeometry) && isScrapeable {
+            if inputOptions.contains(.viewNeedsGeometry) && isScrapeable && hasDisplayList && !inputOptions.contains(.doNotScrape) {
                 renderEffectDisplayList.flags.formUnion(.unknown3)
             }
             

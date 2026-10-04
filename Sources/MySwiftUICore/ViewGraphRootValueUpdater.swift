@@ -217,7 +217,7 @@ extension ViewGraphRootValueUpdater {
                 return nil
             }
             
-            return rootResponders.last
+            return rootResponders.first
         } ?? nil
     }
     

@@ -113,39 +113,27 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
             return false
         }
         
-        if graph.requestedOutputs.isSuperset(of: .focus) {
+        let hasFocus = graph.requestedOutputs.isSuperset(of: .focus)
+        if hasFocus {
             if !focusStoreEnabled {
                 if graph.parentHost == nil {
                     graph.addPreference(AccessibilityFocusStoreList.Key.self)
                     focusStoreEnabled = true
                     return true
                 }
-                
-                if let rootFocusStoreList {
-                    guard lastStoreVersion == rootFocusStoreList.version else {
-                        graph.addPreference(AccessibilityFocusStoreList.Key.self)
-                        focusStoreEnabled = true
-                        return true
-                    }
-                }
+            }
+            if let rootFocusStoreList, lastStoreVersion != rootFocusStoreList.version {
+                return true
             }
         }
         
         // <+664>
         
-        guard nodesReadSinceLastUpdate else {
-            return false
-        }
-        
-        guard let rootNodes else {
-            return needsFocusUpdate
-        }
-        
-        guard lastNodeVersion == rootNodes.version else {
+        if nodesReadSinceLastUpdate, let rootNodes, lastNodeVersion != rootNodes.version {
             return true
         }
         
-        return needsFocusUpdate
+        return hasFocus && needsFocusUpdate
     }
     
     func update(graph: ViewGraph) {

@@ -125,8 +125,8 @@ package struct ContentResponderHelper<T : ContentResponder> {
             _ = transform_1
             self.transform = transform.value
             self.transform.pendingTranslation = CGSize(
-                width: position.value.x - transform.value.pendingTranslation.width - transform.value.pendingTranslation.width,
-                height: position.value.y - transform.value.pendingTranslation.height - transform.value.pendingTranslation.height
+                width: transform.value.pendingTranslation.width - (position.value.x - transform.value.positionAdjustment.width),
+                height: transform.value.pendingTranslation.height - (position.value.y - transform.value.positionAdjustment.height)
             )
             self.transform.positionAdjustment = CGSize(position.value)
             w28 = .transform
@@ -172,9 +172,12 @@ package struct ContentResponderHelper<T : ContentResponder> {
         
         // <+732>
         var newObservers: [ContentPathObservers.Observer] = []
-        for existing in observers.observers {
+        let existingObservers = observers.observers
+        let newTransform = self.transform
+        observers.observers = []
+        for existing in existingObservers {
             var finished = true
-            existing.value?.contentPathDidChange(for: parent, changes: w28, transform: (old: transform_2, new: transform.value), finished: &finished)
+            existing.value?.contentPathDidChange(for: parent, changes: w28, transform: (old: transform_2, new: newTransform), finished: &finished)
             if !finished {
                 newObservers.append(existing)
                 observers.observers = newObservers

@@ -136,7 +136,7 @@ public struct _DynamicPropertyBuffer {
         case .product(let fields):
             // <+180>
             for unsafe field in unsafe fields {
-                unsafe field.type._makeProperty(in: &self, container: container, fieldOffset: field.offset, inputs: &inputs)
+                unsafe field.type._makeProperty(in: &self, container: container, fieldOffset: baseOffset + field.offset, inputs: &inputs)
             }
         case .sum(let type, let taggedFields):
             // <+60>

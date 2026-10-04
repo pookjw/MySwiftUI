@@ -5,7 +5,7 @@ package struct _ViewList_View : View {
     @safe fileprivate private(set) nonisolated(unsafe) var elements: _ViewList_SubgraphElements // 0x0
     @safe private nonisolated(unsafe) var releaseElements: _ViewList_SubgraphRelease? // 0x30
     @safe nonisolated(unsafe) var id: _ViewList_ID // 0x38
-    @safe fileprivate private(set) nonisolated(unsafe) var index: Int // 0x48
+    @safe private(set) nonisolated(unsafe) var index: Int // 0x48
     @safe private nonisolated(unsafe) var count: Int // 0x50
     @safe fileprivate private(set) nonisolated(unsafe) var contentSubgraph: Subgraph? // 0x58
     
@@ -258,6 +258,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
         }
         
         // <+164>
+        var lastPhase: Attribute<_GraphInputs.Phase>?
         newSubgraph.apply {
             /*
              newSubgraph -> x0 -> x20
@@ -289,6 +290,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
                 )
                 // x24 + 0xd0
                 let viewPhaseAttribute: Attribute<_GraphInputs.Phase>? = Attribute(viewPhase)
+                lastPhase = viewPhaseAttribute
                 // sp + 0x170
                 var copy_2 = inputs
                 // sp + 0x100
@@ -298,7 +300,8 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
                 // <+260>
                 copy_2.copyCaches()
                 copy_2.base.merge(self.inputs.base, ignoringPhase: true)
-                copy_2.base.mergedInputs.insert(viewPhaseAttribute!.identifier)
+                copy_2.base.phase = viewPhaseAttribute!
+                copy_2.base.mergedInputs.insert(self.inputs.base.phase.identifier)
                 
                 return transform(copy_2)
             }
@@ -328,6 +331,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
             self.lastMap = indirectMap
         }
         
+        self.lastPhase = lastPhase
         self.lastSubgraph = newSubgraph
         
         // <+252>

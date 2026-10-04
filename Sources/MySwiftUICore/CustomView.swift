@@ -31,7 +31,7 @@ extension View {
         
         // <+284>
         // inlined
-        return Body.makeDebuggableView(view: body.0, inputs: inputs)
+        return Body.makeDebuggableView(view: body.0, inputs: inputs_2)
     }
     
     nonisolated static func makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {

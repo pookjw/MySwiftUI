@@ -75,7 +75,7 @@ extension FullImmersionStyle : Sendable {}
 
 extension FullImmersionStyle {
     @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
-        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0.5)
+        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 1)
     }
 }
 
@@ -235,7 +235,7 @@ extension ProgressiveImmersionStyle : Sendable {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
-    private var storage: ProgressiveImmersionAspectRatio.Stroage
+    private(set) var storage: ProgressiveImmersionAspectRatio.Stroage
     
     public static var automatic: ProgressiveImmersionAspectRatio {
         return ProgressiveImmersionAspectRatio(storage: .automatic)
@@ -262,7 +262,7 @@ public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
 }
 
 extension ProgressiveImmersionAspectRatio {
-    fileprivate enum Stroage: Hashable {
+    enum Stroage: Hashable {
         case automatic
         case landscape
         case portrait
@@ -294,7 +294,7 @@ func immersionStyleForImmersionStyle<T: ImmersionStyle>(_ style: T) -> MRUIImmer
         
         let w8 = MRUIImmersionStyle.progressive
         var w9 = MRUIImmersionStyle.full
-        w9 = (d0 == d2) ? [] : w9
+        w9 = (d0 == d2) ? w9 : []
         let x19 = (d0 == d1) ? w8 : w9
         return x19
     }

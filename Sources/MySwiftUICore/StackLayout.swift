@@ -298,7 +298,7 @@ extension StackLayout {
         fileprivate let uniformSpacing: CGFloat? // 0x8
         fileprivate let majorAxis: Axis // 0x11
         fileprivate var internalSpacing: CGFloat // 0x18
-        fileprivate private(set) var lastProposedSize: ProposedViewSize // 0x20
+        fileprivate var lastProposedSize: ProposedViewSize // 0x20
         fileprivate var stackSize: CGSize // 0x40
         fileprivate let proxies: LayoutSubviews // 0x50
         fileprivate let resizeChildrenWithTrailingOverflow: Bool // 0x62
@@ -751,6 +751,9 @@ extension StackLayout {
             guard unsafe size != header.pointee.lastProposedSize else {
                 return
             }
+            guard unsafe !children.isEmpty else {
+                return
+            }
             
             let minorProposal: CGFloat?
             switch unsafe header.pointee.majorAxis {
@@ -766,6 +769,7 @@ extension StackLayout {
             if unsafe header.pointee.resizeChildrenWithTrailingOverflow {
                 resizeAnyChildrenWithTrailingOverflow(in: size)
             }
+            unsafe header.pointee.lastProposedSize = size
         }
         
         func proposalWhenPlacing(in size: ViewSize) -> ProposedViewSize {

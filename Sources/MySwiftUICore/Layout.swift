@@ -83,7 +83,10 @@ extension Layout {
             }
             assert(index < geometries.endIndex)
             
-            let d9 = copy_1[index].layoutComputer.depthThatFits(size)
+            let proposal = geometries[index].dimensions.size.proposal
+            let d9 = copy_1[index].layoutComputer.depthThatFits(
+                _ProposedSize3D(width: proposal.width, height: proposal.height, depth: size.depth)
+            )
             
             // <+260>
             index &+= 1

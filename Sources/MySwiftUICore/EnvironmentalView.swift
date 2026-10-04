@@ -52,7 +52,7 @@ struct EnvironmentalViewChild<Content : EnvironmentalView>: AsyncAttribute, Cust
         // x27 + x22, x19
         let (env, envFlags) = $env.valueAndFlags(options: [])
         
-        if viewFlags != .changed {
+        if !viewFlags.contains(.changed) {
             // <+560>
             let hasDiff: Bool
             if envFlags.contains(.changed) {
@@ -76,7 +76,7 @@ struct EnvironmentalViewChild<Content : EnvironmentalView>: AsyncAttribute, Cust
         
         let body = traceRuleBody(Content.self) {
             // $s7SwiftUI22EnvironmentalViewChildV11updateValueyyF15EnvironmentBodyQzyXEfU_ 
-            return view.body(environment: env)
+            return view.body(environment: EnvironmentValues(env.plist, tracker: tracker))
         }
         
         self.value = body

@@ -693,7 +693,10 @@ extension UIFocusEnvironment {
         var parent: (any UIFocusEnvironment)? = self
         
         while host == nil {
-            parent = parent?.parentFocusEnvironment
+            guard let next = parent?.parentFocusEnvironment else {
+                return nil
+            }
+            parent = next
             host = (parent as? ViewRendererHost)
         }
         

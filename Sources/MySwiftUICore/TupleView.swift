@@ -52,6 +52,9 @@ private import AttributeGraph
         // view -> sp + 0x98
         // sp + 0xa0
         var copy_2 = copy_1
+        if options.contains(.tupleViewCreatesUnaryElements) {
+            copy_2.options.subtract(.tupleViewCreatesUnaryElements)
+        }
         
         // sp + 0x98
         var makeList = MakeList(
@@ -64,10 +67,6 @@ private import AttributeGraph
             outputs: []
         )
         
-        if options.contains(.tupleViewCreatesUnaryElements) {
-            copy_2.options.subtract(.tupleViewCreatesUnaryElements)
-        }
-        
         // <+168>
         for contentType in tupleDescription.contentTypes {
             // <+176>
@@ -79,7 +78,7 @@ private import AttributeGraph
         
         // <+264>
         // sp + 0x10
-        let copy_3 = copy_2
+        let copy_3 = makeList.inputs
         return _ViewListOutputs.concat(makeList.outputs, inputs: copy_3)
     }
     

@@ -65,7 +65,7 @@ extension AppStorage {
     }
     
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value == Int {
-        self.init(key: key, transform: StringTransform.self, store: store, defaultValue: wrappedValue)
+        self.init(key: key, transform: IntegerTransform.self, store: store, defaultValue: wrappedValue)
     }
     
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value == Double {
@@ -473,7 +473,7 @@ fileprivate final class UserDefaultObserver : NSObject {
              userDefaults -> x25
              _key -> x27/x26
              */
-            guard store != userDefaults && key != _key else {
+            guard store != userDefaults || key != _key else {
                 return
             }
             
@@ -614,7 +614,7 @@ fileprivate struct UserDefaultPropertyBox<Value> : DynamicPropertyBox {
         let store = environment.defaultAppStorageDefaults
         canonicalLocation.defaultStore = store
         
-        observer.observeDefaults(canonicalLocation.defaultStore, key: canonicalLocation.key)
+        observer.observeDefaults(canonicalLocation.store, key: canonicalLocation.key)
         
         // <+348>
         // sp + 0x58

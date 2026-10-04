@@ -162,6 +162,10 @@ fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
 }
 
 fileprivate final class ZeroVTable : _AnyAnimatableDataVTable {
+    override class func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
+        return true
+    }
+
     override class var zero: Any {
         return ()
     }

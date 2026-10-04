@@ -9,7 +9,7 @@ extension ColorScheme {
         case .dark:
             self = .dark
         default:
-            self = .light
+            return nil
         }
     }
 }

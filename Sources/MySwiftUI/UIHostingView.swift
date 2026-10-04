@@ -1529,7 +1529,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         // <+1868>
         if tintAdjustmentMode == .dimmed {
             // <+1892>
-            resolved.effectiveTintAdjustmentMode = .desaturated
+            resolved.tintAdjustmentMode = .desaturated
         }
         
         // <+1952>
@@ -1647,7 +1647,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
                             flag = true
                         } else {
                             // +4180>
-                            pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 1, iz: 0, r: 0))
+                            pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 0, iz: 0, r: 1))
                             // <+4224>
                             flag = true
                         }
@@ -1671,7 +1671,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
                     flag = false
                 } else {
                     // <+4144>
-                    pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 1, iz: 0, r: 0))
+                    pose = Pose3D(position: .zero, rotation: simd_quatd(ix: 0, iy: 0, iz: 0, r: 1))
                     // <+4224>
                     flag = true
                 }

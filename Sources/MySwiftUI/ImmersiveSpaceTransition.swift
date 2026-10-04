@@ -96,7 +96,7 @@ fileprivate struct ImmersiveSpaceTransitionDispatcher<T: Equatable> : StatefulRu
         // x25 (x29 - 0x88) -> x29 - 0x68
         let newValue = self.modifier.value
         // x26 (x29 - 0xa0)
-        let emptyValue: T? = nil
+        let emptyValue = self.oldValue
         // x22(x23) (x29 - 0x98)
         let _oldValue = self.oldValue
         // emptyValue -> x26 -> x22(x23) + x20

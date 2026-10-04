@@ -3,6 +3,8 @@ private import _UIKitPrivate
 @_spi(Internal) package import MySwiftUICore
 private import DesignLibrary
 private import _DesignLibraryShims
+private import _CoreFoundationPrivate
+private import _DyldPrivate
 #if SwiftUICompatibility
 private import _SwiftUICorePrivate
 private import SwiftUI
@@ -181,12 +183,12 @@ extension UITraitCollection {
         
         let displayCornerRadius = self.displayCornerRadius()
         if displayCornerRadius == _UITraitCollectionDisplayCornerRadiusUnspecified {
-            result.displayCornerRadius = 0
+            result.displayCornerRadius = nil
         } else {
             result.displayCornerRadius = displayCornerRadius
         }
         
-        if displayCornerRadius != 0 {
+        if self._pointsPerMeter() != 0 {
             result.pointsPerMeter = self._pointsPerMeter()
         }
         
@@ -198,7 +200,10 @@ extension UITraitCollection {
             result.isVibrantColorStyleEnabled = true
         }
         
-        if #available(iOS 18.0, visionOS 2.0, *) {
+        let sdkVersion = _CFRSCompatible()
+            ? dyld_build_version_t(platform: 2, version: 0x00120000) // iOS 18
+            : dyld_build_version_t(platform: 11, version: 0x00020000) // visionOS 2
+        if dyld_program_sdk_at_least(sdkVersion) {
             result.isVibrantColorStyleEnabled = true
         }
         

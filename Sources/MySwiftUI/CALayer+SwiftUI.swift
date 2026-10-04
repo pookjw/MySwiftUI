@@ -68,7 +68,7 @@ extension CALayer {
 extension CALayer {
     subscript<T : SeparatedOptionKey>(key: T.Type) -> T.Value? {
         get {
-            let keyPath = "\(key.keyPathPrefix) + \(key.keyPath)"
+            let keyPath = key.keyPathPrefix + key.keyPath
             return value(forKeyPath: keyPath) as? T.Value
         }
         set {

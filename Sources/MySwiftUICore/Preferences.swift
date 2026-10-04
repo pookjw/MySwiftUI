@@ -12,9 +12,8 @@ package struct HostPreferencesKey : PreferenceKey {
     }
     
     static func makeNoteId() -> UInt32 {
-        let id = HostPreferencesKey.nodeId
         HostPreferencesKey.nodeId &+= 1
-        return id
+        return HostPreferencesKey.nodeId
     }
     
     @safe nonisolated(unsafe) fileprivate static var nodeId: UInt32 = 0
@@ -48,7 +47,7 @@ package struct PreferenceKeys : Equatable, RandomAccessCollection {
     
     mutating func remove(_ key: any PreferenceKey.Type) {
         let index = _index(of: key)
-        guard index != count else {
+        guard index != count, keys[index] == key else {
             return
         }
         
@@ -66,10 +65,11 @@ package struct PreferenceKeys : Equatable, RandomAccessCollection {
     }
     
     mutating func add(_ key: any PreferenceKey.Type) {
-        guard !contains(key) else {
+        let index = _index(of: key)
+        guard index == count || keys[index] != key else {
             return
         }
-        keys.append(key)
+        keys.insert(key, at: index)
     }
     
     package subscript(_ index: Int) -> any PreferenceKey.Type {
@@ -88,11 +88,16 @@ package struct PreferenceKeys : Equatable, RandomAccessCollection {
         }
         
         var result = 0
-        for _ in 0..<count {
-            if keys[result] == key {
-                return result
+        var remaining = count
+        while remaining > 0 {
+            let half = remaining / 2
+            let index = result + half
+            if Int(bitPattern: ObjectIdentifier(keys[index])) < Int(bitPattern: ObjectIdentifier(key)) {
+                result = index + 1
+                remaining -= half + 1
+            } else {
+                remaining = half
             }
-            result += 1
         }
         
         return result
@@ -126,9 +131,7 @@ package struct PreferenceKeys : Equatable, RandomAccessCollection {
             keys.keys.append(contentsOf: selfKeys)
             
             for otherKey in otherKeys {
-                if !keys.keys.contains(where: { $0 == otherKey }) {
-                    keys.keys.append(otherKey)
-                }
+                keys.add(otherKey)
             }
         }
         

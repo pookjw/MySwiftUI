@@ -785,7 +785,7 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                 
                 if !flag {
                     // <+228>
-                    if T.Item.supportsReuse {
+                    if sp60 == -1 && T.Item.supportsReuse {
                         // <+296>
                         // <+1500>
                         for index in x29_0x78..<x29_0x80 {
@@ -810,20 +810,20 @@ struct DynamicContainerInfo<T : DynamicContainerAdaptor>: StatefulRule, Observed
                                 continue
                             }
                             
-                            // <+2140>
-                            if sp60 != -1 {
-                                // <+1108>
-                                let info = self.info.items[sp60].for(T.self)
-                                info.item = item
-                                unremoveItem(at: sp60)
-                                if x29_0x78 < sp60 {
-                                    self.info.items.swapAt(x29_0x78, sp60)
-                                }
-                                flag = true
-                                // <+1896>
-                            }
+                            sp60 = index
+                            break
                         }
                         // <+336>
+                    }
+                    if sp60 != -1 {
+                        let info = self.info.items[sp60].for(T.self)
+                        info.item = item
+                        unremoveItem(at: sp60)
+                        if x29_0x78 < sp60 {
+                            self.info.items.swapAt(x29_0x78, sp60)
+                        }
+                        changed = true
+                        flag = true
                     }
                 }
                 
@@ -1369,7 +1369,7 @@ struct DynamicLayoutMap {
                 let count = map.count
                 let index = map.lowerBound { $0.id < containerID }
                 
-                if (index == count) || map[index].value != newValue {
+                if (index == count) || map[index].id != containerID {
                     // <+152>
                     if !newValue.isEmpty {
                         map.insert((id: containerID, value: newValue), at: index)

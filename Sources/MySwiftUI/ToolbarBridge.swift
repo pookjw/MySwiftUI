@@ -348,7 +348,7 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
     func entryCount(in location: Toolbar.BarLocation) -> Int {
         // location -> x0 -> x19
         let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
-        return storage.entries.count
+        return storage.entryIDs.count
     }
     
     func entries(in location: Toolbar.BarLocation) -> [String: ToolbarStorage.Entry] {
@@ -855,7 +855,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             let bottomBarLocation = Toolbar.BarLocation.bottomBar
             if updates.locations.contains(bottomBarLocation) {
                 // <+716>
-                let w8 = (bridge.platformVended.uiToolbar != nil) ? w28 : true
+                let w8 = (bridge.platformVended.uiToolbar != nil) ? !w28 : true
                 if w8 {
                     // <+568>
                     // x27
@@ -991,7 +991,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
         // <+788>
         if _SemanticFeature<Semantics_v7>.isEnabled {
             let copy_3 = searchItem
-            if let copy_3, copy_3.allowsGlobalSearch {
+            if let role, (role == .automatic || role == .toolbar), let copy_3, copy_3.allowsGlobalSearch {
                 navigationItem.msui_searchBarPlacementAllowsExternalIntegration = true
             }
         }
@@ -1125,7 +1125,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
              */
             // sp + 0x28
             let new: UIView? = nil
-            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+            bridge.adjustEntries(in: .navigationBarAccessory) { _, _ in
                 assertUnimplemented()
             }
             
@@ -1164,7 +1164,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
              */
             // sp + 0x28
             let new: UIView? = nil
-            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+            bridge.adjustEntries(in: .navigationBarSubtitle) { _, _ in
                 assertUnimplemented()
             }
             
@@ -1203,7 +1203,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
              */
             // sp + 0x28
             let new: UIView? = nil
-            bridge.adjustEntries(in: .navigationBarLargeTitle) { _, _ in
+            bridge.adjustEntries(in: .navigationBarLargeSubtitle) { _, _ in
                 assertUnimplemented()
             }
             
@@ -1307,16 +1307,17 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             // $s7SwiftUI20UIKitToolbarStrategyV23updateTitleMenuProvider33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_
             // self -> x0 -> x20
             // x21
-            let _ = bridge.navigationProperties
+            let navigationProperties = bridge.navigationProperties
+            let old = bridge.platformVended.uiNavigationItem.titleMenuProvider
             
-            if let _ = bridge.platformVended.uiNavigationItem.titleMenuProvider {
+            if navigationProperties?.platformActions != nil {
                 // <+356>
                 assertUnimplemented()
             } else {
                 // <+328>
                 // <+400>
                 bridge.platformVended.uiNavigationItem.titleMenuProvider = nil
-                return (bridge.platformVended.uiNavigationItem.titleMenuProvider != nil)
+                return old != nil
             }
         }
     }
