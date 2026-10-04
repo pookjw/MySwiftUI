@@ -1,8 +1,50 @@
 public import CoreGraphics
 public import Spatial
 
-public protocol Shape {
-    // TODO
+public protocol Shape : Sendable, Animatable, View, _RemoveGlobalActorIsolation {
+    nonisolated func path(in rect: CGRect) -> Path
+    
+    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+    nonisolated static var role: ShapeRole { get }
+    
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    nonisolated var layoutDirectionBehavior: LayoutDirectionBehavior { get }
+    
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize
+}
+
+extension Shape {
+    nonisolated public func path(in rect: CGRect) -> Path {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+    nonisolated public static var role: ShapeRole {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    nonisolated public var layoutDirectionBehavior: LayoutDirectionBehavior {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    public var body: _ShapeView<Self, ForegroundStyle> {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
 }
 
 @frozen public struct _ShapeView<Content : Shape, Style : ShapeStyle>: UnaryView, ShapeStyledLeafView, PrimitiveView, LeafViewLayout {

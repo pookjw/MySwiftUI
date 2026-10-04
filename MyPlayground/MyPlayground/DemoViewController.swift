@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.equatableView
+        let item = DemoViewController.Item.circleView
         pushToItem(item)
         
 //        Task {
@@ -89,6 +89,7 @@ extension DemoViewController {
         case emptyView
         case anyEmptyView
         case colorsView
+        case circleView
         case cgColorView
         case uiColorView
         case switchingColorsView
@@ -172,6 +173,8 @@ extension DemoViewController {
                 return _typeName(AnyEmptyViewController.self, qualified: false)
             case .colorsView:
                 return _typeName(ColorsViewController.self, qualified: false)
+            case .circleView:
+                return _typeName(CircleViewController.self, qualified: false)
             case .cgColorView:
                 return _typeName(CGColorViewController.self, qualified: false)
             case .uiColorView:
@@ -331,6 +334,8 @@ extension DemoViewController {
                 return AnyEmptyViewController()
             case .colorsView:
                 return ColorsViewController()
+            case .circleView:
+                return CircleViewController()
             case .cgColorView:
                 return CGColorViewController()
             case .uiColorView:
