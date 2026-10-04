@@ -3,7 +3,7 @@ public import CoreGraphics
 private import _MySwiftUICoreShims
 package import Spatial
 
-public struct Color : View, Hashable, CustomStringConvertible, Sendable {
+public struct Color : Hashable, CustomStringConvertible, Sendable {
     public static func == (lhs: Color, rhs: Color) -> Bool {
         if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
             return true
@@ -71,7 +71,11 @@ public struct Color : View, Hashable, CustomStringConvertible, Sendable {
     }
 }
 
-extension Color : @preconcurrency ShapeStyle {
+extension Color : View {
+    public typealias Body = Never
+}
+
+extension Color : ShapeStyle {
     public func _apply(to shape: inout _ShapeStyle_Shape) {
         switch shape.operation {
         case .fallbackColor(let level):
