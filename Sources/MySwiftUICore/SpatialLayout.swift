@@ -772,7 +772,7 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        preconditionFailure("implement or don't call me!")
+        fatalError("implement or don't call me!")
     }
     
     mutating func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {

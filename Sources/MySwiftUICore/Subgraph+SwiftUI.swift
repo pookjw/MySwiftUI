@@ -14,7 +14,7 @@ extension Subgraph {
                 conformance
                     .unsafeExistentialMetatype((any InvalidatableAttribute.Type).self)
                     .willInvalidate(attribute: attribute)
-            } else if let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) {
+            } else if isInserted, let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) {
                 conformance
                     .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
                     .willRemove(attribute: attribute)
@@ -38,9 +38,15 @@ extension Subgraph {
     }
     
     func didReinsert() {
-        forEach(.unknown1) { _ in
+        forEach(.unknown1) { attribute in
             // $sSo13AGSubgraphRefa7SwiftUIE11didReinsertyyFySo11AGAttributeaXEfU_
-            assertUnimplemented()
+            let type = attribute._bodyType
+            
+            if let conformance = RemovableAttributeDescriptor.cachedConformance(of: type) {
+                conformance
+                    .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                    .didReinsert(attribute: attribute)
+            }
         }
     }
     

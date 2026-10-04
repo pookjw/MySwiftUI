@@ -463,6 +463,10 @@ struct PlatformViewControllerRepresentableAdaptor<Base : UIViewControllerReprese
         let repContext = UIViewControllerRepresentableContext<Base>(coordinator: context.coordinator)
         base.updateUIViewController(provider, context: repContext)
     }
+
+    func resetViewProvider(_ provider: Base.UIViewControllerType, coordinator: Base.Coordinator, destroy: () -> Void) {
+        base._resetUIViewController(provider, coordinator: coordinator, destroy: destroy)
+    }
     
     static func dismantleViewProvider(_ provider: Base.UIViewControllerType, coordinator: Base.Coordinator) {
         Base.dismantleUIViewController(provider, coordinator: coordinator)

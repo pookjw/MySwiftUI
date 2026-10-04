@@ -130,7 +130,7 @@ extension _VariadicView_Root {
 
 extension _VariadicView_ViewRoot where Self.Body == Never {
     @MainActor @preconcurrency public func body(children: _VariadicView.Children) -> Never {
-        preconditionFailure("body() should not be called on \(_typeName(Self.self, qualified: false))")
+        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false))")
     }
 }
 

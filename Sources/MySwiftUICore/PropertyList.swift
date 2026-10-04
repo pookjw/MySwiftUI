@@ -506,19 +506,19 @@ extension PropertyList {
         
         @usableFromInline
         var description: String {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         fileprivate func matches(_ other: Element, ignoredTypes: inout [ObjectIdentifier]) -> Bool {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         fileprivate func copy(before: Element?, after: Element?) -> Element {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         func value<T>(as type: T.Type) -> T {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         func forEach(filter: BloomFilter, _ handler: (Unmanaged<Element>, inout Bool) -> Void) -> Bool {

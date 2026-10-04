@@ -554,6 +554,7 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
             .assumingMemoryBound(to: PropertiesTransform.self)
         let mutable = unsafe UnsafeMutablePointer(mutating: transform)
         unsafe mutable[].removedParentNode = unsafe mutable[].parentNode
+        unsafe mutable[].parentNode = nil
     }
     
     static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
@@ -561,7 +562,14 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
     }
     
     static func didReinsert(attribute: AnyAttribute) {
-        assertUnimplemented()
+        let transform = unsafe UnsafeMutableRawPointer(mutating: attribute._bodyPointer)
+            .assumingMemoryBound(to: PropertiesTransform.self)
+        
+        unsafe transform.pointee.parentNode = transform.pointee.removedParentNode
+        
+        if let parentNode = unsafe transform.pointee.parentNode {
+            parentNode.platformElementPropertiesDirty = true
+        }
     }
     
     let accessor: AnyAccessibilityViewModifierAccessor.Type // 0x0
@@ -580,8 +588,8 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
     var responderUpdater: AccessibilityViewResponderUpdater? // ??
     var geometryUpdater: AccessibilityGeometryUpdater? // ??
     var isInPlatformItemList: Bool // 0xe0
-    var parentNode: AccessibilityNode? // 0xe8
-    weak var removedParentNode: AccessibilityNode? // 0xf0
+    var parentNode: AccessibilityNode? // 0x50 (offset field)
+    weak var removedParentNode: AccessibilityNode? // 0x54 (offset field)
     var resetSeed: UInt32 // 0xf8
     
     var description: String {
@@ -596,8 +604,8 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
 }
 
 public struct AccessibilityAttachmentModifier : AccessibilityViewModifier {
-    @safe private nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
-    private let behavior: AccessibilityChildBehavior?
+    @safe private(set) nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
+    let behavior: AccessibilityChildBehavior?
     
     static var options: AccessibilityModifierOptions {
         return [.unknown0, .unknown1]

@@ -16,10 +16,10 @@ MSUI_EXTERN void CoreViewSetFilters(ViewSystem system, id object, id array);
 
 MSUI_EXTERN void CoreViewAddSubview(ViewSystem toSystem, id toView, ViewSystem fromSystem, id fromView, NSInteger index);
 MSUI_EXTERN CALayer * CoreViewLayer(ViewSystem system, id object);
-MSUI_EXTERN id CoreViewLayerView(ViewSystem system, CALayer *layer, ViewSystem *outSystem);
+MSUI_EXTERN id _Nullable CoreViewLayerView(ViewSystem system, CALayer *layer, ViewSystem *outSystem);
 MSUI_EXTERN void CoreViewSetShadow(ViewSystem system, id object, CGColorRef _Nullable color, CGFloat radius, CGSize offset);
 MSUI_EXTERN NSUInteger CoreViewSubviewsCount(ViewSystem system, id object);
-MSUI_EXTERN id CoreViewSubviewAtIndex(ViewSystem system, id object, NSInteger index, ViewSystem *outSystem);
+MSUI_EXTERN id _Nullable CoreViewSubviewAtIndex(ViewSystem system, id object, NSInteger index, ViewSystem *outSystem);
 MSUI_EXTERN void CoreViewRemoveFromSuperview(ViewSystem system, id object);
 MSUI_EXTERN id _Nullable CoreViewMaskView(ViewSystem system, id object);
 MSUI_EXTERN void CoreViewSetMaskView3D(ViewSystem toSystem, id toView, ViewSystem fromSystem, id fromView);

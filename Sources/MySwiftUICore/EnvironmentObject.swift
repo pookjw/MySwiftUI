@@ -44,7 +44,7 @@ private import AttributeGraph
     
     @usableFromInline
     @MainActor @preconcurrency internal func error() -> Never {
-        preconditionFailure("No ObservableObject of type \(_typeName(ObjectType.self, qualified: false)) found. A View.environmentObject(_:) for \(_typeName(ObjectType.self, qualified: false)) may be missing as an ancestor of this view.")
+        fatalError("No ObservableObject of type \(_typeName(ObjectType.self, qualified: false)) found. A View.environmentObject(_:) for \(_typeName(ObjectType.self, qualified: false)) may be missing as an ancestor of this view.")
     }
     
     @MainActor @preconcurrency public init() {

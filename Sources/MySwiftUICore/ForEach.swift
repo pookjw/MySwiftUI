@@ -359,7 +359,7 @@ final class ForEachState<Data : RandomAccessCollection, ID : Hashable, Content :
                     // evictedIDs -> x28 -> x19 + 0x90
                     // firstElement -> x25 -> x26
                     guard case .keyPath(let keyPath) = incomingView.idGenerator else {
-                        preconditionFailure()
+                        MySwiftUICore.preconditionFailure("unreachable")
                     }
                     
                     // x19 + 0x70 / x19 + 0xe8

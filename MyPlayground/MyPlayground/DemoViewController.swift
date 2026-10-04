@@ -133,6 +133,7 @@ extension DemoViewController {
         case flexFrameLayout3DView
         case minMax3DFrameView
         case offsetView
+        case paddingView
         case withAnimationView
         case animationModifierView
         case transactionModifierView
@@ -258,6 +259,8 @@ extension DemoViewController {
                 return _typeName(MinMax3DFrameViewController.self, qualified: false)
             case .offsetView:
                 return _typeName(OffsetViewController.self, qualified: false)
+            case .paddingView:
+                return _typeName(PaddingViewController.self, qualified: false)
             case .withAnimationView:
                 return _typeName(WithAnimationViewController.self, qualified: false)
             case .animationModifierView:
@@ -413,6 +416,8 @@ extension DemoViewController {
                 return MinMax3DFrameViewController()
             case .offsetView:
                 return OffsetViewController()
+            case .paddingView:
+                return PaddingViewController()
             case .withAnimationView:
                 return WithAnimationViewController()
             case .animationModifierView:

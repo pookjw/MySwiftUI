@@ -1,3 +1,5 @@
+// 3890C65F12EA82A4BC5FBD33046B67FA
+internal import CoreGraphics
 
 public protocol ShapeStyle : Sendable {
     @available(*, deprecated, message: "obsolete")
@@ -49,12 +51,170 @@ extension Never : ShapeStyle {
 }
 
 public struct _ShapeStyle_Shape {
+    private(set) var operation: _ShapeStyle_Shape.Operation // 0x0
+    var result: _ShapeStyle_Shape.Result // 0x20
+    private(set) var environment: EnvironmentValues // 0x30
+    private var foregroundStyle: AnyShapeStyle? // 0x40
+    private var bounds: CGRect? // 0x48
+    private var role: ShapeRole // 0x69
+    private var substrate: Material.Substrate? // 0x6a
+    private var activeRecursiveStyles: _ShapeStyle_Shape.RecursiveStyles // 0x6b
     
+    init(
+        operation: _ShapeStyle_Shape.Operation,
+        result: _ShapeStyle_Shape.Result = .none,
+        environment: EnvironmentValues = EnvironmentValues(),
+        foregroundStyle: AnyShapeStyle?,
+        bounds: CGRect?,
+        role: ShapeRole = .fill,
+        substrate: Material.Substrate?
+    ) {
+        self.operation = operation
+        self.result = result
+        self.environment = environment
+        self.foregroundStyle = foregroundStyle
+        self.bounds = bounds
+        self.role = role
+        self.substrate = substrate
+        self.activeRecursiveStyles = []
+    }
+}
+
+extension _ShapeStyle_Shape {
+    enum Operation {
+        case prepareText(level: Int)
+        case resolveStyle(name: _ShapeStyle_Name, levels: Range<Int>)
+        case fallbackColor(level: Int)
+        case copyStyle(name: _ShapeStyle_Name)
+        case modifyBackground(level: Int)
+        case multiLevel
+        case primaryStyle
+    }
+    
+    enum Result {
+        case preparedText(_ShapeStyle_Shape.PreparedTextResult)
+        case pack(_ShapeStyle_Pack)
+        case style(AnyShapeStyle)
+        case color(Color)
+        case bool(Bool)
+        case none
+    }
+    
+    enum PreparedTextResult {
+        case foregroundColor(Color)
+        case foregroundKeyColor
+    }
+    
+    struct RecursiveStyles : OptionSet {
+        let rawValue: UInt8
+    }
 }
 
 public struct _ShapeStyle_ShapeType {
-    
+    // TODO
 }
 
 @available(*, unavailable)
 extension _ShapeStyle_ShapeType : Sendable {}
+
+struct _ShapeStyle_Pack {
+    private var styles: [(key: _ShapeStyle_Pack.Key, style: _ShapeStyle_Pack.Style)]
+    
+    init() {
+        self.styles = []
+    }
+    
+    subscript(name: _ShapeStyle_Name, index: Int) -> _ShapeStyle_Pack.Style {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension _ShapeStyle_Pack {
+    struct Style {
+        var fill: _ShapeStyle_Pack.Fill // 0x0
+        var opacity: Float = 1 // 0x58
+        var _blend: GraphicsBlendMode? = nil // 0x60
+        var effects: [_ShapeStyle_Pack.Effect] = [] // 0x70
+        
+        init(_ fill: _ShapeStyle_Pack.Fill) {
+            self.fill = fill
+        }
+        
+        mutating func applyOpacity(_ opacity: Float) {
+            assertUnimplemented()
+        }
+        
+        func applyingOpacity(_ opacity: Float) -> _ShapeStyle_Pack.Style {
+            assertUnimplemented()
+        }
+        
+        static var clear: _ShapeStyle_Pack.Style {
+            assertUnimplemented()
+        }
+        
+        static func == (lhs: _ShapeStyle_Pack.Style, rhs: _ShapeStyle_Pack.Style) -> Bool {
+            assertUnimplemented()
+        }
+        
+        var isClear: Bool {
+            assertUnimplemented()
+        }
+        
+        var color: Color.ResolvedHDR? {
+            assertUnimplemented()
+        }
+        
+        var ignoresBackdrop: Bool {
+            assertUnimplemented()
+        }
+        
+//        var animatableData: AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>> {
+//            get {
+//                assertUnimplemented()
+//            }
+//            set {
+//                assertUnimplemented()
+//            }
+//        }
+        
+//        fileprivate func modifyStyle(for layer: RBSymbolUpdateLayer) {
+//            assertUnimplemented()
+//        }
+        
+//        func draw(_: Path, style: PathDrawingStyle, in: GraphicsContext, bounds: CGRect?) {
+//            assertUnimplemented()
+//        }
+    }
+    
+    enum Fill {
+        case color(Color.ResolvedHDR)
+        case paint(AnyResolvedPaint)
+//        case foregroundMaterial(Color.ResolvedHDR, ContentStyle.MaterialResolved)
+        case backgroundMaterial(Material.ResolvedMaterial)
+//        case duotoneColor(Color.ResolvedDuotone)
+        case vibrantMatrix(GraphicsFilter.VibrantColorMatrix)
+//        case multicolor(ResolvedMulticolorStyle)
+    }
+    
+    struct Effect {
+        private var kind: _ShapeStyle_Pack.Effect.Kind
+        private var opacity: Float
+        private var _blend: GraphicsBlendMode?
+    }
+    
+    struct Key : Hashable {
+        // TODO
+    }
+}
+
+extension _ShapeStyle_Pack.Effect {
+    enum Kind {
+        case shadow(ResolvedShadowStyle)
+        case none
+    }
+}

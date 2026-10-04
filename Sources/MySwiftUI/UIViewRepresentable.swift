@@ -10,6 +10,8 @@ private import AttributeGraph
     associatedtype UIViewType : UIView
     @MainActor @preconcurrency func makeUIView(context: Self.Context) -> Self.UIViewType
     @MainActor @preconcurrency func updateUIView(_ uiView: Self.UIViewType, context: Self.Context)
+    @available(iOS 15.0, tvOS 15.0, *)
+    @_spi(Internal) @MainActor @preconcurrency func _resetUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator, destroy: () -> Void)
     @MainActor @preconcurrency static func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator)
     associatedtype Coordinator = Void
     @MainActor @preconcurrency func makeCoordinator() -> Self.Coordinator
@@ -40,7 +42,7 @@ extension UIViewRepresentable where Self.Coordinator == () {
 extension UIViewRepresentable {
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public func _resetUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator, destroy: () -> Void) {
-        assertUnimplemented()
+        destroy()
     }
     
     @MainActor @preconcurrency public static func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator) {
@@ -147,7 +149,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base : UIViewRepresentable>:
     }
     
     func resetViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator, destroy: () -> Void) {
-        assertUnimplemented()
+        base._resetUIView(provider, coordinator: coordinator, destroy: destroy)
     }
     
     static func dismantleViewProvider(_ provider: Base.UIViewType, coordinator: Base.Coordinator) {

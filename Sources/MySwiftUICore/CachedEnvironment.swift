@@ -267,7 +267,3 @@ fileprivate struct ResolvedShapeStyles : Hashable {
     private let substrate: Material.Substrate?
     private let animationsDisabled: Bool
 }
-
-struct _ShapeStyle_Pack {
-    // TODO
-}

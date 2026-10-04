@@ -19,6 +19,10 @@ extension SystemHoverEffect {
     package struct Info : Equatable {
         package var style: SystemHoverEffect.Style
         private var background: Bool
+        
+        package init(_ style: SystemHoverEffect.Style) {
+            assertUnimplemented()
+        }
     }
     
     struct Resolved {

@@ -1,12 +1,13 @@
 internal import UIKit
+private import MySwiftUICore
 
 @MainActor
 class AnyDragAndDropBridge : NSObject {
     func outermostDropResponder() -> (DragDropDefaultPreviewResponder & DropPayloadProvider)? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func itemsInListForSession(_ session: UIDragSession) -> [UIDragItem] {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }

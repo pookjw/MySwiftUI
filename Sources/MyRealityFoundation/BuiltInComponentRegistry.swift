@@ -261,7 +261,7 @@ extension ComponentInfo {
             } else if values.count == 3 {
                 self.version = ComponentInfo.Version(values[0], values[1], values[2])
             } else {
-                preconditionFailure("Unexpected number of components \(values)")
+                fatalError("Unexpected number of components \(values)")
             }
         }
         

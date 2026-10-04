@@ -3,6 +3,14 @@ private import Foundation
 package import CoreGraphics
 package import Spatial
 
+package func preconditionFailure(_ message: @autoclosure () -> String) -> Never {
+    Swift.fatalError(message())
+}
+
+package func preconditionFailure(_ message: @autoclosure () -> String, file: StaticString, line: UInt) -> Never {
+    Swift.fatalError(message(), file: file, line: line)
+}
+
 package func changedBodyProperties<T>(of type: T.Type) -> [String] {
     assertUnimplemented()
 }
@@ -23,11 +31,11 @@ package enum Log {
     }
     
     package static func internalWarning(_ message: @autoclosure @escaping () -> String) {
-        Log.internalWarning(message(), file: #fileID, line: #line)
+        Log.internalWarning(message())
     }
     
     package static func internalError(_ message: @autoclosure @escaping () -> String) {
-        Log.internalError(message(), file: #fileID, line: #line)
+        Log.internalError(message())
     }
     
     package static func eventDebug(_ message: String) {

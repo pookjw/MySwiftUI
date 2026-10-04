@@ -187,7 +187,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         return nil
     }
     
-    open var graphDelegate: GraphDelegate? {
+    open var graphDelegate: (any GraphDelegate)? {
         return nil
     }
     
@@ -921,7 +921,11 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
     }
     
     package func incrementPhase() {
-        assertUnimplemented()
+        self.data.phase.value &+= 2
+        
+        if let graphDelegate {
+            graphDelegate.graphDidChange()
+        }
     }
 }
 

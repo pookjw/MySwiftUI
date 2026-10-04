@@ -23,30 +23,30 @@ open class AnyLocationBase : @unchecked Sendable {}
 open class AnyLocation<Value> : AnyLocationBase, @unchecked Sendable {
     var wasRead: Bool {
         get {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         set {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         _modify {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
     }
     
     func get() -> Value {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func set(_ newValue: Value, transaction: Transaction) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func projecting<P : Projection>(_ projection: P) -> AnyLocation<P.Projected> where Value == P.Base {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func update() -> (Value, Bool) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func isEqual(to other: AnyLocation<Value>) -> Bool {

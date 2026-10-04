@@ -11,6 +11,8 @@ private import os.log
     associatedtype UIViewControllerType : UIViewController
     @MainActor @preconcurrency func makeUIViewController(context: Self.Context) -> Self.UIViewControllerType
     @MainActor @preconcurrency func updateUIViewController(_ uiViewController: Self.UIViewControllerType, context: Self.Context)
+    @available(iOS 15.0, tvOS 15.0, *)
+    @_spi(Internal) @MainActor @preconcurrency func _resetUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator, destroy: () -> Void)
     @MainActor @preconcurrency static func dismantleUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator)
     associatedtype Coordinator = Void
     @MainActor @preconcurrency func makeCoordinator() -> Self.Coordinator
@@ -37,7 +39,7 @@ extension UIViewControllerRepresentable where Self.Coordinator == () {
 extension UIViewControllerRepresentable {
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     @MainActor @preconcurrency public func _resetUIViewController(_ uiViewController: Self.UIViewControllerType, coordinator: Self.Coordinator, destroy: () -> Void) {
-        assertUnimplemented()
+        destroy()
     }
     
     @available(iOS 16.0, tvOS 16.0, watchOS 9.0, *)

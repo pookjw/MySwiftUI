@@ -1,6 +1,7 @@
 // 8BBC66CBE42B8A65F8A2F3799C81A349
 private import CoreGraphics
 internal import _MySwiftUICoreShims
+private import os.log
 
 extension DisplayList.ViewUpdater {
     package struct Platform : Equatable, CustomStringConvertible {
@@ -892,7 +893,7 @@ extension DisplayList.ViewUpdater {
                 // <+216>
                 assertUnimplemented()
             default:
-                preconditionFailure()
+                fatalError()
             }
         }
         
@@ -1004,10 +1005,10 @@ extension DisplayList.ViewUpdater {
                         assertUnimplemented()
                     case .view(_):
                         // <+14476>
-                        preconditionFailure()
+                        fatalError()
                     case .placeholder(_):
                         // <+14476>
-                        preconditionFailure()
+                        fatalError()
                     }
                     
                     if viewInfo.state.flags.contains(.unknown5) {
@@ -1028,7 +1029,7 @@ extension DisplayList.ViewUpdater {
                 // <+572>
                 assertUnimplemented()
             default:
-                preconditionFailure()
+                fatalError()
             }
         }
         
@@ -1416,7 +1417,7 @@ extension DisplayList.ViewUpdater {
             guard w22 || clipRectChanged else {
                 return false
             }
-           
+            
             // <+148>
             // d13, d12
             var (d13, d12) = {
@@ -2156,148 +2157,251 @@ extension DisplayList.ViewUpdater.ViewCache {
         in id: DisplayList.ViewUpdater.ViewInfo.ID
     ) -> DisplayList.ViewUpdater.ViewCache.Result {
         /*
-         x26 = sp + 0x420
+         self -> x20 -> sp + 0x68
+         return pointer -> x8 -> sp + 0x40
+         item -> x0 -> x19
+         platform -> x1 -> x27
+         state -> x2 -> x26
+         tag -> w3 -> sp + 0x60
+         id -> x4 -> sp + 0xc0
          */
-        /*
-         item = x24
-         tag = x28
-         state = sp + 0xa8
-         id = sp + 0xc8
-         */
-        
-        /*
-         frame.origin.x/y -> sp + 0xf0
-         frame.size.width/height -> d9/d8
-         version -> sp + 0xc0
-         value -> sp + 0x560
-         identity -> sp + 0x68
-         */
+        // x29 - 0xd0
         let item_1 = item
         
-        // sp + 0xb0
-        let platform_1 = platform
-        // w23 / sp + 0x70
+        // <+136>
+        // sp + 0x3c
         let system = platform.system
-        // sp + 0x68
+        // sp + 0x578
         let identity_1 = item.identity
-        // self = sp + 0x80
-        // sp + 0x48
         let indexID = index.id
-        // sp + 0x38
+        
+        // <+156>
         let key = DisplayList.ViewUpdater.ViewCache.Key(id: indexID, system: PlatformViewDefinition.System(base: system), tag: tag)
+        
         if let viewInfo = map[key] {
-            // <+212>
-            // viewInfo = sp + 0x2e0
-            // sp + 0x380
+            // <+204>
+            // viewInfo -> sp + 0x170
+            // viewInfo_2 -> sp + 0x350
             var viewInfo_2 = viewInfo
             
+            // <+304>
             let cacheSeed = self.cacheSeed
             guard viewInfo.cacheSeed != cacheSeed else {
-                // <+4316>
-                assertUnimplemented()
+                // <+4568>
+                let description = currentList.minimalDescription
+                
+                // <+4848>
+                let kind = String(describing: viewInfo.state.kind)
+                
+                // <+4952>
+                unsafe os_log(
+                    .error,
+                    log: Log.internalErrorsLog,
+                    "repeated view: %u, %u, %u, %u, %s, %s",
+                    indexID.identity.value,
+                    indexID.serial,
+                    indexID.archiveIdentity.value,
+                    indexID.archiveSerial,
+                    kind,
+                    description
+                )
+                
+                // <+5476>
+                MySwiftUICore.preconditionFailure("repeated view: #\(indexID.identity.value), \(indexID.serial), #\(indexID.archiveIdentity.value), \(indexID.archiveSerial), \(kind), \(description)")
             }
             
-            // <+364>
+            // <+328>
+            // sp + 0x3dc
             viewInfo_2.cacheSeed = cacheSeed
             
-            // sp + 0x4c0
             if viewInfo.isRemoved {
+                // <+348>
+                // sp + 0x3e0
                 viewInfo_2.isRemoved = false
+                // <+364>
                 self.removed.remove(key)
             }
+            
+            // <+712>
+            // sp + 0x490
             let viewInfo_3 = viewInfo_2
             
-            // <+1716>
-            // sp + 0x88 (8 bytes만)
+            // <+760>
+            // seeds.item -> w22 (sp + 0x4f8)
             let seeds = viewInfo_3.seeds
-            // sp + 0x90
+            
+            // <+764>
+            // x19 (sp + 0x4f0)
             let parentID = viewInfo_3.parentID
-            // sp + 0x420
+            
+            // <+772>
+            // sp + 0x3f0
             let viewInfo_4 = viewInfo_3
-            // x20/sp + 0x78
+            // x20 -> sp + 0x78 -> x22
             let oldView = viewInfo_4.view
             _ = consume viewInfo_4
-            // sp + 0x420
+            
+            // <+796>
+            // map -> sp + 0x3f0
             var map = self.map
-            map.removeValue(forKey: key)
+            // self -> x23
+            
+            // <+836>
+            map[key] = viewInfo_3
             self.map = map
             
-            // <+1856>
-            // id -> x9
-            // sp + 0xc8
+            // <+848>
+            // version -> x26
+            // flag -> w25
+            
             var flag: Bool
             if seeds.item == DisplayList.Seed(item_1.version) {
-                // <+1908>
+                // <+896>
                 flag = unsafe viewInfo_3.nextUpdate <= state.pointee.globals.pointee.time
+                // <+920>
+                // sp + 0x3e8
                 viewInfo_2.nextUpdate = .infinity
             } else {
-                // <+1964>
+                // <+948>
                 viewInfo_2.nextUpdate = .infinity
                 flag = true
             }
             
-            // state -> x22
-            
-            // <+1992>
             if parentID != id {
-                // <+1996>
-                // parentID -> sp + 0x3e0
+                // <+968>
+                // sp + 0x3b0
                 viewInfo_2.parentID = id
+                
+                // <+976>
+                // x20 -> sp + 0x3b8
                 viewInfo_2.seeds.invalidate()
-                // <+2012>
             }
             
-            // <+2012>
-            // x19
-            _ = viewInfo_3.platform
-            // tag -> w28
+            // <+1000>
             switch tag {
             case .item:
-                // <+2144>
-                // sp + 0x100
+                // <+1096>
+                // sp + 0x2b0
                 let platform_3 = platform
-                // self = x26
-                // sp + 0x240
                 let index = self.index
                 
-                // <+2176>
-                // sp + 0x420
+                // <+1100>
+                // sp + 0x3f0
                 let item_2 = item
-                // sp + 0xb0
-                _ = item.frame.origin
                 
+                // <+1132>
                 unsafe platform_3.updateItemView(&viewInfo_2, index: index, item: item_2, state: state)
-                
-                // <+2252>
-                // origin -> q0
-                // w10 -> origin.x
-                // <+2460>
             case .inherited:
-                // <+2028>
-                // 이 과정에서 'self = x26'이어야함
-                assertUnimplemented()
+                // <+1012>
+                // x27
+                var targetPlatform = platform
+                
+                if platform.encoding.mixedViewHierarchy {
+                    if unsafe !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                        // <+1032>
+                        // inlined
+                        let features = item_1.features
+                        if !features.contains(.platformViews) {
+                            // <+2680>
+                            targetPlatform = .caLayer
+                        }
+                    }
+                }
+
+                // <+2704>
+                if viewInfo_3.platform != targetPlatform {
+                    viewInfo_2 = DisplayList.ViewUpdater.ViewInfo(platform: targetPlatform, kind: .inherited)
+                }
+
+                // <+2744>
+                let copy = viewInfo_2.platform
+                
+                // <+2808>
+                unsafe copy.updateState(
+                    &viewInfo_2,
+                    item: item,
+                    size: item_1.frame.size,
+                    state: state
+                )
             }
             
-            // <+2460>
+            // <+2812>
             if !viewInfo_2.isInvalid {
+                // <+2828>
+                // sp + 0x3b8
                 viewInfo_2.seeds.item = DisplayList.Seed(item_1.version)
             }
             
-            // <+2512>
+            // <+2864>
             if viewInfo_2.view !== oldView {
-                // <+2524>
-                assertUnimplemented()
+                // <+2876>
+                unsafe self.reverseMap.removeValue(
+                    forKey: unsafeBitCast(oldView, to: OpaquePointer.self)
+                )
+                
+                // <+2896>
+                // w27
+                let oldSystem = viewInfo_3.platform.system
+                CoreViewRemoveFromSuperview(oldSystem, oldView)
+                
+                for i in (0..<Int(CoreViewSubviewsCount(oldSystem, oldView))).reversed() {
+                    // sp + 0xd0
+                    var systemOut = oldSystem
+                    
+                    guard let subview = unsafe CoreViewSubviewAtIndex(
+                        oldSystem,
+                        oldView,
+                        i,
+                        &systemOut
+                    ) else {
+                        continue
+                    }
+                    
+                    if systemOut != oldSystem {
+                        // <+3844>
+                        _ = DisplayList.ViewUpdater.Platform.caLayer
+                        // <+3180>
+                    }
+                    
+                    // <+3180>
+                    guard let key = unsafe self.reverseMap[unsafeBitCast(subview, to: OpaquePointer.self)] else {
+                        continue
+                    }
+                    
+                    var viewInfo = map[key]!
+                    guard !viewInfo.isRemoved else {
+                        continue
+                    }
+                    
+                    // <+3512>
+                    viewInfo.isRemoved = true
+                    self.map[key] = viewInfo
+                    map = self.map
+                    
+                    // <+4056>
+                    self.removed.insert(key)
+                }
+                
+                // <+4108>
+                unsafe self.reverseMap[unsafeBitCast(viewInfo_2.view, to: OpaquePointer.self)] = key
+                
+                if (self.index.archiveIdentity.value == 0) && (identity_1.value != 0) {
+                    viewInfo_2.layer.mySwiftUI_displayListID = Int(identity_1.value)
+                }
+                
+                // <+4188>
+                flag = true
             }
             
-            // <+3900>
-            // sp + 0x420
+            // <+4192>
+            // sp + 0x3f0
             let viewInfo_5 = viewInfo_2
-            // sp + 0x240
-            let _ = viewInfo_5
+            
+            // <+4280>
+            // self -> x28
             self.map[key] = viewInfo_5
             
-            // <+4044>
-            // x9
+            // <+4332>
             let result = DisplayList.ViewUpdater.ViewCache.Result(
                 platform: viewInfo_2.platform,
                 view: viewInfo_5.view,
@@ -2316,123 +2420,112 @@ extension DisplayList.ViewUpdater.ViewCache {
             return result
         }
         
-        // <+436>
+        // <+400>
         let disableActions = CATransaction.disableActions()
         CATransaction.setDisableActions(true)
-        // tag -> sp + 0xa0
-        // disableActions -> sp + 0x88
-        
-        // sp + 0x90
         let identity_2: _DisplayList_Identity
-        // sp + 0x420
+        // sp + 0x3f0
         var viewInfo: DisplayList.ViewUpdater.ViewInfo
         
+        // <+436>
         switch tag {
         case .item:
-            // <+752>
-            /*
-             x27 = sp + 0x100
-             platform = sp + 0x380
-             state = x28
-             */
-            // sp + 0x4c0
+            // <+528>
+            // copy_2 -> sp + 0x490, platform -> sp + 0x350
             let copy_2 = item
-            /*
-             index.identity/serial/archiveIdentity/archiveSerial = sp + 0x90
-             index.restored = w25
-             */
-            // w21/sp + 0x508
-            _ = identity_1
-            // sp + 0x90
             let index_1 = index
-            // sp + 0x420
+            
+            // <+588>
             viewInfo = unsafe platform._makeItemView(item: copy_2, state: state)
-            /*
-             platform = sp + 0x2e0
-             x22 = sp + 0x4c0
-             */
-            // sp + 0x380
+            
+            // <+608>
             let index_2 = index_1
-            /*
-             x25 = sp + 0x100
-             */
-            // sp + 0x4c0
-            _ = item
-            // <+904>
+            
             unsafe platform.updateItemView(&viewInfo, index: index_2, item: copy_2, state: state)
-            // <+928>
             identity_2 = index_1.archiveIdentity
-            // <+944>
         case .inherited:
-            // <+500>
-            assertUnimplemented()
-            // <+944>
+            // <+448>
+            var targetPlatform = platform
+            
+            if platform.encoding.mixedViewHierarchy {
+                if unsafe !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                    let features = item_1.features
+                    if !features.contains(.platformViews) {
+                        targetPlatform = .caLayer
+                    }
+                }
+            }
+            
+            viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: targetPlatform, kind: .inherited)
+            
+            let copy = viewInfo.platform
+            unsafe copy.updateState(
+                &viewInfo,
+                item: item,
+                size: item_1.frame.size,
+                state: state
+            )
+            
+            // <+2016>
+            identity_2 = indexID.archiveIdentity
         }
         
-        // <+944>
-        // x27
+        // sp + 0x3f0
         let platform_2 = viewInfo.platform
-        // viewInfo -> x28
-        // opacity~platformSeeds (sp + 0x2e0~0x300)
-        let seeds = viewInfo.seeds
-        // d8
         let nextUpdate = viewInfo.nextUpdate
+        
+        // <+2024>
         CATransaction.setDisableActions(disableActions)
         
-        // sp + 0x4c0
         var viewInfo_2 = viewInfo
+        // <+2036>
         viewInfo_2.parentID = id
+        // <+2040>
         viewInfo_2.seeds.item = DisplayList.Seed(item_1.version)
+        // <+2084>
         viewInfo_2.cacheSeed = self.cacheSeed
         
-        // sp + 0x380
-        _ = viewInfo_2
-        // <+1000>
-        // x21
+        // <+2136>
+        // x21 (sp + 0x4a8)
         let container = viewInfo_2.container
-        // x24
+        
+        // <+2192>
         let mapKey = DisplayList.ViewUpdater.ViewCache.Key(
             id: indexID,
             system: PlatformViewDefinition.System(base: system),
             tag: tag
         )
         
+        // <+2208>
         map[key] = viewInfo_2
         
-        // <+1276>
+        // <+2248>
         // x19
         let reverseMapKey = unsafe OpaquePointer(Unmanaged.passUnretained(viewInfo_2.view).toOpaque())
+        
         if let oldKey = unsafe reverseMap[reverseMapKey] {
+            // <+2272>
             map.removeValue(forKey: oldKey)
         }
+        
+        // <+2328>
         unsafe reverseMap[reverseMapKey] = mapKey
         
-        // <+1444>
-        /*
-         x23 = sp + 0x100
-         x20 = sp + 0x4c0
-         */
+        // <+2380>
         if (identity_2.value == 0), (identity_1.value != 0) {
-            // <+1472>
+            // <+2392>
             viewInfo_2.layer.mySwiftUI_displayListID = Int(identity_1.value)
         }
         
-        // <+1492>
-        // x9 = sp + 0x380
-        let _ = viewInfo
-        // <+1536>
-        // x8 = sp + 0x100
-        // opacity~platformSeeds (sp + 0x3ea~0x3fa)
-        _ = seeds
-        // sp + 0x3d8
-        let _ = platform_1
+        // <+2404>
         // w22
         let isInvalid = viewInfo_2.isInvalid
-        let viewID = viewInfo_2.id
-        // sp + 0x380
-        let _ = platform_2
         
-        // <+1620>
+        // <+2400>
+        // x20
+        let viewID = viewInfo_2.id
+        
+        // <+2408>
         let result = DisplayList.ViewUpdater.ViewCache.Result(
             platform: platform_2,
             view: viewInfo_2.view,
@@ -2468,7 +2561,7 @@ extension DisplayList.ViewUpdater.ViewCache {
         guard
             oldItem.identity == newItem.identity,
             let viewInfo = self.map[DisplayList.ViewUpdater.ViewCache.Key(id: id, system: PlatformViewDefinition.System(base: platform.system), tag: tag)]
-        else {
+                else {
             return nil
         }
         

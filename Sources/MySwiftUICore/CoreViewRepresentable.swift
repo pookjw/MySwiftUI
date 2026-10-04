@@ -377,7 +377,7 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         class func modifyBridgedInputs<Representable : CoreViewRepresentable>(
@@ -385,7 +385,7 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         class func modifyViewOutputs<Representable : CoreViewRepresentable>(
@@ -393,7 +393,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         class func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
@@ -401,7 +401,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
         
         class func update<Host : CoreViewRepresentableHost>(
@@ -410,7 +410,7 @@ extension CoreViewRepresentableFeatureBuffer {
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
         ) {
-            preconditionFailure() // abstract
+            fatalError() // abstract
         }
     }
     

@@ -76,15 +76,15 @@ extension AnyWindowLayout {
 
 class AnyWindowLayoutStorageBase {
     func makeCache(content: WindowLayoutRootView, context: WindowPlacementContext) -> AnyWindowLayout.Cache {
-        preconditionFailure()
+        fatalError()
     }
     
     func updateCache(_ cache: inout AnyWindowLayout.Cache, content: WindowLayoutRootView, context: WindowPlacementContext) {
-        preconditionFailure()
+        fatalError()
     }
     
     func windowPlacement(content: WindowLayoutRootView, context: WindowPlacementContext, cache: inout AnyWindowLayout.Cache) -> WindowPlacement {
-        preconditionFailure()
+        fatalError()
     }
 }
 

@@ -137,7 +137,7 @@ fileprivate struct FontKey : EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var defaultFont: Font? {
+    package var defaultFont: Font? {
         get {
             return self[DefualtFontKey.self]
         }

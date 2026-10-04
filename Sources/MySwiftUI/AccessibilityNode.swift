@@ -14,6 +14,12 @@ struct AccessibilityNodeList {
 }
 
 final class AccessibilityNode {
+    var platformElementPropertiesDirty: Bool
+    
+    init() {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 

@@ -1,3 +1,5 @@
+// 3F072AF2D37E4BBD060A42F9AFFB5042
+
 package enum AccessibilityTrait : UInt64, Hashable, CaseIterable {
     case isButton
     case isHeader
@@ -79,7 +81,7 @@ public struct AccessibilityTraits : SetAlgebra, Sendable {
     static let isSwitch = AccessibilityTraits(traitSet: AccessibilityTraitSet(trait: .isSwitch))
     static let isMathEquation = AccessibilityTraits(traitSet: AccessibilityTraitSet(trait: .isMathEquation))
     
-    private var traitSet: AccessibilityTraitSet
+    fileprivate private(set) var traitSet: AccessibilityTraitSet
     
     public init() {
         self.traitSet = []
@@ -162,5 +164,142 @@ package struct AccessibilityTraitSet : OptionSet, Hashable, Codable {
         }
         
         self.rawValue = rawValue
+    }
+}
+
+package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet & Sendable> : Hashable, Codable, CustomStringConvertible, CustomDebugStringConvertible, AccessibilityCombinable, ProtobufEncodableMessage, ProtobufDecodableMessage where T.RawValue : Codable & FixedWidthInteger & UnsignedInteger {
+    private(set) var value: T
+    private(set) var mask: T
+    
+    subscript(value: T.Element) -> Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    init() {
+        assertUnimplemented()
+    }
+    
+    subscript(value: T.Element, default: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    init(implying: T.Element...) {
+        assertUnimplemented()
+    }
+    
+    init(adding: T.Element...) {
+        assertUnimplemented()
+    }
+    
+    init(removing: T.Element...) {
+        assertUnimplemented()
+    }
+    
+    init(adding: T.Element..., removing: T.Element...) {
+        assertUnimplemented()
+    }
+    
+    var isDefault: Bool {
+        assertUnimplemented()
+    }
+    
+    func isSet(_ other: T.Element) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func merge(with other: AccessibilityNullableOptionSet<T>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+    
+    package func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    package var description: String {
+        assertUnimplemented()
+    }
+    
+    package var debugDescription: String {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityNullableOptionSet {
+    fileprivate enum CodingKeys {
+        case value
+        case mask
+    }
+}
+
+extension AccessibilityNullableOptionSet where T == AccessibilityVisibility {
+    var resolvesToHidden: Bool {
+        assertUnimplemented()
+    }
+    
+    var resolved: AccessibilityVisibility.Resolved? {
+        assertUnimplemented()
+    }
+    
+    var shouldApplyPlatformElementOverride: (isAXElement: Bool, isAXElementsHidden: Bool) {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityNullableOptionSet where T == AccessibilityTraitSet {
+    package init(adding: AccessibilityTraits) {
+        self.value = adding.traitSet
+        self.mask = adding.traitSet
+    }
+    
+    init(removing: AccessibilityTraits) {
+        assertUnimplemented()
+    }
+    
+    init(adding: AccessibilityTrait) {
+        assertUnimplemented()
+    }
+    
+    init(adding: [AccessibilityTrait]) {
+        assertUnimplemented()
+    }
+    
+    init(removing: AccessibilityTrait) {
+        assertUnimplemented()
+    }
+    
+    init(removing: [AccessibilityTrait]) {
+        assertUnimplemented()
+    }
+    
+    func isSet(_: AccessibilityTrait) -> Bool {
+        assertUnimplemented()
+    }
+    
+    subscript(trait: AccessibilityTrait) -> Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}
+
+protocol AccessibilityCombinable {
+    func merge(with other: Self) -> Bool
+}
+
+extension AccessibilityCombinable {
+    func combined(with other: Self) -> Self {
+        assertUnimplemented()
     }
 }

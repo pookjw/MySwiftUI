@@ -1,13 +1,16 @@
 @_spi(Internal) internal import MySwiftUICore
+private import AttributeGraph
 
 enum SwipeActions {
     struct Feature : ViewGraphFeature {
+        private var swipeActions: WeakAttribute<SwipeActions.Value>?
+        
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             inputs.preferences.add(SwipeActions.Key.self)
         }
         
-        func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            assertUnimplemented()
+        mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+            self.swipeActions = WeakAttribute(outputs[SwipeActions.Key.self])
         }
     }
     

@@ -1,5 +1,10 @@
 // 11125C146A81D1913BFBD53B89D010C6
 
+extension DisplayList {
+    var minimalDescription: String {
+        assertUnimplemented()
+    }
+}
 
 extension DisplayList.Item : CustomStringConvertible {
     package var description: String {

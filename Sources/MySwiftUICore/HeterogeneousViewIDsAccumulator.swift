@@ -586,27 +586,27 @@ class AbstractHomogeneousCollection {
     }
     
     func isElementEqual(at fromIndex: Int, toElementIn: AbstractHomogeneousCollection, at toIndex: Int) -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func element(at index: Int) -> Any {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func forEach(_ block: (Any) -> Void) {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     class func makeHomogenousIndexLookupTable(from collection: [(AbstractHomogeneousCollection, precedingElementCount: Int)]) -> HomogeneousLookupTable {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func asAnyHashable() -> [AnyHashable] {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func asAnyHashable2() -> [AnyHashable2] {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 
@@ -643,7 +643,7 @@ class HomogeneousLookupTable {
     private let elementTypeID: ObjectIdentifier
     
     var count: Int {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     init(elementTypeID: ObjectIdentifier) {
@@ -651,11 +651,11 @@ class HomogeneousLookupTable {
     }
     
     func unsafeAbsoluteIndex<T : Hashable>(of value: T) -> Int? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func unsafeAbsoluteIndexOfElement(at index: Swift.Int, in collection: AbstractHomogeneousCollection) -> Int? {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

@@ -4423,8 +4423,39 @@ extension DisplayList.ViewUpdater {
             self.nextUpdate = .infinity
         }
         
-        mutating func reset() {
+        init(platform: DisplayList.ViewUpdater.Platform, kind: PlatformViewDefinition.ViewKind) {
             assertUnimplemented()
+        }
+        
+        mutating func reset() {
+            self.layer = CoreViewLayer(self.platform.system, self.view)
+            self.seeds = DisplayList.ViewUpdater.ViewInfo.Seeds(
+                item: DisplayList.Seed(),
+                content: DisplayList.Seed(),
+                opacity: DisplayList.Seed(),
+                blend: DisplayList.Seed(),
+                transform: DisplayList.Seed(),
+                clips: DisplayList.Seed(),
+                filters: DisplayList.Seed(),
+                shadow: DisplayList.Seed(),
+                properties: DisplayList.Seed(),
+                platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds(
+                    zPosition: DisplayList.Seed(),
+                    separatedState: DisplayList.Seed(),
+                    separatedOptions: DisplayList.Seed(),
+                    remoteEffects: DisplayList.Seed(),
+                    renderingTechnique: DisplayList.Seed(),
+                    projectiveShadow: DisplayList.Seed(),
+                    hitTestsAsOpaque: DisplayList.Seed(),
+                    serverResponderID: DisplayList.Seed()
+                )
+            )
+            
+            self.state.position = CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
+            self.state.size = CGSize(width: CGFloat.infinity, height: CGFloat.infinity)
+            self.state.flags = []
+            self.state.platformState = DisplayList.ViewUpdater.Platform.PlatformState(separatedOptionKeys: [], remoteEffects: [:])
+            self.nextUpdate = .infinity
         }
     }
     

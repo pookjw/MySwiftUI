@@ -1,4 +1,3 @@
-
 package struct AccessibilityVisibility : OptionSet, Hashable, Codable {
     package static var element: AccessibilityVisibility {
         return AccessibilityVisibility(rawValue: 1 << 0)
@@ -40,5 +39,14 @@ package struct AccessibilityVisibility : OptionSet, Hashable, Codable {
     
     package init(rawValue: UInt32) {
         self.rawValue = rawValue
+    }
+}
+
+extension AccessibilityVisibility {
+    enum Resolved: Int, Hashable, Codable {
+        case element
+        case containerElement
+        case container
+        case hidden
     }
 }

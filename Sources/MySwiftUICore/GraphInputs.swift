@@ -168,7 +168,7 @@ public struct _GraphInputs {
 
 extension _GraphInputs {
     package struct Phase : Equatable {
-        private var value: UInt32
+        var value: UInt32
         
         init(value: UInt32) {
             self.value = value

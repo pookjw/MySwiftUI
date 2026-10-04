@@ -624,7 +624,7 @@ extension _ViewListOutputs {
                     case .staticList(let _elements):
                         elements = _elements
                     case .dynamicList(_, _):
-                        preconditionFailure()
+                        fatalError()
                     }
                     
                     // <+528>
@@ -1019,15 +1019,15 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
     }
     
     var endIndex: Int {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     subscript(index: Int) -> _ViewList_ID {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
     
     func isEqual(to other: _ViewList_ID_Views) -> Bool {
-        preconditionFailure() // abstract
+        fatalError() // abstract
     }
 }
 

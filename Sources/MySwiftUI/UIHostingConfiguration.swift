@@ -3,6 +3,7 @@
 public import UIKit
 private import _UIKitPrivate
 private import UIFoundation
+internal import AttributeGraph
 
 @available(iOS 16.0, tvOS 16.0, *)
 @available(macOS, unavailable)
@@ -180,7 +181,17 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     
     private var hoverEffectConfiguration: ListRowHoverEffectConfiguration? = nil {
         didSet {
-            assertUnimplemented()
+            /*
+             self -> x20
+             oldValue -> x0 -> x29 - 0x70
+             */
+            // <+240>
+            if
+                !(self.hoverEffectConfiguration == oldValue),
+                let handler = self._preferredContainerHoverStyleDidChangeHandler
+            {
+                handler()
+            }
         }
     }
     
@@ -241,7 +252,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     required init(rootView: ModifiedContent<Content, HostingContentViewRootModifier>) {
-        preconditionFailure()
+        fatalError()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -328,8 +339,12 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         self.updateHostedViews()
     }
     
-    override func layoutSubviews() {
-        assertUnimplemented()
+    override final func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if let handler = self._preferredSeparatorInsetsDidChangeHandler {
+            handler()
+        }
     }
     
     override final func systemLayoutSizeFitting(
@@ -598,8 +613,27 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         }
     }
     
-    final func roundSize(_: CGSize) -> CGSize {
-        assertUnimplemented()
+    final func roundSize(_ incoming: CGSize) -> CGSize {
+        let d8 = incoming.height
+        let d9 = incoming.width
+        let d10 = self.viewGraph.environment.pixelLength
+        var d0: CGFloat = 1
+        var d1: CGFloat
+        
+        if d10 != d0 {
+            // <+164>
+            d0 = d9 / d10
+            d0 = ceil(d0)
+            d0 = d10 * d0
+            d1 = d8 / d10
+            d1 = ceil(d1)
+            d1 = d10 * d1
+        } else {
+            d0 = ceil(d9)
+            d1 = ceil(d8)
+        }
+        
+        return CGSize(width: d0, height: d1)
     }
     
     final func updateViewGraphForDisplay(isHidden: Bool) {
@@ -651,6 +685,14 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         
         if !isHidden {
             self.hasBeenVisible = true
+        }
+    }
+    
+    final func shouldEmitBridgedHoverStyle(for preferences: PreferenceValues) -> Bool {
+        if preferences[ListRowHoverEffectPreferenceKey.self].value != nil {
+            return true
+        } else {
+            return preferences[ListRowHoverEffectDisabledPreferenceKey.self].value
         }
     }
 }
@@ -711,7 +753,86 @@ extension UIHostingContentView : UIHostingViewDelegate {
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePreferences preferences: PreferenceValues) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         hostingView -> x0 -> x29 - 0xe8
+         preferences -> x1 -> x28
+         */
+        // <+952>
+        if let handler = self._popupMenuButtonDidChangeHandler {
+            let currentSeed = self.popUpButtonSeed
+            let value = preferences[BridgedPopUpButtonPreferenceKey.self]
+            
+            if !currentSeed.seed.matches(value.seed) {
+                self.popUpButtonSeed = VersionSeedTracker(seed: value.seed)
+                
+                let block: ((WeakBox<UIButton>?) -> Void) = { button in
+                    // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC07hostingE0_20didChangePreferencesyAA01_cE0Cyqd__G_AA16PreferenceValuesVtAA0E0Rd__lFyAA7WeakBoxVySo8UIButtonCGSgXEfU_
+                    self.popUpButton = button
+                    handler()
+                }
+                
+                block(value.value)
+            }
+        }
+        
+        // <+1264>
+        if self.shouldEmitBridgedHoverStyle(for: preferences) {
+            // <+1296>
+            var configuration: ListRowHoverEffectConfiguration
+            if let _configuration = self.hoverEffectConfiguration {
+                configuration = _configuration
+            } else {
+                // <+1392>
+                configuration = ListRowHoverEffectConfiguration(
+                    hoverStyle: nil,
+                    isEnabled: true,
+                    effect: SystemHoverEffect.Info(.automatic),
+                    path: nil
+                )
+            }
+            
+            // <+1608>
+            configuration.updateEffect(with: preferences)
+            
+            if
+                let backgroundHost,
+                hostingView == backgroundHost
+            {
+                // <+1740>
+                configuration.path = preferences[ListRowHoverEffectContentShapeKey.self].value
+                
+                let uiShape: UIShape?
+                if let shape = configuration.path {
+                    // <+2008>
+                    uiShape = UIShape(shape)
+                } else {
+                    uiShape = nil
+                }
+                
+                // <+2152>
+                let hoverStyle = UIHoverStyle.style(
+                    for: configuration.effect,
+                    shape: uiShape
+                )
+                
+                hoverStyle.isEnabled = configuration.isEnabled
+                configuration.hoverStyle = hoverStyle
+            }
+            
+            // <+2292>
+            self.hoverEffectConfiguration = configuration
+            // <+2368>
+        } else {
+            // <+1560>
+            self.hoverEffectConfiguration = nil
+            // <+2368>
+        }
+        
+        // <+2368>
+        if let delegate = self._configuration.delegate {
+            delegate.hostingView(hostingView, didChangePreferences: preferences)
+        }
     }
     
     @MainActor func hostingView<T : View>(_ hostingView: _UIHostingView<T>, didChangePlatformItemList list: PlatformItemList) {
@@ -734,7 +855,7 @@ extension UIHostingContentView : UIContentView {
         }
         set {
             guard let casted = newValue as? UIHostingConfiguration<Content, Background> else {
-                preconditionFailure("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)")
+                fatalError("The type of the new configuration does not match the type of the UIHostingConfiguration that the content view was initially created with. Make a new content view from the new configuration instead.\nNew configuration type: \(newValue)\nExisting configuration type: \(self._configuration)")
             }
             
             self._configuration = casted
@@ -743,18 +864,86 @@ extension UIHostingContentView : UIContentView {
 }
 
 fileprivate struct HostingContentViewRootModifier : UnaryViewModifier {
-    private(set) var defaultStyling: ListContentStyling
-    private(set) var margins: OptionalEdgeInsets
-    private(set) var minSize: (CGFloat?, CGFloat?)
-    private(set) var listEnvironment: UIListEnvironment
-    private(set) var configurationState: UICellConfigurationState?
+    private(set) var defaultStyling: ListContentStyling // 0x0
+    private(set) var margins: OptionalEdgeInsets // 0x14 (offset field)
+    private(set) var minSize: (CGFloat?, CGFloat?) // 0x18 (offset field)
+    private(set) var listEnvironment: UIListEnvironment // 0x1c (offset field)
+    private(set) var configurationState: UICellConfigurationState? // 0x20 (offset field)
     
     var effectivePadding: EdgeInsets {
-        assertUnimplemented()
+        return EdgeInsets(
+            top: self.margins.top ?? self.defaultStyling.insets.top,
+            leading: self.margins.leading ?? self.defaultStyling.insets.leading,
+            bottom: self.margins.bottom ?? self.defaultStyling.insets.bottom,
+            trailing: self.margins.trailing ?? self.defaultStyling.insets.trailing
+        )
     }
     
     func body(content: Content) -> some View {
-        assertUnimplemented()
+        content
+            .padding(self.effectivePadding)
+            .modifier(
+                ContentConfigurationBasedRootEnvironment(
+                    defaultStyling: self.defaultStyling,
+                    isEnabled: true,
+                    state: self.configurationState
+                )
+            )
+            .frame(
+                minWidth: self.minSize.0,
+                idealWidth: nil,
+                maxWidth: self.maxWidth,
+                minHeight: self.minSize.1 ?? (self.defaultStyling.minHeight > 0 ? self.defaultStyling.minHeight : nil),
+                idealHeight: nil,
+                maxHeight: nil,
+                alignment: self.alignment
+            )
+            .modifier(
+                AccessibilityAttachmentModifier(
+                    storage: MutableBox(self.accessibilityAttachment),
+                    behavior: nil
+                )
+            )
+            .input(IsInHostingConfiguration.self)
+    }
+    
+    @inline(always) // 원래 없음
+    private var maxWidth: CGFloat? {
+        switch self.listEnvironment {
+        case .unspecified, .none:
+            return nil
+        default:
+            return CGFloat.infinity
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    private var alignment: Alignment {
+        switch self.listEnvironment {
+        case .unspecified, .none:
+            return .center
+        default:
+            return .leading
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    private var accessibilityAttachment: AccessibilityAttachment {
+        var traits = AccessibilityTraits()
+        
+        if
+            let configurationState,
+            configurationState.isSelected
+        {
+            traits.formUnion(.isSelected)
+        }
+        
+        let options = AccessibilityNullableOptionSet<AccessibilityTraitSet>(adding: traits)
+        var properties = AccessibilityProperties()
+        properties.traits = options
+        
+        let attachment = AccessibilityAttachment.properties(properties)
+        return attachment
     }
 }
 
@@ -771,5 +960,69 @@ fileprivate struct HostingContentViewGraph : ViewGraphFeature {
     
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         assertUnimplemented()
+    }
+}
+
+struct ContentConfigurationBasedRootEnvironment : EnvironmentModifier, PrimitiveViewModifier {
+    fileprivate private(set) var defaultStyling: ListContentStyling
+    fileprivate private(set) var isEnabled: Bool
+    fileprivate private(set) var state: UICellConfigurationState?
+    
+    static func makeEnvironment(
+        modifier: Attribute<ContentConfigurationBasedRootEnvironment>,
+        environment: inout EnvironmentValues
+    ) {
+        let value = modifier.value
+        
+        if value.isEnabled {
+            environment.configureListStyling(value.defaultStyling, state: value.state)
+        }
+    }
+}
+
+extension EnvironmentValues {
+    mutating func configureListStyling(_ styling: ListContentStyling, state: UICellConfigurationState?) {
+        /*
+         self -> x20 -> x19
+         styling -> x0 -> x27
+         state -> x1 -> x29 - 0x88
+         */
+        // <+372>
+        self.defaultFont = styling.font
+        
+        if let foregroundStyle = styling.foregroundStyle {
+            self.defaultForegroundStyle = foregroundStyle.copyStyle(in: self, foregroundStyle: nil)
+        } else {
+            self.defaultForegroundStyle = nil
+        }
+        
+        self.defaultLabelIconToTitleSpacing = styling.labelIconToTitleSpacing
+        
+        // <+600>
+        self.listRowInsets = styling.insets
+        self.listItemTint = styling.tint
+        
+        if styling.isUppercase {
+            self.textCase = .uppercase
+        }
+        
+        // <+768>
+        guard let state else {
+            return
+        }
+        
+        if state.isSelected && state.isFocused {
+            self.backgroundProminence = .increased
+        } else {
+            self.backgroundProminence = .standard
+        }
+        
+        // <+908>
+        self.uiKitCellState = UIKitCellState(
+            isEditing: state.isEditing,
+            isSelected: state.isSelected,
+            isPinned: state.isPinned,
+            isFocused: state.isFocused
+        )
     }
 }

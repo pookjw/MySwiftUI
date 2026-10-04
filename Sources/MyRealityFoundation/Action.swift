@@ -43,7 +43,7 @@ extension EntityAction {
         
         if let existing = unsafe AnimationResource.actionTypeMap[typeName] {
             if existing != Self.self {
-                preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
+                fatalError("Action type name \(typeName) already registered for type \(String(describing: existing))")
             }
             
             return
@@ -157,7 +157,7 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
         
         if let existing = unsafe AnimationResource.codableActionTypeMap[typeName] {
             if existing.parameter != Self.self {
-                preconditionFailure("Action type name \(typeName) already registered for type \(String(describing: existing))")
+                fatalError("Action type name \(typeName) already registered for type \(String(describing: existing))")
             }
             
             return
