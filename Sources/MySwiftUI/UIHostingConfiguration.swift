@@ -50,7 +50,9 @@ public struct UIHostingConfiguration<Content, Background> : UIContentConfigurati
     }
     
     public func minSize(width: CGFloat? = nil, height: CGFloat? = nil) -> UIHostingConfiguration<Content, Background> {
-        assertUnimplemented()
+        var copy = self
+        copy.storage._minSize = (width, height)
+        return copy
     }
     
     @available(*, deprecated, message: "Please pass one or more parameters.")
@@ -77,7 +79,9 @@ public struct UIHostingConfiguration<Content, Background> : UIContentConfigurati
     }
     
     func animatedSizeInvalidationDisabled() -> UIHostingConfiguration<Content, Background> {
-        assertUnimplemented()
+        var copy = self
+        copy.storage.disablesAnimatedSizeInvalidation = true
+        return copy
     }
 }
 
@@ -120,9 +124,9 @@ struct IsInHostingConfiguration : ViewInputBoolFlag {}
 fileprivate struct UIHostingConfigurationStorage {
     var wantsBackground: Bool = true // 0x0
     var margins = OptionalEdgeInsets() // 0x14 (offset field)
-    private(set) var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
+    var _minSize: (CGFloat?, CGFloat?) = (nil, nil) // 0x18 (offset field)
     private(set) var createsUIInteractions: Bool = true // 0x1c (offset field)
-    private(set) var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
+    var disablesAnimatedSizeInvalidation: Bool = false // 0x20 (offset field)
     var lastState: UICellConfigurationState? = nil // 0x24 (offset field)
     private(set) var wantsPlatformItemList: Bool = false // 0x28 (offset field)
     private(set) weak var delegate: (any UIHostingViewDelegate)? = nil // 0x2c (offset field)

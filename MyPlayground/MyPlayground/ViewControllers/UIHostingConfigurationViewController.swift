@@ -20,7 +20,8 @@ final class UIHostingConfigurationViewController : UICollectionViewController {
                 Color.green
             }
 //            .margins(.all, EdgeInsets(top: 100, leading: 100, bottom: 100, trailing: 100))
-            .margins(.all, 100)
+//            .margins(.all, 100)
+            .minSize(width: 200, height: 200)
         }
         
         let listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
