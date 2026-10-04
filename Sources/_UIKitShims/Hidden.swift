@@ -235,7 +235,11 @@ fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration
     while let classType = _classType {
         let (ivarsCount, ivars) = withUnsafeTemporaryAllocation(of: UInt32.self, capacity: 1) { pointer in
             let ivars = unsafe class_copyIvarList(classType, pointer.baseAddress)
-            return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars!)
+            return unsafe (pointer.baseAddress.unsafelyUnwrapped.pointee, ivars)
+        }
+        
+        guard let ivars = unsafe ivars else {
+            return
         }
         
         defer {
@@ -256,15 +260,21 @@ fileprivate func iterateIvars(type: AnyClass, includeSuperclass: Bool, iteration
 }
 
 fileprivate func iterateIvars(object: AnyObject, iteration: (_ ivar: Ivar, _ name: String, _ offset: Int, _ pointer: UnsafeMutableRawPointer) -> Bool) {
-    unsafe iterateIvars(type: type(of: object), includeSuperclass: true) { ivar in
-        let name = unsafe String(cString: ivar_getName(ivar)!)
-        let offset = unsafe ivar_getOffset(ivar)
-        let pointer = unsafe Unmanaged
-            .passUnretained(object)
-            .toOpaque()
-            .advanced(by: offset)
+    var type: AnyClass? = type(of: object)
+    
+    while let _type = type {
+        unsafe iterateIvars(type: _type, includeSuperclass: true) { ivar in
+            let name = unsafe String(cString: ivar_getName(ivar)!)
+            let offset = unsafe ivar_getOffset(ivar)
+            let pointer = unsafe Unmanaged
+                .passUnretained(object)
+                .toOpaque()
+                .advanced(by: offset)
+            
+            return unsafe iteration(ivar, name, offset, pointer)
+        }
         
-        return unsafe iteration(ivar, name, offset, pointer)
+        type = _getSuperclass(_type)
     }
 }
 
