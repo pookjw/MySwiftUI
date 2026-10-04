@@ -299,7 +299,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         self.updateHostedViews()
     }
     
-    func _leadingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
+    final func _leadingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
         assertUnimplemented()
     }
     

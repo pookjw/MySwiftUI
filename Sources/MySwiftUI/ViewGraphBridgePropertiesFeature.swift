@@ -205,8 +205,17 @@ extension ViewGraphBridgePropertiesFeature {
             }
         }
         
-        func combine<T>(with other: T) -> Bool where T : GraphMutation {
-            assertUnimplemented()
+        mutating func combine<T>(with other: T) -> Bool where T : GraphMutation {
+            guard let casted = other as? ViewGraphBridgePropertiesFeature.BridgePropertiesMutation else {
+                return false
+            }
+            
+            guard casted._bridgeProperties == self._bridgeProperties else {
+                return false
+            }
+            
+            self.newValue = casted.newValue
+            return true
         }
     }
 }
