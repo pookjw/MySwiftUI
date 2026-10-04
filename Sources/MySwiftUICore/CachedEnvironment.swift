@@ -36,7 +36,7 @@ package struct CachedEnvironment {
         // sp + 0x180 (x29 - 0xa0 / x23 + 0x120)
         let copy_1 = inputs
         
-        guard !copy_1.base.options.isEmpty else {
+        guard copy_1.base.options.contains(.viewNeedsGeometry) else {
             return inputs.position
         }
         
@@ -217,29 +217,35 @@ extension CachedEnvironment {
         }
         
         @inlinable
-        func animatedPosition() -> Attribute<CGPoint> {
+        mutating func animatedPosition() -> Attribute<CGPoint> {
             if let _animatedPosition {
                 return _animatedPosition
             } else {
-                return animatedFrame[keyPath: \.origin]
+                let result = animatedFrame[keyPath: \.origin]
+                self._animatedPosition = result
+                return result
             }
         }
         
         @inlinable
-        func animatedSize() -> Attribute<ViewSize> {
+        mutating func animatedSize() -> Attribute<ViewSize> {
             if let _animatedSize {
                 return _animatedSize
             } else {
-                return animatedFrame[keyPath: \.size]
+                let result = animatedFrame[keyPath: \.size]
+                self._animatedSize = result
+                return result
             }
         }
         
         @inlinable
-        func animatedCGSize() -> Attribute<CGSize> {
+        mutating func animatedCGSize() -> Attribute<CGSize> {
             if let _animatedCGSize {
                 return _animatedCGSize
             } else {
-                return animatedFrame[keyPath: \.size.value]
+                let result = animatedFrame[keyPath: \.size.value]
+                self._animatedCGSize = result
+                return result
             }
         }
     }

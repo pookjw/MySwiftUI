@@ -62,7 +62,7 @@ private import _DarwinFoundation2._string
         // x1 = vtable = x24
         // x2 = T type = x21
         // x26
-        let bytes = (MemoryLayout<T>.size + MemoryLayout<UnsafeHeterogeneousBuffer.Item>.size)
+        let bytes = (MemoryLayout<T>.size + MemoryLayout<UnsafeHeterogeneousBuffer.Item>.size + 15) & ~15
         // x25
         let pointer = unsafe allocate(bytes: bytes)
         let item = unsafe pointer.assumingMemoryBound(to: Item.self)
@@ -199,7 +199,7 @@ private import _DarwinFoundation2._string
         
         var x22 = Swift.max((capacity &<< 1), 0x40)
         while x22 < total {
-            x22 = (x22 &<< 2)
+            x22 = (x22 &<< 1)
         }
         
         let newBuf = UnsafeMutableRawPointer.allocate(byteCount: x22, alignment: 0)

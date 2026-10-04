@@ -98,5 +98,6 @@ fileprivate struct ImmersionStyleChangeObservation : StatefulRule {
         var seed = self.seed
         self.value = ImmersiveSpaceSceneUpdateTransition(style: style, seed: seed)
         self.seed = seed &+ 1
+        self.previousImmersionStyle = selection
     }
 }

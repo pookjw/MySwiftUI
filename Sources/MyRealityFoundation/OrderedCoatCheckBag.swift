@@ -37,7 +37,7 @@ extension OrderedCoatCheckBag {
         fileprivate private(set) var _ptr: UnsafeRawPointer
         
         func hash(into hasher: inout Hasher) {
-            unsafe hasher.combine(UInt(bitPattern: self._ptr))
+            unsafe hasher.combine(self._key)
         }
     }
 }

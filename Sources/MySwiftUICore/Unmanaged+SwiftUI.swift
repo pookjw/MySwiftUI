@@ -18,7 +18,6 @@ extension Unmanaged {
     
     @_transparent
     func map<T : AnyObject>(_ transform: ((Instance) -> T?)) -> Unmanaged<T>? {
-        _ = unsafe _withUnsafeGuaranteedRef(transform)
         return unsafe _withUnsafeGuaranteedRef { instance in
             guard let value = transform(instance) else {
                 return nil

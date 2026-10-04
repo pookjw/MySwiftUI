@@ -39,6 +39,7 @@ extension RunLoop {
                 },
                 nil
             )
+            unsafe observer = _observer
             
             CFRunLoopAddObserver(runLoop, _observer, .commonModes)
         }
@@ -61,18 +62,11 @@ extension RunLoop {
             
             observerActions = []
             
-            Update.begin()
-            
-            let actionID = Update.Action.nextActionID
-            Update.Action.nextActionID &+= 2
-            
-            for action in actions {
-                CustomEventTrace.startAction(actionID, nil)
-                action()
-                CustomEventTrace.finishAction(actionID, nil)
+            Update.dispatchImmediately(reason: nil) {
+                for action in actions {
+                    action()
+                }
             }
-            
-            Update.end()
         }
     }
 }

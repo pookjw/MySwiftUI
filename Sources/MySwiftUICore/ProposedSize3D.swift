@@ -107,21 +107,24 @@ package import Spatial
     func inset(by insets: EdgeInsets3D) -> _ProposedSize3D {
         let width: CGFloat?
         if let _width = self.width {
-            width = max(0, _width - insets.leading - insets.trailing)
+            let insetWidth = _width - (insets.leading + insets.trailing)
+            width = insetWidth >= 0 ? insetWidth : 0
         } else {
             width = nil
         }
         
         let height: CGFloat?
         if let _height = self.height {
-            height = max(0, _height - insets.top - insets.bottom)
+            let insetHeight = _height - (insets.top + insets.bottom)
+            height = insetHeight >= 0 ? insetHeight : 0
         } else {
             height = nil
         }
         
         let depth: CGFloat?
         if let _depth = self.depth {
-            depth = max(0, _depth - insets.front - insets.back)
+            let insetDepth = _depth - (insets.front + insets.back)
+            depth = insetDepth >= 0 ? insetDepth : 0
         } else {
             depth = nil
         }

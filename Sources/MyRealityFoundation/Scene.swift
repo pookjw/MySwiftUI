@@ -573,6 +573,7 @@ extension Scene.AnchorCollection : @MainActor CustomStringConvertible {
     }
     
     package nonisolated init(coreScene: OpaquePointer) {
+        unsafe __RERetain(coreScene)
         unsafe self.coreScene = coreScene
         
 #if RealityKitCompatibility

@@ -319,6 +319,7 @@ extension ComponentInfo {
         public let patch: Int
         
         public init(_ major: Int, _ minor: Int, _ patch: Int) {
+            precondition(major >= 0 && minor >= 0 && patch >= 0)
             self.major = major
             self.minor = minor
             self.patch = patch

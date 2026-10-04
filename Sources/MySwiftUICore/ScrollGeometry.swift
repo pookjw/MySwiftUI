@@ -3,10 +3,20 @@
 public import CoreGraphics
 
 public struct ScrollGeometry : Equatable, Sendable {
-    public var contentOffset: CGPoint
+    public var contentOffset: CGPoint {
+        didSet {
+            visibleRect.origin.x += contentOffset.x - oldValue.x
+            visibleRect.origin.y += contentOffset.y - oldValue.y
+        }
+    }
     public var contentSize: CGSize
     public var contentInsets: EdgeInsets
-    public var containerSize: CGSize
+    public var containerSize: CGSize {
+        didSet {
+            visibleRect.size.width += containerSize.width - oldValue.width
+            visibleRect.size.height += containerSize.height - oldValue.height
+        }
+    }
     public var visibleRect: CGRect
     
     public var bounds: CGRect {

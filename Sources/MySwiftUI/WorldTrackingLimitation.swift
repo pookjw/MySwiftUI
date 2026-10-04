@@ -4,8 +4,8 @@ public import MySwiftUICore
 public struct WorldTrackingLimitation : Hashable, Sendable {
     public let value: UInt
     
-    public static let translation = WorldTrackingLimitation(value: MRUIWorldTrackingCapabilities.translation.rawValue)
-    public static let orientation = WorldTrackingLimitation(value: MRUIWorldTrackingCapabilities.orientation.rawValue) 
+    public static let translation = WorldTrackingLimitation(value: 0)
+    public static let orientation = WorldTrackingLimitation(value: 1)
 }
 
 extension EnvironmentValues {

@@ -44,9 +44,9 @@ extension ViewTransform {
                 // sp
                 let point = Point3D(
                     vector: simd_double3(
-                        x: -d1,
-                        y: -x8,
-                        z: -d0
+                        x: 0 - d1,
+                        y: 0 - x8,
+                        z: 0 - d0
                     )
                 )
                 
@@ -79,6 +79,10 @@ extension ViewTransform {
     }
     
     mutating func appendDepthTranslation(_ depth: CGFloat) {
+        guard depth != 0 else {
+            return
+        }
+
         let element = DepthTranslationElement(depth: depth)
         self.updateHead(element: element)
     }
@@ -100,7 +104,7 @@ extension ViewTransform.UnsafeBuffer {
             
             if inverse {
                 // sp
-                let point = Point3D(x: size.width, y: -size.height, z: -size.depth)
+                let point = Point3D(x: 0 - size.width, y: 0 - size.height, z: 0 - size.depth)
                 let element = Translation3DElement(offset: Size3D(point))
                 append(element)
             } else {

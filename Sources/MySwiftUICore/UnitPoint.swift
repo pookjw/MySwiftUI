@@ -31,11 +31,11 @@ extension UnitPoint : Animatable {
     
     public var animatableData: UnitPoint.AnimatableData {
         get {
-            return AnimatablePair(x, y)
+            return AnimatablePair(x * 128, y * 128)
         }
         set {
-            x = newValue.first
-            y = newValue.second
+            x = newValue.first * (1.0 / 128)
+            y = newValue.second * (1.0 / 128)
         }
     }
 }
@@ -72,7 +72,7 @@ public struct UnitPoint3D : Hashable {
     public static let leading = UnitPoint3D(x: 0, y: 0.5, z: 0.5)
     public static let leadingBack = UnitPoint3D(x: 0, y: 0.5, z: 0)
     public static let leadingFront = UnitPoint3D(x: 0, y: 0.5, z: 1)
-    public static let top = UnitPoint3D(x: 0.5, y: 0.5, z: 0.5)
+    public static let top = UnitPoint3D(x: 0.5, y: 0, z: 0.5)
     public static let topBack = UnitPoint3D(x: 0.5, y: 0, z: 0)
     public static let topFront = UnitPoint3D(x: 0.5, y: 0, z: 1)
     public static let topLeading = UnitPoint3D(x: 0, y: 0, z: 0.5)

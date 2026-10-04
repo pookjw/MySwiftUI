@@ -770,7 +770,7 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
             return false
         }
         
-        guard self.phase.base != casted.phase.base else {
+        guard self.phase.base == casted.phase.base else {
             return false
         }
         

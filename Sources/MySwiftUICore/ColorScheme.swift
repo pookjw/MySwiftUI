@@ -27,10 +27,10 @@ extension EnvironmentValues {
     
     package var glassColorScheme: ColorScheme? {
         get {
-            return self[ExplicitPreferredColorSchemeKey.self]
+            return self[ExplicitColorSchemeKey.self]
         }
         set {
-            self[ExplicitPreferredColorSchemeKey.self] = newValue 
+            self[ExplicitColorSchemeKey.self] = newValue
         }
     }
     

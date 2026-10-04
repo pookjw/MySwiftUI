@@ -215,7 +215,7 @@ extension Transaction {
         
         // <+120>
         // merged
-        if let first = self.animationLogicalListener {
+        if let first = self.animationListener {
             // <+144>
             self.animationListener = ListenerPair(first: first, second: listener)
         } else {

@@ -1,11 +1,11 @@
 @_spi(Internal) internal import MySwiftUICore
 
 struct PersistentSystemOverlaysKey : HostPreferenceKey {
-    static var defaultValue: (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?) {
-        return (nil, nil)
+    static var defaultValue: PersistentSystemOverlaysKey.Overlays? {
+        return nil
     }
     
-    static func reduce(value: inout (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?), nextValue: () -> (preferences: PersistentSystemOverlaysKey.Overlays?, environment: Visibility?)) {
+    static func reduce(value: inout PersistentSystemOverlaysKey.Overlays?, nextValue: () -> PersistentSystemOverlaysKey.Overlays?) {
         assertUnimplemented()
     }
     

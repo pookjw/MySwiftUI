@@ -93,6 +93,7 @@ package struct ViewTransform {
             element: element
         )
         self.head = element
+        pendingTranslation = .zero
     }
     
     func coordinateSpaceTag(_ coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag? {
@@ -597,7 +598,7 @@ extension ViewTransform {
                 // <+228>
                 if (transform.tx != 0) || (transform.ty != 0) {
                     // <+244>
-                    let element = TranslationElement(offset: CGSize(width: transform.tx, height: transform.ty))
+                    let element = TranslationElement(offset: CGSize(width: inverse ? -transform.tx : transform.tx, height: inverse ? -transform.ty : transform.ty))
                     append(element)
                 } else {
                     // <+388>

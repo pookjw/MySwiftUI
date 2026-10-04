@@ -46,7 +46,6 @@ extension Point3D : LengthUnitConvertible {
         self.x *= scale
         self.y *= scale
         self.z *= scale
-        unsafe self.vector *= scale
     }
 }
 

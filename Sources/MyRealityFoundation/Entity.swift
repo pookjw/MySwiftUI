@@ -517,7 +517,7 @@ extension Entity {
             return Entity.ComponentSet(entity: self)
         }
         set {
-            unsafe self.coreEntity = newValue.entity.coreEntity
+            precondition(unsafe self.coreEntity == newValue.entity.coreEntity)
         }
     }
     

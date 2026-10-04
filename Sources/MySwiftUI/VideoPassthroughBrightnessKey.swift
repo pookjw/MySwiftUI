@@ -22,7 +22,7 @@ struct VideoPassthroughBrightnessKey : MRUIBridgedPreferenceKey, HostPreferenceK
             return nil
         }
         
-        return value.brightness as NSNumber
+        return (2.0 * value.brightness - 1.0) as NSNumber
     }
     
     static func value(from bridgedValue: NSNumber?) -> VideoPassthroughBrightnessKey.PreferredValue? {

@@ -28,7 +28,7 @@ public import Spatial
     
     open override func visit(applying: (ResponderNode) -> ResponderVisitorResult) -> ResponderVisitorResult {
         let result = applying(self)
-        guard result != .next else {
+        guard result == .next else {
             return result
         }
         

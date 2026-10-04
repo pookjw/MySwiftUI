@@ -555,7 +555,7 @@ extension CollectionChanges {
             self.kind = kind
             self.changes = changes
             self.startIndex = firstIndex ?? 0
-            self.endIndex = lastIndex ?? 0
+            self.endIndex = (lastIndex ?? -1) + 1
         }
         
         func index(before i: Int) -> Int {
@@ -587,7 +587,7 @@ extension CollectionChanges {
                 return endIndex
             }
             
-            let changes2 = self.changes[PartialRangeThrough<Int>(i2)]
+            let changes2 = self.changes[PartialRangeFrom<Int>(i2)]
             
             guard let result = changes2.firstIndex(where: { $0.kind == kind }) else {
                 fatalError("index out of bounds: \(i)")

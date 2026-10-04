@@ -209,20 +209,20 @@ extension CGSize {
     package static let invalidValue = CGSize(width: -.infinity, height: -.infinity)
     
     func inset(by insets: EdgeInsets) -> CGSize {
-        var d0 = height
-        var d1 = width
-        let d2 = insets.trailing
-        var d3 = insets.bottom
-        var d4 = insets.leading
-        let d5 = insets.top
+        var d0 = insets.top
+        var d1 = insets.leading
+        let d2 = insets.bottom
+        var d3 = insets.trailing
+        var d4 = width
+        let d5 = height
         
         d1 += d3
-        d1 -= d4
+        d1 = d4 - d1
         d4 = 0
         d3 = (d1 >= 0) ? d1 : d4
         
         d0 += d2
-        d0 -= d5
+        d0 = d5 - d0
         d1 = (d0 >= 0) ? d0 : d4
         
         return CGSize(width: d3, height: d1)

@@ -122,16 +122,19 @@ package enum Update {
     
     package static func dispatchImmediately<T>(reason: CustomEventTrace.ActionEventType.Reason?, _ handler: () -> T) -> T {
         Update.begin()
+        let previousDispatchDepth = Update.dispatchDepth
+        Update.dispatchDepth = Update.depth
         
-        let actionID = Update.Action.nextActionID
+        let actionID = (Update.Action.nextActionID &>> 1) + 1
         Update.Action.nextActionID &+= 2
         
         defer {
             CustomEventTrace.finishAction(actionID, reason)
+            Update.dispatchDepth = previousDispatchDepth
             Update.end()
         }
         
-        CustomEventTrace.startAction(actionID, nil)
+        CustomEventTrace.startAction(actionID, reason)
         return handler()
     }
     
@@ -225,9 +228,7 @@ package enum Update {
                         // x24
                         let depth = Update.depth
                         
-                        CustomEventTrace.startAction(action.actionID, action.reason)
                         action()
-                        CustomEventTrace.finishAction(action.actionID, action.reason)
                         
                         guard depth == Update.depth else {
                             fatalError("Action caused unbalanced updates.")

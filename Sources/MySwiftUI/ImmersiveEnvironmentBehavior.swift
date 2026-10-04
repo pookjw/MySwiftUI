@@ -13,11 +13,11 @@ public struct ImmersiveEnvironmentBehavior : Equatable, Sendable {
     }
     
     public static var coexist: ImmersiveEnvironmentBehavior {
-        return ImmersiveEnvironmentBehavior(storage: .hide)
+        return ImmersiveEnvironmentBehavior(storage: .coexist)
     }
     
     public static var replace: ImmersiveEnvironmentBehavior {
-        return ImmersiveEnvironmentBehavior(storage: .coexist)
+        return ImmersiveEnvironmentBehavior(storage: .hide)
     }
 }
 

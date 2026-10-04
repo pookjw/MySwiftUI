@@ -23,9 +23,9 @@ public import CoreGraphics
     open override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
         if platformViewIsEnabled || options.contains(.allowDisabledViews) {
             if options.contains(.crossingServerIDBoundary) {
-                return (serverResponderID != nil) ? .include : .exclude
-            } else {
                 return .include
+            } else {
+                return (serverResponderID != nil) ? .exclude : .include
             }
         } else {
             return .exclude

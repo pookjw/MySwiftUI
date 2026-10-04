@@ -3,8 +3,8 @@ private import MySwiftUICore
 
 extension UIHostingController {
     final var _persistentSystemOverlays: Visibility {
-        if let result = persistentSystemOverlays.environment {
-            return result
+        if let result = persistentSystemOverlays.preferences {
+            return result.visibility
         }
         
         if let result = secondaryRootSystemOverlaysValue {

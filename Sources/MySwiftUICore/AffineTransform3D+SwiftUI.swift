@@ -25,7 +25,7 @@ extension AffineTransform3D {
         
         // sp + 0x40
         let point = Point3D(
-            simd_double3(Double(srt.t.x), Double(srt.t.x), Double(srt.t.z))
+            simd_double3(Double(srt.t.x), Double(srt.t.y), Double(srt.t.z))
         )
         
         // sp + 0x80

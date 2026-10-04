@@ -81,6 +81,7 @@ package struct ViewDepth : Equatable, Animatable {
         _modify {
             var newValue = value
             yield &newValue
+            value = newValue
             didSetAnimatableData(newValue)
         }
     }

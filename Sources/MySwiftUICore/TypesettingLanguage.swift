@@ -31,7 +31,7 @@ struct TypesettingLanguageAwareLineHeightRatio {
     
     static func custom(_ ratio: Double) -> TypesettingLanguageAwareLineHeightRatio {
         return TypesettingLanguageAwareLineHeightRatio(
-            storage: .custom(max(1, max(0, ratio)))
+            storage: .custom(min(1, max(0, ratio)))
         )
     }
 }

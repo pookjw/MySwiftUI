@@ -128,31 +128,31 @@ package struct ViewSize : Equatable, Animatable {
     }
     
     func inset(by insets: EdgeInsets) -> ViewSize {
-        var width = value.width - insets.leading - insets.trailing
+        var width = value.width - (insets.leading + insets.trailing)
         if width.isNaN {
             width = 0
         } else if width < 0 {
             width = 0
         }
         
-        var height = value.height - insets.top - insets.bottom
+        var height = value.height - (insets.top + insets.bottom)
         if height.isNaN {
             height = 0
         } else if height < 0 {
             height = 0
         }
         
-        var proposalWidth = _proposal.width - insets.leading - insets.trailing
-        if proposalWidth.isNaN {
+        var proposalWidth = _proposal.width - (insets.leading + insets.trailing)
+        if _proposal.width.isNaN {
             proposalWidth = .nan
-        } else if proposalWidth < 0 {
+        } else if proposalWidth.isNaN || proposalWidth < 0 {
             proposalWidth = 0
         }
         
-        var proposalHeight = _proposal.height - insets.top - insets.bottom
-        if proposalHeight.isNaN {
+        var proposalHeight = _proposal.height - (insets.top + insets.bottom)
+        if _proposal.height.isNaN {
             proposalHeight = .nan
-        } else if proposalHeight < 0 {
+        } else if proposalHeight.isNaN || proposalHeight < 0 {
             proposalHeight = 0
         }
         

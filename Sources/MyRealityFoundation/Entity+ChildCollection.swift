@@ -58,7 +58,7 @@ extension Entity {
         @MainActor @preconcurrency public func append<S>(contentsOf sequence: S, preservingWorldTransforms: Bool = false) where S : Sequence, S.Element : Entity {
             sequence.forEach { child in
                 // $s10RealityKit6EntityC15ChildCollectionV6append10contentsOf25preservingWorldTransformsyx_SbtSTRzAC7ElementRczlFyAJXEfU_TA
-                self.doAppend(child, preservingWorldTransform: false)
+                self.doAppend(child, preservingWorldTransform: preservingWorldTransforms)
             }
         }
         

@@ -117,8 +117,8 @@ fileprivate struct ObjectLocation<T : AnyObject, U> : Equatable, Location {
     }
     
     static func == (lhs: ObjectLocation<T, U>, rhs: ObjectLocation<T, U>) -> Bool {
-        if lhs.base === rhs.base {
-            return true
+        if lhs.base !== rhs.base {
+            return false
         }
         
         return lhs.keyPath == rhs.keyPath

@@ -113,7 +113,7 @@ extension FocusViewGraph : ViewGraphFeature {
             
             // OnFocusModifier
             graph.asyncTransaction(
-                mutation: IsFocusSystemEnabledMutation(value: wasFocusSystemEnabled),
+                mutation: IsFocusSystemEnabledMutation(attr: WeakAttribute($isFocusSystemEnabled), value: wasFocusSystemEnabled),
                 style: .deferred
             )
         }
@@ -127,7 +127,8 @@ extension FocusViewGraph {
         var attr = WeakAttribute<Bool>()
         var value: Bool
         
-        init(value: Bool) {
+        init(attr: WeakAttribute<Bool>, value: Bool) {
+            self.attr = attr
             self.value = value
         }
         

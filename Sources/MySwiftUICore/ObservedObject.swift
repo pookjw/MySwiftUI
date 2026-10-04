@@ -89,7 +89,7 @@ fileprivate struct ObservedObjectPropertyBox<ObjectType : ObservableObject> : Dy
             if isLinkedOnOrAfter(.v6) {
                 w28 = false
             } else {
-                w28 = (ObjectType.self != Combine::ObservableObjectPublisher.self)
+                w28 = (ObjectType.ObjectWillChangePublisher.self != Combine::ObservableObjectPublisher.self)
             }
             
             // <+284>

@@ -18,7 +18,7 @@ struct AnyHashable2 : Hashable, CustomStringConvertible, CustomDebugStringConver
     }
     
     var anyHashable: AnyHashable {
-        return AnyHashable2(box.anyValue)
+        return AnyHashable(box.anyValue)
     }
     
     func hash(into hasher: inout Hasher) {

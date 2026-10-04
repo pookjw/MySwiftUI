@@ -623,7 +623,7 @@ extension Color {
         static var clear: Color.ResolvedHDR {
             return Color.ResolvedHDR(
                 Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0),
-                headroom: 0
+                headroom: .nan
             )
         }
         

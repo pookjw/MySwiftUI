@@ -97,7 +97,7 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
             }
             
             // x21
-            let transaction = Transaction.current
+            let transaction = transaction.current
             // sp + 0xc
             let transactionID = Transaction.ID(value: _threadTransactionID(false))
             let beginUpdate = StoredLocationBase.BeginUpdate(box: self)
@@ -115,6 +115,7 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
     }
     
     override func update() -> (Value, Bool) {
+        wasRead = true
         return (updateValue, true)
     }
     

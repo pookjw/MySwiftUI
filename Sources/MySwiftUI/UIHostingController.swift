@@ -1178,7 +1178,7 @@ open class UIHostingController<Content : View>: UIViewController {
         // <+100>
         self.persistentSystemOverlays.environment = overlays1.visibility
         
-        if self.persistentSystemOverlays.preferences != nil {
+        if self.persistentSystemOverlays.preferences == nil {
             updateHomeIndicator(animated: false)
         }
     }
@@ -1681,8 +1681,8 @@ open class UIHostingController<Content : View>: UIViewController {
             return
         }
         
-        self.persistentSystemOverlays = preferences[PersistentSystemOverlaysKey.self].value
-        let animated = self.persistentSystemOverlays.preferences != nil
+        self.persistentSystemOverlays.preferences = preferences[PersistentSystemOverlaysKey.self].value
+        let animated = self.persistentSystemOverlays.preferences?.isAnimated ?? false
         self.shouldDeferPersistentSystemOverlaysToChildViewController = preferences[HostingGestureOverlayAuthorityKey.self].value
         
         updateHomeIndicator(animated: animated)
@@ -1803,9 +1803,9 @@ extension SizingPreferences {
                     let d5 = size3D.depth
                     
                     if (d2 < d3) || (d1 < d4) || (d0 < d5) {
-                        return false
-                    } else {
                         return true
+                    } else {
+                        return false
                     }
                 } else {
                     // <+292>

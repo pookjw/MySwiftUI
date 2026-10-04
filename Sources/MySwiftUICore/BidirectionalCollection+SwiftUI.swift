@@ -19,14 +19,14 @@ extension BidirectionalCollection where Self : MutableCollection {
             var beforeIndex = index
             
             repeat {
-                formIndex(before: &beforeIndex)
-                let before = self[beforeIndex]
+                let previousIndex = self.index(before: beforeIndex)
+                let before = self[previousIndex]
                 
                 do {
                     let result = try block(value, before)
                     if result {
                         // <+912>
-                        self[index] = before
+                        self[beforeIndex] = before
                         formIndex(before: &beforeIndex)
                     } else {
                         // <+1108>
@@ -34,7 +34,7 @@ extension BidirectionalCollection where Self : MutableCollection {
                     }
                 } catch {
                     // <+1260>
-                    self[index] = value
+                    self[beforeIndex] = value
                     throw error
                 }
             } while beforeIndex != startIndex

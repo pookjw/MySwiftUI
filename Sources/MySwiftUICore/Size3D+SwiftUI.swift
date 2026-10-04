@@ -3,11 +3,15 @@ package import CoreGraphics
 
 extension Size3D {
     func inset(by insets: EdgeInsets3D) -> Size3D {
-        let width = max(0, width - insets.leading - insets.trailing)
-        let height = max(0, height - insets.top - insets.bottom)
-        let depth = max(0, depth - insets.front - insets.back)
+        let width = width - (insets.leading + insets.trailing)
+        let height = height - (insets.top + insets.bottom)
+        let depth = depth - (insets.front + insets.back)
         
-        return Size3D(width: width, height: height, depth: depth)
+        return Size3D(
+            width: width >= 0 ? width : 0,
+            height: height >= 0 ? height : 0,
+            depth: depth >= 0 ? depth : 0
+        )
     }
     
     package init(_ size: CGSize, depth: CGFloat) {
