@@ -262,6 +262,7 @@ func printOffsets() {
     printFields("7SwiftUI23AccessibilityPropertiesV", isClassType: false)
     printFields(_ShapeStyle_Shape.self, isClassType: false)
     printFields("7SwiftUI16_ShapeStyle_PackV0D0V", isClassType: false)
+    printFields("7SwiftUI12SwipeActionsO13ConfigurationV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

@@ -1,4 +1,5 @@
 @_spi(Internal) internal import MySwiftUICore
+private import AttributeGraph
 
 extension ViewGraph {
     func setFocusStore(_ focusStore: FocusStore) {
@@ -63,6 +64,22 @@ extension ViewGraph {
         if changed {
             if let delegate {
                 delegate.graphDidChange()
+            }
+        }
+    }
+    
+    func swipeActions() -> SwipeActions.Value? {
+        return Update.dispatchImmediately(reason: nil) {
+            // $s7SwiftUI9ViewGraphCAAE12swipeActionsAA05SwipeF0O5ValueVSgyFAIyXEfU_TA.8
+            return Graph.withoutUpdate { 
+                guard
+                    let value = unsafe self[SwipeActions.Feature.self],
+                    let attribute = unsafe value.pointee.swipeActions
+                else {
+                    return nil
+                }
+                
+                return attribute.wrappedValue
             }
         }
     }

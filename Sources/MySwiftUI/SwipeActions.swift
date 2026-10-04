@@ -1,9 +1,10 @@
 @_spi(Internal) internal import MySwiftUICore
-private import AttributeGraph
+internal import AttributeGraph
+internal import CoreGraphics
 
 enum SwipeActions {
     struct Feature : ViewGraphFeature {
-        private var swipeActions: WeakAttribute<SwipeActions.Value>?
+        private(set) var swipeActions: WeakAttribute<SwipeActions.Value>?
         
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
             inputs.preferences.add(SwipeActions.Key.self)
@@ -15,7 +16,7 @@ enum SwipeActions {
     }
     
     struct Key : PreferenceKey {
-        static let defaultValue = SwipeActions.Value(leading: nil, trailing: nil)
+        @safe static nonisolated(unsafe) let defaultValue = SwipeActions.Value(leading: nil, trailing: nil)
         
         static func reduce(value: inout SwipeActions.Value, nextValue: () -> SwipeActions.Value) {
             assertUnimplemented()
@@ -23,11 +24,34 @@ enum SwipeActions {
     }
     
     struct Value {
-        fileprivate private(set) var leading: SwipeActions.Configuration?
-        fileprivate private(set) var trailing: SwipeActions.Configuration?
+        private(set) var leading: SwipeActions.Configuration?
+        private(set) var trailing: SwipeActions.Configuration?
     }
     
     struct Configuration {
-        // TODO
+        private var allowsFullSwipe: Bool // 0x0
+        private var edge: HorizontalEdge // 0x1
+        private var style: SwipeActionsStyle // 0x8
+        private var itemList: PlatformItemList // 0x18
+        private var isPresented: Binding<Bool>? // 0x20
+        private(set) var resultToken: Binding<SwipeActionResultToken?>? // 0x38
     }
+}
+
+struct SwipeActionsStyle {
+    private var storage: SwipeActionsStyle.Storage
+}
+
+extension SwipeActionsStyle {
+    enum Storage {
+        case rounded(radius: CGFloat?)
+        case automatic
+        case standard
+    }
+}
+
+struct SwipeActionResultToken {
+    let role: ButtonRole
+    private(set) var completion: ((Bool) -> Void)?
+    private(set) var performDestructiveAction: (() -> Void)?
 }

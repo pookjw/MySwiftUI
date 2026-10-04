@@ -300,7 +300,26 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
     }
     
     final func _leadingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
-        assertUnimplemented()
+        // inlined
+        guard let actions = self.viewGraph.swipeActions() else {
+            return nil
+        }
+        
+        // <+384>
+        guard let configuration = actions.leading else {
+            return nil
+        }
+        
+        let result = UISwipeActionsConfiguration(
+            configuration: configuration,
+            graphHost: nil,
+            performDestructiveAction: { handler in
+                // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC33_leadingSwipeActionsConfigurationSo07UISwipeoP0CSgyFAgA0nO0O0P0VXEfU_yySbccfU_
+                handler(true)
+            }
+        )
+        
+        return result
     }
     
     final var _popupMenuButton: UIButton? {
@@ -323,8 +342,44 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         assertUnimplemented()
     }
     
-    func _trailingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
-        assertUnimplemented()
+    final func _trailingSwipeActionsConfiguration() -> UISwipeActionsConfiguration? {
+        // inlined
+        guard let actions = self.viewGraph.swipeActions() else {
+            return nil
+        }
+        
+        // <+404>
+        guard let configuration = actions.trailing else {
+            return nil
+        }
+        
+        let block: (SwipeActions.Configuration) -> UISwipeActionsConfiguration? = { configuration in
+            // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC34_trailingSwipeActionsConfigurationSo07UISwipeoP0CSgyFAgA0nO0O0P0VXEfU_
+            return UISwipeActionsConfiguration(
+                configuration: configuration,
+                graphHost: self.viewGraph,
+                performDestructiveAction: { [weak self = self] handler in
+                    // $s7SwiftUI20UIHostingContentView33_57D99A1BF35446A09F91A1066009F644LLC34_trailingSwipeActionsConfigurationSo07UISwipeoP0CSgyFAgA0nO0O0P0VXEfU_yySbccfU_TA
+                    guard self != nil else {
+                        handler(false)
+                        return
+                    }
+                    
+                    guard let resultToken = configuration.resultToken else {
+                        handler(true)
+                        return
+                    }
+                    
+                    resultToken.wrappedValue = SwipeActionResultToken(
+                        role: .destructive,
+                        completion: handler,
+                        performDestructiveAction: nil
+                    )
+                }
+            )
+        }
+        
+        return block(configuration)!
     }
     
     override func layoutMarginsDidChange() {
