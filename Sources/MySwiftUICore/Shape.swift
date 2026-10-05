@@ -243,7 +243,20 @@ protocol ShapeStyledLeafView : ContentResponder {
 }
 
 extension ShapeStyledLeafView {
-    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs, styles: Attribute<_ShapeStyle_Pack>, interpolatorGroup: _ShapeStyle_InterpolatorGroup?, data: Self.ShapeUpdateData) -> _ViewOutputs {
+    static nonisolated func makeLeafView(
+        view: _GraphValue<Self>,
+        inputs: _ViewInputs,
+        styles: Attribute<_ShapeStyle_Pack>,
+        interpolatorGroup: _ShapeStyle_InterpolatorGroup?,
+        data: Self.ShapeUpdateData
+    ) -> _ViewOutputs {
+        /*
+         view -> x0
+         inputs -> x1
+         styles -> x2
+         interpolatorGroup -> x3
+         data -> x4
+         */
         assertUnimplemented()
     }
     
@@ -283,7 +296,45 @@ extension ShapeStyledLeafView where ShapeUpdateData == Void {
 }
 
 final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
-    // TODO
+    private var layers: [_ShapeStyle_InterpolatorGroup.Layer]
+    private var contentsScale: Float
+    private var rasterizationOptions: RasterizationOptions
+    private var serial: UInt32
+    private var cursor: Int32
+    
+    override func reset() {
+        assertUnimplemented()
+    }
+    
+    override func nextUpdate(after time: Time) -> Time {
+        assertUnimplemented()
+    }
+    
+    override var features: DisplayList.Features {
+        assertUnimplemented()
+    }
+    
+    override var properties: DisplayList.Properties {
+        assertUnimplemented()
+    }
+    
+    override func update(contentSeed: DisplayList.Seed, transition: ContentTransition, animation: Animation?, listener: AnimationListener?, contentsScale: Float, rasterizationOptions: RasterizationOptions, supportsVFD: Bool) {
+        assertUnimplemented()
+    }
+    
+    override func rewriteInterpolation(serial: UInt32, list: inout DisplayList, time: Attribute<Time>, frame: CGRect, contentOrigin: CGPoint, contentOffset: CGSize, version: DisplayList.Version) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override init() {
+        assertUnimplemented()
+    }
+}
+
+extension _ShapeStyle_InterpolatorGroup {
+    fileprivate struct Layer {
+        // TODO
+    }
 }
 
 public protocol ShapeView<Content> : View, _RemoveGlobalActorIsolation {
@@ -334,7 +385,7 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
 }
 
 struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, PrimitiveView, UnaryView, @preconcurrency LeafViewLayout {
-    typealias ShapeUpdateData = Void // TODO
+    typealias ShapeUpdateData = Void
     
     func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
         assertUnimplemented()

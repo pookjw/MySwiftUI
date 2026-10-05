@@ -1104,7 +1104,39 @@ extension DisplayList {
     }
     
     package class InterpolatorGroup {
-        // TODO
+        private var maxDuration: Double
+        
+        func reset() {
+            // noop
+        }
+        
+        func nextUpdate(after time: Time) -> Time {
+            return .infinity
+        }
+        
+        var isAnimating: Bool {
+            return false
+        }
+        
+        var features: DisplayList.Features {
+            return []
+        }
+        
+        var properties: DisplayList.Properties {
+            return []
+        }
+        
+        func update(contentSeed: DisplayList.Seed, transition: ContentTransition, animation: Animation?, listener: AnimationListener?, contentsScale: Float, rasterizationOptions: RasterizationOptions, supportsVFD: Bool) {
+            // noop
+        }
+        
+        func rewriteInterpolation(serial: UInt32, list: inout DisplayList, time: Attribute<Time>, frame: CGRect, contentOrigin: CGPoint, contentOffset: CGSize, version: DisplayList.Version) -> Bool {
+            return false
+        }
+        
+        init() {
+            self.maxDuration = .infinity
+        }
     }
     
     package enum PlatformEffect {
