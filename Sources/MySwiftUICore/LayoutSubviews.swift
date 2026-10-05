@@ -633,7 +633,7 @@ struct ViewSizeCache {
         self.cache = cache
     }
     
-    @inline(always) mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
+    mutating func get(_ key: _ProposedSize, makeValue: () -> CGSize) -> CGSize {
         let depth: CGFloat?
         if let layoutDepthData = unsafe _threadLayoutDepthData() {
             depth = unsafe layoutDepthData

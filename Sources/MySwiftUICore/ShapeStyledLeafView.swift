@@ -124,20 +124,20 @@ extension ShapeStyledLeafView where ShapeUpdateData == Void {
 }
 
 fileprivate struct ShapeStyledDisplayList<T : ShapeStyledLeafView> : AsyncAttribute, StatefulRule {
-    private let group: _ShapeStyle_InterpolatorGroup?
-    private let identity: _DisplayList_Identity
-    @Attribute private var view: Attribute<T>
-    @Attribute private var styles: Attribute<_ShapeStyle_Pack>
-    @Attribute private var size: Attribute<CGSize>
-    @Attribute private var animatedSize: Attribute<ViewSize>
-    @Attribute private var position: Attribute<CGPoint>
-    @Attribute private var containerPosition: Attribute<CGPoint>
-    @Attribute private var transform: Attribute<ViewTransform>
-    @Attribute private var environment: Attribute<EnvironmentValues>
-    @OptionalAttribute private var safeAreaInsets: SafeAreaInsets?
-    private let options: DisplayList.Options
-    private let data: T.ShapeUpdateData
-    private var contentSeed: DisplayList.Seed
+    private let group: _ShapeStyle_InterpolatorGroup? // 0x0
+    private let identity: _DisplayList_Identity // 0x8
+    @Attribute private var view: T // 0xc
+    @Attribute private var styles: _ShapeStyle_Pack // 0x10
+    @Attribute private var size: CGSize // 0x14
+    @Attribute private var animatedSize: ViewSize // 0x18
+    @Attribute private var position: CGPoint // 0x1c
+    @Attribute private var containerPosition: CGPoint // 0x20
+    @Attribute private var transform: ViewTransform // 0x24
+    @Attribute private var environment: EnvironmentValues // 0x28
+    @OptionalAttribute private var safeAreaInsets: SafeAreaInsets? // 0x2c
+    private let options: DisplayList.Options // 0x30
+    private let data: T.ShapeUpdateData // 0x50 (offset field)
+    private var contentSeed: DisplayList.Seed // 0x54 (offset field)
     
     init(
         group: _ShapeStyle_InterpolatorGroup?,
@@ -155,7 +155,20 @@ fileprivate struct ShapeStyledDisplayList<T : ShapeStyledLeafView> : AsyncAttrib
         data: T.ShapeUpdateData,
         contentSeed: DisplayList.Seed
     ) {
-        assertUnimplemented()
+        self.group = group
+        self.identity = identity
+        self._view = view
+        self._styles = styles
+        self._size = size
+        self._animatedSize = animatedSize
+        self._position = position
+        self._containerPosition = containerPosition
+        self._transform = transform
+        self._environment = environment
+        self._safeAreaInsets = safeAreaInsets
+        self.options = options
+        self.data = data
+        self.contentSeed = contentSeed
     }
     
     typealias Value = DisplayList
@@ -171,7 +184,7 @@ fileprivate struct ShapeStyledResponderFilter<T : ShapeStyledLeafView> : Statefu
      @Attribute var size: ViewSize
      @Attribute var position: CGPoint
      @Attribute var transform: ViewTransform
-     let responder: LeafViewResponder<ShapeStyledResponderData<T>>
+     let responder = LeafViewResponder<ShapeStyledResponderData<T>>()
     
     init(
         view: Attribute<T>,
@@ -180,7 +193,11 @@ fileprivate struct ShapeStyledResponderFilter<T : ShapeStyledLeafView> : Statefu
         position: Attribute<CGPoint>,
         transform: Attribute<ViewTransform>
     ) {
-        assertUnimplemented()
+        self._view = view
+        self._styles = styles
+        self._size = size
+        self._position = position
+        self._transform = transform
     }
     
     typealias Value = [ViewResponder]

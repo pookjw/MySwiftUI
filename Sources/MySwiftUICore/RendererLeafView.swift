@@ -171,10 +171,101 @@ package protocol LeafViewLayout {
 
 extension LeafViewLayout {
     package static func makeLeafLayout(_ outputs: inout _ViewOutputs, view: _GraphValue<Self>, inputs: _ViewInputs) {
-        assertUnimplemented()
+        guard inputs.base.options.contains(.viewRequestsLayoutComputer) else {
+            return
+        }
+        
+        outputs.layoutComputer = Attribute(LeafLayoutComputer(view: view.value))
     }
     
     package func spacing() -> Spacing {
         assertUnimplemented()
+    }
+}
+
+fileprivate struct LeafLayoutComputer<T : LeafViewLayout> : CustomStringConvertible, AsyncAttribute, StatefulRule {
+    @Attribute private(set) var view: T
+    
+    typealias Value = LayoutComputer
+    
+    func updateValue() {
+        let engine = LeafLayoutEngine(self.view)
+        self.update(to: engine)
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}
+
+struct LeafLayoutEngine<T : LeafViewLayout> : LayoutEngine {
+    private let view: T
+    private var cache = ViewSizeCache(cache: Cache3<_ProposedSize3D, CGSize>())
+    
+    init(_ view: T) {
+        self.view = view
+    }
+    
+    func layoutPriority() -> Double {
+        return 0
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        return false
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        return false
+    }
+    
+    mutating func spacing() -> Spacing {
+        assertUnimplemented()
+    }
+    
+    mutating func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        var cache = self.cache
+        
+        let result = cache.get(proposedSize) { 
+            return self.view.sizeThatFits(in: proposedSize)
+        }
+        
+        self.cache = cache
+        return result
+    }
+    
+    mutating func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    mutating func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        assertUnimplemented()
+    }
+    
+    mutating func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    mutating func childPlacement(at viewSize: ViewSize) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    mutating func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        return 0
+    }
+    
+    func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+        return nil
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        return false
+    }
+    
+    var debugContentDescription: String? {
+        return nil
     }
 }
