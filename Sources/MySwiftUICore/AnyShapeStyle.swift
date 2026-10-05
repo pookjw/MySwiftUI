@@ -1,7 +1,7 @@
 // C5308685324599C90E2F7A588812BB29
 
 @usableFromInline
-package struct AnyShapeStyle : @unchecked Sendable/*, ShapeStyle*/ {
+package struct AnyShapeStyle : @unchecked Sendable, ShapeStyle {
     package var storage: AnyShapeStyle.Storage
     
     init<T : ShapeStyle>(_ style: T) {

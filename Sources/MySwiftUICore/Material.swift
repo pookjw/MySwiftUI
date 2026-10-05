@@ -260,6 +260,22 @@ extension Material {
 
 extension _ViewInputs {
     var materialSubstrate: Material.Substrate? {
-        assertUnimplemented()
+        if self[UsingGraphicsRenderer.self] {
+            return .graphicsContext
+        }
+        
+        let inputValue = self[ArchivedViewInput.self]
+        
+        if inputValue.isArchived {
+            return .archive
+        } else {
+            return .caLayer
+        }
+    }
+}
+
+struct UsingGraphicsRenderer : ViewInput {
+    static var defaultValue: Bool {
+        return false
     }
 }

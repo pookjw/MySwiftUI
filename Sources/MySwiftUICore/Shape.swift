@@ -193,6 +193,34 @@ extension Shape {
     @_spi(Internal) public func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
         assertUnimplemented()
     }
+    
+    static var animatesSize: Bool {
+        assertUnimplemented()
+    }
+    
+    func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    static var hasBackground: Bool {
+        assertUnimplemented()
+    }
+    
+    func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    func isClear(styles: _ShapeStyle_Pack) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func finalPlacement(oldIndex: Int, oldPlacedSubviews: [_LazyLayout_PlacedSubview], newPlacedSubviews: [_LazyLayout_PlacedSubview], wasRemovedFromSubviews: Bool, context: AnyRuleContext) -> _Placement {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)
@@ -205,7 +233,13 @@ extension _ShapeView : ShapeView {
 
 protocol ShapeStyledLeafView : ContentResponder {
     associatedtype ShapeUpdateData
-    // TODO
+    static var animatesSize: Bool { get }
+    func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool
+    func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect)
+    static var hasBackground: Bool { get }
+    func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect)
+    func isClear(styles: _ShapeStyle_Pack) -> Bool
+    func finalPlacement(oldIndex: Int, oldPlacedSubviews: [_LazyLayout_PlacedSubview], newPlacedSubviews: [_LazyLayout_PlacedSubview], wasRemovedFromSubviews: Bool, context: AnyRuleContext) -> _Placement
 }
 
 extension ShapeStyledLeafView {
@@ -213,7 +247,39 @@ extension ShapeStyledLeafView {
         assertUnimplemented()
     }
     
-    // TODO
+    static var animatesSize: Bool {
+        return true
+    }
+    
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    static var hasBackground: Bool {
+        return false
+    }
+    
+    func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    func isClear(styles: _ShapeStyle_Pack) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension ShapeStyledLeafView where ShapeUpdateData == Void {
+    func mustUpdate(data: Void, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs, styles: Attribute<_ShapeStyle_Pack>, interpolatorGroup: _ShapeStyle_InterpolatorGroup?) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
 final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
@@ -229,27 +295,33 @@ public protocol ShapeView<Content> : View, _RemoveGlobalActorIsolation {
 }
 
 struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, ObservedAttribute {
-    @OptionalAttribute private var style: T?
-    @OptionalAttribute private var mode: _ShapeStyle_ResolverMode?
-    @Attribute private var environment: EnvironmentValues
-    private var role: ShapeRole
-    private var substrate: Material.Substrate?
-    private var animationsDisabled: Bool
-    private var helper: AnimatableAttributeHelper<_ShapeStyle_Pack>
-    private let tracker: PropertyList.Tracker
+    @OptionalAttribute private var style: T? // 0x0
+    @OptionalAttribute private var mode: _ShapeStyle_ResolverMode? // 0x4
+    @Attribute private var environment: EnvironmentValues // 0x8
+    private var role: ShapeRole // 0xc
+    private var substrate: Material.Substrate? // 0xd
+    private var animationsDisabled: Bool // 0xe
+    private var helper: AnimatableAttributeHelper<_ShapeStyle_Pack> // 0x10
+    private let tracker = PropertyList.Tracker() // 0x40
     
     typealias Value = _ShapeStyle_Pack
     
     init(
-        style: OptionalAttribute<T>,
-        mode: OptionalAttribute<_ShapeStyle_ResolverMode>,
+        style: OptionalAttribute<T> = OptionalAttribute(),
+        mode: OptionalAttribute<_ShapeStyle_ResolverMode> = OptionalAttribute(),
         environment: Attribute<EnvironmentValues>,
         role: ShapeRole,
         substrate: Material.Substrate?,
         animationsDisabled: Bool,
         helper: AnimatableAttributeHelper<_ShapeStyle_Pack>
     ) {
-        assertUnimplemented()
+        self._style = style
+        self._mode = mode
+        self._environment = environment
+        self.role = role
+        self.substrate = substrate
+        self.animationsDisabled = animationsDisabled
+        self.helper = helper
     }
     
     func updateValue() {
@@ -280,6 +352,34 @@ struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, Primitive
         assertUnimplemented()
     }
     
+    static var animatesSize: Bool {
+        assertUnimplemented()
+    }
+    
+    func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    static var hasBackground: Bool {
+        assertUnimplemented()
+    }
+    
+    func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    func isClear(styles: _ShapeStyle_Pack) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func finalPlacement(oldIndex: Int, oldPlacedSubviews: [_LazyLayout_PlacedSubview], newPlacedSubviews: [_LazyLayout_PlacedSubview], wasRemovedFromSubviews: Bool, context: AnyRuleContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
     private var shape: T
     private var fillStyle: FillStyle
 }
@@ -303,5 +403,15 @@ extension AnimatedShape {
 extension _ViewInputs {
     func resolvedShapeStyles(for inputs: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
         return self.base.cachedEnvironment.value.resolvedShapeStyles(for: inputs, role: role, mode: mode)
+    }
+}
+
+struct _ShapeStyle_RenderedShape {
+    // TODO
+}
+
+extension _ShapeStyle_RenderedShape {
+    enum Shape {
+        // TODO
     }
 }

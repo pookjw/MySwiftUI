@@ -311,6 +311,23 @@ fileprivate struct ResolvedShapeStyles : Hashable {
     let animationsDisabled: Bool
     
     func makeStyles() -> Attribute<_ShapeStyle_Pack> {
-        assertUnimplemented()
+        let resolver = ShapeStyleResolver<AnyShapeStyle>(
+            style: OptionalAttribute(),
+            mode: self.mode,
+            environment: self.environment,
+            role: self.role,
+            substrate: self.substrate,
+            animationsDisabled: self.animationsDisabled,
+            helper: AnimatableAttributeHelper<_ShapeStyle_Pack>(
+                phase: self.viewPhase,
+                time: self.time,
+                transaction: self.transaction
+            )
+        )
+        
+        let attribute = Attribute(resolver)
+        attribute.flags = [.unknown0]
+        
+        return attribute
     }
 }
