@@ -22,7 +22,7 @@ extension Shape {
     
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     nonisolated public static var role: ShapeRole {
-        assertUnimplemented()
+        return .fill
     }
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
@@ -77,7 +77,8 @@ extension Shape {
                 // <+224>
                 let copy_2 = inputs
                 
-                styles = copy_1.base.cachedEnvironment.value.resolvedShapeStyles(
+                // inlined
+                styles = copy_1.resolvedShapeStyles(
                     for: copy_2,
                     role: Content.role,
                     mode: nil
@@ -296,5 +297,11 @@ extension AnimatedShape {
         var value: AnimatedShape<T> {
             assertUnimplemented()
         }
+    }
+}
+
+extension _ViewInputs {
+    func resolvedShapeStyles(for inputs: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
+        return self.base.cachedEnvironment.value.resolvedShapeStyles(for: inputs, role: role, mode: mode)
     }
 }

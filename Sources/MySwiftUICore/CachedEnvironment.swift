@@ -6,7 +6,7 @@ package struct CachedEnvironment {
     var environment: Attribute<EnvironmentValues>
     private var mapItems: [MapItem] = []
     private var animatedFrame: AnimatedFrame?
-    private var resolvedShapeStyles: [ResolvedShapeStyles: Attribute<_ShapeStyle_Pack>] = .init()
+    private var resolvedShapeStyles: [ResolvedShapeStyles: Attribute<_ShapeStyle_Pack>] = [:]
     var platformCache = CachedEnvironment.PlatformCache()
     
     init(environment: Attribute<EnvironmentValues>) {
@@ -100,8 +100,46 @@ package struct CachedEnvironment {
         }
     }
     
-    func resolvedShapeStyles(for: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
-        assertUnimplemented()
+    mutating func resolvedShapeStyles(for inputs: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
+        /*
+         self -> x20 -> x19
+         inputs -> x0 -> x20
+         role -> x1 -> w25
+         mode -> x2 -> x22
+         */
+        if inputs.preferences.contains(DisplayList.Key.self) {
+            // <+96>
+            let key = ResolvedShapeStyles(
+                environment: self.environment,
+                time: inputs.time,
+                transaction: inputs.transaction,
+                viewPhase: inputs.viewPhase,
+                mode: OptionalAttribute(mode),
+                role: role,
+                substrate: inputs.materialSubstrate,
+                animationsDisabled: inputs.base.options.contains(.animationsDisabled)
+            )
+            
+            if let existing = self.resolvedShapeStyles[key] {
+                return existing
+            }
+            
+            // <+376>
+            let result = key.makeStyles()
+            
+            if mode == nil {
+                self.resolvedShapeStyles[key] = result
+            }
+            
+            return result
+        } else {
+            // <+308>
+            return GraphHost.currentHost.intern(
+                _ShapeStyle_Pack.defaultValue,
+                for: _ShapeStyle_Pack.self,
+                id: .defaultValue
+            )
+        }
     }
     
     fileprivate mutating func withAnimatedFrame<T>(for inputs: _ViewInputs, body: (inout CachedEnvironment.AnimatedFrame) -> T) -> T {
@@ -263,11 +301,16 @@ extension CachedEnvironment {
 }
 
 fileprivate struct ResolvedShapeStyles : Hashable {
-    private let environment: Attribute<EnvironmentValues>
-    private let time: Attribute<Time>
-    private let transaction: Attribute<Transaction>
-    private let mode: OptionalAttribute<_ShapeStyle_ResolverMode>
-    private let role: ShapeRole
-    private let substrate: Material.Substrate?
-    private let animationsDisabled: Bool
+    let environment: Attribute<EnvironmentValues>
+    let time: Attribute<Time>
+    let transaction: Attribute<Transaction>
+    let viewPhase: Attribute<_GraphInputs.Phase>
+    let mode: OptionalAttribute<_ShapeStyle_ResolverMode>
+    let role: ShapeRole
+    let substrate: Material.Substrate?
+    let animationsDisabled: Bool
+    
+    func makeStyles() -> Attribute<_ShapeStyle_Pack> {
+        assertUnimplemented()
+    }
 }

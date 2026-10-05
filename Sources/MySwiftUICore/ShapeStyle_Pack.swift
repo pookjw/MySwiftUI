@@ -1,6 +1,10 @@
 // 4DBF651155A4B32ED86C55EAB1B96C61
 
 struct _ShapeStyle_Pack : Equatable, Animatable {
+    @safe static nonisolated(unsafe) let defaultValue: _ShapeStyle_Pack = {
+        assertUnimplemented()
+    }()
+    
     static func == (lhs: _ShapeStyle_Pack, rhs: _ShapeStyle_Pack) -> Bool {
         assertUnimplemented()
     }
