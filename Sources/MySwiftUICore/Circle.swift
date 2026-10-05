@@ -12,6 +12,7 @@ extension Shape where Self == Circle {
     }
     
     @inlinable public init() {}
+    
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     nonisolated public var layoutDirectionBehavior: LayoutDirectionBehavior {
         assertUnimplemented()
@@ -24,7 +25,23 @@ extension Shape where Self == Circle {
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 extension Circle {
     nonisolated public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
-        assertUnimplemented()
+        let result: CGFloat
+        
+        if let height = proposal.height {
+            if let width = proposal.width {
+                result = (height < width) ? height : width
+            } else {
+                result = height
+            }
+        } else {
+            if let width = proposal.width {
+                result = width
+            } else {
+                result = 10
+            }
+        }
+        
+        return CGSize(width: result, height: result)
     }
 }
 

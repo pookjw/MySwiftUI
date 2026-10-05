@@ -179,7 +179,7 @@ extension Shape {
     public typealias Body = Never
     
     package func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+        return self.shape.sizeThatFits(ProposedViewSize(width: proposedSize.width, height: proposedSize.height))
     }
     
     @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
