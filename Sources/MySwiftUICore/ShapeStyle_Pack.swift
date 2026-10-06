@@ -116,8 +116,17 @@ extension _ShapeStyle_Pack {
         private var _blend: GraphicsBlendMode?
     }
     
-    struct Key : Hashable {
-        // TODO
+    struct Key : Comparable {
+        static func < (lhs: _ShapeStyle_Pack.Key, rhs: _ShapeStyle_Pack.Key) -> Bool {
+            assertUnimplemented()
+        }
+        
+        static func == (lhs: _ShapeStyle_Pack.Key, rhs: _ShapeStyle_Pack.Key) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private var name: _ShapeStyle_Name
+        private var _level: UInt8
     }
 }
 

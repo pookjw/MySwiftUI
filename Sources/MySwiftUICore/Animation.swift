@@ -378,12 +378,12 @@ extension Animatable {
 extension AnimatablePair : Sendable where First : Sendable, Second : Sendable {}
 
 struct AnimatableAttributeHelper<T : Animatable> {
-    @Attribute private var phase: _GraphInputs.Phase // 0x0
+    @Attribute private(set) var phase: _GraphInputs.Phase // 0x0
     @Attribute private var time: Time // 0x4
     @Attribute private var transaction: Transaction // 0x8
-    private var previousModelData: T.AnimatableData? // 0x2c (offset field)
-    private var animatorState: AnimatorState<T.AnimatableData>? // 0x30 (offset field)
-    private var resetSeed: UInt32 // 0x34 (offset field)
+    private var previousModelData: T.AnimatableData? // 0x10
+    private(set) var animatorState: AnimatorState<T.AnimatableData>? // 0x18
+    private var resetSeed: UInt32 // 0x28
     
     init(phase: Attribute<_GraphInputs.Phase>, time: Attribute<Time>, transaction: Attribute<Transaction>) {
         self._phase = phase

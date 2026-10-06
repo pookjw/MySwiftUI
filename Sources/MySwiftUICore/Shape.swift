@@ -269,7 +269,125 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         self.helper = helper
     }
     
-    func updateValue() {
+    mutating func updateValue() {
+        // <+404>
+        let (style, styleChanged): (T?, Bool)
+        if let attribute = self.$style {
+            (style, styleChanged) = attribute.changedValue(options: [])
+        } else {
+            (style, styleChanged) = (nil, false)
+        }
+        
+        // <+736>
+        let (mode, modeChanged): (_ShapeStyle_ResolverMode, Bool)
+        if let attribute = self.$mode {
+            (mode, modeChanged) = attribute.changedValue(options: [])
+        } else {
+            mode = _ShapeStyle_ResolverMode(foregroundLevels: 1, options: [])
+            modeChanged = false
+        }
+        
+        // <+816>
+        let (environment, envChanged) = self.$environment.changedValue(options: [])
+        // x19 + 0x80
+        var pack = _ShapeStyle_Pack()
+        
+        // x19 + 0x88
+        var flag_1: Bool
+        // w20
+        var flag_2: Bool = modeChanged
+        // x19 + 0x4
+        var flag_3: Bool!
+        let flag_4: Bool
+        
+        if !styleChanged && !modeChanged {
+            // <+872>
+            flag_1 = !self.hasValue
+            
+            if !flag_1 {
+                // <+904>
+                if envChanged {
+                    // <+1008>
+                    flag_2 = self.tracker.hasDifferentUsedValues(environment.plist)
+                    flag_1 = flag_2
+                    // <+1056>
+                    flag_4 = true
+                } else {
+                    // <+908>
+                    if self.helper.animatorState == nil {
+                        // <+1120>
+                        guard self.helper.checkReset() else {
+                            return
+                        }
+                        
+                        flag_1 = true
+                        self.tracker.reset()
+                        flag_3 = true
+                        // <+1308>
+                    } else {
+                        // <+936>
+                        flag_3 = false
+                        // <+1308>
+                    }
+                    
+                    // <+1308>
+                    flag_4 = false
+                }
+            } else {
+                // <+984>
+                flag_2 = true
+                // <+1056>
+                flag_4 = true
+            }
+        } else {
+            // <+956>
+            flag_2 = true
+            flag_1 = flag_2
+            
+            // <+1056>
+            flag_4 = true
+        }
+        
+        if flag_4 {
+            // <+1056>
+            if self.helper.animatorState == nil {
+                // <+1096>
+                if flag_2 {
+                    // <+1100>
+                    // <+1288>
+                    self.tracker.reset()
+                    flag_3 = true
+                    // <+1308>
+                } else {
+                    // <+1120>
+                    guard self.helper.checkReset() else {
+                        return
+                    }
+                    
+                    flag_1 = true
+                    self.tracker.reset()
+                    flag_3 = true
+                }
+            } else {
+                // <+1068>
+                if flag_2 {
+                    // <+1288>
+                    self.tracker.reset()
+                    flag_3 = true
+                    // <+1308>
+                } else {
+                    // <+1084>
+                    flag_3 = false
+                    // <+1308>
+                }
+            }
+            
+            // <+1308>
+        } else {
+            // <+1308>
+        }
+        
+        // <+1308>
         assertUnimplemented()
     }
     
