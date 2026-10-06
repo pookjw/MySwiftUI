@@ -471,6 +471,13 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         }
         
         // <+2016>
+        if mode.options.contains(.background) {
+            shape.operation = .resolveStyle(name: .background, levels: 0..<1)
+            shape.role = .fill
+            BackgroundStyle()._apply(to: &shape)
+        }
+        
+        // <+2064>
         assertUnimplemented()
     }
     

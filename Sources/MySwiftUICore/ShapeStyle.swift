@@ -51,12 +51,12 @@ extension Never : ShapeStyle {
 }
 
 public struct _ShapeStyle_Shape {
-    private(set) var operation: _ShapeStyle_Shape.Operation // 0x0
+    var operation: _ShapeStyle_Shape.Operation // 0x0
     var result: _ShapeStyle_Shape.Result // 0x20
     private(set) var environment: EnvironmentValues // 0x30
     private var foregroundStyle: AnyShapeStyle? // 0x40
     private(set) var bounds: CGRect? // 0x48
-    private var role: ShapeRole // 0x69
+    var role: ShapeRole // 0x69
     private var substrate: Material.Substrate? // 0x6a
     var activeRecursiveStyles: _ShapeStyle_Shape.RecursiveStyles // 0x6b
     
