@@ -55,10 +55,10 @@ public struct _ShapeStyle_Shape {
     var result: _ShapeStyle_Shape.Result // 0x20
     private(set) var environment: EnvironmentValues // 0x30
     private var foregroundStyle: AnyShapeStyle? // 0x40
-    private var bounds: CGRect? // 0x48
+    private(set) var bounds: CGRect? // 0x48
     private var role: ShapeRole // 0x69
     private var substrate: Material.Substrate? // 0x6a
-    private var activeRecursiveStyles: _ShapeStyle_Shape.RecursiveStyles // 0x6b
+    var activeRecursiveStyles: _ShapeStyle_Shape.RecursiveStyles // 0x6b
     
     init(
         operation: _ShapeStyle_Shape.Operation,
@@ -106,6 +106,22 @@ extension _ShapeStyle_Shape {
     }
     
     struct RecursiveStyles : OptionSet {
+        static var content: _ShapeStyle_Shape.RecursiveStyles {
+            return _ShapeStyle_Shape.RecursiveStyles(rawValue: 1 << 0)
+        }
+        
+        static var foreground: _ShapeStyle_Shape.RecursiveStyles {
+            return _ShapeStyle_Shape.RecursiveStyles(rawValue: 1 << 1)
+        }
+        
+        static var background: _ShapeStyle_Shape.RecursiveStyles {
+            return _ShapeStyle_Shape.RecursiveStyles(rawValue: 1 << 2)
+        }
+        
+        static var materialProvider: _ShapeStyle_Shape.RecursiveStyles {
+            return _ShapeStyle_Shape.RecursiveStyles(rawValue: 1 << 3)
+        }
+        
         let rawValue: UInt8
     }
 }

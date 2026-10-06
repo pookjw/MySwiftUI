@@ -18,6 +18,10 @@ extension EnvironmentValues {
             self[DefaultForegroundStyleKey.self] = newValue
         }
     }
+    
+    var currentForegroundStyle: AnyShapeStyle? {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct ForegroundStyleKey : EnvironmentKey {

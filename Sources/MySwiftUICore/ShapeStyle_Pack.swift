@@ -32,6 +32,10 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
             assertUnimplemented()
         }
     }
+    
+    mutating func createOpacities(count: Int, name: _ShapeStyle_Name, environment: EnvironmentValues) {
+        assertUnimplemented()
+    }
 }
 
 extension _ShapeStyle_Pack {

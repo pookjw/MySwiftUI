@@ -403,14 +403,74 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         self.tracker.initializeValues(from: environment.plist)
         
         // <+1428>
+        // x29 - 0xe0 (x25 + 0x98)
+        var shape = _ShapeStyle_Shape(
+            operation: .resolveStyle(name: .foreground, levels: 0..<Int(foregroundLevels)),
+            result: .none,
+            environment: EnvironmentValues(environment.plist, tracker: self.tracker),
+            foregroundStyle: nil,
+            bounds: nil,
+            role: self.role,
+            substrate: self.substrate
+        )
+        
         if foregroundLevels != 0 {
             // <+1500>
-            assertUnimplemented()
+            if let style {
+                // <+1716>
+                style._apply(to: &shape)
+                // <+1860>
+            } else {
+                // <+1568>
+                shape.activeRecursiveStyles = [.foreground]
+                
+                let foregroundStyle = environment.currentForegroundStyle ?? HierarchicalShapeStyle.sharedPrimary
+                foregroundStyle._apply(to: &shape)
+                
+                // <+1820>
+                if shape.activeRecursiveStyles.contains(.foreground) {
+                    shape.activeRecursiveStyles.subtract(.foreground)
+                }
+                // <+1860>
+            }
+            
+            // <+1860>
+            if mode.options.contains(.foregroundPalette) {
+                // <+2016>
+            } else {
+                // <+1868>
+                var pack: _ShapeStyle_Pack
+                if case .pack(let _pack) = shape.result {
+                    pack = _pack
+                    shape.result = .none
+                } else {
+                    pack = _ShapeStyle_Pack()
+                }
+                
+                pack.createOpacities(
+                    count: Int(mode.foregroundLevels),
+                    name: .foreground,
+                    environment: shape.environment
+                )
+                
+                shape.result = .pack(pack)
+                // <+2016>
+            }
+            
+            // <+2016>
         } else {
             // <+1624>
-            assertUnimplemented()
+            if flag_3 {
+                self.helper.reset()
+                // <+2016>
+            } else {
+                // <+2016>
+            }
+            
+            // <+2016>
         }
         
+        // <+2016>
         assertUnimplemented()
     }
     
