@@ -1,9 +1,9 @@
-private import Foundation
+internal import Foundation
 
 struct _ShapeStyle_ResolverMode {
-    private var bundle: Bundle?
-    private var foregroundLevels: UInt16
-    private var options: _ShapeStyle_ResolverMode.Options
+    var bundle: Bundle?
+    var foregroundLevels: UInt16
+    var options: _ShapeStyle_ResolverMode.Options
     
     init(foregroundLevels: UInt16 = 0, options: _ShapeStyle_ResolverMode.Options = []) {
         self.bundle = nil

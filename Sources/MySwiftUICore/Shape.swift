@@ -388,6 +388,29 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         }
         
         // <+1308>
+        // x24
+        let foregroundLevels: UInt16
+        if mode.options.contains(.foregroundPalette) {
+            foregroundLevels = mode.foregroundLevels
+        } else {
+            if mode.foregroundLevels != 0 {
+                foregroundLevels = 1
+            } else {
+                foregroundLevels = 0
+            }
+        }
+        
+        self.tracker.initializeValues(from: environment.plist)
+        
+        // <+1428>
+        if foregroundLevels != 0 {
+            // <+1500>
+            assertUnimplemented()
+        } else {
+            // <+1624>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
     

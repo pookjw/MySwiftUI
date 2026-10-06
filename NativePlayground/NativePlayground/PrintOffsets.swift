@@ -268,8 +268,6 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    Rectangle.Corners.concentric
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
