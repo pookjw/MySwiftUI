@@ -1576,3 +1576,10 @@ extension Color.Resolved {
         assertUnimplemented()
     }
 }
+
+extension Color {
+    struct ResolvedDuotone {
+        private var shadow: (Float, Float, Float)
+        private var highlight: (Float, Float, Float)
+    }
+}

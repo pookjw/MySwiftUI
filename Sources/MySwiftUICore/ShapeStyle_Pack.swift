@@ -34,6 +34,35 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     }
     
     mutating func createOpacities(count: Int, name: _ShapeStyle_Name, environment: EnvironmentValues) {
+        /*
+         self -> x20 -> x19
+         count -> x0 -> x21
+         name -> x1 -> sp + 0x34 / x29 - 0xf0
+         environment -> x2 -> x25/x27
+         */
+        let indices = self.indices(of: name)
+        
+        guard (indices.count == 1) && !(count < 2) else {
+            return
+        }
+        
+        let definition = environment.systemColorDefinition
+        let firstStyle = self.styles[indices.lowerBound]
+        
+        for index in 1..<count {
+            // <+284>
+            let opacity = definition.opacity(at: index, environment: environment)
+            self.styles.insert(
+                (
+                    key: _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index)),
+                    style: firstStyle.style.applyingOpacity(opacity)
+                ),
+                at: indices.lowerBound &+ index
+            )
+        }
+    }
+    
+    fileprivate func indices(of name: _ShapeStyle_Name) -> Range<Int> {
         assertUnimplemented()
     }
 }
@@ -98,9 +127,9 @@ extension _ShapeStyle_Pack {
     enum Fill : Animatable {
         case color(Color.ResolvedHDR)
         case paint(AnyResolvedPaint)
-//        case foregroundMaterial(Color.ResolvedHDR, ContentStyle.MaterialResolved)
+        case foregroundMaterial(Color.ResolvedHDR, ContentStyle.MaterialResolved)
         case backgroundMaterial(Material.ResolvedMaterial)
-//        case duotoneColor(Color.ResolvedDuotone)
+        case duotoneColor(Color.ResolvedDuotone)
         case vibrantMatrix(GraphicsFilter.VibrantColorMatrix)
         case multicolor(ResolvedMulticolorStyle)
         
@@ -116,7 +145,7 @@ extension _ShapeStyle_Pack {
     
     struct Effect {
         private var kind: _ShapeStyle_Pack.Effect.Kind
-        private var opacity: Float
+        var opacity: Float
         private var _blend: GraphicsBlendMode?
     }
     
@@ -129,8 +158,8 @@ extension _ShapeStyle_Pack {
             assertUnimplemented()
         }
         
-        private var name: _ShapeStyle_Name
-        private var _level: UInt8
+        private(set) var name: _ShapeStyle_Name
+        private(set) var _level: UInt8
     }
 }
 
