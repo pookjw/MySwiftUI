@@ -63,7 +63,44 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     }
     
     fileprivate func indices(of name: _ShapeStyle_Name) -> Range<Int> {
-        assertUnimplemented()
+        var lowerBound = 0
+        var upperBound = self.styles.indices.upperBound
+        
+        for style in self.styles {
+            if style.key.name == name {
+                break
+            }
+            
+            lowerBound &+= 1
+        }
+        
+        // <+60>
+        if lowerBound >= upperBound {
+            upperBound = lowerBound
+        } else {
+            var x9 = lowerBound
+            
+            var found = false
+            for index in lowerBound..<upperBound {
+                if self.styles[index].key.name != name {
+                    found = true
+                    break
+                }
+                
+                x9 &+= 1
+            }
+            
+            if found {
+                upperBound = x9
+            } else {
+                x9 = upperBound
+            }
+            
+            // <+124>
+            assert(!(x9 < lowerBound))
+        }
+        
+        return lowerBound..<upperBound
     }
 }
 
