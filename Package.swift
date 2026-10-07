@@ -265,8 +265,9 @@ let package = Package(
                 .byName(name: "MySwiftUI")
             ]
         ),
-        .target(
-            name: "_DyldPrivate"
+        .binaryTarget(
+            name: "_DyldPrivate",
+            path: "_DyldPrivate.xcframework"
         ),
         .target(
             name: "_CompositorServices_MySwiftUI",
@@ -410,11 +411,13 @@ let package = Package(
             name: "_CoreTextPrivate",
             path: "_CoreTextPrivate.xcframework"
         ),
-        .target(
+        .binaryTarget(
             name: "_KernPrivate",
+            path: "_KernPrivate.xcframework"
         ),
-        .target(
-            name: "_DarwinPrivate"
+        .binaryTarget(
+            name: "_DarwinPrivate",
+            path: "_DarwinPrivate.xcframework"
         ),
         .target(
             name: "MySwiftUITestUtils"

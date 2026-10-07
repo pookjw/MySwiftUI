@@ -19,6 +19,10 @@
     abort();
 }
 
++ (BOOL)generatesSwiftInterfaces {
+    return YES;
+}
+
 + (NSString *)baseLibraryIdentifier {
     return @"xros-arm64_x86_64-simulator";
 }
@@ -342,14 +346,14 @@
     NSURL *baseSwiftInterfaceURL = [baseFrameworkURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
     baseSwiftInterfaceURL = [baseSwiftInterfaceURL URLByAppendingPathComponent:self.baseVariantIdentifier conformingToType:UTTypeSwiftInterface];
-    NSString * _Nullable oldSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:baseSwiftInterfaceURL];
-    NSString * _Nullable declarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:baseSwiftInterfaceURL];
+    NSString * _Nullable oldSwiftHeader = self.generatesSwiftInterfaces ? [InterfaceGeneratorBase _swiftInterfaceFromURL:baseSwiftInterfaceURL] : nil;
+    NSString * _Nullable declarations = self.generatesSwiftInterfaces ? [InterfaceGeneratorBase _interfaceDeclarationsFromURL:baseSwiftInterfaceURL] : nil;
     
     NSURL *basePrivateSwiftInterfaceURL = [baseFrameworkURL URLByAppendingPathComponent:@"Modules" isDirectory:YES];
     basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeSwiftModule];
     basePrivateSwiftInterfaceURL = [basePrivateSwiftInterfaceURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.private", self.baseVariantIdentifier] conformingToType:UTTypeSwiftInterface];
-    NSString * _Nullable oldPrivateSwiftHeader = [InterfaceGeneratorBase _swiftInterfaceFromURL:basePrivateSwiftInterfaceURL];
-    NSString * _Nullable privateDeclarations = [InterfaceGeneratorBase _interfaceDeclarationsFromURL:basePrivateSwiftInterfaceURL];
+    NSString * _Nullable oldPrivateSwiftHeader = self.generatesSwiftInterfaces ? [InterfaceGeneratorBase _swiftInterfaceFromURL:basePrivateSwiftInterfaceURL] : nil;
+    NSString * _Nullable privateDeclarations = self.generatesSwiftInterfaces ? [InterfaceGeneratorBase _interfaceDeclarationsFromURL:basePrivateSwiftInterfaceURL] : nil;
     
     NSURL *baseTBDURL = [baseFrameworkURL URLByAppendingPathComponent:self.frameworkName conformingToType:UTTypeTBD];
     if (![InterfaceGeneratorBase _checkFileExists:baseTBDURL]) {

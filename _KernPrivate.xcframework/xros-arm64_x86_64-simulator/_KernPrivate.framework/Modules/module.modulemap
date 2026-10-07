@@ -1,0 +1,5 @@
+framework module _KernPrivate [extern_c] {
+    umbrella header "_KernPrivate.h"
+    export *
+    module * { export * }
+}

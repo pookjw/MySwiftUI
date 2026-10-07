@@ -36,6 +36,9 @@
       "kind": "group",
       "name": "Frameworks",
       "children": [
+        { "path": "../_DarwinPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
+        { "path": "../_KernPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
+        { "path": "../_DyldPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../_CoreTextPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../RealitySystemSupport.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../RealityFusion.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },

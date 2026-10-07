@@ -1,4 +1,7 @@
 #import <Foundation/Foundation.h>
+#import "Subclasses/DarwinInterfaceGenerator.h"
+#import "Subclasses/DyldInterfaceGenerator.h"
+#import "Subclasses/KernInterfaceGenerator.h"
 #import "Subclasses/AccessibilityInterfaceGenerator.h"
 #import "Subclasses/AttributeGraphInterfaceGenerator.h"
 #import "Subclasses/BaseBoardInterfaceGenerator.h"
@@ -153,11 +156,14 @@ int main(int argc, const char * argv[]) {
     assert([CoreServicesInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreTextInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreUIInterfaceGenerator generateToURL:resolvedURL]);
+    assert([DarwinInterfaceGenerator generateToURL:resolvedURL]);
     assert([DesignLibraryInterfaceGenerator generateToURL:resolvedURL]);
+    assert([DyldInterfaceGenerator generateToURL:resolvedURL]);
     assert([ElegibilityInterfaceGenerator generateToURL:resolvedURL]);
     assert([FeatureFlagsInterfaceGenerator generateToURL:resolvedURL]);
     assert([FoundationInterfaceGenerator generateToURL:resolvedURL]);
     assert([FrontBoardServicesInterfaceGenerator generateToURL:resolvedURL]);
+    assert([KernInterfaceGenerator generateToURL:resolvedURL]);
     assert([MRUIKitInterfaceGenerator generateToURL:resolvedURL]);
     assert([ObservationInterfaceGenerator generateToURL:resolvedURL]);
     assert([QuartzCoreInterfaceGenerator generateToURL:resolvedURL]);
