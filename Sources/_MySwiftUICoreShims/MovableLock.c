@@ -5,9 +5,9 @@
 
 extern pthread_t pthread_main_thread_np(void);
 
-void msui_wait_for_lock(MovableLock lock, pthread_t thread);
-void msui_run_moved_callback(MovableLock lock);
-void _msui_sync_main_callback(MovableLock lock);
+void _wait_for_lock(MovableLock lock, pthread_t thread);
+void _run_moved_callback(MovableLock lock);
+void _sync_main_callback(MovableLock lock);
 
 MovableLock _MovableLockCreate(void) {
     MovableLock ptr = calloc(1, sizeof(MovableLock_t));
@@ -48,7 +48,7 @@ void _MovableLockLock(MovableLock lock) {
         pthread_mutex_lock(&lock->mutex);
         
         while (lock->owner != NULL) {
-            msui_wait_for_lock(lock, thread);
+            _wait_for_lock(lock, thread);
         }
         
         lock->owner = thread;
@@ -81,7 +81,7 @@ void _MovableLockSyncMain(MovableLock lock, void *context, void (*function)(void
             pthread_cond_signal_thread_np(&lock->cond, lock->main);
         } else if (!lock->unknown2) {
             lock->unknown2 = true;
-            dispatch_async_f(dispatch_get_main_queue(), lock, (void (*)(void *))_msui_sync_main_callback);
+            dispatch_async_f(dispatch_get_main_queue(), lock, (void (*)(void *))_sync_main_callback);
             
             if (lock->unknown3) {
                 pthread_cond_signal_thread_np(&lock->cond, lock->main);
@@ -106,7 +106,7 @@ void _MovableLockWait(MovableLock lock) {
     }
     
     do {
-        msui_wait_for_lock(lock, thread);
+        _wait_for_lock(lock, thread);
     } while (lock->owner != NULL);
     
     lock->owner = thread;
@@ -117,25 +117,25 @@ void _MovableLockBroadcast(MovableLock lock) {
     pthread_cond_broadcast(&lock->cond);
 }
 
-void msui_wait_for_lock(MovableLock lock, pthread_t thread) {
+void _wait_for_lock(MovableLock lock, pthread_t thread) {
     lock->unknown1++;
     
     if (lock->main == thread) {
         lock->unknown3 = true;
-        msui_run_moved_callback(lock);
+        _run_moved_callback(lock);
     }
     
     pthread_cond_wait(&lock->cond, &lock->mutex);
     
     if (lock->main == thread) {
-        msui_run_moved_callback(lock);
+        _run_moved_callback(lock);
         lock->unknown3 = false;
     }
     
     lock->unknown1--;
 }
 
-void msui_run_moved_callback(MovableLock lock) {
+void _run_moved_callback(MovableLock lock) {
     if (lock->function != NULL) {
         pthread_t owner = lock->owner;
         uint32_t count = lock->count++;
@@ -149,7 +149,7 @@ void msui_run_moved_callback(MovableLock lock) {
     }
 }
 
-void _msui_sync_main_callback(MovableLock lock) {
+void _sync_main_callback(MovableLock lock) {
     _MovableLockLock(lock);
     lock->unknown2 = false;
     _MovableLockUnlock(lock);
