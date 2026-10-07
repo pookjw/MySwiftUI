@@ -102,7 +102,7 @@ extension _ShapeStyle_Pack {
         case backgroundMaterial(Material.ResolvedMaterial)
 //        case duotoneColor(Color.ResolvedDuotone)
         case vibrantMatrix(GraphicsFilter.VibrantColorMatrix)
-//        case multicolor(ResolvedMulticolorStyle)
+        case multicolor(ResolvedMulticolorStyle)
         
         var animatableData: _ShapeStyle_Pack.Fill.AnimatableData {
             get {

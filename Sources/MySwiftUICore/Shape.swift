@@ -289,8 +289,6 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         
         // <+816>
         let (environment, envChanged) = self.$environment.changedValue(options: [])
-        // x19 + 0x80
-        var pack = _ShapeStyle_Pack()
         
         // x19 + 0x88
         var flag_1: Bool
@@ -478,7 +476,49 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
         }
         
         // <+2064>
-        assertUnimplemented()
+        var pack: _ShapeStyle_Pack
+        if !mode.options.contains(.multicolor) {
+            // <+2076>
+            if case .pack(let _pack) = shape.result {
+                pack = _pack
+            } else {
+                pack = _ShapeStyle_Pack()
+            }
+            
+            // <+2376>
+        } else {
+            // <+2100>
+            // x29 - 0x100
+            let colorStyle = ResolvedMulticolorStyle(in: shape.environment, bundle: mode.bundle)
+            let shapeStyle = _ShapeStyle_Pack.Style(.multicolor(colorStyle))
+            
+            if case .pack(let _pack) = shape.result {
+                pack = _pack
+            } else {
+                pack = _ShapeStyle_Pack()
+            }
+            
+            pack[.multicolor, 0] = shapeStyle
+            // <+2376>
+        }
+        
+        // <+2376>
+        var value = (value: pack, changed: flag_1)
+        
+        if !self.animationsDisabled {
+            self.helper.update(
+                value: &value,
+                defaultAnimation: nil,
+                environment: self.$environment
+            ) { _, _ in
+                // noop
+            }
+        }
+        
+        // <+2420>
+        if value.changed {
+            self.value = value.value
+        }
     }
     
     func destroy() {
