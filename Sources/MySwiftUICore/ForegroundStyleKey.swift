@@ -20,7 +20,7 @@ extension EnvironmentValues {
     }
     
     var currentForegroundStyle: AnyShapeStyle? {
-        assertUnimplemented()
+        return self.foregroundStyle ?? self.defaultForegroundStyle
     }
 }
 

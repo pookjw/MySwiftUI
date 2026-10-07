@@ -422,7 +422,7 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
                 // <+1568>
                 shape.activeRecursiveStyles = [.foreground]
                 
-                let foregroundStyle = environment.currentForegroundStyle ?? HierarchicalShapeStyle.sharedPrimary
+                let foregroundStyle = shape.environment.currentForegroundStyle ?? HierarchicalShapeStyle.sharedPrimary
                 foregroundStyle._apply(to: &shape)
                 
                 // <+1820>

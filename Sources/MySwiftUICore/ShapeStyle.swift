@@ -24,7 +24,12 @@ extension ShapeStyle {
     }
     
     public func _apply(to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+        guard Self.Resolved.self != Never.self else {
+            return
+        }
+        
+        let resolved = self.resolve(in: shape.environment)
+        resolved._apply(to: &shape)
     }
     
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {
