@@ -30,7 +30,7 @@
     }
     
     public func _apply(to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+        self.storage.box.apply(to: &shape)
     }
     
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {

@@ -8,6 +8,10 @@
     public static let quaternary = HierarchicalShapeStyle(id: 3)
     
     public func _apply(to shape: inout _ShapeStyle_Shape) {
+        /*
+         self -> x20
+         shape -> x0 -> x19
+         */
         assertUnimplemented()
     }
     
