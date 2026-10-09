@@ -2550,3 +2550,25 @@ public class CAHostingLayer<Content> : QuartzCore.CALayer where Content : SwiftU
 extension SwiftUI.EnvironmentValues {
   public var defaultPadding: SwiftUI.EdgeInsets { get set }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ShapeStyle_Shape {
+  public enum Operation {
+    case prepareText(level: Swift.Int)
+    case resolveStyle(name: _SwiftUICorePrivate._ShapeStyle_Name, levels: Swift.Range<Swift.Int>)
+    case fallbackColor(level: Swift.Int)
+    case copyStyle(name: _SwiftUICorePrivate._ShapeStyle_Name)
+    case modifyBackground(level: Swift.Int)
+    case multiLevel
+    case primaryStyle
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum _ShapeStyle_Name {
+    case foreground
+    case background
+    case multicolor
+}

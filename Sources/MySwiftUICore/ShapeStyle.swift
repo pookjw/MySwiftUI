@@ -35,6 +35,10 @@ extension ShapeStyle {
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {
         assertUnimplemented()
     }
+    
+    func primaryStyle(in environment: EnvironmentValues) -> AnyShapeStyle? {
+        assertUnimplemented()
+    }
 }
 
 extension ShapeStyle where Self.Resolved == Never {
@@ -59,7 +63,7 @@ public struct _ShapeStyle_Shape {
     var operation: _ShapeStyle_Shape.Operation // 0x0
     var result: _ShapeStyle_Shape.Result // 0x20
     private(set) var environment: EnvironmentValues // 0x30
-    private var foregroundStyle: AnyShapeStyle? // 0x40
+    private(set) var foregroundStyle: AnyShapeStyle? // 0x40
     private(set) var bounds: CGRect? // 0x48
     var role: ShapeRole // 0x69
     private var substrate: Material.Substrate? // 0x6a
@@ -92,8 +96,8 @@ extension _ShapeStyle_Shape {
         case fallbackColor(level: Int)
         case copyStyle(name: _ShapeStyle_Name)
         case modifyBackground(level: Int)
-        case multiLevel
-        case primaryStyle
+        case multiLevel // 0, 0, 0, 5
+        case primaryStyle // 1, 0, 0, 5
     }
     
     enum Result {
@@ -137,3 +141,6 @@ public struct _ShapeStyle_ShapeType {
 
 @available(*, unavailable)
 extension _ShapeStyle_ShapeType : Sendable {}
+
+protocol PrimitiveShapeStyle : ShapeStyle {
+}
