@@ -1,0 +1,5 @@
+// 5FED8E8437E1C5DEB2554486604823AB
+
+struct AnyEquatable {
+    // TODO
+}

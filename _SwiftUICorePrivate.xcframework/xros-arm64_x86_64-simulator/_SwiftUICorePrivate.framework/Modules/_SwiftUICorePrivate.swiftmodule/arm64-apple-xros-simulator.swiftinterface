@@ -632,7 +632,9 @@ public protocol MaterialProvider {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-open class MaterialProviderBoxBase {}
+open class MaterialProviderBoxBase {
+   open func applyForegroundStyle(to shape: inout SwiftUI._ShapeStyle_Shape)
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -679,6 +681,10 @@ extension SwiftUI.Material {
   }
 
   public struct ForegroundStyle {
+    // TODO
+  }
+
+  public struct StatefulContext {
     // TODO
   }
 }

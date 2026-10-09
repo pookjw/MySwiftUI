@@ -264,20 +264,23 @@ func printOffsets() {
     printFields("7SwiftUI16_ShapeStyle_PackV0D0V", isClassType: false)
     printFields("7SwiftUI12SwipeActionsO13ConfigurationV", isClassType: false)
     printFields("7SwiftUI12ContentStyleO08MaterialD0V", isClassType: false)
+    printFields(SwiftUI::Material.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
     
-    let value = _ShapeStyle_Shape.Operation.primaryStyle
-    withUnsafePointer(to: value) { pointer in
-        let raw = UnsafeRawPointer(pointer)
-        print(raw.advanced(by: 0x0).assumingMemoryBound(to: UInt.self).pointee)
-        print(raw.advanced(by: 0x8).assumingMemoryBound(to: UInt.self).pointee)
-        print(raw.advanced(by: 0x10).assumingMemoryBound(to: UInt.self).pointee)
-        print(raw.advanced(by: 0x18).assumingMemoryBound(to: UInt.self).pointee)
-    }
+//    do {
+//        let value = _ShapeStyle_Shape.Operation.copyStyle(name: .background)
+//        withUnsafePointer(to: value) { pointer in
+//            let raw = UnsafeRawPointer(pointer)
+//            print(raw.advanced(by: 0x0).assumingMemoryBound(to: UInt.self).pointee)
+//            print(raw.advanced(by: 0x8).assumingMemoryBound(to: UInt.self).pointee)
+//            print(raw.advanced(by: 0x10).assumingMemoryBound(to: UInt.self).pointee)
+//            print(raw.advanced(by: 0x18).assumingMemoryBound(to: UInt.self).pointee)
+//        }
+//    }
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {

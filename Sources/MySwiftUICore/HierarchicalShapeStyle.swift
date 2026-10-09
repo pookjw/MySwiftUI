@@ -73,20 +73,21 @@ private import SwiftUI
     
     static let sharedPrimary = AnyShapeStyle(HierarchicalShapeStyle.primary)
     
-//    fileprivate func apply<T : ShapeStyle>(_: T, to: inout _ShapeStyle_Shape) {
-//        assertUnimplemented()
-//    }
-    
-    fileprivate func apply(_ style: ForegroundMaterialStyle, to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
-    }
-    
-    fileprivate func apply(_ style: SystemColorsStyle, to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
-    }
-    
-    fileprivate func apply(_ style: AnyShapeStyle, to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+    fileprivate func apply<T : ShapeStyle>(_ style: T, to shape: inout _ShapeStyle_Shape) {
+        if self.id == HierarchicalShapeStyle.primary.id {
+            if case .copyStyle(_) = shape.operation {
+                shape.result = .style(AnyShapeStyle(style))
+            } else {
+                style._apply(to: &shape)
+            }
+        } else {
+            if case .copyStyle(_) = shape.operation {
+                shape.result = .style(AnyShapeStyle(OffsetShapeStyle(base: style, offset: Int(self.id))))
+            } else {
+                OffsetShapeStyle(base: style, offset: Int(self.id))
+                    ._apply(to: &shape)
+            }
+        }
     }
 }
 
