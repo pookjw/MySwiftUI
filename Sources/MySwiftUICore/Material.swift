@@ -111,10 +111,14 @@ extension MySwiftUICore::Material {
     
     package struct Context {
         private var environment: EnvironmentValues
-        private var role: ShapeRole?
-        private var substrate: MySwiftUICore::Material.Substrate?
-        private var shapeDimensions: ClosedRange<CGFloat>?
-        private var shapeMetrics:MySwiftUICore:: Material.ShapeMetrics?
+        private var role: ShapeRole? = nil
+        private var substrate: MySwiftUICore::Material.Substrate? = nil
+        private var shapeDimensions: ClosedRange<CGFloat>? = nil
+        private var shapeMetrics: MySwiftUICore::Material.ShapeMetrics? = nil
+        
+        init(environment: EnvironmentValues) {
+            self.environment = environment
+        }
     }
     
     package struct ForegroundStyle {
@@ -174,6 +178,16 @@ extension EnvironmentValues {
             }
         }
     }
+    
+#if SwiftUICompatibility
+    func materialProvider(for material: SwiftUI::Material) -> _SwiftUICorePrivate::MaterialProviderBoxBase? {
+        assertUnimplemented()
+    }
+#else
+    func materialProvider(for material: MySwiftUICore::Material) -> MySwiftUICore::MaterialProviderBoxBase? {
+        assertUnimplemented()
+    }
+#endif
 }
 
 protocol SystemMaterialDefinition : AnyObject {

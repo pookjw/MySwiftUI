@@ -632,7 +632,10 @@ public protocol MaterialProvider {
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
-open class MaterialProviderBoxBase {}
+open class MaterialProviderBoxBase {
+  open func resolveLayers(in context: SwiftUI.Material.Context) -> SwiftUI.Material.Layers
+  open func applyForegroundStyle(to shape: inout SwiftUI._ShapeStyle_Shape)
+}
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
@@ -671,7 +674,7 @@ extension SwiftUI.Material {
   }
 
   public struct Context {
-    // TODO
+    public init(environment: SwiftUI.EnvironmentValues)
   }
 
   public struct Layer {
@@ -679,6 +682,10 @@ extension SwiftUI.Material {
   }
 
   public struct ForegroundStyle {
+    // TODO
+  }
+
+  public struct StatefulContext {
     // TODO
   }
 }
@@ -2549,4 +2556,26 @@ public class CAHostingLayer<Content> : QuartzCore.CALayer where Content : SwiftU
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.EnvironmentValues {
   public var defaultPadding: SwiftUI.EdgeInsets { get set }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI._ShapeStyle_Shape {
+  public enum Operation {
+    case prepareText(level: Swift.Int)
+    case resolveStyle(name: _SwiftUICorePrivate._ShapeStyle_Name, levels: Swift.Range<Swift.Int>)
+    case fallbackColor(level: Swift.Int)
+    case copyStyle(name: _SwiftUICorePrivate._ShapeStyle_Name)
+    case modifyBackground(level: Swift.Int)
+    case multiLevel
+    case primaryStyle
+  }
+}
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum _ShapeStyle_Name {
+    case foreground
+    case background
+    case multicolor
 }

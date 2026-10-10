@@ -633,7 +633,8 @@ public protocol MaterialProvider {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 open class MaterialProviderBoxBase {
-   open func applyForegroundStyle(to shape: inout SwiftUI._ShapeStyle_Shape)
+  open func resolveLayers(in context: SwiftUI.Material.Context) -> SwiftUI.Material.Layers
+  open func applyForegroundStyle(to shape: inout SwiftUI._ShapeStyle_Shape)
 }
 
 @available(visionOS 26.0, *)
@@ -673,7 +674,7 @@ extension SwiftUI.Material {
   }
 
   public struct Context {
-    // TODO
+    public init(environment: SwiftUI.EnvironmentValues)
   }
 
   public struct Layer {

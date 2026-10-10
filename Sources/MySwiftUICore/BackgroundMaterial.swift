@@ -43,15 +43,27 @@ fileprivate struct BackgroundMaterialKey : EnvironmentKey {
 extension MySwiftUICore::_ShapeStyle_Shape {
 #if SwiftUICompatibility
     // 원래 없음
+    @inline(always)
     func resolveStyle(level: Int, material: SwiftUI::Material) -> _ShapeStyle_Pack.Style {
         return self.resolveStyle(id: ContentStyle.ID(truncatingLevel: level), material: material)
     }
     
     fileprivate func resolveStyle(id: ContentStyle.ID, material: SwiftUI::Material) -> _ShapeStyle_Pack.Style {
+        /*
+         id -> x0 -> w25
+         material -> x1 -> x23/w24/w27
+         */
+        if let provider = self.environment.materialProvider(for: material) {
+            // <+112>
+//            provider.resolveLayers(in: SwiftUI::Material.Context(environment: <#T##EnvironmentValues#>))
+        } else {
+            // <+272>
+        }
         assertUnimplemented()
     }
 #else
     // 원래 없음
+    @inline(always)
     func resolveStyle(level: Int, material: MySwiftUICore::Material) -> _ShapeStyle_Pack.Style {
         return self.resolveStyle(id: ContentStyle.ID(truncatingLevel: level), material: material)
     }
