@@ -1,7 +1,4 @@
 // BE30CA4BBA5F98638AD9D34F1557FB4D
-#if SwiftUICompatibility
-private import SwiftUI
-#endif
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @frozen public struct HierarchicalShapeStyle : ShapeStyle {

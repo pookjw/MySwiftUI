@@ -1,18 +1,8 @@
 internal import _UIKitPrivate
-#if SwiftUICompatibility
-internal import SwiftUI
-#else
 internal import MySwiftUICore
-#endif
 
 extension _UIUserInterfaceContainerVibrancy {
-#if SwiftUICompatibility
-    typealias ResolvedMaterial = SwiftUI::Material
-#else
-    typealias ResolvedMaterial = MySwiftUICore::Material
-#endif
-    
-    init(material: ResolvedMaterial?) {
+    init(material: MySwiftUICore::Material?) {
         // material -> x0 -> x19
         // x20
         guard let copy_1 = material else {

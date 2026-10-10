@@ -1,9 +1,5 @@
 // 4075E3A4E56336DD739D990E781CBB12
 package import Foundation
-#if SwiftUICompatibility
-public import SwiftUI
-internal import _SwiftUICorePrivate
-#endif
 
 public struct Material : Sendable {
     package var id: MySwiftUICore::Material.ID
@@ -179,23 +175,13 @@ extension EnvironmentValues {
         }
     }
     
-#if SwiftUICompatibility
-    func materialProvider(for material: SwiftUI::Material) -> _SwiftUICorePrivate::MaterialProviderBoxBase? {
-        assertUnimplemented()
-    }
-#else
     func materialProvider(for material: MySwiftUICore::Material) -> MySwiftUICore::MaterialProviderBoxBase? {
         assertUnimplemented()
     }
-#endif
 }
 
 protocol SystemMaterialDefinition : AnyObject {
-#if SwiftUICompatibility
-    static func provider(for: SwiftUI::Material) -> MaterialProvider?
-#else
     static func provider(for: MySwiftUICore::Material) -> MaterialProvider?
-#endif
 }
 
 fileprivate struct SystemMaterialDefinitionKey : EnvironmentKey {
@@ -399,28 +385,12 @@ struct UsingGraphicsRenderer : ViewInput {
     }
 }
 
-#if SwiftUICompatibility
-extension _SwiftUICorePrivate::MaterialProviderBoxBase {
-    func msui_applyForegroundStyle(to shape: inout MySwiftUICore::_ShapeStyle_Shape) {
-        assertUnimplemented() // TODO: MySwiftUICore::_ShapeStyle_Shape -> SwiftUICore::_ShapeStyle_Shape
-    }
-}
-#endif
-
 struct ForegroundMaterialStyle : ShapeStyle, PrimitiveShapeStyle {
-#if SwiftUICompatibility
-    var material: SwiftUI::Material
-    
-    init(material: SwiftUI::Material) {
-        self.material = material
-    }
-#else
     var material: MySwiftUICore::Material
     
     init(material: MySwiftUICore::Material) {
         self.material = material
     }
-#endif
     
     func _apply(to shape: inout _ShapeStyle_Shape) {
         /*
@@ -429,11 +399,7 @@ struct ForegroundMaterialStyle : ShapeStyle, PrimitiveShapeStyle {
          */
         if case .provider(let provider) = self.material.id {
             // <+188>
-#if SwiftUICompatibility
-            provider.msui_applyForegroundStyle(to: &shape)
-#else
             provider.applyForegroundStyle(to: &shape)
-#endif
         } else {
             // <+64>
             if
