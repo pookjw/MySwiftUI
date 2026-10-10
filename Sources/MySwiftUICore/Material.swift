@@ -2,35 +2,39 @@
 package import Foundation
 
 public struct Material : Sendable {
-    package var id: MySwiftUICore::Material.ID
-    private var flags: MySwiftUICore::Material.ResolvedMaterial.Flags
+    package var id: Material.ID
+    var flags: Material.ResolvedMaterial.Flags
     
-    init(_ id: MySwiftUICore::Material.ID) {
+    init(_ id: Material.ID) {
         self.id = id
         self.flags = []
     }
 }
 
-extension MySwiftUICore::Material {
-    public static let regular: MySwiftUICore::Material = { assertUnimplemented() }()
-    public static let thick: MySwiftUICore::Material = { assertUnimplemented() }()
-    public static let thin: MySwiftUICore::Material = { assertUnimplemented() }()
-    public static let ultraThin: MySwiftUICore::Material = { assertUnimplemented() }()
-    public static let ultraThick: MySwiftUICore::Material = { assertUnimplemented() }()
-    public static let bar: MySwiftUICore::Material = { assertUnimplemented() }()
+extension Material {
+    public static let regular: Material = { assertUnimplemented() }()
+    public static let thick: Material = { assertUnimplemented() }()
+    public static let thin: Material = { assertUnimplemented() }()
+    public static let ultraThin: Material = { assertUnimplemented() }()
+    public static let ultraThick: Material = { assertUnimplemented() }()
+    public static let bar: Material = { assertUnimplemented() }()
 }
 
-extension MySwiftUICore::Material {
-    package init<T : MySwiftUICore::MaterialProvider>(provider: T) {
+extension Material {
+    package init<T : MaterialProvider>(provider: T) {
         assertUnimplemented()
     }
     
-    package func provider<T : MySwiftUICore::MaterialProvider>(ofType type: T.Type) -> T? {
-        assertUnimplemented()
+    package func provider<T : MaterialProvider>(ofType type: T.Type) -> T? {
+        if case .provider(let provider) = self.id {
+            return provider.as(T.self)
+        } else {
+            return nil
+        }
     }
 }
 
-extension MySwiftUICore::Material {
+extension Material {
     enum Substrate {
         case caLayer
         case graphicsContext
@@ -38,23 +42,35 @@ extension MySwiftUICore::Material {
     }
     
     struct ResolvedMaterial {
-        private var id: MySwiftUICore::Material.ID
-        private var flags: MySwiftUICore::Material.ResolvedMaterial.Flags
-        private var styieID: ContentStyle.ID?
+        private(set) var id: Material.ID
+        private(set) var flags: Material.ResolvedMaterial.Flags
+        var styieID: ContentStyle.ID?
+        
+        func prefersRenderingBackgroundWithStyle(in environment: EnvironmentValues) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 
-extension MySwiftUICore::Material.ResolvedMaterial {
+extension Material.ResolvedMaterial {
     struct Flags : OptionSet {
         let rawValue: UInt32
+        
+        init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+        
+        init(environment: EnvironmentValues) {
+            assertUnimplemented()
+        }
     }
 }
 
-extension MySwiftUICore::Material : ShapeStyle {
+extension Material : ShapeStyle {
     public typealias Resolved = Never
     
     @available(*, deprecated, message: "obsolete")
-    nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, MySwiftUICore::Material>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+    nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Material>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         assertUnimplemented()
     }
     
@@ -67,15 +83,15 @@ extension MySwiftUICore::Material : ShapeStyle {
     }
 }
 
-extension MySwiftUICore::Material {
+extension Material {
     //    public func materialActiveAppearance(_ appearance: MaterialActiveAppearance) -> Material
 }
 
-extension MySwiftUICore::Material {
+extension Material {
     package enum ID : @unchecked Sendable {
         case coreMaterial(light: String, dark: String, bundle: Bundle?)
-        case provider(MySwiftUICore::MaterialProviderBoxBase)
-        case layers(MySwiftUICore::Material.Layers)
+        case provider(MaterialProviderBoxBase)
+        case layers(Material.Layers)
         case ultraThin
         case thin
         case regular
@@ -94,13 +110,13 @@ extension MySwiftUICore::Material {
     }
 }
 
-extension MySwiftUICore::Material {
+extension Material {
     package struct Layers {
-        private var layers: [Layer]
+        private var layers: [Material.Layer]
     }
     
     package struct Layer {
-        private var storage: MySwiftUICore::Material.Layer.Storage
+        private var storage: Material.Layer.Storage
         private var _opacity: Float
         private var _blendMode: GraphicsBlendMode
     }
@@ -108,9 +124,9 @@ extension MySwiftUICore::Material {
     package struct Context {
         private var environment: EnvironmentValues
         private var role: ShapeRole? = nil
-        private var substrate: MySwiftUICore::Material.Substrate? = nil
+        var substrate: Material.Substrate? = nil
         private var shapeDimensions: ClosedRange<CGFloat>? = nil
-        private var shapeMetrics: MySwiftUICore::Material.ShapeMetrics? = nil
+        private var shapeMetrics: Material.ShapeMetrics? = nil
         
         init(environment: EnvironmentValues) {
             self.environment = environment
@@ -118,7 +134,7 @@ extension MySwiftUICore::Material {
     }
     
     package struct ForegroundStyle {
-        private var storage: MySwiftUICore::Material.ForegroundStyle.Storage
+        private var storage: Material.ForegroundStyle.Storage
     }
     
     struct ShapeMetrics {
@@ -132,7 +148,7 @@ extension MySwiftUICore::Material {
     }
 }
 
-extension MySwiftUICore::Material.ForegroundStyle {
+extension Material.ForegroundStyle {
     fileprivate enum Storage {
         case color(Color.Resolved)
         case colorBlend(Color.Resolved, GraphicsContext.BlendMode)
@@ -140,11 +156,11 @@ extension MySwiftUICore::Material.ForegroundStyle {
     }
 }
 
-extension MySwiftUICore::Material.Layer {
+extension Material.Layer {
     enum Storage {
         case color(Color.ResolvedHDR)
         case backdropSwiftUI(BackdropEffect)
-        case sdfLayer(MySwiftUICore::Material.Layer.SDFLayer)
+        case sdfLayer(Material.Layer.SDFLayer)
         case intelligenceLightSource(IntelligenceLightSourceLayer)
     }
     
@@ -154,11 +170,11 @@ extension MySwiftUICore::Material.Layer {
 }
 
 package protocol MaterialProvider {
-    func resolveLayers(in context: MySwiftUICore::Material.Context) -> [MySwiftUICore::Material.Layer]
-    func resolveForegroundStyle(level: Int, in context: MySwiftUICore::Material.Context) -> MySwiftUICore::Material.ForegroundStyle?
-    func resolveAdaptiveColor(_ color: Color.ResolvedHDR, in context: MySwiftUICore::Material.Context) -> MySwiftUICore::Material.ForegroundStyle
-    func foregroundEnvironment(_ environment: inout EnvironmentValues, for: MySwiftUICore::Material)
-    func resolveBackgroundStyle(level: Int, in context: MySwiftUICore::Material.Context) -> MySwiftUICore::Material.ForegroundStyle?
+    func resolveLayers(in context: Material.Context) -> [Material.Layer]
+    func resolveForegroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
+    func resolveAdaptiveColor(_ color: Color.ResolvedHDR, in context: Material.Context) -> Material.ForegroundStyle
+    func foregroundEnvironment(_ environment: inout EnvironmentValues, for: Material)
+    func resolveBackgroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
 }
 
 extension EnvironmentValues {
@@ -175,13 +191,13 @@ extension EnvironmentValues {
         }
     }
     
-    func materialProvider(for material: MySwiftUICore::Material) -> MySwiftUICore::MaterialProviderBoxBase? {
+    func materialProvider(for material: Material) -> MaterialProviderBoxBase? {
         assertUnimplemented()
     }
 }
 
 protocol SystemMaterialDefinition : AnyObject {
-    static func provider(for: MySwiftUICore::Material) -> MaterialProvider?
+    static func provider(for: Material) -> MaterialProvider?
 }
 
 fileprivate struct SystemMaterialDefinitionKey : EnvironmentKey {
@@ -201,7 +217,7 @@ extension SystemMaterialDefinitionKey {
 }
 
 package class MaterialProviderBoxBase {
-    func resolveLayers(in context: MySwiftUICore::Material.Context) -> MySwiftUICore::Material.Layers {
+    func resolveLayers(in context: Material.Context) -> Material.Layers {
         fatalError() // abstract
     }
     
@@ -217,7 +233,7 @@ package class MaterialProviderBoxBase {
         fatalError() // abstract
     }
     
-    func foregroundEnvironment(_ environment: inout EnvironmentValues, for material: MySwiftUICore::Material) {
+    func foregroundEnvironment(_ environment: inout EnvironmentValues, for material: Material) {
         fatalError() // abstract
     }
     
@@ -225,11 +241,11 @@ package class MaterialProviderBoxBase {
         return false
     }
     
-    func updateState(_ state: AnyEquatable?, in context: inout MySwiftUICore::Material.StatefulContext) -> AnyEquatable? {
+    func updateState(_ state: AnyEquatable?, in context: inout Material.StatefulContext) -> AnyEquatable? {
         fatalError() // abstract
     }
     
-    func applyingState(_ state: AnyEquatable?) -> MySwiftUICore::Material {
+    func applyingState(_ state: AnyEquatable?) -> Material {
         fatalError() // abstract
     }
     
@@ -245,7 +261,7 @@ package class MaterialProviderBoxBase {
         fatalError() // abstract
     }
     
-    func isEqual(to other: MySwiftUICore::MaterialProviderBoxBase) -> Bool {
+    func isEqual(to other: MaterialProviderBoxBase) -> Bool {
         fatalError() // abstract
     }
     
@@ -263,7 +279,7 @@ package class MaterialProviderBoxBase {
     }
 }
 
-fileprivate final class MaterialProviderBox<U : MySwiftUICore::MaterialProvider> : MySwiftUICore::MaterialProviderBoxBase {
+fileprivate final class MaterialProviderBox<U : MaterialProvider> : MaterialProviderBoxBase {
     let provider: U
     
     init(_ provider: U) {
@@ -303,68 +319,68 @@ fileprivate final class MaterialProviderBox<U : MySwiftUICore::MaterialProvider>
     }
 }
 
-extension ShapeStyle where Self == MySwiftUICore::Material {
-    @_alwaysEmitIntoClient public static var regularMaterial: MySwiftUICore::Material {
+extension ShapeStyle where Self == Material {
+    @_alwaysEmitIntoClient public static var regularMaterial: Material {
         return .regular
     }
     
-    @_alwaysEmitIntoClient public static var thickMaterial: MySwiftUICore::Material {
+    @_alwaysEmitIntoClient public static var thickMaterial: Material {
         return .thick
     }
     
-    @_alwaysEmitIntoClient public static var thinMaterial: MySwiftUICore::Material {
+    @_alwaysEmitIntoClient public static var thinMaterial: Material {
         return .thin
     }
     
-    @_alwaysEmitIntoClient public static var ultraThinMaterial: MySwiftUICore::Material {
+    @_alwaysEmitIntoClient public static var ultraThinMaterial: Material {
         return .ultraThin
     }
     
-    @_alwaysEmitIntoClient public static var ultraThickMaterial: MySwiftUICore::Material {
+    @_alwaysEmitIntoClient public static var ultraThickMaterial: Material {
         return .ultraThick
     }
     
-    @_alwaysEmitIntoClient public static var bar: MySwiftUICore::Material {
+    @_alwaysEmitIntoClient public static var bar: Material {
         return .bar
     }
 }
 
-extension MySwiftUICore::Material {
-    package static var experimentalGlassMaterial: MySwiftUICore::Material {
+extension Material {
+    package static var experimentalGlassMaterial: Material {
         fatalError()
     }
     
-    package static var vibrantGlassContent: MySwiftUICore::Material {
+    package static var vibrantGlassContent: Material {
         return Material(.vibrantGlassContent)
     }
     
-    package static var darkerGlass: MySwiftUICore::Material {
+    package static var darkerGlass: Material {
         fatalError()
     }
     
-    package static var lighterGlass: MySwiftUICore::Material {
+    package static var lighterGlass: Material {
         fatalError()
     }
     
-    package static var ultraDarkerGlass: MySwiftUICore::Material {
+    package static var ultraDarkerGlass: Material {
         fatalError()
     }
     
-    package static var modal: MySwiftUICore::Material {
+    package static var modal: Material {
         fatalError()
     }
     
-    package static var toolbarButton: MySwiftUICore::Material {
+    package static var toolbarButton: Material {
         fatalError()
     }
     
-    package static func _intelligenceLightSource(prefersAudioReactivity: Bool) -> MySwiftUICore::Material {
+    package static func _intelligenceLightSource(prefersAudioReactivity: Bool) -> Material {
         fatalError()
     }
 }
 
 extension _ViewInputs {
-    var materialSubstrate: MySwiftUICore::Material.Substrate? {
+    var materialSubstrate: Material.Substrate? {
         if self[UsingGraphicsRenderer.self] {
             return .graphicsContext
         }
@@ -386,9 +402,9 @@ struct UsingGraphicsRenderer : ViewInput {
 }
 
 struct ForegroundMaterialStyle : ShapeStyle, PrimitiveShapeStyle {
-    var material: MySwiftUICore::Material
+    var material: Material
     
-    init(material: MySwiftUICore::Material) {
+    init(material: Material) {
         self.material = material
     }
     
@@ -406,7 +422,7 @@ struct ForegroundMaterialStyle : ShapeStyle, PrimitiveShapeStyle {
                 let definition = shape.environment.systemMaterialDefinition,
                 let materialProvider = definition.provider(for: self.material)
             {
-                func project<T : MySwiftUICore::MaterialProvider>(provider: T) -> MaterialProviderBoxBase {
+                func project<T : MaterialProvider>(provider: T) -> MaterialProviderBoxBase {
                     return MaterialProviderBox<T>(provider)
                 }
                 

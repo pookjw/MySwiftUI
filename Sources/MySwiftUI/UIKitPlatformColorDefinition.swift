@@ -130,7 +130,7 @@ extension UITraitCollection {
         environmentValues.isInOrnament = self.mrui_ornamentStatus
         
         if self.userInterfaceIdiom == .vision {
-            let material: MySwiftUICore::Material?
+            let material: Material?
             switch _containerVibrancy() {
             case .lighterGlass:
                 material = .lighterGlass

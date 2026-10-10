@@ -80,17 +80,29 @@ extension ContentStyle {
     }
     
     struct Style {
-        private var id: ContentStyle.ID
-        private var primitive: ContentStyle.Primitive
+        private(set) var id: ContentStyle.ID
+        private(set) var primitive: ContentStyle.Primitive
     }
     
     struct MaterialStyle {
-        private var material: Material.ResolvedMaterial
-        private var base: ContentStyle.Style
+        private(set) var material: Material.ResolvedMaterial
+        private(set) var base: ContentStyle.Style
+        
+        func resolveCoreMaterialColor(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+            assertUnimplemented()
+        }
     }
     
     // nominal type descriptor가 없음
     struct MaterialResolved {
-        // TODO
+        let material: Material.ResolvedMaterial
+        let id: ContentStyle.ID
+        let primitive: ContentStyle.Primitive
+    }
+}
+
+extension EnvironmentValues {
+    var backgroundContentStyleID: ContentStyle.ID? {
+        assertUnimplemented()
     }
 }

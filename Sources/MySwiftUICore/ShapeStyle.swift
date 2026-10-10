@@ -66,7 +66,7 @@ public struct _ShapeStyle_Shape {
     private(set) var foregroundStyle: AnyShapeStyle? // 0x40
     private(set) var bounds: CGRect? // 0x48
     var role: ShapeRole // 0x69
-    private var substrate: Material.Substrate? // 0x6a
+    private(set) var substrate: Material.Substrate? // 0x6a
     var activeRecursiveStyles: _ShapeStyle_Shape.RecursiveStyles // 0x6b
     
     init(
