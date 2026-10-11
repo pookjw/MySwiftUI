@@ -1442,7 +1442,7 @@ struct KeyedAnimatableArray<T, U> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    private var elements: [KeyedAnimatableArray<T, U>.Element]
+    var elements: [KeyedAnimatableArray<T, U>.Element]
     private var isZero: Bool
     
     init(_ elements: [KeyedAnimatableArray<T, U>.Element]) {

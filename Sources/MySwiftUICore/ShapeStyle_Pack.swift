@@ -67,10 +67,45 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     
     var animatableData: KeyedAnimatableArray<_ShapeStyle_Pack.Key, AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>>> {
         get {
-            assertUnimplemented()
+            var elements: [KeyedAnimatableArray<_ShapeStyle_Pack.Key, AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>>>.Element] = []
+            
+            if !self.styles.isEmpty {
+                elements.reserveCapacity(self.styles.count)
+                
+                for style in self.styles {
+                    // inlined
+                    elements.append(
+                        KeyedAnimatableArray.Element(
+                            key: style.key,
+                            data: style.style.animatableData
+                        )
+                    )
+                }
+            }
+            
+            return KeyedAnimatableArray(elements)
         }
         set {
-            assertUnimplemented()
+            var startIndex = self.styles.startIndex
+            
+            for incoming in newValue.elements {
+                for index in startIndex..<self.styles.endIndex {
+                    let key = self.styles[index].key
+                    
+                    if incoming.key == key {
+                        // inlined
+                        self.styles[index].style.animatableData = incoming.data
+                        startIndex = self.styles.index(after: index)
+                        break
+                    } else if (key.name < incoming.key.name) || (!(key._level >= incoming.key._level) && (key.name == incoming.key.name)) {
+                        startIndex = self.styles.index(after: index)
+                        continue
+                    } else {
+                        startIndex = index
+                        break
+                    }
+                }
+            }
         }
     }
     
@@ -146,7 +181,11 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
 }
 
 extension _ShapeStyle_Pack {
-    struct Style {
+    struct Style : Animatable, Equatable {
+        static func == (lhs: _ShapeStyle_Pack.Style, rhs: _ShapeStyle_Pack.Style) -> Bool {
+            assertUnimplemented()
+        }
+        
         @safe static nonisolated(unsafe) let clear: _ShapeStyle_Pack.Style = {
             assertUnimplemented()
         }()
@@ -168,10 +207,6 @@ extension _ShapeStyle_Pack {
             assertUnimplemented()
         }
         
-        static func == (lhs: _ShapeStyle_Pack.Style, rhs: _ShapeStyle_Pack.Style) -> Bool {
-            assertUnimplemented()
-        }
-        
         var isClear: Bool {
             assertUnimplemented()
         }
@@ -184,14 +219,14 @@ extension _ShapeStyle_Pack {
             assertUnimplemented()
         }
         
-//        var animatableData: AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>> {
-//            get {
-//                assertUnimplemented()
-//            }
-//            set {
-//                assertUnimplemented()
-//            }
-//        }
+        var animatableData: AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>> {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
         
 //        fileprivate func modifyStyle(for layer: RBSymbolUpdateLayer) {
 //            assertUnimplemented()
@@ -328,8 +363,6 @@ extension _ShapeStyle_Pack.Fill {
         var magnitudeSquared: Double {
             assertUnimplemented()
         }
-        
-        // TODO
     }
 }
 
