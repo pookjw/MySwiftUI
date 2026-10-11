@@ -61,7 +61,28 @@ extension Material.ResolvedMaterial {
         }
         
         init(environment: EnvironmentValues) {
-            assertUnimplemented()
+            // w22
+            let colorScheme = environment.colorScheme
+            // w23
+            let colorSchemeContrast = environment.colorSchemeContrast
+            // w20
+            let isVisionEnabled = environment.isVisionEnabled
+            
+            var w8: UInt32 = (colorScheme == .dark) ? 1 : 0
+            let w9: UInt32 = (colorScheme == .dark) ? 5 : 4
+            var w22 = (colorSchemeContrast == .increased) ? w9 : w8
+            
+            if isVisionEnabled {
+                // <+228>
+                w22 |= 512
+            }
+            
+            // <+260>
+            let isBackgroundOpaque = environment.isBackgroundOpaque
+            w8 = w22 | 256
+            let w0 = isBackgroundOpaque ? w8 : w22
+            
+            self.rawValue = w0
         }
     }
 }
@@ -192,12 +213,27 @@ extension EnvironmentValues {
     }
     
     func materialProvider(for material: Material) -> MaterialProviderBoxBase? {
-        assertUnimplemented()
+        if case .provider(let provider) = material.id {
+            return provider
+        }
+        
+        guard
+            let systemMaterialDefinition,
+            let provider = systemMaterialDefinition.provider(for: material)
+        else {
+            return nil
+        }
+        
+        func project<T : MaterialProvider>(provider: T) -> MaterialProviderBoxBase {
+            return MaterialProviderBox(provider)
+        }
+        
+        return _openExistential(provider, do: project(provider:))
     }
 }
 
 protocol SystemMaterialDefinition : AnyObject {
-    static func provider(for: Material) -> MaterialProvider?
+    static func provider(for: Material) -> (any MaterialProvider)?
 }
 
 fileprivate struct SystemMaterialDefinitionKey : EnvironmentKey {
