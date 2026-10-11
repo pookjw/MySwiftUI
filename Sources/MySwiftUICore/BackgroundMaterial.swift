@@ -89,3 +89,91 @@ extension MySwiftUICore::_ShapeStyle_Shape {
         )
     }
 }
+
+extension Material {
+    struct ResolvedMaterial {
+        private(set) var id: Material.ID
+        private(set) var flags: Material.ResolvedMaterial.Flags
+        var styieID: ContentStyle.ID?
+        
+        fileprivate func prefersRenderingBackgroundWithStyle(in environment: EnvironmentValues) -> Bool {
+            guard environment.isVisionEnabled else {
+                return false
+            }
+            
+            switch self.id {
+            case .coreMaterial(_, _, _):
+                return false
+            case .provider(_):
+                return false
+            case .layers(_):
+                return false
+            case .ultraThin:
+                return true
+            case .thin:
+                return true
+            case .regular:
+                return true
+            case .thick:
+                return true
+            case .ultraThick:
+                return true
+            case .systemBars:
+                return false
+            case .intelligenceLightSource_Unreactive:
+                return false
+            case .intelligenceLightSource_AudioReactive:
+                return false
+            case .pinched:
+                return true
+            case .selected:
+                return true
+            case .disabled:
+                return true
+            case .vibrantGlassContent:
+                return false
+            case .darkerGlass:
+                return true
+            case .lighterGlass:
+                return true
+            case .ultraDarkerGlass:
+                return true
+            }
+        }
+    }
+}
+
+extension Material.ResolvedMaterial {
+    struct Flags : OptionSet {
+        let rawValue: UInt32
+        
+        init(rawValue: UInt32) {
+            self.rawValue = rawValue
+        }
+        
+        init(environment: EnvironmentValues) {
+            // w22
+            let colorScheme = environment.colorScheme
+            // w23
+            let colorSchemeContrast = environment.colorSchemeContrast
+            // w20
+            let isVisionEnabled = environment.isVisionEnabled
+            
+            var w8: UInt32 = (colorScheme == .dark) ? 1 : 0
+            let w9: UInt32 = (colorScheme == .dark) ? 5 : 4
+            var w22 = (colorSchemeContrast == .increased) ? w9 : w8
+            
+            if isVisionEnabled {
+                // <+228>
+                w22 |= 512
+            }
+            
+            // <+260>
+            let isBackgroundOpaque = environment.isBackgroundOpaque
+            w8 = w22 | 256
+            let w0 = isBackgroundOpaque ? w8 : w22
+            
+            self.rawValue = w0
+        }
+    }
+}

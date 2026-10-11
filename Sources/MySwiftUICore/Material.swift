@@ -40,51 +40,6 @@ extension Material {
         case graphicsContext
         case archive
     }
-    
-    struct ResolvedMaterial {
-        private(set) var id: Material.ID
-        private(set) var flags: Material.ResolvedMaterial.Flags
-        var styieID: ContentStyle.ID?
-        
-        func prefersRenderingBackgroundWithStyle(in environment: EnvironmentValues) -> Bool {
-            assertUnimplemented()
-        }
-    }
-}
-
-extension Material.ResolvedMaterial {
-    struct Flags : OptionSet {
-        let rawValue: UInt32
-        
-        init(rawValue: UInt32) {
-            self.rawValue = rawValue
-        }
-        
-        init(environment: EnvironmentValues) {
-            // w22
-            let colorScheme = environment.colorScheme
-            // w23
-            let colorSchemeContrast = environment.colorSchemeContrast
-            // w20
-            let isVisionEnabled = environment.isVisionEnabled
-            
-            var w8: UInt32 = (colorScheme == .dark) ? 1 : 0
-            let w9: UInt32 = (colorScheme == .dark) ? 5 : 4
-            var w22 = (colorSchemeContrast == .increased) ? w9 : w8
-            
-            if isVisionEnabled {
-                // <+228>
-                w22 |= 512
-            }
-            
-            // <+260>
-            let isBackgroundOpaque = environment.isBackgroundOpaque
-            w8 = w22 | 256
-            let w0 = isBackgroundOpaque ? w8 : w22
-            
-            self.rawValue = w0
-        }
-    }
 }
 
 extension Material : ShapeStyle {
@@ -110,24 +65,24 @@ extension Material {
 
 extension Material {
     package enum ID : @unchecked Sendable {
-        case coreMaterial(light: String, dark: String, bundle: Bundle?)
-        case provider(MaterialProviderBoxBase)
-        case layers(Material.Layers)
-        case ultraThin
+        case coreMaterial(light: String, dark: String, bundle: Bundle?) // values, 0x0
+        case provider(MaterialProviderBoxBase) // values, 0x1
+        case layers(Material.Layers) // values, 0x2
+        case ultraThin // 0x0, 0x3
         case thin
         case regular
         case thick
         case ultraThick
         case systemBars
         case intelligenceLightSource_Unreactive
-        case intelligenceLightSource_AudioReactive
+        case intelligenceLightSource_AudioReactive // 0x7, 0x3
         case pinched
         case selected
         case disabled
         case vibrantGlassContent // 0xb, 0x3
         case darkerGlass
         case lighterGlass
-        case ultraDarkerGlass
+        case ultraDarkerGlass // 0xe, 0x3
     }
 }
 
