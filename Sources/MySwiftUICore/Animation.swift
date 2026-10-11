@@ -1406,15 +1406,7 @@ struct AnimatableArray<T> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    static func += (lhs: inout AnimatableArray<T>, rhs: AnimatableArray<T>) {
-        assertUnimplemented()
-    }
-    
     static func - (lhs: AnimatableArray<T>, rhs: AnimatableArray<T>) -> AnimatableArray<T> {
-        assertUnimplemented()
-    }
-    
-    static func -= (lhs: inout AnimatableArray<T>, rhs: AnimatableArray<T>) {
         assertUnimplemented()
     }
     
@@ -1426,7 +1418,11 @@ struct AnimatableArray<T> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    private var elements: [T]
+    var elements: [T]
+    
+    init(_ elements: [T]) {
+        self.elements = elements
+    }
 }
 
 struct KeyedAnimatableArray<T, U> : VectorArithmetic {
@@ -1434,15 +1430,7 @@ struct KeyedAnimatableArray<T, U> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    static var zero: KeyedAnimatableArray<T, U> {
-        assertUnimplemented()
-    }
-    
     static func + (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> KeyedAnimatableArray<T, U> {
-        assertUnimplemented()
-    }
-    
-    static func += (lhs: inout KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) {
         assertUnimplemented()
     }
     
@@ -1450,11 +1438,19 @@ struct KeyedAnimatableArray<T, U> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    static func -= (lhs: inout KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) {
+    static var zero: KeyedAnimatableArray<T, U> {
         assertUnimplemented()
     }
     
-    mutating func scale(by rhs: Double) {
+    private var elements: [KeyedAnimatableArray<T, U>.Element]
+    private var isZero: Bool
+    
+    init(_ elements: [KeyedAnimatableArray<T, U>.Element]) {
+        self.elements = elements
+        self.isZero = false
+    }
+    
+    func extract<V>(into elements: inout [V], key: (V) -> T, set: (inout V, U) -> Void) {
         assertUnimplemented()
     }
     
@@ -1462,8 +1458,9 @@ struct KeyedAnimatableArray<T, U> : VectorArithmetic {
         assertUnimplemented()
     }
     
-    private var elements: [KeyedAnimatableArray<T, U>.Element]
-    private var isZero: Bool
+    mutating func scale(by rhs: Double) {
+        assertUnimplemented()
+    }
 }
 
 extension KeyedAnimatableArray {
@@ -1472,7 +1469,7 @@ extension KeyedAnimatableArray {
             assertUnimplemented()
         }
         
-        private var key: T
-        private var data: U
+        var key: T
+        var data: U
     }
 }

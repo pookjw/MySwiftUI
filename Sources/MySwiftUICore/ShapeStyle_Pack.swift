@@ -1,4 +1,5 @@
 // 4DBF651155A4B32ED86C55EAB1B96C61
+internal import CoreGraphics
 
 struct _ShapeStyle_Pack : Equatable, Animatable {
     @safe static nonisolated(unsafe) let defaultValue: _ShapeStyle_Pack = {
@@ -266,15 +267,7 @@ extension _ShapeStyle_Pack.Effect.Kind {
             assertUnimplemented()
         }
         
-        static var zero: _ShapeStyle_Pack.Effect.Kind.AnimatableData {
-            assertUnimplemented()
-        }
-        
         static func + (lhs: _ShapeStyle_Pack.Effect.Kind.AnimatableData, rhs: _ShapeStyle_Pack.Effect.Kind.AnimatableData) -> _ShapeStyle_Pack.Effect.Kind.AnimatableData {
-            assertUnimplemented()
-        }
-        
-        static func += (lhs: inout _ShapeStyle_Pack.Effect.Kind.AnimatableData, rhs: _ShapeStyle_Pack.Effect.Kind.AnimatableData) {
             assertUnimplemented()
         }
         
@@ -282,7 +275,14 @@ extension _ShapeStyle_Pack.Effect.Kind {
             assertUnimplemented()
         }
         
-        static func -= (lhs: inout _ShapeStyle_Pack.Effect.Kind.AnimatableData, rhs: _ShapeStyle_Pack.Effect.Kind.AnimatableData) {
+        case shadow(AnimatablePair<AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>, AnimatablePair<CGFloat, AnimatablePair<CGFloat, CGFloat>>>)
+        case zero
+        
+        init(_: _ShapeStyle_Pack.Effect.Kind) {
+            assertUnimplemented()
+        }
+        
+        mutating func set(effect: inout _ShapeStyle_Pack.Effect.Kind) {
             assertUnimplemented()
         }
         
@@ -293,8 +293,6 @@ extension _ShapeStyle_Pack.Effect.Kind {
         var magnitudeSquared: Double {
             assertUnimplemented()
         }
-        
-        // TODO
     }
 }
 
@@ -304,15 +302,7 @@ extension _ShapeStyle_Pack.Fill {
             assertUnimplemented()
         }
         
-        static var zero: _ShapeStyle_Pack.Fill.AnimatableData {
-            assertUnimplemented()
-        }
-        
         static func + (lhs: _ShapeStyle_Pack.Fill.AnimatableData, rhs: _ShapeStyle_Pack.Fill.AnimatableData) -> _ShapeStyle_Pack.Fill.AnimatableData {
-            assertUnimplemented()
-        }
-        
-        static func += (lhs: inout _ShapeStyle_Pack.Fill.AnimatableData, rhs: _ShapeStyle_Pack.Fill.AnimatableData) {
             assertUnimplemented()
         }
         
@@ -320,9 +310,16 @@ extension _ShapeStyle_Pack.Fill {
             assertUnimplemented()
         }
         
-        static func -= (lhs: inout _ShapeStyle_Pack.Fill.AnimatableData, rhs: _ShapeStyle_Pack.Fill.AnimatableData) {
-            assertUnimplemented()
-        }
+        case color(Color.ResolvedHDR._Animatable)
+        case duotoneColor(AnimatablePair<AnimatablePair<Float, AnimatablePair<Float, Float>>, AnimatablePair<Float, AnimatablePair<Float, Float>>>)
+        case linearGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>, ResolvedGradientVector>)
+        case radialGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, ResolvedGradientVector>, AnimatablePair<CGFloat, CGFloat>>)
+        case ellipticalGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, ResolvedGradientVector>, AnimatablePair<CGFloat, CGFloat>>)
+        case angularGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, ResolvedGradientVector>, AnimatablePair<Double, Double>>)
+        case meshGradient(AnimatablePair<AnimatableArray<Float>, AnimatablePair<AnimatableArray<AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>>, Color.ResolvedHDR._Animatable>>)
+        case shader(ShaderVectorData)
+        case colorMatrix(_ColorMatrix)
+        case zero
         
         mutating func scale(by rhs: Double) {
             assertUnimplemented()
