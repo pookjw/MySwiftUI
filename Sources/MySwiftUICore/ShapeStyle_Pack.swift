@@ -20,7 +20,24 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
             assertUnimplemented()
         }
         set {
-            assertUnimplemented()
+            let key = _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index))
+            
+            for i in self.styles.indices {
+                let value = self.styles[i]
+                
+                if value.key == key {
+                    // <+224>
+                    self.styles[i] = (key: key, style: newValue)
+                    return
+                } else if (name < value.key.name) || (!(value.key._level <= key._level) && (value.key.name == key.name)) {
+                    // <+388>
+                    self.styles.insert((key: key, style: newValue), at: i)
+                    return
+                }
+            }
+            
+            // <+164>
+            self.styles.insert((key: key, style: newValue), at: self.styles.endIndex)
         }
     }
     

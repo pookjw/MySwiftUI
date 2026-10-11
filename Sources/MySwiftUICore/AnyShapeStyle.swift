@@ -90,7 +90,11 @@ extension ShapeStyle {
     }
 }
 
-package enum _ShapeStyle_Name {
+package enum _ShapeStyle_Name : UInt8, Comparable {
+    package static func < (lhs: borrowing _ShapeStyle_Name, rhs: borrowing _ShapeStyle_Name) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+    
     case foreground
     case background
     case multicolor
