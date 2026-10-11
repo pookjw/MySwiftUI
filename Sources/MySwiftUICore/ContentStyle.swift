@@ -89,7 +89,17 @@ extension ContentStyle {
         private(set) var base: ContentStyle.Style
         
         func resolveCoreMaterialColor(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-            assertUnimplemented()
+            guard environment.isVisionEnabled else {
+                if self.material.flags.contains(.unknown0) {
+                    return .white
+                } else {
+                    return .black
+                }
+            }
+            
+            // <+80>
+            let color = environment.materialBaseColor ?? .white
+            return color.resolveHDR(in: environment)
         }
     }
     

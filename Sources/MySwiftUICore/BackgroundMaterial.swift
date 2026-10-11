@@ -145,6 +145,22 @@ extension Material {
 
 extension Material.ResolvedMaterial {
     struct Flags : OptionSet {
+        static var unknown0: Material.ResolvedMaterial.Flags {
+            return Material.ResolvedMaterial.Flags(rawValue: 1 << 0)
+        }
+        
+        static var unknown2: Material.ResolvedMaterial.Flags {
+            return Material.ResolvedMaterial.Flags(rawValue: 1 << 2)
+        }
+        
+        static var unknown8: Material.ResolvedMaterial.Flags {
+            return Material.ResolvedMaterial.Flags(rawValue: 1 << 8)
+        }
+        
+        static var unknown9: Material.ResolvedMaterial.Flags {
+            return Material.ResolvedMaterial.Flags(rawValue: 1 << 9)
+        }
+        
         let rawValue: UInt32
         
         init(rawValue: UInt32) {
@@ -159,21 +175,21 @@ extension Material.ResolvedMaterial {
             // w20
             let isVisionEnabled = environment.isVisionEnabled
             
-            var w8: UInt32 = (colorScheme == .dark) ? 1 : 0
-            let w9: UInt32 = (colorScheme == .dark) ? 5 : 4
+            var w8: Material.ResolvedMaterial.Flags = (colorScheme == .dark) ? [.unknown0] : []
+            let w9: Material.ResolvedMaterial.Flags = (colorScheme == .dark) ? [.unknown0, .unknown2] : [.unknown2]
             var w22 = (colorSchemeContrast == .increased) ? w9 : w8
             
             if isVisionEnabled {
                 // <+228>
-                w22 |= 512
+                w22.formUnion(.unknown9)
             }
             
             // <+260>
             let isBackgroundOpaque = environment.isBackgroundOpaque
-            w8 = w22 | 256
+            w8 = w22.union(.unknown8)
             let w0 = isBackgroundOpaque ? w8 : w22
             
-            self.rawValue = w0
+            self = w0
         }
     }
 }
