@@ -3,6 +3,6 @@ protocol Paint : ShapeStyle {
     associatedtype ResolvedPaintType
 }
 
-protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
-    
+package protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
+    // TOOD
 }

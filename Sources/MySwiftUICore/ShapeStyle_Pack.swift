@@ -65,9 +65,9 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
         }
     }
     
-    var animatableData: KeyedAnimatableArray<_ShapeStyle_Pack.Key, AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>>> {
+    var animatableData: KeyedAnimatableArray<_ShapeStyle_Pack.Key, _ShapeStyle_Pack.Style.AnimatableData> {
         get {
-            var elements: [KeyedAnimatableArray<_ShapeStyle_Pack.Key, AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>>>.Element] = []
+            var elements: [KeyedAnimatableArray<_ShapeStyle_Pack.Key, _ShapeStyle_Pack.Style.AnimatableData>.Element] = []
             
             if !self.styles.isEmpty {
                 elements.reserveCapacity(self.styles.count)
@@ -221,10 +221,18 @@ extension _ShapeStyle_Pack {
         
         var animatableData: AnimatablePair<_ShapeStyle_Pack.Fill.AnimatableData, AnimatablePair<Float, AnimatableArray<AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData>>>> {
             get {
-                assertUnimplemented()
+                return AnimatablePair(
+                    self.fill.animatableData,
+                    AnimatablePair(
+                        self.opacity,
+                        self.effects.animatableData
+                    )
+                )
             }
             set {
-                assertUnimplemented()
+                self.fill.animatableData = newValue.first
+                self.opacity = newValue.second.first
+                self.effects.animatableData = newValue.second.second
             }
         }
         
@@ -248,18 +256,31 @@ extension _ShapeStyle_Pack {
         
         var animatableData: _ShapeStyle_Pack.Fill.AnimatableData {
             get {
+                return _ShapeStyle_Pack.Fill.AnimatableData(self)
+            }
+            set {
+                newValue.set(fill: &self)
+            }
+        }
+    }
+    
+    struct Effect : Equatable, Animatable {
+        static func == (lhs: _ShapeStyle_Pack.Effect, rhs: _ShapeStyle_Pack.Effect) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private var kind: _ShapeStyle_Pack.Effect.Kind
+        var opacity: Float
+        private var _blend: GraphicsBlendMode?
+        
+        var animatableData: AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData> {
+            get {
                 assertUnimplemented()
             }
             set {
                 assertUnimplemented()
             }
         }
-    }
-    
-    struct Effect {
-        private var kind: _ShapeStyle_Pack.Effect.Kind
-        var opacity: Float
-        private var _blend: GraphicsBlendMode?
     }
     
     struct Key : Comparable {
@@ -346,7 +367,7 @@ extension _ShapeStyle_Pack.Fill {
         }
         
         case color(Color.ResolvedHDR._Animatable)
-        case duotoneColor(AnimatablePair<AnimatablePair<Float, AnimatablePair<Float, Float>>, AnimatablePair<Float, AnimatablePair<Float, Float>>>)
+        case duotoneColor(Color.ResolvedDuotone.AnimatableData)
         case linearGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>>, ResolvedGradientVector>)
         case radialGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, ResolvedGradientVector>, AnimatablePair<CGFloat, CGFloat>>)
         case ellipticalGradient(AnimatablePair<AnimatablePair<AnimatablePair<CGFloat, CGFloat>, ResolvedGradientVector>, AnimatablePair<CGFloat, CGFloat>>)
@@ -355,6 +376,41 @@ extension _ShapeStyle_Pack.Fill {
         case shader(ShaderVectorData)
         case colorMatrix(_ColorMatrix)
         case zero
+        
+        init(_ fill: _ShapeStyle_Pack.Fill) {
+            switch fill {
+            case .color(let resolved):
+                // <+336>
+                self = .color(Color.ResolvedHDR._Animatable(color: resolved.base.animatableData, headroom: resolved.headroom ?? 0))
+            case .paint(let point):
+                // <+168>
+                self = .zero
+                
+                withUnsafeMutablePointer(to: &self) { pointer in
+                    var visitor = unsafe _ShapeStyle_Pack.Fill.AnimatableData.PaintInitVisitor(result: pointer)
+                    unsafe point.visit(&visitor)
+                }
+            case .foregroundMaterial(let resolvedColor, _):
+                // <+424>
+                self = .color(Color.ResolvedHDR._Animatable(color: resolvedColor.base.animatableData, headroom: resolvedColor.headroom ?? 0))
+            case .backgroundMaterial(_):
+                // <+300>
+                self = .zero
+            case .duotoneColor(let resolved):
+                // <+108>
+                self = .duotoneColor(resolved.animatableData)
+            case .vibrantMatrix(let matrix):
+                // <+248>
+                self = .colorMatrix(matrix.matrix)
+            case .multicolor(_):
+                // <+300>
+                self = .zero
+            }
+        }
+        
+        func set(fill: inout _ShapeStyle_Pack.Fill) {
+            assertUnimplemented()
+        }
         
         mutating func scale(by rhs: Double) {
             assertUnimplemented()
@@ -367,11 +423,21 @@ extension _ShapeStyle_Pack.Fill {
 }
 
 extension _ShapeStyle_Pack.Fill.AnimatableData {
-    fileprivate struct PaintSetVisitor {
+    fileprivate struct PaintSetVisitor : ResolvedPaintVisitor {
+        func visitPaint<T>(_ point: T) where T : ResolvedPaint {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
     
-    fileprivate struct PaintInitVisitor {
+    @unsafe fileprivate struct PaintInitVisitor : ResolvedPaintVisitor {
+        private(set) var result: UnsafeMutablePointer<_ShapeStyle_Pack.Fill.AnimatableData>
+        
+        func visitPaint<T>(_ point: T) where T : ResolvedPaint {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
 }

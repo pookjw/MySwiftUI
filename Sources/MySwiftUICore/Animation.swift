@@ -1425,6 +1425,26 @@ struct AnimatableArray<T> : VectorArithmetic {
     }
 }
 
+extension Array where Element : Animatable {
+    var animatableData: AnimatableArray<Element.AnimatableData> {
+        get {
+            let elements: [Element.AnimatableData] = self.map { value in
+                // $sSa7SwiftUIAA10AnimatableRzlE14animatableDataAA0C5ArrayVy0cE0QzGvgAGxXEfU_TA
+                return value.animatableData
+            }
+            
+            return AnimatableArray(elements)
+        }
+        set {
+            let endIndex = Swift.min(self.count, newValue.elements.count)
+            
+            for index in 0..<endIndex {
+                self[index].animatableData = newValue.elements[index]
+            }
+        }
+    }
+}
+
 struct KeyedAnimatableArray<T, U> : VectorArithmetic {
     static func == (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> Bool {
         assertUnimplemented()

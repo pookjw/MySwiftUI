@@ -1,8 +1,8 @@
 
-protocol ProtobufEncodableMessage {
+package protocol ProtobufEncodableMessage {
     // TODO
 }
 
-protocol ProtobufDecodableMessage {
+package protocol ProtobufDecodableMessage {
     // TODO
 }

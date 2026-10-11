@@ -1232,13 +1232,8 @@ extension Color.ResolvedHDR {
             )
         }
         
-        fileprivate private(set) var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
-        fileprivate private(set) var headroom: Float
-        
-        fileprivate init(color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>, headroom: Float) {
-            self.color = color
-            self.headroom = headroom
-        }
+        private(set) var color: AnimatablePair<Float, AnimatablePair<Float, AnimatablePair<Float, Float>>>
+        private(set) var headroom: Float
         
         package mutating func scale(by rhs: Double) {
             self.color.first *= Float(rhs)
@@ -1578,8 +1573,21 @@ extension Color.Resolved {
 }
 
 extension Color {
-    struct ResolvedDuotone {
+    struct ResolvedDuotone : Equatable, Animatable {
+        static func == (lhs: Color.ResolvedDuotone, rhs: Color.ResolvedDuotone) -> Bool {
+            assertUnimplemented()
+        }
+        
         private var shadow: (Float, Float, Float)
         private var highlight: (Float, Float, Float)
+        
+        var animatableData: AnimatablePair<AnimatablePair<Float, AnimatablePair<Float, Float>>, AnimatablePair<Float, AnimatablePair<Float, Float>>> {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
     }
 }
