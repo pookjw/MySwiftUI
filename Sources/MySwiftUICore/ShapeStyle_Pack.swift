@@ -17,7 +17,30 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     
     subscript(name: _ShapeStyle_Name, index: Int) -> _ShapeStyle_Pack.Style {
         get {
-            assertUnimplemented()
+            let key = _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index))
+            
+            for i in self.styles.indices {
+                let value = self.styles[i]
+                
+                if value.key == key {
+                    return value.style
+                } else if (name < value.key.name) || (!(value.key._level <= key._level) && (value.key.name == key.name)) {
+                    if i == self.styles.startIndex {
+                        break
+                    }
+                    
+                    let before = self.styles[self.styles.indices.index(before: i)]
+                    
+                    if before.key.name != key.name {
+                        break
+                    }
+                    
+                    return before.style
+                }
+            }
+            
+            // <+308>
+            return _ShapeStyle_Pack.Style.clear
         }
         set {
             let key = _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index))
@@ -123,6 +146,10 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
 
 extension _ShapeStyle_Pack {
     struct Style {
+        @safe static nonisolated(unsafe) let clear: _ShapeStyle_Pack.Style = {
+            assertUnimplemented()
+        }()
+        
         var fill: _ShapeStyle_Pack.Fill // 0x0
         var opacity: Float = 1 // 0x58
         var _blend: GraphicsBlendMode? = nil // 0x60
@@ -137,10 +164,6 @@ extension _ShapeStyle_Pack {
         }
         
         func applyingOpacity(_ opacity: Float) -> _ShapeStyle_Pack.Style {
-            assertUnimplemented()
-        }
-        
-        static var clear: _ShapeStyle_Pack.Style {
             assertUnimplemented()
         }
         
