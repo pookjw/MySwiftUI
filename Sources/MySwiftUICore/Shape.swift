@@ -195,11 +195,11 @@ extension Shape {
     }
     
     static var animatesSize: Bool {
-        assertUnimplemented()
+        return true
     }
     
     func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
-        assertUnimplemented()
+        return false
     }
     
     func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
@@ -207,7 +207,7 @@ extension Shape {
     }
     
     static var hasBackground: Bool {
-        assertUnimplemented()
+        return false
     }
     
     func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
