@@ -2579,3 +2579,12 @@ public enum _ShapeStyle_Name {
     case background
     case multicolor
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public struct _ShapeStyle_RenderedShape {
+  public enum Shape {
+    case alphaMask(_SwiftUICorePrivate.DisplayList.Item, alphaOnly: Swift.Bool)
+    case empty
+  }
+}

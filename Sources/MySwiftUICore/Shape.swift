@@ -598,13 +598,3 @@ extension _ViewInputs {
         return self.base.cachedEnvironment.value.resolvedShapeStyles(for: inputs, role: role, mode: mode)
     }
 }
-
-struct _ShapeStyle_RenderedShape {
-    // TODO
-}
-
-extension _ShapeStyle_RenderedShape {
-    enum Shape {
-        // TODO
-    }
-}

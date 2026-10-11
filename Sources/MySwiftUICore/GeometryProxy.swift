@@ -10,7 +10,7 @@ public struct GeometryProxy {
     private var _transform: WeakAttribute<ViewTransform>
     private var _position: WeakAttribute<CGPoint>
     private var _safeAreaInsets: WeakAttribute<SafeAreaInsets>
-    private var _seed: Swift.UInt32
+    private var _seed: UInt32
     
     package init(
         owner: AnyAttribute,

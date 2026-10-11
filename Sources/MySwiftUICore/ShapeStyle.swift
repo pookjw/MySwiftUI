@@ -1,5 +1,6 @@
 // 3890C65F12EA82A4BC5FBD33046B67FA
 internal import CoreGraphics
+internal import AttributeGraph
 
 public protocol ShapeStyle : Sendable {
     @available(*, deprecated, message: "obsolete")
@@ -143,4 +144,121 @@ public struct _ShapeStyle_ShapeType {
 extension _ShapeStyle_ShapeType : Sendable {}
 
 protocol PrimitiveShapeStyle : ShapeStyle {
+}
+
+final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
+    private var layers: [_ShapeStyle_InterpolatorGroup.Layer]
+    private var contentsScale: Float
+    private var rasterizationOptions: RasterizationOptions
+    private var serial: UInt32
+    private var cursor: Int32
+    
+    override func reset() {
+        assertUnimplemented()
+    }
+    
+    override func nextUpdate(after time: Time) -> Time {
+        assertUnimplemented()
+    }
+    
+    override var features: DisplayList.Features {
+        assertUnimplemented()
+    }
+    
+    override var properties: DisplayList.Properties {
+        assertUnimplemented()
+    }
+    
+    override func update(contentSeed: DisplayList.Seed, transition: ContentTransition, animation: Animation?, listener: AnimationListener?, contentsScale: Float, rasterizationOptions: RasterizationOptions, supportsVFD: Bool) {
+        assertUnimplemented()
+    }
+    
+    override func rewriteInterpolation(serial: UInt32, list: inout DisplayList, time: Attribute<Time>, frame: CGRect, contentOrigin: CGPoint, contentOffset: CGSize, version: DisplayList.Version) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override init() {
+        assertUnimplemented()
+    }
+}
+
+extension _ShapeStyle_InterpolatorGroup {
+    fileprivate struct Layer {
+        // TODO
+    }
+}
+
+struct _ShapeStyle_RenderedShape {
+    private var shape: _ShapeStyle_RenderedShape.Shape // 0x0
+    private var contentSeed: DisplayList.Seed // 0x6c
+    private var frame: CGRect // 0x70
+    private var interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)? = nil // 0x90
+    private var item: DisplayList.Item // 0xa0
+    private var options: DisplayList.Options // 0xec
+    @Attribute private var environment: EnvironmentValues // 0xf0
+    private var blendMode: GraphicsBlendMode = .normal // 0xf8
+    private var opacity: Float = 1 // 0x104
+    private var layerNeeds: _ShapeStyle_RenderedShape.LayerNeeds = [] // 0x108
+    
+    init(
+        _ shape: _ShapeStyle_RenderedShape.Shape,
+        frame: CGRect,
+        identity: _DisplayList_Identity,
+        version: DisplayList.Version,
+        contentSeed: DisplayList.Seed,
+        options: DisplayList.Options,
+        environment: Attribute<EnvironmentValues>
+    ) {
+        self.shape = shape
+        self.contentSeed = contentSeed
+        self.frame = frame
+        self.item = DisplayList.Item(
+            .empty,
+            frame: frame,
+            identity: identity,
+            version: version
+        )
+        self.options = options
+        self._environment = environment
+    }
+    
+    func renderItem(name: _ShapeStyle_Name, styles: @autoclosure () -> _ShapeStyle_Pack, layers: inout _ShapeStyle_RenderedLayers) {
+        assertUnimplemented()
+    }
+}
+
+extension _ShapeStyle_RenderedShape {
+    enum Shape {
+        case path(Path, FillStyle)
+        case pathSet(PathSet)
+        case text(StyledTextContentView)
+        case image(GraphicsImage)
+        case alphaMask(DisplayList.Item, alphaOnly: Bool)
+        case empty
+    }
+    
+    fileprivate struct LayerNeeds : OptionSet {
+        let rawValue: UInt8
+    }
+}
+
+struct _ShapeStyle_RenderedLayers {
+    private(set) var group: _ShapeStyle_InterpolatorGroup?
+    private var layers: _ShapeStyle_RenderedLayers.Layers = .empty
+    
+    func commit(shape: inout _ShapeStyle_RenderedShape, options: DisplayList.Options) -> DisplayList {
+        assertUnimplemented()
+    }
+}
+
+extension _ShapeStyle_RenderedLayers {
+    fileprivate enum Layers {
+        case item(DisplayList.Item)
+        case items([DisplayList.Item])
+        case empty
+    }
+    
+    fileprivate struct LayerNeeds {
+        let rawValue: UInt8
+    }
 }

@@ -173,8 +173,132 @@ fileprivate struct ShapeStyledDisplayList<T : ShapeStyledLeafView> : AsyncAttrib
     
     typealias Value = DisplayList
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        // <+152>
+        // x27
+        var (view, viewChanged) = self.$view.changedValue(options: [])
+        
+        let mustUpdate = view.mustUpdate(
+            data: self.data,
+            position: self.$position,
+            environment: self.$environment
+        )
+        
+        let version: DisplayList.Version
+        
+        if mustUpdate || viewChanged || (self.contentSeed.value == 0) {
+            if mustUpdate {
+                viewChanged = true
+            }
+            
+            // <+536>
+            version = DisplayList.Version(forUpdate: ())
+            self.contentSeed = DisplayList.Seed(version)
+            // <+604>
+        } else {
+            // <+296>
+            var result = false
+            let value = (self.$position.identifier, self.$containerPosition.identifier, self.$view.identifier)
+            
+            withUnsafePointer(to: value) { pointer in
+                // $s7SwiftUI22ShapeStyledDisplayList33_E1641985C375D8826E6966D4F238A1B8LLV11updateValueyyFySPy14AttributeGraph0Q0VySo7CGPointVG_AkHyxGtGXEfU_TA
+                result = unsafe AGGraphAnyInputsChanged(
+                    UnsafeRawPointer(pointer).assumingMemoryBound(to: AnyAttribute.self),
+                    3
+                )
+            }
+            
+            version = DisplayList.Version(forUpdate: ())
+            
+            if result {
+                // <+560>
+                self.contentSeed = DisplayList.Seed(version)
+                // <+604>
+            } else {
+                // <+604>
+            }
+        }
+        
+        // <+604>
+        var proxy = GeometryProxy(
+            owner: .current!,
+            size: self.$animatedSize,
+            environment: self.$environment,
+            transform: self.$transform,
+            position: self.$position,
+            safeAreaInsets: self.$safeAreaInsets,
+            seed: UInt32(truncatingIfNeeded: version.value)
+        )
+        
+        // d8, d9
+        let position = self.position
+        // d12, d13
+        let containerPosition = self.containerPosition
+        // d11, d10
+        let size: CGSize
+        if T.animatesSize {
+            size = self.animatedSize.value
+        } else {
+            size = self.size
+        }
+        
+        // <+880>
+        // x19 + 0x438
+        let shape: (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) = proxy.asCurrent { 
+            // $s7SwiftUI22ShapeStyledDisplayList33_E1641985C375D8826E6966D4F238A1B8LLV11updateValueyyFAA01_c14Style_RenderedC0V0C0O5shape_So6CGRectV5frametyXEfU0_
+            return view.shape(in: size)
+        }
+        
+        let offset: (CGFloat, CGFloat) = (position.x - containerPosition.x, position.y - containerPosition.y)
+        var layers = _ShapeStyle_RenderedLayers(group: self.group)
+        
+        if T.hasBackground {
+            // <+1148>
+            // x19 + 0x1a0
+            let backgroundShape: (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) = proxy.asCurrent { 
+                // $s7SwiftUI22ShapeStyledDisplayList33_E1641985C375D8826E6966D4F238A1B8LLV11updateValueyyFAA01_c14Style_RenderedC0V0C0O5shape_So6CGRectV5frametyXEfU1_
+                return view.backgroundShape(in: size)
+            }
+            
+            if case .empty = backgroundShape.shape {
+                // <+1732>
+            } else {
+                let renderedShape = _ShapeStyle_RenderedShape(
+                    backgroundShape.shape,
+                    frame: backgroundShape.frame.offsetBy(dx: offset.0, dy: offset.1),
+                    identity: self.identity,
+                    version: version,
+                    contentSeed: self.contentSeed,
+                    options: self.options,
+                    environment: self.$environment
+                )
+                
+                renderedShape.renderItem(
+                    name: .background,
+                    styles: self.styles, // $s7SwiftUI22ShapeStyledDisplayList33_E1641985C375D8826E6966D4F238A1B8LLV11updateValueyyFAA01_C10Style_PackVyXEfu0_TA
+                    layers: &layers
+                )
+            }
+        }
+        
+        // <+1732>
+        var renderedShape = _ShapeStyle_RenderedShape(
+            shape.shape,
+            frame: shape.frame.offsetBy(dx: offset.0, dy: offset.1),
+            identity: self.identity,
+            version: version,
+            contentSeed: self.contentSeed,
+            options: self.options,
+            environment: self.$environment
+        )
+        
+        renderedShape.renderItem(
+            name: .foreground,
+            styles: self.styles, // $s7SwiftUI22ShapeStyledDisplayList33_E1641985C375D8826E6966D4F238A1B8LLV11updateValueyyFAA01_C10Style_PackVyXEfu1_TA
+            layers: &layers
+        )
+        
+        self.value = layers.commit(shape: &renderedShape, options: self.options)
     }
 }
 
