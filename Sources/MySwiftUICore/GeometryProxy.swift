@@ -45,6 +45,10 @@ public struct GeometryProxy {
         return result
     }
     
+    var environment: EnvironmentValues {
+        assertUnimplemented()
+    }
+    
     public subscript<T>(anchor: Anchor<T>) -> T {
         assertUnimplemented()
     }
@@ -69,6 +73,16 @@ public struct GeometryProxy {
     @available(tvOS, unavailable)
     public func transform(in coordinateSpace: some CoordinateSpaceProtocol) -> AffineTransform3D? {
         assertUnimplemented()
+    }
+    
+    static var current: GeometryProxy? {
+        guard let proxy = unsafe _threadGeometryProxyData() else {
+            return nil
+        }
+        
+        return unsafe proxy
+            .assumingMemoryBound(to: GeometryProxy.self)
+            .pointee
     }
     
     package mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {

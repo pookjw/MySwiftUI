@@ -203,7 +203,9 @@ extension Shape {
     }
     
     func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
-        assertUnimplemented()
+        let path = self.shape.effectivePath(in: CGRect(origin: .zero, size: size))
+        let shape = _ShapeStyle_RenderedShape.Shape.path(path, self.fillStyle)
+        return (shape: shape, frame: CGRect(origin: .zero, size: size))
     }
     
     static var hasBackground: Bool {
@@ -596,5 +598,27 @@ extension AnimatedShape {
 extension _ViewInputs {
     func resolvedShapeStyles(for inputs: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
         return self.base.cachedEnvironment.value.resolvedShapeStyles(for: inputs, role: role, mode: mode)
+    }
+}
+
+extension Shape {
+    func effectivePath(in rect: CGRect) -> Path {
+        let path = self.path(in: rect)
+        let layoutDirectionBehavior = self.layoutDirectionBehavior
+        
+        guard case .mirrors(let direction) = layoutDirectionBehavior else {
+            return path
+        }
+        
+        guard let proxy = GeometryProxy.current else {
+            return path
+        }
+        
+        guard direction == proxy.environment.layoutDirection else {
+            return path
+        }
+        
+        let transform = CGAffineTransform(-1, 0, 0, 1, rect.size.width, 0)
+        return path.applying(transform)
     }
 }
