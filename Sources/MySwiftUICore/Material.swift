@@ -69,19 +69,19 @@ extension Material {
         case provider(MaterialProviderBoxBase) // values, 0x1
         case layers(Material.Layers) // values, 0x2
         case ultraThin // 0x0, 0x3
-        case thin
-        case regular
-        case thick
-        case ultraThick
-        case systemBars
-        case intelligenceLightSource_Unreactive
+        case thin // 0x1, 0x3
+        case regular // 0x2, 0x3
+        case thick // 0x3, 0x3
+        case ultraThick // 0x4, 0x3
+        case systemBars // 0x5, 0x3
+        case intelligenceLightSource_Unreactive // 0x6, 0x3
         case intelligenceLightSource_AudioReactive // 0x7, 0x3
-        case pinched
-        case selected
-        case disabled
+        case pinched // 0x8, 0x3
+        case selected // 0x9, 0x3
+        case disabled // 0xa, 0x3
         case vibrantGlassContent // 0xb, 0x3
-        case darkerGlass
-        case lighterGlass
+        case darkerGlass // 0xc, 0x3
+        case lighterGlass // 0xd, 0x3
         case ultraDarkerGlass // 0xe, 0x3
     }
 }

@@ -2,7 +2,7 @@ private import CoreGraphics
 private import QuartzCore
 internal import _MySwiftUICoreShims
 
-enum GraphicsFilter {
+package enum GraphicsFilter {
     case blur(BlurStyle)
     case variableBlur(VariableBlurStyle)
     case displacementMap(GraphicsFilter.DisplacementMap)
@@ -59,18 +59,18 @@ extension Array where Element == GraphicsFilter {
 }
 
 extension GraphicsFilter {
-    struct DisplacementMap {
+    package struct DisplacementMap {
         private var amount: CGFloat
         private var mask: VariableBlurStyle.Mask
     }
     
-    struct ColorMonochrome {
+    package struct ColorMonochrome {
         private var color: Color.ResolvedHDR
         private var amount: Float
         private var bias: Float
     }
     
-    struct VibrantColorMatrix {
+    package struct VibrantColorMatrix {
         private(set) var matrix: _ColorMatrix
         private var maxColorComponent: Float
         private var options: VibrantColorMatrix.Options
@@ -80,36 +80,36 @@ extension GraphicsFilter {
         private var values: (Float, Float, Float, Float)
     }
     
-    struct LuminanceCurve {
+    package struct LuminanceCurve {
         private var curve: Curve
         private var amount: Float
     }
     
-    struct ColorCurves {
+    package struct ColorCurves {
         private var redCurve: GraphicsFilter.Curve
         private var greenCurve: GraphicsFilter.Curve
         private var blueCurve: GraphicsFilter.Curve
         private var opacityCurve: GraphicsFilter.Curve
     }
     
-    struct ShaderFilter {
+    package struct ShaderFilter {
         private var shader: Shader.ResolvedShader
         private var size: CGSize
     }
     
-    struct AlphaThreshold {
+    package struct AlphaThreshold {
         private var color: Color.ResolvedHDR
         private var amount: Float
     }
     
-    struct EDRGainMultiply {
+    package struct EDRGainMultiply {
         private var amount: Float
         private var scale: Float
         private var isAdaptive: Bool
         private var allowsGroup: Bool
     }
     
-    struct GlassBackgroundStyle {
+    package struct GlassBackgroundStyle {
         private var margin: CGFloat
         private var mask: VariableBlurStyle.Mask
     }
@@ -121,7 +121,7 @@ extension GraphicsFilter.VibrantColorMatrix {
     }
 }
 
-struct VariableBlurStyle {
+package struct VariableBlurStyle {
     private var radius: CGFloat
     private var isOpaque: Bool
     private var dither: Bool

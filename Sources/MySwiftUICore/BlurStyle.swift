@@ -1,6 +1,6 @@
 private import CoreGraphics
 
-struct BlurStyle {
+package struct BlurStyle {
     private var radius: CGFloat
     private var isOpaque: Bool
     private var dither: Bool

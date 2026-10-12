@@ -1,6 +1,6 @@
 internal import _QuartzCorePrivate
 
-enum GraphicsBlendMode {
+package enum GraphicsBlendMode {
     case blendMode(GraphicsContext.BlendMode)
     case caFilter(AnyObject)
     
@@ -25,7 +25,7 @@ extension GraphicsBlendMode : RendererEffect {
 }
 
 extension GraphicsBlendMode : Equatable {
-    static func == (lhs: GraphicsBlendMode, rhs: GraphicsBlendMode) -> Bool {
+    package static func == (lhs: GraphicsBlendMode, rhs: GraphicsBlendMode) -> Bool {
         switch (lhs, rhs) {
         case (.blendMode(let lhs), .blendMode(let rhs)):
             return lhs == rhs

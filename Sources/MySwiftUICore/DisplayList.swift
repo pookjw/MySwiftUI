@@ -437,6 +437,10 @@ extension DisplayList {
             assertUnimplemented()
         }
         
+        func addEffect(_ effect: DisplayList.Effect) {
+            assertUnimplemented()
+        } 
+        
         private func addExtent(to: inout CGRect) {
             assertUnimplemented()
         }
@@ -722,12 +726,12 @@ extension DisplayList {
         case properties(DisplayList.Properties)
         case platformGroup(any PlatformGroupFactory)
         case opacity(Float)
-//        case blendMode(GraphicsBlendMode)
+        case blendMode(GraphicsBlendMode)
         case clip/*(Path, FillStyle, GraphicsContext.ClipOptions)*/
         case mask(DisplayList, GraphicsContext.ClipOptions)
         case sdfShape(SDFShape)
         case transform(DisplayList.Transform)
-//        case filter(GraphicsFilter)
+        case filter(GraphicsFilter)
 //        case animation(_DisplayList_AnyEffectAnimation)
 //        case contentTransition(ContentTransition.State)
 //        case view(_DisplayList_ViewFactory)
@@ -759,8 +763,12 @@ extension DisplayList {
                 return factory.features.union(.platformViews)
             case .opacity(_):
                 return []
+            case .blendMode(_):
+                assertUnimplemented()
             case .transform(_):
                 return []
+            case .filter(_):
+                assertUnimplemented()
             case .platform(let effect):
                 switch effect {
                 case .separated(_):

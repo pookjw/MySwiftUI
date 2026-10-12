@@ -343,11 +343,111 @@ struct _ShapeStyle_RenderedShape {
         assertUnimplemented()
     }
     
-    fileprivate func render(style: _ShapeStyle_Pack.Style) {
+    fileprivate mutating func render(style: _ShapeStyle_Pack.Style) {
         /*
          self -> x20 -> x19
          style -> x0 -> x23
          */
+        // sp + 0x3b0
+        let copy_1 = style
+        // sp + 0x20 / sp + 0x1c
+        let blend = copy_1._blend ?? .normal
+        // <+176>
+        self.blendMode = blend
+        // <+208>
+        self.opacity = self.opacity * copy_1.opacity
+        
+        // <+224>
+        switch copy_1.fill {
+        case .color(let resolved):
+            // <+696>
+            assertUnimplemented()
+        case .paint(let paint):
+            // <+344>
+            assertUnimplemented()
+        case .foregroundMaterial(let resolvedColor, let materialResolved):
+            // <+760>
+            // inlined
+            // x28
+            let effects = materialResolved.effects
+            
+            // <+1232>
+            if !effects.isEmpty {
+                var hasFilter = false
+                
+                for effect in effects {
+                    if
+                        case .filter(let matrix) = effect,
+                        case .vibrantColorMatrix(_) = matrix
+                    {
+                        hasFilter = true
+                        break
+                    }
+                }
+                
+                if hasFilter {
+                    self.render(color: .white)
+                } else {
+                    self.render(color: resolvedColor)
+                }
+                
+                // <+1456>
+                for effect in effects {
+                    switch effect {
+                    case .opacity(let opacity):
+                        // <+1564>
+                        self.opacity = self.opacity * opacity
+                    case .blendMode(let blendMode):
+                        self.blendMode = blendMode
+                    case .filter(let graphicsFilter):
+                        // <+1584>
+                        if case .vibrantColorMatrix(_) = graphicsFilter {
+                            if self.layerNeeds.contains(.unknown0) {
+                                self.item.addDrawingGroup(contentSeed: self.contentSeed)
+                                self.layerNeeds.subtract(.unknown0)
+                            }
+                            
+                            self.layerNeeds.formUnion(.unknown1)
+                        }
+                        
+                        self.item.addEffect(effect)
+                        self.item.canonicalize(options: self.options)
+                    case .identity:
+                        break
+                    default:
+                        // <+1376>
+                        self.item.addEffect(effect)
+                        self.item.canonicalize(options: self.options)
+                    }
+                }
+                
+                // <+1692>
+            } else {
+                // <+1656>
+                self.render(color: resolvedColor)
+            }
+            
+            // <+1692>
+            // <+1708>
+        case .backgroundMaterial(let resolved):
+            // <+820>
+            assertUnimplemented()
+        case .duotoneColor(let resolved):
+            // <+300>
+            assertUnimplemented()
+        case .vibrantMatrix(let matrix):
+            // <+380>
+            assertUnimplemented()
+        case .multicolor(_):
+            // <+1708>
+            break
+        }
+        
+        // <+1708>
+        assertUnimplemented()
+    }
+    
+    fileprivate func render(color: Color.ResolvedHDR) {
         assertUnimplemented()
     }
 }
@@ -363,6 +463,14 @@ extension _ShapeStyle_RenderedShape {
     }
     
     fileprivate struct LayerNeeds : OptionSet {
+        static var unknown0: _ShapeStyle_RenderedShape.LayerNeeds {
+            return _ShapeStyle_RenderedShape.LayerNeeds(rawValue: 1 << 0)
+        }
+        
+        static var unknown1: _ShapeStyle_RenderedShape.LayerNeeds {
+            return _ShapeStyle_RenderedShape.LayerNeeds(rawValue: 1 << 1)
+        }
+        
         let rawValue: UInt8
     }
 }
