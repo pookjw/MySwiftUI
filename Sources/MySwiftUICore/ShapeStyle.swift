@@ -359,12 +359,19 @@ struct _ShapeStyle_RenderedShape {
         
         // <+224>
         switch copy_1.fill {
-        case .color(let resolved):
+        case .color(var resolved):
             // <+696>
-            assertUnimplemented()
+            if style.effects.isEmpty {
+                resolved.opacity = self.opacity * resolved.opacity
+                self.opacity = 1
+            }
+            
+            self.render(color: resolved)
+            // <+1708>
         case .paint(let paint):
             // <+344>
-            assertUnimplemented()
+            self.render(paint: paint)
+            // <+1708>
         case .foregroundMaterial(let resolvedColor, let materialResolved):
             // <+760>
             // inlined
@@ -430,14 +437,50 @@ struct _ShapeStyle_RenderedShape {
             // <+1692>
             // <+1708>
         case .backgroundMaterial(let resolved):
-            // <+820>
-            assertUnimplemented()
-        case .duotoneColor(let resolved):
             // <+300>
-            assertUnimplemented()
+            self.render(material: resolved)
+            // <+1708>
+        case .duotoneColor(let resolved):
+            // <+820>
+            self.render(color: .white)
+            let colorMatrix = resolved.colorMatrix
+            let filter = GraphicsFilter.vibrantColorMatrix(
+                GraphicsFilter.VibrantColorMatrix(
+                    matrix: colorMatrix,
+                    maxColorComponent: .infinity,
+                    options: []
+                )
+            )
+            
+            if case .vibrantColorMatrix(_) = filter {
+                if self.layerNeeds.contains(.unknown0) {
+                    self.item.addDrawingGroup(contentSeed: self.contentSeed)
+                    self.layerNeeds.subtract(.unknown0)
+                }
+                
+                self.layerNeeds.formUnion(.unknown1)
+            }
+            
+            self.item.addEffect(.filter(filter))
+            self.item.canonicalize(options: self.options)
+            // <+1708>
         case .vibrantMatrix(let matrix):
             // <+380>
-            assertUnimplemented()
+            self.render(color: .white)
+            let filter = GraphicsFilter.vibrantColorMatrix(matrix)
+            
+            if case .vibrantColorMatrix(_) = filter {
+                if self.layerNeeds.contains(.unknown0) {
+                    self.item.addDrawingGroup(contentSeed: self.contentSeed)
+                    self.layerNeeds.subtract(.unknown0)
+                }
+                
+                self.layerNeeds.formUnion(.unknown1)
+            }
+            
+            self.item.addEffect(.filter(filter))
+            self.item.canonicalize(options: self.options)
+            // <+1708>
         case .multicolor(_):
             // <+1708>
             break
@@ -448,6 +491,14 @@ struct _ShapeStyle_RenderedShape {
     }
     
     fileprivate func render(color: Color.ResolvedHDR) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func render(paint: AnyResolvedPaint) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func render(material: Material.ResolvedMaterial) {
         assertUnimplemented()
     }
 }

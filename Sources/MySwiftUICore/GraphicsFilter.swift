@@ -72,8 +72,8 @@ extension GraphicsFilter {
     
     package struct VibrantColorMatrix {
         private(set) var matrix: _ColorMatrix
-        private var maxColorComponent: Float
-        private var options: VibrantColorMatrix.Options
+        private(set) var maxColorComponent: Float
+        private(set) var options: VibrantColorMatrix.Options
     }
     
     struct Curve {

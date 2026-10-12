@@ -1581,6 +1581,10 @@ extension Color {
         private var shadow: (Float, Float, Float)
         private var highlight: (Float, Float, Float)
         
+        var colorMatrix: _ColorMatrix {
+            assertUnimplemented()
+        }
+        
         var animatableData: AnimatablePair<AnimatablePair<Float, AnimatablePair<Float, Float>>, AnimatablePair<Float, AnimatablePair<Float, Float>>> {
             get {
                 assertUnimplemented()
