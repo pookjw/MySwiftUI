@@ -8,7 +8,43 @@ extension Shape where Self == Circle {
 
 @frozen public struct Circle : Shape {
     nonisolated public func path(in rect: CGRect) -> Path {
-        assertUnimplemented()
+        if rect.isNull || rect.isInfinite {
+            // <+76>
+            // inlined
+            return Path(rect)
+        } else {
+            // <+164>
+            var d9 = rect.origin.x
+            var d8 = rect.origin.y
+            var d11 = rect.size.width
+            var d10 = rect.size.height
+            
+            let d12 = rect.width
+            var d0 = rect.height
+            d0 = d12 - d0
+            
+            if !(d0 > 0) {
+                if !(d0 < 0) {
+                    // <+300>
+                } else {
+                    // <+264>
+                    d0 = d0 * -0.5
+                    d8 = d8 + d0
+                    d10 = CGRect(x: d9, y: d8, width: d11, height: d10).width
+                    // <+300>
+                }
+            } else {
+                // <+220>
+                d0 = d0 * 0.5
+                d9 = d9 + d0
+                d11 = CGRect(x: d9, y: d8, width: d11, height: d10).height
+                // <+300>
+            }
+            
+            // <+300>
+            // inlined
+            return Path(ellipseIn: CGRect(x: d9, y: d8, width: d11, height: d10))
+        }
     }
     
     @inlinable public init() {}

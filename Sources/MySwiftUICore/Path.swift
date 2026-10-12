@@ -44,7 +44,11 @@ public import CoreGraphics
     }
     
     public init(_ rect: CGRect) {
-        assertUnimplemented()
+        if rect.isNull {
+            self.storage = .empty
+        } else {
+            self.storage = .rect(rect)
+        }
     }
     
     public init(roundedRect rect: CGRect, cornerSize: CGSize, style: RoundedCornerStyle = .continuous) {
@@ -61,7 +65,13 @@ public import CoreGraphics
     }
     
     public init(ellipseIn rect: CGRect) {
-        assertUnimplemented()
+        if rect.isNull {
+            self.storage = .empty
+        } else if rect.isInfinite {
+            self.storage = .rect(rect)
+        } else {
+            self.storage = .ellipse(rect)
+        }
     }
     
     public init(_ callback: (inout Path) -> ()) {
