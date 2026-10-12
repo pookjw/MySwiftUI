@@ -263,7 +263,7 @@ fileprivate struct ShapeStyledDisplayList<T : ShapeStyledLeafView> : AsyncAttrib
             if case .empty = backgroundShape.shape {
                 // <+1732>
             } else {
-                let renderedShape = _ShapeStyle_RenderedShape(
+                var renderedShape = _ShapeStyle_RenderedShape(
                     backgroundShape.shape,
                     frame: backgroundShape.frame.offsetBy(dx: offset.0, dy: offset.1),
                     identity: self.identity,

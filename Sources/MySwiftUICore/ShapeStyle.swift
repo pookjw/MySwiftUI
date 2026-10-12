@@ -222,7 +222,118 @@ struct _ShapeStyle_RenderedShape {
         self._environment = environment
     }
     
-    func renderItem(name: _ShapeStyle_Name, styles: @autoclosure () -> _ShapeStyle_Pack, layers: inout _ShapeStyle_RenderedLayers) {
+    mutating func renderItem(
+        name: _ShapeStyle_Name,
+        styles: @autoclosure () -> _ShapeStyle_Pack,
+        layers: inout _ShapeStyle_RenderedLayers
+    ) {
+        /*
+         self -> x20 -> x19
+         name -> x0 -> w24
+         styles -> x1/x2
+         layers -> x3 -> x21
+         */
+        switch self.shape {
+        case .path(_, _):
+            // <+576>
+            break
+        case .pathSet(_):
+            // <+576>
+            break
+        case .text(let contentView):
+            // <+324>
+            if contentView.needsStyledRendering {
+                let style = styles()[name, 0]
+                self.renderKeyedText(contentView, style: style, name: name, layers: &layers)
+            } else {
+                self.renderUnstyledText(contentView, layers: &layers)
+            }
+            
+            return
+        case .image(var image):
+            // <+216>
+            if let maskColor = image.maskColor {
+                // <+484>
+                if let contents = image.contents {
+                    if case .vectorGlyph(let glyph) = contents {
+                        // <+864>
+                        self.renderVectorGlyph(
+                            glyph,
+                            size: image.uprotatedPixelSize,
+                            orientation: image.orientation,
+                            name: name,
+                            styles: styles(),
+                            layers: &layers
+                        )
+                        
+                        return
+                    }
+                } else {
+                    // <+504>
+                }
+                
+                // <+576>
+            } else {
+                // <+228>
+                self.renderUnstyledImage(image, layers: &layers)
+                return
+            }
+        case .alphaMask(_, _):
+            // <+576>
+            break
+        case .empty:
+            // <+144>
+            return
+        }
+        
+        // <+576>
+        let style = styles()[name, 0]
+        
+        layers.beginLayer(
+            id: .styled(name, 0),
+            style: style,
+            shape: &self
+        )
+        
+        self.render(style: style)
+        layers.endLayer(shape: &self)
+    }
+    
+    fileprivate func renderUnstyledText(
+        _: StyledTextContentView,
+        layers: inout _ShapeStyle_RenderedLayers
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func renderKeyedText(
+        _: StyledTextContentView,
+        style: _ShapeStyle_Pack.Style,
+        name: _ShapeStyle_Name,
+        layers: inout _ShapeStyle_RenderedLayers
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func renderUnstyledImage(
+        _: GraphicsImage,
+        layers: inout _ShapeStyle_RenderedLayers
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func renderVectorGlyph(
+        _: ResolvedVectorGlyph,
+        size: CGSize,
+        orientation: Image.Orientation,
+        name: _ShapeStyle_Name,
+        styles: _ShapeStyle_Pack,
+        layers: inout _ShapeStyle_RenderedLayers
+    ) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func render(style: _ShapeStyle_Pack.Style) {
         assertUnimplemented()
     }
 }
@@ -246,6 +357,14 @@ struct _ShapeStyle_RenderedLayers {
     private(set) var group: _ShapeStyle_InterpolatorGroup?
     private var layers: _ShapeStyle_RenderedLayers.Layers = .empty
     
+    func beginLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?, shape: inout _ShapeStyle_RenderedShape) {
+        assertUnimplemented()
+    }
+    
+    func endLayer(shape: inout _ShapeStyle_RenderedShape) {
+        assertUnimplemented()
+    }
+    
     func commit(shape: inout _ShapeStyle_RenderedShape, options: DisplayList.Options) -> DisplayList {
         assertUnimplemented()
     }
@@ -261,4 +380,11 @@ extension _ShapeStyle_RenderedLayers {
     fileprivate struct LayerNeeds {
         let rawValue: UInt8
     }
+}
+
+enum _ShapeStyle_LayerID {
+    case styled(_ShapeStyle_Name, UInt16)
+    case customStyle(UInt32)
+    case named(String?)
+    case unstyled
 }

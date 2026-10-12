@@ -51,7 +51,7 @@ extension Shape where Self == Circle {
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     nonisolated public var layoutDirectionBehavior: LayoutDirectionBehavior {
-        assertUnimplemented()
+        return .fixed
     }
     
     public typealias AnimatableData = EmptyAnimatableData

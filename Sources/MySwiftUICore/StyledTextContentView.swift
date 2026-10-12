@@ -2,6 +2,11 @@ internal import Foundation
 
 package struct StyledTextContentView {
     private(set) var text: ResolvedStyledText
+    
+    var needsStyledRendering: Bool {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
