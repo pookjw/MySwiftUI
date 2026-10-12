@@ -153,6 +153,10 @@ final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
     private var serial: UInt32
     private var cursor: Int32
     
+    fileprivate func addLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?) -> _ShapeStyle_InterpolatorGroup.AddLayerResult {
+        assertUnimplemented()
+    }
+    
     override func reset() {
         assertUnimplemented()
     }
@@ -186,13 +190,19 @@ extension _ShapeStyle_InterpolatorGroup {
     fileprivate struct Layer {
         // TODO
     }
+    
+    // nominal type descriptor가 없음
+    fileprivate enum AddLayerResult {
+        case unknown0((group: DisplayList.InterpolatorGroup, serial: UInt32)?)
+        case unknown1(style: _ShapeStyle_Pack.Style?, interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)?)
+    }
 }
 
 struct _ShapeStyle_RenderedShape {
-    private var shape: _ShapeStyle_RenderedShape.Shape // 0x0
+    var shape: _ShapeStyle_RenderedShape.Shape // 0x0
     private var contentSeed: DisplayList.Seed // 0x6c
     private var frame: CGRect // 0x70
-    private var interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)? = nil // 0x90
+    var interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)? = nil // 0x90
     private var item: DisplayList.Item // 0xa0
     private var options: DisplayList.Options // 0xec
     @Attribute private var environment: EnvironmentValues // 0xf0
@@ -334,6 +344,10 @@ struct _ShapeStyle_RenderedShape {
     }
     
     fileprivate func render(style: _ShapeStyle_Pack.Style) {
+        /*
+         self -> x20 -> x19
+         style -> x0 -> x23
+         */
         assertUnimplemented()
     }
 }
@@ -358,7 +372,34 @@ struct _ShapeStyle_RenderedLayers {
     private var layers: _ShapeStyle_RenderedLayers.Layers = .empty
     
     func beginLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?, shape: inout _ShapeStyle_RenderedShape) {
-        assertUnimplemented()
+        guard let group else {
+            return
+        }
+        
+        while true {
+            // sp + 0x168
+            let result = group.addLayer(id: id, style: style)
+            
+            switch result {
+            case .unknown0(let interpolatorData):
+                shape.interpolatorData = interpolatorData
+                return
+            case .unknown1(let _style, let interpolatorData):
+                // <+356>
+                let oldShape = shape.shape
+                
+                shape.shape = .empty
+                shape.interpolatorData = interpolatorData
+                
+                if let _style {
+                    shape.render(style: _style)
+                }
+                
+                // <+204>
+                self.endLayer(shape: &shape)
+                shape.shape = oldShape
+            }
+        }
     }
     
     func endLayer(shape: inout _ShapeStyle_RenderedShape) {
