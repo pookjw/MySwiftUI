@@ -250,9 +250,9 @@ struct _ShapeStyle_RenderedShape {
             }
             
             return
-        case .image(var image):
+        case .image(let image):
             // <+216>
-            if let maskColor = image.maskColor {
+            if image.maskColor != nil {
                 // <+484>
                 if let contents = image.contents {
                     if case .vectorGlyph(let glyph) = contents {

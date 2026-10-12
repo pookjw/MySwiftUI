@@ -285,11 +285,15 @@ extension _ShapeStyle_Pack {
     
     struct Key : Comparable {
         static func < (lhs: _ShapeStyle_Pack.Key, rhs: _ShapeStyle_Pack.Key) -> Bool {
-            assertUnimplemented()
-        }
-        
-        static func == (lhs: _ShapeStyle_Pack.Key, rhs: _ShapeStyle_Pack.Key) -> Bool {
-            assertUnimplemented()
+            if lhs.name >= rhs.name {
+                if lhs.name == rhs.name {
+                    return lhs._level < rhs._level
+                } else {
+                    return false
+                }
+            } else {
+                return true
+            }
         }
         
         private(set) var name: _ShapeStyle_Name
