@@ -274,54 +274,6 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    do {
-        let value = GraphicsFilter.colorMultiply(Color.white.resolveHDR(in: EnvironmentValues()))
-        withUnsafePointer(to: value) { p in
-            let r = UnsafeRawPointer(p)
-            
-            print(r.advanced(by: 0x0).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x8).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x10).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x18).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x20).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x28).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x30).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x38).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x40).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x48).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x50).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x58).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x60).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x68).assumingMemoryBound(to: UInt.self).pointee)
-            print(String(format: "0x%lx", r.advanced(by: 0x70).assumingMemoryBound(to: UInt.self).pointee))
-            print(String(format: "0x%lx", r.advanced(by: 0x78).assumingMemoryBound(to: UInt32.self).pointee))
-        }
-    }
-    
-    do {
-        let value = GraphicsFilter.alphaMultiply(Color.white.resolveHDR(in: EnvironmentValues()))
-        withUnsafePointer(to: value) { p in
-            let r = UnsafeRawPointer(p)
-            
-            print(r.advanced(by: 0x0).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x8).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x10).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x18).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x20).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x28).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x30).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x38).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x40).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x48).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x50).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x58).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x60).assumingMemoryBound(to: UInt.self).pointee)
-            print(r.advanced(by: 0x68).assumingMemoryBound(to: UInt.self).pointee)
-            print(String(format: "0x%lx", r.advanced(by: 0x70).assumingMemoryBound(to: UInt.self).pointee))
-            print(String(format: "0x%lx", r.advanced(by: 0x78).assumingMemoryBound(to: UInt32.self).pointee))
-        }
-    }
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
