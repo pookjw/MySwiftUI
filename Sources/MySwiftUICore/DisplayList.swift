@@ -38,6 +38,10 @@ package struct DisplayList : @unchecked Sendable {
         }
     }
     
+    init(_ items: [DisplayList.Item]) {
+        assertUnimplemented()
+    }
+    
     mutating func append(contentsOf other: DisplayList) {
         // index -> x28
         for otherItem in other.items {

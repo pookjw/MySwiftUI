@@ -595,7 +595,117 @@ struct _ShapeStyle_RenderedShape {
             }
             
             // <+2940>
-            assertUnimplemented()
+            if !below.items.isEmpty || !below.pendingItems.isEmpty || !above.items.isEmpty || !above.pendingItems.isEmpty {
+                // <+2996>
+                let w26: Bool
+                let flag_1: Bool
+                switch self.blendMode {
+                case .blendMode(let blendMode):
+                    w26 = (blendMode.rawValue != 0)
+                    flag_1 = (blendMode.rawValue == 0)
+                case .caFilter(_):
+                    w26 = true
+                    flag_1 = false
+                }
+                
+                func push(layers: inout [DisplayList.Item], above: Bool) {
+                    /*
+                     layers -> x0
+                     above -> w1
+                     self -> x2
+                     */
+                    guard !layers.isEmpty else {
+                        return
+                    }
+                    
+                    let list = DisplayList(layers)
+                    
+                    // sp + 0x10
+                    var item = DisplayList.Item(
+                        .effect(.identity, list),
+                        frame: self.frame,
+                        identity: .none,
+                        version: self.item.version
+                    )
+                    
+                    item.canonicalize(options: self.options)
+                    self.item.composite(item, above: above)
+                }
+                
+                if !flag_1 {
+                    // <+3020>
+                    self.item.addEffect(.blendMode(self.blendMode))
+                    self.item.canonicalize(options: self.options)
+                    self.blendMode = .normal
+                    // <+3144>
+                } else {
+                    // <+3164>
+                }
+                
+                let flag_2: Bool
+                if self.opacity == 1 {
+                    if flag_1 {
+                        // <+3240>
+                        flag_2 = true
+                    } else {
+                        // <+3260>
+                        flag_2 = false
+                    }
+                } else {
+                    // <+3184>
+                    self.item.addEffect(.opacity(self.opacity))
+                    self.item.canonicalize(options: self.options)
+                    self.opacity = 1
+                    
+                    if w26 {
+                        // <+3260>
+                        flag_2 = false
+                    } else {
+                        // <+3240>
+                        flag_2 = true
+                    }
+                }
+                
+                if flag_2 {
+                    var w8 = below.hasBlending
+                    let w20 = self.layerNeeds
+                    
+                    if w20.contains(.unknown1) {
+                        w8 = w8 || true
+                    }
+                    
+                    w8 = w8 || above.hasBlending
+                    
+                    if w8 {
+                        // <+3260>
+                    } else {
+                        // <+3404>
+                        push(layers: &below.pendingItems, above: false)
+                        push(layers: &above.pendingItems, above: true)
+                        
+                        // <+3444>
+                        if below.drawingGroup || above.drawingGroup {
+                            // <+3460>
+                            self.layerNeeds = w20.union(.unknown0)
+                        }
+                        
+                        return
+                    }
+                }
+                
+                // <+3260>
+                if self.layerNeeds.contains(.unknown0) {
+                    self.item.addDrawingGroup(contentSeed: self.contentSeed)
+                    self.layerNeeds.subtract(.unknown0)
+                }
+                
+                // <+3288>
+                below.commitPendingItems()
+                above.commitPendingItems()
+                
+                push(layers: &below.items, above: false)
+                push(layers: &above.items, above: true)
+            }
         }
     }
     
@@ -703,14 +813,14 @@ enum _ShapeStyle_LayerID {
 }
 
 fileprivate struct CompositedItemAccumulator {
-    private(set) var version: DisplayList.Version
-    private(set) var contentSeed: DisplayList.Seed
-    private(set) var options: DisplayList.Options
-    private(set) var items: [DisplayList.Item] // 0x10
-    private(set) var pendingItems: [DisplayList.Item] // 0x18
+    private(set) var version: DisplayList.Version // 0x0
+    private(set) var contentSeed: DisplayList.Seed // 0x8
+    private(set) var options: DisplayList.Options // 0xa
+    var items: [DisplayList.Item] // 0x10
+    var pendingItems: [DisplayList.Item] // 0x18
     private(set) var currentBlend: GraphicsBlendMode // 0x20
-    private(set) var hasBlending: Bool
-    private(set) var drawingGroup: Bool
+    private(set) var hasBlending: Bool // 0x29
+    private(set) var drawingGroup: Bool // 0x2a
     
     func commitPendingItems() {
         assertUnimplemented()
