@@ -206,7 +206,12 @@ fileprivate struct CoreMaterialCache {
         // <+344>
         // sp + 0xc
         var flag_1: Bool
-        var colorMatrix = _ColorMatrix(row1: (0, 0, 0, 0, 0), row2: (0, 0, 0, 0, 0), row3: (0, 0, 0, 0, 0), row4: (0, 0, 0, 0, 0))
+        var colorMatrix = _ColorMatrix(
+            row1: (0, 0, 0, 0, 0),
+            row2: (0, 0, 0, 0, 0),
+            row3: (0, 0, 0, 0, 0),
+            row4: (0, 0, 0, 0, 0)
+        )
         
         if
             let value = description["filters"],
