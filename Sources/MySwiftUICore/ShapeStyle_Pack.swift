@@ -269,9 +269,9 @@ extension _ShapeStyle_Pack {
             assertUnimplemented()
         }
         
-        private var kind: _ShapeStyle_Pack.Effect.Kind
-        var opacity: Float
-        private var _blend: GraphicsBlendMode?
+        private(set) var kind: _ShapeStyle_Pack.Effect.Kind // 0x0
+        var opacity: Float // 0x38
+        private(set) var _blend: GraphicsBlendMode? // 0x40
         
         var animatableData: AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData> {
             get {

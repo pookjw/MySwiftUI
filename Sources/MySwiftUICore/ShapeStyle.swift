@@ -355,7 +355,8 @@ struct _ShapeStyle_RenderedShape {
         // <+176>
         self.blendMode = blend
         // <+208>
-        self.opacity = self.opacity * copy_1.opacity
+        let s8 = self.opacity
+        self.opacity = s8 * copy_1.opacity
         
         // <+224>
         switch copy_1.fill {
@@ -487,7 +488,115 @@ struct _ShapeStyle_RenderedShape {
         }
         
         // <+1708>
-        assertUnimplemented()
+        if !copy_1.effects.isEmpty {
+            // <+1720>
+            // sp + 0x330
+            var below = CompositedItemAccumulator(
+                version: self.item.version,
+                contentSeed: self.contentSeed,
+                options: self.options,
+                items: [],
+                pendingItems: [],
+                currentBlend: .normal,
+                hasBlending: false,
+                drawingGroup: false
+            )
+            
+            // sp + 0x300
+            var above = below
+            
+            // sp + 0x2ff
+            var mayAdjustItem = (self.blendMode == GraphicsBlendMode.normal)
+            
+            for effect in copy_1.effects {
+                // <+2128>
+                // effect -> sp + 0x270
+                guard case .shadow(let shadowStyle) = effect.kind else {
+                    continue
+                }
+                
+                // <+2196>
+                // sp + 0x30
+                var copy_2 = copy_1
+                
+                if shadowStyle.kind.contains(.ignoresFill) {
+                    copy_2.opacity = s8 * effect.opacity
+                } else {
+                    copy_2.opacity = self.opacity
+                }
+                
+                // <+2264>
+                copy_2._blend = effect._blend
+
+                let opaqueFill: Bool
+                if (self.opacity != 1) {
+                    // <+2572>
+                    opaqueFill = false
+                } else if (copy_1.opacity != 1) {
+                    // <+2572>
+                    opaqueFill = false
+                } else {
+                    let flag: Bool
+                    
+                    if let blend = copy_1._blend {
+                        if blend == .normal {
+                            flag = true
+                        } else {
+                            flag = false
+                        }
+                    } else {
+                        // <+2660>
+                        if GraphicsBlendMode.normal == GraphicsBlendMode.normal {
+                            flag = true
+                        } else {
+                            flag = false
+                        }
+                    }
+                    
+                    if flag {
+                        // <+2848>
+                        switch copy_1.fill {
+                        case .color(let resolvedHDR):
+                            // <+2884>
+                            opaqueFill = (resolvedHDR.opacity == 1)
+                        case .paint(let paint):
+                            // <+2900>
+                            opaqueFill = paint.isOpaque
+                        case .foregroundMaterial(_, _):
+                            // <+2584>
+                            opaqueFill = false
+                        case .backgroundMaterial(_):
+                            // <+2584>
+                            opaqueFill = false
+                        case .duotoneColor(_):
+                            // <+2584>
+                            opaqueFill = false
+                        case .vibrantMatrix(_):
+                            // <+2584>
+                            opaqueFill = false
+                        case .multicolor(_):
+                            // <+2588>
+                            opaqueFill = true
+                        }
+                    } else {
+                        // <+2584>
+                        opaqueFill = false
+                    }
+                }
+                
+                self.render(
+                    shadow: shadowStyle,
+                    style: copy_2,
+                    above: &above,
+                    below: &below,
+                    opaqueFill: opaqueFill,
+                    mayAdjustItem: &mayAdjustItem
+                )
+            }
+            
+            // <+2940>
+            assertUnimplemented()
+        }
     }
     
     fileprivate func render(color: Color.ResolvedHDR) {
@@ -499,6 +608,10 @@ struct _ShapeStyle_RenderedShape {
     }
     
     fileprivate func render(material: Material.ResolvedMaterial) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func render(shadow: ResolvedShadowStyle, style: _ShapeStyle_Pack.Style, above: inout CompositedItemAccumulator, below: inout CompositedItemAccumulator, opaqueFill: Bool, mayAdjustItem: inout Bool) {
         assertUnimplemented()
     }
 }
@@ -587,4 +700,23 @@ enum _ShapeStyle_LayerID {
     case customStyle(UInt32)
     case named(String?)
     case unstyled
+}
+
+fileprivate struct CompositedItemAccumulator {
+    private(set) var version: DisplayList.Version
+    private(set) var contentSeed: DisplayList.Seed
+    private(set) var options: DisplayList.Options
+    private(set) var items: [DisplayList.Item] // 0x10
+    private(set) var pendingItems: [DisplayList.Item] // 0x18
+    private(set) var currentBlend: GraphicsBlendMode // 0x20
+    private(set) var hasBlending: Bool
+    private(set) var drawingGroup: Bool
+    
+    func commitPendingItems() {
+        assertUnimplemented()
+    }
+    
+    func add(item: DisplayList.Item, blend: GraphicsBlendMode, needsDrawingGroup: Bool) {
+        assertUnimplemented()
+    }
 }

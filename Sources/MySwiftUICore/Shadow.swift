@@ -2,11 +2,11 @@
 internal import CoreGraphics
 
 package struct ResolvedShadowStyle {
-    private(set) var color: Color.ResolvedHDR
-    private(set) var radius: CGFloat
-    private(set) var offset: CGSize
-    private var midpoint: Float
-    private var kind: ShadowStyle.Kind
+    private(set) var color: Color.ResolvedHDR // 0x0
+    private(set) var radius: CGFloat // 0x18
+    private(set) var offset: CGSize // 0x20
+    private var midpoint: Float // 0x30
+    private(set) var kind: ShadowStyle.Kind // 0x34
 }
 
 public struct ShadowStyle {
@@ -20,7 +20,31 @@ extension ShadowStyle {
         case custom(ShadowStyle.Kind, Color, CGFloat, CGSize)
     }
     
-    struct Kind : RawRepresentable {
+    struct Kind : OptionSet {
+        static var drop: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 0)
+        }
+        
+        static var inner: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 1 << 0)
+        }
+        
+        static var only: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 1 << 1)
+        }
+        
+        static var nonOpaque: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 1 << 2)
+        }
+        
+        static var ignoresFill: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 1 << 3)
+        }
+        
+        static var requiresKnockout: ShadowStyle.Kind {
+            return ShadowStyle.Kind(rawValue: 1 << 4)
+        }
+        
         let rawValue: UInt8
     }
 }

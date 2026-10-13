@@ -1,10 +1,18 @@
 package class AnyResolvedPaint {
+    package var isOpaque: Bool {
+        return false
+    }
+    
     package func visit<T : ResolvedPaintVisitor>(_ visitor: inout T) {
         // noop
     }
 }
 
 final class _AnyResolvedPaint : AnyResolvedPaint {
+    override var isOpaque: Bool {
+        assertUnimplemented()
+    }
+    
     override func visit<T>(_ visitor: inout T) {
         assertUnimplemented()
     }
