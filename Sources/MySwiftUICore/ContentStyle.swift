@@ -1,4 +1,7 @@
+// 1136DDC987AEEDFF1217B91AA2732172
 internal import CoreGraphics
+private import Synchronization
+private import Foundation
 
 enum ContentStyle {}
 
@@ -109,6 +112,10 @@ extension ContentStyle {
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
+        
+        fileprivate var coreMaterialDescription: [String: Any] {
+            assertUnimplemented()
+        }
     }
     
     // nominal type descriptor가 없음
@@ -119,8 +126,196 @@ extension ContentStyle {
     }
 }
 
-extension EnvironmentValues {
-    var backgroundContentStyleID: ContentStyle.ID? {
+extension ContentStyle.MaterialResolved {
+    @inline(always) // 원래 없음
+    var effects: [DisplayList.Effect] {
+        switch self.material.id {
+        case .intelligenceLightSource_Unreactive, .intelligenceLightSource_AudioReactive:
+            return []
+        case .coreMaterial, .provider, .layers, .ultraThin, .thin, .regular, .thick, .ultraThick, .systemBars, .pinched, .selected, .disabled, .vibrantGlassContent, .darkerGlass, .lighterGlass, .ultraDarkerGlass:
+            let style = ContentStyle.MaterialStyle(
+                material: self.material,
+                base: ContentStyle.Style(
+                    id: self.id,
+                    primitive: self.primitive
+                )
+            )
+            
+            return CoreMaterialCache.shared.withLock { cache in
+                return cache[style]
+            }
+        }
+    }
+}
+
+// nominal type descriptor가 없음
+fileprivate struct CoreMaterialCache {
+    static let shared = Mutex(CoreMaterialCache())
+    
+    static func parseColor(_: Any?) -> Color.ResolvedHDR? {
+        assertUnimplemented()
+    }
+    
+    private var layers: [Material.ResolvedMaterial: [Material.Layer]] = [:]
+    private var effects: [ContentStyle.MaterialStyle: [DisplayList.Effect]] = [:]
+    
+    private init() {}
+    
+    subscript(material: Material.ResolvedMaterial) -> [Material.Layer] {
+        mutating get {
+            if let existing = self.layers[material] {
+                return existing
+            }
+            
+            // <+104>
+            let layers = self.load(material: material)
+            self.layers[material] = layers
+            
+            return layers
+        }
+    }
+    
+    subscript(style: ContentStyle.MaterialStyle) -> [DisplayList.Effect] {
+        mutating get {
+            if let existing = self.effects[style] {
+                return existing
+            }
+            
+            // <+124>
+            let effects = self.loadEffects(style: style)
+            self.effects[style] = effects
+            
+            return effects
+        }
+    }
+    
+    private func loadEffects(style: ContentStyle.MaterialStyle) -> [DisplayList.Effect] {
+        let description = style.coreMaterialDescription
+        
+        let blendModeffect = self.loadBlendModeEffect(description)
+        var effects: [DisplayList.Effect] = []
+        
+        if let blendModeffect {
+            effects.append(blendModeffect)
+        }
+        
+        if let tintAlphaEffect = self.loadTintAlphaEffect(description) {
+            effects.append(tintAlphaEffect)
+        }
+        
+        // <+344>
+        // sp + 0xc
+        var flag_1: Bool
+        var colorMatrix = _ColorMatrix(row1: (0, 0, 0, 0, 0), row2: (0, 0, 0, 0, 0), row3: (0, 0, 0, 0, 0), row4: (0, 0, 0, 0, 0))
+        
+        if
+            let value = description["filters"],
+            let filters = value as? [[String: Any]]
+        {
+            flag_1 = true
+            
+            for filter in filters {
+                guard
+                    let type = filter["type"],
+                    let castedType = type as? String,
+                    castedType == "vibrantColorMatrix",
+                    let inputColorMatrix = filter["inputColorMatrix"],
+                    let castedInput = inputColorMatrix as? NSValue
+                else {
+                    continue
+                }
+                
+                // sp + 0x188
+                var matrix = _ColorMatrix()
+                
+                withUnsafeMutablePointer(to: &matrix) { pointer in
+                    unsafe castedInput.getValue(UnsafeMutableRawPointer(pointer))
+                }
+                
+                if flag_1 {
+                    // <+1000>
+                    colorMatrix = matrix
+                } else {
+                    // <+1084>
+                    colorMatrix = matrix * colorMatrix
+                }
+                
+                // <+1228>
+                flag_1 = false
+            }
+            
+            // <+1248>
+        } else {
+            flag_1 = true
+        }
+        
+        // <+1292>
+        let flag_2: Bool
+        var color: Color.ResolvedHDR
+        
+        let parsedColor: Color.ResolvedHDR?
+        if
+            let value = description["tintColor"],
+            let color = CoreMaterialCache.parseColor(value)
+        {
+            parsedColor = color
+        } else {
+            parsedColor = nil
+        }
+        
+        if let parsedColor {
+            flag_2 = (parsedColor == .white)
+            color = flag_2 ? Color.ResolvedHDR(Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0), headroom: 0) : parsedColor
+        } else {
+            flag_2 = true
+            color = Color.ResolvedHDR(Color.Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0), headroom: 0)
+        }
+        
+        if flag_1 {
+            // <+1508>
+            if flag_2 {
+                return effects
+            } else {
+                // <+1512>
+                if (color.base.linearRed == 1) && (color.base.linearGreen == 1) && (color.base.linearBlue == 1) {
+                    if color.base.opacity == 1 {
+                        // noop
+                    } else {
+                        effects.append(.opacity(color.base.opacity))
+                    }
+                } else {
+                    // <+1932>
+                    effects.append(.filter(.colorMultiply(color)))
+                }
+            }
+        } else {
+            // <+1692>
+            effects.append(
+                .filter(
+                    .vibrantColorMatrix(
+                        GraphicsFilter.VibrantColorMatrix(
+                            matrix: colorMatrix,
+                            maxColorComponent: .infinity,
+                            options: []
+                        )
+                    )
+                )
+            )
+        }
+        
+        return effects
+    }
+    
+    private func loadBlendModeEffect(_: [String : Any]) -> DisplayList.Effect? {
+        assertUnimplemented()
+    }
+    
+    private func loadTintAlphaEffect(_: [String : Any]) -> DisplayList.Effect? {
+        assertUnimplemented()
+    }
+    
+    private func load(material: Material.ResolvedMaterial) -> [Material.Layer] {
         assertUnimplemented()
     }
 }
+

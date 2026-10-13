@@ -2588,3 +2588,18 @@ public struct _ShapeStyle_RenderedShape {
     case empty
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum GraphicsBlendMode {
+  case blendMode(SwiftUI.GraphicsContext.BlendMode)
+  case caFilter(AnyObject)
+}
+
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+public enum GraphicsFilter {
+  case colorMultiply(SwiftUI.Color.ResolvedHDR)
+  case alphaMultiply(SwiftUI.Color.ResolvedHDR)
+}

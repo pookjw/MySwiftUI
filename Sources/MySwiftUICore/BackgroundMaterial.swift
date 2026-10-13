@@ -201,3 +201,9 @@ extension Material.ResolvedMaterial {
         }
     }
 }
+
+extension EnvironmentValues {
+    var backgroundContentStyleID: ContentStyle.ID? {
+        assertUnimplemented()
+    }
+}

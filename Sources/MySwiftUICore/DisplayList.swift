@@ -736,18 +736,18 @@ extension DisplayList {
         case sdfShape(SDFShape)
         case transform(DisplayList.Transform)
         case filter(GraphicsFilter)
-//        case animation(_DisplayList_AnyEffectAnimation)
-//        case contentTransition(ContentTransition.State)
-//        case view(_DisplayList_ViewFactory)
-//        case accessibility([AccessibilityNodeAttachment])
+        case animation(any _DisplayList_AnyEffectAnimation)
+        case contentTransition(ContentTransition.State)
+        case view(_DisplayList_ViewFactory)
+        case accessibility([AccessibilityNodeAttachment])
         case platform(DisplayList.PlatformEffect)
-//        case state(StrongHash)
-//        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
+        case state(StrongHash)
+        case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
         case interpolatorLayer(DisplayList.InterpolatorGroup, serial: UInt32)
-//        case interpolatorAnimation(DisplayList.InterpolatorAnimation)
+        case interpolatorAnimation(DisplayList.InterpolatorAnimation)
         case identity
-//        case geometryGroup
-//        case compositingGroup
+        case geometryGroup
+        case compositingGroup
         
         var features: DisplayList.Features {
             switch self {
@@ -773,6 +773,14 @@ extension DisplayList {
                 return []
             case .filter(_):
                 assertUnimplemented()
+            case .animation(_):
+                assertUnimplemented()
+            case .contentTransition(_):
+                assertUnimplemented()
+            case .view(_):
+                assertUnimplemented()
+            case .accessibility(_):
+                assertUnimplemented()
             case .platform(let effect):
                 switch effect {
                 case .separated(_):
@@ -794,10 +802,20 @@ extension DisplayList {
                 case .identity:
                     return []
                 }
+            case .state(_):
+                assertUnimplemented()
+            case .interpolatorRoot(_, _, _):
+                assertUnimplemented()
             case .interpolatorLayer(_, _):
+                assertUnimplemented()
+            case .interpolatorAnimation(_):
                 assertUnimplemented()
             case .identity:
                 return []
+            case .geometryGroup:
+                assertUnimplemented()
+            case .compositingGroup:
+                assertUnimplemented()
             }
         }
     }
@@ -1161,5 +1179,15 @@ extension DisplayList {
         case serverResponderID(UInt32)
         case separatedModifier(_DisplayList_SeparatedItemModifier)
         case identity
+    }
+}
+
+package protocol _DisplayList_AnyEffectAnimation /* TODO */ {
+    // TODO
+}
+
+extension DisplayList {
+    package struct InterpolatorAnimation {
+        // TODO
     }
 }

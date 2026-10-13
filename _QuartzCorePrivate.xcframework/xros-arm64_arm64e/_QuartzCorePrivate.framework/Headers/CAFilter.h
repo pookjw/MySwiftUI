@@ -53,4 +53,12 @@ CA_EXTERN NSString * const kCAFilterDarkenSourceOver;
 CA_EXTERN NSString * const kCAFilterLightenSourceOver;
 CA_EXTERN NSString * const kCAFilterMinimum;
 
+struct CAColorMatrix {
+    float m11, m12, m13, m14, m15;
+    float m21, m22, m23, m24, m25;
+    float m31, m32, m33, m34, m35;
+    float m41, m42, m43, m44, m45;
+};
+typedef struct CAColorMatrix CAColorMatrix;
+
 NS_HEADER_AUDIT_END(nullability, sendability)
