@@ -84,9 +84,13 @@ extension ContentStyle {
         private(set) var primitive: ContentStyle.Primitive
     }
     
-    struct MaterialStyle {
-        private(set) var material: Material.ResolvedMaterial
-        private(set) var base: ContentStyle.Style
+    struct MaterialStyle : Hashable {
+        static func == (lhs: ContentStyle.MaterialStyle, rhs: ContentStyle.MaterialStyle) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private(set) var material: Material.ResolvedMaterial // 0x0
+        private(set) var base: ContentStyle.Style // 0x11
         
         func resolveCoreMaterialColor(in environment: EnvironmentValues) -> Color.ResolvedHDR {
             guard environment.isVisionEnabled else {
@@ -100,6 +104,10 @@ extension ContentStyle {
             // <+80>
             let color = environment.materialBaseColor ?? .white
             return color.resolveHDR(in: environment)
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
         }
     }
     

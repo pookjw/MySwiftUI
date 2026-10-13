@@ -25,35 +25,58 @@ extension ContentStyle.MaterialResolved {
 
 // nominal type descriptor가 없음
 fileprivate struct CoreMaterialCache {
-    static let shared: Mutex<CoreMaterialCache> = {
-        assertUnimplemented()
-    }()
+    static let shared = Mutex(CoreMaterialCache())
     
     static func parseColor(_: Any?) -> Color.ResolvedHDR? {
         assertUnimplemented()
     }
     
+    private var layers: [Material.ResolvedMaterial: [Material.Layer]] = [:]
+    private var effects: [ContentStyle.MaterialStyle: [DisplayList.Effect]] = [:]
+    
+    private init() {}
+    
     subscript(material: Material.ResolvedMaterial) -> [Material.Layer] {
-        assertUnimplemented()
+        mutating get {
+            if let existing = self.layers[material] {
+                return existing
+            }
+            
+            // <+104>
+            let layers = self.load(material: material)
+            self.layers[material] = layers
+            
+            return layers
+        }
     }
     
     subscript(style: ContentStyle.MaterialStyle) -> [DisplayList.Effect] {
+        mutating get {
+            if let existing = self.effects[style] {
+                return existing
+            }
+            
+            // <+124>
+            let effects = self.loadEffects(style: style)
+            self.effects[style] = effects
+            
+            return effects
+        }
+    }
+    
+    private func loadEffects(style: ContentStyle.MaterialStyle) -> [DisplayList.Effect] {
         assertUnimplemented()
     }
     
-    func loadEffects(style: ContentStyle.MaterialStyle) -> [DisplayList.Effect] {
+    private func loadBlendModeEffect(_: [String : Any]) -> DisplayList.Effect? {
         assertUnimplemented()
     }
     
-    func loadBlendModeEffect(_: [String : Any]) -> DisplayList.Effect? {
+    private func loadTintAlphaEffect(_: [String : Any]) -> DisplayList.Effect? {
         assertUnimplemented()
     }
     
-    func loadTintAlphaEffect(_: [String : Any]) -> DisplayList.Effect? {
-        assertUnimplemented()
-    }
-    
-    func load(material: Material.ResolvedMaterial) -> [Material.Layer] {
+    private func load(material: Material.ResolvedMaterial) -> [Material.Layer] {
         assertUnimplemented()
     }
 }
