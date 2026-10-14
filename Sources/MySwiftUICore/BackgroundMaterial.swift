@@ -157,6 +157,10 @@ extension Material.ResolvedMaterial {
             return Material.ResolvedMaterial.Flags(rawValue: 1 << 0)
         }
         
+        static var unknown1: Material.ResolvedMaterial.Flags {
+            return Material.ResolvedMaterial.Flags(rawValue: 1 << 1)
+        }
+        
         static var unknown2: Material.ResolvedMaterial.Flags {
             return Material.ResolvedMaterial.Flags(rawValue: 1 << 2)
         }

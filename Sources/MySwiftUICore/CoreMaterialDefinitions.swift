@@ -472,6 +472,23 @@ extension Material.ResolvedMaterial {
     }
     
     fileprivate var coreMaterialOptions: [String: Any] {
-        assertUnimplemented()
+        var options: [String: Any] = Dictionary(
+            dictionaryLiteral: (kMTDictionaryRepresentationOptionsIncludeOptimizationsKey, true),
+            (kMTDictionaryRepresentationOptionsReduceTransparencyKey, self.flags.contains(.unknown1))
+        )
+        
+        // <+224>
+        if case .coreMaterial(_, _, let bundle) = self.id {
+            if let bundle {
+                options[kMTDictionaryRepresentationOptionsBundleKey] = bundle
+            } else {
+                options.removeValue(forKey: kMTDictionaryRepresentationOptionsBundleKey)
+            }
+        }
+        
+        // <+428>
+        options["MTDictionaryRepresentationOptionsFiltersRepresentationV2Key"] = true
+        
+        return options
     }
 }

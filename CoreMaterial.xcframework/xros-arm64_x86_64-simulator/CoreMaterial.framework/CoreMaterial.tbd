@@ -63,5 +63,8 @@ exports:
                        _MTCoreMaterialVisualStylePlatformTeal,
                        _MTCoreMaterialVisualStylePlatformOrange,
                        _MTCoreMaterialVisualStylePlatformGreen,
-                       _MTVisualStylingCreateDictionaryRepresentation ]
+                       _MTVisualStylingCreateDictionaryRepresentation,
+                       _kMTDictionaryRepresentationOptionsIncludeOptimizationsKey,
+                       _kMTDictionaryRepresentationOptionsReduceTransparencyKey,
+                       _kMTDictionaryRepresentationOptionsBundleKey ]
 ...
