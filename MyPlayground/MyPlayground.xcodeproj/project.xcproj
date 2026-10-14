@@ -36,6 +36,7 @@
       "kind": "group",
       "name": "Frameworks",
       "children": [
+        { "path": "../CoreMaterial.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../_DarwinPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../_KernPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },
         { "path": "../_DyldPrivate.xcframework", "target-membership": [ "MyPlayground/frameworks" ] },

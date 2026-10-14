@@ -7,6 +7,7 @@
 #import "Subclasses/BaseBoardInterfaceGenerator.h"
 #import "Subclasses/BoardServicesInterfaceGenerator.h"
 #import "Subclasses/CoreFoundationInterfaceGenerator.h"
+#import "Subclasses/CoreMaterialInterfaceGenerator.h"
 #import "Subclasses/CoreREInterfaceGenerator.h"
 #import "Subclasses/CoreServicesInterfaceGenerator.h"
 #import "Subclasses/CoreTextInterfaceGenerator.h"
@@ -152,6 +153,7 @@ int main(int argc, const char * argv[]) {
     assert([BaseBoardInterfaceGenerator generateToURL:resolvedURL]);
     assert([BoardServicesInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreFoundationInterfaceGenerator generateToURL:resolvedURL]);
+    assert([CoreMaterialInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreREInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreServicesInterfaceGenerator generateToURL:resolvedURL]);
     assert([CoreTextInterfaceGenerator generateToURL:resolvedURL]);

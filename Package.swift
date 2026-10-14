@@ -113,7 +113,8 @@ let package = Package(
                 .byName(name: "_SwiftPrivate"),
                 .byName(name: "_MySwiftUIUtils"),
                 .byName(name: "CoreUI"),
-                .byName(name: "_CoreTextPrivate")
+                .byName(name: "_CoreTextPrivate"),
+                .byName(name: "CoreMaterial")
             ],
             swiftSettings: [
                 .strictMemorySafety(),
@@ -418,6 +419,10 @@ let package = Package(
         .binaryTarget(
             name: "_DarwinPrivate",
             path: "_DarwinPrivate.xcframework"
+        ),
+        .binaryTarget(
+            name: "CoreMaterial",
+            path: "CoreMaterial.xcframework"
         ),
         .target(
             name: "MySwiftUITestUtils"

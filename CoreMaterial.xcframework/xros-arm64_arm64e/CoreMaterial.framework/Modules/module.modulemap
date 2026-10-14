@@ -1,0 +1,5 @@
+framework module CoreMaterial {
+    umbrella header "CoreMaterial.h"
+    export *
+    module * { export * }
+}

@@ -2,6 +2,7 @@
 internal import CoreGraphics
 private import Synchronization
 private import Foundation
+private import CoreMaterial
 
 enum ContentStyle {}
 
@@ -114,6 +115,49 @@ extension ContentStyle {
         }
         
         fileprivate var coreMaterialDescription: [String: Any] {
+            let recipe = self.material.coreMaterialRecipe
+            
+            let styleCategory: MTCoreMaterialVisualStyleCategory
+            switch self.base.primitive {
+            case .fill:
+                styleCategory = .fill
+            case .stroke:
+                styleCategory = .stroke
+            case .separator:
+                styleCategory = .fill
+            case .overlay:
+                styleCategory = .overlay
+            case .destructive:
+                styleCategory = .stroke
+            }
+            
+            let style = self.coreMaterialStyle
+            let options = self.material.coreMaterialOptions
+            
+            guard var styling = MTVisualStylingCreateDictionaryRepresentation(recipe, styleCategory, style, options) else {
+                return [:]
+            }
+            
+            guard case .destructive = self.base.primitive else {
+                return styling
+            }
+            
+            guard
+                let value_1 = styling["compositingFilter"],
+                var compositingFilter = value_1 as? [String: Any],
+                let value_2 = compositingFilter["inputAmount"],
+                value_2 is CGFloat
+            else {
+                return styling
+            }
+            
+            compositingFilter["inputAmount"] = CGFloat(0.65)
+            styling["compositingFilter"] = compositingFilter
+            
+            return styling
+        }
+        
+        fileprivate var coreMaterialStyle: MTCoreMaterialVisualStyle {
             assertUnimplemented()
         }
     }
@@ -324,3 +368,12 @@ fileprivate struct CoreMaterialCache {
     }
 }
 
+extension Material.ResolvedMaterial {
+    fileprivate var coreMaterialRecipe: MTCoreMaterialRecipe {
+        assertUnimplemented()
+    }
+    
+    fileprivate var coreMaterialOptions: [String: Any] {
+        assertUnimplemented()
+    }
+}
