@@ -158,7 +158,36 @@ extension ContentStyle {
         }
         
         fileprivate var coreMaterialStyle: MTCoreMaterialVisualStyle {
-            assertUnimplemented()
+            let style: MTCoreMaterialVisualStyle
+            switch self.base.primitive {
+            case .fill:
+                if self.material.flags.contains(.unknown9) {
+                    style = .quaternary
+                } else {
+                    style = .tertiary
+                }
+            case .stroke:
+                style = .quaternary
+            case .separator:
+                return .separator
+            case .overlay:
+                style = .quaternary
+            case .destructive:
+                style = .quaternary
+            }
+            
+            switch self.base.id {
+            case .primary:
+                return .primary
+            case .secondary:
+                return .secondary
+            case .tertiary:
+                return .tertiary
+            case .quaternary:
+                return style
+            case .quinary:
+                return style
+            }
         }
     }
     
@@ -370,7 +399,76 @@ fileprivate struct CoreMaterialCache {
 
 extension Material.ResolvedMaterial {
     fileprivate var coreMaterialRecipe: MTCoreMaterialRecipe {
-        assertUnimplemented()
+        switch self.id {
+        case .coreMaterial(let light, let dark, _):
+            if self.flags.contains(.unknown0) {
+                return MTCoreMaterialRecipe(rawValue: dark)
+            } else {
+                return MTCoreMaterialRecipe(rawValue: light)
+            }
+        case .provider, .layers:
+            // <+428>
+            fatalError("unexpected material ID type")
+        case .ultraThin:
+            // <+200>
+            if self.flags.contains(.unknown0) {
+                return .platformContentUltraThinDark
+            } else {
+                return .platformContentUltraThinLight
+            }
+        case .thin:
+            // <+216>
+            if self.flags.contains(.unknown0) {
+                return .platformContentThinDark
+            } else {
+                return .platformContentThinLight
+            }
+        case .regular:
+            // <+172>
+            if self.flags.contains(.unknown0) {
+                return .platformContentDark
+            } else {
+                return .platformContentLight
+            }
+        case .thick, .ultraThick:
+            // <+72>
+            if self.flags.contains(.unknown0) {
+                return .platformContentThickDark
+            } else {
+                return .platformContentThickLight
+            }
+        case .systemBars:
+            // <+352>
+            if self.flags.contains(.unknown0) {
+                return .platformChromeDark
+            } else {
+                return .platformChromeLight
+            }
+        case .intelligenceLightSource_Unreactive, .intelligenceLightSource_AudioReactive:
+            // <+500>
+            fatalError("invalid material")
+        case .pinched:
+            // <+244>
+            return MTCoreMaterialRecipe(rawValue: "platformPinched")
+        case .selected:
+            // <+188>
+            return MTCoreMaterialRecipe(rawValue: "platformSelected")
+        case .disabled:
+            // <+316>
+            return MTCoreMaterialRecipe(rawValue: "platformDisabled")
+        case .vibrantGlassContent:
+            // <+144>
+            return MTCoreMaterialRecipe(rawValue: "platformContentGlass")
+        case .darkerGlass:
+            // <+280>
+            return MTCoreMaterialRecipe(rawValue: "platformContentGlassDarker")
+        case .lighterGlass:
+            // <+96>
+            return MTCoreMaterialRecipe(rawValue: "platformContentGlassLighter")
+        case .ultraDarkerGlass:
+            // <+116>
+            return MTCoreMaterialRecipe(rawValue: "platformContentGlassUltraDarker")
+        }
     }
     
     fileprivate var coreMaterialOptions: [String: Any] {

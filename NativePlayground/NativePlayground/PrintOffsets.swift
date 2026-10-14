@@ -269,6 +269,7 @@ func printOffsets() {
     printFields("7SwiftUI13GraphicsImageV", isClassType: false)
     printFields("7SwiftUI16_ShapeStyle_PackV6EffectV", isClassType: false)
     printFields("7SwiftUI19ResolvedShadowStyleV", isClassType: false)
+    printFields("7SwiftUI8MaterialV08ResolvedC0V", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

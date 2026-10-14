@@ -96,9 +96,9 @@ extension Material {
             assertUnimplemented()
         }
         
-        private(set) var id: Material.ID
-        private(set) var flags: Material.ResolvedMaterial.Flags
-        var styieID: ContentStyle.ID?
+        private(set) var id: Material.ID // 0x0
+        private(set) var flags: Material.ResolvedMaterial.Flags // 0xc
+        var styieID: ContentStyle.ID? // 0x10
         
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
