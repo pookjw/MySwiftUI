@@ -225,8 +225,189 @@ extension ContentStyle.MaterialResolved {
 fileprivate struct CoreMaterialCache {
     static let shared = Mutex(CoreMaterialCache())
     
-    static func parseColor(_: Any?) -> Color.ResolvedHDR? {
-        assertUnimplemented()
+    static func parseColor(_ color: Any?) -> Color.ResolvedHDR? {
+        guard
+            let unwrapped = color,
+            let casted = unwrapped as? [String: Any]
+        else {
+            return nil
+        }
+        
+        guard
+            let alphaValue = casted["alpha"],
+            let alpha = alphaValue as? CGFloat
+        else {
+            return .white
+        }
+        
+        let s8 = Float(alpha)
+        
+        if
+            let whiteValue = casted["white"],
+            let white = whiteValue as? CGFloat
+        {
+            var s9 = Float(white)
+            var s0 = -s9
+            var s1 = (s9 > 0) ? s9 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+852>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+868>
+            } else {
+                s0 = 1
+                
+                if s1 == s0 {
+                    // <+868>
+                } else {
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+868>
+                }
+                
+                // <+868>
+            }
+            
+            // <+868>
+            s1 = -s0
+            s0 = (s9 > 0) ? s0 : s1
+            s9 = s0
+            s1 = s0
+            
+            return Color.ResolvedHDR(
+                Color.Resolved(
+                    linearRed: s1,
+                    linearGreen: s9,
+                    linearBlue: s0,
+                    opacity: s8
+                ),
+                headroom: nil
+            )
+        } else if
+            let redValue = casted["red"],
+            let d9 = redValue as? CGFloat,
+            let greenValue = casted["green"],
+            var d10 = greenValue as? CGFloat,
+            let blueValue = casted["blue"],
+            var d2 = blueValue as? CGFloat
+        {
+            var s1 = Float(d9)
+            var s9 = Float(d10)
+            var s0 = -s1
+            var s3 = (s1 > 0) ? s1 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s3 <= s0 {
+                // <+892>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s3 * s0
+                // <+908>
+            } else {
+                s0 = 1
+                
+                if s3 == s0 {
+                    // <+908>
+                } else {
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s3 * s0
+                    s3 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s3
+                    let sp0x4 = s1
+                    d10 = d2
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    d2 = d10
+                    s1 = sp0x4
+                    // <+908>
+                }
+            }
+            
+            // <+908>
+            let s10 = Float(d2)
+            s3 = -s0
+            s1 = (s1 > 0) ? s0 : s3
+            s0 = -s9
+            s3 = (s9 > 0) ? s9 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s3 <= s0 {
+                // <+1028>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s3 * s0
+                // <+1044>
+            } else {
+                s0 = 1
+                
+                if s3 == s0 {
+                    // <+1044>
+                } else {
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s3 * s0
+                    s3 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s3
+                    let sp0x4 = s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    s1 = sp0x4
+                    // <+1044>
+                }
+            }
+            
+            // <+1044>
+            s3 = -s0
+            s9 = (s9 > 0) ? s0 : s3
+            s0 = -s10
+            s3 = (s10 > 0) ? s10 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s3 <= s0 {
+                // <+1160>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s3 * s0
+                // <+1176>
+            } else {
+                s0 = 1
+                
+                if s3 == s0 {
+                    // <+1176>
+                } else {
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s3 * s0
+                    s3 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s3
+                    let sp0x4 = s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    s1 = sp0x4
+                    // <+1176>
+                }
+            }
+            
+            // <+1176>
+            s3 = -s0
+            s0 = (s10 > 0) ? s0 : s3
+            
+            // <+416>
+            return Color.ResolvedHDR(
+                Color.Resolved(
+                    linearRed: s1,
+                    linearGreen: s9,
+                    linearBlue: s0,
+                    opacity: s8
+                ),
+                headroom: nil
+            )
+        } else {
+            var resolved = Color.ResolvedHDR.white
+            resolved.opacity = s8
+            return resolved
+        }
     }
     
     private var layers: [Material.ResolvedMaterial: [Material.Layer]] = [:]
