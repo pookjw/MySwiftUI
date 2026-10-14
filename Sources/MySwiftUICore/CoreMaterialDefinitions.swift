@@ -430,7 +430,15 @@ fileprivate struct CoreMaterialCache {
     }
     
     private func loadTintAlphaEffect(_ options: [String: Any]) -> DisplayList.Effect? {
-        assertUnimplemented()
+        guard
+            let value = options["tintAlpha"],
+            let tintAlpha = value as? Float,
+            tintAlpha != 1
+        else {
+            return nil
+        }
+        
+        return .opacity(tintAlpha)
     }
     
     private func load(material: Material.ResolvedMaterial) -> [Material.Layer] {
