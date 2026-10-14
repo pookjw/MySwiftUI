@@ -1,5 +1,4 @@
-
-public struct BackdropEffect {
+public struct BackdropEffect : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
     private var scale: Float
     private var color: Color.ResolvedHDR
     private var filters: [GraphicsFilter]

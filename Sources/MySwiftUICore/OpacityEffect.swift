@@ -126,7 +126,7 @@ extension _OpacityEffect : Sendable {}
 extension _OpacityEffect : BitwiseCopyable {}
 
 extension _OpacityEffect : RendererEffect {
-    func effectValue(size: CGSize) -> DisplayList.Effect {
+    nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
         return .opacity(Float(self.opacity))
     }
     

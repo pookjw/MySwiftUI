@@ -43,6 +43,46 @@ package enum GraphicsFilter {
     }
 }
 
+extension GraphicsFilter : RendererEffect {
+    package var animatableData: UInt8 { // TODO
+        assertUnimplemented()
+    }
+    
+    nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var isolatesChildPosition: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var disabledForFlattenedContent: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var preservesEmptyContent: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var isScrapeable: Bool {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter : Equatable {
+    package static func == (lhs: GraphicsFilter, rhs: GraphicsFilter) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter : ProtobufEncodableMessage {
+    // TODO
+}
+
+extension GraphicsFilter : ProtobufDecodableMessage {
+    // TODO
+}
+
 // 원래 없음
 extension Array where Element == GraphicsFilter {
     var caFilters: Any {

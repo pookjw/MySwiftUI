@@ -92,17 +92,9 @@ extension MySwiftUICore::_ShapeStyle_Shape {
 
 extension Material {
     struct ResolvedMaterial : Hashable {
-        static func == (lhs: Material.ResolvedMaterial, rhs: Material.ResolvedMaterial) -> Bool {
-            assertUnimplemented()
-        }
-        
         private(set) var id: Material.ID // 0x0
         private(set) var flags: Material.ResolvedMaterial.Flags // 0xc
         var styieID: ContentStyle.ID? // 0x10
-        
-        func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
         
         fileprivate func prefersRenderingBackgroundWithStyle(in environment: EnvironmentValues) -> Bool {
             guard environment.isVisionEnabled else {
@@ -152,7 +144,7 @@ extension Material {
 }
 
 extension Material.ResolvedMaterial {
-    struct Flags : OptionSet {
+    struct Flags : OptionSet, Hashable {
         static var unknown0: Material.ResolvedMaterial.Flags {
             return Material.ResolvedMaterial.Flags(rawValue: 1 << 0)
         }

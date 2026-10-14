@@ -19,7 +19,27 @@ package enum GraphicsBlendMode {
 }
 
 extension GraphicsBlendMode : RendererEffect {
+    var animatableData: UInt8 { // TODO
+        assertUnimplemented()
+    }
+    
     nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var isolatesChildPosition: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var disabledForFlattenedContent: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var preservesEmptyContent: Bool {
+        assertUnimplemented()
+    }
+    
+    nonisolated static var isScrapeable: Bool {
         assertUnimplemented()
     }
 }

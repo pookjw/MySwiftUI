@@ -64,7 +64,7 @@ extension Material {
 }
 
 extension Material {
-    package enum ID : @unchecked Sendable {
+    package enum ID : Hashable, @unchecked Sendable {
         case coreMaterial(light: String, dark: String, bundle: Bundle?) // values, 0x0
         case provider(MaterialProviderBoxBase) // values, 0x1
         case layers(Material.Layers) // values, 0x2
@@ -87,11 +87,15 @@ extension Material {
 }
 
 extension Material {
-    package struct Layers {
+    package struct Layers : Hashable {
         private var layers: [Material.Layer]
+        
+        package func hash(into hasher: inout Hasher) {
+            // noop
+        }
     }
     
-    package struct Layer {
+    package struct Layer : Equatable {
         private var storage: Material.Layer.Storage
         private var _opacity: Float
         private var _blendMode: GraphicsBlendMode
@@ -133,14 +137,14 @@ extension Material.ForegroundStyle {
 }
 
 extension Material.Layer {
-    enum Storage {
+    enum Storage : Equatable {
         case color(Color.ResolvedHDR)
         case backdropSwiftUI(BackdropEffect)
         case sdfLayer(Material.Layer.SDFLayer)
         case intelligenceLightSource(IntelligenceLightSourceLayer)
     }
     
-    package struct SDFLayer {
+    package struct SDFLayer : Equatable {
         // TODO
     }
 }
@@ -207,7 +211,11 @@ extension SystemMaterialDefinitionKey {
     }
 }
 
-package class MaterialProviderBoxBase {
+package class MaterialProviderBoxBase : Hashable {
+    package static func == (lhs: MaterialProviderBoxBase, rhs: MaterialProviderBoxBase) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    
     func resolveLayers(in context: Material.Context) -> Material.Layers {
         fatalError() // abstract
     }
@@ -256,11 +264,11 @@ package class MaterialProviderBoxBase {
         fatalError() // abstract
     }
     
-    func hash(into hasher: inout Hasher) {
+    package func hash(into hasher: inout Hasher) {
         fatalError() // abstract
     }
     
-    var hashValue: Int {
+    package var hashValue: Int {
         var hasher = Hasher()
         self.hash(into: &hasher)
         return hasher.finalize()

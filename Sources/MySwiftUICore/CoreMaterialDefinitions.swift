@@ -75,7 +75,7 @@ extension ContentStyle {
         }
     }
     
-    enum Primitive {
+    enum Primitive : Hashable {
         case fill
         case stroke
         case separator
@@ -83,16 +83,12 @@ extension ContentStyle {
         case destructive
     }
     
-    struct Style {
+    struct Style : Hashable {
         private(set) var id: ContentStyle.ID
         private(set) var primitive: ContentStyle.Primitive
     }
     
     struct MaterialStyle : Hashable {
-        static func == (lhs: ContentStyle.MaterialStyle, rhs: ContentStyle.MaterialStyle) -> Bool {
-            assertUnimplemented()
-        }
-        
         private(set) var material: Material.ResolvedMaterial // 0x0
         private(set) var base: ContentStyle.Style // 0x11
         
@@ -108,10 +104,6 @@ extension ContentStyle {
             // <+80>
             let color = environment.materialBaseColor ?? .white
             return color.resolveHDR(in: environment)
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
         }
         
         fileprivate var coreMaterialDescription: [String: Any] {
