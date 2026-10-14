@@ -385,7 +385,48 @@ fileprivate struct CoreMaterialCache {
     }
     
     private func loadBlendModeEffect(_ options: [String: Any]) -> DisplayList.Effect? {
-        assertUnimplemented()
+        guard !options.isEmpty else {
+            return nil
+        }
+        
+        let dictionary: [String: Any]
+        
+        let type: String
+        if
+            let value = options["compositingFilter"],
+            let compositingFilter = value as? String
+        {
+            type = compositingFilter
+            dictionary = [:]
+        } else if
+            let value_1 = options["compositingFilter"],
+            let compositingFilter = value_1 as? [String: Any],
+            let value = compositingFilter["type"],
+            let _type = value as? String
+        {
+            type = _type
+            dictionary = compositingFilter
+        } else {
+            return nil
+        }
+        
+        if "subtractSIgnoreAlpha" == type {
+            // <+408>
+            return .blendMode(.subtractSIgnoreAlpha)
+        } else if "plusDIgnoreAlpha" == type {
+            return .blendMode(.plusDIgnoreAlpha)
+        } else if "plusLIgnoreAlpha" == type {
+            return .blendMode(.plusLIgnoreAlpha)
+        } else if
+            "plusLIgnoreAlphaSourceOverBlend" == type,
+            let value = dictionary["inputAmount"],
+            let inputAmount = value as? Double
+        {
+            // <+888>
+            return .blendMode(.plusLIgnoreAlphaSourceOver(inputAmount))
+        } else {
+            return nil
+        }
     }
     
     private func loadTintAlphaEffect(_ options: [String: Any]) -> DisplayList.Effect? {
