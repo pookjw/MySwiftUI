@@ -384,11 +384,11 @@ fileprivate struct CoreMaterialCache {
         return effects
     }
     
-    private func loadBlendModeEffect(_: [String : Any]) -> DisplayList.Effect? {
+    private func loadBlendModeEffect(_ options: [String: Any]) -> DisplayList.Effect? {
         assertUnimplemented()
     }
     
-    private func loadTintAlphaEffect(_: [String : Any]) -> DisplayList.Effect? {
+    private func loadTintAlphaEffect(_ options: [String: Any]) -> DisplayList.Effect? {
         assertUnimplemented()
     }
     
