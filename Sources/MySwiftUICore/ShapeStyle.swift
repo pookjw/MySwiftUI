@@ -201,7 +201,7 @@ extension _ShapeStyle_InterpolatorGroup {
 struct _ShapeStyle_RenderedShape {
     var shape: _ShapeStyle_RenderedShape.Shape // 0x0
     private var contentSeed: DisplayList.Seed // 0x6c
-    private var frame: CGRect // 0x70
+    fileprivate private(set) var frame: CGRect // 0x70
     var interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)? = nil // 0x90
     private var item: DisplayList.Item // 0xa0
     private var options: DisplayList.Options // 0xec
@@ -871,6 +871,10 @@ struct _ShapeStyle_RenderedShape {
     fileprivate func render(shadow: ResolvedShadowStyle, style: _ShapeStyle_Pack.Style, above: inout CompositedItemAccumulator, below: inout CompositedItemAccumulator, opaqueFill: Bool, mayAdjustItem: inout Bool) {
         assertUnimplemented()
     }
+    
+    func commitItem() -> DisplayList.Item {
+        assertUnimplemented()
+    }
 }
 
 extension _ShapeStyle_RenderedShape {
@@ -900,7 +904,7 @@ struct _ShapeStyle_RenderedLayers {
     private(set) var group: _ShapeStyle_InterpolatorGroup?
     private var layers: _ShapeStyle_RenderedLayers.Layers = .empty
     
-    func beginLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?, shape: inout _ShapeStyle_RenderedShape) {
+    mutating func beginLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?, shape: inout _ShapeStyle_RenderedShape) {
         guard let group else {
             return
         }
@@ -931,8 +935,52 @@ struct _ShapeStyle_RenderedLayers {
         }
     }
     
-    func endLayer(shape: inout _ShapeStyle_RenderedShape) {
-        assertUnimplemented()
+    mutating func endLayer(shape: inout _ShapeStyle_RenderedShape) {
+        /*
+         self -> x20 -> x19
+         shape -> x0 -> x21
+         */
+        // x29 - 0xe0
+        var newItem = shape.commitItem()
+        
+        switch self.layers {
+        case .item(let item):
+            // <+264>
+            // item -> x29 - 0x90
+            // d8, d9
+            let origin = CGPoint(
+                x: item.frame.origin.x - shape.frame.origin.x,
+                y: item.frame.origin.y - shape.frame.origin.y
+            )
+            
+            newItem.frame.origin = CGPoint(
+                x: newItem.frame.origin.x - shape.frame.origin.x,
+                y: newItem.frame.origin.y - shape.frame.origin.y
+            )
+            
+            newItem.identity = .none
+            
+            var copy = item
+            copy.frame.origin = origin
+            copy.identity = .none
+            
+            let items: [DisplayList.Item] = [copy, newItem]
+            self.layers = .items(items)
+        case .items(var items):
+            // <+108>
+            newItem.frame.origin = CGPoint(
+                x: newItem.frame.origin.x - shape.frame.origin.x,
+                y: newItem.frame.origin.y - shape.frame.origin.y
+            )
+            
+            newItem.identity = .none
+            
+            items.append(newItem)
+            self.layers = .items(items)
+        case .empty:
+            // <+536>
+            self.layers = .item(newItem)
+        }
     }
     
     func commit(shape: inout _ShapeStyle_RenderedShape, options: DisplayList.Options) -> DisplayList {
