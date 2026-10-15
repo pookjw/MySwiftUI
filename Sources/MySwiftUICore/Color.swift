@@ -998,7 +998,7 @@ package struct ColorView : ResolvedPaint, @preconcurrency RendererLeafView {
         return makeLeafView(view: _GraphValue(view), inputs: inputs)
     }
     
-    fileprivate init(_ color: Color.ResolvedHDR, isAntialiased: Bool = true, allowedDynamicRange: Image.DynamicRange = Image.DynamicRange(storage: .standard)) {
+    nonisolated init(_ color: Color.ResolvedHDR, isAntialiased: Bool = true, allowedDynamicRange: Image.DynamicRange = Image.DynamicRange(storage: .standard)) {
         self.color = color
         self.isAntialiased = isAntialiased
         self.allowedDynamicRange = allowedDynamicRange

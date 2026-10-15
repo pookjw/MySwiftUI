@@ -11,9 +11,9 @@ public import CoreGraphics
     
     @usableFromInline
     @frozen package enum Storage : Equatable {
-        case empty
-        case rect(CGRect)
-        case ellipse(CGRect)
+        case empty // *(uint8_t *)(base + 0x20) = 0x6
+        case rect(CGRect) // *(uint8_t *)(base + 0x20) = 0x0
+        case ellipse(CGRect) // *(uint8_t *)(base + 0x20) = 0x1
         indirect case roundedRect(FixedRoundedRect)
         
         @available(*, deprecated, message: "obsolete")
@@ -21,6 +21,7 @@ public import CoreGraphics
         
         @available(*, deprecated, message: "obsolete")
         indirect case trimmed(TrimmedPath)
+        
         case path(Path.PathBox)
         
         @usableFromInline
@@ -32,7 +33,7 @@ public import CoreGraphics
     package var storage: Path.Storage
     
     public init() {
-        assertUnimplemented()
+        self.storage = .empty
     }
     
     public init(_ path: CGPath) {

@@ -709,8 +709,132 @@ struct _ShapeStyle_RenderedShape {
         }
     }
     
-    fileprivate func render(color: Color.ResolvedHDR) {
-        assertUnimplemented()
+    fileprivate mutating func render(color: Color.ResolvedHDR) {
+        // self -> x20 -> x19
+        if color.opacity == 0 {
+            // <+1440>
+        } else {
+            // <+64>
+            // sp + 0x250
+            let copy_1 = self.shape
+            
+            switch copy_1 {
+            case .path(let path, let fillStyle):
+                // <+676>
+                let environment = self.environment
+                
+                var dynamicRange = Image.DynamicRange.standard
+                if
+                    let headroom = color.headroom,
+                    !(headroom <= 1)
+                {
+                    dynamicRange = environment.effectiveAllowedDynamicRange(explicitRange: nil)
+                }
+                
+                // <+784>
+                switch path.storage {
+                case .rect(let rect):
+                    // <+1332>
+                    let colorView = ColorView(
+                        color,
+                        isAntialiased: fillStyle.isAntialiased,
+                        allowedDynamicRange: dynamicRange
+                    )
+                    
+                    self.item.frame = CGRect(
+                        origin: self.item.frame.origin + rect.origin,
+                        size: rect.size
+                    )
+                    
+                    self.item.value = .content(
+                        DisplayList.Content(
+                            .color(colorView),
+                            seed: self.contentSeed
+                        )
+                    )
+                    
+                    // <+1440>
+                default:
+                    // <+788>
+                    let colorView = ColorView(
+                        color,
+                        isAntialiased: true,
+                        allowedDynamicRange: dynamicRange
+                    )
+                    
+                    let paint = _AnyResolvedPaint(colorView)
+                    
+                    self.item.value = .content(
+                        DisplayList.Content(
+                            .shape(path, paint, fillStyle),
+                            seed: self.contentSeed
+                        )
+                    )
+                    
+                    // <+1440>
+                }
+                
+                // <+1440>
+            case .pathSet(let pathSet):
+                // <+168>
+                let shape = SDFShape(
+                    origin: .zero,
+                    path: pathSet,
+                    style: .fill(SDFStyle.Fill(inset: 0, color: color)),
+                    ovalization: 0,
+                    options: [],
+                    backdropObserver: nil
+                )
+                
+                self.item.value = .content(
+                    DisplayList.Content(
+                        .sdfShape(shape),
+                        seed: self.contentSeed
+                    )
+                )
+                
+                // <+1440>
+            case .text(_):
+                // <+1252>
+                let colorView = ColorView(
+                    .clear,
+                    isAntialiased: true,
+                    allowedDynamicRange: .standard
+                )
+                
+                self.item.value = .content(
+                    DisplayList.Content(
+                        .color(colorView),
+                        seed: self.contentSeed
+                    )
+                )
+            case .image(var graphicsImage):
+                // <+932>
+                graphicsImage.maskColor = color
+                
+                self.item.value = .content(
+                    DisplayList.Content(
+                        .image(graphicsImage),
+                        seed: self.contentSeed)
+                )
+            case .alphaMask(let item, let alphaOnly):
+                // <+308>
+                assertUnimplemented()
+            case .empty:
+                // <+1440>
+                break
+            }
+        }
+        
+        // <+1440>
+        guard let interpolatorData else {
+            return
+        }
+        
+        let effect = DisplayList.Effect.interpolatorLayer(interpolatorData.group, serial: interpolatorData.serial)
+        self.item.addEffect(effect)
+        self.item.canonicalize(options: self.options)
+        self.interpolatorData = nil
     }
     
     fileprivate func render(paint: AnyResolvedPaint) {

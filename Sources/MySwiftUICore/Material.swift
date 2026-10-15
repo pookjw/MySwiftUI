@@ -149,6 +149,34 @@ extension Material.Layer {
     }
 }
 
+extension Material.Layer.SDFLayer {
+    struct Options : OptionSet {
+        let rawValue: UInt32
+    }
+    
+    enum Contents {
+        // TODO
+    }
+}
+
+extension Material.Layer.SDFLayer.Contents {
+    struct GlassKeyFillHighlight {
+        private var inset: CGFloat
+        private var appliesDisplayAngle: Bool
+        private var curvature: CGFloat
+        private var keyColor: Color.ResolvedHDR
+        private var keyAngle: Angle
+        private var keyHeight: CGFloat
+        private var keySpread: Angle
+        private var keyAmount: CGFloat
+        private var fillColor: Color.ResolvedHDR
+        private var fillAngle: Angle
+        private var fillHeight: CGFloat
+        private var fillSpread: Angle
+        private var fillAmount: CGFloat
+    }
+}
+
 package protocol MaterialProvider {
     func resolveLayers(in context: Material.Context) -> [Material.Layer]
     func resolveForegroundStyle(level: Int, in context: Material.Context) -> Material.ForegroundStyle?
