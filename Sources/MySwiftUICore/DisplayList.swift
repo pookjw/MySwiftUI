@@ -1121,8 +1121,8 @@ extension DisplayList {
     }
     
     package struct BackdropGroup {
-        private var isEnabled: Bool
-        private var name: String?
+        private(set) var isEnabled: Bool
+        private(set) var name: String?
     }
     
     package enum Transform {

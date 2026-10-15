@@ -872,8 +872,85 @@ struct _ShapeStyle_RenderedShape {
         assertUnimplemented()
     }
     
-    func commitItem() -> DisplayList.Item {
-        assertUnimplemented()
+    mutating func commitItem() -> DisplayList.Item {
+        // self -> x20 -> x19
+        if (self.opacity == 0) || self.frame.isEmpty {
+            // <+96>
+            self.item.value = .empty
+            
+            if let interpolatorData {
+                self.item.addEffect(.interpolatorLayer(interpolatorData.group, serial: interpolatorData.serial))
+                self.item.canonicalize(options: self.options)
+                self.interpolatorData = nil
+            }
+            
+            // <+204>
+            let result = self.item
+            
+            self.blendMode = .normal
+            self.opacity = 1
+            self.layerNeeds = []
+            self.item.value = .empty
+            self.item.frame = self.frame
+            
+            return result
+        } else {
+            // <+412>
+            let frame = self.frame
+            
+            self.item.canonicalize(options: self.options)
+            
+            if let interpolatorData {
+                self.item.addEffect(.interpolatorLayer(interpolatorData.group, serial: interpolatorData.serial))
+                self.item.canonicalize(options: self.options)
+                self.interpolatorData = nil
+            }
+            
+            // <+504>
+            if self.layerNeeds.contains(.unknown0) {
+                self.item.addDrawingGroup(contentSeed: self.contentSeed)
+                self.layerNeeds.subtract(.unknown0)
+            }
+            
+            // <+532>
+            if
+                case .blendMode(let blendMode) = self.blendMode,
+                blendMode.rawValue == 0
+            {
+                // <+620>
+            } else {
+                // <+556>
+                self.item.addEffect(.blendMode(self.blendMode))
+                self.item.canonicalize(options: self.options)
+                // <+620>
+            }
+            
+            // <+620>
+            if self.opacity == 1 {
+                // <+676>
+            } else {
+                self.item.addEffect(.opacity(self.opacity))
+                self.item.canonicalize(options: self.options)
+                // <+676>
+            }
+            
+            // <+676>
+            if self.layerNeeds.contains(.unknown2) {
+                self.item.addEffect(.backdropGroup(DisplayList.BackdropGroup(isEnabled: true, name: nil)))
+                self.item.canonicalize(options: self.options)
+            }
+            
+            // <+760>
+            let result = self.item
+            
+            self.blendMode = .normal
+            self.opacity = 1
+            self.layerNeeds = []
+            self.item.value = .empty
+            self.item.frame = frame
+            
+            return result
+        }
     }
 }
 
@@ -894,6 +971,10 @@ extension _ShapeStyle_RenderedShape {
         
         static var unknown1: _ShapeStyle_RenderedShape.LayerNeeds {
             return _ShapeStyle_RenderedShape.LayerNeeds(rawValue: 1 << 1)
+        }
+        
+        static var unknown2: _ShapeStyle_RenderedShape.LayerNeeds {
+            return _ShapeStyle_RenderedShape.LayerNeeds(rawValue: 1 << 2)
         }
         
         let rawValue: UInt8
