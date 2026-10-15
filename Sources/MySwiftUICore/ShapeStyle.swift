@@ -819,7 +819,30 @@ struct _ShapeStyle_RenderedShape {
                 )
             case .alphaMask(let item, let alphaOnly):
                 // <+308>
-                assertUnimplemented()
+                self.item.frame = item.frame.offsetBy(
+                    dx: self.item.frame.origin.x,
+                    dy: self.item.frame.origin.y
+                )
+                
+                self.item.value = item.value
+                
+                let graphicsFilter: GraphicsFilter
+                if alphaOnly {
+                    // <+628>
+                    if color == .white {
+                        break
+                    } else {
+                        // <+1568>
+                        graphicsFilter = .colorMultiply(color)
+                    }
+                } else {
+                    // <+1300>
+                    graphicsFilter = .alphaMultiply(color)
+                }
+                
+                // <+1592>
+                self.item.addEffect(.filter(graphicsFilter))
+                self.item.canonicalize(options: self.options)
             case .empty:
                 // <+1440>
                 break

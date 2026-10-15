@@ -10,8 +10,8 @@ package enum GraphicsFilter {
     case shadow(ResolvedShadowStyle)
     case projection(ProjectionTransform)
     case colorMatrix((_ColorMatrix, premultiplied: Bool))
-    case colorMultiply(Color.ResolvedHDR)
-    case alphaMultiply(Color.ResolvedHDR)
+    case colorMultiply(Color.ResolvedHDR) // 0xc800000
+    case alphaMultiply(Color.ResolvedHDR) // 0x10000000
     case hueRotation(Angle)
     case saturation(Double)
     case brightness(Double)
