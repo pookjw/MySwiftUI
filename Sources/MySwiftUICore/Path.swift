@@ -14,15 +14,15 @@ public import CoreGraphics
         case empty // *(uint8_t *)(base + 0x20) = 0x6
         case rect(CGRect) // *(uint8_t *)(base + 0x20) = 0x0
         case ellipse(CGRect) // *(uint8_t *)(base + 0x20) = 0x1
-        indirect case roundedRect(FixedRoundedRect)
+        indirect case roundedRect(FixedRoundedRect) // *(uint8_t *)(base + 0x20) = 0x2
         
         @available(*, deprecated, message: "obsolete")
-        indirect case stroked(StrokedPath)
+        indirect case stroked(StrokedPath) // *(uint8_t *)(base + 0x20) = 0x3
         
         @available(*, deprecated, message: "obsolete")
-        indirect case trimmed(TrimmedPath)
+        indirect case trimmed(TrimmedPath) // *(uint8_t *)(base + 0x20) = 0x4
         
-        case path(Path.PathBox)
+        case path(Path.PathBox) // *(uint8_t *)(base + 0x20) = 0x5
         
         @usableFromInline
         package static func == (a: Path.Storage, b: Path.Storage) -> Bool {
