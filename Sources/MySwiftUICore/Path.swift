@@ -60,6 +60,10 @@ public import CoreGraphics
         assertUnimplemented()
     }
     
+    init(storage: Path.Storage) {
+        self.storage = storage
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public init(roundedRect rect: CGRect, cornerRadii: RectangleCornerRadii, style: RoundedCornerStyle = .continuous) {
         assertUnimplemented()

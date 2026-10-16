@@ -29,7 +29,9 @@ package struct FixedRoundedRect : Equatable {
     }
     
     init(_ rect: CGRect, cornerSize: CGSize, style: RoundedCornerStyle) {
-        assertUnimplemented()
+        self.rect = rect
+        self.cornerSize = cornerSize
+        self.style = style
     }
     
     var isRounded: Bool {
@@ -53,7 +55,9 @@ package struct FixedRoundedRect : Equatable {
     }
     
     init(_ rect: CGRect, cornerRadius: CGFloat, style: RoundedCornerStyle) {
-        assertUnimplemented()
+        self.rect = rect
+        self.cornerSize = CGSize(width: cornerRadius, height: cornerRadius)
+        self.style = style
     }
     
     func applying(_ transform: CGAffineTransform) -> FixedRoundedRect {

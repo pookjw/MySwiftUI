@@ -395,22 +395,27 @@ extension DisplayList.ViewUpdater.Model {
             assertUnimplemented()
         }
         
-        // <+1172>에서 state에 값 할당하는거 놓치지 말기
+        // <+904>에서 state에 값 할당하는거 놓치지 말기
         
-        // <+684>
+        // <+344>
         switch item.value {
         case .content(let content):
-            // <+896>
+            // <+636>
             switch content.value {
-            case .shape(_, _, _):
-                // <+908>
-                assertUnimplemented()
+            case .shape(let path, _, _):
+                // <+648>
+                let result = unsafe state.platformState.remoteEffects.hoverEffectState.applyPath(path)
+                if result {
+                    unsafe state.platformState.versions.remoteEffects = max(state.platformState.versions.remoteEffects, item.version)
+                }
+                
+                return
             default:
-                // <+1176>
+                // <+908>
                 return
             }
         case .effect(let effect, _):
-            // <+708>
+            // <+368>
             // inlined
             let result = unsafe state.platformState.remoteEffects.hoverEffectState.applyEffect(effect)
             if result {
@@ -419,7 +424,7 @@ extension DisplayList.ViewUpdater.Model {
             
             return
         default:
-            // <+1176>
+            // <+908>
             return
         }
     }

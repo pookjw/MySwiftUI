@@ -51,6 +51,17 @@ struct HoverEffectState {
             return true
         }
     }
+    // finalizePlatformMerge에서 구현을 봐야함
+    @inline(always) // 원래 없음
+    mutating func applyPath(_ path: Path) -> Bool {
+        guard let _ = self.contentPath(from: path) else {
+            return false
+        }
+        
+        return self.updateLeafEffectState { _ in
+            assertUnimplemented()
+        }
+    }
     
     // finalizePlatformMerge에서 구현을 봐야함
     @inline(always) // 원래 없음
@@ -87,7 +98,42 @@ struct HoverEffectState {
     }
     
     fileprivate func contentPath(from path: Path) -> Path? {
-        assertUnimplemented()
+        /*
+         path -> x0 -> x20
+         groups -> x1 -> x25
+         leafEffects -> x2 -> x21
+         */
+        let shapeType = ShapeType(path)
+        
+        switch shapeType {
+        case .rect(let rect, let radius, let style):
+            // <+132>
+            let roundedRect = FixedRoundedRect(
+                rect,
+                cornerRadius: radius,
+                style: style
+            )
+            
+            return Path(storage: .roundedRect(roundedRect))
+        case .rectBorder(let rect, let radius, let style, _):
+            // <+132>
+            let roundedRect = FixedRoundedRect(
+                rect,
+                cornerRadius: radius,
+                style: style
+            )
+            
+            return Path(storage: .roundedRect(roundedRect))
+        case .strokedPath(let path, _):
+            // <+212>
+            return self.contentPath(from: path)
+        case .empty:
+            // <+300>
+            return nil
+        case .other:
+            // <+300>
+            return nil
+        }
     }
     
     fileprivate mutating func updateLeafEffectState(_ block: (inout HoverEffectLeafValues) -> Bool) -> Bool {
