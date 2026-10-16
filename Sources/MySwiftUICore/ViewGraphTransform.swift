@@ -3,7 +3,7 @@ internal import AttributeGraph
 
 extension DisplayList {
     func applyViewGraphTransform(time: Attribute<Time>, version: DisplayList.Version) {
-        guard features.isSuperset(of: [.interpolatorRoots, .stateEffects]) else {
+        guard !features.isDisjoint(with: [.interpolatorRoots, .stateEffects]) else {
             return
         }
         

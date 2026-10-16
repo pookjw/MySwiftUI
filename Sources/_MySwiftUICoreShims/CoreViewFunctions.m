@@ -29,9 +29,9 @@ void _UIKitAddSubview(UIView *fromView, UIView *toView, NSInteger index) {
     // x20
     CALayer *toLayer = toView.layer;
     // x23
-    NSArray<CALayer *> *sublayers = toView.layer.sublayers;
+    NSArray<CALayer *> *sublayers = toLayer.sublayers;
     // x22
-    NSUInteger count;
+    NSInteger count;
     if (sublayers == nil) {
         count = 0;
     } else {
@@ -61,11 +61,12 @@ void _UIKitAddSubview(UIView *fromView, UIView *toView, NSInteger index) {
             // <+272>
             fromLayer = sublayers[index];
             assert(fromLayer != nil);
+            index = count;
         }
     }
     
     // <+200>
-    [toLayer insertSublayer:fromLayer atIndex:(unsigned int)index];
+    [toLayer insertSublayer:fromLayer atIndex:(unsigned)index];
     [toView _invalidateSubviewCache];
 }
 
@@ -87,8 +88,7 @@ CALayer * CoreViewLayer(ViewSystem system, id object) {
     switch (system) {
         case ViewSystemCALayer:
             return (CALayer *)object;
-        case ViewSystemUIView:
-        case ViewSystemNSView:
+        default:
 #if TARGET_OS_IPHONE
             return ((UIView *)object).layer;
 #elif TARGET_OS_OSX
@@ -172,11 +172,9 @@ NSUInteger CoreViewSubviewsCount(ViewSystem system, id object) {
         case ViewSystemCALayer:
             layer = (CALayer *)object;
             break;
-        case ViewSystemUIView:
+        default:
             layer = ((UIView *)object).layer;
             break;
-        default:
-            return 0;
     }
     
     return layer.sublayers.count;
@@ -186,15 +184,22 @@ id _Nullable CoreViewSubviewAtIndex(ViewSystem system, id object, NSInteger inde
     switch (system) {
         case ViewSystemCALayer: {
             CALayer *layer = (CALayer *)object;
-            CALayer *sublayer = layer.sublayers[index];
+            NSArray<CALayer *> *sublayers = layer.sublayers;
+            if ((NSUInteger)index >= sublayers.count) return nil;
+            *outSystem = ViewSystemCALayer;
+            return sublayers[index];
+        }
+        default: {
+#if TARGET_OS_IPHONE
+            CALayer *layer = ((UIView *)object).layer;
+#elif TARGET_OS_OSX
+            CALayer *layer = ((NSView *)object).layer;
+#endif
+            NSArray<CALayer *> *sublayers = layer.sublayers;
+            if ((NSUInteger)index >= sublayers.count) return nil;
+            CALayer *sublayer = sublayers[index];
             return CoreViewLayerView(system, sublayer, outSystem);
         }
-        case ViewSystemUIView:
-            CALayer *layer = ((UIView *)object).layer;
-            CALayer *sublayer = layer.sublayers[index];
-            return CoreViewLayerView(system, sublayer, outSystem);
-        default:
-            return (id)system;
     }
 }
 
@@ -203,8 +208,7 @@ void CoreViewRemoveFromSuperview(ViewSystem system, id object) {
         case ViewSystemCALayer:
             [(CALayer *)object removeFromSuperlayer];
             break;
-        case ViewSystemUIView:
-        case ViewSystemNSView:
+        default:
 #if TARGET_OS_IPHONE
             [(UIView *)object removeFromSuperview];
 #elif TARGET_OS_OSX
@@ -273,14 +277,12 @@ void CoreViewSetClipsToBounds(ViewSystem system, id object, BOOL clipToBounds, B
         case ViewSystemCALayer:
             ((CALayer *)object).masksToBounds = clipToBounds;
             break;
-        case ViewSystemUIView:
+        default:
             if (toLayer) {
                 ((UIView *)object).layer.masksToBounds = clipToBounds;
             } else {
                 ((UIView *)object).clipsToBounds = clipToBounds;
             }
-            break;
-        default:
             break;
     }
 }

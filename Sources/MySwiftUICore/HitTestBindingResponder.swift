@@ -47,9 +47,25 @@ final class HitTestBindingResponder3D : DefaultLayoutViewResponder {
     override init(inputs: _ViewInputs, viewSubgraph: Subgraph) {
         super.init(inputs: inputs, viewSubgraph: viewSubgraph)
     }
+
+    deinit {
+        assertUnimplemented()
+    }
+
+    override func bindEvent(_ type: any EventType) -> ResponderNode? {
+        assertUnimplemented()
+    }
 }
 
-fileprivate final class HitTestBindingResponder : DefaultLayoutViewResponder {}
+fileprivate final class HitTestBindingResponder : DefaultLayoutViewResponder {
+    deinit {
+        assertUnimplemented()
+    }
+
+    override func bindEvent(_ type: any EventType) -> ResponderNode? {
+        assertUnimplemented()
+    }
+}
 
 fileprivate struct HitTestBindingFilter : StatefulRule {
     @Attribute private var children: [ViewResponder]

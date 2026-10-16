@@ -3,15 +3,17 @@
 #include <objc/runtime.h>
 @import SoftLinking;
 
+extern void abort_report_np(const char *, ...);
+
 void * _Nullable SafariServicesLibraryCore(void) {
     static void * _Nullable frameworkLibrary = NULL;
     if (frameworkLibrary == NULL) {
         void *pointer = NULL;
-        const char *path = "/System/Library/Frameworks/SafariServices.framework/SafariServices";
-        frameworkLibrary = _sl_dlopen(&path, &pointer);
+        const char *paths[] = { "/System/Library/Frameworks/SafariServices.framework/SafariServices", NULL, NULL };
+        frameworkLibrary = _sl_dlopen(paths, &pointer);
         
         if (frameworkLibrary == NULL) {
-            abort();
+            abort_report_np("%s", (const char *)pointer);
         }
         
         if (pointer != NULL) {
@@ -26,7 +28,11 @@ Class getSFSafariViewControllerClass(void) {
     static Class _Nullable softClass = NULL;
     Class (^block)(void) = ^{
         SafariServicesLibraryCore();
-        return objc_lookUpClass("SFSafariViewController");
+        Class result = objc_getClass("SFSafariViewController");
+        if (result == NULL) {
+            abort_report_np("Unable to find class %s", "SFSafariViewController");
+        }
+        return result;
     };
     
     if (softClass == NULL) {

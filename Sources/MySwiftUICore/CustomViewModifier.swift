@@ -193,7 +193,7 @@ public struct _ViewModifier_Content<Modifier> : View where Modifier : ViewModifi
 
 extension ViewModifier {
     func bodyError() -> Never {
-        fatalError()
+        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false)).")
     }
 }
 

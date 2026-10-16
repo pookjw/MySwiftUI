@@ -121,9 +121,33 @@ private import os.log
     open func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         assertUnimplemented()
     }
+
+    func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
+
+    var descriptionName: String {
+        assertUnimplemented()
+    }
+
+    open func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
+
+    package var features: ViewResponder.Features {
+        assertUnimplemented()
+    }
 }
 
 extension ViewResponder {
+    package struct Features : OptionSet {
+        package let rawValue: UInt16
+
+        package init(rawValue: UInt16) {
+            assertUnimplemented()
+        }
+    }
+
     public struct ContainsPointsCache {
         /*
          key -> 0x0

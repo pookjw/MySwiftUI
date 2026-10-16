@@ -87,7 +87,7 @@ extension Alignment : BitwiseCopyable {}
     private let bits: UInt
     
     public static func < (lhs : AlignmentKey, rhs : AlignmentKey) -> Bool {
-        return lhs.bits < rhs.bits
+        return lhs.bits > rhs.bits
     }
     
     public static func == (a: AlignmentKey, b: AlignmentKey) -> Bool {

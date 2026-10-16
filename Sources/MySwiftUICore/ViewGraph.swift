@@ -1406,7 +1406,7 @@ extension ViewGraph : ViewGraphRenderHost {
                         d9 = renderAsyncTime
                     }
                     
-                    let interval = (d9 - time).seconds
+                    let interval = d9 - time
                     let d10 = viewRenderer.configuration.minFrameInterval
                     let d0: Double
                     if d10 <= interval {

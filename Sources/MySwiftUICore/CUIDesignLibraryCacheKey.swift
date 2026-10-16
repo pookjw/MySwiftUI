@@ -68,7 +68,7 @@ struct CUIDesignLibraryCacheKey : Hashable, Sendable {
                 blendMode: BlendMode(color.blendMode)
             )
         } catch {
-            Log.internalWarning("A color was requested from CoreUI but was not found. Returning clear color instead. - \(error)")
+            Log.internalWarning("A color was requested from CoreUI but was not found. Returning clear color instead.")
             
             entry = CUIDesignLibraryCacheKey.Entry(
                 color: Color

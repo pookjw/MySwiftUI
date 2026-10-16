@@ -22,7 +22,7 @@ package import CoreGraphics
     }
     
     var insets3D: EdgeInsets3D {
-        return EdgeInsets3D(top: top, leading: leading, bottom: bottom, trailing: trailing, front: front, back: back)
+        return EdgeInsets3D(top: -top, leading: -leading, bottom: -bottom, trailing: -trailing, front: -front, back: -back)
     }
     
     mutating func xFlipIfRightToLeft(layoutDirection: () -> LayoutDirection) {

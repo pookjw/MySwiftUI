@@ -23,8 +23,8 @@ private import QuartzCore
         self.seconds = Time.zero.seconds
     }
     
-    package static func - (lhs: Time, rhs: Time) -> Time {
-        return Time(seconds: lhs.seconds - rhs.seconds)
+    package static func - (lhs: Time, rhs: Time) -> Double {
+        return lhs.seconds - rhs.seconds
     }
     
     @_spi(Internal) public static func < (lhs : Time, rhs : Time) -> Bool {

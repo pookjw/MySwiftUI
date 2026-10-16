@@ -56,7 +56,7 @@ public struct _DynamicPropertyBuffer {
                     libraryName,
                     field.offset,
                     value.value.identifier.rawValue,
-                    counter
+                    UInt(counter)
                 ]
             )
         }
@@ -136,7 +136,7 @@ public struct _DynamicPropertyBuffer {
         case .product(let fields):
             // <+180>
             for unsafe field in unsafe fields {
-                unsafe field.type._makeProperty(in: &self, container: container, fieldOffset: baseOffset + field.offset, inputs: &inputs)
+                unsafe field.type._makeProperty(in: &self, container: container, fieldOffset: baseOffset &+ field.offset, inputs: &inputs)
             }
         case .sum(let type, let taggedFields):
             // <+60>
@@ -222,6 +222,10 @@ fileprivate class BoxVTableBase : _UnsafeHeterogeneousBuffer_VTable {
 }
 
 fileprivate final class BoxVTable<U : DynamicPropertyBox>: BoxVTableBase {
+    override class var type: Any.Type {
+        assertUnimplemented()
+    }
+
     override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         let new = unsafe elt.body(as: U.self)
         let old = unsafe from.body(as: U.self)
@@ -289,6 +293,10 @@ fileprivate final class EnumVTable<T> : BoxVTableBase {
     }
     
     override class func update(elt: _UnsafeHeterogeneousBuffer_Element, property: UnsafeMutableRawPointer, phase: _GraphInputs.Phase) -> Bool {
+        assertUnimplemented()
+    }
+
+    override class func getState<U>(elt: _UnsafeHeterogeneousBuffer_Element, type: U.Type) -> Binding<U>? {
         assertUnimplemented()
     }
 }

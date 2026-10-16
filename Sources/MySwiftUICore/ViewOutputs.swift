@@ -41,7 +41,9 @@ public struct _ViewOutputs {
             preferences[anyKey: key] = newValue
         }
         _modify {
-            yield &preferences[anyKey: key]
+            var attribute = preferences[anyKey: key]
+            yield &attribute
+            preferences[anyKey: key] = attribute
         }
     }
     

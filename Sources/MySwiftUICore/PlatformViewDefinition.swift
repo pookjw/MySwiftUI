@@ -15,7 +15,7 @@ public import QuartzCore
     }
     
     open class func makeView(kind : PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
-        fatalError() // abstract
+        return makeView(kind: kind)
     }
     
     open class var supportsMixedHierarchy : Bool {
@@ -56,6 +56,10 @@ public import QuartzCore
     
     open class func setHiddenForReuse(_ flag : Bool, of object: AnyObject ) {
         fatalError() // abstract
+    }
+
+    deinit {
+        assertUnimplemented()
     }
     
     package static func `for`(_ type: AnyObject.Type) -> PlatformViewDefinition.Type? {

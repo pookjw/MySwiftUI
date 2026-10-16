@@ -123,13 +123,13 @@ extension EnvironmentValues {
     @preconcurrency @MainActor
     public var _openURL: OpenURLAction {
         get {
-            if let action = self[OpenURLActionKey.self] {
+            if let action = self[OpenURLActionKey.self], !action.isDefault {
                 switch action.handler {
                 case .system(_):
                     return action
-                case .custom(let result, fallback: let fallback):
+                case .custom(let result, fallback: _):
                     if !hasSystemOpenURLAction {
-                        return OpenURLAction(handler: .custom(result, fallback: fallback), isDefault: false)
+                        return OpenURLAction(handler: .custom(result, fallback: nil), isDefault: false)
                     } else {
                         let resolved = resolvedDefaultOpenURL
                         switch resolved.handler {
@@ -223,8 +223,8 @@ extension View {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     @MainActor @preconcurrency
     public func onOpenURL(prefersInApp: Bool) -> some View {
-        environment(\.openURL, OpenURLAction(handler: { url in
-            return .systemAction(url, prefersInApp: prefersInApp)
+        environment(\.openURL, OpenURLAction(handler: { _ in
+            return .systemAction(prefersInApp: prefersInApp)
         }))
     }
 }

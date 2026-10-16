@@ -130,7 +130,7 @@ private import _DarwinFoundation2._string
             .pointee
             .size
         
-        i.offset = offset + size
+        i.offset = offset &+ size
     }
     
     public subscript(_ index: UnsafeHeterogeneousBuffer.Index) -> _UnsafeHeterogeneousBuffer_Element {
@@ -162,13 +162,13 @@ private import _DarwinFoundation2._string
         } else {
             // <+32>
             var x11 = unsafe buf!
-            var w10: Int = 0
+            var w10: Int32 = 0
             x21 = 0
             unsafe x11 = x11.advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.size)!)
             
             repeat {
-                let x12 = Int(unsafe x11.advanced(by: w10).assumingMemoryBound(to: Int32.self).pointee)
-                w10 &+= x12
+                let x12 = Int(unsafe x11.advanced(by: Int(w10)).assumingMemoryBound(to: Int32.self).pointee)
+                w10 &+= Int32(truncatingIfNeeded: x12)
                 w9 &-= 1
                 
                 if w9 == 0 {
@@ -217,7 +217,7 @@ private import _DarwinFoundation2._string
             if count != 0 {
                 var w27: Int32 = 0
                 let x25 = unsafe buf.advanced(by: MemoryLayout<UnsafeHeterogeneousBuffer.Item>.offset(of: \.size)!)
-                var w26 = count - 1
+                var w26 = count &- 1
                 var x28 = unsafe buf
                 var x23 = unsafe newBuf
                 
@@ -225,9 +225,11 @@ private import _DarwinFoundation2._string
                     if w26 != 0 {
                         let w8 = unsafe x25.advanced(by: Int(w27)).assumingMemoryBound(to: Int32.self).pointee
                         w27 &+= w8
+                    } else {
+                        w27 = 0
                     }
                     
-                    let w21 = (w26 == 0) || (w27 == 0)
+                    let w21 = w26 | w27
                     
                     /*
                      x19 = size
@@ -248,7 +250,7 @@ private import _DarwinFoundation2._string
                     unsafe x23 = x23.advanced(by: Int(item.size))
                     w26 &-= 1
                     
-                    if w21 {
+                    if w21 == 0 {
                         break
                     }
                 } while true
@@ -328,6 +330,10 @@ extension UnsafeHeterogeneousBuffer {
 }
 
 class _UnsafeHeterogeneousBuffer_VTable {
+    deinit {
+        assertUnimplemented()
+    }
+
     class var type : Any.Type {
         fatalError() // abstract
     }

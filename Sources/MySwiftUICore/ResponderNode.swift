@@ -33,7 +33,7 @@
         assertUnimplemented()
     }
     
-    open func bindEvent(_ type: EventType) {
+    open func bindEvent(_ type: EventType) -> ResponderNode? {
         assertUnimplemented()
     }
 }

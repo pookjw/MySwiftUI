@@ -103,20 +103,20 @@ extension _AnimationModifier {
     }
 }
 
-fileprivate struct ChildTransaction<Value : Equatable> : StatefulRule {
-    @Attribute private var value: Value
+fileprivate struct ChildTransaction<T : Equatable> : StatefulRule {
+    @Attribute private var value: T
     @Attribute private var animation: Animation?
     @Attribute private var transaction: Transaction
     @Attribute private var updateSeed: UInt32
-    private var oldValue: Value?
+    private var oldValue: T?
     private var oldSeed: UInt32?
     
     init(
-        value: Attribute<Value>,
+        value: Attribute<T>,
         animation: Attribute<Animation?>,
         transaction: Attribute<Transaction>,
         updateSeed: Attribute<UInt32>,
-        oldValue: Value?,
+        oldValue: T?,
         oldSeed: UInt32?
     ) {
         self._value = value

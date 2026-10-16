@@ -294,6 +294,12 @@ extension Solarium {
     }
 }
 
+extension Solarium.EnablementCriteria : Hashable {
+    func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
 fileprivate func infoPlist(_ key: String, default defaultValue: Bool) -> Bool {
     guard let infoDictionary = Bundle.main.infoDictionary else {
         return defaultValue

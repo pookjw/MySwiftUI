@@ -90,11 +90,15 @@ extension _LayoutTraits {
         }
         
         fileprivate func _checkInvariant() {
-            let normal = (min.isFinite && min >= 0) && (ideal < .infinity) && (min <= max) && (min <= ideal) && (ideal <= max)
-            
-            if !normal {
-                assertionFailure("malformed dimension \(min)...\(ideal)...\(max)")
+            if min.isFinite && min >= 0 && ideal < .infinity {
+                assert(min <= max)
+                if min <= ideal && ideal <= max {
+                    return
+                }
             }
+
+            let description = min == max ? "\(min)" : "\(min)...\(ideal)...\(max)"
+            fatalError("malformed dimension \(description)")
         }
         
         static func fixed(_ value: CGFloat) -> _LayoutTraits.Dimension {
@@ -115,9 +119,9 @@ extension _LayoutTraits {
             let d0 = lhs.maxLength - lhs.minLength
             let d1 = rhs.maxLength - rhs.minLength
             
-            if d0.isInfinite {
+            if d0 == .infinity {
                 // <+32>
-                if d1.isInfinite {
+                if d1 == .infinity {
                     // <+48>
                     return -lhs.minLength < -rhs.minLength
                 } else {
@@ -126,7 +130,7 @@ extension _LayoutTraits {
                 }
             } else {
                 // <+68>
-                if d1.isInfinite {
+                if d1 == .infinity {
                     // <+80>
                     return d0 < .infinity
                 } else {

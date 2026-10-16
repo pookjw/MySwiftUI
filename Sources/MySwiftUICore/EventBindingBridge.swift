@@ -13,4 +13,22 @@ open class EventBindingBridge {
     public init(eventBindingManager: EventBindingManager) {
         self.eventBindingManager = eventBindingManager
     }
+
+    deinit {
+        assertUnimplemented()
+    }
+}
+
+extension EventBindingBridge : EventBindingManagerDelegate {
+    package func didBind(to event: EventBinding, id eventID: EventID) {
+        assertUnimplemented()
+    }
+
+    package func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
+        assertUnimplemented()
+    }
+
+    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+        assertUnimplemented()
+    }
 }

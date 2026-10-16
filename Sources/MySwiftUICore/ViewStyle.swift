@@ -208,6 +208,7 @@ fileprivate struct StyleModifierType<T : StyleModifier> : AnyStyleModifierType {
             default:
                 var message = "styles must be value types (either a struct or an enum); "
                 message.append(_typeName(T.Style.self, qualified: false))
+                message.append(" is a class.")
                 fatalError(message)
             }
         }

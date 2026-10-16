@@ -15,6 +15,10 @@ public import CoreGraphics
     public override init() {
         super.init()
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     override init(host: ViewGraphDelegate?) {
         assertUnimplemented()
@@ -40,13 +44,13 @@ public import CoreGraphics
          return pointer -> x8 -> x21
          */
         guard UnifiedHitTestingFeature.isEnabled else {
-            return ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: [])
+            return ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: children)
         }
         
         let policy = self.hitTestPolicy(options: options)
         
         // x21
-        let result = ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: [])
+        let result = ViewResponder.ContainsPointsResult(mask: BitVector64(), priority: 0, children: children)
         
         guard policy != .exclude else {
             return result
@@ -86,6 +90,22 @@ public import CoreGraphics
     }
     
     open func platformViewHitTest(globalPoint: Point3D, cacheKey: UInt32?) -> T? {
+        assertUnimplemented()
+    }
+
+    override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
+
+    override var descriptionName: String {
+        assertUnimplemented()
+    }
+
+    open override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
+
+    package override var features: ViewResponder.Features {
         assertUnimplemented()
     }
     

@@ -6,8 +6,9 @@
         self.contents = contents
     }
     
-    mutating func append<T : ViewGraphFeature>(feature: T) {
-        contents.append(feature, vtable: _VTable<T>.self)
+    @discardableResult
+    mutating func append<T : ViewGraphFeature>(feature: T) -> UnsafeHeterogeneousBuffer.Index {
+        return contents.append(feature, vtable: _VTable<T>.self)
     }
     
     func index(after index: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
@@ -116,40 +117,42 @@ extension ViewGraphFeatureBuffer {
 
 extension ViewGraphFeatureBuffer {
     fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
+        deinit {
+            assertUnimplemented()
+        }
+
         class func modifyViewInputs(elt : _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
-            fatalError() // abstract
         }
         
         class func modifyViewOutputs(elt : _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            fatalError() // abstract
         }
         
         class func uninstantiate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
         }
         
         class func isHiddenForReuseDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
         }
         
         class func needsUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
-            fatalError() // abstract
+            return false
         }
         
         class func allowsAsyncUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
-            fatalError() // abstract
+            return true
         }
         
         class func outputsDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
         }
         
         class func update(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
-            fatalError() // abstract
         }
     }
     
     fileprivate final class _VTable<T : ViewGraphFeature>: VTable {
+        deinit {
+            assertUnimplemented()
+        }
+
         override class var type : any Any.Type {
             return T.self
         }

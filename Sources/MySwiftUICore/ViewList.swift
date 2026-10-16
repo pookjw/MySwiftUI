@@ -36,6 +36,10 @@ class _ViewList_Subgraph {
         self.refcount = 1
         self.subgraph = subgraph
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
         assertUnimplemented()
@@ -173,6 +177,20 @@ struct _ViewList_SubgraphElements {
     }
 }
 
+extension _ViewList_SubgraphElements : _ViewList_Elements {
+    var count: Int {
+        assertUnimplemented()
+    }
+
+    func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
+        assertUnimplemented()
+    }
+
+    func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+        assertUnimplemented()
+    }
+}
+
 struct _ViewList_SublistSubgraphStorage {
     var subgraphs: [_ViewList_Subgraph]
     
@@ -289,7 +307,7 @@ extension _ViewListOutputs {
         if !inputs.options.contains(.isNonEmptyParent) {
             // <+64>
             elements = EmptyViewListElements()
-            if !inputs.options.contains(.requiresSections) {
+            if !inputs.base.options.contains(.needsStableDisplayListIDs) {
                 // <+92>
                 attribute = nil
                 // <+224>
@@ -507,7 +525,8 @@ extension _ViewListOutputs {
         let scope: WeakAttribute<_DisplayList_StableIdentityScope>?
         if options.contains(.needsStableDisplayListIDs) {
             let copy_2 = copy_1.base
-            scope = copy_2[_DisplayList_StableIdentityScope.self]
+            let attribute = copy_2[_DisplayList_StableIdentityScope.self]
+            scope = attribute.attribute != nil ? attribute : nil
         } else {
             scope = nil
         }
@@ -835,6 +854,10 @@ extension _ViewListOutputs {
     
     class ListModifier {
         init() {}
+
+        deinit {
+            assertUnimplemented()
+        }
         
         func apply(to list: inout ViewList) {
         }
@@ -966,7 +989,7 @@ protocol _ViewList_Elements {
 }
 
 extension _ViewList_Elements {
-    func makeAllElements(inputs: _ViewInputs, body: @escaping (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
+    func makeAllElements(inputs: _ViewInputs, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs?) -> _ViewOutputs? {
         return makeAllElements(inputs: inputs, indirectMap: nil, body: body)
     }
     
@@ -1000,6 +1023,10 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
     
     init(isDataDependent: Bool) {
         self.isDataDependent = isDataDependent
+    }
+
+    deinit {
+        assertUnimplemented()
     }
     
     final var startIndex: Int {
@@ -1039,6 +1066,10 @@ extension _ViewList_ID {
             self.base = base
             super.init(isDataDependent: isDataDependent)
         }
+
+        deinit {
+            assertUnimplemented()
+        }
         
         override var endIndex: Int {
             return self.base.endIndex
@@ -1068,15 +1099,20 @@ extension _ViewList_ID {
             
             for view in views {
                 let endIndex = view.endIndex
-                assert(endIndex >= 0)
-                assert(view.endIndex >= endIndex)
-                count += view.endIndex
+                assert(view.endIndex >= 0)
+                let currentEndIndex = view.endIndex
+                assert(endIndex >= 0 && currentEndIndex >= endIndex)
+                count += endIndex
                 _views.append((views: view, endOffset: count))
             }
             
             self.views = _views
             self.count = count
             super.init(isDataDependent: isDataDependent)
+        }
+
+        deinit {
+            assertUnimplemented()
         }
         
         override subscript(index: Int) -> _ViewList_ID {
@@ -1253,7 +1289,7 @@ fileprivate struct UnaryElements<T : UnaryViewGenerator>: _ViewList_Elements {
         // x23
         let copy_2 = self
         
-        return body(copy_1) { [copy_2, indirectMap] inputs in
+        let result = body(copy_1) { [copy_2, indirectMap] inputs in
             // $s7SwiftUI13UnaryElements33_E479C0E92CDD045BAF2EF653123E2E0BLLV04makeD04from6inputs11indirectMap4bodyAA12_ViewOutputsVSg_SbtSiz_AA01_S6InputsVAA017IndirectAttributeQ0CSgAL_SbtAN_AkNctXEtFAkNcfU_TA
             // sp + 0x240
             let copy_3 = inputs
@@ -1286,6 +1322,8 @@ fileprivate struct UnaryElements<T : UnaryViewGenerator>: _ViewList_Elements {
             
             return copy_2.body.makeView(inputs: copy_11, indirectMap: indirectMap)
         }
+        index = 0
+        return result
     }
     
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
@@ -1300,6 +1338,12 @@ fileprivate struct BaseViewList : CustomStringConvertible {
     var traits: ViewTraitCollection
     
     var description: String {
+        assertUnimplemented()
+    }
+}
+
+extension BaseViewList : CustomDebugStringConvertible {
+    var debugDescription: String {
         assertUnimplemented()
     }
 }
@@ -1352,10 +1396,10 @@ extension BaseViewList : ViewList {
         // x20
         let count = elements.count
         // x8
-        var x8 = style.applyGranularity(to: count)
-        x8 = index &- x8
+        let scaledCount = style.applyGranularity(to: count)
+        let x8 = index &- scaledCount
         
-        guard x8 < 0 else {
+        guard index < scaledCount else {
             index = x8
             return true
         }
@@ -1454,14 +1498,14 @@ struct _ViewList_IteratorStyle : Equatable {
     }
     
     func alignToNextGranularityMultiple(_ other: inout Int) {
-        var x9 = value
-        var x8 = UInt(bitPattern: granularity)
+        var x9 = Int(bitPattern: value)
+        var x8 = granularity
         
         guard x8 != 1 else {
             return
         }
         
-        x9 = UInt(bitPattern: other)
+        x9 = other
         var x10 = x9 / x8
         x10 = x9 &- (x10 * x8)
         
@@ -1471,7 +1515,7 @@ struct _ViewList_IteratorStyle : Equatable {
         
         x8 -= x10
         x8 += x9
-        other = Int(bitPattern: x8)
+        other = x8
     }
     
     func alignToPreviousGranularityMultiple(_ other: inout Int) {
@@ -1536,6 +1580,7 @@ struct _ViewList_IteratorStyle : Equatable {
         case .node(let pointer):
             // <+200>
             guard let pointer = unsafe pointer else {
+                sublist.elements.subgraphs.subgraphs.reserveCapacity(0)
                 return
             }
             
@@ -1621,7 +1666,7 @@ struct _ViewList_IteratorStyle : Equatable {
             // <+48>
             storage.subgraphs.reserveCapacity(pointer.pointee.subgraphCount)
             
-            for item in pointer.pointee.items {
+            for item in pointer.pointee.items.reversed() {
                 item.wrapSubgraph(into: &storage)
             }
         }
@@ -1693,13 +1738,13 @@ struct _ViewList_SublistTransform {
         let items = self.items
         sublist.elements.subgraphs.subgraphs.reserveCapacity(self.subgraphCount)
         
-        for item in items {
+        for item in items.reversed() {
             item.apply(sublist: &sublist)
         }
     }
     
     func bindID(_ listID: inout _ViewList_ID) {
-        for item in self.items {
+        for item in self.items.reversed() {
             item.bindID(&listID)
         }
     }
@@ -1708,7 +1753,7 @@ struct _ViewList_SublistTransform {
         let items = self.items
         storage.subgraphs.reserveCapacity(self.subgraphCount)
         
-        for item in items {
+        for item in items.reversed() {
             item.wrapSubgraph(into: &storage)
         }
     }
@@ -1800,7 +1845,7 @@ enum _ViewList_Node {
             let count = style.applyGranularity(to: copy_2.count)
             
             let x20 = index &- count
-            if x20 >= 0 {
+            if index >= count {
                 index = x20
                 return true
             }
@@ -1936,11 +1981,27 @@ enum _ViewList_Edit {
     case removed
 }
 
+extension _ViewList_Edit : Hashable {
+    static func == (lhs: _ViewList_Edit, rhs: _ViewList_Edit) -> Bool {
+        assertUnimplemented()
+    }
+
+    func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
 extension _ViewList_ID {
     package struct Canonical : Hashable {
         private(set) var _index: Int32
         private(set) var implicitID: Int32
         private(set) var explicitID: AnyHashable2?
+    }
+}
+
+extension _ViewList_ID.Canonical : CustomStringConvertible {
+    package var description: String {
+        assertUnimplemented()
     }
 }
 
@@ -2100,11 +2161,15 @@ extension _ViewList_Group {
     }
 }
 
-struct _ViewList_Section : ViewList {
+struct _ViewList_Section : ViewList, CustomDebugStringConvertible {
     var id: UInt32 // 0x0
     var base: _ViewList_Group // 0x8
     var traits: ViewTraitCollection // 0x10
     var isHierarchical: Bool // 0x18
+
+    var debugDescription: String {
+        assertUnimplemented()
+    }
     
     func appendViewIDs(into accumulator: inout HeterogeneousViewIDsAccumulator) {
         /*
@@ -2139,6 +2204,8 @@ struct _ViewList_Section : ViewList {
             // inlined
             style.alignToNextGranularityMultiple(&count)
             // <+300>
+            var style = style
+            style.applyGranularity = style.granularity != 1
             count += self.header.list.count(style: style)
             count += self.footer.list.count(style: style)
             
@@ -2155,6 +2222,8 @@ struct _ViewList_Section : ViewList {
             var count = self.content.list.estimatedCount(style: style)
             // inlined
             style.alignToNextGranularityMultiple(&count)
+            var style = style
+            style.applyGranularity = style.granularity != 1
             count += self.header.list.estimatedCount(style: style)
             count += self.footer.list.estimatedCount(style: style)
             
@@ -2203,7 +2272,7 @@ struct _ViewList_Section : ViewList {
     var viewIDs : _ViewList_ID_Views? {
         if self.isHierarchical {
             // <+36>
-            return self.content.list.viewIDs
+            return self.header.list.viewIDs
         } else {
             // <+132>
             return self.base.viewIDs
@@ -2258,7 +2327,7 @@ fileprivate struct MergedElements : _ViewList_Elements {
             switch copy_2 {
             case .staticList(let elements):
                 // <+100>
-                x19 &+= elements.count
+                x19 += elements.count
             case .dynamicList(_, _):
                 fatalError()
             }
@@ -2309,11 +2378,9 @@ fileprivate struct MergedElements : _ViewList_Elements {
                 // sp + 0xa0
                 let (output, x27): (_ViewOutputs?, Bool) = copy_4.makeElements(from: &index, inputs: copy_5, indirectMap: indirectMap, body: body)
                 
-                guard let output else {
-                    continue r1
+                if let output {
+                    results.append(output)
                 }
-                
-                results.append(output)
                 w23 = x27
                 
                 guard w23 else {
@@ -2414,7 +2481,7 @@ fileprivate struct ModifiedElements : _ViewList_Elements {
                     // sp + 0xf0
                     let copy_2 = baseInputs
                     // sp + 0x90
-                    let copy_3 = baseInputs
+                    let copy_3 = copy_2
                     
                     if let indirectMap {
                         copy_3.makeReusable(indirectMap: indirectMap)
@@ -2424,7 +2491,7 @@ fileprivate struct ModifiedElements : _ViewList_Elements {
                     // sp + 0x90
                     var copy_4 = copy_1
                     // sp + 0x60
-                    let copy_5 = copy_2
+                    let copy_5 = copy_3
                     // sp
                     let _ = copy_1
                     
@@ -2545,6 +2612,10 @@ extension ModifiedViewList {
             self.modifier = modifier
             self.inputs = inputs
             super.init()
+        }
+
+        deinit {
+            assertUnimplemented()
         }
         
         override func apply(to list: inout any ViewList) {

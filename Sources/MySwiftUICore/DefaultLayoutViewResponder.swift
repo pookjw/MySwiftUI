@@ -41,7 +41,7 @@ package import AttributeGraph
         assertUnimplemented()
     }
     
-    open func extendPrintTree(string: inout String) {
+    open override func extendPrintTree(string: inout String) {
         assertUnimplemented()
     }
 }

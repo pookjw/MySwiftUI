@@ -237,7 +237,7 @@ fileprivate struct SpringModel {
                 d0 = -d0
                 d0 = d0 / d1
                 d1 = 0
-                d0 = max(d0, d1)
+                d0 = fmax(d0, d1)
                 // <+164>
             }
         }

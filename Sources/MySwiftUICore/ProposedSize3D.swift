@@ -36,7 +36,7 @@ package import Spatial
         self.depth = depth
     }
     
-    init(width: CGFloat) {
+    init(width: CGFloat?) {
         self.width = width
         self.height = nil
         self.depth = nil

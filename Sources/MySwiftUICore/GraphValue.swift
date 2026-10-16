@@ -35,14 +35,20 @@ public struct _GraphValue<Value> : Equatable {
     }
 }
 
-extension _GraphValue {
-    mutating func makeReusable(indirectMap: IndirectAttributeMap) {
+extension _GraphValue : GraphReusable {
+    package mutating func makeReusable(indirectMap: IndirectAttributeMap) {
         self.value.makeReusable(indirectMap: indirectMap, withoutInvalidation: false)
     }
     
-    func tryToReuse(by other: _GraphValue<Value>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
+    package func tryToReuse(by other: _GraphValue<Value>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
         // self는 w4에 들어감
         self.value.tryToReuse(by: other.value, indirectMap: indirectMap, withoutInvalidation: false, testOnly: testOnly)
+    }
+}
+
+extension _GraphValue where Value : GraphReusable {
+    package static var isTriviallyReusable: Bool {
+        assertUnimplemented()
     }
 }
 

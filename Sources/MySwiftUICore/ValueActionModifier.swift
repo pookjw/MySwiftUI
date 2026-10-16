@@ -130,11 +130,11 @@ struct _ValueActionModifier3<Value : Equatable> : ViewModifier, PrimitiveViewMod
     private var value: Value
     private var action: (Value, Value, Transaction) -> ()
     
-    nonisolated static func _makeView(modifier: _GraphValue<_ValueActionModifier2<Value>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+    nonisolated static func _makeView(modifier: _GraphValue<_ValueActionModifier3<Value>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     
-    nonisolated static func _makeViewList(modifier: _GraphValue<_ValueActionModifier2<Value>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+    nonisolated static func _makeViewList(modifier: _GraphValue<_ValueActionModifier3<Value>>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
 }
@@ -160,6 +160,7 @@ struct ValueActionDispatcher<Modifier : ValueActionModifierProtocol> : StatefulR
             // <+224>
             self.lastResetSeed = self.phase.resetSeed
             self.oldValue = nil
+            self.cycleDetector.reset()
         }
         
         // <+320>
@@ -241,11 +242,17 @@ struct ValueActionDispatcher<Modifier : ValueActionModifierProtocol> : StatefulR
     }
 }
 
-fileprivate struct ValueActionDispatcher3<Value : Equatable> {
-    @Attribute private var modifier: _ValueActionModifier3<Value>
+fileprivate struct ValueActionDispatcher3<T : Equatable> : StatefulRule, AsyncAttribute {
+    @Attribute private var modifier: _ValueActionModifier3<T>
     @Attribute private var phase: _GraphInputs.Phase
     @Attribute private var transaction: Transaction
-    private var oldValue: Value?
+    private var oldValue: T?
     private var lastResetSeed: UInt32
     private var cycleDetector: UpdateCycleDetector
+
+    typealias Value = Void
+
+    mutating func updateValue() {
+        assertUnimplemented()
+    }
 }

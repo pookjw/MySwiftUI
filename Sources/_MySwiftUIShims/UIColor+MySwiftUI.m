@@ -4,7 +4,9 @@
 
 @implementation UIColor (MySwiftUI)
 
-- (instancetype)initWithColor__swiftUI__:(id)color {
+- (instancetype)initWithColor__mySwiftUI__:(id)color {
+    [color retain];
+    [self release];
     self = color;
     return self;
 }

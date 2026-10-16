@@ -125,7 +125,7 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
                 
                 var d8 = Time.systemUptime - timestamp
                 d8 = d8 + self.viewGraphHost.currentTimestamp.seconds
-                self.viewGraphHost.currentTimestamp = d8
+                self.viewGraphHost.currentTimestamp = Time(seconds: d8)
                 self.setNeedsUpdate()
             }
             

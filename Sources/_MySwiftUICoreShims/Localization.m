@@ -29,12 +29,13 @@ NSString * _Nullable _getBestLocalization(NSBundle *bundle, NSLocale * _Nullable
     }
     
     // <+208>
-    NSMutableDictionary<NSString *, NSString *> * _Nullable dictionary = [cache objectForKey:bundle];
+    NSMutableDictionary<NSString *, NSString *> * _Nullable dictionary = [[cache objectForKey:bundle] retain];
     NSString * _Nullable cached = [dictionary objectForKey:locale.localeIdentifier];
     
     os_unfair_lock_unlock(&lock);
     
     if (cached != nil) {
+        [dictionary release];
         return cached;
     }
     
@@ -53,6 +54,7 @@ NSString * _Nullable _getBestLocalization(NSBundle *bundle, NSLocale * _Nullable
     dictionary[locale.localeIdentifier] = preferredLocalization;
     
     os_unfair_lock_unlock(&lock);
+    [dictionary release];
     
     return preferredLocalization;
 }
@@ -69,10 +71,10 @@ NSString * _LocalizeString(NSBundle *bundle, NSString *key, NSString * _Nullable
     
     if (localization != nil) {
         // <+76>
-        return [bundle localizedStringForKey:key value:nil table:table localization:localization];
+        return [[bundle localizedStringForKey:key value:nil table:table localization:localization] retain];
     } else {
         // <+112>
-        return [bundle localizedStringForKey:key value:nil table:table];
+        return [[bundle localizedStringForKey:key value:nil table:table] retain];
     }
 }
 
@@ -80,8 +82,8 @@ NSAttributedString * _LocalizeAttributedString(NSBundle *bundle, NSString *key, 
     NSString * _Nullable localization = _getBestLocalization(bundle, locale);
     
     if (localization != nil) {
-        return [bundle localizedAttributedStringForKey:key value:nil table:table localization:localization];
+        return [[bundle localizedAttributedStringForKey:key value:nil table:table localization:localization] retain];
     } else {
-        return [bundle localizedAttributedStringForKey:key value:nil table:table];
+        return [[bundle localizedAttributedStringForKey:key value:nil table:table] retain];
     }
 }

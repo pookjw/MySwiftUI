@@ -51,3 +51,19 @@ extension _ColorMatrix {
         self.m45 = row4.4
     }
 }
+
+extension _ColorMatrix : ShapeStyle {
+    public func _apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+}
+
+extension _ColorMatrix : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}

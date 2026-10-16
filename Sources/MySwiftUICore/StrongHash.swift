@@ -16,7 +16,7 @@ protocol StronglyHashable {
 }
 
 package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, Encodable, CustomStringConvertible, ProtobufEncodableMessage, ProtobufDecodableMessage, Sendable {
-    static var random: StrongHash {
+    static func random() -> StrongHash {
         return StrongHash(of: UUID())
     }
     
@@ -71,6 +71,14 @@ package struct StrongHash : Hashable, StronglyHashableByBitPattern, Decodable, E
         try container.encode(words.3)
         try container.encode(words.4)
     }
+
+    package func encode(to encoder: inout ProtobufEncoder) {
+        assertUnimplemented()
+    }
+
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
     
     package func hash(into hasher: inout Hasher) {
         withUnsafePointer(to: words) { pointer in
@@ -104,10 +112,8 @@ struct StrongHasher {
     private var state: CC_SHA1state_st
     
     init() {
-        self.state = unsafe withUnsafeTemporaryAllocation(of: CC_SHA1_CTX.self, capacity: 1) { pointer in
-            unsafe CC_SHA1_Init(pointer.baseAddress.unsafelyUnwrapped)
-            return unsafe pointer.baseAddress.unsafelyUnwrapped.pointee
-        }
+        self.state = CC_SHA1state_st()
+        unsafe CC_SHA1_Init(&state)
     }
     
     mutating func combine<T : StronglyHashable>(_ value: T) {
@@ -115,12 +121,11 @@ struct StrongHasher {
     }
     
     mutating func finalize() -> StrongHash {
-        return unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: 40) { pointer in
-            unsafe CC_SHA1_Final(pointer.baseAddress, &state)
-            return unsafe UnsafeRawPointer(pointer.baseAddress.unsafelyUnwrapped)
-                .assumingMemoryBound(to: StrongHash.self)
-                .pointee
+        var hash = StrongHash()
+        unsafe withUnsafeMutableBytes(of: &hash.words) { buffer in
+            unsafe CC_SHA1_Final(buffer.baseAddress.unsafelyUnwrapped.assumingMemoryBound(to: UInt8.self), &state)
         }
+        return hash
     }
     
     mutating func combineBytes(_ bytes: UnsafeRawPointer, count: Int) {

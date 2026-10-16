@@ -41,6 +41,10 @@ extension AnyTransition : Sendable {
 
 @usableFromInline
 class AnyTransitionBox {
+    deinit {
+        assertUnimplemented()
+    }
+
     var isIdentity: Bool {
         fatalError() // abstract
     }
@@ -51,6 +55,10 @@ class AnyTransitionBox {
     
     func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
         fatalError() // abstract
+    }
+
+    func visitType<Visitor : TransitionTypeVisitor>(applying visitor: inout Visitor) {
+        assertUnimplemented()
     }
     
     // TODO
@@ -66,6 +74,10 @@ fileprivate final class TransitionBox<T : Transition>: AnyTransitionBox {
     init(_ base: T) {
         self.base = base
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     override var isIdentity: Bool {
         return T.Body.self == T.Content.self
@@ -77,6 +89,10 @@ fileprivate final class TransitionBox<T : Transition>: AnyTransitionBox {
     
     override func visitBase<Visitor : TransitionVisitor>(applying visitor: inout Visitor) {
         visitor.visit(base)
+    }
+
+    override func visitType<Visitor : TransitionTypeVisitor>(applying visitor: inout Visitor) {
+        assertUnimplemented()
     }
     
     // TODO
@@ -90,4 +106,8 @@ extension AnyTransition {
 
 protocol TransitionVisitor {
     mutating func visit<T : Transition>(_ transition: T)
+}
+
+protocol TransitionTypeVisitor {
+    mutating func visit<T : Transition>(_ type: T.Type)
 }

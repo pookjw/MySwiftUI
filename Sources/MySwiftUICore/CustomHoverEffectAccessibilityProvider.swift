@@ -1,5 +1,7 @@
+package import AttributeGraph
+
 package protocol CustomHoverEffectAccessibilityProvider {
-    
+    static func makeAccessibility(identity: _DisplayList_Identity, inputs: _CustomHoverEffectInputs, outputs: inout _CustomHoverEffectOutputs, effectList: () -> Attribute<CustomHoverEffectList>)
 }
 
 extension _GraphInputs {
@@ -16,10 +18,15 @@ extension _GraphInputs {
     }
     
     fileprivate struct CustomHoverEffectAccessibilityProviderKey : GraphInput {
-        static let defaultValue: (any CustomHoverEffectAccessibilityProvider.Type) = EmptyCustomHoverEffectAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any CustomHoverEffectAccessibilityProvider.Type) = EmptyCustomHoverEffectAccessibilityProvider.self
     }
 }
 
 struct EmptyCustomHoverEffectAccessibilityProvider : CustomHoverEffectAccessibilityProvider {
-    
+    static func makeAccessibility(identity: _DisplayList_Identity, inputs: _CustomHoverEffectInputs, outputs: inout _CustomHoverEffectOutputs, effectList: () -> Attribute<CustomHoverEffectList>) {
+        assertUnimplemented()
+    }
+}
+
+package struct CustomHoverEffectList {
 }

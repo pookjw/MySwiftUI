@@ -11,8 +11,14 @@ extension ScrollTargetRole {
         case target
     }
     
-    struct Key {
-        // TODO
+    struct Key : PreferenceKey {
+        static var defaultValue: [ScrollTargetRole.Role : [any ScrollableCollection]] {
+            assertUnimplemented()
+        }
+
+        static func reduce(value: inout [ScrollTargetRole.Role : [any ScrollableCollection]], nextValue: () -> [ScrollTargetRole.Role : [any ScrollableCollection]]) {
+            assertUnimplemented()
+        }
     }
     
     struct ContentKey : PreferenceKey {

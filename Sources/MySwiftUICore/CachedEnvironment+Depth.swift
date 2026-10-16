@@ -62,7 +62,7 @@ fileprivate struct AnimatedDepth {
                 transaction: transaction
             ),
             cachedDepth: .invalidValue,
-            animationsDisabled: false
+            animationsDisabled: inputs.animationsDisabled
         )
         let animatedDepth = Attribute(rule)
         animatedDepth.flags = .unknown0

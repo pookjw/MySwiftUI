@@ -22,6 +22,10 @@ extension _GraphInputs {
 }
 
 struct EmptyTextAccessibilityProvider : TextAccessibilityProvider {
+    static func makeView(content: StyledTextContentView, text: Text, resolved: ResolvedStyledText) -> StyledTextContentView {
+        assertUnimplemented()
+    }
+
     public var body: Never {
         assertUnimplemented()
     } // TODO

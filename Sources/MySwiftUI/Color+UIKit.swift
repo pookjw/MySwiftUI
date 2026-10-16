@@ -34,7 +34,7 @@ extension UIColor {
          */
         // <+156>
         if let provider = color.provider.as(UIKitPlatformColorProvider.self) {
-            self.init(color__swiftUI__: provider.platformColor)
+            self.init(color__mySwiftUI__: provider.platformColor)
             return
         }
         
@@ -47,12 +47,12 @@ extension UIColor {
         let objcColor = ObjcColor(color)
         
         if let cached = dynamicColorCache.object(forKey: objcColor) {
-            self.init(color__swiftUI__: cached)
+            self.init(color__mySwiftUI__: cached)
             return
         }
         
         if let kitColor = color.provider.kitColor {
-            self.init(color__swiftUI__: kitColor as! UIColor)
+            self.init(color__mySwiftUI__: kitColor as! UIColor)
             dynamicColorCache.setObject(self, forKey: objcColor)
             return
         }

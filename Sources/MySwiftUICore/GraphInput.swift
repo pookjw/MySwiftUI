@@ -40,7 +40,7 @@ extension GraphInput where Self.Value : GraphReusable {
 }
 
 package protocol GraphReusable {
-    func makeReusable(indirectMap: IndirectAttributeMap)
+    mutating func makeReusable(indirectMap: IndirectAttributeMap)
     func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
     static var isTriviallyReusable: Bool {
         get

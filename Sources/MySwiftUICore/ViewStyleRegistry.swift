@@ -38,8 +38,14 @@ extension ViewStyleRegistry {
         package static let tv = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .tv))
         package static let touchBar = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .touchBar))
         package static let watch = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .watch))
-        @safe nonisolated(unsafe) package static var vision = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
-        @safe nonisolated(unsafe) package static var reality = ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision))
+        package static var vision: ViewStyleRegistry.InterfaceIdiom {
+            get { ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision)) }
+            set {}
+        }
+        package static var reality: ViewStyleRegistry.InterfaceIdiom {
+            get { ViewStyleRegistry.InterfaceIdiom(idiom: AnyInterfaceIdiom(idiom: .vision)) }
+            set {}
+        }
     }
 }
 

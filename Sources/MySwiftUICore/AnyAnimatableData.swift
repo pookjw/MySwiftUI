@@ -126,6 +126,10 @@ extension _AnyAnimatableDataVTable : Sendable {
 }
 
 fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
+    deinit {
+        assertUnimplemented()
+    }
+
     override class var zero: Any {
         return A.AnimatableData.zero
     }
@@ -147,7 +151,9 @@ fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
     }
     
     override class func negate(_ value: inout Any) {
-        value = A.AnimatableData.zero - (value as! A.AnimatableData)
+        var zero = A.AnimatableData.zero
+        zero -= (value as! A.AnimatableData)
+        value = zero
     }
     
     override class func scale(_ value: inout Any, by scale: Double) {
@@ -162,6 +168,10 @@ fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
 }
 
 fileprivate final class ZeroVTable : _AnyAnimatableDataVTable {
+    deinit {
+        assertUnimplemented()
+    }
+
     override class func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
         return true
     }

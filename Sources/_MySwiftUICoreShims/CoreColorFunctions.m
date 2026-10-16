@@ -71,7 +71,7 @@ BOOL CoreColorPlatformColorGetComponents(CoreSystem system, id color, CGFloat *r
     if (uiClass) {
         return [uiClass colorWithCGColor:color];
     } else {
-        return [[[MySwiftUI_CoreColor alloc] initWithCGColor:color] autorelease];
+        return [[[self alloc] initWithCGColor:color] autorelease];
     }
 }
 

@@ -399,5 +399,11 @@ extension EdgeInsets {
 }
 
 extension EdgeInsets : ProtobufDecodableMessage, ProtobufEncodableMessage {
-    // TODO
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+
+    package func encode(to encoder: inout ProtobufEncoder) {
+        assertUnimplemented()
+    }
 }

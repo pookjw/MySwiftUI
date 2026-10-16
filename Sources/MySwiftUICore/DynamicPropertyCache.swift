@@ -64,11 +64,6 @@ package struct DynamicPropertyCache {
                 
                 unsafe result = unsafe DynamicPropertyCache.Fields(.product(fields))
                 
-                for unsafe field in unsafe fields {
-                    // <+304>
-                    unsafe result.behaviors.formUnion(DynamicPropertyBehaviors(rawValue: field.type._propertyBehaviors))
-                }
-                
                 // <+488>
                 checkIssue = true
             default:

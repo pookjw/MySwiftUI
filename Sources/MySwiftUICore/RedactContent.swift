@@ -50,11 +50,12 @@ extension EnvironmentValues {
     
     fileprivate struct ShouldRedactContentKey : DerivedEnvironmentKey {
         static func value(in environment: EnvironmentValues) -> Bool {
-            if !environment.redactionReasons.isEmpty {
+            let reasons = environment.redactionReasons
+            if reasons.contains(.placeholder) {
                 return true
             }
             
-            return environment.sensitiveContent
+            return reasons.contains(.privacy) && environment.sensitiveContent
         }
     }
 }

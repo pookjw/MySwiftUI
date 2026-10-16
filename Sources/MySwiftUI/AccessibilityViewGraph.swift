@@ -196,7 +196,9 @@ struct SwiftUIContentShapeAccessibilityProvider : ContentShapeAccessibilityProvi
 }
 
 struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {
-    
+    static func makeView(modifier: _GraphValue<_AllowsHitTestingModifier>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUIHiddenAccessibilityProvider : HiddenAccessibilityProvider {
@@ -208,7 +210,9 @@ struct SwiftUIHiddenAccessibilityProvider : HiddenAccessibilityProvider {
 }
 
 struct SwiftUICustomHoverEffectsAccessibilityProvider : CustomHoverEffectAccessibilityProvider {
-    
+    static func makeAccessibility(identity: _DisplayList_Identity, inputs: _CustomHoverEffectInputs, outputs: inout _CustomHoverEffectOutputs, effectList: () -> Attribute<CustomHoverEffectList>) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUIRemoteEffectsAccessibilityProvider : RemoteEffectsAccessibilityProvider {

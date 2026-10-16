@@ -1,5 +1,5 @@
 package protocol AllowsHitTestingAccessibilityProvider {
-    
+    static func makeView(modifier: _GraphValue<_AllowsHitTestingModifier>, inputs: _ViewInputs, outputs: inout _ViewOutputs)
 }
 
 extension _GraphInputs {
@@ -16,10 +16,16 @@ extension _GraphInputs {
     }
     
     fileprivate struct AllowsHitTestingAccessibilityProviderKey : GraphInput {
-        static let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any AllowsHitTestingAccessibilityProvider.Type) = EmptyAllowsHitTestingAccessibilityProvider.self
     }
 }
 
 struct EmptyAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {
-    
+    static func makeView(modifier: _GraphValue<_AllowsHitTestingModifier>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        assertUnimplemented()
+    }
+}
+
+public struct _AllowsHitTestingModifier {
+    // TODO
 }

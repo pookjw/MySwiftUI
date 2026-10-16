@@ -130,7 +130,7 @@ extension _VariadicView_Root {
 
 extension _VariadicView_ViewRoot where Self.Body == Never {
     @MainActor @preconcurrency public func body(children: _VariadicView.Children) -> Never {
-        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false))")
+        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false)).")
     }
 }
 
@@ -151,7 +151,7 @@ extension _VariadicView_ViewRoot {
         // sp + 0x50
         var copy_2 = copy_1
         // w20
-        let listAttribute = outputs_1.makeAttribute(inputs: copy_2)
+        let listAttribute = outputs_1.makeAttribute(inputs: _ViewListInputs(inputs.base))
         let fields = unsafe DynamicPropertyCache.fields(of: Self.self)
         let (body, buffer) = unsafe self.makeBody(root: root, list: listAttribute, inputs: &copy_2.base, fields: fields)
         let outputs_2 = Self.Body.makeDebuggableViewList(view: body, inputs: copy_2)
@@ -203,7 +203,7 @@ extension _VariadicView_ViewRoot {
     nonisolated fileprivate static func makeBody(root: _GraphValue<Self>, list: Attribute<ViewList>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
         precondition(
             TypeID(Self.self).isValueType,
-            "view roots must be value types (either a struct or an enum); \(_typeName(Self.self, qualified: false))"
+            "view roots must be value types (either a struct or an enum); \(_typeName(Self.self, qualified: false)) is a class."
         )
         
         return unsafe ViewRootBodyAccessor<Self>(list: list, contentSubgraph: .current!).makeBody(container: root, inputs: &inputs, fields: fields)

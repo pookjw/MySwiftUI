@@ -22,7 +22,7 @@ public import Spatial
         super.init()
     }
     
-    open override func bindEvent(_ type: any EventType) {
+    open override func bindEvent(_ type: any EventType) -> ResponderNode? {
         assertUnimplemented()
     }
     

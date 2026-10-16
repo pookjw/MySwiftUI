@@ -129,12 +129,18 @@ public func withTransaction<Result>(_ transaction: Transaction, _ body: () throw
             newCurrent.plist.merge(transaction.plist)
         }
         
-        Transaction.current = newCurrent
-        defer {
-            Transaction.current = oldCurrent
+        return try withExtendedLifetime(newCurrent) { newCurrent in
+            Transaction.current = newCurrent
+            
+            do {
+                let result = try body()
+                Transaction.current = oldCurrent
+                return result
+            } catch {
+                Transaction.current = oldCurrent
+                throw error
+            }
         }
-        
-        return try body()
     }
 }
 

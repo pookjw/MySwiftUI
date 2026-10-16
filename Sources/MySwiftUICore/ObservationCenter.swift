@@ -17,6 +17,10 @@ package final class ObservationCenter : @unchecked Sendable {
     
     private init() {
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     @inline(always)
     func _withObservationStashed<T>(do block: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {
@@ -123,9 +127,10 @@ package final class ObservationCenter : @unchecked Sendable {
         // x21
         var accessList = accessList
         
-        if var (_, existingAccessList) = invalidations.removeValue(forKey: weakAttribute.base) {
+        if let (existingMutation, existingAccessList) = invalidations.removeValue(forKey: weakAttribute.base) {
             // <+632>
             accessList.merge(existingAccessList)
+            existingMutation.cancel()
         }
         
         // <+768>
@@ -220,10 +225,10 @@ struct ObservationGraphMutation : GraphMutation, @unchecked Sendable {
         
         // <+344>
         for tracking in observationTracking {
-            tracking.cancel()
             if let changed = tracking.changed {
                 observationCenter.latestTriggers.append(changed)
             }
+            tracking.cancel()
         }
         
         // <+572>

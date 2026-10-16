@@ -137,9 +137,10 @@ void _wait_for_lock(MovableLock lock, pthread_t thread) {
 
 void _run_moved_callback(MovableLock lock) {
     if (lock->function != NULL) {
-        pthread_t owner = lock->owner;
-        uint32_t count = lock->count++;
+        pthread_t owner = __atomic_load_n(&lock->owner, __ATOMIC_ACQUIRE);
+        uint32_t count = lock->count;
         lock->owner = lock->main;
+        lock->count = count + 1;
         lock->function(lock->context);
         lock->count = count;
         lock->owner = owner;

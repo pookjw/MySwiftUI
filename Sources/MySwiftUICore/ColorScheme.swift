@@ -36,9 +36,12 @@ extension EnvironmentValues {
     
     public var colorScheme: ColorScheme {
         get {
-            return self[ExplicitColorSchemeKey.self] ?? self[PlatformColorSchemeKey.self] ?? .light
+            return self[ExplicitColorSchemeKey.self] ?? self[PlatformColorSchemeKey.self]
         }
         set {
+            guard newValue != colorScheme else {
+                return
+            }
             self[ExplicitColorSchemeKey.self] = newValue
         }
     }
@@ -58,7 +61,7 @@ extension EnvironmentValues {
     
     package var defaultColorScheme: ColorScheme {
         get {
-            return self[PlatformColorSchemeKey.self] ?? .light
+            return self[PlatformColorSchemeKey.self]
         }
         set {
             self[PlatformColorSchemeKey.self] = newValue
@@ -96,7 +99,27 @@ fileprivate struct ExplicitColorSchemeKey : EnvironmentKey {
 }
 
 fileprivate struct PlatformColorSchemeKey : EnvironmentKey {
-    static var defaultValue: ColorScheme? {
-        return nil
+    static var defaultValue: ColorScheme {
+        return .light
+    }
+}
+
+extension ColorScheme : ProtobufEnum {
+    package var protobufValue: UInt {
+        assertUnimplemented()
+    }
+
+    package init?(protobufValue: UInt) {
+        assertUnimplemented()
+    }
+}
+
+extension ColorSchemeContrast : ProtobufEnum {
+    package var protobufValue: UInt {
+        assertUnimplemented()
+    }
+
+    package init?(protobufValue: UInt) {
+        assertUnimplemented()
     }
 }

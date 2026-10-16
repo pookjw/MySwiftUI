@@ -76,7 +76,7 @@ extension Transaction {
         
         // <+100>
         if !listeners.isEmpty {
-            Update.locked {
+            Update.ensure {
                 // $s7SwiftUI11TransactionVAAE15dispatchPending33_390609F81ACEBEAF00AD8179BD31E870LLyyFZyyXEfU0_
                 // listeners -> x0 -> x20
                 for listener in listeners {
@@ -275,6 +275,10 @@ extension Transaction {
 
 class AnimationListener {
     init() {}
+
+    deinit {
+        assertUnimplemented()
+    }
     
     func animationWasAdded() {}
     func animationWasRemoved() {}
@@ -286,6 +290,10 @@ fileprivate final class AllFinishedListener : AnimationListener {
     private var count: Int // 0x20
     private var maxCount: Int // 0x28
     private var dispatched: Bool // 0x30
+
+    deinit {
+        assertUnimplemented()
+    }
     
     override func finalizeTransaction() {
         if self.count != 0 || self.dispatched {
@@ -333,6 +341,10 @@ fileprivate final class AllFinishedListener : AnimationListener {
 fileprivate final class ListenerPair : AnimationListener {
     private let first: AnimationListener
     private let second: AnimationListener
+
+    deinit {
+        assertUnimplemented()
+    }
     
     override func animationWasAdded() {
         assertUnimplemented()

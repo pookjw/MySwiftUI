@@ -161,6 +161,7 @@ extension Layout {
                 index &+= 1
                 return outputs
             } ?? _ViewOutputs()
+            outputs.preferences.debugProperties.formUnion(.layoutComputer)
             
             // outputs -> x19, w21, w24
             // <+1776>

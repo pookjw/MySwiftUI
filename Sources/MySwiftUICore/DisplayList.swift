@@ -73,6 +73,16 @@ extension DisplayList : CustomStringConvertible {
     }
 }
 
+extension DisplayList : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
 extension DisplayList {
     package struct Item : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
         package static func == (lhs: DisplayList.Item, rhs: DisplayList.Item) -> Bool {
@@ -97,6 +107,14 @@ extension DisplayList {
             self.value = value
             self.identity = identity
             self.version = version
+        }
+
+        package func encode(to encoder: inout ProtobufEncoder) throws {
+            assertUnimplemented()
+        }
+
+        package init(from decoder: inout ProtobufDecoder) throws {
+            assertUnimplemented()
         }
         
         var features: DisplayList.Features {
@@ -259,9 +277,7 @@ extension DisplayList {
                     switch effect {
                     case .opacity(let opacity):
                         // <+1280>
-                        if opacity < 1 {
-                            // <+4656>
-                        } else {
+                        if opacity >= 1 {
                             self.value = .effect(.identity, displsyList)
                             self.canonicalizeIdentityEffect(list: displsyList)
                             // <+4648>
@@ -273,12 +289,9 @@ extension DisplayList {
                         }
                         
                         // <+4692>
-                        if opacity > 0 {
-                            return
+                        if opacity <= 0 {
+                            self.value = .empty
                         }
-                        
-                        // <+5196>
-                        self.value = .empty
                         return
                     case .identity:
                         // <+1140>
@@ -304,6 +317,7 @@ extension DisplayList {
                             // <+1524>
                             if transform.isIdentity {
                                 // <+1640>
+                                self.value = .effect(.identity, displsyList)
                                 self.canonicalizeIdentityEffect(list: displsyList)
                                 // <+4648>
                             } else {
@@ -1084,6 +1098,10 @@ final class _DisplayList_StableIdentityRoot {
         self.scopes = []
         self.map = nil
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     subscript(_ identity: _DisplayList_Identity) -> _DisplayList_StableIdentity? {
         assertUnimplemented()
@@ -1135,6 +1153,10 @@ extension DisplayList {
     
     package class InterpolatorGroup {
         private var maxDuration: Double
+
+        deinit {
+            assertUnimplemented()
+        }
         
         func reset() {
             // noop
