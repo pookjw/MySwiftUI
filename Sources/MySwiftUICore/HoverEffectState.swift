@@ -25,7 +25,35 @@ struct HoverEffectState {
         assertUnimplemented()
     }
     
+    func allLeafEffectsSatisfy(_ block: (HoverEffectLeafValues) -> Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    // canMergeWithPlatformState에서 구현을 봐야함
+    @inline(always) // 원래 없음
+    func canMerge(with path: Path) -> Bool {
+        let result = self.anyLeafEffectsSatisfy { _ in
+            assertUnimplemented()
+        }
+        
+        if result {
+            // <+536>
+            if let _ = self.contentPath(from: path) {
+                let result = self.anyLeafEffectsSatisfy { _ in
+                    assertUnimplemented()
+                }
+                
+                return result
+            } else {
+                return false
+            }
+        } else {
+            return true
+        }
+    }
+    
     // finalizePlatformMerge에서 구현을 봐야함
+    @inline(always) // 원래 없음
     mutating func applyEffect(_ effect: DisplayList.Effect) -> Bool {
         switch effect {
         case .opacity(let opacity):
@@ -56,6 +84,10 @@ struct HoverEffectState {
         default:
             return false
         }
+    }
+    
+    fileprivate func contentPath(from path: Path) -> Path? {
+        assertUnimplemented()
     }
     
     fileprivate mutating func updateLeafEffectState(_ block: (inout HoverEffectLeafValues) -> Bool) -> Bool {

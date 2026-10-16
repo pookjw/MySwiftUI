@@ -729,9 +729,10 @@ extension DisplayList {
                 case .backdrop(_), .color(_), .chameleonColor(_):
                     // <+1008>
                     return true
-                case .shape(let path, let anyResolvedPaint, let fillStyle):
+                case .shape(let path, _, _):
                     // <+496>
-                    assertUnimplemented()
+                    // inlined
+                    return hoverEffectState.canMerge(with: path)
                 default:
                     // <+1124>
                     let result = hoverEffectState.anyLeafEffectsSatisfy { _ in
