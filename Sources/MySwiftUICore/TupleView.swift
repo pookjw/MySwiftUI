@@ -92,7 +92,7 @@ private import AttributeGraph
         // sp + 0x50 / x21
         let tupleDescription = ViewDescriptor.tupleDescription(TupleType(T.self))
         
-        if copy_1.options.contains(.requiresSections) {
+        if copy_1.options.contains(.tupleViewCreatesUnaryElements) {
             // <+312>
             return tupleDescription.contentTypes.count
         } else {

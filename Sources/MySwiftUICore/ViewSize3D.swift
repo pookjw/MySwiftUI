@@ -81,12 +81,7 @@ package struct ViewSize3D {
         }
         set {
             value.depth = newValue.value
-            
-            if let proposal = newValue.proposal {
-                _proposal.depth = proposal.isNaN ? .nan : proposal
-            } else {
-                _proposal.depth = .nan
-            }
+            proposal.depth = newValue.proposal
         }
     }
     
@@ -208,9 +203,10 @@ package struct ViewSize3D {
     
     var size2D: ViewSize {
         get {
+            let proposal = proposal
             return ViewSize(
                 CGSize(width: value.width, height: value.height),
-                proposal: _ProposedSize(width: _proposal.width, height: _proposal.height)
+                proposal: _ProposedSize(width: proposal.width, height: proposal.height)
             )
         }
         set {

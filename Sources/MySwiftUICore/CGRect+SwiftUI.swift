@@ -175,7 +175,7 @@ extension CGRect {
         }
         
         var result = standardized
-        result.origin.x += insets.leading
+        result.origin.x += insets.leading == insets.trailing ? insets.trailing : insets.leading
         result.origin.y += insets.top
         result.size.width -= (insets.leading + insets.trailing)
         result.size.height -= (insets.top + insets.bottom)

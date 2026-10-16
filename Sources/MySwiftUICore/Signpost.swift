@@ -1,7 +1,7 @@
 internal import os.signpost
 private import _KernPrivate
 
-let _signpostLog = OSLog(subsystem: "com.apple.SwiftUI", category: "PlatformViewUpdate")
+let _signpostLog = OSLog(subsystem: "com.apple.SwiftUI", category: "SwiftUI")
 
 struct Signpost {
     private let style: Style
@@ -30,7 +30,13 @@ struct Signpost {
             kdebug_trace(style.debugID(.end), signpostID.rawValue, 0, 0, 0)
             return result
         case .os_log(let name):
-            unsafe os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
+            if let message {
+                let variadicSignpost: (OSSignpostType, UnsafeRawPointer, OSLog, StaticString, OSSignpostID, StaticString, CVarArg...) -> Void = os_signpost(_:dso:log:name:signpostID:_:_:)
+                let signpost = unsafe unsafeBitCast(variadicSignpost, to: ((OSSignpostType, UnsafeRawPointer, OSLog, StaticString, OSSignpostID, StaticString, [CVarArg]) -> Void).self)
+                unsafe signpost(.begin, #dsohandle, _signpostLog, name, signpostID, message, args)
+            } else {
+                unsafe os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID)
+            }
             let result = closure()
             unsafe os_signpost(.end, log: _signpostLog, name: name, signpostID: signpostID)
             return result
@@ -39,7 +45,33 @@ struct Signpost {
     
     @inlinable
     func traceInterval<T>(object: AnyObject?, _ message: StaticString?, closure: () -> T) -> T {
-        return traceInterval(object: object, message, [], closure: closure)
+        guard isEnabled else {
+            return closure()
+        }
+
+        let signpostID: OSSignpostID
+        if let object {
+            signpostID = OSSignpostID(log: _signpostLog, object: object)
+        } else {
+            signpostID = .exclusive
+        }
+
+        switch style {
+        case .kdebug:
+            kdebug_trace(style.debugID(.begin), signpostID.rawValue, 0, 0, 0)
+            let result = closure()
+            kdebug_trace(style.debugID(.end), signpostID.rawValue, 0, 0, 0)
+            return result
+        case .os_log(let name):
+            if let message {
+                unsafe os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID, message)
+            } else {
+                unsafe os_signpost(.begin, log: _signpostLog, name: name, signpostID: signpostID)
+            }
+            let result = closure()
+            unsafe os_signpost(.end, log: _signpostLog, name: name, signpostID: signpostID)
+            return result
+        }
     }
     
     @inlinable
@@ -62,7 +94,13 @@ struct Signpost {
             let debugid = style.debugID(type)
             kdebugTrace(kClass: kClass, debugid: debugid, signpostID: signpostID, args: args)
         case .os_log(let name):
-            unsafe os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID, message ?? "", args)
+            if let message {
+                let variadicSignpost: (OSSignpostType, UnsafeRawPointer, OSLog, StaticString, OSSignpostID, StaticString, CVarArg...) -> Void = os_signpost(_:dso:log:name:signpostID:_:_:)
+                let signpost = unsafe unsafeBitCast(variadicSignpost, to: ((OSSignpostType, UnsafeRawPointer, OSLog, StaticString, OSSignpostID, StaticString, [CVarArg]) -> Void).self)
+                unsafe signpost(type, #dsohandle, _signpostLog, name, signpostID, message, args)
+            } else {
+                unsafe os_signpost(type, log: _signpostLog, name: name, signpostID: signpostID)
+            }
         }
     }
     
@@ -181,7 +219,7 @@ struct Signpost {
 }
 
 extension Signpost {
-    fileprivate enum Level {
+    fileprivate enum Level : Hashable {
         case disabled
         case verbose
         case `internal`
@@ -203,6 +241,11 @@ extension Signpost {
             var remaining = pointer.count
             
             repeat {
+                if remaining == 0 {
+                    kdebug_trace(debugid, kClass == DBG_MISC ? rawSignpostID : 0, 0, 0, 0)
+                    break
+                }
+
                 if kClass == DBG_MISC {
                     let arg2 = unsafe base
                         .advanced(by: pointer.count &- remaining)
@@ -301,7 +344,7 @@ extension Signpost {
                     remaining -= 4
                 }
                 rawSignpostID = 0x0ea89ce2
-            } while remaining > 0
+            } while remaining >= 0
         }
     }
 }
@@ -363,7 +406,7 @@ extension CVarArg {
                 return (0, false)
             } else {
                 return unsafe string.withCString { pointer in
-                    return unsafe (kdebug_trace_string(debueId, 0, pointer), true)
+                    return unsafe (kdebug_trace_string(debueId & 0xffff0000, 0, pointer), true)
                 }
             }
         } else {
@@ -377,7 +420,7 @@ extension CVarArg {
                     return (0, false)
                 } else {
                     return unsafe string.withCString { pointer in
-                        return unsafe (kdebug_trace_string(debueId, 0, pointer), true)
+                        return unsafe (kdebug_trace_string(debueId & 0xffff0000, 0, pointer), true)
                     }
                 }
             }

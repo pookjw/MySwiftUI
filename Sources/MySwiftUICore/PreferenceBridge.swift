@@ -117,6 +117,10 @@ internal import AttributeGraph
          self -> x20
          viewGraph -> x0 -> x19
          */
+        guard !children.contains(where: { $0.takeUnretainedValue() === viewGraph }) else {
+            return
+        }
+
         self.children.append(Unmanaged<ViewGraph>.passUnretained(viewGraph))
     }
     

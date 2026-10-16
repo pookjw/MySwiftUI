@@ -99,7 +99,7 @@ package struct _ViewList_View : View {
     }
     
     package nonisolated static func _makeView(view: _GraphValue<_ViewList_View>, inputs: _ViewInputs) -> _ViewOutputs {
-        let prefOutputs = inputs.preferences.makeIndirectOutputs()
+        var prefOutputs = inputs.preferences.makeIndirectOutputs()
         
         let layoutComputer: OptionalAttribute<LayoutComputer>
         if inputs.base.options.contains(.viewRequestsLayoutComputer) {
@@ -109,6 +109,7 @@ package struct _ViewList_View : View {
                     identifier: ViewGraph.current.$defaultLayoutComputer.identifier.createIndirectAttribute2(16)
                 )
             )
+            prefOutputs.debugProperties.formUnion(.layoutComputer)
         } else {
             layoutComputer = OptionalAttribute()
         }
@@ -258,7 +259,6 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
         }
         
         // <+164>
-        var lastPhase: Attribute<_GraphInputs.Phase>?
         newSubgraph.apply {
             /*
              newSubgraph -> x0 -> x20
@@ -274,44 +274,46 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
             }
             
             // <+164>
-            let body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs? = { [self] inputs, transform in
-                // $s7SwiftUI15PlaceholderInfo33_9B09D1820E97ECBB666F7560EA2A2D2CLLV8makeItem11placeholder4seedAD5ValueVAA010_ViewList_R0V_s6UInt32VtFyyXEfU_AA01_R7OutputsVSgAA01_R6InputsV_AoRctXEfU_TA
-                /*
-                 inputs -> x0 -> x20
-                 transform -> x1/x2 -> x22/x23
-                 self -> x3 -> x24
-                 */
-                // x29 - 0xb0
-                let copy_1 = inputs
-                let viewPhase = PlaceholderViewPhase(
-                    phase1: copy_1.base.phase,
-                    phase2: self.inputs.base.phase,
-                    resetDelta: 0
-                )
-                // x24 + 0xd0
-                let viewPhaseAttribute: Attribute<_GraphInputs.Phase>? = Attribute(viewPhase)
-                lastPhase = viewPhaseAttribute
-                // sp + 0x170
-                var copy_2 = inputs
-                // sp + 0x100
-                let _ = copy_1
-                copy_2.base[ViewListShouldParentToPlaceholderSubgraph.self] = true
+            let outputs = unsafe withUnsafeMutablePointer(to: &self) { info in
+                let body: (_ViewInputs, (_ViewInputs) -> _ViewOutputs) -> _ViewOutputs? = { inputs, transform in
+                    // $s7SwiftUI15PlaceholderInfo33_9B09D1820E97ECBB666F7560EA2A2D2CLLV8makeItem11placeholder4seedAD5ValueVAA010_ViewList_R0V_s6UInt32VtFyyXEfU_AA01_R7OutputsVSgAA01_R6InputsV_AoRctXEfU_TA
+                    /*
+                     inputs -> x0 -> x20
+                     transform -> x1/x2 -> x22/x23
+                     self -> x3 -> x24
+                     */
+                    // x29 - 0xb0
+                    let copy_1 = inputs
+                    let viewPhase = PlaceholderViewPhase(
+                        phase1: copy_1.base.phase,
+                        phase2: unsafe info.pointee.inputs.base.phase,
+                        resetDelta: 0
+                    )
+                    // x24 + 0xd0
+                    let viewPhaseAttribute: Attribute<_GraphInputs.Phase>? = Attribute(viewPhase)
+                    unsafe info.pointee.lastPhase = viewPhaseAttribute
+                    // sp + 0x170
+                    var copy_2 = inputs
+                    // sp + 0x100
+                    let _ = copy_1
+                    copy_2.base[ViewListShouldParentToPlaceholderSubgraph.self] = true
+
+                    // <+260>
+                    copy_2.copyCaches()
+                    unsafe copy_2.base.merge(info.pointee.inputs.base, ignoringPhase: true)
+                    copy_2.base.phase = viewPhaseAttribute!
+                    unsafe copy_2.base.mergedInputs.insert(info.pointee.inputs.base.phase.identifier)
+
+                    return transform(copy_2)
+                }
                 
-                // <+260>
-                copy_2.copyCaches()
-                copy_2.base.merge(self.inputs.base, ignoringPhase: true)
-                copy_2.base.phase = viewPhaseAttribute!
-                copy_2.base.mergedInputs.insert(self.inputs.base.phase.identifier)
-                
-                return transform(copy_2)
-            }
-            
-            // x22, x25
-            let outputs = withoutActuallyEscaping(body) { escapingClosure in
-                if placeholder.elements.subgraphs.isValid {
-                    return placeholder.elements.base.makeOneElement(at: placeholder.index, inputs: self.inputs, indirectMap: indirectMap, body: body)
-                } else {
-                    return nil
+                // x22, x25
+                return withoutActuallyEscaping(body) { escapingClosure in
+                    if placeholder.elements.subgraphs.isValid {
+                        return unsafe placeholder.elements.base.makeOneElement(at: placeholder.index, inputs: info.pointee.inputs, indirectMap: indirectMap, body: escapingClosure)
+                    } else {
+                        return nil
+                    }
                 }
             }
             
@@ -320,8 +322,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
                 self.outputs.preferences.attachIndirectOutputs(to: outputs.preferences)
                 if
                     let attribute_1 = self.outputs.layoutComputer,
-                    let attribute_2 = outputs.layoutComputer,
-                    attribute_1 != attribute_2
+                    let attribute_2 = outputs.layoutComputer
                 {
                     attribute_1.identifier.indirectAttribute = attribute_2.identifier
                 }
@@ -331,12 +332,12 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
             self.lastMap = indirectMap
         }
         
-        self.lastPhase = lastPhase
         self.lastSubgraph = newSubgraph
         
         // <+252>
         // self -> x20 -> x27
         self.lastRelease = placeholder.elements.subgraphs.retain()
+        self.lastElements = placeholder.elements
         
         // <+280>
         if contentSubgraph.graph === newSubgraph.graph {
@@ -347,7 +348,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
             let current = AnyAttribute.current!
             let parentSubgraph = self.parentSubgraph
             
-            Subgraph.addObserver(contentSubgraph) {
+            let observer = Subgraph.addObserver(contentSubgraph) {
                 // $s7SwiftUI15PlaceholderInfo33_9B09D1820E97ECBB666F7560EA2A2D2CLLV8makeItem11placeholder4seedAD5ValueVAA010_ViewList_R0V_s6UInt32VtFyycfU0_TA
                 /*
                  parentSubgraph -> x0
@@ -380,6 +381,7 @@ fileprivate struct PlaceholderInfo : StatefulRule, ObservedAttribute {
                 pointer.pointee.lastMap = nil
                 pointer.pointee.lastPhase = nil
             }
+            self.contentObserver = (contentSubgraph, observer)
             
             // <+560>
         }

@@ -55,8 +55,14 @@ extension EnvironmentValues {
     package static func setDefinition(_ defition: PlatformAccessibilitySettingsDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:
+            guard unsafe PlatformAccessibilitySettingsDefinition.appKit == nil else {
+                return
+            }
             unsafe PlatformAccessibilitySettingsDefinition.appKit = defition.init()
         case .uiKit:
+            guard unsafe PlatformAccessibilitySettingsDefinition.uiKit == nil else {
+                return
+            }
             unsafe PlatformAccessibilitySettingsDefinition.uiKit = defition.init()
         default:
             break
@@ -115,10 +121,10 @@ extension EnvironmentValues {
             cache.withLock { storage in
                 let entry = PlatformAccessibilitySettingsDefinition.Entry(setting: setting, notification: name, value: newValue)
                 storage.entries.append(entry)
-                
-                if let name {
-                    notificationCenter(for: setting).addObserver(self, selector: #selector(settingsValueDidChange(_:)), name: name, object: nil)
-                }
+            }
+
+            if let name {
+                notificationCenter(for: setting).addObserver(self, selector: #selector(settingsValueDidChange(_:)), name: name, object: nil)
             }
         }
         

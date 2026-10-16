@@ -10,7 +10,9 @@ struct FontDefinitionType : Hashable, CustomDebugStringConvertible, @unchecked S
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(UInt(bitPattern: ObjectIdentifier(self.base)))
+        unsafe withUnsafePointer(to: base) { pointer in
+            hasher.combine(UInt(bitPattern: pointer))
+        }
     }
     
     var debugDescription: String {

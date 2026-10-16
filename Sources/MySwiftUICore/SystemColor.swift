@@ -117,6 +117,10 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
     init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }
+
+    func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
     
     func serialize(to encoder: any Encoder) throws {
         assertUnimplemented()

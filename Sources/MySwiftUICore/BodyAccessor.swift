@@ -24,7 +24,7 @@ extension BodyAccessor {
          */
         precondition(Self.Body.self != Never.self, "\(type(of: self)) may not have Body == Never")
         
-        return unsafe withUnsafePointer(to: inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
+        return unsafe withUnsafeMutablePointer(to: &inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
             let flags: any RuleThreadFlags.Type
             if unsafe fields.behaviors.contains(.allowsAsync) {
                 flags = AsyncThreadFlags.self
@@ -33,7 +33,7 @@ extension BodyAccessor {
             }
             
             func project<T : RuleThreadFlags>(flags: T.Type) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
-                var buffer = unsafe _DynamicPropertyBuffer(fields: fields, container: container, inputs: &inputs)
+                var buffer = unsafe _DynamicPropertyBuffer(fields: fields, container: container, inputs: &pointer.pointee)
                 if buffer.isEmpty {
                     buffer.destroy()
                     let rule = StaticBody<Self, T>(accessor: self, container: container.value)
@@ -203,7 +203,7 @@ fileprivate struct DynamicBody<T : BodyAccessor, U : RuleThreadFlags>: CustomStr
             }
             
             // <+400>
-            CustomEventTrace.dynamicBodyUpdate(buffer: self.links, hasValue: self.hasValue, bodyChanged: containerChanged)
+            CustomEventTrace.dynamicBodyUpdate(buffer: self.links, hasValue: self.hasValue, bodyChanged: Graph.currentAttributeWasModified)
             
             // <+800>
             self.accessor.updateBody(of: container, changed: containerChanged)

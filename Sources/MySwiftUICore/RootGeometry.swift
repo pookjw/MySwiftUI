@@ -66,7 +66,7 @@ struct RootGeometry : Rule, AsyncAttribute {
         )
         
         if let layoutDirection = layoutDirectionAttribute?.value {
-            result.finalizeLayoutDirection(layoutDirection, parentSize: fittingSize)
+            result.finalizeLayoutDirection(layoutDirection, parentSize: proposedSize.value)
         }
         
         return result

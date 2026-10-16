@@ -62,10 +62,34 @@ extension Image {
 extension Image.ResizingMode : Hashable {}
 
 extension Image.DynamicRange {
-    enum Storage {
+    enum Storage : UInt8, Comparable {
         case standard
         case constrainedHigh
         case high
+
+        static func < (lhs: Storage, rhs: Storage) -> Bool {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension Image.DynamicRange : Hashable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        assertUnimplemented()
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
+extension Image.DynamicRange : ProtobufEnum {
+    package var protobufValue: UInt {
+        assertUnimplemented()
+    }
+
+    package init?(protobufValue: UInt) {
+        assertUnimplemented()
     }
 }
 

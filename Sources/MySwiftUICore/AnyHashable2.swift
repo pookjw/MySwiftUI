@@ -6,7 +6,7 @@ struct AnyHashable2 : Hashable, CustomStringConvertible, CustomDebugStringConver
     }
     
     static func == (lhs: AnyHashable2, rhs: AnyHashable2) -> Bool {
-        return lhs.box.isEqual(to: rhs.box)
+        return lhs.box === rhs.box || lhs.box.isEqual(to: rhs.box)
     }
     
     func `as`<T : Hashable>(type: T.Type) -> T?  {
@@ -80,7 +80,7 @@ fileprivate final class _AnyHashableBox<T : Hashable>: AnyHashableBox {
     }
     
     override var debugDescription: String {
-        return self.description
+        return String(reflecting: value)
     }
     
     override func isEqual(to other: AnyHashableBox) -> Bool {

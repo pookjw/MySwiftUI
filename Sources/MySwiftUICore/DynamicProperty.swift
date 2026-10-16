@@ -53,7 +53,7 @@ extension InstrumentsDescriptiveDynamicProperty {
         if let value = value as? InstrumentsDescriptiveDynamicProperty {
             return value.instrumentsLinkValueDescription
         } else {
-            return String(describing: value)
+            return String(describing: _instrumentsLinkValue)
         }
     }
 }

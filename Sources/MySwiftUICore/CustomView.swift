@@ -78,6 +78,7 @@ extension View {
         default:
             var message = "views must be value types (either a struct or an enum); "
             message.append(_typeName(Self.self, qualified: false))
+            message.append(" is a class.")
             fatalError(message)
         }
     }

@@ -12,7 +12,7 @@ extension Color {
 }
 
 extension Color {
-    struct OpacityColor : ColorProvider {
+    struct OpacityColor : ColorProvider, CustomStringConvertible {
         fileprivate private(set) var base: Color
         fileprivate private(set) var opacity: Double
         
@@ -47,6 +47,10 @@ extension Color {
         var colorDescription: String {
             assertUnimplemented()
         }
+
+        var description: String {
+            assertUnimplemented()
+        }
         
         func opacity(at: Int, environment: EnvironmentValues) -> Float {
             assertUnimplemented()
@@ -65,10 +69,54 @@ extension Color {
         }
     }
     
-    struct MixProvider {
+    struct MixProvider : ColorProvider {
         private var lhs: Color
         private var rhs: Color
         private var colorSpace: ResolvedGradient.ColorSpace
         private var fraction: Float
+
+        var tag: Color.ProviderTag {
+            assertUnimplemented()
+        }
+
+        func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+            assertUnimplemented()
+        }
+
+        func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+            assertUnimplemented()
+        }
+
+        var staticColor: CGColor? {
+            assertUnimplemented()
+        }
+
+        var kitColor: AnyObject? {
+            assertUnimplemented()
+        }
+
+        var colorDescription: String {
+            assertUnimplemented()
+        }
+
+        func opacity(at: Int, environment: EnvironmentValues) -> Float {
+            assertUnimplemented()
+        }
+
+        func serialize(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+
+        static func deserialize(from decoder: any Decoder) throws -> Self {
+            assertUnimplemented()
+        }
+
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            assertUnimplemented()
+        }
+
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
     }
 }

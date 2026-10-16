@@ -2,7 +2,7 @@
 
 struct TextSizeVariant : Hashable, Comparable, Codable, RawRepresentable {
     static func < (lhs : TextSizeVariant, rhs : TextSizeVariant) -> Bool {
-        return lhs.rawValue < rhs.rawValue
+        return rhs.rawValue < lhs.rawValue
     }
     
     static var regular: TextSizeVariant {

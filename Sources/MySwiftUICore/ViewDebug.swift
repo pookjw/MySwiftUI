@@ -63,8 +63,10 @@ extension _ViewDebug {
 }
 
 extension _ViewDebug {
-    public struct Data {
-        
+    public struct Data : Encodable {
+        public func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
     }
 }
 

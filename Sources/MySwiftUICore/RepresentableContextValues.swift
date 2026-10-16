@@ -26,10 +26,9 @@ package struct RepresentableContextValues {
         case .eager(let environmentValues):
             return environmentValues
         case .lazy(let attribute, let context):
-            Update.begin()
-            let environmentValues = context.valueAndFlags(of: attribute, options: []).value
-            Update.end()
-            return environmentValues
+            return Update.ensure {
+                context.valueAndFlags(of: attribute, options: []).value
+            }
         }
     }
 }

@@ -354,8 +354,8 @@ extension _ViewListOutputs {
             copy_1.implicitID = output.nextImplicitID
             
             // <+784>
-            if let _staticCount = output.staticCount {
-                staticCount = (staticCount ?? 0) &+ _staticCount
+            if let count = staticCount, let _staticCount = output.staticCount {
+                staticCount = count &+ _staticCount
             } else {
                 staticCount = nil
             }

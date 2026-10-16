@@ -56,6 +56,12 @@ extension AnyView : DynamicView {
 @available(*, unavailable)
 extension AnyView : Sendable {}
 
+extension AnyView : CustomDebugStringConvertible {
+    public var debugDescription: String {
+        assertUnimplemented()
+    }
+}
+
 @usableFromInline class AnyViewStorageBase {
     fileprivate var childType: any Any.Type {
         fatalError() // abstract

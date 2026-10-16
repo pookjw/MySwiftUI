@@ -28,8 +28,7 @@ package struct ViewSize : Equatable, Animatable {
     
     init(_ size3D: ViewSize3D) {
         let size2D = size3D.size2D
-        self.value = size2D.value
-        self._proposal = size2D._proposal
+        self.init(size2D.value, proposal: size2D.proposal)
     }
     
     var width: CGFloat {

@@ -13,7 +13,7 @@ extension MainActor {
             return try MainActor.assumeIsolated(operation, file: file, line: line)
         } else {
             if pthread_main_np() == 0 {
-                unsafe os_log(.fault, log: .runtimeIssuesLog, "\(context ?? "") This warning will become a runtime crash in a future version of SwiftUI.")
+                unsafe os_log(.fault, log: .runtimeIssuesLog, "\(context.map { $0 + " " } ?? "") This warning will become a runtime crash in a future version of SwiftUI.")
             }
             
             typealias YesActor = @MainActor () throws -> T

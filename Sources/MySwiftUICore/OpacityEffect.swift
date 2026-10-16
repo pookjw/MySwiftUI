@@ -161,6 +161,10 @@ fileprivate final class OpacityViewResponder : DefaultLayoutViewResponder {
         self._opacity = 1
         super.init(inputs: inputs)
     }
+
+    override init(inputs: _ViewInputs, viewSubgraph: Subgraph) {
+        assertUnimplemented()
+    }
     
     override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
         assertUnimplemented()
