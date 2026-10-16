@@ -501,8 +501,87 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func addEffect(_ effect: DisplayList.Effect) {
-            assertUnimplemented()
+        mutating func addEffect(_ effect: DisplayList.Effect) {
+            // sp + 0x98
+            let copy = DisplayList.Item(
+                self.value,
+                frame: CGRect(origin: .zero, size: self.frame.size),
+                identity: .none,
+                version: self.version
+            )
+            
+            switch self.value {
+            case .content(let content):
+                // <+188>
+                let displayList = DisplayList(copy)
+                
+                // <+648>
+                switch content.value {
+                case .backdrop(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .color(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .chameleonColor(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .image(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .shape(_, _, _):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .sdfShape(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .sdfMask(_, _):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .shadow(_, _):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .platformView(_):
+                    // <+1512>
+                    assertUnimplemented()
+                case .platformLayer(_):
+                    self.value = .effect(effect, displayList)
+                    return
+                case .text(_, _):
+                    // <+684>
+                    assertUnimplemented()
+                case .flattened(_, _, _):
+                    // <+836>
+                    self.value = .effect(effect, displayList)
+                    return
+                case .drawing:
+                    // <+1420>
+                    self.value = .effect(effect, displayList)
+                    return
+                case .view(_):
+                    // <+1352>
+                    self.value = .effect(effect, displayList)
+                    return
+                case .placeholder(_):
+                    // <+1340>
+                    self.value = .effect(effect, displayList)
+                    return
+                }
+            case .effect(_, _):
+                // <+188>
+                assertUnimplemented()
+                // <+288>
+                assertUnimplemented()
+            case .states(_):
+                // <+188>
+                assertUnimplemented()
+                // <+784>
+                assertUnimplemented()
+            case .empty:
+                // <+96>
+                self.value = .effect(effect, DisplayList())
+                return
+            }
         } 
         
         private func addExtent(to: inout CGRect) {
