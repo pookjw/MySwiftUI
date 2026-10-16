@@ -246,16 +246,62 @@ extension DisplayList {
                             (colorView.color.base.opacity == 0)
                         {
                             // <+4600>
-                            value = .empty
+                            self.value = .empty
                         } else {
                             // <+3760>
                             // noop
                         }
                         
                         return
-                    case .shape(_, _, _):
+                    case .shape(let path, let paint, let fillStyle):
                         // <+3560>
-                        assertUnimplemented()
+                        switch path.storage {
+                        case .empty:
+                            // <+4580>
+                            self.value = .empty
+                            return
+                        case .rect(let rect):
+                            // <+3992>
+                            if rect.isNull {
+                                // <+4580>
+                                self.value = .empty
+                                return
+                            } else {
+                                // <+4416>
+                                // noop
+                                return
+                            }
+                        case .ellipse(let rect):
+                            // <+3992>
+                            if rect.isNull {
+                                // <+4580>
+                                self.value = .empty
+                                return
+                            } else {
+                                // <+4416>
+                                // noop
+                                return
+                            }
+                        case .roundedRect(let rect):
+                            // <+3984>
+                            // <+3992>
+                            if rect.rect.isNull {
+                                // <+4580>
+                                self.value = .empty
+                                return
+                            } else {
+                                // <+4416>
+                                // noop
+                                return
+                            }
+                        case .stroked(_):
+                            fatalError("obsolete")
+                        case .trimmed(_):
+                            fatalError("obsolete")
+                        case .path(_):
+                            // <+3872>
+                            assertUnimplemented()
+                        }
                     case .shadow(_, _):
                         // <+3608>
                         assertUnimplemented()
