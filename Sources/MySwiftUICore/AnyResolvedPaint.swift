@@ -3,6 +3,10 @@ package class AnyResolvedPaint {
         return false
     }
     
+    package var isCALayerCompatible: Bool {
+        return false
+    }
+    
     package func visit<T : ResolvedPaintVisitor>(_ visitor: inout T) {
         // noop
     }
@@ -17,6 +21,10 @@ final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
     
     override var isOpaque: Bool {
         assertUnimplemented()
+    }
+    
+    override var isCALayerCompatible: Bool {
+        return self.paint.isCALayerCompatible
     }
     
     override func visit<T>(_ visitor: inout T) {

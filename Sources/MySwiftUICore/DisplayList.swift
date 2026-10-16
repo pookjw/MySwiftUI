@@ -667,16 +667,10 @@ extension DisplayList {
             
             // state -> x0 -> x19
             let d10 = state.zPosition
-            // w24
-            let renderingTechnique = state.renderingTechnique
-            // x23
-            let leafEffects = state.remoteEffects.hoverEffectState.leafEffects
             // sp + 0x10
             let hoverEffectState = state.remoteEffects.hoverEffectState
             // w21
             let hitTestsAsOpaque = state.hitTestsAsOpaque
-            let d8 = self.frame.size.width
-            let d9 = self.frame.size.height
             /*
              x25 -> value + 0x0
              x20 -> value + 0x10

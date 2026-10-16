@@ -980,7 +980,7 @@ extension ShapeStyle where Self == Color {
     }
 }
 
-package struct ColorView : ResolvedPaint, @preconcurrency RendererLeafView {
+package struct ColorView :  @preconcurrency RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
     @safe nonisolated(unsafe) private(set) var allowedDynamicRange: Image.DynamicRange
@@ -1033,6 +1033,12 @@ package struct ColorView : ResolvedPaint, @preconcurrency RendererLeafView {
     
     package func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
         assertUnimplemented()
+    }
+}
+
+extension ColorView : ResolvedPaint {
+    package nonisolated var isCALayerCompatible: Bool {
+        return true
     }
 }
 

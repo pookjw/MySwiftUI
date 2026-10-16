@@ -4,5 +4,6 @@ protocol Paint : ShapeStyle {
 }
 
 package protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
+    var isCALayerCompatible: Bool { get }
     // TOOD
 }

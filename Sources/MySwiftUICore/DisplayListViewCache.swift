@@ -304,8 +304,15 @@ extension DisplayList.ViewUpdater {
             case .content(let content):
                 // <+436>
                 switch content.value {
-                case .shape(_, _, _):
-                    assertUnimplemented()
+                case .shape(_, let paint, _):
+                    // <+448>
+                    if !paint.isCALayerCompatible {
+                        item.addDrawingGroup(contentSeed: DisplayList.Seed(item.version))
+                    }
+                    
+                    // <+524>
+                    // <+684>
+                    return .infinity
                 default:
                     return .infinity
                 }
