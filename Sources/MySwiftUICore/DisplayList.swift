@@ -1332,7 +1332,7 @@ extension DisplayList {
     }
     
     package class InterpolatorGroup {
-        private var maxDuration: Double
+        private var maxDuration: Double // 0x10
 
         deinit {
             assertUnimplemented()
@@ -1386,10 +1386,4 @@ extension DisplayList {
 
 package protocol _DisplayList_AnyEffectAnimation /* TODO */ {
     // TODO
-}
-
-extension DisplayList {
-    package struct InterpolatorAnimation {
-        // TODO
-    }
 }

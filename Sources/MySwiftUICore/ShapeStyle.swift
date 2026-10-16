@@ -147,11 +147,11 @@ protocol PrimitiveShapeStyle : ShapeStyle {
 }
 
 final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
-    private var layers: [_ShapeStyle_InterpolatorGroup.Layer]
-    private var contentsScale: Float
-    private var rasterizationOptions: RasterizationOptions
-    private var serial: UInt32
-    private var cursor: Int32
+    fileprivate var layers: [_ShapeStyle_InterpolatorGroup.Layer] // 0x18
+    private var contentsScale: Float // 0x20
+    private var rasterizationOptions: RasterizationOptions // 0x24
+    private var serial: UInt32 // 0x34
+    fileprivate var cursor: Int32 // 0x38
     
     fileprivate func addLayer(id: _ShapeStyle_LayerID, style: _ShapeStyle_Pack.Style?) -> _ShapeStyle_InterpolatorGroup.AddLayerResult {
         assertUnimplemented()
@@ -188,7 +188,11 @@ final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
 
 extension _ShapeStyle_InterpolatorGroup {
     fileprivate struct Layer {
-        // TODO
+        private let id: _ShapeStyle_LayerID
+        let serial: UInt32
+        private(set) var style: _ShapeStyle_Pack.Style?
+        private var state: DisplayList.InterpolatorLayer
+        fileprivate var isRemoved: Bool
     }
     
     // nominal type descriptor가 없음
@@ -203,7 +207,7 @@ struct _ShapeStyle_RenderedShape {
     private var contentSeed: DisplayList.Seed // 0x6c
     fileprivate private(set) var frame: CGRect // 0x70
     var interpolatorData: (group: DisplayList.InterpolatorGroup, serial: UInt32)? = nil // 0x90
-    private var item: DisplayList.Item // 0xa0
+    private(set) var item: DisplayList.Item // 0xa0
     private var options: DisplayList.Options // 0xec
     @Attribute private var environment: EnvironmentValues // 0xf0
     private var blendMode: GraphicsBlendMode = .normal // 0xf8
@@ -1064,8 +1068,65 @@ struct _ShapeStyle_RenderedLayers {
         }
     }
     
-    func commit(shape: inout _ShapeStyle_RenderedShape, options: DisplayList.Options) -> DisplayList {
-        assertUnimplemented()
+    mutating func commit(shape: inout _ShapeStyle_RenderedShape, options: DisplayList.Options) -> DisplayList {
+        /*
+         self -> x20 -> x19
+         shape -> x0 -> x22
+         options -> x1 -> w24
+         return pointer -> x21 -> sp + 0x8
+         */
+        if let group {
+            // <+60>
+            var cursor = group.cursor
+            
+            while !(group.layers.endIndex <= Int(cursor)) {
+                // <+248>
+                group.cursor = cursor &+ 1
+                group.layers[Int(cursor)].isRemoved = true
+                
+                let layer = group.layers[Int(cursor)]
+                let oldShape = shape.shape
+                
+                shape.shape = .empty
+                shape.interpolatorData = (group: group, serial: layer.serial)
+                
+                if let style = layer.style {
+                    shape.render(style: style)
+                }
+                
+                // <+128>
+                self.endLayer(shape: &shape)
+                shape.shape = oldShape
+                cursor = group.cursor
+            }
+            
+            group.cursor = 0
+            // <+624>
+        }
+        
+        // <+636>
+        switch self.layers {
+        case .item(let item):
+            // <+900>
+            let list = DisplayList(item)
+            self.layers = .empty
+            return list
+        case .items(let items):
+            // <+700>
+            let list_1 = DisplayList(items)
+            
+            var item = shape.item
+            item.value = .effect(.identity, list_1)
+            item.canonicalize(options: options)
+            
+            let list_2 = DisplayList(item)
+            self.layers = .empty
+            
+            return list_2
+        case .empty:
+            // <+980>
+            return DisplayList()
+        }
     }
 }
 
