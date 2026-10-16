@@ -33,7 +33,7 @@ extension DisplayList.ViewUpdater {
         @unsafe struct State {
             private(set) var globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals> // 0x0
             var opacity: Float = 1 // 0x8
-            private(set) var blend = GraphicsBlendMode.normal // 0x10
+            fileprivate(set) var blend = GraphicsBlendMode.normal // 0x10
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0) // 0x20
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
             var filters: [GraphicsFilter] = [] // 0x58
@@ -215,7 +215,6 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         if !requirements.contains(.unknown1) {
-            let copy_5 = item
             let copy_6 = item
             let platformState = unsafe state.platformState
             let canMerge = copy_6.canMergeWithPlatformState(state: platformState)
@@ -253,12 +252,39 @@ extension DisplayList.ViewUpdater.Model {
                 requirements.formUnion(.unknown0)
             }
         case .effect(let effect, _):
-            // <+2712>
+            // <+1936>
             switch effect {
+            case .backdropGroup(_):
+                // <+1968>
+                assertUnimplemented()
+            case .archive(_):
+                // <+3260>
+                assertUnimplemented()
+            case .properties(_):
+                // <+2480>
+                assertUnimplemented()
+            case .platformGroup(_):
+                // <+2524>
+                assertUnimplemented()
             case .opacity(let opacity):
+                // <+2128>
                 unsafe state.opacity = state.opacity * opacity
                 unsafe state.versions.opacity = max(state.versions.opacity, item.version)
+            case .blendMode(let blendMode):
+                // <+3332>
+                unsafe state.blend = blendMode
+                unsafe state.versions.blend = max(state.versions.blend, item.version)
+            case .clip:
+                // <+3424>
+                assertUnimplemented()
+            case .mask(_, _):
+                // <+3212>
+                assertUnimplemented()
+            case .sdfShape(_):
+                // <+3736>
+                assertUnimplemented()
             case .transform(let transform):
+                // <+2176>
                 switch transform {
                 case .affine(_):
                     assertUnimplemented()
@@ -276,9 +302,23 @@ extension DisplayList.ViewUpdater.Model {
                     
                     requirements.formUnion(results)
                 }
-            case .identity:
-                break
+            case .filter(_):
+                // <+3532>
+                assertUnimplemented()
+            case .animation(_):
+                // <+5452>
+                assertUnimplemented()
+            case .contentTransition(_):
+                // <+2056>
+                assertUnimplemented()
+            case .view(_):
+                // <+5452>
+                assertUnimplemented()
+            case .accessibility(_):
+                // <+2092>
+                assertUnimplemented()
             case .platform(let platformEffect):
+                // <+2556>
                 let results = unsafe DisplayList.ViewUpdater.Model._mergePlatformEffect(
                     platformEffect,
                     item: item,
@@ -305,7 +345,26 @@ extension DisplayList.ViewUpdater.Model {
                 case .identity:
                     requirements.formUnion(results)
                 }
-            default:
+            case .state(_):
+                // <+3824>
+                assertUnimplemented()
+            case .interpolatorRoot(_, _, _):
+                // <+2444>
+                assertUnimplemented()
+            case .interpolatorLayer(_, _):
+                // <+3936>
+                assertUnimplemented()
+            case .interpolatorAnimation(_):
+                // <+3296>
+                assertUnimplemented()
+            case .identity:
+                // <+3776>
+                break
+            case .geometryGroup:
+                // <+1968>
+                assertUnimplemented()
+            case .compositingGroup:
+                // <+1968>
                 assertUnimplemented()
             }
         case .states(_):
