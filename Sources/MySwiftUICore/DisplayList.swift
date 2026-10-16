@@ -946,70 +946,101 @@ extension DisplayList {
         var features: DisplayList.Features {
             switch self {
             case .backdropGroup(_):
+                // <+536>
+                return []
+            case .archive(_):
+                // <+536>
                 return []
             case .properties(_):
-                assertUnimplemented()
-            case .archive(_):
-                return []
-            case .clip:
-                assertUnimplemented()
-            case .mask(_, _):
-                assertUnimplemented()
-            case .sdfShape(_):
+                // <+464>
                 assertUnimplemented()
             case .platformGroup(let factory):
+                // <+140>
                 return factory.features.union(.platformViews)
             case .opacity(_):
+                // <+536>
                 return []
             case .blendMode(_):
+                // <+536>
+                return []
+            case .clip:
+                // <+536>
+                return []
+            case .mask(_, _):
+                // <+488>
                 assertUnimplemented()
+            case .sdfShape(_):
+                // <+536>
+                return []
             case .transform(_):
+                // <+536>
                 return []
             case .filter(_):
-                assertUnimplemented()
+                // <+536>
+                return []
             case .animation(_):
+                // <+240>
                 assertUnimplemented()
             case .contentTransition(_):
-                assertUnimplemented()
+                // <+536>
+                return []
             case .view(_):
+                // <+512>
                 assertUnimplemented()
             case .accessibility(_):
+                // <+536>
                 assertUnimplemented()
             case .platform(let effect):
+                // <+268>
                 switch effect {
                 case .separated(_):
+                    // <+572>
                     assertUnimplemented()
                 case .renderingTechnique(_):
+                    // <+708>
                     return []
                 case .projectiveShadow(_):
                     return []
                 case .opaqueHitTestContainer(_):
+                    // <+452>
                     return [.required]
                 case .remoteEffects(_, _):
+                    // <+452>
                     return [.required]
                 case .customHoverEffect(_):
+                    // <+452>
                     return [.required]
                 case .serverResponderID(_):
+                    // <+708>
                     return []
                 case .separatedModifier(_):
+                    // <+708>
                     return []
                 case .identity:
+                    // <+708>
                     return []
                 }
             case .state(_):
+                // <+500>
                 assertUnimplemented()
             case .interpolatorRoot(_, _, _):
                 assertUnimplemented()
+                // <+524>
             case .interpolatorLayer(_, _):
+                // <+76>
                 assertUnimplemented()
             case .interpolatorAnimation(_):
-                assertUnimplemented()
+                // <+536>
+                return []
             case .identity:
+                // <+536>
                 return []
             case .geometryGroup:
-                assertUnimplemented()
+                // <+536>
+                return []
             case .compositingGroup:
-                assertUnimplemented()
+                // <+536>
+                return []
             }
         }
     }
