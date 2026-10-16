@@ -321,6 +321,18 @@ extension DisplayList {
                 if !displsyList.isEmpty || effect.features.contains(.required) {
                     // <+512>
                     switch effect {
+                    case .backdropGroup(_):
+                        // <+2632>
+                        return
+                    case .archive(_):
+                        // <+2632>
+                        return
+                    case .properties(_):
+                        // <+2632>
+                        return
+                    case .platformGroup(_):
+                        // <+2632>
+                        return
                     case .opacity(let opacity):
                         // <+1280>
                         if opacity >= 1 {
@@ -339,24 +351,22 @@ extension DisplayList {
                             self.value = .empty
                         }
                         return
-                    case .identity:
-                        // <+1140>
-                        // <+1396>
-                        self.canonicalizeIdentityEffect(list: displsyList)
-                        // <+4648>
-                        if !displsyList.features.contains(.required) {
-                            // <+4660>
-                            // effect의 case를 확인하지만 .identity는 아무것도 안함
-                            // <+4720>
-                        } else {
-                            // <+4720>
-                        }
-                        
+                    case .blendMode(_):
+                        // <+2632>
+                        return
+                    case .clip:
+                        // <+1764>
+                        assertUnimplemented()
+                    case .mask(_, _):
+                        // <+816>
+                        assertUnimplemented()
+                    case .sdfShape(_):
+                        // <+2632>
                         return
                     case .transform(let transform):
                         // <+1408>
                         switch transform {
-                        case .affine(let transform):
+                        case .affine(_):
                             // <+2468>
                             assertUnimplemented()
                         case .affine3D(let transform):
@@ -375,12 +385,57 @@ extension DisplayList {
                         }
                         
                         return
+                    case .filter(_):
+                        // <+560>
+                        assertUnimplemented()
+                    case .animation(_):
+                        // <+2632>
+                        return
+                    case .contentTransition(_):
+                        // <+2632>
+                        return
+                    case .view(_):
+                        // <+2632>
+                        return
+                    case .accessibility(_):
+                        // <+2632>
+                        return
                     case .platform(_):
                         // <+1748>
                         self.canonicalizePlatformEffect(options: options)
                         return
-                    default:
+                    case .state(let strongHash):
+                        // <+2632>
                         assertUnimplemented()
+                    case .interpolatorRoot(_, _, _):
+                        // <+2632>
+                        return
+                    case .interpolatorLayer(_, _):
+                        // <+2632>
+                        return
+                    case .interpolatorAnimation(_):
+                        // <+2632>
+                        return
+                    case .identity:
+                        // <+1132>
+                        // <+1396>
+                        self.canonicalizeIdentityEffect(list: displsyList)
+                        // <+4648>
+                        if !displsyList.features.contains(.required) {
+                            // <+4660>
+                            // effect의 case를 확인하지만 .identity는 아무것도 안함
+                            // <+4720>
+                        } else {
+                            // <+4720>
+                        }
+                        
+                        return
+                    case .geometryGroup:
+                        // <+2632>
+                        return
+                    case .compositingGroup:
+                        // <+2632>
+                        return
                     }
                 } else {
                     assertUnimplemented()
