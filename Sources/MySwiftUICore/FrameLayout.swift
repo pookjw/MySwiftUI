@@ -27,6 +27,9 @@ extension View {
          alignment -> x4/x5 -> x20/x19
          return pointer -> x8 -> x21
          */
+        var width = width
+        var height = height
+        
         if isLinkedOnOrAfter(.v2) {
             // <+176>
             let flag: Bool
@@ -41,6 +44,9 @@ extension View {
             if flag {
                 unsafe os_log(.fault, log: .runtimeIssuesLog, "Invalid frame dimension (negative or non-finite).")
             }
+            
+            width = width.flatMap { $0 < 0 ? 0 : ($0.isFinite ? $0 : nil) }
+            height = height.flatMap { $0 < 0 ? 0 : ($0.isFinite ? $0 : nil) }
         }
         
         // <+400>

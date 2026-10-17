@@ -172,7 +172,7 @@ package struct PlacementContext3D {
     }
 }
 
-fileprivate struct EnvironmentFetch<T> : Rule, Hashable {
+fileprivate struct EnvironmentFetch<T> : Rule, AsyncAttribute, Hashable {
     @Attribute var environment: EnvironmentValues
     var keyPath: KeyPath<EnvironmentValues, T>
     

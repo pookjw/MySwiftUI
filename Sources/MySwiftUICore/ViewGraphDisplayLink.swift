@@ -377,7 +377,7 @@ final class ViewGraphDisplayLink : NSObject {
 }
 
 extension ViewGraphDisplayLink {
-    enum ThreadName {
+    enum ThreadName : Hashable {
         case main
         case async
     }

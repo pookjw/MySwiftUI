@@ -97,7 +97,7 @@ extension SearchFieldPlacement {
         case none // 7
     }
     
-    enum DrawerDisplayMode {
+    enum DrawerDisplayMode : Hashable {
         case automatic
         case always
     }
@@ -214,4 +214,7 @@ final class SearchEnvironmentStorage {
 
 struct SearchFocusContext {
     // TODO
+}
+
+extension SearchFocusContext : Equatable {
 }

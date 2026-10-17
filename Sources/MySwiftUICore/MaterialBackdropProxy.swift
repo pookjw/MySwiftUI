@@ -1,14 +1,14 @@
 #if SwiftUICompatibility
-package import _SwiftUIPrivate
+package import _SwiftUICorePrivate
 
 fileprivate struct MaterialBackdropProxyKey : EnvironmentKey {
-    static var defaultValue: _SwiftUIPrivate::MaterialBackdropProxy? {
+    static var defaultValue: _SwiftUICorePrivate::MaterialBackdropProxy? {
         return nil
     }
 }
 
 extension EnvironmentValues {
-    package var materialBackdropProxy: _SwiftUIPrivate::MaterialBackdropProxy? {
+    package var materialBackdropProxy: _SwiftUICorePrivate::MaterialBackdropProxy? {
         get {
             return self[MaterialBackdropProxyKey.self]
         }

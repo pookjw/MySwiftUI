@@ -147,7 +147,29 @@ struct PlatformViewRepresentableFeature : @preconcurrency CoreViewRepresentableF
     }
     
     func modifyWrappedOutputs<Representable : CoreViewRepresentable>(outputs: inout _ViewOutputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x28 -> x29 - 0x68
+         outputs -> x0 -> x29 - 0x70
+         */
+        // <+252>
+        guard let inputs else {
+            return
+        }
+        
+        // <+344>
+        guard
+            inputs.preferences.contains(AccessibilityNodesKey.self),
+            let platformViewAccessibilityNodes = self.$platformViewAccessibilityNodes
+        else {
+            return
+        }
+        
+        let transform = AccessibilityHostedViewBridgeTransform(
+            parentNodeList: platformViewAccessibilityNodes,
+            childNodeList: OptionalAttribute(outputs[AccessibilityNodesKey.self])
+        )
+        
+        outputs[AccessibilityNodesKey.self] = Attribute(transform)
     }
     
     @MainActor func update<Host : CoreViewRepresentableHost>(forHost host: Host, environment: inout EnvironmentValues, isInitialUpdate: Bool) {
@@ -554,5 +576,20 @@ extension UIView {
         }
         
         return max(1.0 / traitCollection.displayScale, value)
+    }
+}
+
+struct AccessibilityHostedViewBridgeTransform : CustomStringConvertible, StatefulRule {
+    @Attribute var parentNodeList: AccessibilityNodeList
+    @OptionalAttribute var childNodeList: AccessibilityNodeList?
+    
+    var description: String {
+        assertUnimplemented()
+    }
+    
+    typealias Value = AccessibilityNodeList
+    
+    func updateValue() {
+        assertUnimplemented()
     }
 }

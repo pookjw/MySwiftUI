@@ -36,3 +36,15 @@ struct NavigationLinkSelectionIdentifier : Hashable {
     private var viewListID: _ViewList_ID.Canonical?
     private var namespace: Namespace.ID
 }
+
+extension NavigationLinkSelectionIdentifier : CustomStringConvertible {
+    var description: String {
+        assertUnimplemented()
+    }
+}
+
+extension NavigationLinkSelectionIdentifier : Identifiable {
+    var id: Namespace.ID {
+        assertUnimplemented()
+    }
+}

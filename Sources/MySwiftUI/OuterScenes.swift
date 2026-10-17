@@ -21,6 +21,13 @@ extension _OrderOutScenesModifier {
     }
 }
 
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension _OrderOutScenesModifier : _SceneModifier, PrimitiveSceneModifier, _GraphInputsModifier {
+    static func _makeInputs(modifier: _GraphValue<_OrderOutScenesModifier>, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
+}
+
 struct OrderOutSceneSessionIdentifiersProviderInput : SceneInput {
     static var defaultValue: () -> Set<String> {
         return { return [] }

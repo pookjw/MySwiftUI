@@ -303,7 +303,7 @@ struct SheetPreference {
 }
 
 extension SheetPreference {
-    enum Placement {
+    enum Placement : Hashable {
         case automatic
         case overFullScreen
         case formSheet

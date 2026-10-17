@@ -23,6 +23,10 @@ public import Spatial
         super.init()
     }
     
+    package override init(host: (any ViewGraphDelegate)?) {
+        assertUnimplemented()
+    }
+    
     open override func bindEvent(_ type: any EventType) -> ResponderNode? {
         assertUnimplemented()
     }

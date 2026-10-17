@@ -172,132 +172,132 @@ package struct Semantics_v7 : SemanticProtocol {
     package static let semantic = Semantics(value: SwiftUI_v7().version)
 }
 
-@c(SwiftUI_v1_os_versions)
+@c(swiftUI_v1_os_versions)
 package func SwiftUI_v1() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e30901)
 }
 
-@c(SwiftUI_autumn_2019_os_versions)
+@c(swiftUI_autumn_2019_os_versions)
 package func SwiftUI_Autumn_2019() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e30902)
 }
 
-@c(SwiftUI_late_fall_2019_os_versions)
+@c(swiftUI_late_fall_2019_os_versions)
 package func SwiftUI_Late_Fall_2019() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e31015)
 }
 
-@c(SwiftUI_v1_3_1_os_versions)
+@c(swiftUI_v1_3_1_os_versions)
 package func SwiftUI_v1_3_1() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e31201)
 }
 
-@c(SwiftUI_v1_4_os_versions)
+@c(swiftUI_v1_4_os_versions)
 package func SwiftUI_v1_4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e40301)
 }
 
-@c(SwiftUI_late_spring_2020_os_versions)
+@c(swiftUI_late_spring_2020_os_versions)
 package func SwiftUI_Late_Spring_2020() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e40415)
 }
 
-@c(SwiftUI_summer_2020_os_versions)
+@c(swiftUI_summer_2020_os_versions)
 package func SwiftUI_Summer_2020() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e40601)
 }
 
-@c(SwiftUI_v2_os_versions)
+@c(swiftUI_v2_os_versions)
 package func SwiftUI_v2() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e40901)
 }
 
-@c(SwiftUI_v2_1_os_versions)
+@c(swiftUI_v2_1_os_versions)
 package func SwiftUI_v2_1() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e41015)
 }
 
-@c(SwiftUI_v2_3_os_versions)
+@c(swiftUI_v2_3_os_versions)
 package func SwiftUI_v2_3() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e50301)
 }
 
-@c(SwiftUI_v3_0_os_versions)
+@c(swiftUI_v3_0_os_versions)
 package func SwiftUI_v3() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e50901)
 }
 
-@c(SwiftUI_v3_2_os_versions)
+@c(swiftUI_v3_2_os_versions)
 package func SwiftUI_v3_2() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e51201)
 }
 
-@c(SwiftUI_v3_4_os_versions)
+@c(swiftUI_v3_4_os_versions)
 package func SwiftUI_v3_4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e60301)
 }
 
-@c(SwiftUI_v4_0_os_versions)
+@c(swiftUI_v4_0_os_versions)
 package func SwiftUI_v4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e60901)
 }
 
-@c(SwiftUI_v4_4_os_versions)
+@c(swiftUI_v4_4_os_versions)
 package func SwiftUI_v4_4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e62300)
 }
 
-@c(SwiftUI_v5_0_os_versions)
+@c(swiftUI_v5_0_os_versions)
 package func SwiftUI_v5() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e70901)
 }
 
-@c(SwiftUI_v5_2_os_versions)
+@c(swiftUI_v5_2_os_versions)
 package func SwiftUI_v5_2() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e70d01)
 }
 
-@c(SwiftUI_v6_0_os_versions)
+@c(swiftUI_v6_0_os_versions)
 package func SwiftUI_v6() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e80000)
 }
 
-@c(SwiftUI_v6_1_os_versions)
+@c(swiftUI_v6_1_os_versions)
 package func SwiftUI_v6_1() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e80100)
 }
 
-@c(SwiftUI_v6_2_os_versions)
+@c(swiftUI_v6_2_os_versions)
 package func SwiftUI_v6_2() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e80200)
 }
 
-@c(SwiftUI_v6_4_os_versions)
+@c(swiftUI_v6_4_os_versions)
 package func SwiftUI_v6_4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e80400)
 }
 
-@c(SwiftUI_v7_0_os_versions)
+@c(swiftUI_v7_0_os_versions)
 package func SwiftUI_v7() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90000)
 }
 
-@c(SwiftUI_v7_1_os_versions)
+@c(swiftUI_v7_1_os_versions)
 package func SwiftUI_v7_1() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90100)
 }
 
-@c(SwiftUI_v7_2_os_versions)
+@c(swiftUI_v7_2_os_versions)
 package func SwiftUI_v7_2() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90200)
 }
 
-@c(SwiftUI_v7_4_os_versions)
+@c(swiftUI_v7_4_os_versions)
 package func SwiftUI_v7_4() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07e90400)
 }
 
-@c(SwiftUI_v8_os_versions)
+@c(swiftUI_v8_0_os_versions)
 package func SwiftUI_v8() -> dyld_build_version_t {
     return dyld_build_version_t(platform: .max, version: 0x07ea0000)
 }
@@ -334,7 +334,7 @@ package struct _SemanticFeature<T : SemanticProtocol>: SemanticFeature {
     @inlinable package init() {}
 }
 
-package enum SemanticRequirement {
+package enum SemanticRequirement : Hashable {
     case linkedOnOrAfter
     case deployedOnOrAfter
 }

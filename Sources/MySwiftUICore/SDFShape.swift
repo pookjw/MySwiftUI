@@ -1,5 +1,8 @@
 internal import CoreGraphics
 private import simd
+#if SwiftUICompatibility
+package import _SwiftUICorePrivate
+#endif
 
 package struct SDFShape {
     private(set) var origin: CGPoint // 0x0
@@ -11,9 +14,19 @@ package struct SDFShape {
 }
 
 extension SDFShape {
-    final class BackdropObserver {
-        // TODO
+#if SwiftUICompatibility
+    final class BackdropObserver : _SwiftUICorePrivate::MaterialBackdropObserver {
+        func luminanceDidChange(_ luminance: Float?) {
+            assertUnimplemented()
+        }
     }
+#else
+    final class BackdropObserver : MySwiftUICore::MaterialBackdropObserver {
+        func luminanceDidChange(_ luminance: Float?) {
+            assertUnimplemented()
+        }
+    }
+#endif
 }
 
 indirect enum SDFStyle {
