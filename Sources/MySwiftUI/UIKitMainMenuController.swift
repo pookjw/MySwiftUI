@@ -471,6 +471,7 @@ fileprivate final class MainMenuItemCoordinator {
 
 extension MainMenuItemCoordinator : MainMenuItemHostDelegate {
     func menuHostDidChangeMenuItems(_ host: MainMenuItemHost) {
+        needsUpdate = true
         updateIfNeeded()
     }
 }

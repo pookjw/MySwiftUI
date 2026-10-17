@@ -3,7 +3,7 @@ package import CoreGraphics
 internal import AttributeGraph
 package import Spatial
 
-package struct ViewTransform {
+package struct ViewTransform : Equatable {
     private var head: AnyElement? // 0x0
     private var spaces: CoordinateSpaceNode? // 0x8
     var positionAdjustment: CGSize // 0x10
@@ -500,7 +500,7 @@ fileprivate final class CoordinateSpaceNode {
     }
 }
 
-struct RootDepthTransform : Rule {
+struct RootDepthTransform : Rule, AsyncAttribute {
     @Attribute var transform: ViewTransform
     @OptionalAttribute var layoutDirection: LayoutDirection?
     @Attribute var proposedSize: ViewSize
@@ -550,7 +550,7 @@ struct RootDepthTransform : Rule {
 }
 
 extension ViewTransform {
-    package struct UnsafeBuffer {
+    package struct UnsafeBuffer : Equatable {
         private var contents: UnsafeHeterogeneousBuffer
         
         package init() {
@@ -610,6 +610,10 @@ extension ViewTransform {
         mutating func append<T : ViewTransformElement>(_ element: T) {
             contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<T>.self)
         }
+        
+        package static func == (lhs: UnsafeBuffer, rhs: UnsafeBuffer) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -650,7 +654,7 @@ extension ViewTransform.UnsafeBuffer {
 }
 
 extension ViewTransform {
-    enum Item {
+    enum Item : Equatable {
         case translation(CGSize)
         case affineTransform(CGAffineTransform, inverse: Bool)
         case projectionTransform(ProjectionTransform, inverse: Bool)

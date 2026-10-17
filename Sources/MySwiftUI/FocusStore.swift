@@ -61,7 +61,7 @@ struct FocusStore {
     }
 }
 
-struct FocusStoreList : Equatable, Collection {
+struct FocusStoreList : Equatable, RangeReplaceableCollection {
     private var items: [FocusStoreList.Item]
     
     init() {

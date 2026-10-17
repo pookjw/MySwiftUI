@@ -642,10 +642,7 @@ struct LayoutChildGeometries3D<E : SpatialLayoutEngine> : Rule, AsyncAttribute {
         
         return layoutComputer.withMutableEngine(type: StashedDepthLayoutEngine<E>.self) { engine in
             return engine.base.childGeometries3D(
-                at: ViewSize3D(
-                    parentSize.value,
-                    proposal: parentSize.proposal
-                ),
+                at: parentSize,
                 origin: Point3D(size3D)
             )
         }
@@ -780,8 +777,8 @@ struct StashedDepthLayoutEngine<E : SpatialLayoutEngine> : LayoutEngine {
             // $s7SwiftUI24StashedDepthLayoutEngineV17explicitAlignment_2at12CoreGraphics7CGFloatVSgAA0H3KeyV_AA8ViewSizeVtFA2IXEfU_
             let volume = self.base.volumeThatFits(
                 _ProposedSize3D(
-                    width: viewSize.width,
-                    height: viewSize.height,
+                    width: viewSize.proposal.width,
+                    height: viewSize.proposal.height,
                     depth: depth
                 )
             )
@@ -848,7 +845,7 @@ enum AlignmentKey3D {
 }
 
 protocol DerivedSpatialLayout : SpatialLayout {
-    associatedtype SpatialBase/* : SpatialLayout*/
+    associatedtype SpatialBase : SpatialLayout
 }
 
 fileprivate struct DynamicLayoutComputer<T : Layout3D> : CustomStringConvertible, AsyncAttribute, StatefulRule {

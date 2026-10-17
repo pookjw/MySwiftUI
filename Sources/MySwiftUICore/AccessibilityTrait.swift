@@ -242,7 +242,7 @@ package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet
 }
 
 extension AccessibilityNullableOptionSet {
-    fileprivate enum CodingKeys {
+    fileprivate enum CodingKeys : String, CodingKey {
         case value
         case mask
     }

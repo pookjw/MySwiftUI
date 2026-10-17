@@ -43,3 +43,9 @@ extension UIHostingController {
         }
     }
 }
+
+fileprivate protocol PersistentSystemOverlayVisibilityProvider {
+    var persistentSystemOverlaysFromPreferences: Visibility? { get }
+}
+
+extension UIHostingController : PersistentSystemOverlayVisibilityProvider {}
