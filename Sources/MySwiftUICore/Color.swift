@@ -983,7 +983,7 @@ extension ShapeStyle where Self == Color {
 package struct ColorView :  @preconcurrency RendererLeafView {
     private(set) var color: Color.ResolvedHDR
     private(set) var isAntialiased: Bool
-    @safe nonisolated(unsafe) private(set) var allowedDynamicRange: Image.DynamicRange
+    @safe nonisolated(unsafe) private(set) package var allowedDynamicRange: Image.DynamicRange
     
     package nonisolated static func == (lhs: ColorView, rhs: ColorView) -> Bool {
         assertUnimplemented()

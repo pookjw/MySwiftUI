@@ -1,6 +1,6 @@
 private import CoreGraphics
 
-struct ResolvedGradient : Sendable {
+package struct ResolvedGradient : Sendable {
     private var stops: [ResolvedGradient.Stop]
     private var colorSpace: ResolvedGradient.ColorSpace
     private var headroom: Float?

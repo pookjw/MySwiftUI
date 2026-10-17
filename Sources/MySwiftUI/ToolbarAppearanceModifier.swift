@@ -1,7 +1,7 @@
 // 3D0A5FA8455C04EDCEBBD3CEA14D2692
 @_spi(Internal) internal import MySwiftUICore
 
-struct ToolbarAppearanceModifier {
+struct ToolbarAppearanceModifier : MultiViewModifier, PrimitiveViewModifier {
     // TODO
 }
 

@@ -123,7 +123,7 @@ extension UITraitCollection {
         
         // <+940>
         if self._platterGroundingShadowVisibility() != .automatic {
-            environmentValues.platterGroundingShadowVisibility = Visibility(rawValue: self._platterGroundingShadowVisibility().rawValue)!
+            environmentValues.platterGroundingShadowVisibility = Visibility(rawValue: self._platterGroundingShadowVisibility().rawValue) ?? .automatic
         }
         
         // <+992>
