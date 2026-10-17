@@ -147,8 +147,17 @@ extension _OpacityEffect : RendererEffect {
     }
 }
 
-extension _OpacityEffect : ProtobufEncodableMessage {}
-extension _OpacityEffect : ProtobufDecodableMessage {}
+extension _OpacityEffect : ProtobufEncodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension _OpacityEffect : ProtobufDecodableMessage {
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
 
 fileprivate final class OpacityViewResponder : DefaultLayoutViewResponder {
     var _opacity: Double

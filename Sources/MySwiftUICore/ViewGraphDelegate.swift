@@ -4,3 +4,9 @@
     nonisolated func requestUpdate(after time: Double)
     func setNeedsUpdate()
 }
+
+extension ViewGraphDelegate {
+    func setNeedsUpdate() {
+        assertUnimplemented()
+    }
+}

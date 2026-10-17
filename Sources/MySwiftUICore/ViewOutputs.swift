@@ -71,8 +71,8 @@ public struct _ViewOutputs {
         }
     }
     
-    func forEachPrefence(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
-        preferences.forEachPrefence(body)
+    func forEachPreference(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
+        preferences.forEachPreference(body)
     }
 }
 

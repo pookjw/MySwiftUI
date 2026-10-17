@@ -13,6 +13,18 @@
             return self == .vertical ? (.top, .bottom) : (.leading, .trailing)
         }
     }
+
+    package init(edge: Edge) {
+        assertUnimplemented()
+    }
+
+    init?(_ axis3D: _Axis3D) {
+        assertUnimplemented()
+    }
+
+    func perpendicularAbsoluteEdges(with layoutDirection: LayoutDirection) -> (min: AbsoluteEdge, max: AbsoluteEdge) {
+        assertUnimplemented()
+    }
 }
 
 extension Axis : CustomStringConvertible {
@@ -41,6 +53,18 @@ extension Axis {
         public static let horizontal = Axis.Set(rawValue: 1 << 0)
         public static let vertical = Axis.Set(rawValue: 1 << 1)
         package static let both = Axis.Set(rawValue: (1 << 0) | (1 << 1))
+
+        public init(_ axis: Axis) {
+            assertUnimplemented()
+        }
+
+        package func contains(_ axis: Axis) -> Bool {
+            assertUnimplemented()
+        }
+
+        package func isOrthogonal(to other: Axis.Set) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 

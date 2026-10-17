@@ -1023,7 +1023,7 @@ package struct ColorView :  @preconcurrency RendererLeafView {
         return .color(self)
     }
     
-    package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    package func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     
@@ -1036,7 +1036,11 @@ package struct ColorView :  @preconcurrency RendererLeafView {
     }
 }
 
-extension ColorView : ResolvedPaint {
+extension ColorView : @preconcurrency ResolvedPaint {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
     package nonisolated var isCALayerCompatible: Bool {
         return true
     }

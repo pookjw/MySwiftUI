@@ -192,7 +192,9 @@ struct SwiftUIOpacityAccessibilityProvider : OpacityAccessibilityProvider {
 }
 
 struct SwiftUIContentShapeAccessibilityProvider : ContentShapeAccessibilityProvider {
-    
+    static func makeAccessibility(kind: @autoclosure () -> Attribute<ContentShapeKinds>?, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+        assertUnimplemented()
+    }
 }
 
 struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {

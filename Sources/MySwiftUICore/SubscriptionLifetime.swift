@@ -2,7 +2,7 @@
 internal import Combine
 private import AttributeGraph
 
-final class SubscriptionLifetime<T : Combine::Publisher> {
+final class SubscriptionLifetime<T : Combine::Publisher> : Combine::Cancellable {
     private var subscriptionID = UniqueSeedGenerator()
     private var state: SubscriptionLifetime<T>.StateType = .uninitialized
     

@@ -23,7 +23,7 @@ public struct Binding<Value> {
     
     public static func constant(_ value: Value) -> Binding<Value> {
         let location = ConstantLocation(value: value)
-        let box = LocationBox(location: location)
+        let box = LocationBox(location)
         return Binding(value: value, location: box)
     }
     
@@ -44,7 +44,7 @@ public struct Binding<Value> {
         
         let value = unsafe unsafeBitCast(get, to: (() -> Value).self)()
         self.transaction = Transaction()
-        self.location = LocationBox(location: location)
+        self.location = LocationBox(location)
         self._value = value
     }
     
@@ -209,7 +209,7 @@ extension Binding {
                     )
                     
                     location = LocationBox(
-                        location: scopedLocation
+                        scopedLocation
                     )
                     
                     self.location = location
@@ -226,7 +226,7 @@ extension Binding {
                 )
                 
                 location = LocationBox(
-                    location: scopedLocation
+                    scopedLocation
                 )
                 
                 self.location = location

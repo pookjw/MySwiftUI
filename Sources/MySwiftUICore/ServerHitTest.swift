@@ -13,12 +13,14 @@ package struct ServerHitTest {
     }
 }
 
+extension ServerHitTest : Equatable {
+    package static func == (lhs: ServerHitTest, rhs: ServerHitTest) -> Bool {
+        assertUnimplemented()
+    }
+}
+
 struct RequiresServerHitTesting : ViewInput {
     static var defaultValue: Attribute<Bool>? {
         return nil
-    }
-    
-    static func valuesEqual(_ lhs: Attribute<Bool>?, _ rhs: Attribute<Bool>?) -> Bool {
-        assertUnimplemented()
     }
 }

@@ -122,4 +122,8 @@ extension _ViewInputs {
         
         base.environment = environmentAttribute
     }
+
+    mutating func setContainerShape<T : InsettableShape>(_ shape: Attribute<T>, isSystemShape: Bool) {
+        assertUnimplemented()
+    }
 }

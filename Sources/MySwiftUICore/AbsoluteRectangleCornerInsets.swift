@@ -1,24 +1,24 @@
 package import CoreGraphics
 
 package struct AbsoluteRectangleCornerInsets {
-    package var topLeading: CGSize
-    package var topTrailing: CGSize
-    package var bottomLeading: CGSize
-    package var bottomTrailing: CGSize
+    package var topLeft: CGSize
+    package var topRight: CGSize
+    package var bottomLeft: CGSize
+    package var bottomRight: CGSize
     
     @inline(always)
     package init(_ insets: RectangleCornerInsets, layoutDirection: LayoutDirection = .leftToRight) {
         switch layoutDirection {
         case .leftToRight:
-            self.topLeading = insets.topLeading
-            self.topTrailing = insets.topTrailing
-            self.bottomLeading = insets.bottomLeading
-            self.bottomTrailing = insets.bottomTrailing
+            self.topLeft = insets.topLeading
+            self.topRight = insets.topTrailing
+            self.bottomLeft = insets.bottomLeading
+            self.bottomRight = insets.bottomTrailing
         case .rightToLeft:
-            self.topLeading = insets.topTrailing
-            self.topTrailing = insets.topLeading
-            self.bottomLeading = insets.bottomTrailing
-            self.bottomTrailing = insets.bottomLeading
+            self.topLeft = insets.topTrailing
+            self.topRight = insets.topLeading
+            self.bottomLeft = insets.bottomTrailing
+            self.bottomRight = insets.bottomLeading
         }
     }
 }

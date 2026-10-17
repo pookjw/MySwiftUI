@@ -11,6 +11,10 @@ struct DragItemTimings {
     private var pointerLiftMoveHysteresis: CGFloat? = nil
     private var allowsPointerDragBeforeLiftDelay: Bool? = nil
     
+    static var `default`: DragItemTimings {
+        return DragItemTimings()
+    }
+    
     func apply(to: UIDragInteraction) {
         assertUnimplemented()
     }

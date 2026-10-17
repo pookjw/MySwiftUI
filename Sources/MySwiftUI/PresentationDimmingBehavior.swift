@@ -1,7 +1,7 @@
 internal import UIKit
 internal import _UIKitShims
 
-enum PresentationDimmingBehavior {
+enum PresentationDimmingBehavior : Equatable {
     case undimmedUpThrough(MySheetPresentationControllerDetentIdentifier)
     case always
     case backgroundInteractionEnabled

@@ -70,7 +70,7 @@ extension Binding {
          */
         let location = ObjectLocation<Subject, Value>(base: base, keyPath: keyPath, isolation: isolation)
         let value = location.get()
-        let locationBox = LocationBox(location: location)
+        let locationBox = LocationBox(location)
         self.init(value: value, location: locationBox)
     }
 }

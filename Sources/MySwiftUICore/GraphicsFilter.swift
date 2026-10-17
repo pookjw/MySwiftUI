@@ -76,11 +76,15 @@ extension GraphicsFilter : Equatable {
 }
 
 extension GraphicsFilter : ProtobufEncodableMessage {
-    // TODO
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
 }
 
 extension GraphicsFilter : ProtobufDecodableMessage {
-    // TODO
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
 }
 
 // 원래 없음

@@ -143,18 +143,14 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     private var interactiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
     private let largeContentViewerInteractionBridge = UILargeContentViewerInteractionBridge()
-    private lazy var presentationModeLocation = LocationBox(location: UIKitPresentationModeLocation(host: self))
-    private lazy var scenePresentationModeLocation = LocationBox(location: UIKitScenePresentationModeLocation(host: self))
+    private lazy var presentationModeLocation = LocationBox(UIKitPresentationModeLocation(host: self))
+    private lazy var scenePresentationModeLocation = LocationBox(UIKitScenePresentationModeLocation(host: self))
     
     // updateRootTransform에서 getter 직접 호출하고 있기에 final
     private final var sceneSize: CGSize = .zero {
         didSet {
             immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
         }
-    }
-    
-    final var defaultNextResponder: UIResponder? {
-        return super.next
     }
     
     var defaultBackgroundIsTransparent: Bool {
@@ -823,7 +819,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         }
         
         // <+92>
-        guard (_UICurrentHitTestContext() != nil) && CoreTesting.isRunning else {
+        guard (_UICurrentHitTestContext() != nil) || CoreTesting.isRunning else {
             // <+464>
             return result
         }
@@ -2158,8 +2154,10 @@ extension _UIHostingView : @preconcurrency CurrentEventProvider {
     
 }
 
-extension _UIHostingView : FallbackResponderProvider {
-    
+extension _UIHostingView : @preconcurrency FallbackResponderProvider {
+    final var defaultNextResponder: UIResponder? {
+        return super.next
+    }
 }
 
 extension _UIHostingView : ContainerBackgroundHost {

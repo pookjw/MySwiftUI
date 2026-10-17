@@ -30,6 +30,14 @@
         self.base = Alignment(horizontal: horizontal, vertical: vertical)
         self.depth = depth
     }
+
+    package init(horizontal: HorizontalAlignment, vertical: VerticalAlignment) {
+        assertUnimplemented()
+    }
+
+    package init(_ alignment: Alignment, depth: DepthAlignment) {
+        assertUnimplemented()
+    }
     
     public static let bottom: Alignment3D = { assertUnimplemented() }()
     public static let bottomBack: Alignment3D = { assertUnimplemented() }()

@@ -7,9 +7,13 @@
 @_exported import Foundation
 @_exported import RealityKit
 @_exported import UIKit
+import _UIKitPrivate
 
-public class _MRUIObjectTransformInteraction : Foundation.NSObject {
-
+public class _MRUIObjectTransformInteraction : Foundation.NSObject, _UIKitPrivate.UIInteraction_Private {
+  @objc public var view: UIKit.UIView? { get set }
+  @objc public func willMove(to: UIKit.UIView?)
+  @objc public func _didMove(from: UIKit.UIWindow?, to: UIKit.UIWindow?)
+  @objc public func didMove(to: UIKit.UIView?)
 }
 
 extension MRUIKit._MRUIObjectTransformInteraction {

@@ -21,6 +21,8 @@ extension VerticalAlignment {
     public static let bottom = VerticalAlignment(VerticalAlignment.Bottom.self)
     public static let firstTextBaseline = VerticalAlignment(VerticalAlignment.FirstTextBaseline.self)
     public static let lastTextBaseline = VerticalAlignment(VerticalAlignment.LastTextBaseline.self)
+    public static let firstTextLineCenter = VerticalAlignment(VerticalAlignment.FirstTextLineCenter.self)
+    package static let _firstTextLineCenter = VerticalAlignment(VerticalAlignment.FirstTextLineCenter.self)
 }
 
 extension VerticalAlignment {

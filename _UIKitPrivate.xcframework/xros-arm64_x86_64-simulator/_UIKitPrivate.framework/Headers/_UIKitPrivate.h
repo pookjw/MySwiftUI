@@ -75,3 +75,5 @@
 #import <_UIKitPrivate/UIViewControllerTransitioning+Private.h>
 #import <_UIKitPrivate/UIContentView+Private.h>
 #import <_UIKitPrivate/UIListContentConfiguration+Private.h>
+#import <_UIKitPrivate/UIInteraction_Private.h>
+#import <_UIKitPrivate/UIInteractionEffect.h>

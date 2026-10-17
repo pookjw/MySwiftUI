@@ -62,12 +62,30 @@ extension RendererLeafView {
         return outputs
     }
     
-    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     
     static var requiresMainThread: Bool {
         return false
+    }
+}
+
+extension RendererLeafView where Self: _DisplayList_ViewFactory {
+    func content() -> DisplayList.Content.Value {
+        assertUnimplemented()
+    }
+}
+
+extension RendererLeafView where Self: PlatformViewFactory {
+    func content() -> DisplayList.Content.Value {
+        assertUnimplemented()
+    }
+}
+
+extension RendererLeafView where Self: PlatformLayerFactory {
+    func content() -> DisplayList.Content.Value {
+        assertUnimplemented()
     }
 }
 

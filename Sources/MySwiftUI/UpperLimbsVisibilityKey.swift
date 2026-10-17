@@ -85,6 +85,36 @@ extension UpperLimbVisibility {
     }
 }
 
+extension UpperLimbVisibility {
+    static var automatic: UpperLimbVisibility {
+        assertUnimplemented()
+    }
+    
+    static var visible: UpperLimbVisibility {
+        assertUnimplemented()
+    }
+    
+    static var hidden: UpperLimbVisibility {
+        assertUnimplemented()
+    }
+    
+    static var hiddenAdaptive: UpperLimbVisibility {
+        assertUnimplemented()
+    }
+    
+    var rawValue: Int {
+        assertUnimplemented()
+    }
+    
+    init?(rawValue: Int) {
+        assertUnimplemented()
+    }
+    
+    func effectiveUpperLimbVisibility(onScene: Bool) -> UpperLimbVisibility {
+        assertUnimplemented()
+    }
+}
+
 struct UpperLimbVisibilitySceneInput : SceneInput {
     static var defaultValue: OptionalAttribute<UpperLimbVisibility> {
         return OptionalAttribute()
@@ -100,6 +130,10 @@ extension View {
     nonisolated public func upperLimbVisibility(_ preferredVisibility: Visibility) -> some View {
         assertUnimplemented()
     }
+    
+    func upperLimbVisibility(_ preferredVisibility: UpperLimbVisibility) -> some View {
+        assertUnimplemented()
+    }
 }
 
 extension Scene {
@@ -109,6 +143,10 @@ extension Scene {
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     nonisolated public func upperLimbVisibility(_ preferredVisibility: Visibility) -> some Scene {
+        assertUnimplemented()
+    }
+    
+    func upperLimbVisibility(_ preferredVisibility: UpperLimbVisibility) -> some Scene {
         assertUnimplemented()
     }
 }

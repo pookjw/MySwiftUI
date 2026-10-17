@@ -273,7 +273,7 @@ struct _ShapeStyle_RenderedShape {
                         // <+864>
                         self.renderVectorGlyph(
                             glyph,
-                            size: image.uprotatedPixelSize,
+                            size: image.unrotatedPixelSize,
                             orientation: image.orientation,
                             name: name,
                             styles: styles(),

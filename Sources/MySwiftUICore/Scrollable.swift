@@ -28,6 +28,7 @@ extension Scrollable {
 
 package protocol ScrollableCollection : Scrollable {
     var visibleCollectionViewIDs: [_ViewList_ID.Canonical] { get }
+    var visibleSubviews: [ScrollableCollectionSubview] { get }
     func forEachVisibleSubview(_ block: (ScrollableCollectionSubview, inout Bool) -> Void)
     func subviewClosestTo(rect: CGRect) -> ScrollableCollectionSubview?
     func nextVisibleCollectionViewID(towards: UnitPoint, from viewID: _ViewList_ID.Canonical, border: CGSize, ignoring: PinnedScrollableViews) -> _ViewList_ID.Canonical?
@@ -47,6 +48,10 @@ extension ScrollableCollection {
     
     package var visibleCollectionViewIDs: [_ViewList_ID.Canonical] {
         return []
+    }
+
+    package var visibleSubviews: [ScrollableCollectionSubview] {
+        assertUnimplemented()
     }
     
     package func siblingID(going: AccessibilityScrollableNavigationType, from viewID: _ViewList_ID.Canonical) -> _ViewList_ID.Canonical? {
@@ -128,6 +133,10 @@ package struct ScrollableCollectionSubview {
     private var frame: CGRect
     private var frameInContent: CGRect
     private var transform: ViewTransform
+
+    package init(id: _ViewList_ID, frame: CGRect, frameInContent: CGRect, transform: ViewTransform) {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -154,6 +163,12 @@ package enum AccessibilityScrollableNavigationType : Hashable {
     case down
 }
 
+extension AccessibilityScrollableNavigationType {
+    package var directionalUnitPoint: UnitPoint {
+        assertUnimplemented()
+    }
+}
+
 extension _GraphInputs {
     fileprivate struct ScrollableKey : ViewInput {
         static let defaultValue = OptionalAttribute<any Scrollable>()
@@ -166,6 +181,9 @@ extension _GraphInputs {
         set {
             self[_GraphInputs.ScrollableKey.self] = newValue
         }
+        _modify {
+            yield &self[_GraphInputs.ScrollableKey.self]
+        }
     }
 }
 
@@ -176,6 +194,15 @@ extension _ViewInputs {
         }
         set {
             self[_GraphInputs.ScrollableKey.self] = newValue
+        }
+        _modify {
+            yield &self[_GraphInputs.ScrollableKey.self]
+        }
+    }
+
+    var weakScrollable: WeakAttribute<any Scrollable> {
+        get {
+            assertUnimplemented()
         }
     }
 }

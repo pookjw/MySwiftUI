@@ -57,7 +57,7 @@ struct DynamicContainer {
         attribute.flags = .unknown0
         
         // <+964>
-        copy_3.forEachPrefence { key, other in
+        copy_3.forEachPreference { key, other in
             // $s7SwiftUI16DynamicContainerV04makeD07adaptor6inputs14AttributeGraph0H0VyAC4InfoVG_AA12_ViewOutputsVtx_AA01_K6InputsVtAA0cD7AdaptorRzlFZyAA13PreferenceKey_pXp_So11AGAttributeatXEfU_
             func project<Key : PreferenceKey>(_ type: Key.Type) {
                 other.mutateBody(as: DynamicPreferenceCombiner<Key>.self, invalidating: true) { combiner in
@@ -1403,7 +1403,7 @@ struct DynamicLayoutMap {
             return
         }
         
-        let index = map.partitionPoint { $0.id.uniqueId < uniqueId }
+        let index = map.partitionPoint { $0.id < DynamicContainerID(uniqueId: uniqueId, viewIndex: 0) }
         
         guard index != count else {
             return

@@ -320,7 +320,7 @@ struct HeterogeneousViewIDsAccumulator {
                 // <+328>
                 // array -> x22
                 self.currentCollection = nil
-                array.reserveCapacity(indices.count)
+                array.reserveCapacity(array.count + indices.count)
                 
                 for index in indices {
                     let id = TypedCanonicalViewID<Nil>(
@@ -509,7 +509,7 @@ extension HeterogeneousViewIDsAccumulator {
         
         func initialize<T : Hashable>(at fromIndex: Int, index toIndex: Int32, implicitID: Int32, explicitID: T) {
             // x8
-            let offset = unsafe stride &* fromIndex
+            let offset = unsafe stride * fromIndex
             // x9
             let implicitIDOffset = unsafe self.implicitIDOffset
             // x22
@@ -538,7 +538,7 @@ extension HeterogeneousViewIDsAccumulator {
         
         func initialize(at index: Int, index toIndex: Int32, implicitID: Int32) {
             // x8
-            let offset = unsafe self.stride &* index
+            let offset = unsafe self.stride * index
             // x10
             let indexOffset = unsafe self.indexOffset
             // x9
@@ -562,7 +562,7 @@ extension HeterogeneousViewIDsAccumulator {
         
         func mutableExplicitIDPointer<T : Hashable>(at index: Int, for type: T.Type = T.self) -> UnsafeMutablePointer<T> {
             // x8
-            let offset = unsafe self.stride &* index
+            let offset = unsafe self.stride * index
             // x9
             let explicitIDOffset = unsafe self.explicitIDOffset
             // x10
@@ -669,7 +669,10 @@ fileprivate protocol AbstractContiguousArray {
 
 extension ContiguousArray : AbstractContiguousArray where Self : Hashable {
     func asContiguousArray<T>(of type: T.Type) -> ContiguousArray<T>? {
-        return self as? ContiguousArray<T>
+        guard Element.self == T.self else {
+            return nil
+        }
+        return unsafe unsafeBitCast(self, to: ContiguousArray<T>.self)
     }
     
     var contiguousArray: ContiguousArray<Element> {

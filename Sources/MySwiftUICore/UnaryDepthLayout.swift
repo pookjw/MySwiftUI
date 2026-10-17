@@ -173,8 +173,8 @@ struct UnaryDepthLayoutGeometry<T : UnaryDepthLayout> : Rule, AsyncAttribute {
             to: proxy,
             for: context.proposedSize, // inlined
             context: SizeAndSpacingContext(
-                context: AnyRuleContext(attribute: current_2),
-                owner: current_2,
+                context: AnyRuleContext(attribute: current_1),
+                owner: current_1,
                 environment: self.$environment
             )
         )

@@ -124,6 +124,6 @@ package struct PointScale {
 
 struct PointScaleKey : BridgedEnvironmentKey {
     static var defaultValue: PointScale {
-        return PointScale(pointsPerMeter: 1280)
+        return PointScale(pointsPerMeter: 1360)
     }
 } 

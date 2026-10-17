@@ -5,6 +5,7 @@ private import _MySwiftUICoreShims
 private import Foundation
 private import AttributeGraph
 private import _DarwinFoundation3._stdlib
+private import Synchronization
 
 fileprivate let lockAssertionsAreEnabled: Bool = {
     guard let value = unsafe getenv("SWIFTUI_ASSERT_LOCKS") else {
@@ -125,8 +126,8 @@ package enum Update {
         let previousDispatchDepth = Update.dispatchDepth
         Update.dispatchDepth = Update.depth
         
-        let actionID = (Update.Action.nextActionID &>> 1) + 1
-        Update.Action.nextActionID &+= 2
+        let actionID = (Update.Action.nextActionID.load(ordering: .relaxed) &>> 1) + 1
+        _ = Update.Action.nextActionID.wrappingAdd(2, ordering: .relaxed)
         
         defer {
             CustomEventTrace.finishAction(actionID, reason)
@@ -206,6 +207,7 @@ package enum Update {
     }
     
     package static func dispatchActions() {
+        Update.assertIsLocked()
         guard Update.canDispatch else {
             return
         }
@@ -252,7 +254,7 @@ extension Update {
 
 extension Update {
     struct Action {
-        @safe nonisolated(unsafe) static var nextActionID: UInt32 = 1
+        fileprivate static let nextActionID = Atomic<UInt32>(1)
         fileprivate let reason: CustomEventTrace.ActionEventType.Reason?
         private let thunk: () -> Void
         fileprivate let actionID: UInt32
@@ -261,8 +263,8 @@ extension Update {
             self.reason = reason
             self.thunk = thunk
             
-            let w23 = (Update.Action.nextActionID &>> 1) + 1
-            Update.Action.nextActionID &+= 2
+            let w23 = (Update.Action.nextActionID.load(ordering: .relaxed) &>> 1) + 1
+            _ = Update.Action.nextActionID.wrappingAdd(2, ordering: .relaxed)
             self.actionID = w23
             
             CustomEventTrace.enqueueAction(w23, reason)

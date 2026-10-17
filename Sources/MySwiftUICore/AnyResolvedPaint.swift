@@ -15,7 +15,7 @@ package class AnyResolvedPaint {
 final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
     let paint: P
     
-    init(_ paint: P) {
+    nonisolated init(_ paint: P) {
         self.paint = paint
     }
     

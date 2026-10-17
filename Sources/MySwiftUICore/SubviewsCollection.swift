@@ -21,11 +21,12 @@ public struct SubviewsCollection : RandomAccessCollection {
     }
 
     public func index(after i: Int) -> Int {
-        return Update.ensure {
-            assert(i >= 0)
-            assert(!(i >= self.base.list.count))
-            return i &+ 1
+        let count = Update.ensure {
+            self.base.list.count
         }
+        
+        assert(i >= 0 && i < count)
+        return i &+ 1
     }
 
     public subscript(index: Int) -> Subview {
@@ -66,7 +67,7 @@ extension SubviewsCollection : Sendable {}
 extension SubviewsCollection : View {
     nonisolated public static func _makeViewList(view: _GraphValue<SubviewsCollection>, inputs: _ViewListInputs) -> _ViewListOutputs {
         let base = view[{ .of(&$0.base)} ]
-        return _VariadicView_Children._makeViewList(view: base, inputs: inputs)
+        return _VariadicView_Children.makeDebuggableViewList(view: base, inputs: inputs)
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {

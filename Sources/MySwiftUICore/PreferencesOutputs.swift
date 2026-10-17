@@ -22,6 +22,9 @@ package struct PreferencesOutputs {
         set {
             self[anyKey: type] = newValue.map { $0.identifier }
         }
+        _modify {
+            assertUnimplemented()
+        }
     }
     
     package subscript(anyKey key: (any PreferenceKey.Type)) -> AnyAttribute? {
@@ -91,7 +94,7 @@ package struct PreferencesOutputs {
         preferences.append(keyValue)
     }
     
-    func forEachPrefence(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
+    func forEachPreference(_ body: (_ key: any PreferenceKey.Type, _ attribute: AnyAttribute) -> Void) {
         for keyValue in preferences {
             body(keyValue.key, keyValue.value)
         }

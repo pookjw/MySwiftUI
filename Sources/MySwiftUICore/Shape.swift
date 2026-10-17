@@ -182,7 +182,7 @@ extension Shape {
         return self.shape.sizeThatFits(ProposedViewSize(width: proposedSize.width, height: proposedSize.height))
     }
     
-    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     
@@ -535,7 +535,7 @@ struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, Primitive
         assertUnimplemented()
     }
     
-    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

@@ -27,7 +27,7 @@ package func log(_: [(_Benchmark, [Double])]) {
 @usableFromInline
 package enum Log {
     package static func externalWarning(_ message: String) {
-        unsafe Log.unlocatedIssuesLog.fault("\(message)")
+        unsafe Log.unlocatedIssuesLog.fault("\(message, privacy: .public)")
     }
     
     package static func internalWarning(_ message: @autoclosure @escaping () -> String) {

@@ -50,10 +50,16 @@ private import Spatial
             return self.storage.animatableData
         }
         set {
-            self.storage.animatableData = newValue
+            if isKnownUniquelyReferenced(&storage) {
+                storage.animatableData = newValue
+            } else {
+                storage = storage.withAnimatableData(newValue)
+            }
         }
         _modify {
-            yield &self.storage.animatableData
+            var value = self.animatableData
+            yield &value
+            self.animatableData = value
         }
     }
 }
@@ -97,7 +103,7 @@ private import Spatial
         fatalError() // abstract
     }
     
-    func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat {
+    func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat? {
         fatalError() // abstract
     }
     
@@ -185,7 +191,7 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
         self.layout.placeSubviews(in: bounds, proposal: proposal, subviews: subviews, cache: &layoutCache)
     }
     
-    override func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat {
+    override func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat? {
         assertUnimplemented()
     }
     
@@ -260,7 +266,23 @@ fileprivate final class _AnyLayout3DBox<L : Layout3D> : AnyLayout3DBox {
 }
 
 fileprivate final class DefaultLayoutBox3D : AnyLayout3DBox {
+    override var depthProperties: LayoutDepthProperties {
+        assertUnimplemented()
+    }
+
     override func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) -> CGFloat {
+        assertUnimplemented()
+    }
+
+    override func placeSubviewDepths(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) {
+        assertUnimplemented()
+    }
+
+    override func explicitAlignment(of alignment: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) -> CGFloat? {
+        assertUnimplemented()
+    }
+
+    override func withAnimatableData(_ animatableData: _AnyAnimatableData) -> AnyLayout3DBox {
         assertUnimplemented()
     }
 }

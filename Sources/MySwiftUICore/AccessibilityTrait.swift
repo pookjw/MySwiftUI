@@ -231,6 +231,14 @@ package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet
     package var debugDescription: String {
         assertUnimplemented()
     }
+    
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
 }
 
 extension AccessibilityNullableOptionSet {

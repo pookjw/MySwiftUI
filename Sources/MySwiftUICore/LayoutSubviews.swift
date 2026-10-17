@@ -156,7 +156,7 @@ public struct LayoutSubview : Equatable {
         }
         
         guard !d5.isNaN && !d6.isNaN else {
-            fatalError("view origin is invalid: \(CGPoint(x: d0, y: d1))")
+            fatalError("view origin is invalid: \(CGPoint(x: d0, y: d1)), \(anchor), \(dimensions.size.value)")
         }
         
         place(in: ViewGeometry(origin: CGPoint(x: d5, y: d6), dimensions: dimensions), layoutDirection: .leftToRight)
@@ -356,7 +356,13 @@ struct ViewLayoutEngine<L : Layout>: LayoutEngine {
                 // sp + 0x550
                 let dimensions = proxies[index].dimensions(in: proposedSize)
                 unsafe pointer.pointee.setGeometry(
-                    dimensions.centered(in: CGSize(pointer.pointee.bounds.center)),
+                    ViewGeometry(
+                        origin: CGPoint(
+                            x: pointer.pointee.bounds.midX - dimensions.width * 0.5,
+                            y: pointer.pointee.bounds.midY - dimensions.height * 0.5
+                        ),
+                        dimensions: dimensions
+                    ),
                     at: index,
                     layoutDirection: .leftToRight
                 )

@@ -32,7 +32,7 @@ extension _CALayerView where LayerType == CALayer {
 }
 
 extension _CALayerView : @preconcurrency RendererLeafView {
-    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

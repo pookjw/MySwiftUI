@@ -6,9 +6,13 @@ open class PlatformGlassDefinition {
     package static func setDefinition(_ definition: PlatformGlassDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:
-            unsafe PlatformGlassDefinition.appKit = definition
+            if unsafe PlatformGlassDefinition.appKit == nil {
+                unsafe PlatformGlassDefinition.appKit = definition
+            }
         case .uiKit:
-            unsafe PlatformGlassDefinition.uiKit = definition
+            if unsafe PlatformGlassDefinition.uiKit == nil {
+                unsafe PlatformGlassDefinition.uiKit = definition
+            }
         default:
             break
         }

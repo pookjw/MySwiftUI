@@ -24,7 +24,7 @@ struct DisplayContentModeKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
         
         switch value.displayContentMode.storage {
         case .automatic:
-            return 1 as NSNumber
+            return 0 as NSNumber
         case .media:
             return 2 as NSNumber
         }
@@ -36,11 +36,14 @@ struct DisplayContentModeKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
         }
         
         let integer = bridgedValue.intValue
+        
         let storage: DisplayContentMode.Storage
         if integer == 2 {
             storage = .media
-        } else {
+        } else if integer == 0 {
             storage = .automatic
+        } else {
+            return nil
         }
         
         return DisplayContentModeKey.PreferredValue(

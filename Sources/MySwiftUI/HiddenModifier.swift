@@ -16,7 +16,7 @@ extension View {
          body -> x2/x3 -> x21 / x29 - 0x60
          */
         return makeHiddenView(
-            allowedKeys: [.hostPreference],
+            allowedKeys: [.hostPreferences],
             inputs: inputs,
             body: body
         )

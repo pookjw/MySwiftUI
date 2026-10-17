@@ -110,19 +110,11 @@ extension Transaction {
         static var defaultValue: AnimationListener? {
             return nil
         }
-        
-        static func _valuesEqual(_ lhs: AnimationListener?, _ rhs: AnimationListener?) -> Bool {
-            assertUnimplemented()
-        }
     }
     
     fileprivate struct AnimationLogicalListenerKey : TransactionKey {
         static var defaultValue: AnimationListener? {
             return nil
-        }
-        
-        static func _valuesEqual(_ lhs: AnimationListener?, _ rhs: AnimationListener?) -> Bool {
-            assertUnimplemented()
         }
     }
     

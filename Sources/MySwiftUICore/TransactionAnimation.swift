@@ -75,19 +75,11 @@ fileprivate struct AnimationKey : TransactionKey {
     static var defaultValue: Animation? {
         return nil
     }
-    
-    static func _valuesEqual(_ lhs: Animation?, _ rhs: Animation?) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 fileprivate struct AnimationFrameIntervalKey : TransactionKey {
     static var defaultValue: Double? {
         return nil
-    }
-    
-    static func _valuesEqual(_ lhs: Double?, _ rhs: Double?) -> Bool {
-        assertUnimplemented()
     }
 }
 
@@ -95,18 +87,10 @@ fileprivate struct AnimationReasonKey : TransactionKey {
     static var defaultValue: UInt32? {
         return nil
     }
-    
-    static func _valuesEqual(_ lhs: UInt32?, _ rhs: UInt32?) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 fileprivate struct DisablesAnimationsKey : TransactionKey {
     static var defaultValue: Bool {
         return false
-    }
-    
-    static func _valuesEqual(_ lhs: Bool, _ rhs: Bool) -> Bool {
-        assertUnimplemented()
     }
 }

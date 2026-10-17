@@ -7,7 +7,7 @@ package protocol GraphInput : PropertyKey {
         get
     }
     
-    static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) -> any GraphInput
+    static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value)
     static func tryToReuse(_ value: Self.Value, by: Self.Value, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
 }
 
@@ -16,7 +16,7 @@ extension GraphInput {
         return false
     }
     
-    package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) -> any GraphInput {
+    package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) {
         assertUnimplemented()
     }
     
@@ -30,7 +30,7 @@ extension GraphInput where Self.Value : GraphReusable {
         assertUnimplemented()
     }
     
-    package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) -> any GraphInput {
+    package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) {
         assertUnimplemented()
     }
     
@@ -40,28 +40,28 @@ extension GraphInput where Self.Value : GraphReusable {
 }
 
 package protocol GraphReusable {
-    mutating func makeReusable(indirectMap: IndirectAttributeMap)
-    func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
     static var isTriviallyReusable: Bool {
         get
     }
+    mutating func makeReusable(indirectMap: IndirectAttributeMap)
+    func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool
 }
 
 extension GraphReusable {
     package static var isTriviallyReusable: Bool {
         return false
     }
-    
-    package func makeReusable(indirectMap: IndirectAttributeMap) {
-        assertUnimplemented()
-    }
-    
-    package func tryToReuse(by: Self, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 extension Stack : GraphReusable where Element : GraphReusable {
+    package static var isTriviallyReusable: Bool {
+        assertUnimplemented()
+    }
+    
+    package mutating func makeReusable(indirectMap: IndirectAttributeMap) {
+        assertUnimplemented()
+    }
+    
     package func tryToReuse(by: Stack<Element>, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
         assertUnimplemented()
     }

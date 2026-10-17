@@ -80,7 +80,7 @@ final class AppDelegate : UIResponder, UIApplicationDelegate {
             let configuration = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
             configuration.delegateClass = AppSceneDelegate.self
             return configuration
-        case .carplay:
+        case ._UIWindowSceneSessionRoleCarPlay:
             assertUnimplemented()
         case .windowExternalDisplayNonInteractive:
             assertUnimplemented()
@@ -161,8 +161,4 @@ final class AppDelegate : UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         assertUnimplemented()
     }
-}
-
-extension UISceneSession.Role {
-    static let carplay = _UIWindowSceneSessionRoleCarPlay
 }

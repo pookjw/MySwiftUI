@@ -6,6 +6,14 @@ public import MySwiftUICore
 @available(watchOS, unavailable)
 public protocol WindowStyle {
     associatedtype _Body : View
+    
+    @_spi(Internal) func updateSceneItem(_ item: inout _SceneItemProxy)
+}
+
+extension WindowStyle {
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 11.0, visionOS 1.0, *)
@@ -18,7 +26,7 @@ extension Scene {
             // $s7SwiftUI5ScenePAAE11windowStyleyQrqd__AA06WindowE0Rd__lFyAA0C4ListVzcfU_TA
             for index in sceneList.items.indices {
                 var proxy = _SceneItemProxy(value: sceneList.items[index].value)
-                proxy.applyAttributesToConfig(VolumeConfigurationAttributes())
+                style.updateSceneItem(&proxy)
                 sceneList.items[index].value = proxy.value
             }
         }
@@ -82,6 +90,10 @@ public struct VolumetricWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+    }
+    
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
+        assertUnimplemented()
     }
 }
 

@@ -6,6 +6,14 @@ final class CALayerPlatformViewDefinition : PlatformViewDefinition {
         return PlatformViewDefinition.System(base: .caLayer)
     }
     
+    override class var supportsMixedHierarchy : Bool {
+        assertUnimplemented()
+    }
+    
+    override class func setPath(_ path: Path, shapeView: AnyObject) {
+        assertUnimplemented()
+    }
+    
     override class func makeView(kind: PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
         assertUnimplemented()
     }

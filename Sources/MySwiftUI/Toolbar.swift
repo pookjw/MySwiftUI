@@ -420,9 +420,5 @@ extension EnvironmentValues {
     
     fileprivate struct ToolbarForegroundStyleKey : EnvironmentKey {
         @safe nonisolated(unsafe) static let defaultValue: [ToolbarPlacement.Role: AnyShapeStyle] = [:]
-        
-        static func _valuesEqual(_ lhs: [ToolbarPlacement.Role : AnyShapeStyle], _ rhs: [ToolbarPlacement.Role : AnyShapeStyle]) -> Bool {
-            assertUnimplemented()
-        }
     }
 }

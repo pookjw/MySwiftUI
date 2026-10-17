@@ -1635,17 +1635,6 @@ struct IndexSetBuilder {
     private var lastRange: Range<Int>? = nil
 }
 
-/*
- counting -> (value, 0)
- uninitialized -> (0, 1)
- indeterminate -> (1, 1)
- */
-enum DebugReplaceableViewCount {
-    case counting(Int)
-    case uninitialized
-    case indeterminate
-}
-
 struct ForEachEvictionInput : GraphInput {
     static var defaultValue: WeakAttribute<Bool> {
         return WeakAttribute()

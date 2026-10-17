@@ -1243,14 +1243,10 @@ struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMes
                 BezierAnimation(
                     curve: UnitCurve
                         .CubicSolver(
-                            ax: 0.35,
-                            bx: 0.52,
-                            cx: -0.78,
-                            ay: 1.26,
-                            by: -2,
-                            cy: 3
+                            startControlPoint: UnitPoint(x: 0.42, y: 0),
+                            endControlPoint: UnitPoint(x: 0.58, y: 1)
                         ),
-                    duration: 0
+                    duration: 0.35
                 )
             )
         }
@@ -1276,6 +1272,14 @@ struct DefaultAnimation: InternalCustomAnimation, Hashable, ProtobufEncodableMes
     
     var function: Animation.Function {
         return Self.base.function
+    }
+    
+    func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
     }
 }
 
@@ -1376,6 +1380,14 @@ struct BezierAnimation : InternalCustomAnimation, Hashable, ProtobufEncodableMes
     }
     
     func animate<V>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic {
+        assertUnimplemented()
+    }
+    
+    func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: inout ProtobufDecoder) throws {
         assertUnimplemented()
     }
     

@@ -30,11 +30,33 @@ extension UnitCurve : Hashable {
 
 extension UnitCurve {
     struct CubicSolver : Hashable, ProtobufEncodableMessage, ProtobufDecodableMessage {
-        private(set) var ax: Double
-        private(set) var bx: Double
-        private(set) var cx: Double
-        private(set) var ay: Double
-        private(set) var by: Double
-        private(set) var cy: Double
+        private var ax: Double
+        private var bx: Double
+        private var cx: Double
+        private var ay: Double
+        private var by: Double
+        private var cy: Double
+        
+        init(startControlPoint: UnitPoint, endControlPoint: UnitPoint) {
+            let startX = Double(startControlPoint.x)
+            let startY = Double(startControlPoint.y)
+            let endX = Double(endControlPoint.x)
+            let endY = Double(endControlPoint.y)
+
+            self.cx = startX * 3
+            self.bx = (endX - startX) * 3 - self.cx
+            self.ax = 1 - self.cx - self.bx
+            self.cy = startY * 3
+            self.by = (endY - startY) * 3 - self.cy
+            self.ay = 1 - self.cy - self.by
+        }
+        
+        func encode(to encoder: inout ProtobufEncoder) throws {
+            assertUnimplemented()
+        }
+        
+        init(from decoder: inout ProtobufDecoder) throws {
+            assertUnimplemented()
+        }
     }
 }

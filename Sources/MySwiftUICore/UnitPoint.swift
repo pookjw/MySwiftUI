@@ -40,6 +40,27 @@ extension UnitPoint : Animatable {
     }
 }
 
+extension UnitPoint {
+    package static var infinity: UnitPoint {
+        get {
+            assertUnimplemented()
+        }
+    }
+
+    package subscript(_ axis: Axis) -> CGFloat {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    package init(_ l1: CGFloat, in first: Axis, by l2: CGFloat) {
+        assertUnimplemented()
+    }
+}
+
 extension UnitPoint : Codable {
 }
 

@@ -19,8 +19,4 @@ fileprivate struct TracksVelocityKey : TransactionKey {
     static var defaultValue: Bool {
         return false
     }
-    
-    static func _valuesEqual(_ lhs: Bool, _ rhs: Bool) -> Bool {
-        assertUnimplemented()
-    }
 }

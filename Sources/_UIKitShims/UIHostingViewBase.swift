@@ -564,10 +564,10 @@ package final class UIHostingViewBase : NSObject {
         )
         let absolute = MySwiftUICore::AbsoluteRectangleCornerInsets(cornerInsets, layoutDirection: .leftToRight)
         cornerInsets = MySwiftUICore::RectangleCornerInsets(
-            topLeading: absolute.topLeading,
-            topTrailing: absolute.topTrailing,
-            bottomLeading: absolute.bottomLeading,
-            bottomTrailing: absolute.bottomTrailing
+            topLeading: absolute.topLeft,
+            topTrailing: absolute.topRight,
+            bottomLeading: absolute.bottomLeft,
+            bottomTrailing: absolute.bottomRight
         )
         
         cornerInsets.topLeading.round(toMultipleOf: pixelLength)

@@ -11,13 +11,13 @@ package protocol LayerProperty {
 
 extension LayerProperty where Self.Value == Bool {
     package static func boxValue(_ value: Bool) -> NSObject {
-        return value as NSNumber
+        return NSNumber(value: value ? 1 : 0)
     }
 }
 
 extension LayerProperty where Self.Value == CGFloat {
     package static func boxValue(_ value: CGFloat) -> NSObject {
-        return value as NSNumber
+        return NSNumber(value: value)
     }
 }
 

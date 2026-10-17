@@ -10,10 +10,10 @@ extension EnvironmentValues {
     
     package var viewGraphRenderingRootView: AnyObject? {
         get {
-            return self[RenderingRootViewKey.self]
+            return self[RenderingRootViewKey.self].base
         }
         set {
-            self[RenderingRootViewKey.self] = newValue
+            self[RenderingRootViewKey.self] = WeakBox(newValue)
         }
     } 
 }
@@ -25,7 +25,7 @@ fileprivate struct AssetCatalogConfigurationKey : EnvironmentKey {
 }
 
 fileprivate struct RenderingRootViewKey : EnvironmentKey {
-    static var defaultValue: AnyObject? {
-        return nil
+    static var defaultValue: WeakBox<AnyObject> {
+        return WeakBox(nil)
     }
 }

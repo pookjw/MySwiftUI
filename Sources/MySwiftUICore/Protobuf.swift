@@ -1,10 +1,10 @@
 
 package protocol ProtobufEncodableMessage {
-    // TODO
+    func encode(to encoder: inout ProtobufEncoder) throws
 }
 
 package protocol ProtobufDecodableMessage {
-    // TODO
+    init(from decoder: inout ProtobufDecoder) throws
 }
 
 package struct ProtobufEncoder {

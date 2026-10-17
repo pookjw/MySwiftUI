@@ -18,9 +18,8 @@ extension UserDefaultKeyedFeature {
             cachedValue = value
             return value
         } else {
-            let value = defaultFeatureValue
-            cachedValue = value
-            return value
+            cachedValue = defaultFeatureValue
+            return defaultFeatureValue
         }
     }
     

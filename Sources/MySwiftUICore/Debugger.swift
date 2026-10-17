@@ -17,7 +17,7 @@ let isDebuggerAttached: Bool = {
     let result = unsafe sysctl(&names, 4, &info, &size, nil, 0)
     
     guard result == 0 else {
-        unsafe os_log(.default, "sysctl(3) failed: %{errno}d", errno)
+        unsafe os_log(.error, "sysctl(3) failed: %{errno}d", errno)
         return false
     }
     

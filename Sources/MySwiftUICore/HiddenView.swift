@@ -48,7 +48,7 @@ package struct AllowedPreferenceKeysWhileHidden : OptionSet {
         return AllowedPreferenceKeysWhileHidden(rawValue: 1 << 2)
     }
     
-    package static var hostPreference: AllowedPreferenceKeysWhileHidden {
+    package static var hostPreferences: AllowedPreferenceKeysWhileHidden {
         return AllowedPreferenceKeysWhileHidden(rawValue: 1 << 3)
     }
     
@@ -131,7 +131,7 @@ extension PreferenceKeys {
         }
         
         // <+164>
-        if !allowing.contains(.hostPreference) {
+        if !allowing.contains(.hostPreferences) {
             self.remove(HostPreferencesKey .self)
         }
         

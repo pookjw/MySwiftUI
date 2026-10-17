@@ -12,7 +12,7 @@ private import os.log
     
     public var wrappedValue: Value {
         get {
-            return location.getValue(forReading: true)
+            return location.canonicalLocation.getValue(forReading: true)
         }
         nonmutating set {
             location.canonicalLocation.set(newValue, transaction: Transaction())
@@ -22,7 +22,7 @@ private import os.log
     public var projectedValue: Binding<Value> {
         return Binding(
             value: location.canonicalLocation.getValue(forReading: false),
-            location: LocationBox(location: location.canonicalLocation)
+            location: LocationBox(location.canonicalLocation)
         )
     }
     
@@ -519,6 +519,8 @@ fileprivate final class UserDefaultObserver : NSObject {
         } else {
             unsafe oldDefaults.removeObserver(self, forKeyPath: key, context: &UserDefaultObserver.observationContext)
         }
+        
+        self.state = .uninitialized
     }
     
     func noteDefaultChange() {

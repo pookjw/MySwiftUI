@@ -49,7 +49,15 @@ private import AttributeGraph
     
     
     public typealias AnimatableData = CGSize.MSUI_AnimatableData
-    public typealias Body = Swift.Never
+    public typealias Body = Never
+    
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
 }
 
 

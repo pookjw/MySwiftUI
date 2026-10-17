@@ -20,7 +20,26 @@ package struct ViewIdentity {
     private init(seed: UInt32) {
         self.seed = seed
     }
+    
+    package var description: String {
+        assertUnimplemented()
+    }
+    
+    package struct Tracker {
+        package var id: ViewIdentity {
+            assertUnimplemented()
+        }
+        
+        package init() {
+            assertUnimplemented()
+        }
+        
+        package func update(for phase: _GraphInputs.Phase) -> (value: ViewIdentity, changed: Bool) {
+            assertUnimplemented()
+        }
+    }
 }
 
 extension ViewIdentity : Hashable {}
 extension ViewIdentity : BitwiseCopyable {}
+extension ViewIdentity : CustomStringConvertible {}

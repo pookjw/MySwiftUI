@@ -26,6 +26,18 @@ extension EnvironmentValues {
             self[TintAdjustmentModeKey.self] = newValue
         }
     }
+
+    package var effectiveTintAdjustmentMode: TintAdjustmentMode {
+        get {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension Color {
+    package func tintAdjustmentMode(_ mode: TintAdjustmentMode) -> Color {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct TintAdjustmentModeKey : EnvironmentKey {

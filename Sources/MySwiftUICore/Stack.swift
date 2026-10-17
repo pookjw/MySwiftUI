@@ -69,7 +69,7 @@ package enum Stack<Element> : Sequence, IteratorProtocol {
             
             var result = Stack<T>()
             for i in pointer.indices {
-                unsafe result.push(pointer[i])
+                unsafe result.push(pointer.baseAddress!.advanced(by: i).move())
             }
             
             return result

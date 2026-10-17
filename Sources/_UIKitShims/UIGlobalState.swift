@@ -27,7 +27,7 @@ final class UIGlobalState {
         }
         
         let isLowPowerModeEnabled = ProcessInfo.processInfo.isLowPowerModeEnabled
-        storedIsButtonShapesEnabled = isLowPowerModeEnabled
+        storedIsLowPowerModeEnabled = isLowPowerModeEnabled
         return isLowPowerModeEnabled
     }
 }

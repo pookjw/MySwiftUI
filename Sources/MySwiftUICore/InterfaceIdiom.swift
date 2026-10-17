@@ -36,6 +36,12 @@ extension InterfaceIdiom {
     }
 }
 
+extension InterfaceIdiom : CustomStringConvertible {
+    package var description: String {
+        assertUnimplemented()
+    }
+}
+
 package struct AnyInterfaceIdiom : Hashable, Sendable {
     package static func == (lhs: AnyInterfaceIdiom, rhs: AnyInterfaceIdiom) -> Bool {
         return lhs.base.isEqual(to: rhs.base)
@@ -187,7 +193,7 @@ extension InterfaceIdiomProtocol {
     }
     
     package static func accepts<T : InterfaceIdiomProtocol>(_ idiom: T) -> Bool {
-        return self == type(of: idiom)
+        return self.accepts(type(of: idiom))
     }
 }
 
@@ -205,7 +211,7 @@ fileprivate struct InterfaceIdiomBox<P : InterfaceIdiomProtocol>: AnyInterfaceId
     }
     
     static func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(P.self))
+        hasher.combine(P.interfaceIdiom)
     }
 }
 

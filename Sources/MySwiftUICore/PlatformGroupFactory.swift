@@ -14,8 +14,4 @@ package protocol PlatformGroupFactory : AnyViewFactory {
     var features: DisplayList.Features {
         get
     }
-    
-    var groupHasContent: Bool {
-        get
-    }
 }

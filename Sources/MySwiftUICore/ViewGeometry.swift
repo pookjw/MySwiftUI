@@ -64,7 +64,7 @@ package struct ViewGeometry : Equatable, Animatable {
     }
     
     subscript(_ key: AlignmentKey) -> CGFloat {
-        return self.dimensions[key]
+        return origin[key.axis] + self.dimensions[key]
     }
     
     subscript(explicit: HorizontalAlignment) -> CGFloat? {
@@ -76,6 +76,6 @@ package struct ViewGeometry : Equatable, Animatable {
     }
     
     subscript(explicit: AlignmentKey) -> CGFloat? {
-        return self.dimensions[explicit: explicit]
+        return self.dimensions[explicit: explicit].map { origin[explicit.axis] + $0 }
     }
 }

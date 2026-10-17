@@ -301,6 +301,14 @@ struct FluidSpringAnimation : InternalCustomAnimation, Hashable, ProtobufEncodab
     nonisolated func velocity<V>(value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic {
         return context.springState.velocity
     }
+    
+    func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
 }
 
 extension AnimationContext {

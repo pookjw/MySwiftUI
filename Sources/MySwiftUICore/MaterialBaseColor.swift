@@ -9,15 +9,15 @@ extension EnvironmentValues {
     @usableFromInline
     var materialBaseColor: Color? {
         get {
-            return self[MaterialBaseColor.self]
+            return self[MaterialBaseColorKey.self]
         }
         set {
-            self[MaterialBaseColor.self] = newValue
+            self[MaterialBaseColorKey.self] = newValue
         }
     }
 }
 
-fileprivate struct MaterialBaseColor : EnvironmentKey {
+fileprivate struct MaterialBaseColorKey : EnvironmentKey {
     static var defaultValue: Color? {
         return nil
     }

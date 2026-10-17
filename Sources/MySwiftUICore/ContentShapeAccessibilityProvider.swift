@@ -1,5 +1,7 @@
+package import AttributeGraph
+
 package protocol ContentShapeAccessibilityProvider {
-    
+    static func makeAccessibility(kind: @autoclosure () -> AttributeGraph.Attribute<ContentShapeKinds>?, inputs: _ViewInputs, outputs: inout _ViewOutputs)
 }
 
 extension _GraphInputs {
@@ -21,5 +23,6 @@ extension _GraphInputs {
 }
 
 struct EmptyContentShapeAccessibilityProvider : ContentShapeAccessibilityProvider {
-    
+    static func makeAccessibility(kind: @autoclosure () -> AttributeGraph.Attribute<ContentShapeKinds>?, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
+    }
 }

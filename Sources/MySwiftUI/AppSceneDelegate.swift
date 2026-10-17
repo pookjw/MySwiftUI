@@ -489,6 +489,12 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {
             delegate.sceneDidBecomeActive?(scene)
         }
+        
+        // <+372>
+        Update.ensure {
+            // $s7SwiftUI16AppSceneDelegateC20sceneDidBecomeActiveyySo7UISceneCFytSgyXEfU_TA
+            AppDelegate.shared?.immersiveSpaceAuthority.sceneDidBecomeActive(scene: scene, namespace: self.sceneNamespace, item: self.sceneItem())
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -600,6 +606,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
         
         if let presentationDataType {
             encodedValues[AnyHashable("com.apple.SwiftUI.sceneType")] = makeStableTypeData(presentationDataType).description
+            keys.insert("com.apple.SwiftUI.sceneType")
         }
         
         // <+860>
@@ -1444,7 +1451,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
             let item = appGraph.sceneList(namespace: self.sceneNamespace).item(id: sceneItemID, where: nil)
         else {
             // $s7SwiftUI14AppPreviewHostC9sceneItemAA9SceneListV0G0VyFSSyXEfu_
-            MySwiftUICore.preconditionFailure("Missing app graph.")
+            MySwiftUICore.preconditionFailure("Missing scene item!")
         }
         
         return item

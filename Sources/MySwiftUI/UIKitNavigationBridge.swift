@@ -6,7 +6,7 @@ private import _UIKitPrivate
 @MainActor
 class UIKitNavigationBridge {
     weak var host: ViewRendererHost? = nil // 0x10
-    private lazy var presentationModeLocation = LocationBox<UIKitNavigationBridgePresentationModeLocation>(location: UIKitNavigationBridgePresentationModeLocation(bridge: self)) // 0x18
+    private lazy var presentationModeLocation = LocationBox<UIKitNavigationBridgePresentationModeLocation>(UIKitNavigationBridgePresentationModeLocation(bridge: self)) // 0x18
     private var activePresentation: BridgedPresentation? = nil { // 0x20
         didSet {
             assertUnimplemented()

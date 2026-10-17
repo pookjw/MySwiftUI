@@ -243,7 +243,7 @@ package struct PreferenceValues {
                 for index in childIndices {
                     // x0, x28
                     let child = childAt(index)
-                    guard !child.0.isEmpty else {
+                    guard !child.1.entries.isEmpty else {
                         continue
                     }
                     
@@ -265,6 +265,7 @@ package struct PreferenceValues {
             let keysCount = keys.count
             
             guard keysCount != 0 else {
+                _ = unsafe pointer.baseAddress?.deinitialize(count: bufferCount)
                 return
             }
             
@@ -436,6 +437,8 @@ package struct PreferenceValues {
                     x290xd0 &+= 1
                 }
             }
+
+            _ = unsafe pointer.baseAddress?.deinitialize(count: bufferCount)
         }
     }
     

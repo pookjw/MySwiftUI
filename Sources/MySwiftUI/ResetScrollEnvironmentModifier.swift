@@ -65,3 +65,9 @@ fileprivate struct ScrollToTopGestureActionKey : EnvironmentKey {
         return nil
     }
 }
+
+extension View {
+    func onScrollToTopGesture(perform: (() -> Void)?) -> some View {
+        assertUnimplemented()
+    }
+}

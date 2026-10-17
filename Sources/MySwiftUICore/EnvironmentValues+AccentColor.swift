@@ -21,7 +21,13 @@ extension EnvironmentValues {
     
     package var _defaultAccentColor: Color? {
         get {
-            return self[DefaultAccentColorKey.self]
+            if let color = self[DefaultAccentColorKey.self] {
+                return color
+            }
+            guard platformProvidersDefinition.providers.defaultAccentColor == nil else {
+                assertUnimplemented()
+            }
+            return nil
         }
         set {
             self[DefaultAccentColorKey.self] = newValue

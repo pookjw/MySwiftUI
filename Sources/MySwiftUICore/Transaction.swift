@@ -83,8 +83,20 @@ public protocol TransactionKey {
 }
 
 extension TransactionKey {
-    static func _valuesEqual(_ lhs: Self.Value, _ rhs: Self.Value) -> Bool {
-        assertUnimplemented()
+    public static func _valuesEqual(_ lhs: Self.Value, _ rhs: Self.Value) -> Bool {
+        return compareValues(lhs, rhs, options: [.unknown0, .unknown1])
+    }
+}
+
+extension TransactionKey where Value : Equatable {
+    public static func _valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
+        return lhs == rhs
+    }
+}
+
+extension TransactionKey where Self : EnvironmentKey, Value : Equatable {
+    public static func _valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
+        return lhs == rhs
     }
 }
 

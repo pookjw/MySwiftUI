@@ -1,7 +1,34 @@
 package protocol CoreInteractionRepresentable {
-    associatedtype InteractionView
+    associatedtype InteractionView : CoreInteractionView
     
-    // TODO
+    static func appendFeature(to: inout CoreInteractionRepresentableFeatureBufferProxy)
+    
+    func appendInteractions(to: inout CoreInteractionRepresentableInteractionsProxy)
+    
+    func updateInteraction(_ interaction: AnyObject, tag: Int)
+}
+
+package protocol CoreInteractionView {
+}
+
+package struct CoreInteractionRepresentableFeatureBufferProxy {
+}
+
+package struct CoreInteractionRepresentableInteractionsProxy {
+}
+
+extension CoreInteractionRepresentable {
+    package static func appendFeature(to: inout CoreInteractionRepresentableFeatureBufferProxy) {
+        assertUnimplemented()
+    }
+    
+    package func appendInteractions(to: inout CoreInteractionRepresentableInteractionsProxy) {
+        assertUnimplemented()
+    }
+    
+    package func updateInteraction(_ interaction: AnyObject, tag: Int) {
+        assertUnimplemented()
+    }
 }
 
 extension View {

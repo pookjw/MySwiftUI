@@ -104,7 +104,7 @@ extension _ZStackLayout : @preconcurrency Layout {
             d10 = value
             d9 = d10
             
-            for subview in subviews {
+            for subview in subviews.dropFirst() {
                 let d8 = subview.proxy.layoutPriority
                 let result = (d10 < d8)
                 d9 = result ? d8 : d9
@@ -182,7 +182,7 @@ extension _ZStackLayout : @preconcurrency Layout {
         
         return CGSize(
             width: result.0.x + result.1.x,
-            height: result.1.y + result.1.y
+            height: result.0.y + result.1.y
         )
     }
     

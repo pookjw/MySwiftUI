@@ -11,7 +11,7 @@ package enum GraphicsBlendMode {
     
     static func plusLIgnoreAlphaSourceOver(_ amount: Double) -> GraphicsBlendMode {
         let filter = CAFilter(type: "plusLIgnoreAlphaSourceOverBlend")
-        filter.setValue(amount as NSNumber, forKey: kCAFilterInputAmount)
+        filter.setValue(amount as NSNumber, forKeyPath: kCAFilterInputAmount)
         return .caFilter(filter)
     }
     
@@ -58,9 +58,13 @@ extension GraphicsBlendMode : Equatable {
 }
 
 extension GraphicsBlendMode : ProtobufEncodableMessage {
-    // TODO
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
 }
 
 extension GraphicsBlendMode : ProtobufDecodableMessage {
-    // TODO
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
 }

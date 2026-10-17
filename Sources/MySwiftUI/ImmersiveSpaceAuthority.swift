@@ -51,7 +51,7 @@ final class ImmersiveSpaceAuthority {
             return
         }
         
-        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) successfully connected")
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription)) successfully connected")
         
         // <+728>
         self.currentImmersiveSpace = .activated(namespace: namespace, item: item)
@@ -84,7 +84,7 @@ final class ImmersiveSpaceAuthority {
         
         // <+416>
         // self -> x20 -> x29 - 0x178
-        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) was disconnected")
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription)) was disconnected")
         
         // <+724>
         // self -> x29 - 0x178 -> x20
@@ -130,6 +130,10 @@ final class ImmersiveSpaceAuthority {
         
         self.sceneDestructionContinuations = []
         // <+1732>
+    }
+    
+    func sceneDidBecomeActive(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
+        assertUnimplemented()
     }
     
     func updateCurrentImmersiveSpaceIfNeeded() {
@@ -182,7 +186,7 @@ final class ImmersiveSpaceAuthority {
         }
         
         // <+360>
-        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription) is requested")
+        Log.immersiveSpace.log(level: .info, "ImmersiveSpace (\(item.identifyingDescription)) is requested")
         
         // <+684>
         self.currentImmersiveSpace = .requested(namespace: namespace, item: item)

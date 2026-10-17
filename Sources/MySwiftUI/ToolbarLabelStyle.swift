@@ -1,3 +1,4 @@
+// DFC2CC0380D4FDF398CFC17360E385A2
 public import MySwiftUICore
 public import Foundation
 
@@ -32,7 +33,7 @@ public struct ToolbarLabelStyle : Sendable, Equatable {
 }
 
 extension ToolbarLabelStyle {
-    enum Role : UInt, Hashable {
+    enum Role : Int, Hashable {
         case automatic
         case titleAndIcon
         case iconOnly
@@ -73,5 +74,11 @@ extension EnvironmentValues {
         get {
             assertUnimplemented()
         }
+    }
+}
+
+fileprivate struct ToolbarLabelStyleKey : EnvironmentKey {
+    static var defaultValue: ToolbarLabelStyle? {
+        return nil
     }
 }

@@ -167,7 +167,7 @@ fileprivate final class AttachmentManager {
          registration -> x1 -> x24
          */
         scene
-            .subscribe(to: RealityKit::ComponentEvents.DidAdd.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityKit::ComponentEvents.DidAdd.self, on: nil, componentType: registration.componentType) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO6DidAddVcfU_TA
                 guard registration.componentType == event.componentType else {
                     return
@@ -178,7 +178,7 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityKit::ComponentEvents.WillRemove.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityKit::ComponentEvents.WillRemove.self, on: nil, componentType: registration.componentType) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO10WillRemoveVcfU0_TA
                 guard registration.componentType == event.componentType else {
                     return
@@ -189,7 +189,7 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityKit::ComponentEvents.DidActivate.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityKit::ComponentEvents.DidActivate.self, on: nil, componentType: registration.componentType) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO11DidActivateVcfU1_TA
                 let id = event.entity.id
                 let componentType = registration.componentType
@@ -212,7 +212,7 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityKit::ComponentEvents.WillDeactivate.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityKit::ComponentEvents.WillDeactivate.self, on: nil, componentType: registration.componentType) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO14WillDeactivateVcfU2_TA
                 let entity = event.entity
                 
@@ -234,7 +234,7 @@ fileprivate final class AttachmentManager {
             .store(in: &bag)
         
         scene
-            .subscribe(to: RealityKit::ComponentEvents.DidChange.self, on: nil, componentType: nil) { event in
+            .subscribe(to: RealityKit::ComponentEvents.DidChange.self, on: nil, componentType: registration.componentType) { event in
                 // $s7SwiftUI17AttachmentManager33_63347F5D9A046616B0D46410809E3D2BLLC14setupWithScene_12registrationy10RealityKit0N0C_AA12RegistrationVtFy0P10Foundation15ComponentEventsO9DidChangeVcfU3_TA
                 guard unsafe ReentrancyGuard.seed == 0 else {
                     return

@@ -39,7 +39,6 @@ extension CoreViewRepresentable {
     }
     
     public static func dismantleViewProvider(_ provider: Self.PlatformViewProvider, coordinator: Self.Coordinator) {
-        fatalError() // 원래 nop이지만 확인차
     }
     
     public func sizeThatFits(_ proposedSize: ProposedViewSize, provider: Self.PlatformViewProvider, context: PlatformViewRepresentableContext<Self>) -> CGSize? {
@@ -156,7 +155,7 @@ extension CoreViewRepresentable {
             let copy_5 = copy_3
             
             // <+1760>
-            for feature in proxy.base.reversed() {
+            for feature in proxy.base {
                 feature.modifyViewInputs(inputs: &copy_4, proxy: featureProxy)
             }
             
@@ -177,13 +176,16 @@ extension CoreViewRepresentable {
             var outptus = ViewLeafView<Self>.makeDebuggableView(view: _GraphValue(childAttribute), inputs: copy_7)
             
             // <+2176>
-            for feature in proxy.base.reversed() {
+            for feature in proxy.base {
                 feature.modifyViewOutputs(outputs: &outptus, proxy: featureProxy)
                 feature.modifyBridgedInputs(inputs: &copy_2, proxy: featureProxy)
             }
             
             // <+2424>
             bridge.wrapOutputs(&outptus.preferences, inputs: copy_2)
+            for feature in proxy.base {
+                feature.modifyWrappedOutputs(outputs: &outptus, proxy: featureProxy)
+            }
             return outptus
         } else {
             // <+684>
@@ -316,9 +318,17 @@ extension CoreViewRepresentable where Coordinator == Void {
     public var count: Int {
         return contents.count
     }
+
+    public var isEmpty: Bool {
+        assertUnimplemented()
+    }
     
     public func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
         return contents.index(after: i)
+    }
+
+    public func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
+        assertUnimplemented()
     }
 }
 
@@ -377,7 +387,6 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError() // abstract
         }
         
         class func modifyBridgedInputs<Representable : CoreViewRepresentable>(
@@ -385,7 +394,6 @@ extension CoreViewRepresentableFeatureBuffer {
             inputs: inout _ViewInputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError() // abstract
         }
         
         class func modifyViewOutputs<Representable : CoreViewRepresentable>(
@@ -393,7 +401,6 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError() // abstract
         }
         
         class func modifyWrappedOutputs<Representable : CoreViewRepresentable>(
@@ -401,7 +408,6 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            fatalError() // abstract
         }
         
         class func update<Host : CoreViewRepresentableHost>(
@@ -410,7 +416,6 @@ extension CoreViewRepresentableFeatureBuffer {
             environment: inout EnvironmentValues,
             isInitialUpdate: Bool
         ) {
-            fatalError() // abstract
         }
     }
     

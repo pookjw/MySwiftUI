@@ -50,7 +50,7 @@ extension EnvironmentValues {
     subscript<T : AnyObject>(forceUnwrapping key: EnvironmentObjectKey<T>) -> T {
         get {
             guard let value = self[objectType: T.self] else {
-                fatalError("No Observable object of type \(T.self) found. A View.environmentObject(_:) for Model may be missing as an ancestor of this view.")
+                fatalError("No Observable object of type \(T.self) found. A View.environmentObject(_:) for \(T.self) may be missing as an ancestor of this view.")
             }
             
             return value

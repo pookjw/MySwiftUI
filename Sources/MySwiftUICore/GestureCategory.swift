@@ -25,7 +25,8 @@ extension GestureCategory {
         package static var defaultValue: GestureCategory { return GestureCategory.defaultValue }
         
         package static func reduce(value: inout GestureCategory, nextValue: () -> GestureCategory) {
-            value = GestureCategory(rawValue: (value.rawValue | nextValue().rawValue))
+            let next = nextValue()
+            value = GestureCategory(rawValue: (value.rawValue | next.rawValue))
         }
     }
 }

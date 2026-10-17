@@ -15,7 +15,7 @@ open class PlatformColorDefinition {
     }
     
     open class func resolvedHDRColor(_ color : AnyObject, environment: EnvironmentValues) -> Color.ResolvedHDR? {
-        fatalError() // abstact
+        return resolvedColor(color, environment: environment).map { Color.ResolvedHDR($0) }
     }
     
     package static func `for`(system: PlatformSystemDefinition) -> PlatformColorDefinition.Type? {
@@ -34,9 +34,13 @@ open class PlatformColorDefinition {
     package static func setDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:
-            PlatformColorDefinition.uiKit = type
+            if PlatformColorDefinition.uiKit == nil {
+                PlatformColorDefinition.uiKit = type
+            }
         case .appKit:
-            PlatformColorDefinition.appKit = type
+            if PlatformColorDefinition.appKit == nil {
+                PlatformColorDefinition.appKit = type
+            }
         default:
             break
         }
@@ -45,9 +49,13 @@ open class PlatformColorDefinition {
     package static func setInternalDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:
-            PlatformColorDefinition.uiKitInternal = type
+            if PlatformColorDefinition.uiKitInternal == nil {
+                PlatformColorDefinition.uiKitInternal = type
+            }
         case .appKit:
-            PlatformColorDefinition.appKitInternal = type
+            if PlatformColorDefinition.appKitInternal == nil {
+                PlatformColorDefinition.appKitInternal = type
+            }
         default:
             break
         }

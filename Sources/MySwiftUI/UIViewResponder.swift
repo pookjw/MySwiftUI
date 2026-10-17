@@ -75,7 +75,7 @@ struct UIViewContentResponder : ContentResponder {
     weak var eventProvider: CurrentEventProvider?
     weak var platformView: UIView?
     
-    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

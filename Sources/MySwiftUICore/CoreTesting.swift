@@ -1,13 +1,5 @@
-private import _DarwinFoundation3._stdlib
-
 package enum CoreTesting {
-    @safe nonisolated(unsafe) package static var isRunning: Bool = {
-        guard let value = unsafe getenv("XCODE_RUNNING_FOR_PREVIEWS") else {
-            return false
-        }
-        
-        return unsafe atoi(value) != 0
-    }()
+    @safe nonisolated(unsafe) package static var isRunning: Bool = false
     
     package static var needsRender: Bool {
         get {
@@ -26,7 +18,7 @@ package enum CoreTesting {
         // noop
     }
     
-    package static func popNeedsRunLoopTur() {
+    package static func popNeedsRunLoopTurn() {
         // noop
     }
 }

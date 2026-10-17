@@ -20,6 +20,10 @@ extension ArchivedViewInput {
             return ArchivedViewInput.Flags(rawValue: 1 << 5)
         }
         
+        static var publicArchive: ArchivedViewInput.Flags {
+            return ArchivedViewInput.Flags(rawValue: 1 << 6)
+        }
+        
         static var isArchived: ArchivedViewInput.Flags {
             return ArchivedViewInput.Flags(rawValue: 1 << 0)
         }

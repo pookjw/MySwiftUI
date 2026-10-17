@@ -4,8 +4,12 @@ package final class LocationBox<T : Location> : AnyLocation<T.Value> {
     package private(set) var location: T
     @AtomicBox private var cache = LocationProjectionCache()
     
-    package init(location: T) {
+    package init(_ location: T) {
         self.location = location
+    }
+    
+    package override init() {
+        assertUnimplemented()
     }
     
     package override var wasRead: Bool {
@@ -75,7 +79,7 @@ struct LocationProjectionCache {
         
         // <+472>
         let box = LocationBox(
-            location: ProjectedLocation(
+            ProjectedLocation(
                 location: location,
                 projection: projection
             )
@@ -100,10 +104,10 @@ fileprivate struct ProjectedLocation<T : Location, U : Projection> : Equatable, 
     
     var wasRead: Bool {
         get {
-            assertUnimplemented()
+            return location.wasRead
         }
         set {
-            assertUnimplemented()
+            location.wasRead = newValue
         }
     }
     
@@ -122,6 +126,10 @@ fileprivate struct ProjectedLocation<T : Location, U : Projection> : Equatable, 
     }
     
     func update() -> (U.Projected, Bool) {
+        assertUnimplemented()
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
         assertUnimplemented()
     }
 }

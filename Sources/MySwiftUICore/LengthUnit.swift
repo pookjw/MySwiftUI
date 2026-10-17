@@ -23,7 +23,7 @@ package enum LengthUnit : Equatable {
     package static let meters = LengthUnit.length(.meters) 
 }
 
-package protocol LengthUnitConvertible {
+package protocol LengthUnitConvertible : Equatable {
     mutating func scale(by scale: Double)
 }
 
@@ -68,6 +68,10 @@ extension Rect3D : LengthUnitConvertible {
 }
 
 extension ViewTransform : LengthUnitConvertible {
+    package static func == (lhs: ViewTransform, rhs: ViewTransform) -> Bool {
+        assertUnimplemented()
+    }
+    
     package mutating func scale(by scale: Double) {
         guard scale != 1 else {
             return
@@ -97,6 +101,15 @@ extension CGSize : LengthUnitConvertible {
         self.width *= scale
         self.height *= scale
     }
+}
+
+extension CGPoint : LengthUnitConvertible {
+    package mutating func scale(by scale: Double) {
+        assertUnimplemented()
+    }
+}
+
+extension CGFloat : LengthUnitConvertible {
 }
 
 extension _ProposedSize3D : LengthUnitConvertible {

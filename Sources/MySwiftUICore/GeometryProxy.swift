@@ -85,13 +85,14 @@ public struct GeometryProxy {
             .pointee
     }
     
-    package mutating func asCurrent<T>(do block: () throws -> T) rethrows -> T {
+    package func asCurrent<T>(do block: () throws -> T) rethrows -> T {
+        var proxy = self
         let old = unsafe _threadGeometryProxyData()
-        
-        unsafe _setThreadGeometryProxyData(&self)
-        
         do {
-            let result = try block()
+            let result = try withUnsafeMutablePointer(to: &proxy) { pointer in
+                unsafe _setThreadGeometryProxyData(pointer)
+                return try block()
+            }
             unsafe _setThreadGeometryProxyData(old)
             return result
         } catch {

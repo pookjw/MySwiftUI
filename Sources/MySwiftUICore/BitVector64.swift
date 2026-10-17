@@ -11,12 +11,14 @@ public struct BitVector64 : OptionSet {
     
     subscript(bit: Int) -> Bool {
         get {
+            assert(bit >= 0)
             let bit = UInt64(bit)
             var x9 = (1 &<< bit)
             x9 = (bit < 0x40) ? x9 : 0
             return (rawValue & x9) != 0
         }
         mutating set {
+            assert(bit >= 0)
             let bit = UInt64(bit)
             
             let x8: UInt64

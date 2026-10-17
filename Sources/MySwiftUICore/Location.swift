@@ -72,6 +72,30 @@ package protocol Projection : Hashable {
     func set(base: inout Self.Base, newValue: Self.Projected)
 }
 
+extension Projection {
+    package func composed<Other : Projection>(with other: Other) -> ComposedProjection<Self, Other> where Projected == Other.Base {
+        assertUnimplemented()
+    }
+}
+
+package struct ComposedProjection<First : Projection, Second : Projection> : Projection, Hashable, Equatable where First.Projected == Second.Base {
+    package func get(base: First.Base) -> Second.Projected {
+        assertUnimplemented()
+    }
+    
+    package func set(base: inout First.Base, newValue: Second.Projected) {
+        assertUnimplemented()
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        assertUnimplemented()
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
 extension Binding {
     package func projecting<T : Projection>(_ base: T) -> Binding<T.Projected> where Value == T.Base {
         let projected = base.get(base: self._value)

@@ -80,7 +80,7 @@ extension ViewGraphRootValueUpdater {
                 owner.renderingPhase = .rendering
                 
                 // x29 - 0x164 ~
-                let rootDisplayList: (DisplayList, DisplayList.Version) = Signpost.renderUpdate.traceInterval(object: viewGraph, nil) {
+                let rootDisplayList: (DisplayList, DisplayList.Version) = Signpost.renderUpdate.traceInterval(object: self, nil) {
                     // <+628>
                     // x29 - #0x80
                     let data = viewGraph.data
@@ -99,12 +99,13 @@ extension ViewGraphRootValueUpdater {
                     // <+1152>
                     Update.assertIsLocked()
                     
-                    guard data.globalSubgraph.isDirty(1) else {
+                    guard Update.canDispatch || data.globalSubgraph.isDirty(1) else {
                         return rootDisplayList
                     }
                     
                     Update.dispatchActions()
                     viewGraph.updateOutputs(at: currentTimestamp)
+                    Update.dispatchActions()
                     viewGraph.flushTransactions()
                     
                     if updateDisplayList {
@@ -121,13 +122,13 @@ extension ViewGraphRootValueUpdater {
                 // d9
                 var nextTime = viewGraph.nextUpdate.views.time
                 
-                if updateDisplayList, let owner = self.as(ViewGraphOwner.self) {
+                if updateDisplayList, let host = self.as(ViewGraphRenderHost.self) {
                     // <+2580>
                     let version = rootDisplayList.1
                     let maxVersion = DisplayList.Version(forUpdate: ())
-                    Signpost.renderDisplayList.traceInterval(object: owner, nil) {
+                    Signpost.renderDisplayList.traceInterval(object: self, nil) {
                         // <+2740>
-                        nextTime = viewGraph.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
+                        nextTime = host.renderDisplayList(rootDisplayList.0, asynchronously: false, time: currentTimestamp, nextTime: nextTime, targetTimestamp: targetTimestamp, version: version, maxVersion: maxVersion)
                     }
                 }
                 

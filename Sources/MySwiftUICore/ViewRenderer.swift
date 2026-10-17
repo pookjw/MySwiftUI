@@ -63,8 +63,10 @@ extension ViewRendererHost {
     
     package func updateViewGraph<T>(body: (ViewGraph) -> T) -> T {
         Update.begin()
-        self.updateGraph()
-        let result = body(self.viewGraph)
+        let result = Graph.withoutUpdate {
+            self.updateGraph()
+            return body(self.viewGraph)
+        }
         Update.end()
         return result
     }

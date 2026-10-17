@@ -37,10 +37,10 @@ package struct MaterialBackdropProxy : Equatable {
         nonmutating set {
             let observers = storage.data.withLockUnchecked { data in
                 let oldValue = data.luminance
-                data.luminance = newValue
                 if oldValue == newValue {
                     return []
                 } else {
+                    data.luminance = newValue
                     return data.observers
                 }
             }
@@ -69,12 +69,19 @@ package struct MaterialBackdropProxy : Equatable {
     
     package func addObserver(_ observer: any MaterialBackdropObserver) {
         storage.data.withLockUnchecked { data in
-            if !data.observers.contains(where: { other in
-                guard let other = other.observer else {
-                    return false
+            var isRegistered = false
+            var index = 0
+            while index < data.observers.count {
+                if let other = data.observers[index].observer {
+                    if ObjectIdentifier(other) == ObjectIdentifier(observer) {
+                        isRegistered = true
+                    }
+                    index += 1
+                } else {
+                    data.observers.remove(at: index)
                 }
-                return ObjectIdentifier(other) == ObjectIdentifier(observer)
-            }) {
+            }
+            if !isRegistered {
                 data.observers.append(MaterialBackdropProxy.Observer(observer: observer))
             }
         }

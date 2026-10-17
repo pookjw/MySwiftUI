@@ -313,7 +313,7 @@ extension SceneList.Item {
     }
 }
 
-struct _SceneItemProxy {
+@_spi(Internal) public struct _SceneItemProxy {
     private(set) var value: SceneList.Item.Value
     
     mutating func applyAttributesToConfig<T: WindowSceneConfigurationAttributes>(_ attributes: T) {
