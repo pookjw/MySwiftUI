@@ -261,7 +261,7 @@ extension Font {
 }
 
 extension Font.TextStyle {
-    var cfTextStyle: CFString {
+    var ctTextStyle: CFString {
         switch self {
         case .largeTitle:
             return kCTUIFontTextStyleTitle0
@@ -650,7 +650,7 @@ extension Font {
             assertUnimplemented()
         }
         
-        func removing<T>(_ modifier: T.Type) -> any FontProvider where T : StaticFontModifier {
+        func removing<T>(modifier: T.Type) -> any FontProvider where T : StaticFontModifier {
             assertUnimplemented()
         }
         
@@ -698,7 +698,7 @@ extension Font {
             assertUnimplemented()
         }
         
-        func removing<T : StaticFontModifier>(_ modifier: T.Type) -> any FontProvider {
+        func removing<T : StaticFontModifier>(modifier: T.Type) -> any FontProvider {
             assertUnimplemented()
         }
     }
@@ -708,7 +708,7 @@ protocol FontProvider : Hashable, Serializable {
     var tag: Font.ProviderTag { get }
     func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor
     func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits
-    func removing<T : StaticFontModifier>(_ modifier: T.Type) -> any FontProvider
+    func removing<T : StaticFontModifier>(modifier: T.Type) -> any FontProvider
 }
 
 final class FontBox<T : FontProvider> : AnyFontBox, @unchecked Sendable {

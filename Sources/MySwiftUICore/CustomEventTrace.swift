@@ -1,9 +1,8 @@
 package import AttributeGraph
 
-package struct CustomEventTrace {
+@_spi(Internal) public struct CustomEventTrace {
     nonisolated(unsafe) static var recorder: Recorder? = nil
     
-    @inline(always)
     package static func instantiateBegin(_ subgraph: Subgraph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
@@ -18,7 +17,6 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
     }
     
-    @inline(always)
     package static func instantiateEnd(_ subgraph: Subgraph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
@@ -33,7 +31,6 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
     }
     
-    @inline(always) // 원래 없음
     package static func uninstantiateBegin(_ subgraph: Subgraph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
@@ -48,7 +45,6 @@ package struct CustomEventTrace {
         unsafe recorder.graph.addTraceEvent(cefOp, value: subgraph)
     }
     
-    @inline(always) // 원래 없음
     package static func uninstantiateEnd(_ subgraph: Subgraph) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.instantiation.rawValue)],
@@ -527,7 +523,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace {
-    package enum InstantiationEventType : Int8, Hashable {
+    @_spi(Internal) public enum InstantiationEventType : Int8, Hashable {
         case assign = 0x41
         case instantiateBegin = 0x42
         case instantiateEnd = 0x43
@@ -538,7 +534,7 @@ extension CustomEventTrace {
 }
 
 extension CustomEventTrace.InstantiationEventType {
-    package enum Kind : Int8, Hashable {
+    @_spi(Internal) public enum Kind : Int8, Hashable {
         case graph = 0x0
         case app = 0x1
         case view = 0x2

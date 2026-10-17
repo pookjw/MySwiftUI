@@ -12,10 +12,10 @@ final class HostingViewRegistry {
         elements.removeValue(forKey: ObjectIdentifier(view))
     }
     
-    func forEach(_ body: (_: any HostingViewProtocol) -> Void) {
+    func forEach(_ body: (_: any HostingViewProtocol) throws -> Void) rethrows {
         for value in elements.values {
             if let base = value.base as? HostingViewProtocol {
-                body(base)
+                try body(base)
             }
         }
     }

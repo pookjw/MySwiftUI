@@ -5,4 +5,6 @@ struct ActiveContextMenu {
     var isPortaled: Bool = false
 }
 
+extension ActiveContextMenu : Hashable {}
+
 extension ActiveContextMenu : BitwiseCopyable {}

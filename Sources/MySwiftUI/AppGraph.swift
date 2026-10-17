@@ -114,10 +114,6 @@ final class AppGraph : GraphHost {
         CustomEventTrace.instantiateEnd(data.globalSubgraph)
     }
     
-    deinit {
-        assertUnimplemented()
-    }
-    
     func graphDidChange() {
         // self -> x20 -> x24
         // <+208>
@@ -198,6 +194,18 @@ final class AppGraph : GraphHost {
         self._rootCommandsList = OptionalAttribute(commandsList)
         
         self.hostPreferenceValues = WeakAttribute(outputs.preferences[HostPreferencesKey.self])
+    }
+    
+    override func uninstantiateOutputs() {
+        assertUnimplemented()
+    }
+    
+    override func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
+        assertUnimplemented()
+    }
+    
+    func append<T : Scene>(content: T, namespace: SceneList.Namespace) {
+        assertUnimplemented()
     }
     
     // 원래 없음

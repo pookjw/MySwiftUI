@@ -148,7 +148,7 @@ public struct GeometryProxy3D {
     private var _transform: WeakAttribute<ViewTransform> // 0x20
     @WeakAttribute private var position: CGPoint? // 0x28
     private var _safeAreaInsets: WeakAttribute<SafeAreaInsets> // 0x30
-    private var unit: LengthUnit? = nil // 0x38
+    private var unit: LengthUnit? = .points // 0x38
     private var seed: UInt32 // 0x40
     
     init(
@@ -269,13 +269,12 @@ public struct GeometryProxy3D {
         }
         
         // <+208>
-        if let unit {
+        if unit != .points {
             // <+220>
             // sp + 0x110
             let pointScale = self.environment.pointScale
             
-            switch unit {
-            case .length(let length):
+            if let unit, case .length(let length) = unit {
                 // <+280>
                 let d9 = pointScale.pointsPerMeter
                 
@@ -289,9 +288,6 @@ public struct GeometryProxy3D {
                     d8 = d10 / (d9 * d8)
                     // <+440>
                 }
-            case .points:
-                // <+440>
-                break
             }
             
             // <+440>

@@ -33,9 +33,7 @@ final class UIKitEventBindingBridge : EventBindingBridge {
             
             if let gestureForFailureRelationships = window?._sceneZoomInteraction?.gestureForFailureRelationships {
                 gestureForFailureRelationships.require(toFail: twoHandedInteractionRelationshipGesture)
-                var gesturesRequiringFailure = gesturesRequiringFailure
-                gesturesRequiringFailure.insert(gestureForFailureRelationships)
-                twoHandedInteractionRelationshipGesture.gesturesRequiringFailure = gesturesRequiringFailure
+                twoHandedInteractionRelationshipGesture.gesturesRequiringFailure.insert(gestureForFailureRelationships)
             }
         }
         

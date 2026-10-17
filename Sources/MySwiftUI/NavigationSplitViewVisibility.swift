@@ -35,6 +35,12 @@ struct AnyNavigationSplitVisibility {
     private var kind: AnyNavigationSplitVisibility.Kind
 }
 
+extension AnyNavigationSplitVisibility : CustomStringConvertible {
+    var description: String {
+        assertUnimplemented()
+    }
+}
+
 extension AnyNavigationSplitVisibility {
     enum Kind {
         case deprecatedTwoColumn(visibility: Visibility)
@@ -44,15 +50,15 @@ extension AnyNavigationSplitVisibility {
         case threeUnboundColumns
     }
     
-    struct ToTwoColumns {
+    struct ToTwoColumns : Hashable {
         // TODO
     }
     
-    struct ToThreeColumns {
+    struct ToThreeColumns : Hashable {
         // TODO
     }
     
-    struct ToDeprecatedTwoColumns {
+    struct ToDeprecatedTwoColumns : Hashable {
         // TODO
     }
 }

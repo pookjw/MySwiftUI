@@ -360,6 +360,10 @@ extension Spacing {
             return lhs.lineSpacing < rhs.lineSpacing
         }
         
+        func isAlmostEqual(to other: Spacing.TextMetrics) -> Bool {
+            assertUnimplemented()
+        }
+        
         static func spacing(top: Spacing.TextMetrics, bottom: Spacing.TextMetrics) -> CGFloat {
             // test_distanceToSuccessorView에서 주석 풀고 테스트 필요
             assertUnimplemented()

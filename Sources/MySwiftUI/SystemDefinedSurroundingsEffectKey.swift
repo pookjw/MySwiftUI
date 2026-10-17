@@ -38,13 +38,14 @@ struct SystemDefinedSurroundingsEffectKey : MRUIBridgedPreferenceKey, HostPrefer
         }
         
         let level: SystemTintLevel
-        if bridgedValue == 1 {
+        switch bridgedValue.uintValue {
+        case 1:
             level = .semiDark
-        } else if bridgedValue == 2 {
+        case 2:
             level = .dark
-        } else if bridgedValue == 3 {
+        case 3:
             level = .ultraDark
-        } else {
+        default:
             return nil
         }
         

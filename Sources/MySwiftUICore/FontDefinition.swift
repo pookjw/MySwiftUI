@@ -46,7 +46,7 @@ enum DefaultFontDefinition : FontDefinition {
         // w27
         let legibilityWeight = context.legibilityWeight
         // x19
-        let cfTextStyle = textStyle.cfTextStyle
+        let cfTextStyle = textStyle.ctTextStyle
         var attributes_1: [CFString: Any] = [:]
         var attributes_2: [CFString: Any] = [:]
         

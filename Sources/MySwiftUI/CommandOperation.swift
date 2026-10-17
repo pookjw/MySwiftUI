@@ -12,7 +12,7 @@ struct CommandOperation {
 }
 
 extension CommandOperation {
-    enum Mutation {
+    enum Mutation : Hashable {
         case append
         case prepend
         case replace

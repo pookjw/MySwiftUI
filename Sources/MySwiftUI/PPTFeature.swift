@@ -5,6 +5,10 @@ struct PPTFeature : ViewGraphFeature {
     
     // TODO
 
+    mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
+        assertUnimplemented()
+    }
+
     mutating func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
         assertUnimplemented()
     }

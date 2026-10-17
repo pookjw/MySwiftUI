@@ -17,6 +17,10 @@ final class RenderingMarginsBridge<Content : View> : _UISceneEffectiveClippingMa
     init(_ host: _UIHostingView<Content>) {
         self.host = host
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     func hostDidMove(to windowScene: UIWindowScene?) {
         /*

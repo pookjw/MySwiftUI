@@ -71,7 +71,7 @@ extension ToolbarStrategy {
             
             if let sceneSession = context.sceneSession {
                 // <+692>
-                result.isCustomizable = (sceneSession.role == .windowApplicationVolumetric)
+                result.automaticShouldPreferOrnament = (sceneSession.role == .windowApplicationVolumetric)
             }
             
             // <+808>
@@ -156,7 +156,7 @@ extension UIViewController {
         } else {
             // <+144>
             if let navigationController {
-                guard navigationController.viewControllers.isEmpty else {
+                if navigationController.viewControllers.count > 1 {
                     return true
                 }
                 

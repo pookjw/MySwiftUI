@@ -1,5 +1,6 @@
 // 0CB5B3FF6C0FCB5BA54DB099807C7833
 internal import Foundation
+internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 @MainActor
@@ -28,6 +29,16 @@ final class FileImportExportBridge : NSObject {
     }
     
     // TODO
+}
+
+extension FileImportExportBridge : UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        assertUnimplemented()
+    }
+
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        assertUnimplemented()
+    }
 }
 
 extension FileImportExportBridge {

@@ -84,7 +84,7 @@ final class UIKitContentScrollViewBridge {
                 // <+204>
                 if
                     (edge == .bottom) || (edge == .top),
-                    let scrollView1 = candidates.scrollView1 // x24 -> x23
+                    let scrollView1 = edge == .bottom ? candidates.scrollView2 : candidates.scrollView1 // x24 -> x23
                 {
                     // <+228>
                     viewController.setContentScrollView(scrollView1, for: edge)

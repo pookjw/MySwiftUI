@@ -16,6 +16,26 @@ final class LeafViewResponder3D : ViewResponder {
         self.viewSubgraph = viewSubgraph
         super.init()
     }
+
+    override init(host: ViewGraphDelegate?) {
+        assertUnimplemented()
+    }
+
+    override var children: [ViewResponder] {
+        assertUnimplemented()
+    }
+
+    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        assertUnimplemented()
+    }
+
+    override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        assertUnimplemented()
+    }
+
+    override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
 }
 
 struct ContentResponder3DHelper {

@@ -231,7 +231,7 @@ extension CoreViewRepresentable where Coordinator == Void {
 }
 
 @_spi(Internal) public struct PlatformViewRepresentableContext<T : CoreViewRepresentable>: @unchecked Sendable {
-    var values: RepresentableContextValues
+    package var values: RepresentableContextValues
     package let coordinator: T.Coordinator
     
     init(coordinator: T.Coordinator, preferenceBridge: PreferenceBridge?, transaction: Transaction, environmentStorage: RepresentableContextValues.EnvironmentStorage) {

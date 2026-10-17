@@ -1,9 +1,14 @@
 @_spi(Internal) internal import MySwiftUICore
 
 struct StatusBarKey : HostPreferenceKey {
-    typealias Value = Bool?
+    typealias Value = StatusBar?
     
-    static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
+    static func reduce(value: inout StatusBar?, nextValue: () -> StatusBar?) {
         assertUnimplemented()
+    }
+
+    struct StatusBar : Equatable {
+        private(set) var isHidden: Bool
+        private(set) var isAnimated: Bool
     }
 }

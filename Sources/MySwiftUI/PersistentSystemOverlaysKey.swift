@@ -19,7 +19,7 @@ struct PersistentSystemOverlaysKey : HostPreferenceKey {
 }
 
 extension PersistentSystemOverlaysKey {
-    struct Overlays {
+    struct Overlays : Equatable {
         var visibility: Visibility
         var isAnimated: Bool
         // TODO

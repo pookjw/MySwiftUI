@@ -57,11 +57,9 @@ final class ContextMenuBridge : NSObject {
         
         let currentHasContextMenuSeed = hasContextMenuSeed
         let newHasContextMenuSeed = hasContextMenuValue.seed
-        self.hasContextMenuSeed = newHasContextMenuSeed
         if newHasContextMenuSeed.matches(currentHasContextMenuSeed) {
             let currentMenuOrderSeed = menuOrderSeed
             let newMenuOrderSeed = menuOrderPreferenceValue.seed
-            self.menuOrderSeed = newMenuOrderSeed
             if newMenuOrderSeed.matches(currentMenuOrderSeed) {
                 return
             }
@@ -73,7 +71,6 @@ final class ContextMenuBridge : NSObject {
         
         let currentPresentationSeed = presentationSeed
         let newPresentationSeed = contextMenuPresentationValue.seed
-        self.presentationSeed = newPresentationSeed
         if newPresentationSeed.matches(currentPresentationSeed) {
             return
         }

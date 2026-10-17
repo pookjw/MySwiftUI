@@ -30,6 +30,18 @@ final class InputAccessoryGenerator {
 extension InputAccessoryGenerator {
     fileprivate final class RootUIView : UIView {
         var host: InputAccessoryHost<InputAccessoryBar>?
+
+        override var intrinsicContentSize: CGSize {
+            assertUnimplemented()
+        }
+
+        override func layoutSubviews() {
+            assertUnimplemented()
+        }
+
+        override func sizeThatFits(_ size: CGSize) -> CGSize {
+            assertUnimplemented()
+        }
     }
 }
 

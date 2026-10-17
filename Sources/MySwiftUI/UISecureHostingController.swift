@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 internal import UIKit
+private import _UIKitPrivate
 
 final class _UISecureHostingController<Content : View>: UIHostingController<Content> {
     override init(rootView: Content) {
@@ -7,6 +8,10 @@ final class _UISecureHostingController<Content : View>: UIHostingController<Cont
     }
     
     @MainActor public dynamic required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+
+    override func _canShowWhileLocked() -> Bool {
         assertUnimplemented()
     }
     

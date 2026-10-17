@@ -5,11 +5,15 @@ class AnyObjectManipulationBridge {
     
 }
 
-final class ObjectManipulationBridgeWrapper {
+struct ObjectManipulationBridgeWrapper : Equatable {
     private var bridge: AnyObjectManipulationBridge
     
     init(bridge: AnyObjectManipulationBridge) {
         self.bridge = bridge
+    }
+    
+    static func == (lhs: ObjectManipulationBridgeWrapper, rhs: ObjectManipulationBridgeWrapper) -> Bool {
+        return lhs.bridge === rhs.bridge
     }
 }
 

@@ -9,15 +9,15 @@ final class UIKitStatusBarBridge {
     weak var host: ViewRendererHost? = nil
     
     var shouldDeferToChildViewController: Bool {
-        guard isLinkedOnOrAfter(.v7) else {
-            return false
+        if isLinkedOnOrAfter(.v7), _shouldDeferToChildViewController == nil {
+            guard host!.viewGraph.isInstantiated || !isLinkedOnOrAfter(.v7_1) else {
+                return false
+            }
+
+            _shouldDeferToChildViewController = host!.preferenceValue(HostingGestureOverlayAuthorityKey.self)
         }
         
-        if let _shouldDeferToChildViewController {
-            return _shouldDeferToChildViewController
-        }
-        
-        return host!.preferenceValue(HostingGestureOverlayAuthorityKey.self)
+        return _shouldDeferToChildViewController ?? false
     }
     
     func addPreferences(to viewGraph: ViewGraph) {
@@ -32,25 +32,26 @@ final class UIKitStatusBarBridge {
     }
     
     func preferencesDidChange(_ preferenceValues: PreferenceValues) {
-        if seedTracker.hasChanges(in: preferenceValues) {
+        var needsUpdate = seedTracker.hasChanges(in: preferenceValues)
+        if !needsUpdate, isLinkedOnOrAfter(.v7), let previousValue = _shouldDeferToChildViewController {
+            let value = preferenceValues[HostingGestureOverlayAuthorityKey.self].value
+            _shouldDeferToChildViewController = value
+            needsUpdate = value != previousValue
+        }
+
+        if needsUpdate {
             // <+232>
             // w26
             let statusBarValue = preferenceValues[StatusBarKey.self].value
-            let isAnimated = (statusBarValue != nil)
+            let isAnimated = statusBarValue?.isAnimated ?? false
             
             if !isLinkedOnOrAfter(.v7) {
                 _shouldDeferToChildViewController = preferenceValues[HostingGestureOverlayAuthorityKey.self].value
             }
             // <+400>
-            self.statusBarHidden = statusBarValue
+            self.statusBarHidden = statusBarValue?.isHidden
             updateStatusBar(isAnimated: isAnimated, shouldDefer: false)
             self.seedTracker.updateSeeds(to: preferenceValues)
-            // <+584>
-        } else {
-            // <+476>
-            if isLinkedOnOrAfter(.v7), _shouldDeferToChildViewController != nil {
-                _shouldDeferToChildViewController = preferenceValues[HostingGestureOverlayAuthorityKey.self].value
-            }
             // <+584>
         }
         

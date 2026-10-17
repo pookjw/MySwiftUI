@@ -16,7 +16,9 @@ extension Transaction {
             return nil
         }
         
-        guard let animation = Animation.uiViewAnimation(curve: UIView._currentAnimationCurve().rawValue, duration: UIView._currentAnimationDuration()) else {
+        let duration = UIView._currentAnimationDuration()
+        let curve = UIView._currentAnimationCurve().rawValue
+        guard let animation = Animation.uiViewAnimation(curve: curve, duration: duration) else {
             return nil
         }
         

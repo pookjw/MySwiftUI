@@ -2,7 +2,8 @@ public import Spatial
 
 @_spi(Internal) open class MultiViewResponder : ViewResponder {
     private var _children: [ViewResponder] = []
-    package override var children: [ViewResponder] {
+    
+    open override var children: [ViewResponder] {
         get {
             return _children
         }

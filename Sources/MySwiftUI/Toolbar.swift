@@ -134,7 +134,7 @@ extension Toolbar {
         var shouldOverrideDefaultPlacement: Bool // 0x3
         var horizontalSizeClass: UserInterfaceSizeClass? // 0x4
         var verticalSizeClass: UserInterfaceSizeClass? // 0x5
-        private(set) var automaticShouldPreferOrnament: Bool // 0x6
+        var automaticShouldPreferOrnament: Bool // 0x6
     }
     
     struct LocationStorage {
@@ -185,7 +185,8 @@ fileprivate struct ToolbarUpdateContextKey : EnvironmentKey {
     nonisolated(unsafe) static let defaultValue: Toolbar.UpdateContext? = nil
 }
 
-class ToolbarPlatformDelegate : NSObject {
+@MainActor
+class ToolbarPlatformDelegate : NSObject, UINavigationItemRenameDelegate {
     private weak var provider: ToolbarBridgeProvider?
     
     override init() {
@@ -193,6 +194,22 @@ class ToolbarPlatformDelegate : NSObject {
     }
     
     // TODO
+    
+    func navigationItemShouldBeginRenaming(_ navigationItem: UINavigationItem) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func navigationItem(_ navigationItem: UINavigationItem, willBeginRenamingWith suggestedText: String, selectedRange: Range<String.Index>) -> (String, Range<String.Index>) {
+        assertUnimplemented()
+    }
+    
+    func navigationItem(_ navigationItem: UINavigationItem, shouldEndRenamingWith title: String) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func navigationItem(_ navigationItem: UINavigationItem, didEndRenamingWith title: String) {
+        assertUnimplemented()
+    }
 }
 
 protocol ToolbarBridgeProvider : AnyObject {

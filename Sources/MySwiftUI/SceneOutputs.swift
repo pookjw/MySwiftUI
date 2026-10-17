@@ -100,9 +100,7 @@ extension TransformSceneListModifier {
             return { values in
                 // $s7SwiftUI26TransformSceneListModifier33_51ADE71499A9765E37CE861215422D5DLLV0deC0V5valueyySDyAA0dE0V9NamespaceOAIGzcvgyALzcfU_TA
                 let transform = transform
-                var value = values.removeValue(forKey: namespace) ?? SceneList()
-                transform(&value)
-                values[namespace] = value
+                transform(&values[namespace, default: SceneList()])
             }
         }
     }

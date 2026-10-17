@@ -11,7 +11,7 @@ extension UIHostingController {
             return
         }
         
-        guard !host.viewGraph.environment.isEagerNavigationTransitionEnabled else {
+        guard host.viewGraph.environment.isEagerNavigationTransitionEnabled else {
             return
         }
         
@@ -52,7 +52,7 @@ extension UIHostingController {
         }
         
         // <+196>
-        guard toViewController !== containingViewController else {
+        guard toViewController === containingViewController else {
             return
         }
         

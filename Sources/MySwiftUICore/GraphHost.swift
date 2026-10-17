@@ -335,7 +335,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
     }
     
-    package func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
+    open func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
         return .view
     }
     
@@ -618,7 +618,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         // noop
     }
     
-    package func uninstantiateOutputs() {
+    open func uninstantiateOutputs() {
         // noop
     }
     

@@ -6,4 +6,8 @@ class SpringLoadedViewResponder : DefaultLayoutViewResponder {
     var onActivate: () -> Void = {}
     var onHighlightChange: (SpringLoadingBehavior.HighlightState) -> Void = { _ in }
     var onEnded: () -> Void = {}
+    
+    override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
 }

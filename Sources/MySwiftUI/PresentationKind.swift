@@ -1,17 +1,21 @@
 // C34D14BDA22A0E125B63D385E626F23D
 internal import MySwiftUICore
 
-struct PresentationKind {
+struct PresentationKind : Equatable, CustomStringConvertible {
     private(set) var tag: PresentationKind.Tag
 }
 
 extension PresentationKind {
-    enum Tag {
+    enum Tag : Hashable {
         case none
         case popover
         case sheet
         case fullScreenCover
         case blurOverFullScreen
+    }
+    
+    var description: String {
+        assertUnimplemented()
     }
     
     fileprivate struct Key : EnvironmentKey {

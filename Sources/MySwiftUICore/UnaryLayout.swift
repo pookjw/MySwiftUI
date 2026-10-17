@@ -30,7 +30,7 @@ extension UnaryLayout where PlacementContextType == PlacementContext {
         // modifier -> x0 -> x20
         let childLayoutComputer = OptionalAttribute<LayoutComputer>()
         let layoutComputer = UnaryLayoutComputer<Self>(
-            layout: modifier.value,
+            layout: Self.makeAnimatable(value: modifier, inputs: inputs.base),
             environment: inputs.base.cachedEnvironment.value.environment,
             childLayoutComputer: childLayoutComputer
         )

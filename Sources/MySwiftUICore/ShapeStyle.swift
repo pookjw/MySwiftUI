@@ -266,7 +266,11 @@ struct _ShapeStyle_RenderedShape {
             return
         case .image(let image):
             // <+216>
-            if image.maskColor != nil {
+            if image.maskColor == nil {
+                // <+228>
+                self.renderUnstyledImage(image, layers: &layers)
+                return
+            } else {
                 // <+484>
                 if let contents = image.contents {
                     if case .vectorGlyph(let glyph) = contents {
@@ -287,10 +291,6 @@ struct _ShapeStyle_RenderedShape {
                 }
                 
                 // <+576>
-            } else {
-                // <+228>
-                self.renderUnstyledImage(image, layers: &layers)
-                return
             }
         case .alphaMask(_, _):
             // <+576>

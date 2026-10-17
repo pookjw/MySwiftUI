@@ -14,3 +14,10 @@ public struct BorderedProminentButtonStyle : PrimitiveButtonStyle {
 @available(*, unavailable)
 extension BorderedProminentButtonStyle : Sendable {
 }
+
+extension BorderedProminentButtonStyle : ButtonStyleConvertible {
+    package var buttonStyleRepresentation: some ButtonStyle {
+        assertUnimplemented()
+        return __MSUI_UnimplementedButtonStyle()
+    }
+}

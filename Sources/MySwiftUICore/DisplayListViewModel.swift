@@ -164,7 +164,7 @@ extension DisplayList.ViewUpdater.Model {
         index: DisplayList.Index,
         into state: inout DisplayList.ViewUpdater.Model.State
     ) -> DisplayList.ViewUpdater.Model.MergedViewRequirements {
-        if case .empty = item.value {
+        if case .states = item.value {
             assertUnimplemented()
         }
         
@@ -220,6 +220,7 @@ extension DisplayList.ViewUpdater.Model {
             let canMerge = copy_6.canMergeWithPlatformState(state: platformState)
             
             if !canMerge {
+                requirements.formUnion(.unknown1)
                 unsafe state.reset()
             }
         } else {
@@ -388,8 +389,8 @@ extension DisplayList.ViewUpdater.Model {
          state = x19
          */
         
-        if unsafe !requirements.isSuperset(of: [.unknown0, .unknown1]) && !state.platformState.separatedModifiers.isEmpty,
-           case .states(_) = item.value 
+        if unsafe !requirements.isDisjoint(with: [.unknown0, .unknown1]) && !state.platformState.separatedModifiers.isEmpty,
+           case .effect(_, _) = item.value
         {
             // <+88>
             assertUnimplemented()

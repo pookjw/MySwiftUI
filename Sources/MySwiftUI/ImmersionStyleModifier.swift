@@ -36,7 +36,10 @@ struct ImmersionStyleModifier : PrimitiveSceneModifier, _GraphInputsModifier {
         )
         
         let observationAttribute = Attribute(observation)
-        observationAttribute.flags.formUnion(.transactional)
+        var flags = observationAttribute.flags
+        flags.subtract(.all)
+        flags.formUnion(.transactional)
+        observationAttribute.flags = flags
         
         // <+228>
         inputs[SceneUpdateTransitionAnimationInput.self] = OptionalAttribute(observationAttribute)

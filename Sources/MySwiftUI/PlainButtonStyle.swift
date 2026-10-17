@@ -14,3 +14,9 @@ public struct PlainButtonStyle : PrimitiveButtonStyle {
 @available(*, unavailable)
 extension PlainButtonStyle : Sendable {
 }
+
+extension PlainButtonStyle : ButtonStyleConvertible {
+    package var buttonStyleRepresentation: some ButtonStyle {
+        __MSUI_UnimplementedButtonStyle()
+    }
+}

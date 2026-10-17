@@ -24,7 +24,6 @@ private import UIKit
             }
             
             for preference in self.exportedPreferences {
-                var preference = preference
                 preference.apply(to: host)
             }
         }
@@ -72,7 +71,7 @@ private import UIKit
 
 fileprivate protocol AnyExportedPreference {
     func addPreference(to graph: ViewGraph)
-    @MainActor mutating func apply(to host: any MRUIPreferenceHostProtocol)
+    @MainActor func apply(to host: any MRUIPreferenceHostProtocol)
     mutating func preferencesDidChange(_ values: PreferenceValues)
 }
 
@@ -132,17 +131,16 @@ fileprivate struct ExportedPreference<T : MRUIBridgedPreferenceKey>: AnyExported
             return
         }
         
-        self.value = value.value
+        self.lastSeed = self.seed
         self.seed = value.seed
+        self.value = value.value
     }
     
     // _UIHostingView가 들어옴
-    mutating func apply(to host: any MRUIPreferenceHostProtocol) {
+    func apply(to host: any MRUIPreferenceHostProtocol) {
         guard !lastSeed.matches(seed) else {
             return
         }
-        
-        lastSeed = seed
         
         let animationSettings = T.animation(from: value)?.function.animationSettings
         
@@ -161,7 +159,7 @@ fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
         graph.addPreference(MRUICustomPreferencesKey.self)
     }
     
-    mutating func apply(to host: any MRUIPreferenceHostProtocol) {
+    func apply(to host: any MRUIPreferenceHostProtocol) {
         /*
          self -> x20
          host -> x0 -> x29 - 0xb0
@@ -196,10 +194,6 @@ fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
         self.seed = prefValue.seed
         // x29 - 0xa0
         let newValue = prefValue.value
-        
-        guard !newValue.isEmpty else {
-            return
-        }
         
         for (_, _) in newValue {
             /*

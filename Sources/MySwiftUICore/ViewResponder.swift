@@ -36,7 +36,7 @@ private import os.log
         self.host = host
     }
     
-    package var children: [ViewResponder] {
+    open var children: [ViewResponder] {
         return []
     }
     

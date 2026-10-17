@@ -14,8 +14,7 @@ public protocol ImmersionStyle {
 
 extension ImmersionStyle {
     @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
-        fatalError("아마 extension이 있을 것")
-//        return _ResolvedImmersionStyle(wrappedStyle: MixedImmersionStyle(), initialImmersionLevel: 0)
+        assertUnimplemented()
     }
 }
 

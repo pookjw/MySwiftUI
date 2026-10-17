@@ -47,10 +47,17 @@ final class UIKitObjectManipulationBridge<Content : View>: AnyObjectManipulation
         // <+368>
         assertUnimplemented()
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 extension UIKitObjectManipulationBridge {
     class Context {
         
+        deinit {
+            assertUnimplemented()
+        }
     }
 }

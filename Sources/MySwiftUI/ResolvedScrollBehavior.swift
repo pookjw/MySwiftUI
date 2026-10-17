@@ -2,7 +2,7 @@
 private import AttributeGraph
 private import MySwiftUICore
 
-struct ResolvedScrollBehavior : Equatable {
+struct ResolvedScrollBehavior : Equatable, ScrollTargetBehavior {
     private var base: any ScrollTargetBehavior
     private var baseSeed: UInt32
     private var axes: Axis.Set?

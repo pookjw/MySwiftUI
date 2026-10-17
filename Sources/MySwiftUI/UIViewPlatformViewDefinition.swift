@@ -9,6 +9,38 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     override class var system : PlatformViewDefinition.System {
         return .uiView
     }
+
+    override class var supportsMixedHierarchy: Bool {
+        assertUnimplemented()
+    }
+
+    override class func makeView(kind: PlatformViewDefinition.ViewKind, item: Any) -> AnyObject {
+        assertUnimplemented()
+    }
+
+    override class func makeDrawingView(options: PlatformDrawableOptions) -> any PlatformDrawable {
+        assertUnimplemented()
+    }
+
+    override class func setPath(_ path: Path, shapeView: AnyObject) {
+        assertUnimplemented()
+    }
+
+    override class func setProjectionTransform(_ transform: ProjectionTransform, projectionView: AnyObject) {
+        assertUnimplemented()
+    }
+
+    override class func getRBLayer(drawingView: AnyObject) -> AnyObject? {
+        assertUnimplemented()
+    }
+
+    override class func setIgnoresEvents(_ flag: Bool, of object: AnyObject) {
+        assertUnimplemented()
+    }
+
+    override class func setHiddenForReuse(_ flag: Bool, of object: AnyObject) {
+        assertUnimplemented()
+    }
     
     override class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {
         switch kind {
@@ -70,7 +102,7 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
         }
         
         // <+256>
-        view.anchorPoint = .zero
+        view.layer.anchorPoint = .zero
         
         switch kind {
         case .inherited, .geometry, .projection, .affine3D, .mask, .platformEffect:

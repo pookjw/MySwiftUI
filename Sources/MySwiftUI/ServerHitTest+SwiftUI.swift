@@ -24,7 +24,7 @@ extension ServerHitTest {
                 let x = uiView.bounds.width * 0.5
                 let bounds = uiView.bounds
                 let y = bounds.height * 0.5
-                let spPoint3D = Point3D(x: x, y: y, z: bounds.size.width)
+                let spPoint3D = Point3D(x: x, y: y, z: 0)
                 let caPoint3D = CAPoint3D(spPoint3D)
                 // x22
                 let window = uiView._window()
@@ -48,7 +48,7 @@ extension ServerHitTest {
     if let view = responder as? UIView {
         let externalHitTestingId = view._externalHitTestingId
         if externalHitTestingId != 0 {
-            return externalHitTestingId
+            return view._externalHitTestingId
         }
     }
     

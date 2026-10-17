@@ -17,6 +17,14 @@ final class DragAndDropBridge : AnyDragAndDropBridge {
     private var activeDrop: DropDestination? = DropDestination()
     private var onSessionBegan: (() -> Void)? = nil
     private var onSessionEnded: (() -> Void)? = nil
+
+    override func outermostDropResponder() -> (DragDropDefaultPreviewResponder & DropPayloadProvider)? {
+        assertUnimplemented()
+    }
+
+    override func itemsInListForSession(_ session: UIDragSession) -> [UIDragItem] {
+        assertUnimplemented()
+    }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음

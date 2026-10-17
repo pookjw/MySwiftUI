@@ -19,6 +19,10 @@ final class FallbackDelegateBox<T> : AnyFallbackDelegateBox {
     init(_ value: T?) {
         assertUnimplemented()
     }
+    
+    override var delegate: NSObject? {
+        assertUnimplemented()
+    }
 }
 
 extension FallbackDelegateBox {
@@ -34,12 +38,28 @@ final class ObservableObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     override init() {
         assertUnimplemented()
     }
+    
+    override var delegate: NSObject? {
+        assertUnimplemented()
+    }
+    
+    override func addDelegate(to environmentValues: inout EnvironmentValues) {
+        assertUnimplemented()
+    }
 }
 
 final class ObservableFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     override init() {
+        assertUnimplemented()
+    }
+    
+    override var delegate: NSObject? {
+        assertUnimplemented()
+    }
+    
+    override func addDelegate(to environmentValues: inout EnvironmentValues) {
         assertUnimplemented()
     }
 }
@@ -50,12 +70,28 @@ final class ObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     init(_ value: T) {
         assertUnimplemented()
     }
+    
+    override var delegate: NSObject? {
+        assertUnimplemented()
+    }
+    
+    override func addDelegate(to environmentValues: inout EnvironmentValues) {
+        assertUnimplemented()
+    }
 }
 
 final class UnsafeObservableObjectFallbackDelegateBox<T> : AnyFallbackDelegateBox {
     private var typedDelegate: T
     
     init(_ value: T) {
+        assertUnimplemented()
+    }
+    
+    override var delegate: NSObject? {
+        assertUnimplemented()
+    }
+    
+    override func addDelegate(to environmentValues: inout EnvironmentValues) {
         assertUnimplemented()
     }
 }

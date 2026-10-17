@@ -18,10 +18,22 @@ struct ExpandedSplitViewKey : EnvironmentKey {
 
 class NotificationSendingSplitViewController : UISplitViewController {
     // TODO
+    
+    override func showDetailViewController(_ vc: UIViewController, sender: Any?) {
+        assertUnimplemented()
+    }
 }
 
 class NotifyingMulticolumnSplitViewController : UISplitViewController {
     // TODO
+    
+    override func showDetailViewController(_ vc: UIViewController, sender: Any?) {
+        assertUnimplemented()
+    }
+    
+    override var childForStatusBarHidden: UIViewController? {
+        assertUnimplemented()
+    }
 }
 
 struct UISplitViewControllerProxy {

@@ -19,12 +19,7 @@ struct TintEffectKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func bridgedValue(from value: TintEffectKey.PreferredValue?) -> NSValue? {
-        guard case let .customColor(color) = value?.effect else {
-            return nil
-        }
-        
-        let value = simd_float3(x: color.red, y: color.green, z: color.blue)
-        return NSValue._mrui_value(withSIMDFloat3: value)
+        assertUnimplemented()
     }
     
     static func value(from bridgedValue: NSValue?) -> TintEffectKey.PreferredValue? {

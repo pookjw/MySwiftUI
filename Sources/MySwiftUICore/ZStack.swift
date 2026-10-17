@@ -49,7 +49,6 @@ extension ZStack : UnaryView, PrimitiveView {}
 extension _ZStackLayout : @preconcurrency Layout {
     public static var layoutProperties: LayoutProperties {
         var layoutProperties = LayoutProperties()
-        layoutProperties.isDefaultEmptyLayout = true
         layoutProperties.isIdentityUnaryLayout = true
         return layoutProperties
     }
@@ -1036,7 +1035,8 @@ extension ZStackLayout3D : DerivedSpatialLayout {
     typealias SpatialBase = ZStackSpatialLayout
     typealias Cache3D = ZStackSpatialLayout.Cache3D
     
-    static var layoutProperties: SpatialLayoutProperties {
+    @_implements(SpatialLayout, layoutProperties)
+    nonisolated static var spatialLayoutProperties: SpatialLayoutProperties {
         assertUnimplemented()
     }
     
@@ -1090,6 +1090,10 @@ extension ZStackLayout3D : _VariadicView_UnaryViewRoot {
 
 extension ZStackLayout3D : Layout {
     package typealias Cache = Void
+    
+    package static var layoutProperties: LayoutProperties {
+        assertUnimplemented()
+    }
     
     package func makeCache(subviews: Self.Subviews) -> Self.Cache {
         assertUnimplemented()

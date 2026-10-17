@@ -801,7 +801,7 @@ private import Spatial
         self.makePreferenceOutlets(outputs: outputs)
     }
     
-    package override func uninstantiateOutputs() {
+    public override func uninstantiateOutputs() {
         // self -> x20 -> x19
         self.removePreferenceOutlets(isInvalidating: false)
         
@@ -1350,7 +1350,7 @@ extension ViewGraph : ViewGraphRenderHost {
         // x29 = sp + 0x70
         // x22
         guard let delegate else {
-            return Time(seconds: .nan)
+            return Time(seconds: .infinity)
         }
         
         // <+140>
@@ -1365,7 +1365,7 @@ extension ViewGraph : ViewGraphRenderHost {
             // x23
             let viewRenderer = delegate.as(DisplayList.ViewRenderer.self)
         else {
-            return Time(seconds: .nan) 
+            return Time(seconds: .infinity)
         }
         
         let casted = unsafe _unsafeReferenceCast(
@@ -1378,7 +1378,7 @@ extension ViewGraph : ViewGraphRenderHost {
             CustomEventTrace.animationTick(onMain: true, time: time)
             
             let renderingRootView = casted.renderingRootView
-            return casted.withMainThreadRender(wasAsync: false) { [displayList] in
+            return casted.withMainThreadRender(wasAsync: asynchronously) { [displayList] in
                 // $s7SwiftUI9ViewGraphC17renderDisplayList_14asynchronously4time8nextTime15targetTimestamp7version10maxVersionAA0K0VAA0fG0V_SbA3LSgAN0P0VAQtF0E12OnMainThreadL_ALyFALyXEfU_
                 // inlined
                 let environment = DisplayList.ViewRenderer.Environment(contentsScale: viewRenderer.configuration.contentsScale ?? context.contentsScale)
@@ -1426,7 +1426,7 @@ extension ViewGraph : ViewGraphRenderHost {
             return nextTime
         } else {
             // <+1164>
-            var renderedTime = Time(seconds: .nan)
+            var renderedTime = nextTime
             Update.syncMain { @MainActor in
                 renderedTime = renderOnMainThread()
             }

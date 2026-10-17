@@ -17,6 +17,7 @@ public struct WindowResizability : Sendable {
         _modify {
             var value = WindowResizability(role: .automatic)
             yield &value
+            unsafe os_log(.fault, log: OSLog.runtimeIssuesLog, "Mutation of WindowResizability is unsupported.\nThis will become an error in the future.")
         }
     }
     
@@ -30,6 +31,7 @@ public struct WindowResizability : Sendable {
         _modify {
             var value = WindowResizability(role: .contentSize)
             yield &value
+            unsafe os_log(.fault, log: OSLog.runtimeIssuesLog, "Mutation of WindowResizability is unsupported.\nThis will become an error in the future.")
         }
     }
     
@@ -43,6 +45,7 @@ public struct WindowResizability : Sendable {
         _modify {
             var value = WindowResizability(role: .contentMinSize)
             yield &value
+            unsafe os_log(.fault, log: OSLog.runtimeIssuesLog, "Mutation of WindowResizability is unsupported.\nThis will become an error in the future.")
         }
     }
 }
