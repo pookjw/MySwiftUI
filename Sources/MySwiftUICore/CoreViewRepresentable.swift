@@ -320,7 +320,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 
     public var isEmpty: Bool {
-        assertUnimplemented()
+        return contents.isEmpty
     }
     
     public func index(after i: UnsafeHeterogeneousBuffer.Index) -> UnsafeHeterogeneousBuffer.Index {
@@ -328,7 +328,7 @@ extension CoreViewRepresentable where Coordinator == Void {
     }
 
     public func formIndex(after i: inout UnsafeHeterogeneousBuffer.Index) {
-        assertUnimplemented()
+        return contents.formIndex(after: &i)
     }
 }
 
@@ -367,7 +367,9 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            assertUnimplemented()
+            base
+                .vtable(as: CoreViewRepresentableFeatureBuffer.VTable.self)
+                .modifyWrappedOutputs(elt: base, outputs: &outputs, proxy: proxy)
         }
         
         func update<Host : CoreViewRepresentableHost>(
@@ -462,7 +464,7 @@ extension CoreViewRepresentableFeatureBuffer {
             outputs: inout _ViewOutputs,
             proxy: CoreViewRepresentableFeatureProxy<Representable>
         ) {
-            assertUnimplemented()
+            unsafe elt.body(as: Feature.self).pointee.modifyWrappedOutputs(outputs: &outputs, proxy: proxy)
         }
         
         override class func update<Host : CoreViewRepresentableHost>(

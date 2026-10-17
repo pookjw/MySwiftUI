@@ -12,7 +12,7 @@ public protocol WindowStyle {
 
 extension WindowStyle {
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
-        assertUnimplemented()
+        // noop
     }
 }
 
@@ -65,6 +65,10 @@ public struct DefaultWindowStyle : WindowStyle {
     public init() {
         assertUnimplemented()
     }
+    
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)
@@ -93,7 +97,8 @@ public struct VolumetricWindowStyle : WindowStyle {
     }
     
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
-        assertUnimplemented()
+        let attributes = VolumeConfigurationAttributes()
+        item.applyAttributesToConfig(attributes)
     }
 }
 
@@ -123,6 +128,10 @@ public struct HiddenTitleBarWindowStyle : WindowStyle {
     public init() {
         assertUnimplemented()
     }
+    
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)
@@ -147,6 +156,10 @@ public struct PlainWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
         assertUnimplemented()
     }
 }
@@ -175,6 +188,10 @@ public struct TitleBarWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
         assertUnimplemented()
     }
 }

@@ -8,7 +8,11 @@ final class UIKitKeyPressResponder : UIResponder {
     private var tracker = KeyEvent.Tracker()
     
     override var next: UIResponder? {
-        assertUnimplemented()
+        guard let fallbackResponderProvider else {
+            return nil
+        }
+        
+        return fallbackResponderProvider.defaultNextResponder
     }
     
     override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {

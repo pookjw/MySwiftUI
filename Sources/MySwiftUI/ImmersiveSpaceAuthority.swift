@@ -1,3 +1,4 @@
+// 9A6EE6FC4E4264CEBFC152DBB8BE8E55
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 internal import AttributeGraph
@@ -133,7 +134,27 @@ final class ImmersiveSpaceAuthority {
     }
     
     func sceneDidBecomeActive(scene: UIScene, namespace: SceneList.Namespace, item: SceneList.Item) {
-        assertUnimplemented()
+        // <+248>
+        guard
+            let currentImmersiveSpace,
+            case .activated(_, let item) = currentImmersiveSpace,
+            let immersiveSpaceScene,
+            scene == immersiveSpaceScene
+        else {
+            return
+        }
+        
+        // <+500>
+        Log.immersiveSpace.info("ImmersiveSpace (\(item.identifyingDescription)) did become active")
+        
+        // <+808>
+        guard case .immersiveSpace(let attributes) = item.value else {
+            return
+        }
+        
+        if let preferredUpperLimbVisibility = attributes.attributes.preferredUpperLimbVisibility {
+            self.updateUpperLimbVisibility(preferredUpperLimbVisibility)
+        }
     }
     
     func updateCurrentImmersiveSpaceIfNeeded() {
@@ -212,5 +233,9 @@ final class ImmersiveSpaceAuthority {
         
         // <+256>
         NotificationCenter.default.post(name: ImmersiveSpaceAuthority.didChangeImmersion, object: nil)
+    }
+    
+    fileprivate func updateUpperLimbVisibility(_: UpperLimbVisibility) {
+        assertUnimplemented()
     }
 }
