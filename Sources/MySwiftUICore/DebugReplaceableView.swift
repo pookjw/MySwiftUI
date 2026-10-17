@@ -28,6 +28,14 @@ public struct DebugReplaceableView : PrimitiveView {
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }
+    
+    nonisolated func visitContent<T : ViewVisitor>(_ visitor: inout T) {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func invalidateEverything() {
+        assertUnimplemented()
+    }
 }
 
 extension DebugReplaceableView : DynamicView {
@@ -85,6 +93,14 @@ fileprivate final class DebugReplaceableViewStorage<Content : View> : DebugRepla
         assertUnimplemented()
     }
     
+    override func makeChildView(view: Attribute<DebugReplaceableView>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    override func makeChildViewList(view: Attribute<DebugReplaceableView>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
     override func visitContent<T>(_ visitor: inout T) where T : ViewVisitor {
         assertUnimplemented()
     }
@@ -99,6 +115,18 @@ enum DebugReplaceableViewCount {
     case counting(Int)
     case uninitialized
     case indeterminate
+}
+
+fileprivate struct DebugReplaceableViewChild<Content> : StatefulRule, AsyncAttribute {
+    typealias Value = Void
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)

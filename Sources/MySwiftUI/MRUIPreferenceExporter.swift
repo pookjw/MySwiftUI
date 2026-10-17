@@ -153,7 +153,7 @@ fileprivate struct ExportedPreference<T : MRUIBridgedPreferenceKey>: AnyExported
 fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
     let key: MRUICustomPreferencesKey.Type
     var seed: VersionSeed
-    var values: [AnyHashable: ExportedCustomPreferences.Value]
+    var values: [AnyHashable: ExportedCustomPreferences.Value] // 0x18 (offset field)
     
     func addPreference(to graph: MySwiftUICore::ViewGraph) {
         graph.addPreference(MRUICustomPreferencesKey.self)
@@ -177,7 +177,7 @@ fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
         assertUnimplemented()
     }
     
-    mutating func preferencesDidChange(_ values: MySwiftUICore::PreferenceValues) {
+    mutating func preferencesDidChange(_ values: PreferenceValues) {
         /*
          self -> x20 -> x27
          values -> x0 -> x20
@@ -195,13 +195,19 @@ fileprivate struct ExportedCustomPreferences : AnyExportedPreference {
         // x29 - 0xa0
         let newValue = prefValue.value
         
-        for (_, _) in newValue {
-            /*
-             key -> x29 - 0xf0
-             value -> x29 - 0xc8
-             */
+        for (key, value) in newValue {
+            self.values[key] = ExportedCustomPreferences.Value(value: value, seed: self.seed)
         }
-        assertUnimplemented()
+        
+        // <+2104>
+        for (key, value) in self.values {
+            if self.seed.matches(value.seed) {
+                // <+2548>
+            } else {
+                // <+2624>
+                self.values.removeValue(forKey: key)
+            }
+        }
     }
 }
 

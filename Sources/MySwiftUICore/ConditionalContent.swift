@@ -175,6 +175,10 @@ extension ConditionalMetadata where T == ViewDescriptor {
             return _ViewListOutputs.emptyViewList(inputs: inputs)
         }
     }
+    
+    func makeView<U : View>(ptr: UnsafePointer<U>, view: Attribute<U>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
 protocol ConditionalProtocolDescriptor : ProtocolDescriptor {
@@ -313,6 +317,19 @@ extension ConditionalMetadata where T == ViewDescriptor {
             let attribute = Attribute(rule)
             attribute.value = unsafe ptr!.assumingMemoryBound(to: Content.self).pointee
             outputs = Content.makeDebuggableViewList(view: _GraphValue(attribute), inputs: inputs)
+        }
+    }
+    
+    @safe fileprivate struct MakeView<U> : ViewTypeVisitor {
+        private(set) var desc: ConditionalTypeDescriptor<ViewDescriptor>
+        private(set) var view: Attribute<U>
+        var index: Int
+        var ptr: UnsafeRawPointer?
+        private(set) var inputs: _ViewInputs
+        var outputs: _ViewOutputs?
+        
+        mutating func visit<Content : View>(type: Content.Type) {
+            assertUnimplemented()
         }
     }
 }

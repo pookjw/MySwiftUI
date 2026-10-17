@@ -25,7 +25,7 @@ extension _Glass {
         // TODO
     }
     
-    package struct Diffusion {
+    package struct Diffusion : Hashable {
         private var role: _Glass.Diffusion.Role
         
         package static var automatic: _Glass.Diffusion {
@@ -75,7 +75,7 @@ extension _Glass.ContentEffect {
 }
 
 extension _Glass.Diffusion {
-    enum Role {
+    enum Role : Hashable {
         case automatic
         case increased
     }
