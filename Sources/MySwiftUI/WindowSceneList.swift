@@ -136,6 +136,7 @@ extension WindowSceneList {
                 casted.attributes.immersiveContentBrightness = self.immersiveContentBrightness
                 casted.attributes.immersiveEnvironmentBehavior = .automatic
                 casted.attributes.sceneUpdateTransitionAnimation = sceneUpdateTransitionAnimation
+                casted.attributes.orderOutSceneSessionIdentifiersProvider = self.orderOutSceneSessionIdentifiersProvider
                 
                 return casted as! WindowSceneConfiguration<T>
             } else {

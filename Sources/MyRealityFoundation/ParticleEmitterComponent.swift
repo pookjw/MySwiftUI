@@ -7,7 +7,7 @@ extension ParticleEmitterComponent : _ImplicitlyAnimatableBuiltinComponent {
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 public struct ParticleEmitterComponent : Component, Codable {
-    public enum EmitterShape : Codable, Equatable, Hashable {
+    public enum EmitterShape : Codable, Hashable {
         case point
         case plane
         case box
@@ -39,7 +39,7 @@ public struct ParticleEmitterComponent : Component, Codable {
         }
     }
     
-    public enum BirthLocation : Codable, Equatable, Hashable {
+    public enum BirthLocation : Codable, Hashable {
         case surface
         case volume
         case vertices(count: SIMD3<UInt>)
@@ -67,7 +67,7 @@ public struct ParticleEmitterComponent : Component, Codable {
         }
     }
     
-    public enum BirthDirection : Codable, Equatable, Hashable {
+    public enum BirthDirection : Codable, Hashable {
         case world
         case local
         case normal
@@ -95,7 +95,7 @@ public struct ParticleEmitterComponent : Component, Codable {
         }
     }
     
-    public enum SpawnOccasion : Codable, Equatable, Hashable {
+    public enum SpawnOccasion : Codable, Hashable {
         case onBirth
         case onUpdate
         case onDeath
@@ -242,7 +242,7 @@ public struct ParticleEmitterComponent : Component, Codable {
     }
     
     public struct ParticleEmitter {
-        public enum BillboardMode : Codable, Equatable, Hashable {
+        public enum BillboardMode : Codable, Hashable {
             case billboard
             case billboardYAligned
             case free(axis: SIMD3<Float>, variation: Float)
@@ -270,7 +270,7 @@ public struct ParticleEmitterComponent : Component, Codable {
             }
         }
         
-        public enum OpacityCurve : Codable, Equatable, Hashable {
+        public enum OpacityCurve : Codable, Hashable {
             case linearFadeOut
             case linearFadeIn
             case gradualFadeInOut
@@ -302,7 +302,7 @@ public struct ParticleEmitterComponent : Component, Codable {
             }
         }
         
-        public enum SortOrder : Codable, Equatable, Hashable {
+        public enum SortOrder : Codable, Hashable {
             case increasingDepth
             case decreasingDepth
             case increasingID
@@ -334,7 +334,7 @@ public struct ParticleEmitterComponent : Component, Codable {
             }
         }
         
-        public enum BlendMode : Codable, Equatable, Hashable {
+        public enum BlendMode : Codable, Hashable {
             case alpha
             case opaque
             case additive
@@ -362,7 +362,7 @@ public struct ParticleEmitterComponent : Component, Codable {
             }
         }
         
-        public struct ImageSequence : Codable, Equatable, Hashable {
+        public struct ImageSequence : Codable, Hashable {
             public var rowCount: Int
             
             public var columnCount: Int
@@ -377,7 +377,7 @@ public struct ParticleEmitterComponent : Component, Codable {
             
             public var animationMode: ParticleEmitterComponent.ParticleEmitter.ImageSequence.AnimationRepeatMode
             
-            public enum AnimationRepeatMode : Codable, Equatable, Hashable {
+            public enum AnimationRepeatMode : Codable, Hashable {
                 case playOnce
                 case looping
                 case autoReverse

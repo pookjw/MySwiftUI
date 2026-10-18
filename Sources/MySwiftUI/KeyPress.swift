@@ -4,7 +4,11 @@ internal import AttributeGraph
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
-public struct KeyPress : Sendable {
+public struct KeyPress : Sendable, CustomDebugStringConvertible {
+    public var debugDescription: String {
+        assertUnimplemented()
+    }
+    
 //    public let phase: KeyPress.Phases
 //    public let key: KeyEquivalent
 //    public let characters: String

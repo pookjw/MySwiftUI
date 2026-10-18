@@ -1,6 +1,6 @@
 internal import Foundation
 
-struct DiffResult : Equatable, Hashable {
+struct DiffResult : Hashable {
     var removes: IndexSet {
         get {
             assertUnimplemented()
@@ -49,7 +49,7 @@ struct DiffResult : Equatable, Hashable {
         }
     }
 
-    struct Move: Equatable, Hashable {
+    struct Move: Hashable {
         var remove: Int {
             get {
                 assertUnimplemented()

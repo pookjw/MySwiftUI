@@ -31,3 +31,9 @@ package struct AccessibilityAttachment : Equatable {
         assertUnimplemented()
     }
 }
+
+extension AccessibilityAttachment : AccessibilityCombinable {
+    package func merge(with other: AccessibilityAttachment) -> Bool {
+        assertUnimplemented()
+    }
+}

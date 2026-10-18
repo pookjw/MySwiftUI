@@ -423,6 +423,10 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
         return engine.layoutPriority()
     }
     
+    override func ignoresAutomaticPadding() -> Bool {
+        assertUnimplemented()
+    }
+    
     override func requiresSpacingProjection() -> Bool {
         return engine.requiresSpacingProjection()
     }
@@ -449,6 +453,10 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
     
     override func childPlacement(at size: ViewSize) -> _Placement {
         return engine.childPlacement(at: size)
+    }
+    
+    override func childPlacement(at size: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        assertUnimplemented()
     }
     
     override func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {

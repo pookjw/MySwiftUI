@@ -182,3 +182,9 @@ extension SpotLightComponent : DefaultInitializable {
         assertUnimplemented()
     }
 }
+
+extension SpotLightComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

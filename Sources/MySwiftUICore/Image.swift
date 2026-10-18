@@ -120,3 +120,9 @@ extension Image {
         private var environment: EnvironmentValues
     }
 }
+
+extension Image : Equatable {
+    public static func == (lhs: Image, rhs: Image) -> Bool {
+        assertUnimplemented()
+    }
+}

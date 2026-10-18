@@ -1,4 +1,4 @@
-package protocol CoreInteractionRepresentable {
+@_spi(Internal) public protocol CoreInteractionRepresentable {
     associatedtype InteractionView : CoreInteractionView
     
     static func appendFeature(to: inout CoreInteractionRepresentableFeatureBufferProxy)
@@ -8,13 +8,13 @@ package protocol CoreInteractionRepresentable {
     func updateInteraction(_ interaction: AnyObject, tag: Int)
 }
 
-package protocol CoreInteractionView {
+@_spi(Internal) public protocol CoreInteractionView {
 }
 
-package struct CoreInteractionRepresentableFeatureBufferProxy {
+@_spi(Internal) public struct CoreInteractionRepresentableFeatureBufferProxy {
 }
 
-package struct CoreInteractionRepresentableInteractionsProxy {
+@_spi(Internal) public struct CoreInteractionRepresentableInteractionsProxy {
 }
 
 extension CoreInteractionRepresentable {

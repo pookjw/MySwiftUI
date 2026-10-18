@@ -221,7 +221,7 @@ extension ARView {
 
 @available(macOS 12.0, iOS 15.0, macCatalyst 15.0, tvOS 26.0, *)
 @available(visionOS, unavailable)
-extension ARView.Environment.Reverb : Equatable, Hashable {
+extension ARView.Environment.Reverb : Hashable {
     public static func == (a: ARView.Environment.Reverb, b: ARView.Environment.Reverb) -> Bool {
         assertUnimplemented()
     }

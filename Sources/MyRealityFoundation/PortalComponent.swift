@@ -188,3 +188,9 @@ extension PortalComponent {
         assertUnimplemented()
     }
 }
+
+extension PortalComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

@@ -325,6 +325,12 @@ extension DisplayList.ViewUpdater {
                 case .archive(_):
                     // <+132>
                     assertUnimplemented()
+                case .filter(.shader(_)):
+                    // <+436>
+                    assertUnimplemented()
+                case .animation(_):
+                    // <+132>
+                    assertUnimplemented()
                 default:
                     return .infinity
                 }

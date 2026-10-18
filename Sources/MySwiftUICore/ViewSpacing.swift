@@ -44,3 +44,9 @@ public struct ViewSpacing : Sendable {
         }
     }
 }
+
+extension ViewSpacing : CustomStringConvertible {
+    public var description: String {
+        assertUnimplemented()
+    }
+}

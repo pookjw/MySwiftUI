@@ -1,4 +1,4 @@
-package struct _Glass {
+@_spi(Internal) public struct _Glass {
     
 }
 
@@ -51,7 +51,7 @@ extension _Glass {
         // TODO
     }
     
-    struct Resolved {
+    @_spi(Internal) public struct Resolved {
         // TODO
     }
 }

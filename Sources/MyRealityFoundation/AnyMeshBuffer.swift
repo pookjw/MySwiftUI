@@ -28,3 +28,9 @@ public struct AnyMeshBuffer {
         assertUnimplemented()
     }
 }
+
+extension AnyMeshBuffer : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

@@ -55,3 +55,9 @@ extension PortalMaterial {
         }
     }
 }
+
+extension PortalMaterial : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

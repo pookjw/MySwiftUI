@@ -527,3 +527,9 @@ struct AllowPresentationPredicate : ViewInputPredicate {
 protocol EntityPresentationContextAware {
     mutating func setEntityContext(_ context: EntityPresentationContext?)
 }
+
+extension EntityPresentationContext : Equatable {
+    static func == (lhs: EntityPresentationContext, rhs: EntityPresentationContext) -> Bool {
+        assertUnimplemented()
+    }
+}

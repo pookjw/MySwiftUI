@@ -3,7 +3,7 @@
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-@frozen public enum SquareAzimuth : CaseIterable, Sendable {
+@frozen public enum SquareAzimuth : CaseIterable, Sendable, Hashable {
     case front
     case right
     case back

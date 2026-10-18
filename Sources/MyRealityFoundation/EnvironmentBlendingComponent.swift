@@ -5,7 +5,7 @@
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 public struct EnvironmentBlendingComponent : Component, Equatable {
-    public enum EnvironmentType : Equatable, Hashable, Sendable {
+    public enum EnvironmentType : Hashable, Sendable {
         case surroundings
         
         public static func == (a: EnvironmentBlendingComponent.EnvironmentType, b: EnvironmentBlendingComponent.EnvironmentType) -> Bool {
@@ -23,7 +23,7 @@ public struct EnvironmentBlendingComponent : Component, Equatable {
         }
     }
     
-    public struct BlendingMode : Equatable, Hashable, Sendable {
+    public struct BlendingMode : Hashable, Sendable {
         public static var `default`: EnvironmentBlendingComponent.BlendingMode {
             get {
                 assertUnimplemented()

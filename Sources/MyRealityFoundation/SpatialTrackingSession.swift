@@ -4,7 +4,7 @@
 @available(tvOS, unavailable, introduced: 26.0)
 final public class SpatialTrackingSession : Sendable {
     public struct Configuration {
-        public struct AnchorCapability : Equatable, Hashable, Sendable {
+        public struct AnchorCapability : Hashable, Sendable {
             public static func == (a: SpatialTrackingSession.Configuration.AnchorCapability, b: SpatialTrackingSession.Configuration.AnchorCapability) -> Bool {
                 assertUnimplemented()
             }
@@ -158,7 +158,7 @@ extension SpatialTrackingSession.Configuration.AnchorCapability {
 @available(macCatalyst, unavailable)
 @available(tvOS, unavailable)
 extension SpatialTrackingSession.Configuration {
-    public struct SceneUnderstandingCapability : Equatable, Hashable, Sendable {
+    public struct SceneUnderstandingCapability : Hashable, Sendable {
         public static func == (a: SpatialTrackingSession.Configuration.SceneUnderstandingCapability, b: SpatialTrackingSession.Configuration.SceneUnderstandingCapability) -> Bool {
             assertUnimplemented()
         }

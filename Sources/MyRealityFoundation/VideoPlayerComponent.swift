@@ -303,3 +303,9 @@ extension VideoPlayerComponent.RenderingStatus : Equatable {}
 @available(macOS 26.0, iOS 18.0, macCatalyst 18.0, visionOS 26.0, tvOS 26.0, *)
 @available(watchOS, unavailable)
 extension VideoPlayerComponent.RenderingStatus : Hashable {}
+
+extension VideoPlayerComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

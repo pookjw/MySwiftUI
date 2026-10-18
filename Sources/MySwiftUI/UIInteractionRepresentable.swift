@@ -1,5 +1,5 @@
 // 4A65CF26147421F79873D2D174FBF233
-package import MySwiftUICore
+@_spi(Internal) package import MySwiftUICore
 package import UIKit
 
 package protocol _UIInteractionRepresentable {

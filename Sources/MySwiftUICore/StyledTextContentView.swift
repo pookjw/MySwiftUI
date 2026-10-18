@@ -30,3 +30,9 @@ class TextRendererBoxBase {
         assertUnimplemented()
     }
 }
+
+extension ResolvedStyledText : CustomStringConvertible {
+    var description: String {
+        assertUnimplemented()
+    }
+}

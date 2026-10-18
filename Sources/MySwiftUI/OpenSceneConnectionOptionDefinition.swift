@@ -30,3 +30,21 @@ struct OpenScenePayload {
     var sceneID: SceneID
     var data: Data?
 }
+
+extension OpenScenePayload : Equatable, Decodable, Encodable, CustomStringConvertible {
+    static func == (lhs: OpenScenePayload, rhs: OpenScenePayload) -> Bool {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}

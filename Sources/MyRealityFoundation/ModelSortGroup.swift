@@ -92,3 +92,9 @@ extension ModelSortGroup.PlanarUIPlacement : Equatable {}
 
 @available(tvOS 26.0, visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, *)
 extension ModelSortGroup.PlanarUIPlacement : Hashable {}
+
+extension ModelSortGroup : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

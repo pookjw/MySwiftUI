@@ -27,3 +27,5 @@ struct PlatformItemListFlagsInput : ViewInput {
         return PlatformItemListFlagsSet(rawValue: .max)
     }
 }
+
+extension PlatformItemListFlagsSet : Hashable {}

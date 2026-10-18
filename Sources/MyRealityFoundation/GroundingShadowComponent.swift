@@ -113,3 +113,9 @@ extension GroundingShadowComponent.FadeBehaviorNearPhysicalObjects : Equatable {
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 extension GroundingShadowComponent.FadeBehaviorNearPhysicalObjects : Hashable {}
+
+extension GroundingShadowComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

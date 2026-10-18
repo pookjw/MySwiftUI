@@ -805,7 +805,7 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
         // noop
     }
     
-    public override func isEqual(_ object: Any?) -> Bool {
+    open override func isEqual(_ object: Any?) -> Bool {
         guard let casted = object as? ViewGraphHostEnvironmentWrapper else {
             return false
         }

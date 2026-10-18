@@ -1144,3 +1144,9 @@ fileprivate struct EmptyGraphMutation : GraphMutation {
         return T.self == EmptyGraphMutation.self
     }
 }
+
+extension GraphHost : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

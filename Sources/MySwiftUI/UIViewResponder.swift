@@ -29,6 +29,10 @@ final class UIViewResponder : PlatformViewResponderBase<UIView, UIViewContentRes
     override func extendPrintTree(string: inout String) {
         assertUnimplemented()
     }
+
+    override func alignmentRect(hostView: UIView) -> CGRect {
+        assertUnimplemented()
+    }
     
     override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
         /*

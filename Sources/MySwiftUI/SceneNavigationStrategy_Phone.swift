@@ -588,7 +588,7 @@ struct SceneNavigationStrategy_Phone {
                 if session.role == .windowApplication {
                     // <+344>
                     switch item.kind {
-                    case .windowGroup, .immersiveSpace:
+                    case .windowGroup, .singleWindow:
                         // <+360>
                         options.placement = UIWindowScenePushPlacement(target: session)
                     default:

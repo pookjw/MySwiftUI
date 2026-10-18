@@ -30,7 +30,7 @@ public struct ScrollDismissesKeyboardMode : Sendable {
 
 @available(iOS 18.2, macOS 15.2, tvOS 18.2, watchOS 11.2, *)
 //@available(visionOS, unavailable)
-extension ScrollDismissesKeyboardMode : Equatable, Hashable {
+extension ScrollDismissesKeyboardMode : Hashable {
     public static func == (a: ScrollDismissesKeyboardMode, b: ScrollDismissesKeyboardMode) -> Bool {
         assertUnimplemented()
     }

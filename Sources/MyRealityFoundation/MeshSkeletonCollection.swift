@@ -112,3 +112,9 @@ extension MeshSkeletonCollection : ExpressibleByArrayLiteral {
     @available(iOS 18.0, tvOS 26.0, visionOS 1.0, macOS 15.0, macCatalyst 18.0, *)
     public typealias ArrayLiteralElement = MeshResource.Skeleton
 }
+
+extension MeshSkeletonCollection : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

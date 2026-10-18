@@ -435,3 +435,9 @@ extension ManipulationComponent {
 @available(watchOS, unavailable)
 @available(macCatalyst, unavailable)
 extension ManipulationComponent.InputDevice.Kind : RawRepresentable {}
+
+extension ManipulationComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

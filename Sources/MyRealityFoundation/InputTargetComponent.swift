@@ -81,3 +81,9 @@ public struct InputTargetComponent : Component, Equatable {
         assertUnimplemented()
     }
 }
+
+extension InputTargetComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

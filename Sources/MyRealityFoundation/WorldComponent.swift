@@ -47,3 +47,9 @@ extension WorldComponent {
         assertUnimplemented()
     }
 }
+
+extension WorldComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

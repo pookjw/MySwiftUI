@@ -5,7 +5,7 @@ struct _ShapeSet {
 }
 
 extension _ShapeSet {
-    struct Tags {
+    struct Tags : OptionSet {
         let rawValue: UInt
     }
     
@@ -14,7 +14,7 @@ extension _ShapeSet {
         case subtraction
     }
     
-    struct Filter {
+    struct Filter : Equatable {
         private var mask: _ShapeSet.Tags
         private var value: _ShapeSet.Tags
     }
@@ -27,7 +27,17 @@ extension _ShapeSet {
 }
 
 extension _ShapeSet.Element {
-    struct Options {
+    struct Options : OptionSet {
         let rawValue: UInt32
+    }
+}
+
+extension _ShapeSet.Operation : Hashable, ProtobufEnum {
+    var protobufValue: UInt {
+        assertUnimplemented()
+    }
+    
+    init?(protobufValue: UInt) {
+        assertUnimplemented()
     }
 }

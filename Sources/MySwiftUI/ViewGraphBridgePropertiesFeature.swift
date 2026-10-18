@@ -136,7 +136,7 @@ struct ViewGraphBridgePropertiesFeature : ViewGraphFeature {
         
         // <+336>
         // x20, x21, x28, x23
-        let newProperties = propertiesDelegate.updateRequiredBridges(parentBridgeProperties, allowedActions: [.unknown0, .unknown1])
+        let newProperties = propertiesDelegate.updateRequiredBridges(bridgeProperties: parentBridgeProperties, allowedActions: [.unknown0, .unknown1])
         // <+420>
         // x24, x26, x27, (x22 -> x29 - 0xb8)
         let lastLocalBridgeProperties = lastLocalBridgeProperties

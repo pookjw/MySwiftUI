@@ -298,7 +298,7 @@ extension AnchoringComponent {
 
 extension AnchoringComponent {
     @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
-    public struct ObjectAnchoringSource : Equatable, Hashable {
+    public struct ObjectAnchoringSource : Hashable {
         @available(visionOS 2.0, *)
         @available(macOS, unavailable)
         @available(iOS, unavailable)
@@ -339,7 +339,7 @@ extension AnchoringComponent {
     }
     
     @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
-    public struct ImageAnchoringSource : Equatable, Hashable {
+    public struct ImageAnchoringSource : Hashable {
         @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, *)
         public init(_ url: URL, physicalSize: SIMD2<Float>) {
             assertUnimplemented()
@@ -370,7 +370,7 @@ extension AnchoringComponent {
     @available(iOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    public struct AccessoryAnchoringSource : Equatable, Hashable {
+    public struct AccessoryAnchoringSource : Hashable {
         public func locationName(named: String) -> AnchoringComponent.AccessoryLocation? {
             assertUnimplemented()
         }
@@ -401,7 +401,7 @@ extension AnchoringComponent {
     @available(iOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    public struct AccessoryLocation : Equatable, Hashable, Sendable {
+    public struct AccessoryLocation : Hashable, Sendable {
         public static let origin: AnchoringComponent.AccessoryLocation = {
             assertUnimplemented()
         }()

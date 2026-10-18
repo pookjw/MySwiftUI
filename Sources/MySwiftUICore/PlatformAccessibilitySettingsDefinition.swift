@@ -252,3 +252,5 @@ fileprivate struct AccessibilitySettingsDefinitionKey : EnvironmentKey {
     var definition: PlatformSystemDefinition
     var seed: UInt32
 }
+
+extension AccessibilityEnabledTechnology : Hashable {}

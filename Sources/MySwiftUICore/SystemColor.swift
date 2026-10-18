@@ -138,6 +138,12 @@ protocol SystemColorDefinition {
     static func opacity(at: Int, environment: EnvironmentValues) -> Float
 }
 
+extension SystemColorDefinition {
+    static func opacity(at: Int, environment: EnvironmentValues) -> Float {
+        assertUnimplemented()
+    }
+}
+
 extension EnvironmentValues {
     @inline(always) // 원래 없음
     var systemColorDefinition: (any SystemColorDefinition.Type) {

@@ -119,3 +119,15 @@ struct AccessibilityGeometryUpdater {
         self.subgraph = subgraph
     }
 }
+
+extension AccessibilityNodeList : Equatable {
+    static func == (lhs: AccessibilityNodeList, rhs: AccessibilityNodeList) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityGeometryStorage : CustomStringConvertible {
+    var description: String {
+        assertUnimplemented()
+    }
+}

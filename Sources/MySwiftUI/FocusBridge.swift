@@ -724,3 +724,9 @@ struct UIKitFocusItemDescription<T : UIFocusItem>: CustomStringConvertible {
         assertUnimplemented()
     }
 }
+
+extension FocusItem : Equatable {
+    static func == (lhs: FocusItem, rhs: FocusItem) -> Bool {
+        assertUnimplemented()
+    }
+}

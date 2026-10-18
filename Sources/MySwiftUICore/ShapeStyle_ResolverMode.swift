@@ -16,6 +16,9 @@ struct _ShapeStyle_ResolverMode {
 //    }
 }
 
+extension _ShapeStyle_ResolverMode : Equatable {
+}
+
 extension _ShapeStyle_ResolverMode {
     struct Options : OptionSet {
         let rawValue: UInt8

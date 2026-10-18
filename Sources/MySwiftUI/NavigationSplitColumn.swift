@@ -6,3 +6,13 @@ enum NavigationSplitColumn {
     case collapsed
     case inspector
 } 
+
+extension NavigationSplitColumn : Hashable, Comparable, CustomStringConvertible {
+    static func < (lhs: NavigationSplitColumn, rhs: NavigationSplitColumn) -> Bool {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}

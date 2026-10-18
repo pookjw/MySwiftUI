@@ -53,3 +53,9 @@ extension ImageBasedLightReceiverComponent {
         assertUnimplemented()
     }
 }
+
+extension ImageBasedLightReceiverComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

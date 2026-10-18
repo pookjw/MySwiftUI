@@ -182,7 +182,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     private var containerBackgroundColor: UIColor? = nil
     private let surpressGraphUpdateIfNotInHierarchy: Bool = {
         if Bundle.main.bundleIdentifier == "com.studiolanes.ticker" {
-            return isLinkedOnOrAfter(.v6)
+            return !isLinkedOnOrAfter(.v6)
         } else {
             return false
         }
@@ -2246,7 +2246,7 @@ extension _UIHostingView : SensoryFeedbackCacheHost {
 }
 
 extension _UIHostingView : @preconcurrency ViewGraphBridgePropertiesDelegate {
-    func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
+    func updateRequiredBridges(bridgeProperties properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         /*
          self -> x20 -> x19
          properties -> x0/x1/x2/x3 -> x21/x28/x23/x22

@@ -45,3 +45,9 @@ extension AudioMixGroup : Hashable {
         }
     }
 }
+
+extension AudioMixGroup : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

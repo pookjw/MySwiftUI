@@ -30,3 +30,5 @@ extension GestureCategory {
         }
     }
 }
+
+extension GestureCategory : OptionSet {}

@@ -559,3 +559,9 @@ extension UIMenuBuilder {
         assertUnimplemented()
     }
 }
+
+extension ResponderCommandsKey : HostPreferenceKey {
+    static func reduce(value: inout [Selector: any CommandAction], nextValue: () -> [Selector: any CommandAction]) {
+        assertUnimplemented()
+    }
+}

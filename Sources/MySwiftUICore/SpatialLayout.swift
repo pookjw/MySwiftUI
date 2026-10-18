@@ -643,7 +643,7 @@ struct LayoutChildGeometries3D<E : SpatialLayoutEngine> : Rule, AsyncAttribute {
         return layoutComputer.withMutableEngine(type: StashedDepthLayoutEngine<E>.self) { engine in
             return engine.base.childGeometries3D(
                 at: parentSize,
-                origin: Point3D(size3D)
+                origin3D: Point3D(size3D)
             )
         }
     }
@@ -653,7 +653,7 @@ protocol SpatialLayoutEngine {
     associatedtype Cache3D
     
     mutating func volumeThatFits(_ proposedSize: _ProposedSize3D) -> Size3D
-    mutating func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D]
+    mutating func childGeometries3D(at size: ViewSize3D, origin3D: Point3D) -> [ViewGeometry3D]
     mutating func explicitAlignment(of alignment: AlignmentKey, at size: ViewSize3D) -> CGFloat?
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat?
     func layoutPriority() -> Double

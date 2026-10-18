@@ -1708,7 +1708,7 @@ extension UIHostingController : _UIHostingViewable where Content == AnyView {
 }
 
 extension UIHostingController : @preconcurrency ViewGraphBridgePropertiesDelegate {
-    func updateRequiredBridges(_ properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
+    func updateRequiredBridges(bridgeProperties properties: ViewGraphBridgeProperties?, allowedActions: HostingControllerBridgeActions) -> ViewGraphBridgeProperties {
         assertUnimplemented()
     }
 }

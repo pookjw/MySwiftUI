@@ -234,3 +234,9 @@ struct IdealWindowPlacementLayout : WindowLayout {
         assertUnimplemented()
     }
 }
+
+extension WindowLayoutRootView : Equatable {
+    static func == (lhs: WindowLayoutRootView, rhs: WindowLayoutRootView) -> Bool {
+        assertUnimplemented()
+    }
+}

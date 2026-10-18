@@ -71,3 +71,39 @@ enum AccessibilityTextLayoutProperties {
     case custom(TextLayoutProperties)
     case automatic
 }
+
+extension AccessibilityIdentifierStorage : Equatable {
+    static func == (lhs: AccessibilityIdentifierStorage, rhs: AccessibilityIdentifierStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityLabelStorage : Equatable {
+    static func == (lhs: AccessibilityLabelStorage, rhs: AccessibilityLabelStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityValueStorage : Equatable {
+    static func == (lhs: AccessibilityValueStorage, rhs: AccessibilityValueStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityTextLayoutProperties : Equatable {
+    static func == (lhs: AccessibilityTextLayoutProperties, rhs: AccessibilityTextLayoutProperties) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityProperties : Equatable {
+    package static func == (lhs: AccessibilityProperties, rhs: AccessibilityProperties) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityProperties : AccessibilityCombinable {
+    package func merge(with other: AccessibilityProperties) -> Bool {
+        assertUnimplemented()
+    }
+}

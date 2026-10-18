@@ -76,3 +76,9 @@ extension AudioMixGroupsComponent : Component {
         assertUnimplemented()
     }
 }
+
+extension AudioMixGroupsComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

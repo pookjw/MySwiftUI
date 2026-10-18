@@ -707,7 +707,7 @@ extension TextureResource.Contents.MipmapLevel {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Dimensions2D : Equatable, Hashable {
+extension TextureResource.Dimensions2D : Hashable {
     public static func == (a: TextureResource.Dimensions2D, b: TextureResource.Dimensions2D) -> Bool {
         assertUnimplemented()
     }
@@ -724,7 +724,7 @@ extension TextureResource.Dimensions2D : Equatable, Hashable {
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Dimensions2DArray : Equatable, Hashable {
+extension TextureResource.Dimensions2DArray : Hashable {
     public static func == (a: TextureResource.Dimensions2DArray, b: TextureResource.Dimensions2DArray) -> Bool {
         assertUnimplemented()
     }
@@ -741,7 +741,7 @@ extension TextureResource.Dimensions2DArray : Equatable, Hashable {
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.DimensionsCube : Equatable, Hashable {
+extension TextureResource.DimensionsCube : Hashable {
     public static func == (a: TextureResource.DimensionsCube, b: TextureResource.DimensionsCube) -> Bool {
         assertUnimplemented()
     }
@@ -758,7 +758,7 @@ extension TextureResource.DimensionsCube : Equatable, Hashable {
 }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Dimensions3D : Equatable, Hashable {
+extension TextureResource.Dimensions3D : Hashable {
     public static func == (a: TextureResource.Dimensions3D, b: TextureResource.Dimensions3D) -> Bool {
         assertUnimplemented()
     }
@@ -775,7 +775,7 @@ extension TextureResource.Dimensions3D : Equatable, Hashable {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Format : Equatable, Hashable {
+extension TextureResource.Format : Hashable {
     public static func == (a: TextureResource.Format, b: TextureResource.Format) -> Bool {
         assertUnimplemented()
     }
@@ -792,7 +792,7 @@ extension TextureResource.Format : Equatable, Hashable {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Format.ColorSpace : Equatable, Hashable {
+extension TextureResource.Format.ColorSpace : Hashable {
     public static func == (a: TextureResource.Format.ColorSpace, b: TextureResource.Format.ColorSpace) -> Bool {
         assertUnimplemented()
     }
@@ -809,7 +809,7 @@ extension TextureResource.Format.ColorSpace : Equatable, Hashable {
 }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
-extension TextureResource.Format.NormalEncoding : Equatable, Hashable {
+extension TextureResource.Format.NormalEncoding : Hashable {
     public static func == (a: TextureResource.Format.NormalEncoding, b: TextureResource.Format.NormalEncoding) -> Bool {
         assertUnimplemented()
     }

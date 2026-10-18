@@ -34,3 +34,9 @@ struct RootContainerShape : Rule {
         assertUnimplemented()
     }
 }
+
+extension UnevenRoundedRectangle : Shape {
+    public func path(in rect: CGRect) -> Path {
+        assertUnimplemented()
+    }
+}

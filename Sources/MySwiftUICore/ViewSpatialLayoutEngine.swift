@@ -109,7 +109,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         return self.preferredSpacing!
     }
     
-    mutating func childGeometries3D(at size: ViewSize3D, origin: Point3D) -> [ViewGeometry3D] {
+    mutating func childGeometries3D(at size: ViewSize3D, origin3D: Point3D) -> [ViewGeometry3D] {
         /*
          self -> x20 -> x19
          L -> x1 -> x21
@@ -123,14 +123,14 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         
         if
             (self.cachedAlignmentVolume == copy_1) &&
-            origin.isZero &&
+            origin3D.isZero &&
             self.cachedAlignmentGeometry.count == count
         {
             return self.cachedAlignmentGeometry
         }
         
         // sp + 0xe0
-        let copy_2 = origin
+        let copy_2 = origin3D
         // sp + 0x100
         let copy_3 = size.value
         // x29 - 0xf0
@@ -399,7 +399,7 @@ struct ViewSpatialLayoutEngine<L : SpatialLayout> : SpatialLayoutEngine, Default
         
         if children.count != geometries.count {
             // <+220>
-            geometries = unsafe casted.pointee.childGeometries3D(at: volume, origin: .zero)
+            geometries = unsafe casted.pointee.childGeometries3D(at: volume, origin3D: .zero)
             unsafe casted.pointee.cachedAlignmentGeometry = geometries
         }
         

@@ -1413,3 +1413,13 @@ extension DisplayList {
 package protocol _DisplayList_AnyEffectAnimation /* TODO */ {
     // TODO
 }
+
+extension _DisplayList_StableIdentity : Decodable, Encodable {
+    init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+}

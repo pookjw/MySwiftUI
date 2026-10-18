@@ -64,3 +64,9 @@ extension DockingRegionComponent {
         assertUnimplemented()
     }
 }
+
+extension DockingRegionComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

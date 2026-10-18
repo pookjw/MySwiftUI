@@ -31,3 +31,5 @@ fileprivate struct ListHasStackBehaviorKey : EnvironmentKey {
         return .none
     }
 }
+
+extension ListStackBehavior : Equatable {}

@@ -172,12 +172,12 @@ extension UnlitMaterial {
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension UnlitMaterial {
-    @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
+    @_hasMissingDesignatedInitializers final public class Program : Hashable, Sendable {
         final public let descriptor: UnlitMaterial.Program.Descriptor = {
             assertUnimplemented()
         }()
         
-        public struct Descriptor : Equatable, Hashable, Sendable {
+        public struct Descriptor : Hashable, Sendable {
             public var applyPostProcessToneMap: Bool
             
             public var blendMode: MaterialParameterTypes.BlendMode?

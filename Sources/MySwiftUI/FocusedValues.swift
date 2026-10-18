@@ -12,3 +12,9 @@ extension FocusedValues {
         let rawValue: UInt8
     }
 }
+
+extension FocusedValues : Equatable {
+    public static func == (lhs: FocusedValues, rhs: FocusedValues) -> Bool {
+        assertUnimplemented()
+    }
+}

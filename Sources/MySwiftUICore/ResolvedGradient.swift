@@ -464,3 +464,13 @@ extension ResolvedGradient.ColorSpace {
         var a: Float
     }
 }
+
+extension ResolvedGradient : Decodable, Encodable {
+    package init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+
+    package func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+}

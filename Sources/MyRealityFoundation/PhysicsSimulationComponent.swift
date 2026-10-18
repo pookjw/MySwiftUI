@@ -118,3 +118,9 @@ public struct PhysicsSimulationComponent : Component, Equatable {
         assertUnimplemented()
     }
 }
+
+extension PhysicsSimulationComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

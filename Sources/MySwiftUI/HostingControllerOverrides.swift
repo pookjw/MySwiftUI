@@ -6,3 +6,13 @@ struct HostingControllerOverrides {
     private(set) weak var split: UISplitViewController? // 0x28
     private(set) var hasBackItem: Bool? // 0x30
 }
+
+extension HostingControllerOverrides : Equatable, CustomDebugStringConvertible {
+    static func == (lhs: HostingControllerOverrides, rhs: HostingControllerOverrides) -> Bool {
+        assertUnimplemented()
+    }
+    
+    var debugDescription: String {
+        assertUnimplemented()
+    }
+}

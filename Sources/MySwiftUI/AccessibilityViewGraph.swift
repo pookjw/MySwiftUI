@@ -18,12 +18,16 @@ struct AccessibilityViewGraph {
         Subgraph.current = graph.globalSubgraph
         
         let accessibilityFocusStore: OptionalAttribute<AccessibilityFocusStore>
+        let accessibilityFocus: OptionalAttribute<AccessibilityFocus>
         if graph.requestedOutputs.isSuperset(of: .focus) {
             accessibilityFocusStore = OptionalAttribute(Attribute(value: AccessibilityFocusStore()))
+            accessibilityFocus = OptionalAttribute(Attribute(value: AccessibilityFocus()))
         } else {
             accessibilityFocusStore = OptionalAttribute()
+            accessibilityFocus = OptionalAttribute()
         }
         self._accessibilityFocusStore = accessibilityFocusStore
+        self._accessibilityFocus = accessibilityFocus
         
         Subgraph.current = oldCurrent
     }

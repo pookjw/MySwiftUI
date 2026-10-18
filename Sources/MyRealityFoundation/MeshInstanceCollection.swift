@@ -112,3 +112,9 @@ extension MeshInstanceCollection : ExpressibleByArrayLiteral {
     @available(iOS 15.0, tvOS 26.0, macOS 12.0, macCatalyst 15.0, *)
     public typealias ArrayLiteralElement = MeshResource.Instance
 }
+
+extension MeshInstanceCollection : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

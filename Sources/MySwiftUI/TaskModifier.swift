@@ -337,7 +337,7 @@ extension _TaskModifier2 {
                             
                             if isLinkedOnOrAfter(.v7_4) {
                                 // <+204>
-                                task = Task.immediate(
+                                task = unsafe Task.immediate(
                                     name: base.name,
                                     priority: base.priority,
                                     executorPreference: base.taskExecutor,
@@ -345,11 +345,10 @@ extension _TaskModifier2 {
                                 )
                             } else {
                                 // <+424>
-                                task = Task.detached(
-                                    name: base.name,
-                                    executorPreference: base.taskExecutor,
+                                task = unsafe Task.detached(
+                                    name: nil,
                                     priority: base.priority,
-                                    operation: unsafeBitCast(base.action, to: (@Sendable () async -> Void).self)
+                                    operation: unsafeBitCast(base.action, to: (@Sendable @isolated(any) () async -> Void).self)
                                 )
                             }
                             

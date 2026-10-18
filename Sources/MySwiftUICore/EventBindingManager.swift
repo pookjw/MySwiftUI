@@ -56,3 +56,9 @@ package protocol ForwardedEventDispatcher {
 package struct EventBinding {
     private var responder: ResponderNode
 }
+
+extension EventBinding : Equatable {
+    package static func == (lhs: EventBinding, rhs: EventBinding) -> Bool {
+        assertUnimplemented()
+    }
+}

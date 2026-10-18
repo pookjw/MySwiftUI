@@ -74,3 +74,5 @@ struct KeyboardShortcutBindingsKey : HostPreferenceKey {
 protocol KeyboardShortcutSource {
     // TODO
 }
+
+extension KeyboardShortcutBinding : Hashable {}

@@ -11,3 +11,5 @@ package protocol _DisplayList_SeparatedItemModifier {
 package struct SeparationProperties {
     // TODO
 }
+
+extension SeparatedState : Equatable {}

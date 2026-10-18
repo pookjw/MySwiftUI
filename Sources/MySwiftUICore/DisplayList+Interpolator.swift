@@ -21,7 +21,7 @@ extension DisplayList.InterpolatorLayer {
         // TODO
     }
     
-    fileprivate enum Phase {
+    fileprivate enum Phase : Hashable {
         case pending
         case first
         case second

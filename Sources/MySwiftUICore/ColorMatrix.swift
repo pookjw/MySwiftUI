@@ -6,6 +6,10 @@
     
     @inlinable public init() {}
     
+    public var isIdentity: Bool {
+        assertUnimplemented()
+    }
+    
     public init(color: Color, in environment: EnvironmentValues) {
         assertUnimplemented()
     }

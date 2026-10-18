@@ -4,7 +4,7 @@ private import MySwiftUICore
 enum UIKitUpdateCycle {
     static let defaultUseSetNeedsLayout: Bool = {
         let userDefaults = UserDefaults.standard
-        if let object = UserDefaults.standard.object(forKey: "UseSetNeedsLayoutForUpdates") {
+        if userDefaults.object(forKey: "UseSetNeedsLayoutForUpdates") != nil {
             return userDefaults.bool(forKey: "UseSetNeedsLayoutForUpdates")
         } else {
             return isLinkedOnOrAfter(.v7)

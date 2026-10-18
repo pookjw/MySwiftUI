@@ -2,7 +2,7 @@ public import CoreGraphics
 internal import AttributeGraph
 
 enum GestureDebug {
-    enum Kind : Equatable, Hashable {
+    enum Kind : Hashable {
         case empty
         case gesture
         case combiner

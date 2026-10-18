@@ -172,3 +172,9 @@ extension DirectionalLightComponent : DefaultInitializable {
         assertUnimplemented()
     }
 }
+
+extension DirectionalLightComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

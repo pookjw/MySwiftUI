@@ -157,3 +157,5 @@ struct ContentScrollViewPreferenceKey : HostPreferenceKey {
         assertUnimplemented()
     }
 }
+
+extension ContentScrollViewBox : Equatable {}

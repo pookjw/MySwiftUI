@@ -158,6 +158,10 @@ package final class StoredLocation<Value> : StoredLocationBase<Value> {
         super.init(initialValue: initialValue)
     }
     
+    package override init(initialValue: Value) {
+        assertUnimplemented()
+    }
+    
     override func update() -> (Value, Bool) {
         // x21
         let changed: Bool

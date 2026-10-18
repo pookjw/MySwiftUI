@@ -4,7 +4,7 @@ public import Metal
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 @available(visionOS, unavailable)
 extension CustomMaterial {
-    @_hasMissingDesignatedInitializers final public class Program : Equatable, Hashable, Sendable {
+    @_hasMissingDesignatedInitializers final public class Program : Hashable, Sendable {
         final public let surfaceShader: CustomMaterial.SurfaceShader = {
             assertUnimplemented()
         }()
@@ -17,7 +17,7 @@ extension CustomMaterial {
             assertUnimplemented()
         }()
         
-        public struct Descriptor : Equatable, Hashable, Sendable {
+        public struct Descriptor : Hashable, Sendable {
             public var lightingModel: CustomMaterial.LightingModel
             
             public var blendMode: MaterialParameterTypes.BlendMode?
@@ -900,7 +900,7 @@ extension CustomMaterial {
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 @available(visionOS, unavailable)
-extension CustomMaterial.GeometryModifier : Equatable, Hashable, @unchecked Sendable {
+extension CustomMaterial.GeometryModifier : Hashable, @unchecked Sendable {
     public static func == (lhs: CustomMaterial.GeometryModifier, rhs: CustomMaterial.GeometryModifier) -> Bool {
         assertUnimplemented()
     }
@@ -918,7 +918,7 @@ extension CustomMaterial.GeometryModifier : Equatable, Hashable, @unchecked Send
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 @available(visionOS, unavailable)
-extension CustomMaterial.SurfaceShader : Equatable, Hashable, @unchecked Sendable {
+extension CustomMaterial.SurfaceShader : Hashable, @unchecked Sendable {
     public static func == (lhs: CustomMaterial.SurfaceShader, rhs: CustomMaterial.SurfaceShader) -> Bool {
         assertUnimplemented()
     }

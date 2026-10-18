@@ -19,3 +19,15 @@ extension AccessibilityLargeContentViewTree {
 struct AccessibilityLargeContentViewItem {
     
 }
+
+extension AccessibilityLargeContentViewTree : Equatable {
+    static func == (lhs: AccessibilityLargeContentViewTree, rhs: AccessibilityLargeContentViewTree) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityLargeContentViewItem : Equatable {
+    static func == (lhs: AccessibilityLargeContentViewItem, rhs: AccessibilityLargeContentViewItem) -> Bool {
+        assertUnimplemented()
+    }
+}

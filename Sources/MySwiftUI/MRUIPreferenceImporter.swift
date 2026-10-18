@@ -101,7 +101,7 @@ extension MRUIPreferenceImporter {
             let signal = Attribute(value: ())
             // w24
             let preference = Attribute(ImportedPreference<T>(host: host))
-            signal.addInput(preference, options: .unknown2, token: 0)
+            preference.addInput(signal, options: .unknown2, token: 0)
             
             // <+400>
             outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: T.self, value: {

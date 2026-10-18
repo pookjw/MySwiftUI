@@ -5,3 +5,9 @@ struct PushTarget {
     private(set) var shouldReplaceRoot: Bool // 0x8
     private(set) var column: UISplitViewController.Column? // 0x10
 }
+
+extension PushTarget : Equatable {
+    static func == (lhs: PushTarget, rhs: PushTarget) -> Bool {
+        assertUnimplemented()
+    }
+}

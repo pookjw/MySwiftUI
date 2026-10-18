@@ -1,4 +1,4 @@
-private import CoreGraphics
+package import CoreGraphics
 private import QuartzCore
 internal import _MySwiftUICoreShims
 
@@ -165,6 +165,107 @@ extension GraphicsFilter.VibrantColorMatrix {
     }
 }
 
+extension GraphicsFilter.DisplacementMap : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.ColorMonochrome : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.VibrantColorMatrix : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.Curve : Equatable {
+    static func == (lhs: borrowing GraphicsFilter.Curve, rhs: borrowing GraphicsFilter.Curve) -> Bool {
+        assertUnimplemented()
+    }
+    
+}
+
+extension GraphicsFilter.LuminanceCurve : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.ColorCurves : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.ShaderFilter : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package static func == (lhs: GraphicsFilter.ShaderFilter, rhs: GraphicsFilter.ShaderFilter) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.AlphaThreshold : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.EDRGainMultiply : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension GraphicsFilter.GlassBackgroundStyle : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
 package struct VariableBlurStyle {
     private var radius: CGFloat
     private var isOpaque: Bool
@@ -177,5 +278,38 @@ extension VariableBlurStyle {
         case image(GraphicsImage)
         case layerIndex(UInt)
         case none
+    }
+}
+
+extension VariableBlurStyle : RendererEffect, Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package var animatableData: CGFloat {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+    
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
+extension VariableBlurStyle.Mask : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+    func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
     }
 }

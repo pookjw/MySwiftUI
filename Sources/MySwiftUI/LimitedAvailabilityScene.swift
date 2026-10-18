@@ -39,3 +39,5 @@ internal class LimitedAvailabilitySceneStorageBase {
 @available(*, unavailable)
 extension LimitedAvailabilitySceneStorageBase : Sendable {
 }
+
+extension LimitedAvailabilityScene : PrimitiveScene {}

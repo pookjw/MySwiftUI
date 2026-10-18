@@ -9,7 +9,7 @@ extension DisplayList {
         private var index: DisplayList.Index
         private var time: Time
         private var nextTime: Time
-        private var stableIDs: _DisplayList_StableIdentityMap?
+        var stableIDs: _DisplayList_StableIdentityMap?
         private var inTransitionGroup: Bool
         private var stateHashes: [StrongHash]
         var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode

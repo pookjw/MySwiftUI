@@ -1338,3 +1338,5 @@ extension UIViewController {
         return viewController
     }
 }
+
+extension PresentationHostingControllerPresenterKind : Hashable {}

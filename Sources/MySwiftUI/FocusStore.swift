@@ -142,3 +142,9 @@ struct FocusStateBindingUpdateAction {
 struct FocusStoreUpdateAction {
     fileprivate let update: ((inout PropertyList) -> Void)?
 }
+
+extension FocusStore : Equatable {
+    static func == (lhs: FocusStore, rhs: FocusStore) -> Bool {
+        assertUnimplemented()
+    }
+}

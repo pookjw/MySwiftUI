@@ -3,6 +3,14 @@ open class PlatformGlassDefinition {
     nonisolated(unsafe) static var uiKit: PlatformGlassDefinition.Type?
     nonisolated(unsafe) static var appKit: PlatformGlassDefinition.Type?
     
+    open class var system: PlatformSystemDefinition {
+        fatalError() // abstract
+    }
+    
+    open class func resolvedGlass(_ glass: _Glass, environment: EnvironmentValues) -> _Glass.Resolved? {
+        fatalError() // abstract
+    }
+    
     package static func setDefinition(_ definition: PlatformGlassDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:

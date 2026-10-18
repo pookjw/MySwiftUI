@@ -161,7 +161,7 @@ struct ImmersiveSpaceConfigurationAttributes : WindowSceneConfigurationAttribute
     var sceneUpdateTransitionAnimation: ImmersiveSpaceSceneUpdateTransition? = nil // 0x68
     var immersiveContentBrightness: ImmersiveContentBrightness? = nil // 0x78
     var immersiveEnvironmentBehavior: ImmersiveEnvironmentBehavior.Storage = .automatic // 0x82
-    private(set) var orderOutSceneSessionIdentifiersProvider: () -> Set<String> = {
+    var orderOutSceneSessionIdentifiersProvider: () -> Set<String> = {
         // $s7SwiftUI37ImmersiveSpaceConfigurationAttributesV39orderOutSceneSessionIdentifiersProviderShySSGycvpfiAEycfU_
         return []
     } // 0x88
@@ -593,3 +593,5 @@ extension ImmersiveSpaceContent {
         return resolvedRrimitiveImmersiveSpaceContent._makeView()
     }
 }
+
+extension IdentifiedDocumentGroupConfiguration : Hashable {}

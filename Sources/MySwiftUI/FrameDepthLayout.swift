@@ -283,11 +283,28 @@ extension _FlexFrameDepthLayout : ViewModifier, FrameDepthLayout {
     }
     
     package func depthOffered(to: LayoutProxy, for size: _ProposedSize3D, context: SizeAndSpacingContext) -> CGFloat? {
-        if let minDepth {
-            return minDepth
+        /*
+         self -> x20 -> x21
+         size -> x1 -> x22
+         */
+        // <+128>
+        var size = size
+        
+        if var d0 = size.depth ?? idealDepth {
+            // <+180>
+            var d1 = minDepth ?? -.infinity
+            d0 = (d1 <= d0) ? d0 : d1
+            d1 = maxDepth ?? .infinity
+            d0 = (d1 < d0) ? d1 : d0
+            size.depth = d0
+            // <+328>
         } else {
-            return size.depth
+            // <+320>
+            size.depth = nil
         }
+        
+        // <+328>
+        return size.depth
     }
 }
 

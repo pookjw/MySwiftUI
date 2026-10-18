@@ -147,3 +147,9 @@ extension PointScale {
         return self.convert(1.0, from: from, to: to)
     }
 }
+
+extension PointScale : Equatable {
+    package static func == (lhs: PointScale, rhs: PointScale) -> Bool {
+        assertUnimplemented()
+    }
+}

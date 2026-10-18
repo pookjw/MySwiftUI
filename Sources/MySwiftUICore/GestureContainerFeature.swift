@@ -2,7 +2,9 @@ private import FeatureFlags
 private import Foundation
 private import _DarwinFoundation3._stdlib
 
-package struct GestureContainerFeature {
+package struct GestureContainerFeature : Feature {
+    package init() {}
+    
     @safe nonisolated(unsafe) package static var isEnabled: Bool {
         if let isEnabledOverride = isEnabledOverride {
             return isEnabledOverride
@@ -28,17 +30,17 @@ package struct GestureContainerFeature {
             return false
         }
         
-        return isLinkedOnOrAfter(.v6)
+        return isLinkedOnOrAfter(.v7)
     }
     
     @safe nonisolated(unsafe) static var isEnabledOverride: Bool? = nil
     
     fileprivate static let userDefaultsValue: Bool? = {
-        guard let boolValue = UserDefaults.standard.object(forKey: "com.apple.SwiftUI.GestureContainers") as? Bool else {
+        guard UserDefaults.standard.object(forKey: "com.apple.SwiftUI.GestureContainers") != nil else {
             return nil
         }
         
-        return boolValue
+        return UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.GestureContainers")
     }()
     
     fileprivate static let envValue: Bool? = {
@@ -70,15 +72,15 @@ extension GestureContainerFeature {
             }
             
             if bundleIdentifier == "com.apple.RealityChrome" {
-                return true
+                return false
             }
             
             if bundleIdentifier == "com.apple.RealityHUD" {
-                return true
+                return false
             }
             
             if bundleIdentifier == "com.apple.RealityLauncher" {
-                return true
+                return false
             }
             
             return nil

@@ -15,3 +15,9 @@ extension KeyEvent {
         private var activeVersions: [AnyHashable : DisplayList.Version] = [:]
     }
 }
+
+extension KeyEvent : Equatable, EventType {
+    static func == (lhs: KeyEvent, rhs: KeyEvent) -> Bool {
+        assertUnimplemented()
+    }
+}

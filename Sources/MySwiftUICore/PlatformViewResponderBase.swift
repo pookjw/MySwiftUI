@@ -11,6 +11,10 @@ public import CoreGraphics
     open var platformViewIsEnabled: Bool {
         assertUnimplemented()
     }
+
+    open func alignmentRect(hostView: T) -> CGRect {
+        assertUnimplemented()
+    }
     
     public override init() {
         super.init()

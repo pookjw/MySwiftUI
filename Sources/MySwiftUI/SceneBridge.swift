@@ -629,3 +629,9 @@ struct OpenURLContext {
     private(set) var url: URL
     private(set) var options: OpenURLOptions?
 }
+
+extension InitialSceneSizeState : Equatable {
+    static func == (lhs: InitialSceneSizeState, rhs: InitialSceneSizeState) -> Bool {
+        assertUnimplemented()
+    }
+}

@@ -37,3 +37,9 @@ struct ClippingPrimitiveComponent : Component {
         assertUnimplemented()
     }
 }
+
+extension ClippingPrimitiveComponent : CustomReflectable {
+    var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

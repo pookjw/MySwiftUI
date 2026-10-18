@@ -635,3 +635,15 @@ struct ToolbarAppearanceConfiguration : Equatable {
     
     // TODO
 }
+
+extension PlatformBarUpdates : Equatable {
+    static func == (lhs: PlatformBarUpdates, rhs: PlatformBarUpdates) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension NavigationTitleStorage : Equatable {
+    static func == (lhs: NavigationTitleStorage, rhs: NavigationTitleStorage) -> Bool {
+        assertUnimplemented()
+    }
+}

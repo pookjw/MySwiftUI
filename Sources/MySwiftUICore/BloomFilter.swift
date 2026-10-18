@@ -1,6 +1,10 @@
 struct BloomFilter : Equatable {
     @usableFromInline var value: UInt
     
+    static var all: BloomFilter {
+        assertUnimplemented()
+    }
+    
     init() {
         value = 0
     }

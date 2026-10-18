@@ -65,3 +65,9 @@ extension ModelSortGroupComponent {
         assertUnimplemented()
     }
 }
+
+extension ModelSortGroupComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}

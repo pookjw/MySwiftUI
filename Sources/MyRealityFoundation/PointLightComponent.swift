@@ -126,3 +126,9 @@ extension PointLightComponent : DefaultInitializable {
         assertUnimplemented()
     }
 }
+
+extension PointLightComponent : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}
