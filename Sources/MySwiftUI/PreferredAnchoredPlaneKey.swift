@@ -33,7 +33,35 @@ struct PreferredAnchoredPlaneKey : MRUIBridgedPreferenceKey, HostPreferenceKey {
     }
     
     static func value(from bridgedValue: RSSPlacementTarget?) -> PreferredAnchoredPlaneKey.PreferredValue? {
-        assertUnimplemented()
+        /*
+         bridgedValue -> x0 -> x21
+         return pointer -> x8 -> x19
+         */
+        // <+188>
+        guard let bridgedValue else {
+            return nil
+        }
+        
+        let plane: AnchoredPlane?
+        switch bridgedValue.anchoredPlane() {
+        case .vertical:
+            // <+212>
+            plane = .vertical
+        case .horizontal:
+            // <+276>
+            plane = .horizontal
+        default:
+            // <+332>
+            plane = nil
+        }
+        
+        // <+336>
+        guard let plane else {
+            return nil
+        }
+        
+        // <+444>
+        return PreferredAnchoredPlaneKey.PreferredValue(plane: plane, animation: nil)
     }
     
     static func animation(from value: PreferredAnchoredPlaneKey.PreferredValue?) -> Animation? {

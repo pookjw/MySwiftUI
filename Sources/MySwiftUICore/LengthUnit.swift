@@ -150,6 +150,6 @@ extension PointScale {
 
 extension PointScale : Equatable {
     package static func == (lhs: PointScale, rhs: PointScale) -> Bool {
-        assertUnimplemented()
+        return lhs.pointsPerMeter == rhs.pointsPerMeter
     }
 }

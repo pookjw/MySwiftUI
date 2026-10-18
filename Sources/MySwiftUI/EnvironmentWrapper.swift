@@ -14,6 +14,18 @@ internal import Foundation
     }
     
     override func isEqual(_ object: Any?) -> Bool {
-        assertUnimplemented()
+        guard super.isEqual(object) else {
+            return false
+        }
+        
+        // <+232>
+        guard
+            let object,
+            let casted = object as? EnvironmentWrapper
+        else {
+            return false
+        }
+        
+        return !self.focusedValues.plist.mayNotBeEqual(to: casted.focusedValues.plist)
     }
 }

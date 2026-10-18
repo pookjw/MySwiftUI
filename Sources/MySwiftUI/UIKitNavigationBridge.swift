@@ -72,7 +72,7 @@ class UIKitNavigationBridge {
         }
         
         // x20
-        let target: UIViewController
+        var target: UIViewController? = nil
         
         // x21
         if let splitViewController = host?.uiContainingViewController?.splitViewController {
@@ -80,13 +80,13 @@ class UIKitNavigationBridge {
             if let casted = splitViewController as? NotificationSendingSplitViewController {
                 target = casted
                 // <+228>
-            } else if let casted = splitViewController as? NotifyingMulticolumnSplitViewController {
-                target = casted
-                // <+228>
             } else {
-                return false
+                target = splitViewController as? NotifyingMulticolumnSplitViewController
+                // <+228>
             }
-        } else {
+        }
+        
+        if target == nil {
             // <+368>
             guard let navigationController = uiContainingViewController.navigationController else {
                 return false
@@ -108,7 +108,7 @@ class UIKitNavigationBridge {
         // x22
         let view_1 = uiContainingViewController.view!
         // x23
-        let view_2 = target.view!
+        let view_2 = target!.view!
         
         return view_1.isDescendant(of: view_2)
     }
@@ -209,6 +209,30 @@ class UIKitNavigationBridge {
         assertUnimplemented()
     }
     
+    @MainActor func pushTarget(isDetail: Bool) -> PushTarget? {
+        assertUnimplemented()
+    }
+    
+    @MainActor func popDestination(animated: Bool) {
+        assertUnimplemented()
+    }
+    
+    @objc @MainActor func navigationChanged(_ notification: NSNotification) {
+        assertUnimplemented()
+    }
+    
+    @MainActor func updateContentHost(_ contentHost: BridgedPresentation.ContentHost, destination: NavigationDestinationContent, pushTarget: PushTarget, animated: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    @MainActor func push(_ content: NavigationDestinationContent, onto pushTarget: PushTarget, animated: Bool) {
+        assertUnimplemented()
+    }
+    
+    @MainActor func popSelf(animated: Bool) {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 
@@ -265,12 +289,12 @@ final class NavigationBridge_PhoneTV : UIKitNavigationBridge {
         } else if let _casted = splitViewController as? NotifyingMulticolumnSplitViewController {
             casted = _casted
         } else {
-            return (nil, false, nil)
+            return (navController, false, nil)
         }
         
         // <+492>
         if casted.style == .unspecified || !isDetail {
-            return (nil, false, nil)
+            return (navController, false, nil)
         }
         
         // <+516>
@@ -358,6 +382,30 @@ final class NavigationBridge_PhoneTV : UIKitNavigationBridge {
                 }
             }
         }
+    }
+    
+    @MainActor override func pushTarget(isDetail: Bool) -> PushTarget? {
+        assertUnimplemented()
+    }
+    
+    @MainActor override func popDestination(animated: Bool) {
+        assertUnimplemented()
+    }
+    
+    @objc @MainActor override func navigationChanged(_ notification: NSNotification) {
+        assertUnimplemented()
+    }
+    
+    @MainActor override func updateContentHost(_ contentHost: BridgedPresentation.ContentHost, destination: NavigationDestinationContent, pushTarget: PushTarget, animated: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    @MainActor override func push(_ content: NavigationDestinationContent, onto pushTarget: PushTarget, animated: Bool) {
+        assertUnimplemented()
+    }
+    
+    @MainActor override func popSelf(animated: Bool) {
+        assertUnimplemented()
     }
 }
 

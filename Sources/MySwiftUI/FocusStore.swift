@@ -145,6 +145,6 @@ struct FocusStoreUpdateAction {
 
 extension FocusStore : Equatable {
     static func == (lhs: FocusStore, rhs: FocusStore) -> Bool {
-        assertUnimplemented()
+        return lhs.version == rhs.version
     }
 }

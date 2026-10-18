@@ -15,6 +15,6 @@ extension FocusedValues {
 
 extension FocusedValues : Equatable {
     public static func == (lhs: FocusedValues, rhs: FocusedValues) -> Bool {
-        assertUnimplemented()
+        return lhs.version == rhs.version
     }
 }

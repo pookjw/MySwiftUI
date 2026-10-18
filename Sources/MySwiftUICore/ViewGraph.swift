@@ -1538,8 +1538,9 @@ extension ViewGraphGeometryObservers {
             self.callback = callback
         }
         
-        func reset() {
+        func reset() -> Bool {
             storage = .invalid
+            return true
         }
     }
 }

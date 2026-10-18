@@ -9,7 +9,10 @@ struct HostingControllerOverrides {
 
 extension HostingControllerOverrides : Equatable, CustomDebugStringConvertible {
     static func == (lhs: HostingControllerOverrides, rhs: HostingControllerOverrides) -> Bool {
-        assertUnimplemented()
+        return (lhs.pushTarget == rhs.pushTarget) &&
+        (lhs.navigation === rhs.navigation) &&
+        (lhs.split === rhs.split) &&
+        (lhs.hasBackItem == rhs.hasBackItem)
     }
     
     var debugDescription: String {

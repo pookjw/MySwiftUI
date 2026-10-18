@@ -15,6 +15,14 @@ extension View {
         )
     }
     
+    package func staticIf<Predicate : ViewInputPredicate, TrueBody : View, FalseBody : View>(
+        _ predicate: Predicate.Type,
+        @ViewBuilder then: (Self) -> TrueBody,
+        @ViewBuilder else: (Self) -> FalseBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
     package func staticIf<Predicate : ViewInputPredicate, Content : View>(
         _ predicate: Predicate.Type,
         @ViewBuilder then: (Self) -> Content

@@ -15,3 +15,13 @@ public enum Visibility : Int, Hashable, CaseIterable {
         }
     }
 }
+
+extension Visibility : Serializable {
+    package func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    package static func deserialize(from decoder: Decoder) throws -> Visibility {
+        assertUnimplemented()
+    }
+}
