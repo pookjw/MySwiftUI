@@ -762,6 +762,10 @@ private import _UIKitShims
             }
         }
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 extension SheetBridge : UIHostingViewDelegate {

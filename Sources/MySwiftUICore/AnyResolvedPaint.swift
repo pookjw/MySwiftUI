@@ -33,5 +33,5 @@ final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
 }
 
 package protocol ResolvedPaintVisitor {
-    func visitPaint<T : ResolvedPaint>(_ point: T)
+    mutating func visitPaint<T : ResolvedPaint>(_ point: T)
 }

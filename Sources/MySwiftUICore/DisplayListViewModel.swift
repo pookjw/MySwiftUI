@@ -48,10 +48,12 @@ extension DisplayList.ViewUpdater {
             var versions = DisplayList.ViewUpdater.Model.State.Versions() // 0x118
             
             @inline(always)
-            init(
-                globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>
-            ) {
+            init(globals: UnsafePointer<DisplayList.ViewUpdater.Model.State.Globals>) {
                 unsafe self.globals = unsafe globals
+            }
+            
+            var hasDODEffects: Bool {
+                assertUnimplemented()
             }
             
             mutating func reset() {

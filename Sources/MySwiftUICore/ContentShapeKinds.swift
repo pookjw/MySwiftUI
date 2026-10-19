@@ -40,4 +40,9 @@ public struct ContentShapeKinds : OptionSet, Sendable {
     public static let accessibility: ContentShapeKinds = {
         assertUnimplemented() 
     }()
+    
+    // 0x20, 비공개(원본 심볼 _$s7SwiftUI17ContentShapeKindsV25serverInteractionFallbackACvgZ)
+    static let serverInteractionFallback: ContentShapeKinds = {
+        assertUnimplemented()
+    }()
 }

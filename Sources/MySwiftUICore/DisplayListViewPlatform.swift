@@ -820,7 +820,7 @@ extension DisplayList.ViewUpdater {
                     assertUnimplemented()
                 case .color(_):
                     // <+2692>
-                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
                         platform = .caLayer
                     }
                     
@@ -837,9 +837,20 @@ extension DisplayList.ViewUpdater {
                 case .image(_):
                     // <+2588>
                     assertUnimplemented()
-                case .shape(_, _, _):
+                case .shape(let path, let paint, let fillStyle):
                     // <+2148>
-                    assertUnimplemented()
+                    let hasDODEffects = unsafe state.pointee.hasDODEffects
+                    // inlined
+                    let layerType = ShapeLayerHelper.layerType(path, paint, mayClip: !hasDODEffects)
+                    
+                    if unsafe self.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                        platform = .caLayer
+                    }
+                    
+                    // <+2364>
+                    let layerView = platform.definition.makeLayerView(type: layerType, kind: .shape)
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: layerView, kind: .shape)
+                    return viewInfo
                 case .sdfShape(_):
                     // <+156>
                     assertUnimplemented()
@@ -860,7 +871,7 @@ extension DisplayList.ViewUpdater {
                     return viewInfo
                 case .platformLayer(let factory):
                     // <+2064>
-                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.secondaryForegroundLayer) {
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
                         platform = .caLayer
                     }
                     

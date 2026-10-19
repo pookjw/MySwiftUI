@@ -4377,7 +4377,7 @@ extension DisplayList.ViewUpdater {
             self.view = view
             self.layer = layer
             self.container = view
-            self.state = DisplayList.ViewUpdater.Platform.State.init(
+            self.state = DisplayList.ViewUpdater.Platform.State(
                 position: .infinity,
                 size: CGSize(width: CGFloat.infinity, height: CGFloat.infinity),
                 kind: kind,
