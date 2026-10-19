@@ -17,4 +17,5 @@ open class PlatformScrollEdgeEffectTagDefinition {
 }
 
 @_spi(Internal) public protocol PlatformScrollEdgeEffectTagModifier : ViewModifier {
-    }
+    static func make() -> Self
+}

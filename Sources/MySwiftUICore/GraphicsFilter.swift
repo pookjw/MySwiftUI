@@ -268,7 +268,7 @@ extension GraphicsFilter.GlassBackgroundStyle : Equatable, ProtobufEncodableMess
 
 package struct VariableBlurStyle {
     private var radius: CGFloat
-    private var isOpaque: Bool
+    private(set) var isOpaque: Bool
     private var dither: Bool
     private var mask: VariableBlurStyle.Mask
 }

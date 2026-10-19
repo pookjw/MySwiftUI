@@ -1,4 +1,4 @@
-@frozen public struct ForegroundStyle : ShapeStyle {
+@frozen public struct ForegroundStyle : ShapeStyle, PrimitiveShapeStyle {
     @inlinable public init() {}
     
     nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, ForegroundStyle>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {

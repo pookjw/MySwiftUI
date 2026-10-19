@@ -53,7 +53,77 @@ extension DisplayList.ViewUpdater {
             }
             
             var hasDODEffects: Bool {
-                assertUnimplemented()
+                guard unsafe self.clips.isEmpty && (self.shadow == nil) else {
+                    return true
+                }
+                
+                // <+68>
+                var result = false
+                
+                for filter in unsafe self.filters {
+                    guard !result else {
+                        continue
+                    }
+                    
+                    switch filter {
+                    case .blur(let blurStyle):
+                        // <+248>
+                        result = !blurStyle.isOpaque
+                    case .variableBlur(let variableBlurStyle):
+                        // <+248>
+                        result = !variableBlurStyle.isOpaque
+                    case .displacementMap(_):
+                        result = true
+                    case .chromaticAberrationMap(_):
+                        result = true
+                    case .shadow(_):
+                        result = true
+                    case .projection(_):
+                        result = false
+                    case .colorMatrix(_):
+                        result = false
+                    case .colorMultiply(_):
+                        result = false
+                    case .alphaMultiply(_):
+                        result = false
+                    case .hueRotation(_):
+                        result = false
+                    case .saturation(_):
+                        result = false
+                    case .brightness(_):
+                        result = false
+                    case .contrast(_):
+                        result = false
+                    case .grayscale(_):
+                        result = false
+                    case .colorMonochrome(_):
+                        result = false
+                    case .vibrantColorMatrix(_):
+                        result = false
+                    case .luminanceCurve(_):
+                        result = false
+                    case .colorCurves(_):
+                        result = false
+                    case .shader(_):
+                        result = false
+                    case .alphaThreshold(_):
+                        result = false
+                    case .edrGainMultiply(_):
+                        result = false
+                    case .glassBackground(_):
+                        result = true
+                    case .caFilter(_):
+                        result = false
+                    case .averageColor:
+                        result = false
+                    case .luminanceToAlpha:
+                        result = false
+                    case .colorInvert:
+                        result = false
+                    }
+                }
+                
+                return result
             }
             
             mutating func reset() {

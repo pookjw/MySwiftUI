@@ -17,15 +17,15 @@ struct TupleStyleContext<T> : StyleContext {
 }
 
 extension TupleStyleContext {
-    fileprivate struct QueryAtIndexVisitor<U> {
+    fileprivate struct QueryAtIndexVisitor<U> : StyleContextVisitor {
         // TODO
     }
     
-    fileprivate struct QueryVisitor<U> {
+    fileprivate struct QueryVisitor<each U> : StyleContextVisitor {
         // TODO
     }
     
-    fileprivate struct ContextAcceptsVisito<U> {
+    fileprivate struct ContextAcceptsVisitor<U> : StyleContextVisitor {
         // TODO
     }
 }

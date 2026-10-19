@@ -24,3 +24,9 @@ struct ShapeLayerHelper {
     
     // TODO
 }
+
+extension ShapeLayerHelper : ResolvedPaintVisitor {
+    func visitPaint<T>(_ point: T) where T : ResolvedPaint {
+        assertUnimplemented()
+    }
+}
