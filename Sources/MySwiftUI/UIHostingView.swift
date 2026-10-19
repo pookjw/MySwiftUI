@@ -2072,6 +2072,10 @@ extension _UIHostingView : @preconcurrency UIHostingViewBaseDelegate {
     final func baseSceneResignedKey(_ base: _UIKitShims::UIHostingViewBase) {
         assertUnimplemented()
     }
+    
+    final func baseShouldAllowKeyboardSafeAreaAnimations(_ base: _UIKitShims::UIHostingViewBase) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView : @preconcurrency FocusHost {

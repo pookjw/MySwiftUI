@@ -4315,16 +4315,16 @@ extension DisplayList.ViewUpdater.ViewInfo {
     }
     
     struct Seeds {
-        var item: DisplayList.Seed
-        var content: DisplayList.Seed
-        var opacity: DisplayList.Seed
-        var blend: DisplayList.Seed
-        var transform: DisplayList.Seed
-        var clips: DisplayList.Seed
-        var filters: DisplayList.Seed
-        var shadow: DisplayList.Seed
-        var properties: DisplayList.Seed
-        var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds
+        var item: DisplayList.Seed // 0x0
+        var content: DisplayList.Seed // 0x2
+        var opacity: DisplayList.Seed // 0x4
+        var blend: DisplayList.Seed // 0x6
+        var transform: DisplayList.Seed // 0x8
+        var clips: DisplayList.Seed // 0xa
+        var filters: DisplayList.Seed // 0xc
+        var shadow: DisplayList.Seed // 0xe
+        var properties: DisplayList.Seed // 0x10
+        var platformSeeds: DisplayList.ViewUpdater.PlatformViewInfo.Seeds // 0x12
         
         // 원래 없음
         @inline(always)

@@ -8,7 +8,7 @@ private import _SwiftUIPrivate
 private import DesignLibrary
 private import _DesignLibraryShims
 
-package final class UIHostingViewBase : NSObject {    
+package final class UIHostingViewBase : NSObject {
     package weak var uiView: UIView? = nil
     package weak var delegate: UIHostingViewBaseDelegate? = nil
     
@@ -1373,6 +1373,7 @@ package protocol UIHostingViewBaseDelegate : AnyObject {
     func baseKeyboardSafeAreaDidChange(_ base: UIHostingViewBase, oldHeight: CGFloat, newHeight: CGFloat)
     func baseSceneBecameKey(_ base: UIHostingViewBase)
     func baseSceneResignedKey(_ base: UIHostingViewBase)
+    func baseShouldAllowKeyboardSafeAreaAnimations(_ base: UIHostingViewBase) -> Bool
 }
 
 fileprivate let isChaaranaApp: Bool = {

@@ -23,7 +23,12 @@ public import simd
     @MainActor @preconcurrency convenience public init(plane alignment: AnchoringComponent.Target.Alignment, classification: AnchoringComponent.Target.Classification = .any, minimumBounds: SIMD2<Float> = [0, 0]) {
         assertUnimplemented()
     }
+    
+    @usableFromInline
+    @MainActor @preconcurrency override internal init(_coreEntity: __EntityRef) {
+        assertUnimplemented()
     }
+}
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension AnchorEntity {

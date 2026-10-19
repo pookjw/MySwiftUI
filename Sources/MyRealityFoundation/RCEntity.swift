@@ -20,4 +20,4 @@
     @MainActor @preconcurrency override internal init(_coreEntity: __EntityRef) {
         assertUnimplemented()
     }
-    }
+}

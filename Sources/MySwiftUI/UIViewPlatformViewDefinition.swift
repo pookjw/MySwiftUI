@@ -67,8 +67,7 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
         let viewType: UIView.Type
         switch kind {
         case .shape:
-            assertUnimplemented()
-//            type = _UIShapeHitTestingView.self
+            viewType = _UIShapeHitTestingView.self
         case .inherited, .color, .image, .sdfLayer, .sdfEffect, .shadow, .backdrop, .chameleonColor, .drawing, .compositing, .geometry, .projection, .affine3D, .mask, .platformView, .platformGroup, .platformLayer, .platformEffect:
             if kind.isContainer {
                 viewType = _UIInheritedView.self
@@ -120,5 +119,23 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
 extension UIView {
     @_spi(Internal) open override class func _mySwiftUI_platformViewDefinition() -> UnsafeRawPointer? {
         return unsafe unsafeBitCast(UIViewPlatformViewDefinition.self, to: UnsafeRawPointer.self)
+    }
+}
+
+fileprivate final class _UIShapeHitTestingView : _UIGraphicsView {
+    private var path: Path
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        assertUnimplemented()
+    }
+    
+    override init(frame: CGRect) {
+        self.path = Path()
+        super.init(frame: frame)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        self.path = Path()
+        super.init(coder: coder)
     }
 }

@@ -3,4 +3,8 @@
     @MainActor @preconcurrency required public init() {
         assertUnimplemented()
     }
+    
+    @MainActor @preconcurrency override internal init(_coreEntity: __EntityRef) {
+        assertUnimplemented()
     }
+}

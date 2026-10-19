@@ -931,11 +931,22 @@ extension DisplayList.ViewUpdater {
                         return
                     }
                 } else {
+                    // <+292>
+                    // x19 + 0x560
                     var copy_1 = unsafe state.pointee
+                    // x19 + 0x410
+                    var copy_2 = unsafe state.pointee
                     
+                    // d15, d9
                     let size = item.size
                     viewInfo.isInvalid = false
-                    viewInfo.state.flags.subtract(.unknown5)
+                    // w28
+                    var flags = viewInfo.state.flags
+                    
+                    if flags.contains(.unknown5) {
+                        flags.subtract(.unknown5)
+                        viewInfo.state.flags = flags
+                    }
                     
                     switch content.value {
                     case .backdrop(_):
@@ -966,9 +977,277 @@ extension DisplayList.ViewUpdater {
                     case .image(_):
                         // <+5256>
                         assertUnimplemented()
-                    case .shape(_, _, _):
+                    case .shape(var path, let paint, let fillStyle):
                         // <+4936>
-                        assertUnimplemented()
+                        switch viewInfo.state.kind {
+                        case .shape:
+                            // <+5016>
+                            // <+7384>
+                            break
+                        default:
+                            // <+7160>
+                            viewInfo = unsafe self._makeItemView(item: item, state: state)
+                            flags = viewInfo.state.flags
+                        }
+                        
+                        // <+7384>
+                        // d14
+                        var contentsScale = unsafe copy_2.globals.pointee.environment.contentsScale
+                        let platform = viewInfo.platform
+                        
+                        // d10, d11, d12, d13
+                        var boundingRect: CGRect
+                        let x190x10: CGFloat
+                        let layerType = type(of: viewInfo.layer)
+                        
+                        if layerType.isColorShapeLayer {
+                            // <+11708>
+                            x190x10 = size.width
+                            boundingRect = CGRect(origin: .zero, size: size)
+                            // <+12820>
+                        } else {
+                            // <+7436>
+                            boundingRect = path.boundingRect
+                            
+                            if boundingRect.isNull {
+                                boundingRect = .zero
+                            }
+                            
+                            if layerType.isPaintShapeLayer {
+                                // <+12372>
+                                let d8: CGFloat = 1.0
+                                contentsScale = d8 / contentsScale
+                                let standardized = boundingRect.standardized
+                                let d4 = standardized.origin.x + standardized.size.width
+                                let d2 = standardized.origin.y + standardized.size.height
+                                var d3: CGFloat = 0.5
+                                d3 = contentsScale * d3
+                                var d0 = d3 + standardized.origin.x
+                                
+                                if contentsScale == d8 {
+                                    boundingRect.origin.x = floor(d0)
+                                    d0 = d3 + standardized.origin.y
+                                    boundingRect.origin.y = floor(d0)
+                                    d0 = d3 + d4
+                                    d0 = floor(d0)
+                                    var d1 = d3 + d2
+                                    d1 = floor(d1)
+                                    d0 = d0 - boundingRect.origin.x
+                                    d1 = d1 - boundingRect.origin.y
+                                    d0 = round(d0)
+                                    x190x10 = d0
+                                    boundingRect.size.height = round(d1)
+                                    // <+12812>
+                                } else {
+                                    // <+12716>
+                                    d0 = d0 / contentsScale
+                                    d0 = floor(d0)
+                                    boundingRect.origin.x = contentsScale * d0
+                                    d0 = d3 + standardized.origin.y
+                                    d0 = d0 / contentsScale
+                                    d0 = floor(d0)
+                                    boundingRect.origin.y = contentsScale * d0
+                                    d0 = d3 + d4
+                                    d0 = d0 / contentsScale
+                                    d0 = floor(d0)
+                                    d0 = contentsScale * d0
+                                    var d1 = d3 + d2
+                                    d1 = d1 / contentsScale
+                                    d1 = floor(d1)
+                                    d1 = contentsScale * d1
+                                    d0 = d0 - boundingRect.origin.x
+                                    d1 = d1 - boundingRect.origin.y
+                                    d0 = d0 / contentsScale
+                                    d0 = round(d0)
+                                    d0 = contentsScale * d0
+                                    x190x10 = d0
+                                    d0 = d1 / contentsScale
+                                    d0 = round(d0)
+                                    boundingRect.size.height = contentsScale * d0
+                                    // <+12812>
+                                }
+                                
+                                // <+12812>
+                                boundingRect.size.width = size.width
+                            } else {
+                                // <+7504>
+                                x190x10 = boundingRect.size.width
+                                // <+11724>
+                                boundingRect.size.width = size.width
+                                // <+12820>
+                            }
+                        }
+                        
+                        // <+12820>
+                        contentsScale = unsafe copy_2.globals.pointee.environment.contentsScale
+                        
+                        // x19 + 0x2c0
+                        var helper = ShapeLayerHelper(
+                            layer: viewInfo.layer,
+                            layerType: layerType,
+                            path: path,
+                            origin: boundingRect.origin,
+                            paint: paint,
+                            paintBounds: CGRect(
+                                x: -boundingRect.origin.x,
+                                y: -boundingRect.origin.y,
+                                width: boundingRect.size.width,
+                                height: size.height
+                            ),
+                            style: fillStyle,
+                            contentsScale: contentsScale,
+                            mayClip: !(unsafe state.pointee.hasDODEffects)
+                        )
+                        
+                        paint.visit(&helper)
+                        
+                        // w22
+                        let flags_2: DisplayList.ViewUpdater.Platform.ViewFlags
+                        if helper.layerType == layerType {
+                            // <+13136>
+                            flags_2 = flags.union(.unknown5)
+                            boundingRect.size.width = x190x10
+                            // <+13644>
+                        } else if helper.layerType.isColorShapeLayer {
+                            // <+13168>
+                            boundingRect.origin = .zero
+                            boundingRect.size = size
+                            // <+13392>
+                            let layerView = platform.definition.makeLayerView(type: helper.layerType, kind: .shape)
+                            viewInfo = DisplayList.ViewUpdater.ViewInfo(
+                                platform: platform,
+                                view: layerView,
+                                kind: .shape
+                            )
+                            
+                            // x19 + 0x2c0
+                            helper.origin = boundingRect.origin
+                            helper.paintBounds.origin = CGPoint(x: -boundingRect.x, y: -boundingRect.y)
+                            helper.layer = viewInfo.layer
+                            
+                            paint.visit(&helper)
+                            flags_2 = [.unknown5]
+                            // <+13644>
+                        } else {
+                            // <+13052>
+                            // d10, d11, d15, d9
+                            boundingRect = path.boundingRect
+                            
+                            if boundingRect.isNull {
+                                boundingRect = .zero
+                            }
+                            
+                            if helper.layerType.isPaintShapeLayer {
+                                // <+13192>
+                                let d8: CGFloat = 1
+                                let d12 = d8 / contentsScale
+                                let standardized = boundingRect.standardized
+                                let d4 = standardized.origin.x + standardized.size.width
+                                let d2 = standardized.origin.y + standardized.size.height
+                                var d3: CGFloat = 0.5
+                                d3 = d12 * d3
+                                var d0 = d3 + standardized.origin.x
+                                
+                                if d12 != d8 {
+                                    // <+13300>
+                                    d0 = d0 / d12
+                                    d0 = floor(d0)
+                                    boundingRect.origin.x = d12 * d0
+                                    d0 = d3 + standardized.origin.y
+                                    d0 = d0 / d12
+                                    d0 = floor(d0)
+                                    boundingRect.origin.y = d12 * d0
+                                    d0 = d3 + d4
+                                    d0 = d0 / d12
+                                    d0 = floor(d0)
+                                    d0 = d12 * d0
+                                    var d1 = d3 + d2
+                                    d1 = d1 / d12
+                                    d1 = floor(d1)
+                                    d1 = d12 * d1
+                                    d0 = d0 - boundingRect.origin.x
+                                    d1 = d1 - boundingRect.origin.y
+                                    d0 = d0 / d12
+                                    d0 = round(d0)
+                                    boundingRect.size.width = d12 * d0
+                                    d0 = d1 / d12
+                                    d0 = round(d0)
+                                    boundingRect.size.height = d12 * d0
+                                    // <+13392>
+                                } else {
+                                    // <+13252>
+                                    boundingRect.origin.x = floor(d0)
+                                    d0 = d3 + standardized.origin.y
+                                    boundingRect.origin.y = floor(d0)
+                                    d0 = d3 + d4
+                                    d0 = floor(d0)
+                                    var d1 = d3 + d2
+                                    d1 = floor(d1)
+                                    d0 = d0 - boundingRect.origin.x
+                                    d1 = d1 - boundingRect.origin.y
+                                    boundingRect.size.width = round(d0)
+                                    boundingRect.size.height = round(d1)
+                                    // <+13392>
+                                }
+                                
+                                // <+13392>
+                            } else {
+                                // <+13128>
+                                // <+13392>
+                            }
+                            
+                            // <+13392>
+                            let layerView = platform.definition.makeLayerView(type: helper.layerType, kind: .shape)
+                            viewInfo = DisplayList.ViewUpdater.ViewInfo(
+                                platform: platform,
+                                view: layerView,
+                                kind: .shape
+                            )
+                            
+                            // x19 + 0x2c0
+                            helper.origin = boundingRect.origin
+                            helper.paintBounds.origin = CGPoint(x: -boundingRect.x, y: -boundingRect.y)
+                            helper.layer = viewInfo.layer
+                            
+                            paint.visit(&helper)
+                            flags_2 = [.unknown5]
+                            // <+13644>
+                        }
+                        
+                        // <+13644>
+                        if boundingRect.origin.y != 0 {
+                            // <+13692>
+                            let transform = CGAffineTransform(translationX: -boundingRect.origin.y, y: -boundingRect.origin.y)
+                            path = path.applying(transform)
+                            // <+13744>
+                        } else {
+                            // <+13660>
+                            // <+13744>
+                        }
+                        
+                        // <+13744>
+                        platform.definition.setPath(path, shapeView: viewInfo.view)
+                        // TODO
+                        viewInfo.state.flags = flags_2
+                        
+                        unsafe copy_2.transform = copy_2.transform.translatedBy(x: boundingRect.origin.x, y: boundingRect.origin.y)
+                        
+                        if viewInfo.state.flags.contains(.unknown5) {
+                            unsafe copy_2.versions.transform.combine(with: item.version)
+                        }
+                        
+                        // <+13912>
+                        if !viewInfo.isInvalid && (viewInfo.nextUpdate == .infinity) {
+                            viewInfo.seeds.content = seed
+                        }
+                        
+                        // <+13944>
+                        unsafe platform.updateState(
+                            &viewInfo,
+                            item: item,
+                            size: boundingRect.size,
+                            state: &copy_2
+                        )
                     case .sdfShape(_):
                         // <+5540>
                         assertUnimplemented()

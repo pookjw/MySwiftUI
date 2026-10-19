@@ -24,7 +24,21 @@ struct ShapeLayerHelper {
         return visitor.requiredType!
     }
     
-    // TODO
+    var layer: CALayer // 0x0
+    private(set) var layerType: CALayer.Type // 0x8
+    private(set) var path: Path // 0x10
+    var origin: CGPoint // 0x38
+    private(set) var paint: AnyResolvedPaint // 0x48
+    var paintBounds: CGRect // 0x50
+    private(set) var style: FillStyle // 0x70
+    private(set) var contentsScale: CGFloat // 0x78
+    private(set) var mayClip: Bool // 0x80
+}
+
+extension ShapeLayerHelper : ResolvedPaintVisitor {
+    mutating func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
+        assertUnimplemented()
+    }
 }
 
 fileprivate enum PaintType {
@@ -77,6 +91,111 @@ fileprivate enum PaintType {
     }
 }
 
-fileprivate func contentLayerType(_: ShapeType, _: PaintType, mayClip: Bool) -> CALayer.Type {
-    assertUnimplemented()
+fileprivate func contentLayerType(_ shapeType: ShapeType, _ paintType: PaintType, mayClip: Bool) -> CALayer.Type {
+    switch shapeType {
+    case .rect(_, _, _):
+        // <+148>
+        switch paintType {
+        case .color(_):
+            // <+448>
+            return CALayer.self
+        case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient:
+            // <+168>
+            if mayClip {
+                return GradientLayer.self
+            } else {
+                return UnclippedGradientLayer.self
+            }
+        case .other:
+            // <+520>
+            return PaintShapeLayer.self
+        }
+    case .rectBorder(_, _, _, _):
+        // <+288>
+        switch paintType {
+        case .color:
+            // <+448>
+            return CALayer.self
+        case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+            // <+520>
+            return PaintShapeLayer.self
+        }
+    case .strokedPath(_, _):
+        // <+244>
+        switch paintType {
+        case .color:
+            // <+380>
+            return ColorShapeLayer.self
+        case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+            // <+256>
+            return PaintShapeLayer.self
+        }
+    case .empty:
+        return CALayer.self
+    case .other:
+        switch paintType {
+        case .color:
+            // <+380>
+            return ColorShapeLayer.self
+        case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+            // <+520>
+            return PaintShapeLayer.self
+        }
+    }
+}
+
+fileprivate final class UnclippedGradientLayer : CALayer {
+    override init() {
+        assertUnimplemented()
+    }
+    
+    required init?(coder: NSCoder) {
+        return nil
+    }
+    
+    override init(layer: Any) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate final class PaintShapeLayer : CALayer {
+    // TODO
+    
+    override init() {
+        assertUnimplemented()
+    }
+    
+    required init?(coder: NSCoder) {
+        return nil
+    }
+    
+    override init(layer: Any) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate final class ColorShapeLayer : CAShapeLayer {
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override init(layer: Any) {
+        super.init(layer: layer)
+    }
+}
+
+extension CALayer {
+    @inline(always) // 원래 없음
+    static var isPaintShapeLayer: Bool {
+        return self == PaintShapeLayer.self
+    }
+    
+    @inline(always) // 원래 없음
+    static var isColorShapeLayer: Bool {
+        return self == ColorShapeLayer.self
+    }
 }
