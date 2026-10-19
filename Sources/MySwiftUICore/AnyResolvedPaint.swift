@@ -27,11 +27,11 @@ final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
         return self.paint.isCALayerCompatible
     }
     
-    override func visit<T>(_ visitor: inout T) {
-        assertUnimplemented()
+    override func visit<T : ResolvedPaintVisitor>(_ visitor: inout T) {
+        visitor.visitPaint(self.paint)
     }
 }
 
 package protocol ResolvedPaintVisitor {
-    mutating func visitPaint<T : ResolvedPaint>(_ point: T)
+    mutating func visitPaint<T : ResolvedPaint>(_ paint: T)
 }

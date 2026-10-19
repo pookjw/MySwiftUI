@@ -1,5 +1,6 @@
-internal import QuartzCore
+public import QuartzCore
 private import _QuartzCorePrivate
+private import _MySwiftUICoreShims
 
 final class CALayerPlatformViewDefinition : PlatformViewDefinition {
     override class var system : PlatformViewDefinition.System {
@@ -82,6 +83,12 @@ final class CALayerPlatformViewDefinition : PlatformViewDefinition {
     }
     
     override class func setHiddenForReuse(_ flag: Bool, of object: AnyObject) {
+        assertUnimplemented()
+    }
+}
+
+extension CALayer {
+    @_spi(Internal) open override class func _mySwiftUI_platformViewDefinition() -> UnsafeRawPointer? {
         assertUnimplemented()
     }
 }

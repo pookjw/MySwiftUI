@@ -60,6 +60,24 @@ extension EdgeInsets3D : Sendable {}
 @available(tvOS, unavailable)
 extension EdgeInsets3D : BitwiseCopyable {}
 
+@available(visionOS 1.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EdgeInsets3D : Animatable, _VectorMath {
+    public typealias AnimatableData = AnimatablePair<CGFloat, AnimatablePair<CGFloat, AnimatablePair<CGFloat, AnimatablePair<CGFloat, AnimatablePair<CGFloat, CGFloat>>>>>
+    
+    public var animatableData: EdgeInsets3D.AnimatableData {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}
+
 package struct OptionalEdgeInsets3D : Equatable {
     package var top: CGFloat?
     package var leading: CGFloat?

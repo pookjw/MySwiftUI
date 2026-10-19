@@ -51,7 +51,7 @@ extension Angle : Codable {
         assertUnimplemented()
     }
 }
-extension Angle : Animatable {
+extension Angle : Animatable, _VectorMath {
     public var animatableData: Double {
         get {
             assertUnimplemented()

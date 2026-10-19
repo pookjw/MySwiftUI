@@ -19,3 +19,6 @@ extension CAHostingLayerEvent {
 //        private var mouseTracker: MouseTracker
     }
 }
+
+extension CAHostingLayerEvent.MouseButton : Hashable {
+}

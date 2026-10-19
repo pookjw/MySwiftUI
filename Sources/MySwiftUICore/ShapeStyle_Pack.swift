@@ -428,7 +428,7 @@ extension _ShapeStyle_Pack.Fill {
 
 extension _ShapeStyle_Pack.Fill.AnimatableData {
     fileprivate struct PaintSetVisitor : ResolvedPaintVisitor {
-        func visitPaint<T>(_ point: T) where T : ResolvedPaint {
+        func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
             assertUnimplemented()
         }
         
@@ -438,7 +438,7 @@ extension _ShapeStyle_Pack.Fill.AnimatableData {
     @unsafe fileprivate struct PaintInitVisitor : ResolvedPaintVisitor {
         private(set) var result: UnsafeMutablePointer<_ShapeStyle_Pack.Fill.AnimatableData>
         
-        func visitPaint<T>(_ point: T) where T : ResolvedPaint {
+        func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
             assertUnimplemented()
         }
         

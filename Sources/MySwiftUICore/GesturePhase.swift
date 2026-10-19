@@ -5,3 +5,6 @@ package enum GesturePhase<T> {
     case ended(T)
     case failed
 }
+
+extension GesturePhase : Equatable where T : Equatable {
+}

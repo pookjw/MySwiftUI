@@ -865,7 +865,9 @@ package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Ser
             let colorClass = CoreColorGetKitColorClass(.uiKit) as? (NSObject.Type),
             let type = colorClass._mySwiftUI_platformColorDefinition()
         {
-            return (type as! PlatformColorDefinition.Type)
+            let definition = type as! PlatformColorDefinition.Type
+            PlatformColorDefinition.uiKit = definition
+            return definition
         } else {
             return nil
         }
