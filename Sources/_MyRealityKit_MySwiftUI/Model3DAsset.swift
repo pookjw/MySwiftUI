@@ -70,7 +70,11 @@ public class Model3DAsset {
     public init(url: URL) async throws {
         assertUnimplemented()
     }
+    
+    deinit {
+        assertUnimplemented()
     }
+}
 
 @available(visionOS 26.0, *)
 @available(iOS, unavailable)

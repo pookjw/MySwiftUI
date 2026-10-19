@@ -8,4 +8,6 @@ public protocol SynchronizationService : AnyObject {
     @preconcurrency @MainActor func giveOwnership(of entity: Entity, toPeer: any SynchronizationPeerID) -> Bool
     func __fromCore(peerID: __PeerIDRef) -> (any SynchronizationPeerID)?
     func __toCore(peerID: any SynchronizationPeerID) -> __PeerIDRef
+    @_spi(Internal) func startSync()
+    @_spi(Internal) func stopSync()
 }

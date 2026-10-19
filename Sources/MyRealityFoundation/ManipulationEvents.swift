@@ -15,6 +15,10 @@ public enum ManipulationEvents {
         public let inputDeviceSet: ManipulationEvents.InputDeviceSet
         
         public let pivotPoint: Point3DFloat
+        
+        init(entity: Entity, inputDevices: InputDeviceSet, pivotPoint: Point3DFloat) {
+            assertUnimplemented()
+        }
     }
     
     public struct DidUpdateTransform : Event {
@@ -23,6 +27,10 @@ public enum ManipulationEvents {
         public let inputDeviceSet: ManipulationEvents.InputDeviceSet
         
         public let pivotPoint: Point3DFloat
+        
+        init(entity: Entity, inputDevices: InputDeviceSet, pivotPoint: Point3DFloat) {
+            assertUnimplemented()
+        }
     }
     
     public struct WillRelease : Event {
@@ -31,10 +39,18 @@ public enum ManipulationEvents {
         public let inputDeviceSet: ManipulationEvents.InputDeviceSet
         
         public let wasCancelled: Bool
+        
+        init(entity: Entity, inputDevices: InputDeviceSet, wasCancelled: Bool) {
+            assertUnimplemented()
+        }
     }
     
     public struct WillEnd : Event {
         public let entity: Entity
+        
+        init(entity: Entity) {
+            assertUnimplemented()
+        }
     }
     
     public struct DidHandOff : Event {
@@ -43,6 +59,10 @@ public enum ManipulationEvents {
         public let oldInputDeviceSet: ManipulationEvents.InputDeviceSet
         
         public let newInputDeviceSet: ManipulationEvents.InputDeviceSet
+        
+        init(entity: Entity, oldInputDevices: InputDeviceSet, newInputDevices: InputDeviceSet) {
+            assertUnimplemented()
+        }
     }
     
     struct DidReachMovementThreshold {

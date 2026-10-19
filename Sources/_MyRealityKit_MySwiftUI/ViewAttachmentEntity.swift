@@ -28,6 +28,10 @@ internal import MyRealityFoundation
     required init() {
         assertUnimplemented()
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 extension ViewAttachmentEntity : CustomClonable {

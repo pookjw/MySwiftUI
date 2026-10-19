@@ -1003,8 +1003,8 @@ extension UINavigationController {
         
         // x20
         if let splitViewController {
-            let column = splitViewController.column(forViewController: self)
-            if column == .supplementary {
+            if let column = splitViewController.column(forViewController: self),
+               column == .primary || column == .supplementary || column == .secondary {
                 // <+256>
                 // splitViewController -> x20 -> x22
                 let converted = splitViewController.view.convert(splitViewController.view.bounds, to: window)
@@ -1029,8 +1029,8 @@ extension UINavigationController {
         if _SemanticFeature<Semantics_v5>.isEnabled {
             // <+436>
             let d12 = window.bounds.size.height
-            d0 = converted.height
-            d0 = fabs(d12 - d0)
+            d0 = CGRect(x: d8, y: d11, width: d10, height: d9).height
+            d0 = abs(d12 - d0)
             d10 = 0.1
             let w20 = (d0 < d10)
             
@@ -1041,8 +1041,8 @@ extension UINavigationController {
             d3 = bounds.size.height
             
             d9 = d0
-            d0 = fabs(d8 - d9)
-            w0 = (d0 >= d10) ? false : w20
+            d0 = abs(d8 - d9)
+            w0 = d0 < d10 && w20
             // <+608>
         } else {
             // <+536>
@@ -1054,13 +1054,13 @@ extension UINavigationController {
             
             d11 = d2
             d8 = d3
-            d0 = fabs(d11 - d10)
+            d0 = abs(d11 - d10)
             d1 = 0.1
             
-            if d0 > d1 {
+            if !(d0 < d1) {
                 w0 = false
             } else {
-                d0 = fabs(d8 - d9)
+                d0 = abs(d8 - d9)
                 d1 = 0.1
                 w0 = d0 < d1
             }
@@ -1130,11 +1130,9 @@ extension UINavigationItem {
     }
     
     fileprivate var hasLargeContent: Bool {
-        if let title {
-            return !title.isEmpty
-        }
-        
-        return titleView != nil
+        let hasTitle = title.map { !$0.isEmpty } ?? false
+        let hasTitleView = titleView != nil
+        return hasTitle || hasTitleView
     }
 }
 
@@ -1149,6 +1147,10 @@ extension UIViewController {
             return false
         }
         
+        guard title != nil || isFromSwiftUI else {
+            return false
+        }
+        
         self.navigationItem.title = title
         return true
     }
@@ -1160,6 +1162,10 @@ extension UIViewController {
          isFromSwiftUI -> x2 -> x22
          */
         guard self.navigationItem.msui_subtitle != subtitle else {
+            return
+        }
+        
+        guard subtitle != nil || isFromSwiftUI else {
             return
         }
         

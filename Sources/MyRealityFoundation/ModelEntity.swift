@@ -23,4 +23,4 @@ private import CoreRE
     @MainActor @preconcurrency public init(mesh: MeshResource, materials: [any Material] = [], collisionShapes: [ShapeResource], mass: Float) {
         assertUnimplemented()
     }
-    }
+}

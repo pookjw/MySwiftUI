@@ -1227,7 +1227,6 @@ extension DisplayList.ViewUpdater {
                         
                         // <+13744>
                         platform.definition.setPath(path, shapeView: viewInfo.view)
-                        // TODO
                         viewInfo.state.flags = flags_2
                         
                         unsafe copy_2.transform = copy_2.transform.translatedBy(x: boundingRect.origin.x, y: boundingRect.origin.y)

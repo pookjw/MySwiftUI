@@ -302,7 +302,11 @@ public import Observation
     @available(macOS, unavailable, introduced: 15.0)
     @available(macCatalyst, unavailable)
     public typealias ID = ObjectIdentifier
+    
+    deinit {
+        assertUnimplemented()
     }
+}
 
 @available(macOS, unavailable)
 @available(macCatalyst, unavailable)
