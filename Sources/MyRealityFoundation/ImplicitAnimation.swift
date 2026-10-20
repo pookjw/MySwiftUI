@@ -66,7 +66,7 @@ struct _Proto_AnyAnimatableProperty_v1<T> {
         self.storage = _Proto_AnyAnimatableProperty_v1<T>.TypeErasedStorage()
     }
     
-    init<U : RealityKitVectorArithmetic & Equatable>(_ value: U, _ keyPath: WritableKeyPath<T, U>) {
+    init<U : RealityKitAdditiveArithmetic & RealityKitVectorArithmetic & Equatable>(_ value: U, _ keyPath: WritableKeyPath<T, U>) {
         self.storage = _Proto_AnyAnimatableProperty_v1<T>.PropertyStorage<U>(value, keyPath)
     }
 }
@@ -116,7 +116,7 @@ extension _Proto_AnyAnimatableProperty_v1 {
         }
     }
     
-    final class PropertyStorage<U : RealityKitVectorArithmetic & Equatable> : _Proto_AnyAnimatableProperty_v1.TypeErasedStorage {
+    final class PropertyStorage<U : RealityKitAdditiveArithmetic & RealityKitVectorArithmetic & Equatable> : _Proto_AnyAnimatableProperty_v1.TypeErasedStorage {
         private var value: U
         private let keyPath: WritableKeyPath<T, U>
         
