@@ -87,8 +87,8 @@ extension LinearGradient {
         }
         
         var gradient: ResolvedGradient
-        private var startPoint: CGPoint
-        private var endPoint: CGPoint
+        private(set) var startPoint: CGPoint
+        private(set) var endPoint: CGPoint
         private(set) var allowedDynamicRange: Image.DynamicRange
         
         var isClear: Bool {

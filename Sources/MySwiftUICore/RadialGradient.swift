@@ -36,9 +36,9 @@ extension RadialGradient {
         }
         
         var gradient: ResolvedGradient
-        private var center: UnitPoint
-        private var startRadius: CGFloat
-        private var endRadius: CGFloat
+        private(set) var center: UnitPoint
+        private(set) var startRadius: CGFloat
+        private(set) var endRadius: CGFloat
         private(set) var allowedDynamicRange: Image.DynamicRange
         
         var isClear: Bool {

@@ -43,7 +43,9 @@ extension CALayer {
             // <+284>
             animateEDRProperty(#keyPath(CALayer.contentsEDRStrength), interval: contentsEDRStrength_2 - contentsEDRStrength_1)
             // <+232>
-        } else if contentsCDRStrength_2 != contentsCDRStrength_1 {
+        }
+        
+        if contentsCDRStrength_2 != contentsCDRStrength_1 {
             // <+328>
             animateEDRProperty(#keyPath(CALayer.contentsCDRStrength), interval: contentsCDRStrength_2 - contentsCDRStrength_1)
             // <+232>

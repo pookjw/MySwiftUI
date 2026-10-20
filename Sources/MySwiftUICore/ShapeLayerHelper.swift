@@ -74,7 +74,6 @@ extension ShapeLayerHelper : ResolvedPaintVisitor {
                 // <+568>
                 updateContent(layer: self.layer, color: resolved, radius: radius, style: style)
                 // <+3324>
-                assertUnimplemented()
             case .linearGradient(let paint):
                 // <+1652>
                 // <+1672>
@@ -94,7 +93,7 @@ extension ShapeLayerHelper : ResolvedPaintVisitor {
                 }
                 
                 // <+4632>
-                let function = GradientLayer.Function.unknown(paint.startPoint, paint.endPoint, .axial)
+                let function = GradientLayer.Function.unknown0(paint.startPoint, paint.endPoint)
                 // inlined
                 gradientLayer.apply(
                     size: rect.size,
@@ -123,33 +122,303 @@ extension ShapeLayerHelper : ResolvedPaintVisitor {
                 
                 gradientLayer.colorSpace = colorSpace
                 // <+3324>
-                assertUnimplemented()
-            case .linearGradientAbs(let absolutePaint):
+            case .linearGradientAbs(let paint):
                 // <+2608>
-                assertUnimplemented()
-            case .radialGradient(let _Paint):
+                // <+2628>
+                let copy_1 = self
+                
+                let gradientLayer = self.gradientLayer()
+                gradientLayer.cornerRadius = radius
+                gradientLayer.cornerCurve = (style == .continuous) ? .continuous : .circular
+                
+                if !self.mayClip {
+                    gradientLayer.bounds = self.paintBounds
+                }
+                
+                if isLinkedOnOrAfter(.v4) {
+                    gradientLayer.premultiplied = true
+                }
+                
+                let function = GradientLayer.Function.unknown1(paint.startPoint, paint.endPoint)
+                // inlined
+                gradientLayer.apply(
+                    size: rect.size,
+                    function: function,
+                    bounds: copy_1.paintBounds
+                )
+                
+                let clippedValues = GradientLayer.clippedValues(gradient: paint.gradient, function: function)
+                gradientLayer.colors = clippedValues.1
+                gradientLayer.locations = clippedValues.0
+                gradientLayer.interpolations = clippedValues.2
+                
+                let colorSpace: CGColorSpace
+                switch paint.gradient.colorSpace {
+                case .device:
+                    // <+6776>
+                    colorSpace = Color.Resolved.srgbExtended
+                case .linear:
+                    // <+6744>
+                    colorSpace = Color.Resolved.srgbExtendedLinear
+                case .perceptual:
+                    // <+6500>
+                    colorSpace = unsafe _CGColorSpaceGetPerceptual().takeUnretainedValue()
+                }
+                
+                gradientLayer.colorSpace = colorSpace
+                // <+3324>
+            case .radialGradient(let paint):
                 // <+1268>
-                assertUnimplemented()
-            case .ellipticalGradient(let _Paint):
+                // <+1288>
+                let copy_1 = self
+                
+                let gradientLayer = self.gradientLayer()
+                gradientLayer.cornerRadius = radius
+                gradientLayer.cornerCurve = (style == .continuous) ? .continuous : .circular
+                
+                if !self.mayClip {
+                    gradientLayer.bounds = self.paintBounds
+                }
+                
+                if isLinkedOnOrAfter(.v4) {
+                    gradientLayer.premultiplied = true
+                }
+                
+                let function = GradientLayer.Function.unknown2(paint.center, paint.startRadius, paint.endRadius)
+                // inlined
+                gradientLayer.apply(
+                    size: rect.size,
+                    function: function,
+                    bounds: copy_1.paintBounds
+                )
+                
+                let clippedValues = GradientLayer.clippedValues(gradient: paint.gradient, function: function)
+                gradientLayer.colors = clippedValues.1
+                gradientLayer.locations = clippedValues.0
+                gradientLayer.interpolations = clippedValues.2
+                
+                let colorSpace: CGColorSpace
+                switch paint.gradient.colorSpace {
+                case .device:
+                    // <+6776>
+                    colorSpace = Color.Resolved.srgbExtended
+                case .linear:
+                    // <+6744>
+                    colorSpace = Color.Resolved.srgbExtendedLinear
+                case .perceptual:
+                    // <+6500>
+                    colorSpace = unsafe _CGColorSpaceGetPerceptual().takeUnretainedValue()
+                }
+                
+                gradientLayer.colorSpace = colorSpace
+                // <+3324>
+            case .ellipticalGradient(let paint):
                 // <+2992>
-                assertUnimplemented()
-            case .angularGradient(let _Paint):
+                // <+3920>
+                let copy_1 = self
+                
+                let gradientLayer = self.gradientLayer()
+                gradientLayer.cornerRadius = radius
+                gradientLayer.cornerCurve = (style == .continuous) ? .continuous : .circular
+                
+                if !self.mayClip {
+                    gradientLayer.bounds = self.paintBounds
+                }
+                
+                if isLinkedOnOrAfter(.v4) {
+                    gradientLayer.premultiplied = true
+                }
+                
+                let function = GradientLayer.Function.unknown3(paint.center, paint.startRadiusFraction, paint.endRadiusFraction)
+                // inlined
+                gradientLayer.apply(
+                    size: rect.size,
+                    function: function,
+                    bounds: copy_1.paintBounds
+                )
+                
+                let clippedValues = GradientLayer.clippedValues(gradient: paint.gradient, function: function)
+                gradientLayer.colors = clippedValues.1
+                gradientLayer.locations = clippedValues.0
+                gradientLayer.interpolations = clippedValues.2
+                
+                let colorSpace: CGColorSpace
+                switch paint.gradient.colorSpace {
+                case .device:
+                    // <+6776>
+                    colorSpace = Color.Resolved.srgbExtended
+                case .linear:
+                    // <+6744>
+                    colorSpace = Color.Resolved.srgbExtendedLinear
+                case .perceptual:
+                    // <+6500>
+                    colorSpace = unsafe _CGColorSpaceGetPerceptual().takeUnretainedValue()
+                }
+                
+                gradientLayer.colorSpace = colorSpace
+                // <+3324>
+            case .angularGradient(let paint):
                 // <+2048>
-                assertUnimplemented()
+                // <+2068>
+                let conicGradient = ConicGradient(angular: paint, bounds: self.paintBounds)
+                let copy_1 = self
+                
+                let gradientLayer = self.gradientLayer()
+                gradientLayer.cornerRadius = radius
+                gradientLayer.cornerCurve = (style == .continuous) ? .continuous : .circular
+                
+                if !self.mayClip {
+                    gradientLayer.bounds = self.paintBounds
+                }
+                
+                if isLinkedOnOrAfter(.v4) {
+                    gradientLayer.premultiplied = true
+                }
+                
+                let function = GradientLayer.Function.unknown4(paint.center, conicGradient.angle.radians)
+                // inlined
+                gradientLayer.apply(
+                    size: rect.size,
+                    function: function,
+                    bounds: copy_1.paintBounds
+                )
+                
+                let clippedValues = GradientLayer.clippedValues(gradient: conicGradient.gradient, function: function)
+                gradientLayer.colors = clippedValues.1
+                gradientLayer.locations = clippedValues.0
+                gradientLayer.interpolations = clippedValues.2
+                
+                let colorSpace: CGColorSpace
+                switch paint.gradient.colorSpace {
+                case .device:
+                    // <+6776>
+                    colorSpace = Color.Resolved.srgbExtended
+                case .linear:
+                    // <+6744>
+                    colorSpace = Color.Resolved.srgbExtendedLinear
+                case .perceptual:
+                    // <+6500>
+                    colorSpace = unsafe _CGColorSpaceGetPerceptual().takeUnretainedValue()
+                }
+                
+                gradientLayer.colorSpace = colorSpace
+                // <+3324>
             case .other:
                 // <+3012>
-                assertUnimplemented()
+                let casted = self.layer as! PaintShapeLayer
+                casted.path = self.path
+                casted.origin = self.origin
+                casted.paint = self.paint
+                casted.paintBounds = self.paintBounds
+                casted.fillStyle = self.style
+                casted.contentsScale = self.contentsScale
+                casted.setNeedsDisplay()
+                // <+3324>
             }
-        case .rectBorder(let rect, let radius, let style, let lineWidth):
+            
+            // <+3324>
+        case .rectBorder(_, let radius, let style, let lineWidth):
             // <+856>
-            assertUnimplemented()
+            switch paintType {
+            case .color(let resolved):
+                // <+868>
+                let layer = self.layer
+                layer.backgroundColor = nil
+                layer.borderWidth = lineWidth
+                layer.borderColor = resolved.cgColor
+                layer.contents = nil
+                layer.cornerRadius = radius
+                layer.cornerCurve = (style == .continuous) ? .continuous : .circular
+                // <+3308>
+                // <+3324>
+            case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+                // <+3012>
+                let casted = self.layer as! PaintShapeLayer
+                casted.path = self.path
+                casted.origin = self.origin
+                casted.paint = self.paint
+                casted.paintBounds = self.paintBounds
+                casted.fillStyle = self.style
+                casted.contentsScale = self.contentsScale
+                casted.setNeedsDisplay()
+                // <+3324>
+            }
+            
+            // <+3324>
         case .strokedPath(let path, let style):
             // <+656>
-            assertUnimplemented()
-        case .empty, .other:
-            // <+1076>
-            assertUnimplemented()
+            switch paintType {
+            case .color(let resolved):
+                // <+668>
+                let casted = self.layer as! ColorShapeLayer
+                updateContent(shapeLayer: casted, color: resolved, strokedPath: path, origin: self.origin, style: style)
+                // <+3308>
+                // <+3324>
+            case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+                // <+3012>
+                let casted = self.layer as! PaintShapeLayer
+                casted.path = self.path
+                casted.origin = self.origin
+                casted.paint = self.paint
+                casted.paintBounds = self.paintBounds
+                casted.fillStyle = self.style
+                casted.contentsScale = self.contentsScale
+                casted.setNeedsDisplay()
+                // <+3324>
+            }
+            
+            // <+3324>
+        case .empty:
+            // <+1124>
+            let layer = self.layer
+            layer.backgroundColor = nil
+            layer.borderColor = nil
+            layer.contents = nil
+            // <+3552>
+            return
+        case .other:
+            // <+1208>
+            switch paintType {
+            case .color(let resolved):
+                // <+2468>
+                let casted = self.layer as! ColorShapeLayer
+                
+                let path: Path
+                if (self.origin.x != 0) || (self.origin.y != 0) {
+                    // <+3720>
+                    path = self.path.applying(CGAffineTransform(translationX: -self.origin.x, y: -self.origin.y))
+                } else {
+                    // <+2556>
+                    path = self.path
+                    // <+3772>
+                }
+                
+                // inlined
+                let cgPath = path.cgPath
+                casted.path = cgPath
+                casted.fillColor = resolved.cgColor
+                casted.fillRule = self.style.isEOFilled ? .evenOdd : .nonZero
+                casted.strokeColor = nil
+                // <+3324>
+            case .linearGradient, .linearGradientAbs, .radialGradient, .ellipticalGradient, .angularGradient, .other:
+                // <+3012>
+                let casted = self.layer as! PaintShapeLayer
+                casted.path = self.path
+                casted.origin = self.origin
+                casted.paint = self.paint
+                casted.paintBounds = self.paintBounds
+                casted.fillStyle = self.style
+                casted.contentsScale = self.contentsScale
+                casted.setNeedsDisplay()
+                // <+3324>
+            }
+            
+            // <+3324>
         }
+        
+        // <+3324>
+        // inlined
+        self.layer.updateEDR(allowedDynamicRange: paint.allowedDynamicRange, contentHeadroom: paint.contentHeadroom)
     }
     
     fileprivate func gradientLayer() -> GradientLayer {
@@ -264,6 +533,10 @@ fileprivate func updateContent(layer: CALayer, color: Color.ResolvedHDR, radius:
     assertUnimplemented()
 }
 
+fileprivate func updateContent(shapeLayer: ColorShapeLayer, color: Color.ResolvedHDR, strokedPath: Path, origin: CGPoint, style: StrokeStyle) {
+    assertUnimplemented()
+}
+
 fileprivate final class UnclippedGradientLayer : CALayer {
     override init() {
         assertUnimplemented()
@@ -279,7 +552,11 @@ fileprivate final class UnclippedGradientLayer : CALayer {
 }
 
 fileprivate final class PaintShapeLayer : CALayer {
-    // TODO
+    var path: Path
+    var origin: CGPoint
+    var paint: AnyResolvedPaint?
+    var paintBounds: CGRect
+    var fillStyle: FillStyle
     
     override init() {
         assertUnimplemented()

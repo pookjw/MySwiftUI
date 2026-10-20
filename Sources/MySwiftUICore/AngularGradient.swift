@@ -50,7 +50,7 @@ extension AngularGradient {
         }
         
         var gradient: ResolvedGradient
-        private var center: UnitPoint
+        private(set) var center: UnitPoint
         private var startAngle: Angle
         private var endAngle: Angle
         private(set) var allowedDynamicRange: Image.DynamicRange

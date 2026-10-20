@@ -30,9 +30,9 @@ extension EllipticalGradient {
         }
         
         var gradient: ResolvedGradient
-        private var center: UnitPoint
-        private var startRadiusFraction: CGFloat
-        private var endRadiusFraction: CGFloat
+        private(set) var center: UnitPoint
+        private(set) var startRadiusFraction: CGFloat
+        private(set) var endRadiusFraction: CGFloat
         private(set) var allowedDynamicRange: Image.DynamicRange
         
         var isClear: Bool {

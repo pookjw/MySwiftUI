@@ -7,6 +7,10 @@ public import CoreGraphics
         package static func == (lhs: Path.PathBox, rhs: Path.PathBox) -> Bool {
             assertUnimplemented()
         }
+        
+        var cgPath: CGPath {
+            assertUnimplemented()
+        }
     }
     
     @usableFromInline
@@ -92,7 +96,25 @@ public import CoreGraphics
     }
     
     public var cgPath: CGPath {
-        assertUnimplemented()
+        switch self.storage {
+        case .empty:
+            return unsafe CGPath(
+                rect: CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0),
+                transform: nil
+            )
+        case .rect(let rect):
+            return unsafe CGPath(rect: rect, transform: nil)
+        case .ellipse(let rect):
+            return unsafe CGPath(ellipseIn: rect, transform: nil)
+        case .roundedRect(let rect):
+            return rect.cgPath
+        case .stroked(_):
+            fatalError("obsolete")
+        case .trimmed(_):
+            fatalError("obsolete")
+        case .path(let box):
+            return box.cgPath
+        }
     }
     
     public var isEmpty: Bool {
