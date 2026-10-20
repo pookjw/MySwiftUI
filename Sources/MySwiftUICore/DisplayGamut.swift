@@ -1,5 +1,5 @@
 package enum DisplayGamut : Int, Hashable/*, ProtobufEnum, CodableByProxy, Serializable*/ {
-    case sGRB
+    case sRGB
     case displayP3
     
     static var deviceDefault: DisplayGamut {
@@ -21,6 +21,6 @@ extension EnvironmentValues {
 
 fileprivate struct DisplayGamutKey : EnvironmentKey {
     static var defaultValue: DisplayGamut {
-        return .sGRB
+        return .sRGB
     }
 }

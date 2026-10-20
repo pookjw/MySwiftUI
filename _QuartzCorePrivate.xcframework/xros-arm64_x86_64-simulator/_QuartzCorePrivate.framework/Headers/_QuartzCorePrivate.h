@@ -11,3 +11,4 @@
 #import <_QuartzCorePrivate/CADisplay.h>
 #import <_QuartzCorePrivate/CATransaction+Private.h>
 #import <_QuartzCorePrivate/CGBlendMode+Private.h>
+#import <_QuartzCorePrivate/CAGradientLayer+Private.h>

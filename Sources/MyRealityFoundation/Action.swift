@@ -156,7 +156,7 @@ extension EntityAction where Self : Decodable, Self : Encodable, Self.EventParam
         let typeName = _typeName(Self.self, qualified: true)
         
         if let existing = unsafe AnimationResource.codableActionTypeMap[typeName] {
-            if existing.parameter != Self.self {
+            if existing.action != Self.self {
                 fatalError("Action type name \(typeName) already registered for type \(String(describing: existing))")
             }
             

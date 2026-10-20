@@ -35,8 +35,8 @@ extension LinearGradient {
         }
         
         var gradient: ResolvedGradient
-        private var startPoint: UnitPoint
-        private var endPoint: UnitPoint
+        private(set) var startPoint: UnitPoint
+        private(set) var endPoint: UnitPoint
         private(set) var allowedDynamicRange: Image.DynamicRange
         
         var isClear: Bool {

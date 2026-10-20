@@ -96,7 +96,7 @@ struct CUIDesignLibraryCacheKey : Hashable, Sendable {
     
     var cuiDisplayGamut: CUIDisplayGamut {
         switch self.props.gamut {
-        case .sGRB:
+        case .sRGB:
             return .SRGB
         case .displayP3:
             return .displayP3

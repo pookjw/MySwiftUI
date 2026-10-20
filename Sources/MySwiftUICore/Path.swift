@@ -100,7 +100,28 @@ public import CoreGraphics
     }
     
     public var boundingRect: CGRect {
-        assertUnimplemented()
+        switch self.storage {
+        case .empty:
+            // <+156>
+            return CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0)
+        case .rect(let rect):
+            // <+64>
+            return rect
+        case .ellipse(let rect):
+            // <+64>
+            return rect
+        case .roundedRect(let rect):
+            // <+136>
+            return rect.rect
+        case .stroked(_):
+            // <+320>
+            fatalError("obsolete")
+        case .trimmed(_):
+            fatalError("obsolete")
+        case .path(_):
+            // <+92>
+            assertUnimplemented()
+        }
     }
     
     public func contains(_ p: CGPoint, eoFill: Bool = false) -> Bool {

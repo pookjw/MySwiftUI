@@ -34,10 +34,10 @@ public struct ToolbarLabelStyle : Sendable, Equatable {
 
 extension ToolbarLabelStyle {
     enum Role : Int, Hashable {
-        case automatic
-        case titleAndIcon
-        case iconOnly
-        case titleOnly
+        case automatic = 5
+        case titleAndIcon = 6
+        case iconOnly = 7
+        case titleOnly = 8
     }
     
     enum Data : Equatable {

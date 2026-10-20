@@ -1,9 +1,17 @@
-@unsafe struct UnsafeMutableBufferProjectionPointer<T, U> : @unsafe RandomAccessCollection, MutableCollection {
+@unsafe struct UnsafeMutableBufferProjectionPointer<T, U> : @unsafe RandomAccessCollection, @unsafe BidirectionalCollection, MutableCollection {
     private let _start: UnsafeMutableRawPointer
     let endIndex: Int
     
     var startIndex: Int {
         return 0
+    }
+    
+    func index(before i: Int) -> Int {
+        assertUnimplemented()
+    }
+    
+    func index(after i: Int) -> Int {
+        assertUnimplemented()
     }
     
     init() {

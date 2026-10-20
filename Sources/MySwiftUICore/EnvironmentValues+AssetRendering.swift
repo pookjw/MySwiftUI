@@ -1,7 +1,9 @@
+internal import CoreGraphics
+
 extension EnvironmentValues {
     package var viewGraphAssetCatalogConfiguration: ViewGraphHost.AssetCatalogConfiguration {
         get {
-            return self[AssetCatalogConfigurationKey.self]
+            return self[AssetCatalogConfigurationKey.self] ?? ViewGraphHost.AssetCatalogConfiguration(referenceBounds: CGRect(x: 0, y: 0, width: 100, height: 100), pointsPerInch: 0, preferredArtworkSubtype: 0)
         }
         set {
             self[AssetCatalogConfigurationKey.self] = newValue
@@ -19,8 +21,8 @@ extension EnvironmentValues {
 }
 
 fileprivate struct AssetCatalogConfigurationKey : EnvironmentKey {
-    static var defaultValue: ViewGraphHost.AssetCatalogConfiguration {
-        return ViewGraphHost.AssetCatalogConfiguration(referenceBounds: .zero, pointsPerInch: 0, preferredArtworkSubtype: 1)
+    static var defaultValue: ViewGraphHost.AssetCatalogConfiguration? {
+        return nil
     }
 }
 
