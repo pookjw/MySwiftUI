@@ -141,7 +141,29 @@ open class UIHostingController<Content : View>: UIViewController {
     }
     
     open override dynamic var keyCommands: [UIKeyCommand]? {
-        assertUnimplemented()
+        guard let keyboardShortcutBridge else {
+            // <+380>
+            return super.keyCommands
+        }
+        
+        // <+128>
+        if keyboardShortcutBridge.updatedBindings.seed.isInvalid {
+            Update.ensure { 
+                // $s7SwiftUI19UIHostingControllerC11keyCommandsSaySo12UIKeyCommandCGSgvgyyXEfU_TA
+                self.host.viewGraph.addPreference(KeyboardShortcutBindingsKey.self)
+                keyboardShortcutBridge.isObservingPreferences = true
+                
+                let prefernceValues = self.host.viewGraph.preferenceValues()
+                
+                if keyboardShortcutBridge.isObservingPreferences {
+                    keyboardShortcutBridge.updatedBindings = prefernceValues[KeyboardShortcutBindingsKey.self]
+                }
+            }
+        }
+        
+        // <+300>
+        keyboardShortcutBridge.updateKeyCommands(self)
+        return super.keyCommands
     }
     
 #if os(visionOS)

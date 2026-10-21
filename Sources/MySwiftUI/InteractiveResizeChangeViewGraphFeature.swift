@@ -17,7 +17,9 @@ struct InteractiveResizeChangeViewGraphFeature {
 
 extension InteractiveResizeChangeViewGraphFeature : ViewGraphFeature {
     func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-        inputs.base.interactiveResize = WeakAttribute(_isInteractivelyResizing)
+        let isInteractivelyResizing = WeakAttribute(_isInteractivelyResizing)
+        inputs.base.interactiveResize = isInteractivelyResizing
+        self.bridge.isInteractivelyResizing = isInteractivelyResizing
     }
     
     func update(graph: ViewGraph) {

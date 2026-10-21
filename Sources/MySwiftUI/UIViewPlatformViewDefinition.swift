@@ -1,6 +1,6 @@
 // A34643117F00277B93DEBAB70EC06971
 @_spi(Internal) internal import MySwiftUICore
-@preconcurrency public import UIKit
+public import UIKit
 private import _UIKitPrivate
 private import _MySwiftUIShims
 private import _MySwiftUICoreShims
@@ -23,7 +23,8 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     }
 
     override class func setPath(_ path: Path, shapeView: AnyObject) {
-        assertUnimplemented()
+        let casted = unsafe unsafeDowncast(shapeView, to: _UIShapeHitTestingView.self)
+        casted.path = path
     }
 
     override class func setProjectionTransform(_ transform: ProjectionTransform, projectionView: AnyObject) {
@@ -123,7 +124,7 @@ extension UIView {
 }
 
 fileprivate final class _UIShapeHitTestingView : _UIGraphicsView {
-    private var path: Path
+    var path: Path
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         assertUnimplemented()

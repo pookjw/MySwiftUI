@@ -132,7 +132,7 @@ extension Scene {
                 for: event,
                 on: sourceObject,
                 componentType: componentType,
-                rootEntity: nil,
+                rootEntity: rootEntity,
                 matching: matching
             )
             .sink { event in
@@ -145,7 +145,7 @@ extension Scene {
                 for: event,
                 on: sourceObject,
                 componentType: componentType,
-                rootEntity: rootEntity,
+                rootEntity: nil,
                 matching: matching
             )
             .sink { [weak self] event in

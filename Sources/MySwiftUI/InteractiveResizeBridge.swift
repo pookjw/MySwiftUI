@@ -2,7 +2,6 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 
-@MainActor
 final class InteractiveResizeBridge {
     var lastValue: Bool = false
     var isInteractivelyResizing = WeakAttribute<Bool>()

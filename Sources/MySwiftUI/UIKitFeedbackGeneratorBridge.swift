@@ -71,43 +71,45 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
         let pointsPerMeter = host.traitCollection._pointsPerMeter()
         
         for (identity, value) in pref.value {
+            guard !value.1.isEmpty else {
+                continue
+            }
+
             do {
                 // value.0 = d13, d8, d15
                 let entity = self.entity(for: identity, logPrefix: "\(identity)")
                 // <+1432>
                 let b1 = host.bounds
                 let d14 = b1.origin.x + b1.width * 0.5
-                let d9 = value.0.width - d14
+                let d9 = value.0.x - d14
                 let d10 = host.bounds.maxY
                 let b2 = host.bounds
                 
-                let d1 = d10 - (b2.origin.y + b2.height * 0.5) - value.0.height
+                let d1 = d10 - (b2.origin.y + b2.height * 0.5) - value.0.y
                 let d0 = d9
-                let size = Size3D(width: d0, height: d1, depth: value.0.depth)
                 
                 entity.position = SIMD3<Float>(
-                    Float(size.width),
-                    Float(size.height),
-                    Float(size.depth)
+                    Float(d0),
+                    Float(d1),
+                    Float(value.0.z)
                 ) / Float(pointsPerMeter)
                 Log.log("Positioning entity \(entity.id) at \(entity.position)")
                 
-                for request in value.1 {
-                    if !processedFeedbackSeeds.contains(request.seed) {
-                        Log.log("Starting playback of `\(request.feedbackType)`")
-                        processedFeedbackSeeds.insert(request.seed)
-                        
-                        guard let name = _MRUICadenzaNameForFeedback(request.feedbackType.mruiFeedbackType) else {
-                            continue
-                        }
-                        
-                        guard let feedback = _UIFeedback(dictionaryRepresentation: ["name": name, "type": "custom"]) else {
-                            continue
-                        }
-                        
-                        unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE::Entity.self)
-                        feedback.play()
+                let requests = value.1.filter { !processedFeedbackSeeds.contains($0.seed) }
+                for request in requests {
+                    Log.log("Starting playback of `\(request.feedbackType)`")
+                    processedFeedbackSeeds.insert(request.seed)
+
+                    guard let name = _MRUICadenzaNameForFeedback(request.feedbackType.mruiFeedbackType) else {
+                        continue
                     }
+
+                    guard let feedback = _UIFeedback(dictionaryRepresentation: ["name": name, "type": "custom"]) else {
+                        continue
+                    }
+
+                    unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE::Entity.self)
+                    feedback.play()
                 }
             }
         }

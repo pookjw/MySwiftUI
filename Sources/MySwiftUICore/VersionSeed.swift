@@ -44,7 +44,7 @@ package struct VersionSeed : CustomStringConvertible {
         self.value = value
     }
     
-    var isInvalid: Bool {
+    package var isInvalid: Bool {
         return self.value == VersionSeed.invalid.value
     }
     

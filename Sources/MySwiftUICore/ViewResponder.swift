@@ -7,8 +7,8 @@ private import os.log
     nonisolated(unsafe) private(set) static var hitTestKey: UInt32 = 0
     
     static func nextHitTestKey() -> UInt32 {
-        let next = unsafe Self.hitTestKey
-        unsafe Self.hitTestKey = next &+ 1
+        let next = unsafe Self.hitTestKey &+ 1
+        unsafe Self.hitTestKey = next
         return next
     }
     

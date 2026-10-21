@@ -530,7 +530,11 @@ fileprivate func contentLayerType(_ shapeType: ShapeType, _ paintType: PaintType
 }
 
 fileprivate func updateContent(layer: CALayer, color: Color.ResolvedHDR, radius: CGFloat, style: RoundedCornerStyle) {
-    assertUnimplemented()
+    layer.backgroundColor = color.cgColor
+    layer.borderColor = nil
+    layer.contents = nil
+    layer.cornerRadius = radius
+    layer.cornerCurve = (style == .continuous) ? .continuous : .circular
 }
 
 fileprivate func updateContent(shapeLayer: ColorShapeLayer, color: Color.ResolvedHDR, strokedPath: Path, origin: CGPoint, style: StrokeStyle) {
