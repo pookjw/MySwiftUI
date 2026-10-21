@@ -5,6 +5,10 @@ public struct __USDExportContext {
     public typealias AssetResolverCallback = (_ url: URL) throws -> URL?
     
     @_hasMissingDesignatedInitializers public class InstanceMapper {
+        public init() {
+            assertUnimplemented()
+        }
+        
         public func addMapping(from: UUID?, to: __USKObjectPathWrapper) {
             assertUnimplemented()
         }

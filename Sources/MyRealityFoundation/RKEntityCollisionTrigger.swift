@@ -4,6 +4,10 @@ public import Foundation
 public class __RKEntityCollisionTrigger : __RKEntityTrigger {
     public var targetEntity: Entity?
     
+    override public init() {
+        assertUnimplemented()
+    }
+    
     public init(targetEntity: Entity?, collidingEntities: [Entity] = [], tags: [String]) {
         assertUnimplemented()
     }

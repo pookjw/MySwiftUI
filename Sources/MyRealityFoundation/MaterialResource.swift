@@ -22,7 +22,7 @@ private import CoreRE
         }
     }
     
-    required init(fromCore core: OpaquePointer) {
+    required init?(fromCore core: OpaquePointer) {
         unsafe __RERetain(core)
         unsafe self.coreAsset = core
         unsafe unsafeBitCast(core, to: CoreRE::Asset.self)

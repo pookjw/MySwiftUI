@@ -477,7 +477,11 @@ package struct CollectionChanges<A : Comparable, B : Comparable>: RandomAccessCo
                                         let w8 = (x9 < toEndIndex)
                                         x290xc0 = w8
                                         x290xc8 = x9
-                                        continue
+                                        if x22 < fromEndIndex || x9 < toEndIndex {
+                                            continue
+                                        } else {
+                                            break
+                                        }
                                     }
                                 } else {
                                     // <+2392>

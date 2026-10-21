@@ -1736,7 +1736,13 @@ extension UIHostingController : @preconcurrency ViewGraphBridgePropertiesDelegat
 }
 
 extension UIHostingController : KeyboardShortcutSource {
-    // TODO
+    func addShortcut(_ shortcut: KeyboardShortcutBridge.Shortcut) {
+        assertUnimplemented()
+    }
+    
+    func removeShortcut(_ shortcut: KeyboardShortcutBridge.Shortcut) {
+        assertUnimplemented()
+    }
 }
 
 extension UIHostingController : @preconcurrency UIHostingControllerProvider {

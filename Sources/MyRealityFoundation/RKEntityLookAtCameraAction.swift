@@ -10,6 +10,14 @@ public class __RKEntityLookAtCameraAction : __RKEntityAction {
         assertUnimplemented()
     }
     
+    public init(targetEntity: Entity?) {
+        assertUnimplemented()
+    }
+    
+    public func update() {
+        assertUnimplemented()
+    }
+    
     @preconcurrency @MainActor override public func perform(with context: __RKEntityActionContext) -> Bool {
         assertUnimplemented()
     }

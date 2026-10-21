@@ -4,6 +4,10 @@ public import Foundation
 public class __RKEntityCustomTrigger : __RKEntityTrigger {
     public var targetEntity: Entity?
     
+    override public init() {
+        assertUnimplemented()
+    }
+    
     public init(targetEntity: Entity?, identifier: String, customArguments: [String : String]? = [:]) {
         assertUnimplemented()
     }

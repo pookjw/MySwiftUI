@@ -6,6 +6,10 @@ public class __RKEntityOrbitEntityAction : __RKEntityAction {
         assertUnimplemented()
     }
     
+    public init(targetEntity: Entity?) {
+        assertUnimplemented()
+    }
+    
     override public func perform(with context: __RKEntityActionContext) -> Bool {
         assertUnimplemented()
     }

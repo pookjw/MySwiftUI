@@ -6,6 +6,10 @@ public class __RKEntityStartAnimateAction : __RKEntityAnimateAction {
         assertUnimplemented()
     }
     
+    public init(targetEntity: Entity?) {
+        assertUnimplemented()
+    }
+    
     override public func perform(with context: __RKEntityActionContext) -> Bool {
         assertUnimplemented()
     }

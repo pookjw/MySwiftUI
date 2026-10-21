@@ -4,6 +4,20 @@ public struct SetEntityEnabledAction : EntityAction, Codable {
     
     public var isEnabled: Bool
     
+    @available(macOS, introduced: 15.0, deprecated: 15.0, renamed: "isEnabled")
+    @available(iOS, introduced: 18.0, deprecated: 18.0, renamed: "isEnabled")
+    @available(macCatalyst, introduced: 18.0, deprecated: 18.0, renamed: "isEnabled")
+    @available(visionOS, introduced: 2.0, deprecated: 2.0, renamed: "isEnabled")
+    @available(tvOS, introduced: 26.0, deprecated: 26.0, renamed: "isEnabled")
+    public var enabled: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
     public var animatedValueType: (any AnimatableData.Type)? {
         get {
             assertUnimplemented()
@@ -11,6 +25,15 @@ public struct SetEntityEnabledAction : EntityAction, Codable {
     }
     
     public init(targetEntity: ActionEntityResolution = .sourceEntity, isEnabled: Bool) {
+        assertUnimplemented()
+    }
+    
+    @available(macOS, introduced: 15.0, deprecated: 15.0, renamed: "isEnabled")
+    @available(iOS, introduced: 18.0, deprecated: 18.0, renamed: "isEnabled")
+    @available(macCatalyst, introduced: 18.0, deprecated: 18.0, renamed: "isEnabled")
+    @available(visionOS, introduced: 2.0, deprecated: 2.0, renamed: "isEnabled")
+    @available(tvOS, introduced: 26.0, deprecated: 26.0, renamed: "isEnabled")
+    public init(targetEntity: ActionEntityResolution = .sourceEntity, enabled: Bool) {
         assertUnimplemented()
     }
     

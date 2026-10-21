@@ -6,6 +6,10 @@ public class __RKEntityShowAction : __RKEntityVisibilityAction {
         assertUnimplemented()
     }
     
+    public override init(targetEntity: Entity?) {
+        assertUnimplemented()
+    }
+    
     override public func perform(with context: __RKEntityActionContext) -> Bool {
         assertUnimplemented()
     }

@@ -14,9 +14,13 @@ open class PlatformGlassInteractionDefinition {
     package static func setDefinition(_ type: PlatformGlassInteractionDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:
-            PlatformGlassInteractionDefinition.uiKit = type
+            if PlatformGlassInteractionDefinition.uiKit == nil {
+                PlatformGlassInteractionDefinition.uiKit = type
+            }
         case .appKit:
-            PlatformGlassInteractionDefinition.appKit = type
+            if PlatformGlassInteractionDefinition.appKit == nil {
+                PlatformGlassInteractionDefinition.appKit = type
+            }
         default:
             break
         }
