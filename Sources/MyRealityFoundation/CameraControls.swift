@@ -31,6 +31,39 @@ public struct CameraControls : Hashable, Sendable {
         }
     }
     
+    public var interactionMode: CameraControls.InteractionMode? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    public enum InteractionMode : Hashable, CaseIterable {
+        case orbitArcball
+        case orbitTurntable
+        case orbitAngleMapping
+        case orbitCenteredArcball
+        case fly
+        case pan
+        case truck
+        
+        public static func == (a: CameraControls.InteractionMode, b: CameraControls.InteractionMode) -> Bool {
+            assertUnimplemented()
+        }
+        
+        public func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
+        public var hashValue: Int {
+            get {
+                assertUnimplemented()
+            }
+        }
+    }
+    
     public static func == (a: CameraControls, b: CameraControls) -> Bool {
         assertUnimplemented()
     }

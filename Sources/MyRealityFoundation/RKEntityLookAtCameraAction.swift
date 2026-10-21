@@ -10,7 +10,7 @@ public class __RKEntityLookAtCameraAction : __RKEntityAction {
         assertUnimplemented()
     }
     
-    public init(targetEntity: Entity?) {
+    public override init(targetEntity: Entity?) {
         assertUnimplemented()
     }
     

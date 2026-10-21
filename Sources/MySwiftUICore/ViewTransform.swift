@@ -4,6 +4,50 @@ internal import AttributeGraph
 package import Spatial
 
 package struct ViewTransform : Equatable {
+    package static func == (lhs: ViewTransform, rhs: ViewTransform) -> Bool {
+        guard
+            lhs.positionAdjustment == rhs.positionAdjustment &&
+                lhs.pendingTranslation == rhs.pendingTranslation &&
+                lhs.depth == rhs.depth
+        else {
+            return false
+        }
+        
+        let lhsHead = lhs.head
+        let rhsHead = rhs.head
+        
+        guard
+            var lhsHead,
+            var rhsHead
+        else {
+            return lhsHead === rhsHead
+        }
+        
+        guard lhsHead.depth == rhsHead.depth else {
+            return false
+        }
+
+        while true {
+            if lhsHead === rhsHead {
+                return true
+            }
+            
+            if !lhsHead.isEqual(to: rhsHead) {
+                return lhsHead === rhsHead
+            }
+            
+            let lhsNext = lhsHead.next
+            let rhsNext = rhsHead.next
+            
+            if let lhsNext, let rhsNext {
+                lhsHead = lhsNext
+                rhsHead = rhsNext
+            } else {
+                return lhsNext === rhsNext
+            }
+        }
+    }
+    
     private var head: AnyElement? // 0x0
     private var spaces: CoordinateSpaceNode? // 0x8
     var positionAdjustment: CGSize // 0x10
@@ -422,7 +466,7 @@ fileprivate struct ProjectionTransformElement : ViewTransformElement {
     }
 }
 
-fileprivate final class Element<T> : AnyElement {
+fileprivate final class Element<T : Equatable> : AnyElement {
     private let translation: CGSize
     private let element: T
     
@@ -434,6 +478,18 @@ fileprivate final class Element<T> : AnyElement {
         self.translation = translation
         self.element = element
         super.init(next: next)
+    }
+    
+    override func isEqual(to other: AnyElement) -> Bool {
+        guard let casted = other as? Self else {
+            return false
+        }
+        
+        guard self.translation == casted.translation else {
+            return false
+        }
+        
+        return self.element == casted.element
     }
 }
 
@@ -455,8 +511,18 @@ fileprivate final class BufferedElement : AnyElement {
         assertUnimplemented()
     }
     
-    func isEqual(to other: AnyElement) -> Bool {
-        assertUnimplemented()
+    override func isEqual(to other: AnyElement) -> Bool {
+        guard type(of: other) == BufferedElement.self else {
+            return false
+        }
+        
+        let casted = unsafe unsafeDowncast(other, to: BufferedElement.self)
+        
+        guard self.translation == casted.translation else {
+            return false
+        }
+        
+        return self.elements == casted.elements
     }
     
     var description: String? {
@@ -478,6 +544,10 @@ fileprivate class AnyElement {
             depth = 1
         }
         self.depth = depth
+    }
+    
+    func isEqual(to other: AnyElement) -> Bool {
+        return false
     }
 }
 
@@ -612,13 +682,44 @@ extension ViewTransform {
         }
         
         package static func == (lhs: UnsafeBuffer, rhs: UnsafeBuffer) -> Bool {
-            assertUnimplemented()
+            guard lhs.contents.count == rhs.contents.count else {
+                return false
+            }
+            
+            for index in lhs.contents.indices {
+                let lhsContent = lhs.contents[index]
+                let rhsContent = rhs.contents[index]
+                
+                let lhsTable = lhsContent.vtable(as: ViewTransform.UnsafeBuffer.VTable.self)
+                let rhsTable = rhsContent.vtable(as: ViewTransform.UnsafeBuffer.VTable.self)
+                
+                guard lhsTable == rhsTable else {
+                    return false
+                }
+                
+                guard lhsTable.equal(lhsContent, rhsContent) else {
+                    return false
+                }
+            }
+            
+            return true
         }
     }
 }
 
 extension ViewTransform.UnsafeBuffer {
     fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
+        class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
+            // noop
+        }
+        
+        class func description(elt : _UnsafeHeterogeneousBuffer_Element) -> String {
+            return ""
+        }
+        
+        class func equal(_ lhs : _UnsafeHeterogeneousBuffer_Element, _ rhs: _UnsafeHeterogeneousBuffer_Element) -> Bool {
+            return false
+        }
     }
     
     fileprivate final class _VTable<Element : ViewTransformElement>: VTable {
@@ -639,16 +740,16 @@ extension ViewTransform.UnsafeBuffer {
             unsafe pointer.deinitialize(count: 1)
         }
         
-        class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
+        override class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
             assertUnimplemented()
         }
         
-        class func description(elt : _UnsafeHeterogeneousBuffer_VTable) -> String {
+        override class func description(elt : _UnsafeHeterogeneousBuffer_Element) -> String {
             assertUnimplemented()
         }
         
-        class func equal(_ lhs : _UnsafeHeterogeneousBuffer_VTable, _ rhs: _UnsafeHeterogeneousBuffer_VTable) -> Bool {
-            assertUnimplemented()
+        override class func equal(_ lhs : _UnsafeHeterogeneousBuffer_Element, _ rhs: _UnsafeHeterogeneousBuffer_Element) -> Bool {
+            return unsafe lhs.body(as: Element.self).pointee == rhs.body(as: Element.self).pointee
         }
     }
 }

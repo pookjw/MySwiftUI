@@ -68,10 +68,6 @@ extension Rect3D : LengthUnitConvertible {
 }
 
 extension ViewTransform : LengthUnitConvertible {
-    package static func == (lhs: ViewTransform, rhs: ViewTransform) -> Bool {
-        assertUnimplemented()
-    }
-    
     package mutating func scale(by scale: Double) {
         guard scale != 1 else {
             return

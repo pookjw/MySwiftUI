@@ -330,10 +330,12 @@ extension UnsafeHeterogeneousBuffer {
 }
 
 class _UnsafeHeterogeneousBuffer_VTable {
+    init() {}
+    
     deinit {
         assertUnimplemented()
     }
-
+    
     class var type : Any.Type {
         fatalError() // abstract
     }

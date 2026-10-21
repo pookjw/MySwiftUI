@@ -6,7 +6,7 @@ public class __RKEntityStartAnimateAction : __RKEntityAnimateAction {
         assertUnimplemented()
     }
     
-    public init(targetEntity: Entity?) {
+    public override init(targetEntity: Entity?) {
         assertUnimplemented()
     }
     

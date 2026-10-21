@@ -6,7 +6,7 @@ public class __RKEntityOrbitEntityAction : __RKEntityAction {
         assertUnimplemented()
     }
     
-    public init(targetEntity: Entity?) {
+    public override init(targetEntity: Entity?) {
         assertUnimplemented()
     }
     

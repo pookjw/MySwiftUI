@@ -303,12 +303,12 @@ fileprivate struct ShapeStyledDisplayList<T : ShapeStyledLeafView> : AsyncAttrib
 }
 
 fileprivate struct ShapeStyledResponderFilter<T : ShapeStyledLeafView> : StatefulRule {
-     @Attribute var view: T
-     @Attribute var styles: _ShapeStyle_Pack
-     @Attribute var size: ViewSize
-     @Attribute var position: CGPoint
-     @Attribute var transform: ViewTransform
-     let responder = LeafViewResponder<ShapeStyledResponderData<T>>()
+     @Attribute private var view: T
+     @Attribute private var styles: _ShapeStyle_Pack
+     @Attribute private var size: ViewSize
+     @Attribute private var position: CGPoint
+     @Attribute private var transform: ViewTransform
+     private let responder = LeafViewResponder<ShapeStyledResponderData<T>>()
     
     init(
         view: Attribute<T>,
@@ -327,13 +327,27 @@ fileprivate struct ShapeStyledResponderFilter<T : ShapeStyledLeafView> : Statefu
     typealias Value = [ViewResponder]
     
     func updateValue() {
-        assertUnimplemented()
+        // <+316>
+        let (view, viewChanged) = self.$view.changedValue(options: [])
+        let (styles, stylesChanged) = self.$styles.changedValue(options: [])
+        
+        self.responder.helper.update(
+            data: (value: ShapeStyledResponderData(view: view, styles: styles), changed: viewChanged || stylesChanged),
+            size: self.$size.changedValue(options: []),
+            position: self.$position.changedValue(options: []),
+            transform: self.$transform.changedValue(options: []),
+            parent: self.responder
+        )
+        
+        if !self.hasValue {
+            self.value = [self.responder]
+        }
     }
  }
 
 struct ShapeStyledResponderData<T : ShapeStyledLeafView> : ContentResponder {
-    private var view: T
-    private var styles: _ShapeStyle_Pack
+    fileprivate private(set) var view: T
+    fileprivate private(set) var styles: _ShapeStyle_Pack
     
     func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
         assertUnimplemented()

@@ -1,5 +1,5 @@
 public import AttributeGraph
-public import Spatial
+internal import Spatial
 
 @_spi(Internal) public protocol ContentResponder {
     func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64

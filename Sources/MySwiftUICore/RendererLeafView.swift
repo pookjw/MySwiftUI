@@ -171,7 +171,7 @@ struct LeafResponderFilter<T : ContentResponder>: StatefulRule {
 }
 
 final class LeafViewResponder<T : ContentResponder>: ViewResponder {
-    fileprivate var helper = ContentResponderHelper<T>()
+    var helper = ContentResponderHelper<T>()
     
     override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
         assertUnimplemented()
