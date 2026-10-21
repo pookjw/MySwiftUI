@@ -1,20 +1,31 @@
 //
-//  CircleViewController.swift
-//  NativePlayground
+//  StrokeViewController.swift
+//  MyPlayground
 //
-//  Created by Jinwoo Kim on 10/5/26.
+//  Created by Jinwoo Kim on 10/21/26.
 //
 
 import UIKit
-import SwiftUI
+import MySwiftUI
 
 fileprivate struct MyView : View {
     var body: some View {
         Circle()
+            .stroke(
+                Color.orange,
+                style: StrokeStyle(
+                    lineWidth: 5,
+                    lineCap: .round,
+                    lineJoin: .miter,
+                    miterLimit: 0,
+                    dash: [5, 10],
+                    dashPhase: 0
+                )
+            )
     }
 }
 
-final class CircleViewController : UIViewController {
+final class StrokeViewController : UIViewController {
     @ViewLoading private var hostingController: UIHostingController<MyView>
     
     override func viewDidLoad() {

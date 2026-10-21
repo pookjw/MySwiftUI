@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.circleView
+        let item = DemoViewController.Item.backgroundModifierView
         pushToItem(item)
         
 //        Task {
@@ -136,6 +136,10 @@ extension DemoViewController {
         case minMax3DFrameView
         case offsetView
         case paddingView
+        case backgroundModifierView
+        case overlayModifierView
+        case strokeView
+        case borderView
         case withAnimationView
         case animationModifierView
         case transactionModifierView
@@ -267,6 +271,14 @@ extension DemoViewController {
                 return _typeName(OffsetViewController.self, qualified: false)
             case .paddingView:
                 return _typeName(PaddingViewController.self, qualified: false)
+            case .backgroundModifierView:
+                return _typeName(BackgroundModifierViewController.self, qualified: false)
+            case .overlayModifierView:
+                return _typeName(OverlayModifierViewController.self, qualified: false)
+            case .strokeView:
+                return _typeName(StrokeViewController.self, qualified: false)
+            case .borderView:
+                return _typeName(BorderViewController.self, qualified: false)
             case .withAnimationView:
                 return _typeName(WithAnimationViewController.self, qualified: false)
             case .animationModifierView:
@@ -428,6 +440,14 @@ extension DemoViewController {
                 return OffsetViewController()
             case .paddingView:
                 return PaddingViewController()
+            case .backgroundModifierView:
+                return BackgroundModifierViewController()
+            case .overlayModifierView:
+                return OverlayModifierViewController()
+            case .strokeView:
+                return StrokeViewController()
+            case .borderView:
+                return BorderViewController()
             case .withAnimationView:
                 return WithAnimationViewController()
             case .animationModifierView:

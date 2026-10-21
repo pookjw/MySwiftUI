@@ -622,3 +622,23 @@ extension Shape {
         return path.applying(transform)
     }
 }
+
+extension Shape {
+    @inlinable @_disfavoredOverload nonisolated public func fill<S>(_ content: S, style: FillStyle = FillStyle()) -> some View where S : ShapeStyle {
+        return _ShapeView(shape: self, style: content, fillStyle: style)
+    }
+    
+    @inlinable @_disfavoredOverload nonisolated public func fill(style: FillStyle = FillStyle()) -> some View {
+        return _ShapeView(shape: self, style: .foreground, fillStyle: style)
+    }
+    
+    @inlinable @_disfavoredOverload nonisolated public func stroke<S>(_ content: S, style: StrokeStyle) -> some View where S : ShapeStyle {
+        return _ShapeView(shape: stroke(style: style), style: content)
+    }
+    
+    @inlinable @_disfavoredOverload nonisolated public func stroke<S>(_ content: S, lineWidth: CoreFoundation.CGFloat = 1) -> some View where S : ShapeStyle {
+        return _ShapeView(
+            shape: stroke(style: StrokeStyle(lineWidth: lineWidth)),
+            style: content)
+    }
+}

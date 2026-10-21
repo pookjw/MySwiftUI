@@ -52,6 +52,12 @@ extension ShapeStyle where Self.Resolved == Never {
     }
 }
 
+extension ShapeStyle where Self == ForegroundStyle {
+    @_alwaysEmitIntoClient public static var foreground: ForegroundStyle {
+        get { .init() }
+    }
+}
+
 extension Never : ShapeStyle {
     public typealias Resolved = Never
     

@@ -45,6 +45,10 @@ public class __RKEntityProximityTrigger : __RKEntityTrigger {
         }
     }
     
+    override public init() {
+        assertUnimplemented()
+    }
+    
     public init(targetEntity: Entity?, distance: Float, type: __RKEntityProximityTrigger.ExitType) {
         assertUnimplemented()
     }

@@ -3,9 +3,16 @@ public import simd
 @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, tvOS 26.0, *)
 public struct ProjectiveTransformCameraComponent : Component, Equatable {
     public var transform: float4x4
+    private var cullingTransform: float4x4?
+    private var autoFitFullscreenAspect: Bool
     
     @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, *)
     public init(projectionMatrix: float4x4) {
+        assertUnimplemented()
+    }
+    
+    @available(visionOS 2.0, iOS 18.0, macCatalyst 18.0, macOS 15.0, *)
+    init(projectionMatrix: float4x4, cullingMatrix: float4x4?) {
         assertUnimplemented()
     }
     
