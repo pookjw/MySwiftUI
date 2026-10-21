@@ -77,7 +77,8 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
 
             do {
                 // value.0 = d13, d8, d15
-                let entity = self.entity(for: identity, logPrefix: "\(identity)")
+                let logPrefix = "\(identity): "
+                let entity = self.entity(for: identity, logPrefix: logPrefix)
                 // <+1432>
                 let b1 = host.bounds
                 let d14 = b1.origin.x + b1.width * 0.5
@@ -93,11 +94,11 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
                     Float(d1),
                     Float(value.0.z)
                 ) / Float(pointsPerMeter)
-                Log.log("Positioning entity \(entity.id) at \(entity.position)")
+                Log.log("\(logPrefix)Positioning entity \(entity.id) at \(entity.position)")
                 
                 let requests = value.1.filter { !processedFeedbackSeeds.contains($0.seed) }
                 for request in requests {
-                    Log.log("Starting playback of `\(request.feedbackType)`")
+                    Log.log("\(logPrefix)Starting playback of `\(request.feedbackType)`")
                     processedFeedbackSeeds.insert(request.seed)
 
                     guard let name = _MRUICadenzaNameForFeedback(request.feedbackType.mruiFeedbackType) else {
