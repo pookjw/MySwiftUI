@@ -13,6 +13,7 @@ extension Shape {
 @frozen public struct _StrokedShape<S> : Shape where S : Shape {
     public var shape: S
     public var style: StrokeStyle
+    
     @inlinable public init(shape: S, style: StrokeStyle) {
         self.shape = shape
         self.style = style

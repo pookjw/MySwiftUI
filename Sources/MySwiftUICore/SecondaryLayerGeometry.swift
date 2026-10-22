@@ -234,6 +234,131 @@ fileprivate func makeSecondaryPreferenceView<T : PreferenceKey, U : View>(
     )
 }
 
+func makeSecondaryLayerView<T : View>(
+    secondaryLayer: Attribute<T>,
+    alignment: Attribute<Alignment>?,
+    inputs: _ViewInputs,
+    body: (_Graph, _ViewInputs) -> _ViewOutputs,
+    flipOrder: Bool
+) -> _ViewOutputs {
+    /*
+     secondaryLayer -> x0 -> x19 + 0x30 (sp + 0x30)
+     alignment -> x1 -> x21
+     inputs -> x2
+     body -> x3/x4 -> x24/x28
+     flipOrder -> w5 -> w22
+     */
+    // x25 + 0x120 (sp + 0x1f0)
+    let copy_1 = inputs
+    // x25 + 0x60 (sp + 0x130)
+    let copy_2 = inputs
+    // x19 + 0x190 (sp + 0x190)
+    let _ = copy_1
+    copy_2.base.pushStableIndex(0)
+    
+    // <+180>
+    // x19 + 0x190 (sp + 0x190)
+    let outputs_1 = body(_Graph(), copy_2)
+    // x25 (sp + 0xd0)
+    var copy_4 = copy_1
+    copy_4.base.pushStableIndex(1)
+    
+    // <+280>
+    // x19 + 0x14 (sp + 0x14)
+    let geometry: Attribute<ViewGeometry>!
+    
+    if !copy_1.base.options.contains(.viewNeedsGeometry) {
+        // <+292>
+        geometry = nil
+        // <+580>
+    } else {
+        // <+300>
+        // x19 + 0x190
+        let query = SecondaryLayerGeometryQuery(
+            alignment: OptionalAttribute(alignment),
+            layoutDirection: copy_1
+                .base
+                .cachedEnvironment
+                .value
+                .attribute(
+                    id: .layoutDirection,
+                    { environment in
+                        return environment.layoutDirection
+                    }
+                ),
+            primaryPosition: copy_1.position,
+            primarySize: copy_1.size,
+            primaryLayoutComputer: OptionalAttribute(outputs_1.layoutComputer),
+            secondaryLayoutComputer: OptionalAttribute()
+        )
+        
+        let attribute = Attribute(query)
+        geometry = attribute
+        
+        copy_4.position = attribute.origin()
+        copy_4.size = attribute.size()
+    }
+    
+    // <+580>
+    if isLinkedOnOrAfter(.v3) {
+        // <+700>
+        copy_4.implicitRootType = _ZStackLayout.self
+    }
+    
+    // <+764>
+    // x25 + 0xc0 (sp + 0x190)
+    let copy_5 = copy_2
+    // x19 + 0x60 (sp + 0x60)
+    let copy_6 = copy_2.base
+    
+    let newBody: (_Graph, _ViewInputs) -> _ViewOutputs = { _, incoming in
+        // $s7SwiftUI22makeSecondaryLayerView09secondaryE09alignment6inputs4body9flipOrderAA01_F7OutputsV14AttributeGraph0N0VyxG_ALyAA9AlignmentVGSgAA01_F6InputsVAiA01_O0V_AStcSbtAA0F0RzlFAiU_AStcfU_
+        return T.makeDebuggableView(view: _GraphValue(secondaryLayer), inputs: incoming)
+    }
+    
+    let outputs_2: _ViewOutputs
+    
+    if IsVisionEnabledPredicate.evaluate(inputs: copy_6) {
+        // <+860>
+        outputs_2 = makePlatformSecondaryView(
+            primaryInputs: copy_5,
+            primaryOutputs: outputs_1,
+            secondaryInputs: copy_4,
+            flipOrder: flipOrder,
+            body: newBody
+        )
+    } else {
+        // <+1076>
+        outputs_2 = newBody(_Graph(), copy_4)
+    }
+    
+    if copy_1.base.options.contains(.viewNeedsGeometry) {
+        // <+1152>
+        geometry.mutateBody(as: SecondaryLayerGeometryQuery.self, invalidating: true) { query in
+            // $s7SwiftUI22makeSecondaryLayerView09secondaryE09alignment6inputs4body9flipOrderAA01_F7OutputsV14AttributeGraph0N0VyxG_ALyAA9AlignmentVGSgAA01_F6InputsVAiA01_O0V_AStcSbtAA0F0RzlFyAA0dE13GeometryQueryVzXEfU0_TA
+            query.$secondaryLayoutComputer = outputs_2.layoutComputer
+        }
+    }
+    
+    // <+1264>
+    var visitor: PairwisePreferenceCombinerVisitor
+    if flipOrder {
+        visitor = PairwisePreferenceCombinerVisitor(outputs: (outputs_2.preferences, outputs_1.preferences))
+    } else {
+        visitor = PairwisePreferenceCombinerVisitor(outputs: (outputs_1.preferences, outputs_2.preferences))
+    }
+    
+    for key in copy_1.preferences.keys {
+        key.visitKey(&visitor)
+    }
+    
+    return _ViewOutputs(
+        preferences: visitor.result,
+        layoutComputer: OptionalAttribute(outputs_1.layoutComputer)
+    )
+}
+
+
 struct SecondaryLayerGeometryQuery : Rule, AsyncAttribute {
     @OptionalAttribute var alignment: Alignment?
     @Attribute var layoutDirection: LayoutDirection

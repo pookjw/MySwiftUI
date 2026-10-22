@@ -49,7 +49,13 @@ extension View {
     }
     
     nonisolated public static func _makeView(modifier: _GraphValue<_OverlayModifier<Overlay>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return makeSecondaryLayerView(
+            secondaryLayer: modifier[{ .of(&$0.overlay)}].value,
+            alignment: modifier[{ .of(&$0.alignment)}].value,
+            inputs: inputs,
+            body: body,
+            flipOrder: false
+        )
     }
     
     @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)

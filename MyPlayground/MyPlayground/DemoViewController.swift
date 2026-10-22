@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.backgroundModifierView
+        let item = DemoViewController.Item.borderView
         pushToItem(item)
         
 //        Task {
