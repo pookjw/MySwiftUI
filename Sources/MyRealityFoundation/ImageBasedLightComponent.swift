@@ -12,7 +12,28 @@ public struct ImageBasedLightComponent : Component, Equatable {
     
     public var intensityExponent: Float
     
+    public var environment: EnvironmentResource? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
     public init(source: ImageBasedLightComponent.Source, intensityExponent: Float = 0) {
+        assertUnimplemented()
+    }
+    
+    public init(source: ImageBasedLightComponent.Source, intensityExponent: Float = 0, global: Bool) {
+        assertUnimplemented()
+    }
+    
+    public init(environment: EnvironmentResource?, intensityExponent: Float = 0) {
+        assertUnimplemented()
+    }
+    
+    public init(environment: EnvironmentResource?, intensityExponent: Float = 0, global: Bool) {
         assertUnimplemented()
     }
     

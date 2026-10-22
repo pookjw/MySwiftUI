@@ -9,6 +9,13 @@ internal import Foundation
         super.init()
     }
     
+    init(_ environment: EnvironmentValues, phase: ViewGraphHost.Phase, focusedValues: FocusedValues) {
+        self.focusedValues = focusedValues
+        super.init()
+        self.environment = environment
+        self.phase = phase
+    }
+    
     required init?(coder: NSCoder) {
         assertUnimplemented()
     }

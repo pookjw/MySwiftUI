@@ -92,10 +92,28 @@ fileprivate final class SceneOrnamentFrameMonitor {
     var onFramesMayHaveChanged: (() -> Void)?
     var observations: [ObjectIdentifier: [NSKeyValueObservation]]
     
-    init(ornamentManager: MRUIPlatterOrnamentManager?, onFramesMayHaveChanged: (() -> Void)?, observations: [ObjectIdentifier : [NSKeyValueObservation]]) {
+    init(ornamentManager: MRUIPlatterOrnamentManager, onFramesMayHaveChanged: @escaping () -> Void) {
         self.ornamentManager = ornamentManager
         self.onFramesMayHaveChanged = onFramesMayHaveChanged
-        self.observations = observations
+        self.observations = [:]
+
+        for ornament in ornamentManager._ornaments(includingInternalOrnaments: true) {
+            self.observe(ornament: ornament)
+        }
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(ornamentAdded(_:)),
+            name: ._MRUIPlatterOrnamentManagerDidAddOrnament,
+            object: ornamentManager
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(ornamentRemoved(_:)),
+            name: ._MRUIPlatterOrnamentManagerDidRemoveOrnament,
+            object: ornamentManager
+        )
     }
     
     deinit {
@@ -106,7 +124,7 @@ fileprivate final class SceneOrnamentFrameMonitor {
         assertUnimplemented()
     }
     
-    @objc func ornamentAdde(_: Notification) {
+    @objc func ornamentAdded(_: Notification) {
         assertUnimplemented()
     }
     

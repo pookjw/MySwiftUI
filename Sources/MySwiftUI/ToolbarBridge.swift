@@ -52,6 +52,42 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
         assertUnimplemented()
     }
     
+    func willDisappear<Content : View>(hostingController: UIHostingController<Content>) {
+        assertUnimplemented()
+    }
+    
+    private func navigationItemWillAppear<Content : View>(hostingController: UIHostingController<Content>) {
+        assertUnimplemented()
+    }
+    
+    private func navigationItemWillDisappear<Content : View>(hostingController: UIHostingController<Content>) {
+        assertUnimplemented()
+    }
+    
+    private func updateSplitControllerItem<Content : View>(hostingController: UIHostingController<Content>, updates: Toolbar.Updates) {
+        assertUnimplemented()
+    }
+    
+    private func canUpdateTabBar<Content : View>(_ tabBarController: UITabBarController, hostingController: UIHostingController<Content>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    private func updateNavigationItem<Content : View>(hostingController: UIHostingController<Content>, adaptor: UINavigationItemAdaptorStorage) {
+        assertUnimplemented()
+    }
+    
+    func toolbarInputContentDidChange<Content : View>(_ description: ToolbarContentDescription, hostingController: UIHostingController<Content>) {
+        assertUnimplemented()
+    }
+    
+    func toolbarInputContentDidChange(_ description: ToolbarContentDescription, context: Toolbar.UpdateContext) -> Toolbar.Updates {
+        assertUnimplemented()
+    }
+    
+    func resetPlatform() {
+        assertUnimplemented()
+    }
+    
     func safeAreaDidChange<Content : View>(hostingController: UIHostingController<Content>) {
         assertUnimplemented()
     }

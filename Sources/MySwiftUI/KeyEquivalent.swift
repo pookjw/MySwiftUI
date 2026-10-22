@@ -61,6 +61,10 @@ public struct KeyEquivalent : Sendable {
         assertUnimplemented()
     }()
     
+    public static let `null`: KeyEquivalent = {
+        assertUnimplemented()
+    }()
+    
     public var character: Character
     
     public init(_ character: Character) {

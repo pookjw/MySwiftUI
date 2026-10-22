@@ -2102,8 +2102,10 @@ extension _UIHostingView : @preconcurrency PlatformItemListHost {
     }
 }
 
-extension _UIHostingView : AccessibilityHost {
-    
+extension _UIHostingView : @preconcurrency AccessibilityHost {
+    func accessibilityDidChange(nodes: () -> [AccessibilityNode]) {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView : @preconcurrency EventGraphHost {

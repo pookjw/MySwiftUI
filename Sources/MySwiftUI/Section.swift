@@ -7,10 +7,17 @@ public struct Section<Parent, Content, Footer> {
     @safe private nonisolated(unsafe) var footer: Footer
     private var isExpanded: Binding<Bool>? = nil
     
-    init(header: Parent, footer: Footer, content: Content) {
+    init(header: Parent, content: Content, footer: Footer) {
         self.header = header
-        self.footer = footer
         self.content = content
+        self.footer = footer
+    }
+    
+    init(isExpanded: Binding<Bool>?, header: Parent, content: Content, footer: Footer) {
+        self.header = header
+        self.content = content
+        self.footer = footer
+        self.isExpanded = isExpanded
     }
 }
 
@@ -128,7 +135,7 @@ extension Section where Parent : View, Content : View, Footer : View {
     @available(watchOS, deprecated: 100000.0, renamed: "Section(content:header:footer:)")
     @available(visionOS, deprecated: 100000.0, renamed: "Section(content:header:footer:)")
     public init(header: Parent, footer: Footer, @ViewBuilder content: () -> Content) {
-        self.init(header: header, footer: footer, content: content())
+        self.init(header: header, content: content(), footer: footer)
     }
 }
 
@@ -176,8 +183,8 @@ struct ResolvedSectionStyle : StyleableView {
     var body: some View {
         Section(
             header: configuration.header,
-            footer: configuration.footer,
-            content: configuration.rawContent
+            content: configuration.rawContent,
+            footer: configuration.footer
         )
         .viewAlias(SectionStyleConfiguration.Header.self) {
             AccessibilitySectionHeaderModifier<SectionStyleConfiguration.Header>()
@@ -220,8 +227,8 @@ struct DefaultSectionStyle : SectionStyle {
     func makeBody(configuration: SectionStyleConfiguration) -> some View {
         Section(
             header: configuration.header,
-            footer: configuration.footer,
-            content: configuration.rawContent
+            content: configuration.rawContent,
+            footer: configuration.footer
         )
         .modifier(
             SectionStyleModifier(style: SidebarSectionStyle())

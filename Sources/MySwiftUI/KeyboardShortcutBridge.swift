@@ -45,7 +45,7 @@ final class KeyboardShortcutBridge : NSObject {
          source -> x0 -> x29 - 0x178
          */
         // <+532>
-        guard !self.updatedBindings.seed.matches(self.currentBindings.seed) else {
+        guard !self.currentBindings.seed.matches(self.updatedBindings.seed) else {
             return
         }
         

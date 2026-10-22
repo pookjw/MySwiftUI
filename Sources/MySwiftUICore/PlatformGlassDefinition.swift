@@ -11,6 +11,10 @@ open class PlatformGlassDefinition {
         fatalError() // abstract
     }
     
+    package static func `for`(system: PlatformSystemDefinition) -> PlatformGlassDefinition.Type? {
+        assertUnimplemented()
+    }
+    
     package static func setDefinition(_ definition: PlatformGlassDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .appKit:
