@@ -12,8 +12,16 @@
     open func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
         assertUnimplemented()
     }
+
+    open func resetGesture() {
+        assertUnimplemented()
+    }
     
     package init() {
+    }
+    
+    deinit {
+        assertUnimplemented()
     }
     
     open func isDescendant(of other: ResponderNode) -> Bool {

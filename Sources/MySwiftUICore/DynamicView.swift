@@ -447,6 +447,10 @@ extension DynamicViewList {
                 unsafe allItems.value.remove(at: index)
             }
         }
+        
+        deinit {
+            assertUnimplemented()
+        }
     }
     
     fileprivate struct WrappedList : CustomStringConvertible {

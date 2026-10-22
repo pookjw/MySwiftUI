@@ -10,6 +10,10 @@ internal import Foundation
     
     package init() {
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     package func addForwardedEventDispatcher(_ dispatcher: ForwardedEventDispatcher) {
         forwardedEventDispatchers[ObjectIdentifier(type(of: dispatcher))] = dispatcher

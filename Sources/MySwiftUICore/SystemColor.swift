@@ -49,8 +49,50 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
             .value(for: self, environment: environment)
     }
     
-    func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+    func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+        if isLinkedOnOrAfter(.v3) {
+            // <+160>
+            switch self {
+            case .red, .orange, .yellow, .green, .teal, .mint, .cyan, .blue, .indigo, .purple, .pink, .brown, .gray, .primaryFill, .secondaryFill, .tertiaryFill, .quaternaryFill:
+                // <+212>
+                if let backgroundMaterial = shape.environment.backgroundMaterial {
+                    // <+352>
+                    if let provider = shape.environment.materialProvider(for: backgroundMaterial) {
+                        provider.apply(color: color, to: &shape)
+                    } else if let style = shape.environment.vibrantColorStyle {
+                        // <+488>
+                        style.apply(
+                            self,
+                            color: color,
+                            material: backgroundMaterial,
+                            to: &shape
+                        )
+                    } else {
+                        // <+304>
+                        self._apply(color: color, to: &shape)
+                    }
+                } else {
+                    self._apply(color: color, to: &shape)
+                }
+            case .primary:
+                // <+172>
+                LegacyContentStyle(id: .primary, color: color)._apply(to: &shape)
+            case .secondary:
+                // <+172>
+                LegacyContentStyle(id: .secondary, color: color)._apply(to: &shape)
+            case .tertiary:
+                // <+172>
+                LegacyContentStyle(id: .tertiary, color: color)._apply(to: &shape)
+            case .quaternary:
+                // <+172>
+                LegacyContentStyle(id: .quaternary, color: color)._apply(to: &shape)
+            case .quinary:
+                LegacyContentStyle(id: .quinary, color: color)._apply(to: &shape)
+            }
+        } else {
+            // <+304>
+            self._apply(color: color, to: &shape)
+        }
     }
     
     var staticColor: CGColor? {

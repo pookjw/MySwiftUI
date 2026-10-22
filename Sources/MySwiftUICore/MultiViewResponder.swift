@@ -21,10 +21,26 @@ public import Spatial
     open override var features: ViewResponder.Features {
         assertUnimplemented()
     }
+
+    open func childrenDidChange() {
+        assertUnimplemented()
+    }
+
+    open override func resetGesture() {
+        assertUnimplemented()
+    }
+
+    open override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
     
     @inline(__always)
     package override init() {
         super.init()
+    }
+    
+    deinit {
+        assertUnimplemented()
     }
     
     package override init(host: (any ViewGraphDelegate)?) {

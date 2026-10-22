@@ -27,15 +27,64 @@ extension EnvironmentValues {
 }
 
 protocol VibrantColorStyle {
-//    static func apply(_: SystemColorType, color: Color, material: Material, to: inout _ShapeStyle_Shape)
+    static func apply(_ colorType: SystemColorType, color: Color, material: Material, to shape: inout _ShapeStyle_Shape)
 }
 
 struct SystemVibrantColorStyle_Vision : VibrantColorStyle {
-    
+    static func apply(_ colorType: SystemColorType, color: Color, material: Material, to shape: inout _ShapeStyle_Shape) {
+        if shape.environment.isVisionEnabled {
+            // <+124>
+            switch shape.operation {
+            case .prepareText(_):
+                // <+248>
+                shape.result = .preparedText(.foregroundKeyColor)
+            case .resolveStyle(let name, let levels):
+                // <+148>
+                guard !levels.isEmpty else {
+                    return
+                }
+                
+                let style = shape.resolveStyle(
+                    id: ContentStyle.ID(truncatingLevel: levels.lowerBound),
+                    material: material,
+                    color: color
+                )
+                
+                var pack: _ShapeStyle_Pack
+                switch shape.result {
+                case .pack(let _pack):
+                    pack = _pack
+                    shape.result = .none
+                case .preparedText, .style, .color, .bool, .none:
+                    pack = _ShapeStyle_Pack()
+                }
+                
+                // <+524>
+                pack[name, levels.lowerBound] = style
+                shape.result = .pack(pack)
+            case .fallbackColor(_):
+                // <+272>
+                let resolved = shape
+                    .environment
+                    .systemColorDefinition
+                    .value(for: colorType, environment: shape.environment)
+                
+                shape.result = .color(Color(box: ColorBox(ResolvedColorProvider(color: resolved))))
+            case .copyStyle, .modifyBackground, .multiLevel, .primaryStyle:
+                // <+216>
+                return
+            }
+        } else {
+            // <+180>
+            SystemVibrantColorStyle.apply(colorType, color: color, material: material, to: &shape)
+        }
+    }
 }
 
 struct SystemVibrantColorStyle : VibrantColorStyle {
-    
+    static func apply(_ colorType: SystemColorType, color: Color, material: Material, to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct VibrantColorStyleKey : EnvironmentKey {

@@ -449,6 +449,10 @@ extension CustomEventTrace {
             // inlined
             assertUnimplemented()
         }
+        
+        deinit {
+            assertUnimplemented()
+        }
     }
 }
 

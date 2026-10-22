@@ -1,4 +1,8 @@
 package class AnyResolvedPaint {
+    deinit {
+        assertUnimplemented()
+    }
+
     package var isClear: Bool {
         assertUnimplemented()
     }
@@ -33,6 +37,10 @@ final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
     
     nonisolated init(_ paint: P) {
         self.paint = paint
+    }
+    
+    deinit {
+        assertUnimplemented()
     }
 
     override var isClear: Bool {

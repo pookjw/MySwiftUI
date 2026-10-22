@@ -31,6 +31,10 @@ open class PlatformColorDefinition {
     @safe nonisolated(unsafe) package static var appKit: PlatformColorDefinition.Type?
     @safe nonisolated(unsafe) package static var appKitInternal: PlatformColorDefinition.Type?
     
+    deinit {
+        assertUnimplemented()
+    }
+
     package static func setDefinition(_ type: PlatformColorDefinition.Type, system: PlatformSystemDefinition) {
         switch system {
         case .uiKit:

@@ -3,6 +3,8 @@ internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 internal import MRUIKit
+private import _UIKitPrivate
+private import _MySwiftUICoreShims
 private import AttributeGraph
 private import Combine
 
@@ -218,10 +220,22 @@ protocol ToolbarBridgeProvider : AnyObject {
 
 class UIKitToolbar : UIToolbar {
     // TODO
+
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
 }
 
 class SwiftUISearchController : UISearchController {
     // TODO
+
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
+
+    override func _canShowWhileLocked() -> Bool {
+        assertUnimplemented()
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         assertUnimplemented()

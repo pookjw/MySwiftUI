@@ -82,6 +82,10 @@ extension EnvironmentValues {
     
     public required init() {}
     
+    deinit {
+        assertUnimplemented()
+    }
+    
     package func notificationCenter(for setting: PlatformAccessibilitySettingsDefinition.Setting) -> NotificationCenter {
         return .default
     }

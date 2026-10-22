@@ -1,9 +1,14 @@
 internal import UIKit
 internal import MySwiftUICore
 private import _UIKitPrivate
+private import _MySwiftUICoreShims
 
 final class UpdateCoalescingCollectionView : UICollectionView {
     // TODO
+
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
 
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         assertUnimplemented()

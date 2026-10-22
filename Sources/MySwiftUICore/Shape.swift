@@ -32,7 +32,7 @@ extension Shape {
     
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     nonisolated public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
-        assertUnimplemented()
+        return proposal.replacingUnspecifiedDimensions(by: CGSize(width: 10, height: 10))
     }
     
     public var body: _ShapeView<Self, ForegroundStyle> {
@@ -529,10 +529,13 @@ struct ShapeStyleResolver<T : ShapeStyle> : StatefulRule, AsyncAttribute, Observ
 }
 
 struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, PrimitiveView, UnaryView, @preconcurrency LeafViewLayout {
+    fileprivate private(set) var shape: T
+    fileprivate private(set) var fillStyle: FillStyle
+    
     typealias ShapeUpdateData = Void
     
     func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
-        assertUnimplemented()
+        return self.shape.sizeThatFits(ProposedViewSize(width: proposedSize.width, height: proposedSize.height))
     }
     
     func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
@@ -548,15 +551,16 @@ struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, Primitive
     }
     
     static var animatesSize: Bool {
-        assertUnimplemented()
+        return true
     }
     
     func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
-        assertUnimplemented()
+        return false
     }
     
     func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
-        assertUnimplemented()
+        let path = self.shape.effectivePath(in: CGRect(origin: .zero, size: size))
+        return (shape: _ShapeStyle_RenderedShape.Shape.path(path, self.fillStyle), frame: CGRect(origin: .zero, size: size))
     }
     
     static var hasBackground: Bool {
@@ -574,9 +578,6 @@ struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, Primitive
     func finalPlacement(oldIndex: Int, oldPlacedSubviews: [_LazyLayout_PlacedSubview], newPlacedSubviews: [_LazyLayout_PlacedSubview], wasRemovedFromSubviews: Bool, context: AnyRuleContext) -> _Placement {
         assertUnimplemented()
     }
-    
-    private var shape: T
-    private var fillStyle: FillStyle
 }
 
 extension AnimatedShape {
@@ -590,7 +591,7 @@ extension AnimatedShape {
         }
         
         var value: AnimatedShape<T> {
-            assertUnimplemented()
+            return AnimatedShape(shape: self.shape, fillStyle: self.fillStyle)
         }
     }
 }

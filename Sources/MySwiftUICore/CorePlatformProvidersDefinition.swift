@@ -44,6 +44,10 @@ internal import _MySwiftUICoreShims
     
     init() {}
     
+    deinit {
+        assertUnimplemented()
+    }
+    
     open class func updateProviders(_ providers: inout CorePlatformProviders) {
         // noop
     }

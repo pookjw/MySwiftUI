@@ -82,6 +82,10 @@ extension AnyView : CustomDebugStringConvertible {
     fileprivate var content: any View {
         fatalError() // abstract
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)

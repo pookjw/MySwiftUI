@@ -7,6 +7,10 @@ private import _UIKitShims
 final class UIKitBarButtonItem : UIBarButtonItem {
     // TODO
 
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
+
     override init() {
         assertUnimplemented()
     }

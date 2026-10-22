@@ -20,12 +20,13 @@ extension Shape {
     }
     
     nonisolated public func path(in rect: CGRect) -> Path {
-        assertUnimplemented()
+        let path = self.shape.path(in: rect)
+        return path.strokedPath(self.style)
     }
     
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     nonisolated public static var role: ShapeRole {
-        assertUnimplemented()
+        return .stroke
     }
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
@@ -37,16 +38,17 @@ extension Shape {
     
     public var animatableData: _StrokedShape<S>.AnimatableData {
         get {
-            assertUnimplemented()
+            return AnimatableData(self.shape.animatableData, self.style.animatableData)
         }
         set {
-            assertUnimplemented()
+            self.shape.animatableData = newValue.first
+            self.style.animatableData = newValue.second
         }
     }
     
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     nonisolated public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
-        assertUnimplemented()
+        return self.shape.sizeThatFits(proposal)
     }
     
     public typealias Body = _ShapeView<_StrokedShape<S>, ForegroundStyle>

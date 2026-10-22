@@ -38,7 +38,8 @@ extension Rectangle : InsettableShape {
         
         @usableFromInline
         nonisolated internal func path(in rect: CGRect) -> Path {
-            assertUnimplemented()
+            let inset = rect.insetBy(dx: self.amount, dy: self.amount)
+            return Path(inset)
         }
         
         @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
@@ -50,10 +51,10 @@ extension Rectangle : InsettableShape {
         @usableFromInline
         internal var animatableData: CGFloat {
             get {
-                assertUnimplemented()
+                return self.amount
             }
             set {
-                assertUnimplemented()
+                self.amount = newValue
             }
         }
         

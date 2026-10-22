@@ -1,9 +1,14 @@
 internal import UIKit
 internal import MySwiftUICore
 private import _UIKitPrivate
+private import _MySwiftUICoreShims
 
 class UIKitNavigationController : UINavigationController {
     // TODO
+
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
 
     override init(rootViewController: UIViewController) {
         assertUnimplemented()
@@ -22,6 +27,10 @@ class UIKitNavigationController : UINavigationController {
     }
 
     override func _canShowWhileLocked() -> Bool {
+        assertUnimplemented()
+    }
+
+    override func _supportsDataDrivenNavigation() -> Bool {
         assertUnimplemented()
     }
 

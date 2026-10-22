@@ -608,6 +608,10 @@ class AbstractHomogeneousCollection {
     func asAnyHashable2() -> [AnyHashable2] {
         fatalError() // abstract
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 final class HomogeneousCollection<T> : AbstractHomogeneousCollection {

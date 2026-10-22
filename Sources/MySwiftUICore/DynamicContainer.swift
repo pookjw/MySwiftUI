@@ -120,6 +120,10 @@ extension DynamicContainer {
         func `for`<T : DynamicContainerAdaptor>(_ type: T.Type) -> DynamicContainer._ItemInfo<T> {
             return unsafe unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
         }
+        
+        deinit {
+            assertUnimplemented()
+        }
     }
     
     final class _ItemInfo<T : DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
@@ -139,6 +143,10 @@ extension DynamicContainer {
             self.item = item
             self.itemLayout = itemLayout
             super.init(subgraph: subgraph, uniqueId: uniqueId, viewCount: viewCount, phase: phase, needsTransitions: needsTransitions, outputs: outputs)
+        }
+        
+        deinit {
+            assertUnimplemented()
         }
     }
 }

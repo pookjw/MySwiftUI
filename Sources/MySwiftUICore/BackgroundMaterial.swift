@@ -18,6 +18,10 @@ fileprivate struct BackgroundMaterialKey : EnvironmentKey {
 }
 
 extension MySwiftUICore::_ShapeStyle_Shape {
+    func resolveStyle(id: ContentStyle.ID, material: Material, color: Color) -> _ShapeStyle_Pack.Style {
+        assertUnimplemented()
+    }
+
     // 원래 없음
     @inline(always)
     func resolveStyle(level: Int, material: Material) -> _ShapeStyle_Pack.Style {

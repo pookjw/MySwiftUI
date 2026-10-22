@@ -1,5 +1,6 @@
 internal import MySwiftUICore
 internal import UIKit
+private import _MySwiftUICoreShims
 
 extension EnvironmentValues {
     var isInExpandedSplitView: Bool {
@@ -26,6 +27,10 @@ class NotificationSendingSplitViewController : UISplitViewController {
 
 class NotifyingMulticolumnSplitViewController : UISplitViewController {
     // TODO
+    
+    override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
     
     override func showDetailViewController(_ vc: UIViewController, sender: Any?) {
         assertUnimplemented()

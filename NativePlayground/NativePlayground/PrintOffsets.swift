@@ -274,6 +274,7 @@ func printOffsets() {
     printFields("7SwiftUI8SDFShapeV", isClassType: false)
     printFields("7SwiftUI29_ShapeStyle_InterpolatorGroupC", isClassType: true)
     printFields("7SwiftUI16ShapeLayerHelperV", isClassType: false)
+    printFields(SwiftUI::StrokeStyle.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

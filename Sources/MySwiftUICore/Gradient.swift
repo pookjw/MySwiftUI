@@ -94,6 +94,10 @@ extension Gradient {
 package class AnyGradientBox : AnyShapeStyleBox, @unchecked Sendable {
     // TODO
 
+    deinit {
+        assertUnimplemented()
+    }
+
     override func apply(to shape: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }

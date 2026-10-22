@@ -33,6 +33,10 @@ class AnyFontModifier : Hashable, @unchecked Sendable {
     }
     
     init() {}
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 extension EnvironmentValues {

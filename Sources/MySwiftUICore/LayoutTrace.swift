@@ -77,5 +77,9 @@ extension LayoutTrace {
         init() {
             assertUnimplemented()
         }
+        
+        deinit {
+            assertUnimplemented()
+        }
     }
 }

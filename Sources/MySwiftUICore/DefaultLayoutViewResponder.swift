@@ -29,15 +29,19 @@ package import AttributeGraph
         super.init()
     }
     
+    deinit {
+        assertUnimplemented()
+    }
+    
     open override func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
         assertUnimplemented()
     }
     
-    open func resetGesture() {
+    open override func resetGesture() {
         assertUnimplemented()
     }
     
-    open func childrenDidChange() {
+    open override func childrenDidChange() {
         assertUnimplemented()
     }
     
