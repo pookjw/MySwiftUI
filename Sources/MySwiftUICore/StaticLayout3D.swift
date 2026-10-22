@@ -293,6 +293,10 @@ fileprivate struct LayoutChildGeometry : Rule, AsyncAttribute {
 struct DepthAlignedLayout<L : Layout> : DerivedLayout, Layout3D, _VariadicView_UnaryViewRoot {
     var base: L
     var depthAlignment: DepthAlignment
+
+    nonisolated static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
     
     fileprivate func placeChildren<T : Sequence>(
         _: T,

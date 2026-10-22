@@ -217,6 +217,10 @@ extension CAHostingLayer : EventGraphHost {
 }
 
 extension CAHostingLayer : ViewRendererHost {
+    package func preferenceValue<T : HostPreferenceKey>(_ type: T.Type) -> T.Value {
+        assertUnimplemented()
+    }
+
     package var viewGraph: ViewGraph {
         assertUnimplemented()
     }

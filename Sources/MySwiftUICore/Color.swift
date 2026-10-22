@@ -1039,6 +1039,18 @@ package struct ColorView :  @preconcurrency RendererLeafView {
 }
 
 extension ColorView : @preconcurrency ResolvedPaint {
+    package nonisolated var isClear: Bool {
+        assertUnimplemented()
+    }
+
+    package nonisolated var isOpaque: Bool {
+        assertUnimplemented()
+    }
+
+    package nonisolated var contentHeadroom: Float {
+        assertUnimplemented()
+    }
+
     package func encode(to encoder: inout ProtobufEncoder) throws {
         assertUnimplemented()
     }

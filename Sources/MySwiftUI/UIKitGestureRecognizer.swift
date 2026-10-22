@@ -10,6 +10,54 @@ class UIKitGestureRecognizer : UIGestureRecognizer {
     private var initialAngle: Angle = .zero
     private var scrollConverter = ScrollEventConverter()
     private var gestureCategory = GestureCategory(rawValue: 0)
+
+    override init(target: Any?, action: Selector?) {
+        assertUnimplemented()
+    }
+
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+
+    override func reset() {
+        assertUnimplemented()
+    }
+
+    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func pressesBegan(_ presses: Set<UIPress>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func pressesChanged(_ presses: Set<UIPress>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func pressesEnded(_ presses: Set<UIPress>, with event: UIEvent) {
+        assertUnimplemented()
+    }
+
+    override func pressesCancelled(_ presses: Set<UIPress>, with event: UIEvent) {
+        assertUnimplemented()
+    }
     
     init() {
         super.init(target: nil, action: nil)

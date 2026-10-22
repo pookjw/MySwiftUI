@@ -1,5 +1,5 @@
 // B70BDD1D6CCDD38A0422AB36A90F7369
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import Spatial
 private import AttributeGraph
 private import CoreGraphics

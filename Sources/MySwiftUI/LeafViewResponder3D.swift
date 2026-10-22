@@ -36,6 +36,10 @@ final class LeafViewResponder3D : ViewResponder {
     override func extendPrintTree(string: inout String) {
         assertUnimplemented()
     }
+
+    override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
 }
 
 struct ContentResponder3DHelper {
@@ -45,6 +49,22 @@ struct ContentResponder3DHelper {
 
 final class EntityGestureResponder : ViewResponder {
     // TODO
+
+    override var gestureContainer: AnyObject? {
+        assertUnimplemented()
+    }
+
+    override var features: ViewResponder.Features {
+        assertUnimplemented()
+    }
+
+    override func bindEvent(_ type: any EventType) -> ResponderNode? {
+        assertUnimplemented()
+    }
+
+    override func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
+        assertUnimplemented()
+    }
 }
 
 struct LeafResponder3DFilter : StatefulRule {

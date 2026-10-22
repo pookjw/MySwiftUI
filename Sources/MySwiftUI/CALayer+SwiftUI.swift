@@ -1,5 +1,5 @@
 internal import QuartzCore
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import _QuartzCorePrivate
 private import Spatial
 

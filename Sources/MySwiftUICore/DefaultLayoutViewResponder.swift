@@ -29,7 +29,7 @@ package import AttributeGraph
         super.init()
     }
     
-    open func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
+    open override func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
         assertUnimplemented()
     }
     

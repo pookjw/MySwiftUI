@@ -1,4 +1,5 @@
 internal import MySwiftUICore
+internal import UIKit
 
 @MainActor
 final class UIKitResponderEventBindingBridge {
@@ -15,7 +16,34 @@ final class UIKitResponderEventBindingBridge {
 }
 
 final class UIKitResponderGestureRecognizer : UIKitGestureRecognizer {
-    
+    override var name: String? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func shouldRequireFailure(of otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func shouldBeRequiredToFail(by otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func isKind(of aClass: AnyClass) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension UIKitResponderEventBindingBridge {

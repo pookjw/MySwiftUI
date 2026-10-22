@@ -224,6 +224,10 @@ private import Spatial
         return preferenceBridge.viewGraph
     }
     
+    public override func hostKind() -> CustomEventTrace.InstantiationEventType.Kind {
+        assertUnimplemented()
+    }
+
     package override func isHiddenForReuseDidChange() {
         if let preferenceBridge = self._preferenceBridge {
             if self.data.isHiddenForReuse {

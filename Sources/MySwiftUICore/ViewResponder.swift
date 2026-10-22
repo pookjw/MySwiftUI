@@ -39,8 +39,16 @@ private import os.log
     open var children: [ViewResponder] {
         return []
     }
+
+    open override var nextResponder: ResponderNode? {
+        assertUnimplemented()
+    }
+
+    open override func isDescendant(of other: ResponderNode) -> Bool {
+        assertUnimplemented()
+    }
     
-    package var gestureContainer: AnyObject? {
+    open var gestureContainer: AnyObject? {
         assertUnimplemented()
     }
     
@@ -122,7 +130,7 @@ private import os.log
         assertUnimplemented()
     }
 
-    func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+    open func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
         assertUnimplemented()
     }
 
@@ -134,21 +142,21 @@ private import os.log
         assertUnimplemented()
     }
 
-    package var features: ViewResponder.Features {
+    open var features: ViewResponder.Features {
         assertUnimplemented()
     }
 }
 
 extension ViewResponder {
-    package struct Features : OptionSet {
-        package let rawValue: UInt16
+    @_spi(Internal) public struct Features : OptionSet {
+        @_spi(Internal) public let rawValue: UInt16
 
-        package init(rawValue: UInt16) {
+        @_spi(Internal) public init(rawValue: UInt16) {
             assertUnimplemented()
         }
     }
-
-    public struct ContainsPointsCache {
+    
+    @_spi(Internal) public struct ContainsPointsCache {
         /*
          key -> 0x0
          mask -> 0x8

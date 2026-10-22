@@ -126,6 +126,10 @@ extension _OpacityEffect : Sendable {}
 extension _OpacityEffect : BitwiseCopyable {}
 
 extension _OpacityEffect : RendererEffect {
+    nonisolated var scrapeableContent: ScrapeableContent.Content? {
+        assertUnimplemented()
+    }
+
     nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
         return .opacity(Float(self.opacity))
     }

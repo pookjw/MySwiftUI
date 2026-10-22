@@ -9,7 +9,7 @@
         return applying(self)
     }
     
-    open func makeGesture(inputs: _GestureInputs) -> _GestureInputs {
+    open func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
         assertUnimplemented()
     }
     

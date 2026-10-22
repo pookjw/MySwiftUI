@@ -857,6 +857,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         base.safeAreaInsetsDidChange()
     }
 
+    open override func _layoutSizeThatFits(_ size: CGSize, fixedAxes axes: UIAxis) -> CGSize {
+        assertUnimplemented()
+    }
+
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return base.sizeThatFits(size)
     }

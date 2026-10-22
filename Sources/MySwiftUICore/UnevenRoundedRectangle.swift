@@ -36,6 +36,15 @@ struct RootContainerShape : Rule {
 }
 
 extension UnevenRoundedRectangle : Shape {
+    public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
     public func path(in rect: CGRect) -> Path {
         assertUnimplemented()
     }

@@ -17,6 +17,10 @@ public import Spatial
     
     var cache = ViewResponder.ContainsPointsCache()
     var observers = ContentPathObservers()
+
+    open override var features: ViewResponder.Features {
+        assertUnimplemented()
+    }
     
     @inline(__always)
     package override init() {

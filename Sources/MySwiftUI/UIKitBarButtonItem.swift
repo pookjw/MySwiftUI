@@ -6,6 +6,68 @@ private import _UIKitShims
 
 final class UIKitBarButtonItem : UIBarButtonItem {
     // TODO
+
+    override init() {
+        assertUnimplemented()
+    }
+
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+
+    override var accessibilityIdentifier: String? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override var accessibilityLabel: String? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override var accessibilityHint: String? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override var accessibilityValue: String? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override var accessibilityTraits: UIAccessibilityTraits {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 }
 
 extension UINavigationItem {

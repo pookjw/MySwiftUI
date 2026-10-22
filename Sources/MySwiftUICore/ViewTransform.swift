@@ -3,8 +3,8 @@ package import CoreGraphics
 internal import AttributeGraph
 package import Spatial
 
-package struct ViewTransform : Equatable {
-    package static func == (lhs: ViewTransform, rhs: ViewTransform) -> Bool {
+@_spi(Internal) public struct ViewTransform : Equatable {
+    @_spi(Internal) public static func == (lhs: ViewTransform, rhs: ViewTransform) -> Bool {
         guard
             lhs.positionAdjustment == rhs.positionAdjustment &&
                 lhs.pendingTranslation == rhs.pendingTranslation &&

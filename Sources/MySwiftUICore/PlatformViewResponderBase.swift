@@ -11,7 +11,7 @@ public import CoreGraphics
     open var platformViewIsEnabled: Bool {
         assertUnimplemented()
     }
-
+    
     open func alignmentRect(hostView: T) -> CGRect {
         assertUnimplemented()
     }
@@ -19,7 +19,7 @@ public import CoreGraphics
     public override init() {
         super.init()
     }
-
+    
     deinit {
         assertUnimplemented()
     }
@@ -96,20 +96,20 @@ public import CoreGraphics
     open func platformViewHitTest(globalPoint: Point3D, cacheKey: UInt32?) -> T? {
         assertUnimplemented()
     }
-
-    override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+    
+    open override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
         assertUnimplemented()
     }
-
+    
     override var descriptionName: String {
         assertUnimplemented()
     }
-
+    
     open override func extendPrintTree(string: inout String) {
         assertUnimplemented()
     }
-
-    package override var features: ViewResponder.Features {
+    
+    open override var features: ViewResponder.Features {
         assertUnimplemented()
     }
     

@@ -222,6 +222,22 @@ class UIKitToolbar : UIToolbar {
 
 class SwiftUISearchController : UISearchController {
     // TODO
+
+    override func viewDidAppear(_ animated: Bool) {
+        assertUnimplemented()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        assertUnimplemented()
+    }
+
+    override func viewDidLayoutSubviews() {
+        assertUnimplemented()
+    }
+
+    override func viewIsAppearing(_ animated: Bool) {
+        assertUnimplemented()
+    }
 }
 
 struct ToolbarStorage {

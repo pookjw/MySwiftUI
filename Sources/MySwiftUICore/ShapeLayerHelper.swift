@@ -561,6 +561,10 @@ fileprivate final class PaintShapeLayer : CALayer {
     var paint: AnyResolvedPaint?
     var paintBounds: CGRect
     var fillStyle: FillStyle
+
+    override func draw(in context: CGContext) {
+        assertUnimplemented()
+    }
     
     override init() {
         assertUnimplemented()

@@ -172,6 +172,18 @@ struct LeafResponderFilter<T : ContentResponder>: StatefulRule {
 
 final class LeafViewResponder<T : ContentResponder>: ViewResponder {
     var helper = ContentResponderHelper<T>()
+
+    override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
+
+    override var descriptionName: String {
+        assertUnimplemented()
+    }
+
+    override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
     
     override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
         assertUnimplemented()

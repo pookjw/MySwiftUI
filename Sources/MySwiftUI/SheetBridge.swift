@@ -763,6 +763,14 @@ private import _UIKitShims
         }
     }
     
+    nonisolated var isBackingV5Inspector: Bool {
+        return false
+    }
+    
+    nonisolated func willTransitionToRegularSizeClass() {
+        assertUnimplemented()
+    }
+    
     deinit {
         assertUnimplemented()
     }
@@ -892,14 +900,6 @@ extension SheetBridge : PresentationHostingControllerDelegate {
             existingPresentedVC: delayedPresentation.presentedVC,
             isPreempting: false
         )
-    }
-    
-    nonisolated var isBackingV5Inspector: Bool {
-        return false
-    }
-    
-    nonisolated func willTransitionToRegularSizeClass() {
-        assertUnimplemented()
     }
 }
 

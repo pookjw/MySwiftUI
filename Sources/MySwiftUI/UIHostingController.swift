@@ -75,6 +75,10 @@ open class UIHostingController<Content : View>: UIViewController {
         super.viewWillAppear(animated)
         _viewWillAppear(animated)
     }
+
+    open override dynamic func viewWillDisappear(_ animated: Bool) {
+        assertUnimplemented()
+    }
     
     open override dynamic func willMove(toParent parent: UIViewController?) {
         super.willMove(toParent: parent)

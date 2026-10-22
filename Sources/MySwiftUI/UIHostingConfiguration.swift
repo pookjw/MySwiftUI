@@ -137,6 +137,9 @@ fileprivate struct UIHostingConfigurationStorage {
 }
 
 fileprivate final class UIHostingContentViewWithoutInteractions<Content : View, Background : View> : UIHostingContentView<Content, Background> {
+    override class var createsUIInteractions: Bool {
+        assertUnimplemented()
+    }
 }
 
 fileprivate class UIHostingContentView<Content : View, Background : View> : _UIHostingView<ModifiedContent<Content, HostingContentViewRootModifier>>, _UIContentViewContainerBackgroundViewProviding, _UIContentViewContainerDisplayTracking, _UIContentViewSwipeActionsConfigurationProviding, _UIContentViewSeparatorInsetProviding, _UIContentViewPopupMenuButtonProviding, _UIContentViewDefaultStylingObtaining, _UIContentViewHoverStyleProviding {

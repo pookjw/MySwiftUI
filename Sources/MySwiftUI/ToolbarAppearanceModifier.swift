@@ -3,6 +3,10 @@
 
 struct ToolbarAppearanceModifier : MultiViewModifier, PrimitiveViewModifier {
     // TODO
+
+    nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
 extension BarAppearanceBridge {
