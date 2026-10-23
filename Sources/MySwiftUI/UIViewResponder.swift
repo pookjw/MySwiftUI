@@ -4,6 +4,10 @@ internal import UIKit
 internal import _UIKitPrivate
 
 final class UIViewResponder : PlatformViewResponderBase<UIView, UIViewContentResponder> {
+    override func isViewDescendant(hitView: UIView, of view: UIView) -> Bool {
+        assertUnimplemented()
+    }
+
     private weak var focusAccessibilityNode: AccessibilityNode? = nil
     package var keyPressHandlers: [KeyPress.Handler] = []
     private lazy var shouldUsePlatformViewAsParentContainer: Bool? = {

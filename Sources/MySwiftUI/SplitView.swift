@@ -23,6 +23,18 @@ class NotificationSendingSplitViewController : UISplitViewController {
     override func showDetailViewController(_ vc: UIViewController, sender: Any?) {
         assertUnimplemented()
     }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        assertUnimplemented()
+    }
+    
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+    
+    override init(style: UISplitViewController.Style) {
+        assertUnimplemented()
+    }
 }
 
 class NotifyingMulticolumnSplitViewController : UISplitViewController {
@@ -37,6 +49,18 @@ class NotifyingMulticolumnSplitViewController : UISplitViewController {
     }
     
     override var childForStatusBarHidden: UIViewController? {
+        assertUnimplemented()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        assertUnimplemented()
+    }
+    
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+    
+    override init(style: UISplitViewController.Style) {
         assertUnimplemented()
     }
 }

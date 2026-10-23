@@ -120,6 +120,19 @@ public struct SubviewsCollectionSlice : RandomAccessCollection {
 @available(*, unavailable)
 extension SubviewsCollectionSlice : Sendable {}
 
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+extension SubviewsCollectionSlice : View, MultiView, PrimitiveView {
+    nonisolated public static func _makeViewList(view: _GraphValue<SubviewsCollectionSlice>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+
+    public typealias Body = Never
+}
+
 struct SubviewsRoot<Content : View> : _VariadicView_MultiViewRoot {
     let content: (SubviewsCollection) -> Content
     

@@ -29,9 +29,6 @@ package import AttributeGraph
         super.init()
     }
     
-    deinit {
-        assertUnimplemented()
-    }
     
     open override func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
         assertUnimplemented()

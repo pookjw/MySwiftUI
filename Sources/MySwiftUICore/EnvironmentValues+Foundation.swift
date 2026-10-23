@@ -8,6 +8,9 @@ extension EnvironmentValues {
         set {
             self[LocaleKey.self] = newValue
         }
+        _modify {
+            yield &self[LocaleKey.self]
+        }
     }
     
     public var calendar: Calendar {
@@ -17,14 +20,20 @@ extension EnvironmentValues {
         set {
             self[CalendarKey.self] = newValue
         }
+        _modify {
+            yield &self[CalendarKey.self]
+        }
     }
     
-    public var timezone: TimeZone {
+    public var timeZone: TimeZone {
         get {
             return self[TimezoneKey.self]
         }
         set {
             self[TimezoneKey.self] = newValue
+        }
+        _modify {
+            yield &self[TimezoneKey.self]
         }
     }
     

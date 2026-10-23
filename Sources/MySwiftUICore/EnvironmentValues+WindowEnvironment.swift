@@ -6,6 +6,9 @@ extension EnvironmentValues {
         set {
             self[WindowEnvironmentKeys.AppearsFocused.self] = newValue
         }
+        _modify {
+            yield &self[WindowEnvironmentKeys.AppearsFocused.self]
+        }
     }
     
     package var windowAppearsMain: Bool {
@@ -14,6 +17,9 @@ extension EnvironmentValues {
         }
         set {
             self[WindowEnvironmentKeys.AppearsMain.self] = newValue
+        }
+        _modify {
+            yield &self[WindowEnvironmentKeys.AppearsMain.self]
         }
     }
     
@@ -24,6 +30,9 @@ extension EnvironmentValues {
         set {
             self[WindowEnvironmentKeys.AppearsActive.self] = newValue
         }
+        _modify {
+            yield &self[WindowEnvironmentKeys.AppearsActive.self]
+        }
     }
     
     package var windowIsFocused: Bool {
@@ -33,6 +42,9 @@ extension EnvironmentValues {
         set {
             self[WindowEnvironmentKeys.IsFocused.self] = newValue
         }
+        _modify {
+            yield &self[WindowEnvironmentKeys.IsFocused.self]
+        }
     }
     
     package var windowIsMain: Bool {
@@ -41,6 +53,9 @@ extension EnvironmentValues {
         }
         set {
             self[WindowEnvironmentKeys.IsMain.self] = newValue
+        }
+        _modify {
+            yield &self[WindowEnvironmentKeys.IsMain.self]
         }
     }
 }

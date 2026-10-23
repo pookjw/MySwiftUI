@@ -30,6 +30,9 @@ extension EnvironmentValues {
         set {
             self[AccessibilityEnabledKey.self] = newValue
         }
+        _modify {
+            yield &self[AccessibilityEnabledKey.self]
+        }
     }
 }
 

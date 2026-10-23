@@ -851,7 +851,9 @@ extension Color {
     public static let clear = Color(.clear)
     public static let primary = Color(box: ColorBox(SystemColorType.primary))
     public static let secondary = Color(box: ColorBox(SystemColorType.secondary))
-    nonisolated package static let _background = Color(box: ColorBox(BackgroundColorProvider()))
+    nonisolated package static var _background: Color {
+        Color(box: ColorBox(BackgroundColorProvider()))
+    }
 }
 
 package struct UIKitPlatformColorProvider : PlatformColorProvider, Hashable, Serializable {

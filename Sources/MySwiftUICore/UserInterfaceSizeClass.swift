@@ -11,6 +11,9 @@ extension EnvironmentValues {
         set {
             self[HorizontalUserInterfaceSizeClassKey.self] = newValue
         }
+        _modify {
+            yield &self[HorizontalUserInterfaceSizeClassKey.self]
+        }
     }
     
     @usableFromInline
@@ -21,6 +24,9 @@ extension EnvironmentValues {
         set {
             horizontalSizeClass = newValue
         }
+        _modify {
+            yield &self[HorizontalUserInterfaceSizeClassKey.self]
+        }
     }
     
     public var verticalSizeClass: UserInterfaceSizeClass? {
@@ -29,6 +35,9 @@ extension EnvironmentValues {
         }
         set {
             self[VerticalUserInterfaceSizeClassKey.self] = newValue
+        }
+        _modify {
+            yield &self[VerticalUserInterfaceSizeClassKey.self]
         }
     }
     
@@ -39,6 +48,9 @@ extension EnvironmentValues {
         }
         set {
             verticalSizeClass = newValue
+        }
+        _modify {
+            yield &self[VerticalUserInterfaceSizeClassKey.self]
         }
     }
 }

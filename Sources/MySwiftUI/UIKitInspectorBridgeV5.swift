@@ -2,6 +2,10 @@
 internal import UIKit
 
 final class UIKitInspectorBridgeV5<T> : SheetBridge<SheetPreference.InspectorKey> {
+    override var requiresTransparentHostKey: Bool {
+        assertUnimplemented()
+    }
+
     override init() {
         super.init()
     }

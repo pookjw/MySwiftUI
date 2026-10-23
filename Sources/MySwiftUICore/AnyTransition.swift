@@ -41,9 +41,6 @@ extension AnyTransition : Sendable {
 
 @usableFromInline
 class AnyTransitionBox {
-    deinit {
-        assertUnimplemented()
-    }
 
     var isIdentity: Bool {
         fatalError() // abstract
@@ -75,9 +72,6 @@ fileprivate final class TransitionBox<T : Transition>: AnyTransitionBox {
         self.base = base
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     override var isIdentity: Bool {
         return T.Body.self == T.Content.self

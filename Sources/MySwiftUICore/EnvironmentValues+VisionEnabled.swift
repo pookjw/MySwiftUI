@@ -6,6 +6,9 @@ extension EnvironmentValues {
         set {
             self[IsVisionEnabledKey.self] = newValue
         }
+        _modify {
+            yield &self[IsVisionEnabledKey.self]
+        }
     }
 }
 

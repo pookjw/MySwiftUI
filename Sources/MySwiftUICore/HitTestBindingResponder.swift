@@ -48,9 +48,6 @@ final class HitTestBindingResponder3D : DefaultLayoutViewResponder {
         super.init(inputs: inputs, viewSubgraph: viewSubgraph)
     }
 
-    deinit {
-        assertUnimplemented()
-    }
 
     override func bindEvent(_ type: any EventType) -> ResponderNode? {
         assertUnimplemented()
@@ -58,9 +55,6 @@ final class HitTestBindingResponder3D : DefaultLayoutViewResponder {
 }
 
 fileprivate final class HitTestBindingResponder : DefaultLayoutViewResponder {
-    deinit {
-        assertUnimplemented()
-    }
 
     override func bindEvent(_ type: any EventType) -> ResponderNode? {
         assertUnimplemented()

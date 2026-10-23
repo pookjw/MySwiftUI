@@ -19,6 +19,10 @@ final class AccessibilityNode {
     init() {
         assertUnimplemented()
     }
+
+    deinit {
+        assertUnimplemented()
+    }
     
     // TODO
 }

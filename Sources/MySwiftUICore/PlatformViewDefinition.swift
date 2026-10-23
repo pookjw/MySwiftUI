@@ -58,9 +58,6 @@ public import QuartzCore
         fatalError() // abstract
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     package static func `for`(_ type: AnyObject.Type) -> PlatformViewDefinition.Type? {
         guard let nsObjectType = type as? NSObject.Type else {

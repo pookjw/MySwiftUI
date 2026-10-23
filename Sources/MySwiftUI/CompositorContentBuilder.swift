@@ -153,9 +153,6 @@ extension AnyCompositorContent: Sendable {}
 @available(watchOS, unavailable)
 @usableFromInline
 internal class AnyCompositorContentStorageBase {
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 @available(*, unavailable)

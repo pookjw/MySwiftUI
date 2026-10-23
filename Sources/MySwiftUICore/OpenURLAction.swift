@@ -118,6 +118,9 @@ extension EnvironmentValues {
         set {
             self[OpenURLActionKey.self] = newValue
         }
+        _modify {
+            yield &self._openURL
+        }
     }
     
     @preconcurrency @MainActor
@@ -194,6 +197,9 @@ extension EnvironmentValues {
         }
         set {
             self[EnvironmentValues.DefaultOpenURLActionKey.self] = newValue
+        }
+        _modify {
+            yield &self[EnvironmentValues.DefaultOpenURLActionKey.self]
         }
     }
     

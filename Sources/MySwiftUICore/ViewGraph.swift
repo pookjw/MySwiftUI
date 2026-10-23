@@ -6,6 +6,10 @@ internal import QuartzCore
 private import Spatial
 
 @_spi(Internal) public final class ViewGraph : GraphHost, @unchecked Sendable {
+    package override func timeDidChange() {
+        assertUnimplemented()
+    }
+
     package static var current: ViewGraph {
         return GraphHost.currentHost as! ViewGraph
     }

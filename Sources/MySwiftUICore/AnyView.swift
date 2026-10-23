@@ -83,9 +83,6 @@ extension AnyView : CustomDebugStringConvertible {
         fatalError() // abstract
     }
     
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 @available(*, unavailable)

@@ -39,9 +39,6 @@ public import Spatial
         super.init()
     }
     
-    deinit {
-        assertUnimplemented()
-    }
     
     package override init(host: (any ViewGraphDelegate)?) {
         assertUnimplemented()

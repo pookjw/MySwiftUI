@@ -8,6 +8,9 @@ extension EnvironmentValues {
         set {
             self[EnabledKey.self] = newValue
         }
+        _modify {
+            yield &self[EnabledKey.self]
+        }
     }
 }
 

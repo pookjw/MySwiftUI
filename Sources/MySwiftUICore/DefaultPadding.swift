@@ -10,6 +10,9 @@ extension EnvironmentValues {
         set {
             self[DefaultPaddingKey.self] = newValue
         }
+        _modify {
+            yield &self[DefaultPaddingKey.self]
+        }
     }
 }
 

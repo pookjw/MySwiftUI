@@ -9,6 +9,10 @@ public import ImageIO
 @available(macCatalyst, unavailable)
 extension ImagePresentationComponent {
     public class Spatial3DImage {
+        deinit {
+            assertUnimplemented()
+        }
+
         public init(imageSource: CGImageSource) async throws {
             assertUnimplemented()
         }

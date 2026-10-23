@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
 @MainActor
@@ -16,6 +16,10 @@ final class UIKitResponderEventBindingBridge {
 }
 
 final class UIKitResponderGestureRecognizer : UIKitGestureRecognizer {
+    override func didAttach(to bridge: EventBindingBridge?) {
+        assertUnimplemented()
+    }
+
     override var name: String? {
         get {
             assertUnimplemented()

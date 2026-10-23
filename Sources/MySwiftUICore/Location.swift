@@ -18,16 +18,10 @@ extension Location {
 
 @_documentation(visibility: private)
 open class AnyLocationBase : @unchecked Sendable {
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 @_documentation(visibility: private)
 open class AnyLocation<Value> : AnyLocationBase, @unchecked Sendable {
-    deinit {
-        assertUnimplemented()
-    }
     
     var wasRead: Bool {
         get {

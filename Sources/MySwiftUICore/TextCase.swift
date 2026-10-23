@@ -23,6 +23,9 @@ extension EnvironmentValues {
         set {
             self[TextCaseKey.self] = newValue
         }
+        _modify {
+            yield &self[TextCaseKey.self]
+        }
     }
 }
 

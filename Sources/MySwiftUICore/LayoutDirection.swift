@@ -11,6 +11,9 @@ extension EnvironmentValues {
         set {
             self[LayoutDirectionKey.self] = newValue
         }
+        _modify {
+            yield &self[LayoutDirectionKey.self]
+        }
     }
 }
 

@@ -5,6 +5,10 @@ private import _UIKitPrivate
 private import _UIKitShims
 
 @MainActor class SheetBridge<T: HostPreferenceKey> : NSObject where T.Value == SheetPreference.Value {
+    var requiresTransparentHostKey: Bool {
+        assertUnimplemented()
+    }
+
     final weak var host: ViewRendererHost? = nil {
         didSet {
             self.transitioningDelegate.host = self.host

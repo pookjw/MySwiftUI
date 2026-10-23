@@ -27,6 +27,14 @@ fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
 @safe nonisolated(unsafe) fileprivate var effectiveGeometryObservationContext: Int = 0
 
 open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
+    class var requiresExplicitGeometryChangedRegistration: Bool {
+        assertUnimplemented()
+    }
+
+    func appendViewGraphFeatures() {
+        assertUnimplemented()
+    }
+
     class var ignoresPresentations : Bool {
         return false
     }

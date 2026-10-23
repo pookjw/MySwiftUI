@@ -1305,10 +1305,6 @@ final class _DisplayList_StableIdentityRoot {
         self.map = nil
     }
 
-    deinit {
-        assertUnimplemented()
-    }
-    
     subscript(_ identity: _DisplayList_Identity) -> _DisplayList_StableIdentity? {
         assertUnimplemented()
     }

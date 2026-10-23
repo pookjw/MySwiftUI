@@ -20,9 +20,6 @@
     package init() {
     }
     
-    deinit {
-        assertUnimplemented()
-    }
     
     open func isDescendant(of other: ResponderNode) -> Bool {
         assertUnimplemented()

@@ -14,6 +14,9 @@ extension EnvironmentValues {
         set {
             self[MaterialBaseColorKey.self] = newValue
         }
+        _modify {
+            yield &self[MaterialBaseColorKey.self]
+        }
     }
 }
 

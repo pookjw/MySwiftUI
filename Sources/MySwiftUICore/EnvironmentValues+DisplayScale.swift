@@ -127,6 +127,9 @@ extension EnvironmentValues {
         set {
             self[FontKey.self] = newValue
         }
+        _modify {
+            yield &self[FontKey.self]
+        }
     }
 }
 
@@ -143,6 +146,9 @@ extension EnvironmentValues {
         }
         set {
             self[DefualtFontKey.self] = newValue
+        }
+        _modify {
+            yield &self[DefualtFontKey.self]
         }
     }
 }

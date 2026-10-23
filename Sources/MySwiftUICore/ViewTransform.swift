@@ -533,6 +533,10 @@ fileprivate final class BufferedElement : AnyElement {
 fileprivate class AnyElement {
     var next: AnyElement?
     let depth: Int
+
+    deinit {
+        assertUnimplemented()
+    }
     
     init(next: AnyElement?) {
         self.next = next
@@ -555,6 +559,10 @@ fileprivate final class CoordinateSpaceNode {
     fileprivate private(set) var next: CoordinateSpaceNode?
     fileprivate private(set) var space: CoordinateSpace
     let depth: Int
+
+    deinit {
+        assertUnimplemented()
+    }
     
     init(next: CoordinateSpaceNode?, space: CoordinateSpace) {
         self.next = next

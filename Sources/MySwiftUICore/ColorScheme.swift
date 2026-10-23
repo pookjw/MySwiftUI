@@ -14,6 +14,9 @@ extension EnvironmentValues {
         set {
             self[SystemColorSchemeKey.self] = newValue
         }
+        _modify {
+            yield &self[SystemColorSchemeKey.self]
+        }
     }
     
     package var explicitPreferredColorScheme: ColorScheme? {
@@ -22,6 +25,9 @@ extension EnvironmentValues {
         }
         set {
             self[ExplicitPreferredColorSchemeKey.self] = newValue 
+        }
+        _modify {
+            yield &self[ExplicitPreferredColorSchemeKey.self]
         }
     }
     
@@ -56,6 +62,9 @@ extension EnvironmentValues {
         }
         set {
             self[ColorSchemeContrastKey.self] = newValue
+        }
+        _modify {
+            yield &self[ColorSchemeContrastKey.self]
         }
     }
     

@@ -77,8 +77,6 @@ private import Spatial
         self.layout3DBox = layout3DBox
     }
     
-    @usableFromInline deinit {}
-    
     var layoutProperties: LayoutProperties {
         fatalError() // abstract
     }

@@ -474,6 +474,22 @@ fileprivate class LayoutEngineBox<Engine : LayoutEngine>: AnyLayoutEngineBox {
 
 fileprivate class TracingLayoutEngineBox<T : LayoutEngine>: LayoutEngineBox<T> {
     var attribute: AnyAttribute?
+
+    override func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+
+    override func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
+        assertUnimplemented()
+    }
+
+    override func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        assertUnimplemented()
+    }
+
+    override func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        assertUnimplemented()
+    }
     
     override init(engine: T) {
         assertUnimplemented()

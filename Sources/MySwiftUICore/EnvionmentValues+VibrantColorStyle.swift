@@ -45,7 +45,7 @@ struct SystemVibrantColorStyle_Vision : VibrantColorStyle {
                 }
                 
                 let style = shape.resolveStyle(
-                    id: ContentStyle.ID(truncatingLevel: levels.lowerBound),
+                    level: levels.lowerBound,
                     material: material,
                     color: color
                 )

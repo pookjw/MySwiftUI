@@ -68,6 +68,9 @@ extension Transaction {
         set {
             self[DisablesAnimationsKey.self] = newValue
         }
+        _modify {
+            yield &self[DisablesAnimationsKey.self]
+        }
     }
 }
 

@@ -29,9 +29,6 @@ internal import MyRealityFoundation
         assertUnimplemented()
     }
     
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 extension ViewAttachmentEntity : CustomClonable {

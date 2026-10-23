@@ -16,6 +16,9 @@ extension EnvironmentValues {
         set {
             self[DisplayGamutKey.self] = newValue
         }
+        _modify {
+            yield &self[DisplayGamutKey.self]
+        }
     }
 }
 

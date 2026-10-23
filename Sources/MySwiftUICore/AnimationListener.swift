@@ -267,10 +267,6 @@ extension Transaction {
 
 class AnimationListener {
     init() {}
-
-    deinit {
-        assertUnimplemented()
-    }
     
     func animationWasAdded() {}
     func animationWasRemoved() {}
@@ -333,10 +329,6 @@ fileprivate final class AllFinishedListener : AnimationListener {
 fileprivate final class ListenerPair : AnimationListener {
     private let first: AnimationListener
     private let second: AnimationListener
-
-    deinit {
-        assertUnimplemented()
-    }
     
     override func animationWasAdded() {
         assertUnimplemented()

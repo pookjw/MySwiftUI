@@ -609,9 +609,6 @@ class AbstractHomogeneousCollection {
         fatalError() // abstract
     }
     
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 final class HomogeneousCollection<T> : AbstractHomogeneousCollection {

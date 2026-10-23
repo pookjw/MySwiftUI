@@ -506,6 +506,18 @@ extension Entity {
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 @safe @preconcurrency @MainActor open class Entity : HasHierarchy, HasSynchronization, HasTransform, Sendable {
+    class func classLoad(named name: String, in bundle: Bundle?, options: __LoadOptions, asyncOptions: __AsyncLoadOptions) async throws -> Entity {
+        assertUnimplemented()
+    }
+
+    class func classLoad(contentsOf url: URL, withName name: String?, options: __LoadOptions, asyncOptions: __AsyncLoadOptions) async throws -> Entity {
+        assertUnimplemented()
+    }
+
+    class func classLoad(from data: Data, named name: String?, options: __LoadOptions, asyncOptions: __AsyncLoadOptions) async throws -> Entity {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency public var __coreEntity: __EntityRef {
         get {
             assertUnimplemented()

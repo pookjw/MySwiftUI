@@ -18,9 +18,6 @@ package final class ObservationCenter : @unchecked Sendable {
     private init() {
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     @inline(always)
     func _withObservationStashed<T>(do block: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {

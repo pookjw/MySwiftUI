@@ -18,9 +18,6 @@
     public init() {
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     static nonisolated(unsafe) var uiKit: PlatformItemsDefinition.Type?
     static nonisolated(unsafe) var appKit: PlatformItemsDefinition.Type?

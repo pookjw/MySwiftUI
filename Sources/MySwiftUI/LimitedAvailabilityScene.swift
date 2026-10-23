@@ -34,6 +34,7 @@ extension LimitedAvailabilityScene : Sendable {
 @usableFromInline
 internal class LimitedAvailabilitySceneStorageBase {
     // TODO
+
 }
 
 @available(*, unavailable)

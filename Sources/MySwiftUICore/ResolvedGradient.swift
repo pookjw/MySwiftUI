@@ -10,6 +10,17 @@ package struct ResolvedGradient : Sendable {
     }
 }
 
+extension ResolvedGradient : Animatable {
+    package var animatableData: ResolvedGradientVector {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}
+
 extension ResolvedGradient {
     struct Stop : Sendable {
         private var color: Color.Resolved

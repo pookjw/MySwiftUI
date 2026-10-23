@@ -11,6 +11,9 @@ extension EnvironmentValues {
         set {
             self[LegibilityWeightKey.self] = newValue
         }
+        _modify {
+            yield &self[LegibilityWeightKey.self]
+        }
     }
 }
 

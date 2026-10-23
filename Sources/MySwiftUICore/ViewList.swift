@@ -37,9 +37,6 @@ class _ViewList_Subgraph {
         self.subgraph = subgraph
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
         assertUnimplemented()
@@ -855,9 +852,6 @@ extension _ViewListOutputs {
     class ListModifier {
         init() {}
 
-        deinit {
-            assertUnimplemented()
-        }
         
         func apply(to list: inout ViewList) {
         }
@@ -1025,9 +1019,6 @@ class _ViewList_ID_Views : Equatable, RandomAccessCollection {
         self.isDataDependent = isDataDependent
     }
 
-    deinit {
-        assertUnimplemented()
-    }
     
     final var startIndex: Int {
         return 0
@@ -1067,9 +1058,6 @@ extension _ViewList_ID {
             super.init(isDataDependent: isDataDependent)
         }
 
-        deinit {
-            assertUnimplemented()
-        }
         
         override var endIndex: Int {
             return self.base.endIndex
@@ -1111,9 +1099,6 @@ extension _ViewList_ID {
             super.init(isDataDependent: isDataDependent)
         }
 
-        deinit {
-            assertUnimplemented()
-        }
         
         override subscript(index: Int) -> _ViewList_ID {
             assertUnimplemented()
@@ -2614,9 +2599,6 @@ extension ModifiedViewList {
             super.init()
         }
 
-        deinit {
-            assertUnimplemented()
-        }
         
         override func apply(to list: inout any ViewList) {
             /*

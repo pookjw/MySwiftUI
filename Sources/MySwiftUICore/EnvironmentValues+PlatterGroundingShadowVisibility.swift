@@ -6,6 +6,9 @@ extension EnvironmentValues {
         set {
             self[PlatterGroundingShadowVisibilityKey.self] = newValue
         }
+        _modify {
+            yield &self[PlatterGroundingShadowVisibilityKey.self]
+        }
     }
 }
 

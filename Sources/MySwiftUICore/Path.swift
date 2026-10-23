@@ -3,6 +3,10 @@ public import CoreGraphics
 @frozen public struct Path : Equatable, LosslessStringConvertible, @unchecked Sendable {
     @usableFromInline
     final package class PathBox : Equatable {
+        deinit {
+            assertUnimplemented()
+        }
+
         @usableFromInline
         package static func == (lhs: Path.PathBox, rhs: Path.PathBox) -> Bool {
             assertUnimplemented()

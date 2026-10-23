@@ -1,7 +1,16 @@
 package class AnyResolvedPaint {
-    deinit {
+    package var protobufPaint: Any? {
         assertUnimplemented()
     }
+
+    package func isEqual(to other: AnyResolvedPaint) -> Bool {
+        assertUnimplemented()
+    }
+
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+
 
     package var isClear: Bool {
         assertUnimplemented()
@@ -34,14 +43,23 @@ package class AnyResolvedPaint {
 
 final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
     let paint: P
+
+    override var protobufPaint: Any? {
+        assertUnimplemented()
+    }
+
+    override func isEqual(to other: AnyResolvedPaint) -> Bool {
+        assertUnimplemented()
+    }
+
+    override func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
     
     nonisolated init(_ paint: P) {
         self.paint = paint
     }
     
-    deinit {
-        assertUnimplemented()
-    }
 
     override var isClear: Bool {
         assertUnimplemented()

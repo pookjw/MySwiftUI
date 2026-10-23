@@ -11,6 +11,10 @@ class UIKitGestureRecognizer : UIGestureRecognizer {
     private var scrollConverter = ScrollEventConverter()
     private var gestureCategory = GestureCategory(rawValue: 0)
 
+    func didAttach(to bridge: EventBindingBridge?) {
+        assertUnimplemented()
+    }
+
     override init(target: Any?, action: Selector?) {
         assertUnimplemented()
     }

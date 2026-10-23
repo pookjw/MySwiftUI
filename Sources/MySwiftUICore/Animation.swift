@@ -1128,9 +1128,6 @@ final class AnimatorState<Value : VectorArithmetic> {
 }
 
 class AnimationBoxBase {
-    deinit {
-        assertUnimplemented()
-    }
     
     var base: (any CustomAnimation) {
         fatalError() // abstract

@@ -41,10 +41,6 @@ public import Metal
     @MainActor public func replace(using commandBuffer: any MTLCommandBuffer) -> any MTLTexture {
         assertUnimplemented()
     }
-    
-    deinit {
-        assertUnimplemented()
-    }
     }
 
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)

@@ -3,4 +3,8 @@ internal import Combine
 
 class SubscriptionLifetime<T : Publisher> {
     // TODO
+
+    deinit {
+        assertUnimplemented()
+    }
 }

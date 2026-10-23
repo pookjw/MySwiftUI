@@ -10,6 +10,9 @@ extension EnvironmentValues {
         set {
             self[PointScaleKey.self] = newValue
         }
+        _modify {
+            yield &self[PointScaleKey.self]
+        }
     }
     
     package var pointsPerMeter: CGFloat {

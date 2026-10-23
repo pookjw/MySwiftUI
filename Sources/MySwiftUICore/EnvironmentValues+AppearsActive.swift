@@ -14,5 +14,8 @@ extension EnvironmentValues {
         set {
             self[AppearsActiveKey.self] = newValue
         }
+        _modify {
+            yield &self[AppearsActiveKey.self]
+        }
     }
 }

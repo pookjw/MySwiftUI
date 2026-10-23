@@ -18,6 +18,9 @@ extension EnvironmentValues {
         set {
             self[BackgroundInfoKey.self] = newValue
         }
+        _modify {
+            yield &self[BackgroundInfoKey.self]
+        }
     }
     
     package var backgroundLevel: Int {

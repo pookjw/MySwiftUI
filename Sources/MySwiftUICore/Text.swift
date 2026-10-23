@@ -282,9 +282,6 @@ extension Text {
 package class AnyTextStorage {
     package init() {}
     
-    deinit {
-        assertUnimplemented()
-    }
     
     package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
         assertUnimplemented()
@@ -457,9 +454,6 @@ struct TextTransitionModifier {
 class TextAttributeModifierBase {
     // TODO
 
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 extension String {

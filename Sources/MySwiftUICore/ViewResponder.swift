@@ -36,9 +36,6 @@ private import os.log
         self.host = host
     }
     
-    deinit {
-        assertUnimplemented()
-    }
     
     open var children: [ViewResponder] {
         return []

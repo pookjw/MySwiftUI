@@ -466,6 +466,10 @@ extension PropertyList {
         fileprivate let skipCount: UInt32 // 0x34
         fileprivate let skipFilter: BloomFilter // 0x38
         final let id = UniqueID() // 0x40
+
+        deinit {
+            assertUnimplemented()
+        }
         
         fileprivate init(keyType: Any.Type, before: Element?, after: Element?) {
             self.keyType = keyType

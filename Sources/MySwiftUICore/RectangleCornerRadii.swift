@@ -54,3 +54,14 @@ public import CoreGraphics
         self.init(topLeft: topLeading, topRight: topTrailing,  bottomRight: bottomTrailing, bottomLeft: bottomLeading)
     }
 }
+
+extension RectangleCornerRadii : Animatable {
+    public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, AnimatablePair<CGFloat, CGFloat>> {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}

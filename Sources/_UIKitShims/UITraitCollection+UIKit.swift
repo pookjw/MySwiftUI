@@ -104,7 +104,7 @@ extension UITraitCollection {
         var enviromentValues = MySwiftUICore::EnvironmentValues()
         enviromentValues.locale = .current
         enviromentValues.calendar = .current
-        enviromentValues.timezone = .current
+        enviromentValues.timeZone = .current
         return enviromentValues
     }
     

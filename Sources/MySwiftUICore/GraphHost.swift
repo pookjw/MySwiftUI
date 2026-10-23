@@ -121,6 +121,10 @@ fileprivate let waitingForPreviewThunks: Bool = {
 nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = unsafe []
 
 @_spi(Internal) open class GraphHost : @unchecked Sendable {
+    package func timeDidChange() {
+        assertUnimplemented()
+    }
+
     @safe nonisolated(unsafe) fileprivate static let sharedGraph: Graph = {
         let graph = Graph()
         let assertLocks = unsafe getenv("SWIFTUI_ASSERT_LOCKS")

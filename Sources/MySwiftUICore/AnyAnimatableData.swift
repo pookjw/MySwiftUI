@@ -117,8 +117,6 @@ package class _AnyAnimatableDataVTable {
     class func magnitudeSquared(_ value: Any) -> Double {
         return 0
     }
-    
-    @usableFromInline deinit {}
 }
 
 @available(*, unavailable)
@@ -126,10 +124,6 @@ extension _AnyAnimatableDataVTable : Sendable {
 }
 
 fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
-    deinit {
-        assertUnimplemented()
-    }
-
     override class var zero: Any {
         return A.AnimatableData.zero
     }
@@ -168,10 +162,6 @@ fileprivate final class VTable<A : Animatable> : _AnyAnimatableDataVTable {
 }
 
 fileprivate final class ZeroVTable : _AnyAnimatableDataVTable {
-    deinit {
-        assertUnimplemented()
-    }
-
     override class func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
         return true
     }

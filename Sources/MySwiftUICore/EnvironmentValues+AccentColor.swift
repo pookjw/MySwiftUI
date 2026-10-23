@@ -8,6 +8,9 @@ extension EnvironmentValues {
         set {
             self[AccentColorKey.self] = newValue
         }
+        _modify {
+            yield &self[AccentColorKey.self]
+        }
     }
     
     package var _accentColor: Color? {
@@ -16,6 +19,9 @@ extension EnvironmentValues {
         }
         set {
             self.accentColor = newValue
+        }
+        _modify {
+            yield &self[AccentColorKey.self]
         }
     }
     

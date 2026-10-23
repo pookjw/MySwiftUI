@@ -28,5 +28,8 @@ extension EnvironmentValues {
         set {
             self[BackgroundProminence.Key.self] = newValue
         }
+        _modify {
+            yield &self[BackgroundProminence.Key.self]
+        }
     }
 }

@@ -39,6 +39,9 @@ extension EnvironmentValues {
         set {
             self[RedactionReasonsKey.self] = newValue
         }
+        _modify {
+            yield &self[RedactionReasonsKey.self]
+        }
     }
 }
 

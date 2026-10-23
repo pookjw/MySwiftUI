@@ -15,10 +15,6 @@ final class OscillationDetector<T> {
         self.retentionCount = retentionCount
     }
     
-    deinit {
-        assertUnimplemented()
-    }
-    
     @inline(__always) // 원래 없음
     func evaluate(with value: T) -> Bool {
         for other in self.buffer {

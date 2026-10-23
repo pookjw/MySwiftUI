@@ -466,7 +466,7 @@ fileprivate class UIHostingContentView<Content : View, Background : View> : _UIH
         return rounded
     }
     
-    func appendViewGraphFeatures() {
+    override func appendViewGraphFeatures() {
         assertUnimplemented()
     }
     

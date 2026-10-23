@@ -1,7 +1,35 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
 class ListCollectionViewCellBase<T : View>: AnyListCollectionViewCell {
+    override var dragBridge: AnyDragAndDropBridge? {
+        assertUnimplemented()
+    }
+
+    override var responderNode: ResponderNode? {
+        assertUnimplemented()
+    }
+
+    override var identifiedViews: _IdentifiedViewTree {
+        assertUnimplemented()
+    }
+
+    override var swipeActions: SwipeActions.Value? {
+        assertUnimplemented()
+    }
+
+    override var secondaryNavigationBehavior: PlatformItemList.Item.SecondaryNavigationBehavior? {
+        assertUnimplemented()
+    }
+
+    override func explicitAlignment(of alignment: HorizontalAlignment, at size: CGSize) -> CGFloat? {
+        assertUnimplemented()
+    }
+
+    override func outermostContextMenuConfiguration() -> UIContextMenuConfiguration? {
+        assertUnimplemented()
+    }
+
     override init(frame: CGRect) {
         assertUnimplemented()
     }

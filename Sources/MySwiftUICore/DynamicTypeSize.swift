@@ -96,6 +96,9 @@ extension EnvironmentValues {
         set {
             self[DynamicTypeSizeKey.self] = newValue
         }
+        _modify {
+            yield &self[DynamicTypeSizeKey.self]
+        }
     }
 }
 

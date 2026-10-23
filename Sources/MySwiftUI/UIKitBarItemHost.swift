@@ -4,6 +4,14 @@ internal import UIKit
 class UIKitBarItemHost<Content : View>: _UIHostingView<Content> {
     // TODO
 
+    override class var requiresExplicitGeometryChangedRegistration: Bool {
+        assertUnimplemented()
+    }
+
+    override func appendViewGraphFeatures() {
+        assertUnimplemented()
+    }
+
     override class var defaultViewGraphOutputs: ViewGraph.Outputs {
         assertUnimplemented()
     }

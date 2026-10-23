@@ -14,6 +14,10 @@ final class ContextMenuBridge : NSObject {
     private var lastPresentationValues: [ViewIdentity : ContextMenuPresentation] = [:]
     private var presentationSeed: VersionSeed = .empty
     private(set) var presentedMenu = ActiveContextMenu()
+
+    deinit {
+        assertUnimplemented()
+    }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n
     // 원래 없음

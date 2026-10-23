@@ -14,9 +14,6 @@ open class EventBindingBridge {
         self.eventBindingManager = eventBindingManager
     }
 
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 extension EventBindingBridge : EventBindingManagerDelegate {

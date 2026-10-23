@@ -121,9 +121,6 @@ extension DynamicContainer {
             return unsafe unsafeBitCast(self, to: DynamicContainer._ItemInfo<T>.self)
         }
         
-        deinit {
-            assertUnimplemented()
-        }
     }
     
     final class _ItemInfo<T : DynamicContainerAdaptor>: DynamicContainer.ItemInfo {
@@ -145,9 +142,6 @@ extension DynamicContainer {
             super.init(subgraph: subgraph, uniqueId: uniqueId, viewCount: viewCount, phase: phase, needsTransitions: needsTransitions, outputs: outputs)
         }
         
-        deinit {
-            assertUnimplemented()
-        }
     }
 }
 

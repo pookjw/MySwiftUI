@@ -11,11 +11,6 @@ public struct EnvironmentValues : CustomStringConvertible {
             tracker?.invalidateAllValues(from: _plist, to: newValue)
             _plist = newValue
         }
-        _modify {
-            let oldValue = _plist
-            yield &_plist
-            tracker?.invalidateAllValues(from: oldValue, to: _plist)
-        }
     }
     
     package let tracker: PropertyList.Tracker?

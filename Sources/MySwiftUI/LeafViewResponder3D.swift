@@ -50,6 +50,26 @@ struct ContentResponder3DHelper {
 final class EntityGestureResponder : ViewResponder {
     // TODO
 
+    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        assertUnimplemented()
+    }
+
+    override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        assertUnimplemented()
+    }
+
+    override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
+
+    override var children: [ViewResponder] {
+        assertUnimplemented()
+    }
+
+    override func resetGesture() {
+        assertUnimplemented()
+    }
+
     override var gestureContainer: AnyObject? {
         assertUnimplemented()
     }

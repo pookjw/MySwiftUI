@@ -8,6 +8,9 @@ extension EnvironmentValues {
         set {
             self[DisplayCornerRadiusKey.self] = newValue
         }
+        _modify {
+            yield &self[DisplayCornerRadiusKey.self]
+        }
     }
 }
 

@@ -2,6 +2,10 @@ public import Spatial
 public import CoreGraphics
 
 @_spi(Internal) open class PlatformViewResponderBase<T : AnyObject, U : ContentResponder>: ViewResponder {
+    open func isViewDescendant(hitView: T, of view: T) -> Bool {
+        assertUnimplemented()
+    }
+
     package final weak var hostView: T? = nil // 0x30
     package final weak var representedView: T? = nil // 0x38
     package final var helper = ContentResponderHelper<U>()
@@ -20,9 +24,6 @@ public import CoreGraphics
         super.init()
     }
     
-    deinit {
-        assertUnimplemented()
-    }
     
     override init(host: ViewGraphDelegate?) {
         assertUnimplemented()

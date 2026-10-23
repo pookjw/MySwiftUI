@@ -71,9 +71,6 @@ public class Model3DAsset {
         assertUnimplemented()
     }
     
-    deinit {
-        assertUnimplemented()
-    }
 }
 
 @available(visionOS 26.0, *)

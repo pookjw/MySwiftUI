@@ -224,12 +224,40 @@ class UIKitToolbar : UIToolbar {
     override class func _isFromMySwiftUI() -> Bool {
         assertUnimplemented()
     }
+    
+    convenience init() {
+        assertUnimplemented()
+    }
+
+    override init(frame: CGRect) {
+        assertUnimplemented()
+    }
+
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
 }
 
 class SwiftUISearchController : UISearchController {
     // TODO
 
     override class func _isFromMySwiftUI() -> Bool {
+        assertUnimplemented()
+    }
+
+    convenience init() {
+        assertUnimplemented()
+    }
+
+    override init(searchResultsController: UIViewController?) {
+        assertUnimplemented()
+    }
+
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         assertUnimplemented()
     }
 

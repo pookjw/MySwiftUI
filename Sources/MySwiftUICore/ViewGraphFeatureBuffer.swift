@@ -117,9 +117,6 @@ extension ViewGraphFeatureBuffer {
 
 extension ViewGraphFeatureBuffer {
     fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
-        deinit {
-            assertUnimplemented()
-        }
 
         class func modifyViewInputs(elt : _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
         }
@@ -149,9 +146,6 @@ extension ViewGraphFeatureBuffer {
     }
     
     fileprivate final class _VTable<T : ViewGraphFeature>: VTable {
-        deinit {
-            assertUnimplemented()
-        }
 
         override class var type : any Any.Type {
             return T.self
