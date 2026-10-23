@@ -15,7 +15,11 @@ exports:
     _RBPathMakeEllipse,
     _RBPathMakeRoundedRect,
     _RBPathRetain,
-    _RBPathStorageAppendPath ]
+    _RBPathStorageAppendPath,
+    _RBPathStorageIsEmpty,
+    _RBPathStorageDestroy,
+    _RBPathApplyShape,
+    _RBPathStorageIsSingleElement ]
     objc-classes:         [ RBDisplayList ]
     objc-ivars:           [  ]
 ...

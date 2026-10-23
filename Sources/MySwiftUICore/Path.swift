@@ -47,7 +47,16 @@ private import _MySwiftUICoreShims
         }
         
         deinit {
-            assertUnimplemented()
+            switch self.kind {
+            case .cgPath:
+                unsafe self.data.element.cgPath.release()
+            case .rbPath:
+                unsafe self.data.element.rbPath.release()
+            case .buffer:
+                unsafe withUnsafeMutablePointer(to: &self.data) { data in
+                    unsafe RBPathStorageDestroy(data)
+                }
+            }
         }
 
         @usableFromInline
@@ -57,6 +66,28 @@ private import _MySwiftUICoreShims
         
         var cgPath: CGPath {
             assertUnimplemented()
+        }
+        
+        @inline(__always) // 원래 없음
+        var rbPath: RBPath {
+            switch self.kind {
+            case .cgPath:
+                return unsafe _withUnprotectedUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                    return unsafe RBPath(
+                        unknown0: self.data.element.cgPath.toOpaque(),
+                        callbacks: callbacks
+                    )
+                }
+            case .rbPath:
+                return unsafe self.data.element.rbPath
+            case .buffer:
+                let rbPath = unsafe RBPath(
+                    unknown0: Unmanaged.passUnretained(self).toOpaque(),
+                    callbacks: Path.bufferCallbacks
+                )
+                
+                return unsafe rbPath
+            }
         }
         
         fileprivate func prepareBuffer() {
@@ -182,29 +213,8 @@ private import _MySwiftUICoreShims
             fatalError("obsolete")
         case .path(let pathBox):
             // <+64>
-            switch pathBox.kind {
-            case .cgPath:
-                // <+128>
-                return unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
-                   let rbPath = unsafe RBPath(
-                       unknown0: pathBox.data.element.cgPath.toOpaque(),
-                       callbacks: callbacks
-                   )
-                   
-                   return unsafe rbPath.isEmpty
-               }
-            case .rbPath:
-                // <+80>
-                return unsafe pathBox.data.element.rbPath.isEmpty
-            case .buffer:
-                // <+152>
-                let rbPath = unsafe RBPath(
-                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
-                    callbacks: Path.bufferCallbacks
-                )
-                
-                return unsafe rbPath.isEmpty
-            }
+            // inlined
+            return pathBox.rbPath.isEmpty
         }
     }
     
@@ -342,29 +352,8 @@ private import _MySwiftUICoreShims
             fatalError("obsolete")
         case .path(let pathBox):
             // <+92>
-            switch pathBox.kind {
-            case .cgPath:
-                // <+212>
-                return unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
-                    let rbPath = unsafe RBPath(
-                        unknown0: pathBox.data.element.cgPath.toOpaque(),
-                        callbacks: callbacks
-                    )
-                    
-                    return unsafe rbPath.retain()
-                }
-            case .rbPath:
-                // <+108>
-                return unsafe pathBox.data.element.rbPath.retain()
-            case .buffer:
-                // <+236>
-                let rbPath = unsafe RBPath(
-                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
-                    callbacks: Path.bufferCallbacks
-                )
-                
-                return unsafe rbPath.retain()
-            }
+            // inlined
+            return pathBox.rbPath.retain()
         }
     }
     
@@ -403,29 +392,8 @@ private import _MySwiftUICoreShims
             fatalError("obsolete")
         case .path(let pathBox):
             // <+104>
-            switch pathBox.kind {
-            case .cgPath:
-                // <+272>
-                unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
-                    let rbPath = unsafe RBPath(
-                        unknown0: pathBox.data.element.cgPath.toOpaque(),
-                        callbacks: callbacks
-                    )
-                    
-                    unsafe RBPathStorageAppendPath(buffer, rbPath)
-                }
-            case .rbPath:
-                // <+124>
-                unsafe RBPathStorageAppendPath(buffer, pathBox.data.element.rbPath)
-            case .buffer:
-                // <+308>
-                let rbPath = unsafe RBPath(
-                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
-                    callbacks: Path.bufferCallbacks
-                )
-                
-                unsafe RBPathStorageAppendPath(buffer, rbPath)
-            }
+            // inlined
+            unsafe RBPathStorageAppendPath(buffer, pathBox.rbPath)
         }
     }
 }
@@ -602,6 +570,61 @@ extension Path.PathBox {
 extension Path {
     @safe fileprivate static nonisolated(unsafe) let bufferCallbacks: UnsafePointer<RBPathCallbacks> = {
         // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LL_WZ
-        assertUnimplemented()
+        let pointer = UnsafeMutablePointer<RBPathCallbacks>.allocate(capacity: 1)
+        unsafe pointer.initialize(to: RBPathCallbacks())
+        
+        unsafe pointer.pointee.unknown1 = { _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_S2VcfU_To
+            assertUnimplemented()
+        }
+        
+        unsafe pointer.pointee.unknown2 = { _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_ySVcfU0_To
+            assertUnimplemented()
+        }
+        
+        unsafe pointer.pointee.unknown3 = { _, _, _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SbSV_SvSbSv_So0K7ElementVSPy12CoreGraphics7CGFloatVGSVSgtXCtcfU1_To
+            assertUnimplemented()
+        }
+        
+        unsafe pointer.pointee.unknown4 = { _, _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SbSV_SVtcfU2_To
+            assertUnimplemented()
+        }
+        
+        unsafe pointer.pointee.unknown5 = { pathBox in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SbSVcfU3_To
+            let casted = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .takeUnretainedValue()
+            
+            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
+                return unsafe RBPathStorageIsEmpty(data)
+            }
+        }
+        
+        unsafe pointer.pointee.unknown6 = { pathBox in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SbSVcfU4_To
+            let casted = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .takeUnretainedValue()
+            
+            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
+                return unsafe RBPathStorageIsSingleElement(data)
+            }
+        }
+        
+        unsafe pointer.pointee.unknown7 = { _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SiSVcfU5_To
+            assertUnimplemented()
+        }
+        
+        unsafe pointer.pointee.unknown8 = { _ in
+            // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_So6CGRectVSVcfU6_To
+            assertUnimplemented()
+        }
+        
+        return unsafe UnsafePointer(pointer)
     }()
 }

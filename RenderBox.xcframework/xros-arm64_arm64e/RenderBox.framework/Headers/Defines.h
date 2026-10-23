@@ -61,6 +61,19 @@ typedef struct RBPathRoundedRect {
     const CGSize cornerSize;
 } RBPathRoundedRect;
 
+typedef NS_ENUM(uint32_t, RBPathShapeType) {
+    RBPathShapeTypeUnknown0 = 0,
+    RBPathShapeTypeUnknown1 = 1,
+    RBPathShapeTypeUnknown2 = 2,
+    RBPathShapeTypeUnknown3 = 3,
+    RBPathShapeTypeUnknown6 = 6,
+    RBPathShapeTypeUnknown8 = 8
+};
+
+typedef struct RBPathShape {
+    // TODO
+} RBPathShape;
+
 NS_ASSUME_NONNULL_END
 
 #endif

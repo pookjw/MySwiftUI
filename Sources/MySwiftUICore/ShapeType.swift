@@ -1,4 +1,5 @@
 internal import CoreGraphics
+private import RenderBox
 
 enum ShapeType {
     case rect(CGRect, radius: CGFloat, style: RoundedCornerStyle)
@@ -52,10 +53,16 @@ enum ShapeType {
         case .trimmed(_):
             // <+392>
             self = .other
-        case .path(_):
+        case .path(let pathBox):
             // <+440>
             self = .other
-            assertUnimplemented()
+            
+            withUnsafeMutablePointer(to: &self) { context in
+                _ = unsafe pathBox.rbPath.applyShape(true, context) { _, _, _ in
+                    // $s7SwiftUI9ShapeTypeOyAcA4PathVcfcSbSpyACGXEfU_ySv_So06RBPathcD0VSPySo0fC0aGtcfU_To
+                    assertUnimplemented()
+                }
+            }
         }
     }
 }
