@@ -1,8 +1,51 @@
+// 3591905F51357E95FA93E39751507471
 public import CoreGraphics
+internal import RenderBox
+private import _MySwiftUICoreShims
 
 @frozen public struct Path : Equatable, LosslessStringConvertible, @unchecked Sendable {
     @usableFromInline
-    final package class PathBox : Equatable {
+    @safe final package class PathBox : Equatable {
+        fileprivate private(set) var kind: Path.PathBox.Kind
+        fileprivate var data: PathData
+        
+        init(takingPath path: RBPath) {
+            self.kind = .rbPath
+            
+            unsafe self.data = PathData(
+                element: PathDataElement(rbPath: path),
+                unknown0: nil,
+                unknown1: nil,
+                unknown2: nil,
+                unknown3: nil,
+                unknown4: nil,
+                unknown5: nil,
+                unknown6: nil,
+                unknown7: nil,
+                unknown8: nil,
+                unknown9: nil
+            )
+        }
+        
+        @inline(__always) // 원래 없음
+        fileprivate init(buffer: UnsafeRawPointer?) {
+            unsafe self.data = PathData(
+                element: PathDataElement(buffer: buffer),
+                unknown0: nil,
+                unknown1: nil,
+                unknown2: nil,
+                unknown3: nil,
+                unknown4: nil,
+                unknown5: nil,
+                unknown6: nil,
+                unknown7: nil,
+                unknown8: nil,
+                unknown9: nil
+            )
+            
+            self.kind = .buffer
+        }
+        
         deinit {
             assertUnimplemented()
         }
@@ -171,7 +214,118 @@ public import CoreGraphics
     }
     
     public func strokedPath(_ style: StrokeStyle) -> Path {
-        assertUnimplemented()
+        switch self.storage {
+        case .empty:
+            // <+276>
+            return Path(storage: .empty)
+        case .rect(let rect), .ellipse(let rect):
+            // <+56>
+            if rect.isNull {
+                return Path(storage: .empty)
+            } else {
+                // <+144>
+            }
+        case .roundedRect(let rect):
+            // <+128>
+            if rect.rect.isNull {
+                return Path(storage: .empty)
+            } else {
+                // <+144>
+            }
+        case .stroked(_):
+            fatalError("obsolete")
+        case .trimmed(_):
+            fatalError("obsolete")
+        case .path(let pathBox):
+            // <+96>
+            switch pathBox.kind {
+            case .cgPath:
+                // <+320>
+                let rbPath = unsafe withUnsafePointer(to: RBPathCGPathCallbacks) { callbacks in
+                    return unsafe RBPath(
+                        unknown0: pathBox.data.element.cgPath.toOpaque(),
+                        callbacks: callbacks
+                    )
+                }
+                
+                if unsafe RBPathIsEmpty(rbPath) {
+                    return Path(storage: .empty)
+                } else {
+                    // <+144>
+                }
+            case .rbPath:
+                // <+112>
+                if unsafe RBPathIsEmpty(pathBox.data.element.rbPath) {
+                    return Path(storage: .empty)
+                } else {
+                    // <+144>
+                }
+            case .buffer:
+                // <+344>
+                let rbPath = unsafe RBPath(
+                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
+                    callbacks: Path.bufferCallbacks
+                )
+                
+                if unsafe RBPathIsEmpty(rbPath) {
+                    return Path(storage: .empty)
+                } else {
+                    // <+144>
+                }
+            }
+        }
+        
+        // <+144>
+        let currentPath = unsafe self.retainRBPath()
+        let box = unsafe Path.PathBox(buffer: nil)
+        
+        let block: (UnsafeMutableRawPointer) -> Void = { rbPath in
+            // $s7SwiftUI4PathV07strokedC0yAcA11StrokeStyleVFySvXEfU_
+            let strokeStyle = RBPathStrokeStyle(
+                lineWidth: style.lineWidth,
+                miterLimit: style.miterLimit,
+                dashPhase: style.dashPhase
+            )
+            
+            withUnsafePointer(to: strokeStyle) { strokeStyle in
+                style.dash.withUnsafeBufferPointer { dash in
+                    let dashes = unsafe RBPathStrokeDashes(
+                        lineCap: style.lineCap,
+                        lineJoin: style.lineJoin,
+                        count: dash.count,
+                        values: dash.baseAddress.unsafelyUnwrapped
+                    )
+                    
+                    withUnsafePointer(to: dashes) { dashes in
+                        unsafe RBPathStorageAppendElement(
+                            rbPath,
+                            .unknown19,
+                            strokeStyle,
+                            dashes
+                        )
+                    }
+                }
+            }
+            
+            unsafe self.append(to: rbPath)
+            
+            unsafe RBPathStorageAppendElement(
+                rbPath,
+                .unknown16,
+                nil,
+                nil
+            )
+        }
+        
+        unsafe withUnsafeMutablePointer(to: &box.data) { data in
+            let pointer = UnsafeMutableRawPointer(data)
+            unsafe RBPathStorageInit(pointer, MemoryLayout<PathData>.size, nil)
+            unsafe block(pointer)
+        }
+        
+        unsafe RBPathRelease(currentPath)
+        
+        return Path(storage: .path(box))
     }
     
     public func trimmedPath(from: CGFloat, to: CGFloat) -> Path {
@@ -179,6 +333,14 @@ public import CoreGraphics
     }
     
     public static func == (a: Path, b: Path) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func retainRBPath() -> RBPath {
+        assertUnimplemented()
+    }
+    
+    fileprivate func append(to: UnsafeMutableRawPointer) {
         assertUnimplemented()
     }
 }
@@ -342,4 +504,18 @@ package struct TrimmedPath : Equatable {
 
 @available(*, unavailable)
 extension TrimmedPath : Sendable {
+}
+
+extension Path.PathBox {
+    fileprivate enum Kind {
+        case cgPath
+        case rbPath
+        case buffer
+    }
+}
+
+extension Path {
+    @safe fileprivate static nonisolated(unsafe) let bufferCallbacks: UnsafePointer<RBPathCallbacks> = {
+        assertUnimplemented()
+    }()
 }

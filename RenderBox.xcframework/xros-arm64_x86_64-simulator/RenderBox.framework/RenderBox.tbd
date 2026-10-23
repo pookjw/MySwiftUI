@@ -5,8 +5,11 @@ install-name:    '/System/Library/PrivateFrameworks/RenderBox.framework/RenderBo
 swift-abi-version: 7
 exports:
   - targets:         [ x86_64-xros-simulator, arm64-xros-simulator ]
-    symbols:         [ 
-    ]
+    symbols:         [ _RBPathStorageInit,
+    _RBPathRelease,
+    _RBPathStorageAppendElement,
+    _RBPathCGPathCallbacks,
+    _RBPathIsEmpty ]
     objc-classes:         [ RBDisplayList ]
     objc-ivars:           [  ]
 ...

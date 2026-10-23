@@ -19,3 +19,4 @@
 #import "tlv.h"
 #import "RenderBox+SwiftUI.h"
 #import "CGColorSpace+SwiftUI.h"
+#import "PathData.h"

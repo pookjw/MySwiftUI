@@ -202,6 +202,7 @@ let package = Package(
         .target(
             name: "_MySwiftUICoreShims",
             dependencies: [
+                .byName(name: "RenderBox"),
                 .byName(name: "BaseBoard"),
                 .byName(name: "_UIKitPrivate"),
                 .byName(name: "_DarwinPrivate"),
