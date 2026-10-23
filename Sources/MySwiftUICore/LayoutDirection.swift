@@ -24,6 +24,6 @@ struct LayoutDirectionKey : EnvironmentKey {
 }
 
 public enum LayoutDirectionBehavior : Hashable, Sendable {
-    case fixed
-    case mirrors(in: LayoutDirection)
+    case fixed // 2
+    case mirrors(in: LayoutDirection) // 0/1
 }

@@ -58,6 +58,10 @@ private import _MySwiftUICoreShims
         var cgPath: CGPath {
             assertUnimplemented()
         }
+        
+        fileprivate func prepareBuffer() {
+            assertUnimplemented()
+        }
     }
     
     @usableFromInline
@@ -155,9 +159,7 @@ private import _MySwiftUICoreShims
             return unsafe CGPath(ellipseIn: rect, transform: nil)
         case .roundedRect(let rect):
             return rect.cgPath
-        case .stroked(_):
-            fatalError("obsolete")
-        case .trimmed(_):
+        case .stroked(_), .trimmed(_):
             fatalError("obsolete")
         case .path(let box):
             return box.cgPath
@@ -165,7 +167,45 @@ private import _MySwiftUICoreShims
     }
     
     public var isEmpty: Bool {
-        assertUnimplemented()
+        switch self.storage {
+        case .empty:
+            // <+120>
+            return true
+        case .rect(let rect):
+            return rect.isNull
+        case .ellipse(let rect):
+            return rect.isNull
+        case .roundedRect(let rect):
+            // <+96>
+            return rect.rect.isNull
+        case .stroked(_), .trimmed(_):
+            fatalError("obsolete")
+        case .path(let pathBox):
+            // <+64>
+            switch pathBox.kind {
+            case .cgPath:
+                // <+128>
+                return unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                   let rbPath = unsafe RBPath(
+                       unknown0: pathBox.data.element.cgPath.toOpaque(),
+                       callbacks: callbacks
+                   )
+                   
+                   return unsafe rbPath.isEmpty
+               }
+            case .rbPath:
+                // <+80>
+                return unsafe pathBox.data.element.rbPath.isEmpty
+            case .buffer:
+                // <+152>
+                let rbPath = unsafe RBPath(
+                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
+                    callbacks: Path.bufferCallbacks
+                )
+                
+                return unsafe rbPath.isEmpty
+            }
+        }
     }
     
     public var boundingRect: CGRect {
@@ -214,68 +254,9 @@ private import _MySwiftUICoreShims
     }
     
     public func strokedPath(_ style: StrokeStyle) -> Path {
-        switch self.storage {
-        case .empty:
-            // <+276>
+        // inlined
+        guard !self.isEmpty else {
             return Path(storage: .empty)
-        case .rect(let rect), .ellipse(let rect):
-            // <+56>
-            if rect.isNull {
-                return Path(storage: .empty)
-            } else {
-                // <+144>
-            }
-        case .roundedRect(let rect):
-            // <+128>
-            if rect.rect.isNull {
-                return Path(storage: .empty)
-            } else {
-                // <+144>
-            }
-        case .stroked(_), .trimmed(_):
-            fatalError("obsolete")
-        case .path(let pathBox):
-            // <+96>
-            switch pathBox.kind {
-            case .cgPath:
-                // <+320>
-                let path: Path? = unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
-                    let rbPath = unsafe RBPath(
-                        unknown0: pathBox.data.element.cgPath.toOpaque(),
-                        callbacks: callbacks
-                    )
-                    
-                    if unsafe rbPath.isEmpty {
-                        return Path(storage: .empty)
-                    } else {
-                        // <+144>
-                        return nil
-                    }
-                }
-                
-                if let path {
-                    return path
-                }
-            case .rbPath:
-                // <+112>
-                if unsafe pathBox.data.element.rbPath.isEmpty {
-                    return Path(storage: .empty)
-                } else {
-                    // <+144>
-                }
-            case .buffer:
-                // <+344>
-                let rbPath = unsafe RBPath(
-                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
-                    callbacks: Path.bufferCallbacks
-                )
-                
-                if unsafe rbPath.isEmpty {
-                    return Path(storage: .empty)
-                } else {
-                    // <+144>
-                }
-            }
         }
         
         // <+144>

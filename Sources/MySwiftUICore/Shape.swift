@@ -564,7 +564,7 @@ struct AnimatedShape<T : Shape> : @preconcurrency ShapeStyledLeafView, Primitive
     }
     
     static var hasBackground: Bool {
-        assertUnimplemented()
+        return false
     }
     
     func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {

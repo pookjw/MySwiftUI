@@ -253,55 +253,14 @@ extension DisplayList {
                         }
                         
                         return
-                    case .shape(let path, let paint, let fillStyle):
+                    case .shape(let path, _, _):
                         // <+3560>
-                        switch path.storage {
-                        case .empty:
-                            // <+4580>
+                        // inlined
+                        if path.isEmpty {
                             self.value = .empty
-                            return
-                        case .rect(let rect):
-                            // <+3992>
-                            if rect.isNull {
-                                // <+4580>
-                                self.value = .empty
-                                return
-                            } else {
-                                // <+4416>
-                                // noop
-                                return
-                            }
-                        case .ellipse(let rect):
-                            // <+3992>
-                            if rect.isNull {
-                                // <+4580>
-                                self.value = .empty
-                                return
-                            } else {
-                                // <+4416>
-                                // noop
-                                return
-                            }
-                        case .roundedRect(let rect):
-                            // <+3984>
-                            // <+3992>
-                            if rect.rect.isNull {
-                                // <+4580>
-                                self.value = .empty
-                                return
-                            } else {
-                                // <+4416>
-                                // noop
-                                return
-                            }
-                        case .stroked(_):
-                            fatalError("obsolete")
-                        case .trimmed(_):
-                            fatalError("obsolete")
-                        case .path(_):
-                            // <+3872>
-                            assertUnimplemented()
                         }
+                        
+                        return
                     case .shadow(_, _):
                         // <+3608>
                         assertUnimplemented()
