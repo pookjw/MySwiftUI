@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef const void * RBDisplayListContents;
 
 typedef NS_ENUM(uint32_t, RBPathElement) {
+    RBPathElementUnknown5 = 5,
+    RBPathElementUnknown7 = 7,
+    RBPathElementUnknown8 = 8,
+    RBPathElementUnknown9 = 9,
     RBPathElementUnknown16 = 16,
     RBPathElementUnknown19 = 19
 };
@@ -51,6 +55,11 @@ typedef struct RBPathStrokeDashes {
     const size_t count;
     const CGFloat *values;
 } RBPathStrokeDashes;
+
+typedef struct RBPathRoundedRect {
+    const CGRect rect;
+    const CGSize cornerSize;
+} RBPathRoundedRect;
 
 NS_ASSUME_NONNULL_END
 

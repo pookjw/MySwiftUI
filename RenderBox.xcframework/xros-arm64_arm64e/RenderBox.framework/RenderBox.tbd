@@ -9,7 +9,13 @@ exports:
     _RBPathRelease,
     _RBPathStorageAppendElement,
     _RBPathCGPathCallbacks,
-    _RBPathIsEmpty ]
+    _RBPathIsEmpty,
+    _RBPathEmpty,
+    _RBPathMakeRect,
+    _RBPathMakeEllipse,
+    _RBPathMakeRoundedRect,
+    _RBPathRetain,
+    _RBPathStorageAppendPath ]
     objc-classes:         [ RBDisplayList ]
     objc-ivars:           [  ]
 ...

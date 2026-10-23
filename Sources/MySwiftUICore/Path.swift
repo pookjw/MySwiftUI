@@ -232,30 +232,28 @@ private import _MySwiftUICoreShims
             } else {
                 // <+144>
             }
-        case .stroked(_):
-            fatalError("obsolete")
-        case .trimmed(_):
+        case .stroked(_), .trimmed(_):
             fatalError("obsolete")
         case .path(let pathBox):
             // <+96>
             switch pathBox.kind {
             case .cgPath:
                 // <+320>
-                let rbPath = unsafe withUnsafePointer(to: RBPathCGPathCallbacks) { callbacks in
-                    return unsafe RBPath(
+                unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                    let rbPath = unsafe RBPath(
                         unknown0: pathBox.data.element.cgPath.toOpaque(),
                         callbacks: callbacks
                     )
-                }
-                
-                if unsafe RBPathIsEmpty(rbPath) {
-                    return Path(storage: .empty)
-                } else {
-                    // <+144>
+                    
+                    if unsafe rbPath.isEmpty {
+                        return Path(storage: .empty)
+                    } else {
+                        // <+144>
+                    }
                 }
             case .rbPath:
                 // <+112>
-                if unsafe RBPathIsEmpty(pathBox.data.element.rbPath) {
+                if unsafe pathBox.data.element.rbPath.isEmpty {
                     return Path(storage: .empty)
                 } else {
                     // <+144>
@@ -267,7 +265,7 @@ private import _MySwiftUICoreShims
                     callbacks: Path.bufferCallbacks
                 )
                 
-                if unsafe RBPathIsEmpty(rbPath) {
+                if unsafe rbPath.isEmpty {
                     return Path(storage: .empty)
                 } else {
                     // <+144>
@@ -323,8 +321,7 @@ private import _MySwiftUICoreShims
             unsafe block(pointer)
         }
         
-        unsafe RBPathRelease(currentPath)
-        
+        unsafe currentPath.release()
         return Path(storage: .path(box))
     }
     
@@ -337,11 +334,113 @@ private import _MySwiftUICoreShims
     }
     
     func retainRBPath() -> RBPath {
-        assertUnimplemented()
+        switch self.storage {
+        case .empty:
+            // <+196>
+            return unsafe .empty
+        case .rect(let rect):
+            // <+124>
+            return unsafe .makeRect(nil, rect: rect)
+        case .ellipse(let rect):
+            // <+56>
+            return unsafe .makeEllipse(nil, rect: rect)
+        case .roundedRect(let rect):
+            // <+152>
+            return unsafe .makeRoundedRect(
+                isContinuous: (rect.style == .continuous),
+                nil,
+                rect: rect.rect,
+                cornerSize: rect.cornerSize
+            )
+        case .stroked(_), .trimmed(_):
+            fatalError("obsolete")
+        case .path(let pathBox):
+            // <+92>
+            switch pathBox.kind {
+            case .cgPath:
+                // <+212>
+                return unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                    let rbPath = unsafe RBPath(
+                        unknown0: pathBox.data.element.cgPath.toOpaque(),
+                        callbacks: callbacks
+                    )
+                    
+                    return unsafe rbPath.retain()
+                }
+            case .rbPath:
+                // <+108>
+                return unsafe pathBox.data.element.rbPath.retain()
+            case .buffer:
+                // <+236>
+                let rbPath = unsafe RBPath(
+                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
+                    callbacks: Path.bufferCallbacks
+                )
+                
+                return unsafe rbPath.retain()
+            }
+        }
     }
     
-    fileprivate func append(to: UnsafeMutableRawPointer) {
-        assertUnimplemented()
+    fileprivate func append(to buffer: UnsafeMutableRawPointer) {
+        switch self.storage {
+        case .empty:
+            // <+224>
+            // nop
+            break
+        case .rect(let rect):
+            // <+148>
+            withUnsafePointer(to: rect) { rect in
+                unsafe RBPathStorageAppendElement(buffer, .unknown5, rect, nil)
+            }
+        case .ellipse(let rect):
+            // <+76>
+            withUnsafePointer(to: rect) { rect in
+                unsafe RBPathStorageAppendElement(buffer, .unknown7, rect, nil)
+            }
+        case .roundedRect(let rect):
+            // <+168>
+            let element: RBPathElement
+            switch rect.style {
+            case .circular:
+                element = .unknown8
+            case .continuous:
+                element = .unknown9
+            }
+            
+            let roundedRect = RBPathRoundedRect(rect: rect.rect, cornerSize: rect.cornerSize)
+            
+            withUnsafePointer(to: roundedRect) { roundedRect in
+                unsafe RBPathStorageAppendElement(buffer, element, roundedRect, nil)
+            }
+        case .stroked(_), .trimmed(_):
+            fatalError("obsolete")
+        case .path(let pathBox):
+            // <+104>
+            switch pathBox.kind {
+            case .cgPath:
+                // <+272>
+                unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                    let rbPath = unsafe RBPath(
+                        unknown0: pathBox.data.element.cgPath.toOpaque(),
+                        callbacks: callbacks
+                    )
+                    
+                    unsafe RBPathStorageAppendPath(buffer, rbPath)
+                }
+            case .rbPath:
+                // <+124>
+                unsafe RBPathStorageAppendPath(buffer, pathBox.data.element.rbPath)
+            case .buffer:
+                // <+308>
+                let rbPath = unsafe RBPath(
+                    unknown0: Unmanaged.passUnretained(pathBox).toOpaque(),
+                    callbacks: Path.bufferCallbacks
+                )
+                
+                unsafe RBPathStorageAppendPath(buffer, rbPath)
+            }
+        }
     }
 }
 
@@ -516,6 +615,7 @@ extension Path.PathBox {
 
 extension Path {
     @safe fileprivate static nonisolated(unsafe) let bufferCallbacks: UnsafePointer<RBPathCallbacks> = {
+        // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LL_WZ
         assertUnimplemented()
     }()
 }
