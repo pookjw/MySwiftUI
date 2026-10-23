@@ -239,7 +239,7 @@ private import _MySwiftUICoreShims
             switch pathBox.kind {
             case .cgPath:
                 // <+320>
-                unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
+                let path: Path? = unsafe withUnsafePointer(to: RBPathCallbacks.cgPath) { callbacks in
                     let rbPath = unsafe RBPath(
                         unknown0: pathBox.data.element.cgPath.toOpaque(),
                         callbacks: callbacks
@@ -249,7 +249,12 @@ private import _MySwiftUICoreShims
                         return Path(storage: .empty)
                     } else {
                         // <+144>
+                        return nil
                     }
+                }
+                
+                if let path {
+                    return path
                 }
             case .rbPath:
                 // <+112>
