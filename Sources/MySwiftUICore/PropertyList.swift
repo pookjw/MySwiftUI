@@ -216,7 +216,7 @@ private import AttributeGraph
             // <+388>
             if selfElements.before != nil {
                 // <+396>
-                self.elements = PropertyList.Element(keyType: EmptyKey.self, before: otherElements, after: selfElements)
+                self.elements = TypedElement<EmptyKey>(value: (), before: otherElements, after: selfElements)
                 return
             } else {
                 // <+484>
@@ -459,16 +459,26 @@ extension PropertyList {
     @safe @usableFromInline
     class Element : CustomStringConvertible {
         fileprivate let keyType: Any.Type // 0x10
-        fileprivate let before: Element? // 0x18
-        fileprivate var after: Element? // 0x20
-        fileprivate var skip: Unmanaged<Element>? // 0x28
+        fileprivate let before: PropertyList.Element? // 0x18
+        fileprivate var after: PropertyList.Element? // 0x20
+        fileprivate var skip: Unmanaged<PropertyList.Element>? // 0x28
         fileprivate let length: UInt32 // 0x30
         fileprivate let skipCount: UInt32 // 0x34
         fileprivate let skipFilter: BloomFilter // 0x38
         final let id = UniqueID() // 0x40
 
         deinit {
-            assertUnimplemented()
+            var after: PropertyList.Element? = self
+            
+            repeat {
+                guard let _after = after else {
+                    return
+                }
+                
+                let __after = _after.after
+                _after.after = nil
+                after = __after
+            } while isKnownUniquelyReferenced(&after)
         }
         
         fileprivate init(keyType: Any.Type, before: Element?, after: Element?) {
