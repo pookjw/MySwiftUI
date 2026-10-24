@@ -1,9 +1,8 @@
 // A45C110C8134A7DB30776EFC6CE1E8A6
-
-internal import CoreGraphics
+public import CoreGraphics
 
 extension Color.ResolvedHDR {
-    static let cache = ObjectCache<Color.ResolvedHDR, CGColor> { resolved in
+    fileprivate static let cache = ObjectCache<Color.ResolvedHDR, CGColor> { resolved in
         // $s7SwiftUI5ColorVAAE11ResolvedHDRV5cache33_A45C110C8134A7DB30776EFC6CE1E8A6LLAA11ObjectCacheCyAESo10CGColorRefaGvpZfiAkEcfU_
         var s12 = resolved.base.linearRed
         var s11 = resolved.base.linearGreen
@@ -121,6 +120,10 @@ extension Color.ResolvedHDR {
             // <+540>
             return resolved.base.makeCGColor()
         }
+    }
+    
+    var cgColor: CGColor {
+        return Color.ResolvedHDR.cache[self]
     }
 }
 
@@ -258,4 +261,16 @@ extension Color.Resolved {
     static let srgbLinear = CGColorSpace(name: CGColorSpace.linearSRGB)!
     static let srgbExtendedLinear = CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!
     static let displayP3 = CGColorSpace(name: CGColorSpace.displayP3)!
+}
+
+extension Color.Resolved {
+    fileprivate static let cache = ObjectCache<Color.Resolved, CGColor> { resolved in
+        // $s7SwiftUI5ColorV8ResolvedVAAE5cache33_A45C110C8134A7DB30776EFC6CE1E8A6LLAA11ObjectCacheCyAESo10CGColorRefaGvpZfiAkEcfU_
+        return resolved.makeCGColor()
+    }
+    
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public var cgColor: CGColor {
+        return Color.Resolved.cache[self]
+    }
 }

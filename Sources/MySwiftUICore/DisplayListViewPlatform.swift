@@ -961,8 +961,7 @@ extension DisplayList.ViewUpdater {
                         switch viewInfo.state.kind {
                         case .color:
                             let layer = viewInfo.layer
-                            let cache = Color.ResolvedHDR.cache
-                            let cgColor = cache[colorView.color]
+                            let cgColor = colorView.color.cgColor
                             layer.backgroundColor = cgColor
                             layer.allowsEdgeAntialiasing = isAntialiased
                             

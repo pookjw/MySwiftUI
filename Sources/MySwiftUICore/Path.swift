@@ -63,7 +63,17 @@ private import _MySwiftUICoreShims
         }
         
         var cgPath: CGPath {
-            assertUnimplemented()
+            switch self.kind {
+            case .cgPath:
+                // <+80>
+                return unsafe self.data.element.cgPath.takeUnretainedValue()
+            case .rbPath:
+                // <+32>
+                return unsafe self.rbPath.cgPath
+            case .buffer:
+                // <+40>
+                return unsafe self.rbPath.cgPath
+            }
         }
         
         @inline(__always) // 원래 없음
@@ -592,14 +602,21 @@ extension Path {
         let pointer = UnsafeMutablePointer<RBPathCallbacks>.allocate(capacity: 1)
         unsafe pointer.initialize(to: RBPathCallbacks())
         
-        unsafe pointer.pointee.unknown1 = { _ in
+        unsafe pointer.pointee.unknown1 = { pathBox in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_S2VcfU_To
-            assertUnimplemented()
+            let ref = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .retain()
+                .toOpaque()
+            
+            return UnsafeRawPointer(ref)
         }
         
-        unsafe pointer.pointee.unknown2 = { _ in
+        unsafe pointer.pointee.unknown2 = { pathBox in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_ySVcfU0_To
-            assertUnimplemented()
+            unsafe Unmanaged<Path.PathBox>
+               .fromOpaque(pathBox)
+               .release()
         }
         
         unsafe pointer.pointee.unknown3 = { pathBox, arg1, arg2 in

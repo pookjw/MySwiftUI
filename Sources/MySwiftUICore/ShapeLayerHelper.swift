@@ -538,7 +538,57 @@ fileprivate func updateContent(layer: CALayer, color: Color.ResolvedHDR, radius:
 }
 
 fileprivate func updateContent(shapeLayer: ColorShapeLayer, color: Color.ResolvedHDR, strokedPath: Path, origin: CGPoint, style: StrokeStyle) {
-    assertUnimplemented()
+    let cgPath: CGPath
+    if (origin.x != 0) || (origin.y != 0) {
+        // <+188>
+        let transform = CGAffineTransform(translationX: -origin.x, y: -origin.y)
+        
+        cgPath = strokedPath
+            .applying(transform)
+            .cgPath
+    } else {
+        // <+68>
+        cgPath = strokedPath.cgPath
+    }
+    
+    // <+396>
+    shapeLayer.path = cgPath
+    shapeLayer.fillColor = Color
+        .Resolved(linearRed: 0, linearGreen: 0, linearBlue: 0, opacity: 0)
+        .cgColor
+    shapeLayer.strokeColor = color.cgColor
+    shapeLayer.lineWidth = style.lineWidth
+    shapeLayer.miterLimit = style.miterLimit
+    
+    // <+552>
+    let lineCap: CAShapeLayerLineCap
+    switch style.lineCap {
+    case .butt:
+        lineCap = .butt
+    case .round:
+        lineCap = .round
+    case .square:
+        lineCap = .square
+    @unknown default:
+        lineCap = .butt
+    }
+    shapeLayer.lineCap = lineCap
+    
+    let lineJoin: CAShapeLayerLineJoin
+    switch style.lineJoin {
+    case .miter:
+        lineJoin = .miter
+    case .round:
+        lineJoin = .round
+    case .bevel:
+        lineJoin = .bevel
+    @unknown default:
+        lineJoin = .miter
+    }
+    shapeLayer.lineJoin = lineJoin
+    
+    shapeLayer.lineDashPhase = style.dashPhase
+    shapeLayer.lineDashPattern = style.dash as [NSNumber]
 }
 
 fileprivate final class UnclippedGradientLayer : CALayer {

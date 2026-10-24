@@ -807,10 +807,6 @@ extension Color {
             }
         }
         
-        var cgColor: CGColor {
-            return Self.cache[self]
-        }
-        
         @_alwaysEmitIntoClient public var headroom: Float? {
             get {
                 return _headroom == _headroom ? _headroom : nil
@@ -1588,13 +1584,6 @@ extension Color {
 extension Color {
     public init(cgColor: CGColor) {
         self.provider = ColorBox(cgColor)
-    }
-}
-
-@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-extension Color.Resolved {
-    public var cgColor: CGColor {
-        assertUnimplemented()
     }
 }
 

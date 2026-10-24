@@ -14,11 +14,11 @@ fileprivate struct MyView : View {
             .stroke(
                 Color.orange,
                 style: StrokeStyle(
-                    lineWidth: 5,
+                    lineWidth: 20,
                     lineCap: .round,
                     lineJoin: .miter,
                     miterLimit: 0,
-                    dash: [5, 10],
+                    dash: [5, 20],
                     dashPhase: 0
                 )
             )
