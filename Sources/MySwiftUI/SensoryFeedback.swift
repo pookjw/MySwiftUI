@@ -157,8 +157,8 @@ extension SensoryFeedback {
     struct StepperInteractionState : Hashable {
         private var storage: SensoryFeedback.FeedbackType
         
-        static let minusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperPlusTouchDown)
-        static let plusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperMinusTouchDown)
+        static let minusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperMinusTouchDown)
+        static let plusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperPlusTouchDown)
     }
     
     struct TabViewInteractionState : Hashable {

@@ -19,7 +19,8 @@ exports:
     _RBPathStorageIsEmpty,
     _RBPathStorageDestroy,
     _RBPathApplyShape,
-    _RBPathStorageIsSingleElement ]
+    _RBPathStorageIsSingleElement,
+    _RBPathStorageApplyElements ]
     objc-classes:         [ RBDisplayList ]
     objc-ivars:           [  ]
 ...

@@ -343,7 +343,7 @@ private import _MySwiftUICoreShims
         case .roundedRect(let rect):
             // <+152>
             return unsafe .makeRoundedRect(
-                isContinuous: (rect.style == .continuous),
+                cornerStyle: (rect.style == .continuous) ? .continuous : .circular,
                 nil,
                 rect: rect.rect,
                 cornerSize: rect.cornerSize
@@ -353,7 +353,7 @@ private import _MySwiftUICoreShims
         case .path(let pathBox):
             // <+92>
             // inlined
-            return pathBox.rbPath.retain()
+            return unsafe pathBox.rbPath.retain()
         }
     }
     
@@ -583,9 +583,15 @@ extension Path {
             assertUnimplemented()
         }
         
-        unsafe pointer.pointee.unknown3 = { _, _, _ in
+        unsafe pointer.pointee.unknown3 = { pathBox, arg1, arg2 in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SbSV_SvSbSv_So0K7ElementVSPy12CoreGraphics7CGFloatVGSVSgtXCtcfU1_To
-            assertUnimplemented()
+            let casted = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .takeUnretainedValue()
+            
+            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
+                return unsafe RBPathStorageApplyElements(data, arg1, arg2)
+            }
         }
         
         unsafe pointer.pointee.unknown4 = { _, _ in
