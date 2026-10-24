@@ -192,6 +192,95 @@ enum ShapeType {
     }
     
     fileprivate mutating func initFromStroked(type: RBPathShapeType, shape: UnsafePointer<RBPathShape>, style: StrokeStyle) {
-        assertUnimplemented()
+        /*
+         self -> x20
+         type -> x0
+         shape -> x1
+         style -> x2
+         */
+        guard style.dash.isEmpty else {
+            return
+        }
+        
+        switch type {
+        case .unknown0:
+            // <+104>
+            let data = unsafe shape.pointee.unknown0
+            
+            guard
+                (style.lineJoin == .miter),
+                style.miterLimit > 1.4142,
+                data.transform.isIdentity
+            else {
+                break
+            }
+            
+            // <+180>
+            let rect = data.rect.insetBy(
+                dx: style.lineWidth * -0.5,
+                dy: style.lineWidth * -0.5
+            )
+            
+            self = .rectBorder(rect, radius: 0, style: .circular, lineWidth: style.lineWidth)
+        case .unknown1:
+            // <+228>
+            let data = unsafe shape.pointee.unknown1
+            
+            guard
+                data.rect.width == data.rect.height,
+                data.transform.isIdentity
+            else {
+                break
+            }
+            
+            var d0 = data.rect.width
+            var d1: CGFloat = 0.5
+            d0 = d0 * d1
+            d1 = style.lineWidth * d1
+            d1 = d1 + d0
+            let d12 = (d0 == 0) ? 0 : d1
+            d0 = -0.5
+            let d4 = style.lineWidth * d0
+            
+            let rect = data.rect.insetBy(dx: d4, dy: d4)
+            self = .rectBorder(rect, radius: d12, style: .circular, lineWidth: style.lineWidth)
+        case .unknown3:
+            // <+424>
+            let data = unsafe shape.pointee.unknown3
+            
+            if
+                (data.cornerSize.width != data.cornerSize.height) &&
+                    !(abs(data.cornerSize.width - data.cornerSize.height) < 0.001)
+            {
+                break
+            }
+            
+            // <+476>
+            guard data.transform.isIdentity else {
+                break
+            }
+            
+            var d12 = data.rect.width
+            var d0 = data.rect.height
+            d0 = (d0 < d12) ? d0 : d12
+            var d1: CGFloat = 0.5
+            d0 = d0 * d1
+            d0 = (d0 < data.cornerSize.width) ? d0 : data.cornerSize.width
+            d1 = style.lineWidth * d1
+            d1 = d1 + d0
+            d12 = (d0 == 0) ? 0 : d1
+            d0 = -0.5
+            let d4 = style.lineWidth * d0
+            let rect = data.rect.insetBy(dx: d4, dy: d4)
+            
+            self = .rectBorder(
+                rect,
+                radius: d12,
+                style: (data.cornerStyle == .continuous) ? .continuous : .circular,
+                lineWidth: style.lineWidth
+            )
+        default:
+            break
+        }
     }
 }
