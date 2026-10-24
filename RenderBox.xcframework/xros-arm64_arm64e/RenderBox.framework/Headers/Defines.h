@@ -80,6 +80,11 @@ typedef struct RBPathShapeUnknown0 {
     const CGRect rect;
 } RBPathShapeUnknown0;
 
+typedef struct RBPathShapeUnknown1 {
+    const CGAffineTransform transform;
+    const CGRect rect;
+} RBPathShapeUnknown1;
+
 typedef struct RBPathShapeUnknown3 {
     const CGAffineTransform transform;
     const CGRect rect;
@@ -100,6 +105,7 @@ typedef struct RBPathShapeUnknown6 {
 
 typedef union RBPathShape {
     const RBPathShapeUnknown0 unknown0;
+    const RBPathShapeUnknown1 unknown1;
     const RBPathShapeUnknown3 unknown3;
     const RBPathShapeUnknown6 unknown6;
     // TODO
