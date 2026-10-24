@@ -20,7 +20,9 @@ exports:
     _RBPathStorageDestroy,
     _RBPathApplyShape,
     _RBPathStorageIsSingleElement,
-    _RBPathStorageApplyElements ]
+    _RBPathStorageApplyElements,
+    _RBPathGetBoundingRect,
+    _RBPathStorageGetBoundingRect ]
     objc-classes:         [ RBDisplayList ]
     objc-ivars:           [  ]
 ...

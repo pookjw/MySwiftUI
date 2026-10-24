@@ -240,9 +240,28 @@ private import _MySwiftUICoreShims
             fatalError("obsolete")
         case .trimmed(_):
             fatalError("obsolete")
-        case .path(_):
+        case .path(let pathBox):
             // <+92>
-            assertUnimplemented()
+            switch pathBox.kind {
+            case .cgPath:
+                // <+176>
+                return unsafe pathBox
+                    .data
+                    .element
+                    .cgPath
+                    .takeUnretainedValue()
+                    .boundingBoxOfPath
+            case .rbPath:
+                // <+108>
+                return unsafe pathBox
+                    .data
+                    .element
+                    .rbPath
+                    .boundingRect
+            case .buffer:
+                // <+232>
+                return unsafe RBPathStorageGetBoundingRect(pathBox.dataPointer)
+            }
         }
     }
     
