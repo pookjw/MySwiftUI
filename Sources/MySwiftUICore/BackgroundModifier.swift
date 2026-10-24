@@ -1,3 +1,4 @@
+// 4F6988968057BB8D11F78AD2EE32ACB1
 internal import AttributeGraph
 public import CoreGraphics
 
@@ -96,11 +97,109 @@ extension _BackgroundModifier : MultiViewModifier, PrimitiveViewModifier {}
     }
     
     nonisolated public static func _makeView(modifier: _GraphValue<_BackgroundStyleModifier<Style>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return _BackgroundStyleModifier.makeShapeView(modifier: modifier, inputs: inputs, shapeIsBackground: true, body: body)
     }
     
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
     public typealias Body = Never
+    
+    nonisolated static func makeShapeView(modifier: _GraphValue<_BackgroundStyleModifier<Style>>, inputs: _ViewInputs, shapeIsBackground: Bool, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        /*
+         modifier -> x0 -> w27
+         inputs -> x1 -> x20
+         shapeIsBackground -> w2 -> x19 + 0x40 (sp + 0x40)
+         body -> x19 + 0x18 (sp + 0x18)
+         */
+        // x26 + 0x160 (sp + 0x1f0)
+        let copy_1 = inputs
+        
+        let backgroundInfo = _BackgroundStyleModifier<Style>.BackgroundInfo(
+            modifier: modifier.value,
+            environment: copy_1.environment,
+            size: copy_1.size,
+            position: copy_1.position,
+            transform: copy_1.transform,
+            safeAreaInsets: copy_1.safeAreaInsets
+        )
+        
+        let value = Attribute(backgroundInfo)
+        
+        // x26 + 0xf0 (sp + 0x180)
+        var copy_2 = inputs
+        // x19 + 0x120 (sp + 0x120)
+        let copy_3 = copy_1
+        
+        copy_2.implicitRootType = _ZStackLayout.self
+        copy_2.position = value.frame.origin
+        copy_2.size = value.frame.size
+        
+        let resolver = ShapeStyleResolver(
+            style: OptionalAttribute(value.style),
+            mode: OptionalAttribute(),
+            environment: copy_1.environment,
+            role: .fill,
+            substrate: copy_3.materialSubstrate,
+            animationsDisabled: copy_1.base.animationsDisabled,
+            helper: AnimatableAttributeHelper<_ShapeStyle_Pack>(
+                phase: copy_1.viewPhase,
+                time: copy_1.time,
+                transaction: copy_1.transaction
+            )
+        )
+        
+        let pack = Attribute(resolver)
+        pack.flags = [.unknown0]
+        
+        // x26 + 0x90 (sp + 0x120)
+        let copy_4 = copy_1
+        
+        if shapeIsBackground {
+            // <+996>
+            // x19 + 0x90 (sp + 0x90)
+            let copy_5 = copy_1
+            
+            copy_4.applyBackgroundStyle(
+                value: modifier.value,
+                offset: .offset({ .of(&$0.style) })
+            )
+            
+            // <+1152>
+        } else {
+            // <+1068>
+            // <+1152>
+        }
+        
+        // <+1152>
+        // x27, w23, x19 + 0x38
+        let outputs_1 = body(_Graph(), copy_4)
+        // x19 + 0x90 (sp + 0x90)
+        let copy_5 = copy_2
+        
+        // x19 + 0xf0
+        let outputs_2 = _BackgroundStyleModifier<Style>.makeLeafView(
+            view: modifier,
+            inputs: copy_5,
+            styles: pack,
+            interpolatorGroup: nil
+        )
+        
+        // <+1272>
+        var visitor: PairwisePreferenceCombinerVisitor
+        if shapeIsBackground {
+            visitor = PairwisePreferenceCombinerVisitor(outputs: (outputs_2.preferences, outputs_1.preferences))
+        } else {
+            visitor = PairwisePreferenceCombinerVisitor(outputs: (outputs_1.preferences, outputs_2.preferences))
+        }
+        
+        for key in copy_1.preferences.keys {
+            key.visitKey(&visitor)
+        }
+        
+        return _ViewOutputs(
+            preferences: visitor.result,
+            layoutComputer: OptionalAttribute(outputs_1.layoutComputer)
+        )
+    }
 }
 
 @available(*, unavailable)
@@ -109,8 +208,8 @@ extension _BackgroundStyleModifier : Sendable {
 
 extension _BackgroundStyleModifier : MultiViewModifier, PrimitiveViewModifier {}
 
-extension _BackgroundStyleModifier : ShapeStyledLeafView {
-    typealias ShapeUpdateData = Never // TODO
+extension _BackgroundStyleModifier : @preconcurrency ShapeStyledLeafView {
+    typealias ShapeUpdateData = Void
     
     static var animatesSize: Bool {
         assertUnimplemented()
@@ -150,6 +249,32 @@ extension _BackgroundStyleModifier : ShapeStyledLeafView {
     
     @_spi(Internal) public func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
         assertUnimplemented()
+    }
+}
+
+extension _BackgroundStyleModifier {
+    fileprivate struct BackgroundInfo : AsyncAttribute, Rule {
+        @Attribute private(set) var modifier: _BackgroundStyleModifier<Style>
+        @Attribute private(set) var environment: EnvironmentValues
+        @Attribute private(set) var size: ViewSize
+        @Attribute private(set) var position: CGPoint
+        @Attribute private(set) var transform: ViewTransform
+        @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
+        
+        var value: _BackgroundStyleModifier<Style>.BackgroundInfo.Value {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension _BackgroundStyleModifier.BackgroundInfo {
+    fileprivate struct Value {
+        private(set) var frame: ViewFrame
+        private(set) var style: _AnchoredShapeStyle<Style>
+        
+        init(frame: ViewFrame, style: _AnchoredShapeStyle<Style>) {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -248,3 +373,9 @@ extension _InsettableBackgroundShapeModifier : Sendable {
 }
 
 extension _InsettableBackgroundShapeModifier : MultiViewModifier, PrimitiveViewModifier {}
+
+extension _ViewInputs {
+    fileprivate func applyBackgroundStyle<T, U>(value: Attribute<T>, offset: PointerOffset<T, U>) where U : ShapeStyle {
+        assertUnimplemented()
+    }
+}

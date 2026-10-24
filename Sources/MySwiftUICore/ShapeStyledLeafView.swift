@@ -119,7 +119,7 @@ extension ShapeStyledLeafView where ShapeUpdateData == Void {
     }
     
     static nonisolated func makeLeafView(view: _GraphValue<Self>, inputs: _ViewInputs, styles: Attribute<_ShapeStyle_Pack>, interpolatorGroup: _ShapeStyle_InterpolatorGroup?) -> _ViewOutputs {
-        assertUnimplemented()
+        return self.makeLeafView(view: view, inputs: inputs, styles: styles, interpolatorGroup: interpolatorGroup, data: ())
     }
 }
 
