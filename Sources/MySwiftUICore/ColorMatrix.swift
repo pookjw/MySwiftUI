@@ -1,3 +1,17 @@
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@frozen public struct ColorMatrix : Equatable {
+    public var r1: Float = 1, r2: Float = 0, r3: Float = 0, r4: Float = 0, r5: Float = 0
+    public var g1: Float = 0, g2: Float = 1, g3: Float = 0, g4: Float = 0, g5: Float = 0
+    public var b1: Float = 0, b2: Float = 0, b3: Float = 1, b4: Float = 0, b5: Float = 0
+    public var a1: Float = 0, a2: Float = 0, a3: Float = 0, a4: Float = 1, a5: Float = 0
+
+    @inlinable public init() {}
+
+    public static func == (a: ColorMatrix, b: ColorMatrix) -> Bool {
+        assertUnimplemented()
+    }
+}
+
 @frozen public struct _ColorMatrix : Equatable, Codable, Sendable {
     public var m11: Float = 1, m12: Float = 0, m13: Float = 0, m14: Float = 0, m15: Float = 0
     public var m21: Float = 0, m22: Float = 1, m23: Float = 0, m24: Float = 0, m25: Float = 0

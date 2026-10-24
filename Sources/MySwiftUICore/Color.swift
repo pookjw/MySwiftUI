@@ -1074,6 +1074,14 @@ extension Color {
         case sRGBLinear
         case displayP3
     }
+
+    public init(_ colorSpace: Color.RGBColorSpace = .sRGB, red: Double, green: Double, blue: Double, opacity: Double = 1) {
+        assertUnimplemented()
+    }
+    
+    public init(_ colorSpace: Color.RGBColorSpace = .sRGB, white: Double, opacity: Double = 1) {
+        assertUnimplemented()
+    }
 }
 
 extension Color.Resolved {

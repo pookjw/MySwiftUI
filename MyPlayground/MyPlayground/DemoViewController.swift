@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.strokeView
+        let item = DemoViewController.Item.canvasView
         pushToItem(item)
         
 //        Task {
@@ -165,6 +165,8 @@ extension DemoViewController {
         case sphereView
         case hvStackView
         case asyncRendererView
+        case canvasView
+        case timelineView
         case caLayerView
         case caHostingLayerView
         case uiHostingConfigurationView
@@ -329,6 +331,10 @@ extension DemoViewController {
                 return _typeName(HVStackViewController.self, qualified: false)
             case .asyncRendererView:
                 return _typeName(AsyncRendererViewController.self, qualified: false)
+            case .canvasView:
+                return _typeName(CanvasViewController.self, qualified: false)
+            case .timelineView:
+                return _typeName(TimelineViewController.self, qualified: false)
             case .caLayerView:
                 return _typeName(CALayerViewController.self, qualified: false)
             case .caHostingLayerView:
@@ -498,6 +504,10 @@ extension DemoViewController {
                 return HVStackViewController()
             case .asyncRendererView:
                 return AsyncRendererViewController()
+            case .canvasView:
+                return CanvasViewController()
+            case .timelineView:
+                return TimelineViewController()
             case .caLayerView:
                 return CALayerViewController()
             case .caHostingLayerView:
