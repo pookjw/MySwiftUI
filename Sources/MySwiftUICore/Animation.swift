@@ -1460,7 +1460,7 @@ extension Array where Element : Animatable {
 
 struct KeyedAnimatableArray<T, U> : VectorArithmetic {
     static func == (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> Bool {
-        assertUnimplemented()
+        return (lhs.elements == rhs.elements) && (lhs.isZero == rhs.isZero)
     }
     
     static func + (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> KeyedAnimatableArray<T, U> {

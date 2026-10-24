@@ -53,9 +53,7 @@ private import _MySwiftUICoreShims
             case .rbPath:
                 unsafe self.data.element.rbPath.release()
             case .buffer:
-                unsafe withUnsafeMutablePointer(to: &self.data) { data in
-                    unsafe RBPathStorageDestroy(data)
-                }
+                unsafe RBPathStorageDestroy(self.dataPointer)
             }
         }
 
@@ -88,6 +86,11 @@ private import _MySwiftUICoreShims
                 
                 return unsafe rbPath
             }
+        }
+        
+        @inline(__always)
+        fileprivate var dataPointer: UnsafeMutablePointer<PathData> {
+            return unsafe _withUnprotectedUnsafeMutablePointer(to: &self.data) { unsafe $0 }
         }
         
         fileprivate func prepareBuffer() {
@@ -311,13 +314,10 @@ private import _MySwiftUICoreShims
             )
         }
         
-        unsafe withUnsafeMutablePointer(to: &box.data) { data in
-            let pointer = UnsafeMutableRawPointer(data)
-            unsafe RBPathStorageInit(pointer, MemoryLayout<PathData>.size, nil)
-            unsafe block(pointer)
-        }
-        
+        unsafe RBPathStorageInit(box.dataPointer, MemoryLayout<PathData>.size, nil)
+        unsafe block(box.dataPointer)
         unsafe currentPath.release()
+        
         return Path(storage: .path(box))
     }
     
@@ -589,9 +589,11 @@ extension Path {
                 .fromOpaque(pathBox)
                 .takeUnretainedValue()
             
-            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
-                return unsafe RBPathStorageApplyElements(data, arg1, arg2)
-            }
+            return unsafe RBPathStorageApplyElements(
+                casted.dataPointer,
+                arg1,
+                arg2
+            )
         }
         
         unsafe pointer.pointee.unknown4 = { _, _ in
@@ -605,9 +607,7 @@ extension Path {
                 .fromOpaque(pathBox)
                 .takeUnretainedValue()
             
-            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
-                return unsafe RBPathStorageIsEmpty(data)
-            }
+            return unsafe RBPathStorageIsEmpty(casted.dataPointer)
         }
         
         unsafe pointer.pointee.unknown6 = { pathBox in
@@ -616,9 +616,7 @@ extension Path {
                 .fromOpaque(pathBox)
                 .takeUnretainedValue()
             
-            return unsafe withUnsafeMutablePointer(to: &casted.data) { data in
-                return unsafe RBPathStorageIsSingleElement(data)
-            }
+            return unsafe RBPathStorageIsSingleElement(casted.dataPointer)
         }
         
         unsafe pointer.pointee.unknown7 = { _ in
