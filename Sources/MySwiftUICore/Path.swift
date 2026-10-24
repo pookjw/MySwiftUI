@@ -88,13 +88,13 @@ private import _MySwiftUICoreShims
             }
         }
         
+        fileprivate func prepareBuffer() {
+            assertUnimplemented()
+        }
+        
         @inline(__always)
         fileprivate var dataPointer: UnsafeMutablePointer<PathData> {
             return unsafe _withUnprotectedUnsafeMutablePointer(to: &self.data) { unsafe $0 }
-        }
-        
-        fileprivate func prepareBuffer() {
-            assertUnimplemented()
         }
     }
     
@@ -217,7 +217,7 @@ private import _MySwiftUICoreShims
         case .path(let pathBox):
             // <+64>
             // inlined
-            return pathBox.rbPath.isEmpty
+            return unsafe pathBox.rbPath.isEmpty
         }
     }
     

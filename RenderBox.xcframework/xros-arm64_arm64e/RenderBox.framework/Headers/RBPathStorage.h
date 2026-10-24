@@ -8,5 +8,6 @@ RB_EXTERN void RBPathStorageAppendPath(void *, RBPath);
 RB_EXTERN bool RBPathStorageIsEmpty(void *);
 RB_EXTERN void RBPathStorageDestroy(void *);
 RB_EXTERN bool RBPathStorageIsSingleElement(void *);
+RB_EXTERN bool RBPathStorageApplyElements(void *, void *, bool (*)(void *, RBPathElement, const CGFloat *, const void * _Nullable));
 
 NS_ASSUME_NONNULL_END

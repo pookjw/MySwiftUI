@@ -61,6 +61,11 @@ typedef struct RBPathRoundedRect {
     const CGSize cornerSize;
 } RBPathRoundedRect;
 
+typedef NS_ENUM(uint32_t, RBPathRoundedCornerStyle) {
+    RBPathRoundedCornerStyleCircular = 0,
+    RBPathRoundedCornerStyleContinuous = 1
+};
+
 typedef NS_ENUM(uint32_t, RBPathShapeType) {
     RBPathShapeTypeUnknown0 = 0,
     RBPathShapeTypeUnknown1 = 1,
@@ -70,7 +75,33 @@ typedef NS_ENUM(uint32_t, RBPathShapeType) {
     RBPathShapeTypeUnknown8 = 8
 };
 
-typedef struct RBPathShape {
+typedef struct RBPathShapeUnknown0 {
+    const CGAffineTransform transform;
+    const CGRect rect;
+} RBPathShapeUnknown0;
+
+typedef struct RBPathShapeUnknown3 {
+    const CGAffineTransform transform;
+    const CGRect rect;
+    const CGSize cornerSize;
+    const RBPathRoundedCornerStyle cornerStyle;
+} RBPathShapeUnknown3;
+
+typedef struct RBPathShapeUnknown6 {
+    const RBPath path;
+    const CGFloat lineWidth;
+    const CGLineCap lineCap;
+    const CGLineJoin lineJoin;
+    const CGFloat miterLimit;
+    const CGFloat dashPhase;
+    const NSInteger count;
+    const CGFloat *dash;
+} RBPathShapeUnknown6;
+
+typedef union RBPathShape {
+    const RBPathShapeUnknown0 unknown0;
+    const RBPathShapeUnknown3 unknown3;
+    const RBPathShapeUnknown6 unknown6;
     // TODO
 } RBPathShape;
 
