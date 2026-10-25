@@ -35,6 +35,16 @@ extension View {
 extension _ForegroundStyleModifier : Sendable {
 }
 
+extension _ForegroundStyleModifier : ViewModifier {}
+
+extension _ForegroundStyleModifier : PrimitiveViewModifier {}
+
+extension _ForegroundStyleModifier : ViewInputsModifier {
+    package static var graphInputsSemantics: Semantics? {
+        return .v4
+    }
+}
+
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @frozen public struct _ForegroundStyleModifier2<S1, S2> where S1 : ShapeStyle, S2 : ShapeStyle {
     public var primary: S1
@@ -56,6 +66,16 @@ extension _ForegroundStyleModifier : Sendable {
 
 @available(*, unavailable)
 extension _ForegroundStyleModifier2 : Sendable {
+}
+
+extension _ForegroundStyleModifier2 : ViewModifier {}
+
+extension _ForegroundStyleModifier2 : PrimitiveViewModifier {}
+
+extension _ForegroundStyleModifier2 : ViewInputsModifier {
+    package static var graphInputsSemantics: Semantics? {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
@@ -84,8 +104,12 @@ extension _ForegroundStyleModifier2 : Sendable {
 extension _ForegroundStyleModifier3 : Sendable {
 }
 
-extension _ForegroundStyleModifier : ViewModifier {}
-
-extension _ForegroundStyleModifier2 : ViewModifier {}
-
 extension _ForegroundStyleModifier3 : ViewModifier {}
+
+extension _ForegroundStyleModifier3 : PrimitiveViewModifier {}
+
+extension _ForegroundStyleModifier3 : ViewInputsModifier {
+    package static var graphInputsSemantics: Semantics? {
+        assertUnimplemented()
+    }
+}

@@ -8,7 +8,7 @@ extension View {
     }
 }
 
-fileprivate struct PresentedSceneValueInputModifier : ViewInputsModifier {
+fileprivate struct PresentedSceneValueInputModifier : @MainActor ViewInputsModifier {
     typealias Body = Never
     
     @safe nonisolated(unsafe) private(set) var presentedValue: AnyHashable?
