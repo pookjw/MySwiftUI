@@ -39,7 +39,13 @@ public struct Canvas<Symbols> where Symbols : View {
         }
     }
 
-    public init(opaque: Bool = false, colorMode: ColorRenderingMode = .nonLinear, rendersAsynchronously: Bool = false, renderer: @escaping (inout GraphicsContext, CGSize) -> Void, @ViewBuilder symbols: () -> Symbols) {
+    public init(
+        opaque: Bool = false,
+        colorMode: ColorRenderingMode = .nonLinear,
+        rendersAsynchronously: Bool = false,
+        renderer: @escaping (inout GraphicsContext, CGSize) -> Void,
+        @ViewBuilder symbols: () -> Symbols
+    ) {
         assertUnimplemented()
     }
 
@@ -186,7 +192,12 @@ extension Canvas : Sendable {
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension Canvas where Symbols == EmptyView {
-    public init(opaque: Bool = false, colorMode: ColorRenderingMode = .nonLinear, rendersAsynchronously: Bool = false, renderer: @escaping (inout GraphicsContext, CGSize) -> Void) {
+    public init(
+        opaque: Bool = false,
+        colorMode: ColorRenderingMode = .nonLinear,
+        rendersAsynchronously: Bool = false,
+        renderer: @escaping (inout GraphicsContext, CGSize) -> Void
+    ) {
         assertUnimplemented()
     }
 }
