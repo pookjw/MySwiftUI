@@ -1,7 +1,7 @@
 package import Foundation
 public import CoreGraphics
 private import _MySwiftUICoreShims
-package import Spatial
+internal import Spatial
 
 public struct Color : Hashable, CustomStringConvertible, Sendable {
     public static func == (lhs: Color, rhs: Color) -> Bool {
@@ -76,6 +76,11 @@ extension Color : View {
 }
 
 extension Color : ShapeStyle {
+    @available(*, deprecated, message: "obsolete")
+    @_alwaysEmitIntoClient nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
+        _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
+    }
+    
     public func _apply(to shape: inout _ShapeStyle_Shape) {
         switch shape.operation {
         case .fallbackColor(let level):
@@ -96,10 +101,9 @@ extension Color : ShapeStyle {
             }
         }
     }
-
-    @available(*, deprecated, message: "obsolete")
-    @_alwaysEmitIntoClient nonisolated public static func _makeView<S>(view: _GraphValue<_ShapeView<S, Color>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
-        _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
+    
+    public static func _apply(to type: inout _ShapeStyle_ShapeType) {
+        // noop
     }
 }
 

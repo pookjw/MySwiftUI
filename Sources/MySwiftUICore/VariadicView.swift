@@ -417,7 +417,7 @@ fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
         // sp + 0x90
         let copy_6 = copy_4
         // sp + 0x20
-        let copy_7 = copy_4
+        let _ = copy_4
         // sp + 0x160
         let _ = copy_6
         

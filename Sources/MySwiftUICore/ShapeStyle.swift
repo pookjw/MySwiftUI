@@ -143,7 +143,19 @@ extension _ShapeStyle_Shape {
 }
 
 public struct _ShapeStyle_ShapeType {
-    // TODO
+    var operation: _ShapeStyle_ShapeType.Operation
+    var result: _ShapeStyle_ShapeType.Result
+}
+
+extension _ShapeStyle_ShapeType {
+    enum Operation : Hashable {
+        case modifiesBackground
+    }
+    
+    enum Result {
+        case bool(Bool)
+        case none
+    }
 }
 
 @available(*, unavailable)

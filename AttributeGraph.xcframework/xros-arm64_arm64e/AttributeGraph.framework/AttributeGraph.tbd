@@ -312,7 +312,8 @@ exports:
     _$s14AttributeGraph12StatefulRulePAAE9attributeAA0A0Vy5ValueQzGvpMV,
     _$s14AttributeGraph4RuleTL,
     _$s14AttributeGraph12StatefulRuleTL,
-    _AGGraphAnyInputsChanged ]
+    _AGGraphAnyInputsChanged,
+    _$s14AttributeGraph0A0V8applying6offsetACyqd__GAA13PointerOffsetVyxqd__G_tlF ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

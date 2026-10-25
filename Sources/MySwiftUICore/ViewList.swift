@@ -749,7 +749,7 @@ extension _ViewListOutputs {
                     // <+172>
                     // <+188>
                     break
-                case .dynamicList(let _, let _):
+                case .dynamicList(_, _):
                     if x20 >= x27 {
                     } else {
                         // <+288>

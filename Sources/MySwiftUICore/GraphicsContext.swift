@@ -1,3 +1,4 @@
+// A8D9ECD380926237F7E554221FB2DE85
 public import CoreGraphics
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
@@ -701,3 +702,7 @@ extension GraphicsContext.GradientOptions : Sendable {}
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension GraphicsContext.GradientOptions : BitwiseCopyable {}
+
+class GraphicsContextSymbols {
+    // TODO
+}

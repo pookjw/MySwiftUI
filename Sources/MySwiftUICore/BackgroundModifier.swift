@@ -151,12 +151,12 @@ extension _BackgroundModifier : MultiViewModifier, PrimitiveViewModifier {}
         pack.flags = [.unknown0]
         
         // x26 + 0x90 (sp + 0x120)
-        let copy_4 = copy_1
+        var copy_4 = copy_1
         
         if shapeIsBackground {
             // <+996>
             // x19 + 0x90 (sp + 0x90)
-            let copy_5 = copy_1
+            let _ = copy_1
             
             copy_4.applyBackgroundStyle(
                 value: modifier.value,
@@ -375,7 +375,38 @@ extension _InsettableBackgroundShapeModifier : Sendable {
 extension _InsettableBackgroundShapeModifier : MultiViewModifier, PrimitiveViewModifier {}
 
 extension _ViewInputs {
-    fileprivate func applyBackgroundStyle<T, U>(value: Attribute<T>, offset: PointerOffset<T, U>) where U : ShapeStyle {
+    fileprivate mutating func applyBackgroundStyle<T, U>(value: Attribute<T>, offset: PointerOffset<T, U>) where U : ShapeStyle {
+        /*
+         self -> x20 -> x19
+         value -> w0 -> w24
+         offset -> x1 -> x23
+         */
+        var shapeType = _ShapeStyle_ShapeType(operation: .modifiesBackground, result: .none)
+        U._apply(to: &shapeType)
+        
+        switch shapeType.result {
+        case .bool(let value):
+            guard value else {
+                return
+            }
+        case .none:
+            return
+        }
+        
+        let environment = ForegroundEnvironment(
+            style: value.applying(offset: offset),
+            environment: self.environment
+        )
+        
+        self.environment = Attribute(environment)
+    }
+}
+
+fileprivate struct ForegroundEnvironment<T : ShapeStyle> : AsyncAttribute, Rule {
+    @Attribute var style: T
+    @Attribute var environment: EnvironmentValues
+    
+    var value: EnvironmentValues {
         assertUnimplemented()
     }
 }

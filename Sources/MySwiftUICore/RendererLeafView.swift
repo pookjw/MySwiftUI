@@ -1,7 +1,7 @@
 // 65609C35608651F66D749EB1BD9D2226
 internal import Spatial
 package import CoreGraphics
-private import AttributeGraph
+internal import AttributeGraph
 
 protocol RendererLeafView : ContentResponder, PrimitiveView, UnaryView {
     nonisolated static var requiresMainThread: Bool {
@@ -145,7 +145,7 @@ struct LeafResponderFilter<T : ContentResponder>: StatefulRule {
     @Attribute private var transform: ViewTransform
     private lazy var responder = LeafViewResponder<T>()
     
-    fileprivate init(data: Attribute<T>, size: Attribute<ViewSize>, position: Attribute<CGPoint>, transform: Attribute<ViewTransform>) {
+    init(data: Attribute<T>, size: Attribute<ViewSize>, position: Attribute<CGPoint>, transform: Attribute<ViewTransform>) {
         self._data = data
         self._size = size
         self._position = position

@@ -16,6 +16,14 @@ fileprivate struct MyView: View {
                 context.scaleBy(x: scale, y: scale)
                 context.clip(to: Path(CGRect(x: 0, y: 0, width: 800, height: 1000)))
                 Garden.draw(in: &context, time: CGFloat(time))
+                if let circle = context.resolveSymbol(id: "circle") {
+                    context.draw(circle, at: CGPoint(x: 745, y: 930))
+                }
+            } symbols: {
+                Circle()
+                    .foregroundStyle(Color.red)
+                    .frame(width: 48, height: 48)
+                    .tag("circle")
             }
         }
         .background(Color(red: 0.76, green: 0.88, blue: 0.91))

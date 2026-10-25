@@ -122,23 +122,3 @@ extension ViewTraitCollection {
         }
     }
 }
-
-@usableFromInline
-package struct TagValueTraitKey<V> : _ViewTraitKey where V : Hashable {
-    @usableFromInline
-    @frozen package enum Value {
-        case untagged
-        case tagged(V)
-    }
-    
-    @inlinable package static var defaultValue: TagValueTraitKey<V>.Value {
-        get { .untagged }
-    }
-}
-
-@available(*, unavailable)
-extension TagValueTraitKey.Value : Sendable {
-}
-@available(*, unavailable)
-extension TagValueTraitKey : Sendable {
-}
