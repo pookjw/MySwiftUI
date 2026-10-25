@@ -27,7 +27,7 @@ package struct SizeAndSpacingContext {
     package subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         let fetch = EnvironmentFetch<Value>(environment: $environment, keyPath: dynamicMember)
         
-        return unsafe withUnsafePointer(to: fetch) { pointer in
+        return withUnsafePointer(to: fetch) { pointer in
             return unsafe EnvironmentFetch<Value>._cachedValue(
                 options: .unknown0,
                 owner: owner,

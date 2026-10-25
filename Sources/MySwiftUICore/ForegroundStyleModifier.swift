@@ -1,3 +1,6 @@
+// BEFE9363F68E039B4AB6422B8AA4535A
+private import AttributeGraph
+
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension View {
     @inlinable nonisolated public func foregroundStyle<S>(_ style: S) -> some View where S : ShapeStyle {
@@ -24,7 +27,12 @@ extension View {
     }
 
     nonisolated public static func _makeViewInputs(modifier: _GraphValue<_ForegroundStyleModifier<Style>>, inputs: inout _ViewInputs) {
-        assertUnimplemented()
+        inputs.environment = Attribute(
+            _ForegroundStyleModifier.ForegroundStyleEnvironment(
+                modifier: modifier.value,
+                environment: inputs.environment
+            )
+        )
     }
 
     @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
@@ -36,12 +44,22 @@ extension _ForegroundStyleModifier : Sendable {
 }
 
 extension _ForegroundStyleModifier : ViewModifier {}
-
 extension _ForegroundStyleModifier : PrimitiveViewModifier {}
 
 extension _ForegroundStyleModifier : ViewInputsModifier {
     package static var graphInputsSemantics: Semantics? {
         return .v4
+    }
+}
+
+extension _ForegroundStyleModifier {
+    fileprivate struct ForegroundStyleEnvironment : AsyncAttribute, Rule {
+        @Attribute var modifier: _ForegroundStyleModifier<Style>
+        @Attribute var environment: EnvironmentValues
+        
+        var value: EnvironmentValues {
+            assertUnimplemented()
+        }
     }
 }
 

@@ -249,18 +249,18 @@ extension CanvasSymbols {
 }
 
 fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
-    private let identity: _DisplayList_Identity
-    @Attribute private var view: Canvas<T>
-    @Attribute private var position: CGPoint
-    @Attribute private var containerPosition: CGPoint
-    @Attribute private var size: CGSize
-    @Attribute private var transform: ViewTransform
-    @Attribute private var environment: EnvironmentValues
-    @OptionalAttribute private var symbols: [CanvasSymbols.Child]?
-    private let tracker: PropertyList.Tracker
-    private var lastBounds: CGRect
-    private let isFlattened: Swift.Bool
-    private var cachedSymbols: SymbolRenderer?
+    private let identity: _DisplayList_Identity // 0x0
+    @Attribute private var view: Canvas<T> // 0x4
+    @Attribute private var position: CGPoint // 0x8
+    @Attribute private var containerPosition: CGPoint // 0xc
+    @Attribute private var size: CGSize // 0x10
+    @Attribute private var transform: ViewTransform // 0x14
+    @Attribute private var environment: EnvironmentValues // 0x18
+    @OptionalAttribute private var symbols: [CanvasSymbols.Child]? // 0x1c
+    private let tracker: PropertyList.Tracker // 0x20
+    private var lastBounds: CGRect // 0x28
+    private let isFlattened: Bool // 0x48
+    private var cachedSymbols: SymbolRenderer? // 0x50
     
     init(
         identity: _DisplayList_Identity,
@@ -275,7 +275,18 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         isFlattened: Bool,
         cachedSymbols: SymbolRenderer?
     ) {
-        assertUnimplemented()
+        self.identity = identity
+        self._view = view
+        self._position = position
+        self._containerPosition = containerPosition
+        self._size = size
+        self._transform = transform
+        self._environment = environment
+        self._symbols = symbols
+        self.tracker = PropertyList.Tracker()
+        self.lastBounds = lastBounds
+        self.isFlattened = isFlattened
+        self.cachedSymbols = cachedSymbols
     }
     
     typealias Value = DisplayList

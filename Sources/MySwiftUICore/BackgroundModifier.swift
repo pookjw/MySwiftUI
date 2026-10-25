@@ -262,15 +262,106 @@ extension _BackgroundStyleModifier {
         @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
         
         var value: _BackgroundStyleModifier<Style>.BackgroundInfo.Value {
-            assertUnimplemented()
+            let position = self.position
+            let size = self.size
+            
+            let shapeStyle = _AnchoredShapeStyle(
+                style: self.modifier.style,
+                bounds: CGRect(origin: .zero, size: self.size.value)
+            )
+            
+            // x29 - 0x100
+            var value = _BackgroundStyleModifier<Style>.BackgroundInfo.Value(
+                frame: ViewFrame(origin: position, size: size),
+                style: shapeStyle
+            )
+            
+            let ignoresSafeAreaEdges = self.modifier.ignoresSafeAreaEdges
+            
+            guard !ignoresSafeAreaEdges.isEmpty else {
+                return value
+            }
+            
+            // <+588>
+            let context = self.context
+            var insets = EdgeInsets.zero
+            
+            if let attribute = self.$safeAreaInsets {
+                let safeAreaInsets = context[attribute]
+                
+                let placementContext = _PositionAwarePlacementContext(
+                    context: AnyRuleContext(context),
+                    owner: context.attribute.identifier,
+                    size: self.$size,
+                    environment: self.$environment,
+                    transform: self.$transform,
+                    position: self.$position,
+                    safeAreaInsets: OptionalAttribute(attribute)
+                )
+                
+                insets = safeAreaInsets.resolve(
+                    regions: .container,
+                    cornerAdaptation: [],
+                    in: placementContext
+                )
+            }
+            
+            // <+768>
+            let d12: CGFloat = 0
+            var d11 = insets.top
+            var d10 = insets.leading
+            let d8 = insets.bottom
+            var d9 = insets.trailing
+            
+            d11 = ignoresSafeAreaEdges.contains(.top) ? d11 : d12
+            d10 = ignoresSafeAreaEdges.contains(.leading) ? d10 : d12
+            let containsBottom = ignoresSafeAreaEdges.contains(.bottom)
+            d9 = ignoresSafeAreaEdges.contains(.trailing) ? d9 : d12
+            
+            let spacingContext = SizeAndSpacingContext(
+                context: AnyRuleContext(context),
+                owner: context.attribute.identifier,
+                environment: self.$environment
+            )
+            
+            let layoutDirection = spacingContext.layoutDirection
+            let d13 = (layoutDirection == .leftToRight) ? d10 : d9
+            var d0 = value.style.bounds.origin.x
+            var d1 = value.style.bounds.origin.y
+            d0 = d13 + d0
+            d1 = d11 + d1
+            value.style.bounds.origin.x = d0
+            value.style.bounds.origin.y = d1
+            d0 = value.frame.origin.x
+            d1 = value.frame.origin.y
+            d0 = d0 - d13
+            d1 = d1 - d11
+            value.frame.origin.x = d0
+            value.frame.origin.y = d1
+            d0 = value.frame.size.value.width
+            d1 = value.frame.size.value.height
+            var d2 = -d8
+            var d3: CGFloat = -0
+            d2 = containsBottom ? d2 : d3
+            d3 = -d9
+            d3 = d3 - d10
+            d0 = d0 - d3
+            d0 = (d0 >= 0) ? d0 : d12
+            d2 = d2 - d11
+            d1 = d1 - d2
+            d1 = (d1 >= 0) ? d1 : d12
+            value.frame.size.value.width = d0
+            value.frame.size.value.height = d1
+            
+            return value
         }
     }
 }
 
 extension _BackgroundStyleModifier.BackgroundInfo {
     fileprivate struct Value {
-        private(set) var frame: ViewFrame
-        private(set) var style: _AnchoredShapeStyle<Style>
+        var frame: ViewFrame
+        var style: _AnchoredShapeStyle<Style>
         
         init(frame: ViewFrame, style: _AnchoredShapeStyle<Style>) {
             assertUnimplemented()

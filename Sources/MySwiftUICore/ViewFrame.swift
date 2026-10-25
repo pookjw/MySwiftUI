@@ -3,8 +3,8 @@
 internal import CoreGraphics
 
 struct ViewFrame : Equatable {
-    private(set) var origin: CGPoint
-    private(set) var size: ViewSize
+    var origin: CGPoint
+    var size: ViewSize
     
     @inline(always)
     init(origin: CGPoint, size: ViewSize) {
