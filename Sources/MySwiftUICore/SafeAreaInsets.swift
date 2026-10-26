@@ -116,27 +116,27 @@ package struct SafeAreaInsets {
         let mergedInsets = self.mergedInsets(regions: regions, adaptCorners: !cornerAdaptation.isEmpty)
         
         // <+144>
-        let flag: Bool
-        do {
-            var v0_0: UInt64 = (mergedInsets.unknown0 == 0) ? .max : 0
-            var v0_1: UInt64 = (mergedInsets.unknown1 == 0) ? .max : 0
-            let v1_0: UInt64 = (mergedInsets.unknown2 == 0) ? .max : 0
-            let v1_1: UInt64 = (mergedInsets.unknown3 == 0) ? .max : 0
-            
-            v0_0 = ((v0_0 << 32) >> 32) | (v0_1 << 32)
-            v0_1 = ((v1_0 << 32) >> 32) | (v1_1 << 32)
-            v0_0 = ~v0_0
-            v0_1 = ~v0_1
-            
-            let s0 = max(
-                (v0_0 << 32) >> 32,
-                (v0_0 >> 32),
-                (v0_1 << 32) >> 32,
-                (v0_1 >> 32)
-            )
-            
-            flag = (s0 & 1) != 0
-        }
+        let flag: Bool = (mergedInsets.unknown0 != 0) || (mergedInsets.unknown1 != 0) || (mergedInsets.unknown2 != 0) || (mergedInsets.unknown3 != 0)
+//        do {
+//            var v0_0: UInt64 = (mergedInsets.unknown0 == 0) ? .max : 0
+//            var v0_1: UInt64 = (mergedInsets.unknown1 == 0) ? .max : 0
+//            let v1_0: UInt64 = (mergedInsets.unknown2 == 0) ? .max : 0
+//            let v1_1: UInt64 = (mergedInsets.unknown3 == 0) ? .max : 0
+//            
+//            v0_0 = ((v0_0 << 32) >> 32) | (v0_1 << 32)
+//            v0_1 = ((v1_0 << 32) >> 32) | (v1_1 << 32)
+//            v0_0 = ~v0_0
+//            v0_1 = ~v0_1
+//            
+//            let s0 = max(
+//                (v0_0 << 32) >> 32,
+//                (v0_0 >> 32),
+//                (v0_1 << 32) >> 32,
+//                (v0_1 >> 32)
+//            )
+//            
+//            flag = (s0 & 1) != 0
+//        }
         
         if flag {
             // <+204>
@@ -175,7 +175,7 @@ package struct SafeAreaInsets {
             case .translation(_):
                 // <+844>
                 break
-            case .affineTransform(let transform, let inverse):
+            case .affineTransform(let transform, _):
                 // <+712>
                 if ((transform.b != 0) || (transform.c != 0)) && ((transform.a != 0) || (transform.d != 0)) {
                     // <+876>
