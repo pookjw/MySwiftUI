@@ -288,6 +288,55 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     }
 }
 
+extension Color {
+    struct DisplayP3 : Hashable, ColorProvider {
+        let red: Double
+        let green: Double
+        let blue: Double
+        let opacity: Float
+        
+        var tag: Color.ProviderTag {
+            assertUnimplemented()
+        }
+        
+        func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+            assertUnimplemented()
+        }
+        
+        func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+            assertUnimplemented()
+        }
+        
+        func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
+            assertUnimplemented()
+        }
+        
+        var staticColor: CGColor? {
+            assertUnimplemented()
+        }
+        
+        var kitColor: AnyObject? {
+            assertUnimplemented()
+        }
+        
+        var colorDescription: String {
+            assertUnimplemented()
+        }
+        
+        func opacity(at: Int, environment: EnvironmentValues) -> Float {
+            assertUnimplemented()
+        }
+        
+        func serialize(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+        
+        static func deserialize(from decoder: any Decoder) throws -> Color.DisplayP3 {
+            assertUnimplemented()
+        }
+    }
+}
+
 package protocol ColorProvider : Hashable, Serializable {
     var tag: Color.ProviderTag { get }
     func resolve(in environment: EnvironmentValues) -> Color.Resolved
@@ -1080,7 +1129,137 @@ extension Color {
     }
 
     public init(_ colorSpace: Color.RGBColorSpace = .sRGB, red: Double, green: Double, blue: Double, opacity: Double = 1) {
-        assertUnimplemented()
+        switch colorSpace {
+        case .sRGB:
+            // <+56>
+            var s10 = Float(red)
+            var s0 = -s10
+            var s1 = (s10 > 0) ? s10 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+
+            if s1 <= s0 {
+                // <+232>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+248>
+            } else {
+                // <+92>
+                s0 = 1
+
+                if s1 == s0 {
+                    // <+248>
+                } else {
+                    // <+104>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+248>
+                }
+            }
+            
+            // <+248>
+            s1 = -s0
+            s10 = (s10 > 0) ? s0 : s1
+            var s9 = Float(green)
+            s0 = -s9
+            s1 = (s9 > 0) ? s9 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+368>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+            } else {
+                // <+296>
+                s0 = 1
+                
+                if s1 == s0 {
+                    // <+384>
+                } else {
+                    // <+308>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+384>
+                }
+            }
+            
+            // <+384>
+            s1 = -s0
+            s9 = (s9 > 0) ? s0 : s1
+            var s8 = Float(blue)
+            s0 = -s8
+            s1 = (s8 > 0) ? s8 : s0
+            s0 = Float(bitPattern: 0x3d25aee6)
+            
+            if s1 <= s0 {
+                // <+504>
+                s0 = Float(bitPattern: 0x3d9e8391)
+                s0 = s1 * s0
+                // <+520>
+            } else {
+                // <+432>
+                s0 = 1
+                
+                if s1 == s0 {
+                    // <+520>
+                } else {
+                    // <+444>
+                    s0 = Float(bitPattern: 0x3f72a76f)
+                    s0 = s1 * s0
+                    s1 = Float(bitPattern: 0x3d55891a)
+                    s0 = s0 + s1
+                    s1 = Float(bitPattern: 0x4019999a)
+                    s0 = powf(s0, s1)
+                    // <+520>
+                }
+            }
+            
+            // <+520>
+            s1 = -s0
+            s8 = (s8 > 0) ? s0 : s1
+            
+            // <+532>
+            let s11 = Float(opacity)
+            let resolved = Color.ResolvedHDR(
+                Color.Resolved(linearRed: s10, linearGreen: s9, linearBlue: s8, opacity: s11),
+                headroom: nil
+            )
+            
+            let box = ColorBox(ResolvedColorProvider(color: resolved))
+            self.init(box: box)
+        case .sRGBLinear:
+            // <+40>
+            let s10 = Float(red)
+            let s9 = Float(green)
+            let s8 = Float(blue)
+            
+            // <+532>
+            let s11 = Float(opacity)
+            let resolved = Color.ResolvedHDR(
+                Color.Resolved(linearRed: s10, linearGreen: s9, linearBlue: s8, opacity: s11),
+                headroom: nil
+            )
+            
+            let box = ColorBox(ResolvedColorProvider(color: resolved))
+            self.init(box: box)
+        case .displayP3:
+            // <+164>
+            let displayP3 = Color.DisplayP3(
+                red: red,
+                green: green,
+                blue: blue,
+                opacity: Float(opacity)
+            )
+
+            self.init(box: ColorBox(displayP3))
+        }
     }
     
     public init(_ colorSpace: Color.RGBColorSpace = .sRGB, white: Double, opacity: Double = 1) {

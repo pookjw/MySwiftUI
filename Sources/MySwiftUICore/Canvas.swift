@@ -5,9 +5,9 @@ private import AttributeGraph
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct Canvas<Symbols> where Symbols : View {
     public var symbols: Symbols
-    public var renderer: (inout GraphicsContext, CGSize) -> Void
-    private var rasterizationOptions: RasterizationOptions
-    private var preservesMetadata: Bool
+    public var renderer: (inout GraphicsContext, CGSize) -> Void // 0x24 (offset field)
+    private var rasterizationOptions: RasterizationOptions // 0x28 (offset field)
+    private var preservesMetadata: Bool // 0x2c (offset field)
     
     public var isOpaque: Bool {
         get {
@@ -46,7 +46,22 @@ public struct Canvas<Symbols> where Symbols : View {
         renderer: @escaping (inout GraphicsContext, CGSize) -> Void,
         @ViewBuilder symbols: () -> Symbols
     ) {
-        assertUnimplemented()
+        /*
+         opaque -> w0 -> w26
+         colorMode -> x1 -> w27
+         rendersAsynchronously -> w2 -> w24
+         renderer -> x3/x4 -> x21/x19
+         symbols -> x5/x6 -> x22/x20
+         */
+        var options = _RendererConfiguration.RasterizationOptions()
+        options.colorMode = colorMode
+        options.isOpaque = opaque
+        options.rendersAsynchronously = rendersAsynchronously
+        
+        self.rasterizationOptions = RasterizationOptions(options)
+        self.preservesMetadata = false
+        self.symbols = symbols()
+        self.renderer = renderer
     }
 
     nonisolated public static func _makeView(view: _GraphValue<Canvas<Symbols>>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -198,7 +213,15 @@ extension Canvas where Symbols == EmptyView {
         rendersAsynchronously: Bool = false,
         renderer: @escaping (inout GraphicsContext, CGSize) -> Void
     ) {
-        assertUnimplemented()
+        self.init(
+            opaque: opaque,
+            colorMode: colorMode,
+            rendersAsynchronously: rendersAsynchronously,
+            renderer: renderer,
+            symbols: {
+                EmptyView()
+            }
+        )
     }
 }
 
