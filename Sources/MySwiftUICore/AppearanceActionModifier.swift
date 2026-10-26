@@ -160,7 +160,10 @@ struct AppearanceEffect : StatefulRule, RemovableAttribute {
         let effect = unsafe attribute
             ._bodyPointer
             .assumingMemoryBound(to: AppearanceEffect.self)
-        unsafe UnsafeMutablePointer(mutating: effect).pointee.disappeared()
+        if unsafe effect.pointee.lastValue != nil {
+            unsafe UnsafeMutablePointer(mutating: effect).pointee.disappeared()
+        }
+        unsafe UnsafeMutablePointer(mutating: effect).pointee.isRemoved = true
     }
     
     static func didReinsert(attribute: AnyAttribute) {

@@ -139,6 +139,10 @@ extension MainMenuItemHost {
                 )
             )
         }
+        
+        func applyScaleDownMenuItem(_ item: inout PlatformItemList.Item) {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -182,7 +186,7 @@ extension MainMenuItem {
         }
     }
     
-    enum Identifier {
+    enum Identifier : Equatable {
         case custom(UUID)
         case app
         case file

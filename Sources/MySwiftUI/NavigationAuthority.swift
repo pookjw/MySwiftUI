@@ -49,6 +49,10 @@ extension NavigationAuthority {
         case noSubsequentColumnForItem(presented: String)
         case noSubsequentColumnForView
         case stackPresentedOntoColumn
+        
+        var message: String {
+            assertUnimplemented()
+        }
     }
 }
 

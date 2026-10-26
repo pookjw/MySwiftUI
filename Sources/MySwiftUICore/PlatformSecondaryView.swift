@@ -10,6 +10,11 @@ func makePlatformSecondaryView(
     flipOrder: Bool,
     body: (_Graph, _ViewInputs) -> _ViewOutputs
 ) -> _ViewOutputs {
+    guard IsVisionEnabledPredicate.evaluate(inputs: primaryInputs.base) else {
+        // <+508>
+        return body(_Graph(), secondaryInputs)
+    }
+    
     // <+880>
     var x190x98: Attribute<ViewDepthGeometry>? = nil
     

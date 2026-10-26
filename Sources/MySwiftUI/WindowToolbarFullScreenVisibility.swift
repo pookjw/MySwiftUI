@@ -19,6 +19,10 @@ public struct WindowToolbarFullScreenVisibility : Sendable, Equatable {
     @available(visionOS, unavailable)
     public static let visible = WindowToolbarFullScreenVisibility(role: .visible)
     
+    public static let always: WindowToolbarFullScreenVisibility = {
+        assertUnimplemented()
+    }()
+    
     @available(iOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
