@@ -14,7 +14,7 @@ package struct SizeAndSpacingContext {
     
     init(context: AnyRuleContext, owner: AnyAttribute?, environment: Attribute<EnvironmentValues>) {
         self.context = context
-        self.owner = owner ?? environment.identifier
+        self.owner = owner ?? context.attribute
         self._environment = environment
     }
     
@@ -165,10 +165,130 @@ package struct PlacementContext3D {
         return Size3D(self.base.size, depth: self.depth)
     }
     
-    subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
+    package subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
         get {
             assertUnimplemented()
         }
+    }
+}
+
+@dynamicMemberLookup
+package struct _PositionAwarePlacementContext {
+    private var context: AnyRuleContext // 0x0
+    private var owner: AnyAttribute // 0x4
+    private var _size: Attribute<ViewSize> // 0x8
+    private var _environment: Attribute<EnvironmentValues> // 0xc
+    private var _transform: Attribute<ViewTransform> // 0x10
+    private var _position: Attribute<CGPoint> // 0x14
+    private var _safeAreaInsets: OptionalAttribute<SafeAreaInsets> // 0x18
+    
+    init(
+        context: AnyRuleContext,
+        size: Attribute<ViewSize>,
+        environment: Attribute<EnvironmentValues>,
+        transform: Attribute<ViewTransform>,
+        position: Attribute<CGPoint>,
+        safeAreaInsets: OptionalAttribute<SafeAreaInsets>
+    ) {
+        self.context = context
+        self.owner = context.attribute
+        self._size = size
+        self._environment = environment
+        self._transform = transform
+        self._position = position
+        self._safeAreaInsets = safeAreaInsets
+    }
+    
+    init(
+        context: AnyRuleContext,
+        owner: AnyAttribute?,
+        size: Attribute<ViewSize>,
+        environment: Attribute<EnvironmentValues>,
+        transform: Attribute<ViewTransform>,
+        position: Attribute<CGPoint>,
+        safeAreaInsets: OptionalAttribute<SafeAreaInsets>
+    ) {
+        self.context = context
+        self.owner = owner ?? context.attribute
+        self._size = size
+        self._environment = environment
+        self._transform = transform
+        self._position = position
+        self._safeAreaInsets = safeAreaInsets
+    }
+    
+    var transform: ViewTransform {
+        var result = self.context[self._transform]
+        let d8 = result.pendingTranslation.width
+        let d9 = result.pendingTranslation.height
+        let d10 = result.positionAdjustment.width
+        let d11 = result.positionAdjustment.height
+        let position = self.context[self._position]
+        let d0 = position.x
+        let d1 = position.y
+        var d2 = d0 - d10
+        var d3 = d1 - d11
+        d2 = d8 - d2
+        d3 = d9 - d3
+        result.pendingTranslation = CGSize(width: d2, height: d3)
+        result.positionAdjustment = CGSize(width: d0, height: d1)
+        
+        return result
+    }
+    
+    var size: CGSize {
+        return self.context[self._size].value
+    }
+    
+    var proposedSize: _ProposedSize {
+        if isLinkedOnOrAfter(.v3) {
+            // <+188>
+            return self.context[self._size].proposal
+        } else {
+            // <+132>
+            return _ProposedSize(self.context[self._size].value)
+        }
+    }
+    
+    var unadjustedSafeAreaInsets: SafeAreaInsets? {
+        guard let attribute = self._safeAreaInsets.attribute else {
+            return nil
+        }
+        
+        return self.context[attribute]
+    }
+    
+    package subscript<Value>(dynamicMember dynamicMember: KeyPath<EnvironmentValues, Value>) -> Value {
+        let fetch = EnvironmentFetch<Value>(environment: self._environment, keyPath: dynamicMember)
+        
+        return withUnsafePointer(to: fetch) { pointer in
+            return unsafe EnvironmentFetch<Value>._cachedValue(
+                options: .unknown0,
+                owner: self.owner,
+                hashValue: fetch.hashValue,
+                bodyPtr: UnsafeRawPointer(pointer),
+                update: {
+                    return { body, attribute in
+                        let environment = unsafe body
+                            .assumingMemoryBound(to: Attribute<EnvironmentValues>.self)
+                            .pointee
+                            .value
+                        
+                        var result = environment[keyPath: dynamicMember]
+                        unsafe Graph.setOutputValue(&result)
+                    }
+                }
+            ).pointee
+        }
+    }
+    
+    func safeAreaInsets(matching regions: SafeAreaRegions, cornerAdaptation: Edge.Set) -> EdgeInsets {
+        guard let attribute = self._safeAreaInsets.attribute else {
+            return .zero
+        }
+        
+        return self.context[attribute]
+            .resolve(regions: regions, cornerAdaptation: cornerAdaptation, in: self)
     }
 }
 

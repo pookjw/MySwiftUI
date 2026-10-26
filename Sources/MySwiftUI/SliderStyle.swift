@@ -1,3 +1,4 @@
 package protocol SliderStyle {
-    // TODO
+    associatedtype Body: View
+    func makeBody(configuration: SliderStyleConfiguration) -> Body
 }

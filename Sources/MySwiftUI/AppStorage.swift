@@ -2,7 +2,7 @@
 public import Foundation
 @_spi(Internal) public import MySwiftUICore
 internal import AttributeGraph
-private import Combine
+public import Combine
 private import _DarwinFoundation3.pthread
 private import os.log
 
@@ -24,6 +24,10 @@ private import os.log
             value: location.canonicalLocation.getValue(forReading: false),
             location: LocationBox(location.canonicalLocation)
         )
+    }
+    
+    public var objectWillChange: ObservableObjectPublisher? {
+        assertUnimplemented()
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {

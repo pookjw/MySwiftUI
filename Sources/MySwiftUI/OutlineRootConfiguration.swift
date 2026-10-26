@@ -7,9 +7,11 @@ struct OutlineRootConfiguration {
 
 extension OutlineRootConfiguration {
     struct Key : HostPreferenceKey {
-        typealias Value = Never? // TODO
+        static var defaultValue: OutlineRootConfiguration {
+            assertUnimplemented()
+        }
         
-        static func reduce(value: inout Never?, nextValue: () -> Never?) {
+        static func reduce(value: inout OutlineRootConfiguration, nextValue: () -> OutlineRootConfiguration) {
             assertUnimplemented()
         }
     }

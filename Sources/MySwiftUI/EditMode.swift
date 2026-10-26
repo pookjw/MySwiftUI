@@ -95,4 +95,16 @@ public enum EditMode : Sendable {
     }
 }
 
-extension EditMode : Hashable {}
+extension EditMode : Hashable {
+    public static func == (lhs: EditMode, rhs: EditMode) -> Bool {
+        assertUnimplemented()
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+    
+    public var hashValue: Int {
+        assertUnimplemented()
+    }
+}

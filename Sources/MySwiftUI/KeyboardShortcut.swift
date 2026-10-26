@@ -8,6 +8,16 @@ public struct KeyboardShortcut : Sendable {
 }
 
 extension KeyboardShortcut {
+    public static var cancelAction: KeyboardShortcut {
+        assertUnimplemented()
+    }
+    
+    public static var defaultAction: KeyboardShortcut {
+        assertUnimplemented()
+    }
+}
+
+extension KeyboardShortcut {
     @available(iOS 15.0, macOS 12.0, *)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
@@ -21,7 +31,7 @@ extension KeyboardShortcut {
 }
 
 extension KeyboardShortcut.Localization {
-    enum Style {
+    enum Style : Hashable {
         case automatic
         case withoutMirroring
         case custom

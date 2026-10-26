@@ -1,4 +1,5 @@
 @_spi(Internal) internal import MySwiftUICore
+internal import CoreGraphics
 
 enum AccessibilityLargeContentViewTree {
     case leaf(AccessibilityLargeContentViewItem)
@@ -13,6 +14,16 @@ extension AccessibilityLargeContentViewTree {
         static func reduce(value: inout AccessibilityLargeContentViewTree, nextValue: () -> AccessibilityLargeContentViewTree) {
             assertUnimplemented()
         }
+    }
+}
+
+extension AccessibilityLargeContentViewTree {
+    nonisolated func hitTest(at point: CGPoint) -> AccessibilityLargeContentViewItem? {
+        assertUnimplemented()
+    }
+    
+    nonisolated var hasValue: Bool {
+        assertUnimplemented()
     }
 }
 

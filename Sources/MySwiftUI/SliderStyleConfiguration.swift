@@ -1,3 +1,3 @@
-struct SliderStyleConfiguration {
+package struct SliderStyleConfiguration {
     // TODO
 }

@@ -2,6 +2,19 @@ public import CoreGraphics
 public import QuartzCore
 
 @frozen public struct ProjectionTransform {
+    /*
+     m11 -> 0x0
+     m12 -> 0x8
+     m13 -> 0x10
+     
+     m21 -> 0x18
+     m22 -> 0x20
+     m23 -> 0x28
+     
+     m31 -> 0x30
+     m32 -> 0x38
+     m33 -> 0x40
+     */
     public var m11: CGFloat = 1.0, m12: CGFloat = 0.0, m13: CGFloat = 0.0
     public var m21: CGFloat = 0.0, m22: CGFloat = 1.0, m23: CGFloat = 0.0
     public var m31: CGFloat = 0.0, m32: CGFloat = 0.0, m33: CGFloat = 1.0

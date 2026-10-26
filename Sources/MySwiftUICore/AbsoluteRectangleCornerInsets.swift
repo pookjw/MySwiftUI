@@ -6,7 +6,6 @@ package struct AbsoluteRectangleCornerInsets {
     package var bottomLeft: CGSize
     package var bottomRight: CGSize
     
-    @inline(always)
     package init(_ insets: RectangleCornerInsets, layoutDirection: LayoutDirection = .leftToRight) {
         switch layoutDirection {
         case .leftToRight:
@@ -20,5 +19,13 @@ package struct AbsoluteRectangleCornerInsets {
             self.bottomLeft = insets.bottomTrailing
             self.bottomRight = insets.bottomLeading
         }
+    }
+    
+    var isNonEmpty: Bool {
+        assertUnimplemented()
+    }
+    
+    func cornerPoints(in: CGRect) -> [CGPoint] {
+        assertUnimplemented()
     }
 }

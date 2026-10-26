@@ -291,7 +291,6 @@ extension _BackgroundStyleModifier {
                 
                 let placementContext = _PositionAwarePlacementContext(
                     context: AnyRuleContext(context),
-                    owner: context.attribute.identifier,
                     size: self.$size,
                     environment: self.$environment,
                     transform: self.$transform,
@@ -364,7 +363,8 @@ extension _BackgroundStyleModifier.BackgroundInfo {
         var style: _AnchoredShapeStyle<Style>
         
         init(frame: ViewFrame, style: _AnchoredShapeStyle<Style>) {
-            assertUnimplemented()
+            self.frame = frame
+            self.style = style
         }
     }
 }

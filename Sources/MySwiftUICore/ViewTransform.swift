@@ -784,3 +784,15 @@ extension ViewTransform {
         }
     }
 }
+
+extension Array where Element == CGPoint {
+    mutating func applyTransform(item: ViewTransform.Item) {
+        self._applyTransform(item: item)
+    }
+}
+
+extension MutableCollection where Element == CGPoint {
+    fileprivate mutating func _applyTransform(item: ViewTransform.Item) {
+        assertUnimplemented()
+    }
+}

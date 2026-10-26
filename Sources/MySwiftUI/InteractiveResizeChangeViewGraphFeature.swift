@@ -42,7 +42,7 @@ extension _GraphInputs {
     }
 }
 
-fileprivate struct InteractiveResizeInput : ViewInput {
+fileprivate struct InteractiveResizeInput : GraphInput {
     static var defaultValue: WeakAttribute<Bool> {
         return WeakAttribute()
     }

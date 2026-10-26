@@ -171,16 +171,6 @@ extension LayoutComputer : Equatable {
     }
 }
 
-package struct _PositionAwarePlacementContext {
-    private(set) var context: AnyRuleContext
-    private(set) var owner: AnyAttribute
-    @Attribute private(set) var size: ViewSize
-    @Attribute private(set) var environment: EnvironmentValues
-    @Attribute private(set) var transform: ViewTransform
-    @Attribute private(set) var position: CGPoint
-    @OptionalAttribute var safeAreaInsets: SafeAreaInsets?
-}
-
 package protocol LayoutEngine {
     func layoutPriority() -> Double
     func ignoresAutomaticPadding() -> Bool

@@ -25,3 +25,9 @@ extension _GraphInputs {
         static let defaultValue = OptionalAttribute<(any UINavigationPresentationAdaptor)?>()
     }
 }
+
+fileprivate struct NavigationPresentationAdaptorModifier : PrimitiveViewModifier, _GraphInputsModifier {
+    static func _makeInputs(modifier: _GraphValue<Self>, inputs: inout _GraphInputs) {
+        assertUnimplemented()
+    }
+}

@@ -761,7 +761,6 @@ fileprivate struct PlatformViewDisplayList<Representable : CoreViewRepresentable
                 // x29 - 0x100
                 let placementContext = _PositionAwarePlacementContext(
                     context: context,
-                    owner: context.attribute,
                     size: $size,
                     environment: _environment,
                     transform: $transform,

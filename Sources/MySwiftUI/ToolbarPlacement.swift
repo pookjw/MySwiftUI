@@ -116,10 +116,6 @@ extension ToolbarPlacement {
 
 extension ToolbarPlacement.Role {
     func effectiveConfiguration(_ value: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) -> ToolbarAppearanceConfiguration {
-        /*
-         value -> x0 -> x23
-         return pointer -> x8 -> x19
-         */
         return value[self] ?? ToolbarAppearanceConfiguration()
     }
 }

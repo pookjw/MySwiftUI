@@ -146,7 +146,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     final var renderingMarginsBridge: RenderingMarginsBridge<Content>? = nil
     private var objectManipluateBridge = UIKitObjectManipulationBridge<Content>()
     private var remoteSessionController: RemoteScenes.SessionController? = nil
-    private lazy var feedbackCache = UIKitSensoryFeedbackCache()
+    private(set) final lazy var feedbackCache = UIKitSensoryFeedbackCache()
     private var contextMenuBridge = ContextMenuBridge()
     private var interactiveResizeBridge = InteractiveResizeBridge()
     private var shouldUpdateAccessibilityFocus: Bool = false
@@ -187,7 +187,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         }
     }
     private var appliesContainerBackgroundColor: Bool = false
-    private var containerBackgroundColor: UIColor? = nil
+    final var containerBackgroundColor: UIColor? = nil
     private let surpressGraphUpdateIfNotInHierarchy: Bool = {
         if Bundle.main.bundleIdentifier == "com.studiolanes.ticker" {
             return !isLinkedOnOrAfter(.v6)
@@ -1042,21 +1042,6 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         focusBridge.hostingControllerDidAppear()
     }
     
-    final func updateTransformWithoutGeometryObservation() {
-        base.updateTransformWithoutGeometryObservation()
-    }
-    
-    final func setWantsTransparentBackground(for reason: HostingViewTransparentBackgroundReason, _ wantsTransparentBackground: Bool) {
-        var w0 = reason
-        var w8 = self.transparentBackgroundReasons
-        var w9 = HostingViewTransparentBackgroundReason(rawValue: .max)
-        w9 = w8.intersection(w0).isEmpty ? w9 : HostingViewTransparentBackgroundReason(rawValue: ~w0.rawValue)
-        w9.formIntersection(w8)
-        w8.formUnion(w0)
-        w0 = !wantsTransparentBackground ? w9 : w8
-        self.transparentBackgroundReasons = w0
-    }
-    
     private func updateWindowGeometryScene() {
         let windowScene = window?.windowScene
         
@@ -1315,10 +1300,6 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
                 }
             }
         }
-    }
-    
-    final var wantsTransparentBackground: Bool {
-        return !transparentBackgroundReasons.isEmpty
     }
     
     final var shouldDeferToChildViewControllerForStatusBar: Bool {
@@ -2158,8 +2139,10 @@ extension _UIHostingView : @preconcurrency EventGraphHost {
     }
 }
 
-extension _UIHostingView : PointerHost {
-    
+extension _UIHostingView : @preconcurrency PointerHost {
+    func invalidateHoverState(immediately: Bool) {
+        assertUnimplemented()
+    }
 }
 
 extension _UIHostingView : @preconcurrency WindowLayoutHost {
@@ -2178,8 +2161,21 @@ extension _UIHostingView : @preconcurrency FallbackResponderProvider {
     }
 }
 
-extension _UIHostingView : ContainerBackgroundHost {
+extension _UIHostingView : @preconcurrency ContainerBackgroundHost {
+    final var wantsTransparentBackground: Bool {
+        return !transparentBackgroundReasons.isEmpty
+    }
     
+    final func setWantsTransparentBackground(for reason: HostingViewTransparentBackgroundReason, _ wantsTransparentBackground: Bool) {
+        var w0 = reason
+        var w8 = self.transparentBackgroundReasons
+        var w9 = HostingViewTransparentBackgroundReason(rawValue: .max)
+        w9 = w8.intersection(w0).isEmpty ? w9 : HostingViewTransparentBackgroundReason(rawValue: ~w0.rawValue)
+        w9.formIntersection(w8)
+        w8.formUnion(w0)
+        w0 = !wantsTransparentBackground ? w9 : w8
+        self.transparentBackgroundReasons = w0
+    }
 }
 
 extension _UIHostingView : UIKitContainerFocusItem {
@@ -2243,24 +2239,24 @@ extension _UIHostingView : @preconcurrency RootTransformAdjuster {
     }
 }
 
-extension _UIHostingView : RootTransformUpdater {
-    
+extension _UIHostingView : @preconcurrency RootTransformUpdater {
+    final func updateTransformWithoutGeometryObservation() {
+        base.updateTransformWithoutGeometryObservation()
+    }
 }
 
 extension _UIHostingView : @preconcurrency ViewGraphRenderObserver {
     package func didRender() {
-        if let viewController {
+        if let viewController = unsafe self.viewController {
             viewController.didRender()
         }
     }
 }
 
 extension _UIHostingView : ToolbarInputFeatureDelegate {
-    
 }
 
-extension _UIHostingView : SensoryFeedbackCacheHost {
-    
+extension _UIHostingView : @preconcurrency SensoryFeedbackCacheHost {
 }
 
 extension _UIHostingView : @preconcurrency ViewGraphBridgePropertiesDelegate {
