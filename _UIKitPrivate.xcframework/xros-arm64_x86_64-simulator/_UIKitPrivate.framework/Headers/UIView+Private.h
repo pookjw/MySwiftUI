@@ -43,7 +43,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 @property (nonatomic, setter=_setExternalHitTestingId:) REEntityID _externalHitTestingId;
 @property (nonatomic, readonly, nullable) REEntity _reEntity;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
-@property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer;
+@property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer NS_SWIFT_NAME(_parentContainer);
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);
 @property (nonatomic, readonly) Class _intelligenceBaseClass;
 @property (nonatomic, getter=safeAreaInsets, setter=setSafeAreaInsets:) UIEdgeInsets msui_safeAreaInsets;

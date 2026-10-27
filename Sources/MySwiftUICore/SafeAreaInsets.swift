@@ -323,12 +323,12 @@ package struct SafeAreaInsets {
         var d8 = rect.size.width
         var d10 = rect.size.height
         // rect -> x28 -> x19 + 0x90
-        let x190xa8 = CGRect(x: d9, y: d12, width: d8, height: d10).minY
+        var x190xa8 = CGRect(x: d9, y: d12, width: d8, height: d10).minY
         let x190xb0 = CGRect(x: d9, y: d12, width: d8, height: d10).maxY
         let x190xb8 = CGRect(x: d9, y: d12, width: d8, height: d10).minX
         var x190x20 = d12
         var x190x28 = d9
-        let x190x80 = d10
+        var x190x80 = d10
         var x190x88 = d8
         let x190xa0 = CGRect(x: d9, y: d12, width: d8, height: d10).maxX
         
@@ -341,7 +341,7 @@ package struct SafeAreaInsets {
         d0 = d0 + d1
         let x190xc8 = d0
         d12 = d15
-        let d14 = x190x98
+        var d14 = x190x98
         var x190x50 = CGRect(x: d11, y: d13, width: d15, height: d14).minX
         
         // <+1184>
@@ -372,7 +372,7 @@ package struct SafeAreaInsets {
         d1 = x190x48
         
         var d4: CGFloat
-        let d3: CGFloat
+        var d3: CGFloat
         var d16: CGFloat
         
         if !(d7 < d1) {
@@ -495,8 +495,8 @@ package struct SafeAreaInsets {
         let rect_4 = CGRect(cornerPoints: x190x1f8[12..<16])
         x190x88 = rect_4.origin.y
         let x190x90 = rect_4.origin.x
-        x190x70 = rect_4.size.height
-        x190x78 = rect_4.size.width
+        x190x78 = rect_4.size.height
+        x190x80 = rect_4.size.width
         let rect_5 = CGRect(cornerPoints: x190x1f8[16..<20])
         x190x68 = rect_5.size.width
         x190x70 = rect_5.origin.y
@@ -509,7 +509,655 @@ package struct SafeAreaInsets {
         x190x48 = rect_6.size.width
         
         // <+1820>
-        assertUnimplemented()
+        if cornerAdaptation.contains(.top) {
+            let x190x8 = d11
+            d10 = x190xc0
+            d11 = x190x98
+            d13 = CGRect(x: d9, y: d15, width: d10, height: d11).maxY
+            d8 = d9
+            d14 = d15
+            let x19 = CGRect(x: d9, y: d15, width: d10, height: d11).maxX
+            d11 = x190x88
+            d10 = x190x90
+            d9 = x190x78
+            d15 = x190x80
+            d12 = CGRect(x: d10, y: d11, width: d15, height: d9).maxY
+            d0 = CGRect(x: d10, y: d11, width: d15, height: d9).minX
+            d4 = x190x20
+            
+            if !(d4 < d13) {
+                // <+2040>
+                assertUnimplemented()
+            } else {
+                // <+1956>
+                d1 = 0
+                d2 = x190xc8
+                d1 = d1 - d2
+                d2 = x19
+                d11 = x190x8
+                d9 = d8
+                d15 = d14
+                
+                if !(d1 < d2) {
+                    // <+2064>
+                    if !(d4 < d12) {
+                        // <+2164>
+                    } else {
+                        // <+2072>
+                        d1 = x190x30
+                        d2 = x190xc8
+                        d1 = d1 + d2
+                        
+                        if !(d0 < d1) {
+                            // <+2164>
+                        } else {
+                            // <+2092>
+                            d0 = x190xa8
+                            d8 = d12 - d0
+                            
+                            if !(d8 >= 0) {
+                                // <+2164>
+                            } else {
+                                // <+2108>
+                                if !(d8 > 0) {
+                                    // <+2164>
+                                } else {
+                                    // <+2116>
+                                    d0 = rect.origin.x
+                                    d12 = rect.origin.y
+                                    d2 = rect.size.width
+                                    d13 = rect.size.height
+                                    d1 = d12
+                                    d3 = d13
+                                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minY
+                                    d1 = x190xa8
+                                    d0 = d1 - d0
+                                    d0 = d8 + d0
+                                    d1 = d12 + d0
+                                    rect.origin.y = d1
+                                    d0 = d13 - d0
+                                    rect.size.height = d0
+                                    // <+2164>
+                                }
+                                
+                                // <+2164>
+                            }
+                            
+                            // <+2164>
+                        }
+                        
+                        // <+2164>
+                    }
+                    
+                    // <+2164>
+                } else {
+                    // <+1988>
+                    d3 = x190xa8
+                    d8 = d13 - d3
+                    
+                    if !(d4 < d12) {
+                        // <+2108>
+                    } else {
+                        // <+2004>
+                        d1 = x190x30
+                        d2 = x190xc8
+                        d1 = d1 + d2
+                        
+                        if !(d0 < d1) {
+                            // <+2108>
+                        } else {
+                            // <+2024>
+                            d0 = d12 - d3
+                            d8 = (d8 <= d0) ? d0 : d8
+                            // <+2108>
+                        }
+                        
+                        // <+2108>
+                    }
+                    
+                    // <+2108>
+                    if !(d8 > 0) {
+                        // <+2164>
+                    } else {
+                        // <+2116>
+                        d0 = rect.origin.x
+                        d12 = rect.origin.y
+                        d2 = rect.size.width
+                        d13 = rect.size.height
+                        d1 = d12
+                        d3 = d13
+                        d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minY
+                        d1 = x190xa8
+                        d0 = d1 - d0
+                        d0 = d8 + d0
+                        d1 = d12 + d0
+                        rect.origin.y = d1
+                        d0 = d13 - d0
+                        rect.size.height = d0
+                        // <+2164>
+                    }
+                    
+                    // <+2164>
+                }
+                
+                // <+2164>
+            }
+            
+            // <+2164>
+        }
+        
+        // <+2164>
+        if cornerAdaptation.contains(.bottom) {
+            x190xa8 = d15
+            x190x20 = d9
+            d9 = x190x68
+            d8 = x190x70
+            d10 = x190x60
+            d13 = CGRect(x: d11, y: d8, width: d9, height: d10).minY
+            d14 = d11
+            d15 = CGRect(x: d11, y: d8, width: d9, height: d10).maxX
+            d9 = x190x50
+            d8 = x190x58
+            d11 = x190x40
+            d10 = x190x48
+            d12 = CGRect(x: d8, y: d9, width: d10, height: d11).minY
+            d0 = CGRect(x: d8, y: d9, width: d10, height: d11).minX
+            d4 = x190x28
+            
+            if !(d13 < d4) {
+                // <+2380>
+                d9 = x190x20
+                d15 = x190xa8
+                d11 = d14
+                
+                if d12 < d4 {
+                    // <+2416>
+                    d1 = x190x30
+                    d2 = x190xc8
+                    d1 = d1 + d2
+                    
+                    if !(d0 < d1) {
+                        // <+2496>
+                    } else {
+                        // <+2436>
+                        d0 = x190xb0
+                        d8 = d0 - d12
+                        
+                        if !(d8 >= 0) {
+                            // <+2496>
+                        } else {
+                            // <+2452>
+                            if !(d8 > 0) {
+                                // <+2496>
+                            } else {
+                                // <+2460>
+                                d0 = rect.origin.x
+                                d1 = rect.origin.y
+                                d2 = rect.size.width
+                                d12 = rect.size.height
+                                d3 = d12
+                                d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxY
+                                d1 = x190xb0
+                                d0 = d0 - d1
+                                d0 = d8 + d0
+                                d0 = d12 - d0
+                                rect.size.height = d0
+                                // <+2496>
+                            }
+                            // <+2496>
+                        }
+                        
+                        // <+2496>
+                    }
+                    
+                    // <+2496>
+                } else {
+                    // <+2496>
+                }
+                
+                // <+2496>
+            } else {
+                // <+2300>
+                d1 = 0
+                d2 = x190xc8
+                d1 = d1 - d2
+                d9 = x190x20
+                d11 = d14
+                
+                if !(d1 < d15) {
+                    // <+2404>
+                    d15 = x190xa8
+                    
+                    if !(d12 < d4) {
+                        // <+2496>
+                    } else {
+                        // <+2416>
+                        d1 = x190x30
+                        d2 = x190xc8
+                        d1 = d1 + d2
+                        
+                        if !(d0 < d1) {
+                            // <+2496>
+                        } else {
+                            // <+2436>
+                            d0 = x190xb0
+                            d8 = d0 - d12
+                            
+                            if !(d8 >= 0) {
+                                // <+2496>
+                            } else {
+                                // <+2452>
+                                if !(d8 > 0) {
+                                    // <+2496>
+                                } else {
+                                    // <+2460>
+                                    d0 = rect.origin.x
+                                    d1 = rect.origin.y
+                                    d2 = rect.size.width
+                                    d12 = rect.size.height
+                                    d3 = d12
+                                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxY
+                                    d1 = x190xb0
+                                    d0 = d0 - d1
+                                    d0 = d8 + d0
+                                    d0 = d12 - d0
+                                    rect.size.height = d0
+                                    // <+2496>
+                                }
+                                // <+2496>
+                            }
+                        }
+                    }
+                    
+                    // <+2496>
+                } else {
+                    d15 = x190xa8
+                    d3 = x190xb0
+                    d8 = d3 - d13
+                    
+                    if !(d12 < d4) {
+                        // <+2452>
+                    } else {
+                        // <+2344>
+                        d1 = x190x30
+                        d2 = x190xc8
+                        d1 = d1 + d2
+                        
+                        if !(d0 < d1) {
+                            // <+2452>
+                        } else {
+                            // <+2364>
+                            d0 = d3 - d12
+                            d8 = (d8 <= d0) ? d0 : d8
+                            // <+2452>
+                        }
+                    }
+                    
+                    // <+2452>
+                    if !(d8 > 0) {
+                        // <+2496>
+                    } else {
+                        // <+2460>
+                        d0 = rect.origin.x
+                        d1 = rect.origin.y
+                        d2 = rect.size.width
+                        d12 = rect.size.height
+                        d3 = d12
+                        d0 = CGRect(x: d0, y: d1, width: d2, height: d3).maxY
+                        d1 = x190xb0
+                        d0 = d0 - d1
+                        d0 = d8 + d0
+                        d0 = d12 - d0
+                        rect.size.height = d0
+                        // <+2496>
+                    }
+                    
+                    // <+2496>
+                }
+                
+                // <+2496>
+            }
+            
+            // <+2496>
+        }
+        
+        // <+2496>
+        if cornerAdaptation.contains(.left) {
+            d8 = x190xc0
+            d10 = x190x98
+            d13 = CGRect(x: d9, y: d15, width: d8, height: d10).maxY
+            d14 = CGRect(x: d9, y: d15, width: d8, height: d10).maxX
+            d9 = x190x68
+            d8 = x190x70
+            d10 = x190x60
+            d12 = CGRect(x: d11, y: d8, width: d9, height: d10).minY
+            d0 = CGRect(x: d11, y: d8, width: d9, height: d10).maxX
+            d3 = x190x10
+            
+            if !(d3 < d14) {
+                // <+2692>
+                if !(d3 < d0) {
+                    // <+2792>
+                } else {
+                    d1 = x190x38
+                    d2 = x190xc8
+                    d1 = d1 + d2
+                    
+                    if !(d12 < d1) {
+                        // <+2792>
+                    } else {
+                        d1 = x190xb8
+                        d10 = d0 - d1
+                        
+                        if !(d10 >= 0) {
+                            // <+2792>
+                        } else {
+                            // <+2736>
+                            if !(d10 > 0) {
+                                // <+2792>
+                            } else {
+                                // <+2744>
+                                d8 = rect.origin.x
+                                d1 = rect.origin.y
+                                d9 = rect.size.width
+                                d3 = rect.size.height
+                                d0 = d8
+                                d2 = d9
+                                d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
+                                d1 = x190xb8
+                                d0 = d1 - d0
+                                d0 = d10 + d0
+                                d1 = d8 + d0
+                                rect.origin.x = d1
+                                d0 = d9 - d0
+                                rect.size.width = d0
+                                // <+2792>
+                            }
+                            
+                            // <+2792>
+                        }
+                        // <+2792>
+                    }
+                    // <+2792>
+                }
+                // <+2792>
+            } else {
+                // <+2620>
+                d1 = 0
+                d2 = x190xc8
+                d1 = d1 - d2
+                
+                if !(d1 < d13) {
+                    // <+2692>
+                    if !(d3 < d0) {
+                        // <+2792>
+                    } else {
+                        d1 = x190x38
+                        d2 = x190xc8
+                        d1 = d1 + d2
+                        
+                        if !(d12 < d1) {
+                            // <+2792>
+                        } else {
+                            d1 = x190xb8
+                            d10 = d0 - d1
+                            
+                            if !(d10 >= 0) {
+                                // <+2792>
+                            } else {
+                                // <+2736>
+                                if !(d10 > 0) {
+                                    // <+2792>
+                                } else {
+                                    // <+2744>
+                                    d8 = rect.origin.x
+                                    d1 = rect.origin.y
+                                    d9 = rect.size.width
+                                    d3 = rect.size.height
+                                    d0 = d8
+                                    d2 = d9
+                                    d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
+                                    d1 = x190xb8
+                                    d0 = d1 - d0
+                                    d0 = d10 + d0
+                                    d1 = d8 + d0
+                                    rect.origin.x = d1
+                                    d0 = d9 - d0
+                                    rect.size.width = d0
+                                    // <+2792>
+                                }
+                                
+                                // <+2792>
+                            }
+                            
+                            // <+2792>
+                        }
+                        
+                        // <+2792>
+                    }
+                    
+                    // <+2792>
+                } else {
+                    d2 = x190xb8
+                    d10 = d14 - d2
+                    
+                    if !(d3 < d0) {
+                        // <+2736>
+                    } else {
+                        // <+2656>
+                        d1 = x190x38
+                        d3 = x190xc8
+                        d1 = d1 + d3
+                        
+                        if !(d12 < d1) {
+                            // <+2736>
+                        } else {
+                            // <+2676>
+                            d0 = d0 - d2
+                            d10 = (d10 <= d0) ? d0 : d10
+                            // <+2736>
+                        }
+                        
+                        // <+2736>
+                    }
+                    
+                    // <+2736>
+                    if !(d10 > 0) {
+                        // <+2792>
+                    } else {
+                        // <+2744>
+                        d8 = rect.origin.x
+                        d1 = rect.origin.y
+                        d9 = rect.size.width
+                        d3 = rect.size.height
+                        d0 = d8
+                        d2 = d9
+                        d0 = CGRect(x: d0, y: d1, width: d2, height: d3).minX
+                        d1 = x190xb8
+                        d0 = d1 - d0
+                        d0 = d10 + d0
+                        d1 = d8 + d0
+                        rect.origin.x = d1
+                        d0 = d9 - d0
+                        rect.size.width = d0
+                        // <+2792>
+                    }
+                    
+                    // <+2792>
+                }
+                
+                // <+2792>
+            }
+        }
+        
+        // <+2792>
+        if cornerAdaptation.contains(.right) {
+            // <+2892>
+            d10 = x190x88
+            d8 = x190x90
+            d0 = d8
+            d1 = d10
+            d12 = x190x78
+            d11 = x190x80
+            d2 = d11
+            d3 = d12
+            d9 = CGRect(x: d0, y: d1, width: d2, height: d3).maxY
+            d10 = CGRect(x: d8, y: d10, width: d11, height: d12).minX
+            d12 = x190x50
+            d11 = x190x58
+            d0 = d11
+            d1 = d12
+            d14 = x190x40
+            d13 = x190x48
+            d2 = d13
+            d3 = d14
+            d8 = CGRect(x: d0, y: d1, width: d2, height: d3).minY
+            d0 = CGRect(x: d11, y: d12, width: d13, height: d14).minX
+            d3 = x190x18
+            
+            if !(d10 < d3) {
+                // <+3080>
+                d1 = x190x38
+                d11 = x190xa0
+                d2 = x190xc8
+                
+                if d0 < d3 {
+                    // <+3112>
+                    d1 = d1 + d2
+                    
+                    if !(d8 < d1) {
+                        // <+3200>
+                        // <+2812>
+                    } else {
+                        // <+3124>
+                        d10 = d11 - d0
+                        
+                        if !(d10 >= 0) {
+                            // <+3200>
+                            // <+2812>
+                        } else {
+                            // <+3136>
+                            if !(d10 > 0) {
+                                // <+3200>
+                                // <+2812>
+                            } else {
+                                // <+3144>
+                                d0 = rect.origin.x
+                                d1 = rect.origin.y
+                                d8 = rect.size.width
+                                d3 = rect.size.height
+                                d2 = d8
+                                d9 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+                                d0 = d9 - d11
+                                d0 = d10 + d0
+                                d0 = d8 - d0
+                                rect.size.width = d0
+                                // <+2812>
+                            }
+                            // <+2812>
+                        }
+                        // <+2812>
+                    }
+                    // <+2812>
+                } else {
+                    // <+3200>
+                    // <+2812>
+                }
+            } else {
+                // <+3012>
+                d1 = 0
+                d2 = x190xc8
+                d1 = d1 - d2
+                let flag = !(d1 < d9)
+                d1 = x190x38
+                d11 = x190xa0
+                
+                if flag {
+                    // <+3104>
+                    if !(d0 < d3) {
+                        // <+3200>
+                        // <+2812>
+                    } else {
+                        d1 = d1 + d2
+                        
+                        if !(d8 < d1) {
+                            // <+3200>
+                            // <+2812>
+                        } else {
+                            d10 = d11 - d0
+                            
+                            if !(d10 >= 0) {
+                                // <+3200>
+                                // <+2812>
+                            } else {
+                                // <+3136>
+                                if !(d10 > 0) {
+                                    // <+3200>
+                                    // <+2812>
+                                } else {
+                                    // <+3144>
+                                    d0 = rect.origin.x
+                                    d1 = rect.origin.y
+                                    d8 = rect.size.width
+                                    d3 = rect.size.height
+                                    d2 = d8
+                                    d9 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+                                    d0 = d9 - d11
+                                    d0 = d10 + d0
+                                    d0 = d8 - d0
+                                    rect.size.width = d0
+                                    // <+2812>
+                                }
+                                // <+2812>
+                            }
+                            // <+2812>
+                        }
+                        // <+2812>
+                    }
+                    // <+2812>
+                } else {
+                    d10 = d11 - d10
+                    
+                    if !(d0 < d3) {
+                        // <+3136>
+                    } else {
+                        d1 = d1 + d2
+                        
+                        if !(d8 < d1) {
+                            // <+3136>
+                        } else {
+                            d0 = d11 - d0
+                            d10 = (d10 <= d0) ? d0 : d10
+                            // <+3136>
+                        }
+                    }
+                    
+                    // <+3136>
+                    if !(d10 > 0) {
+                        // <+3200>
+                        // <+2812>
+                    } else {
+                        // <+3144>
+                        d0 = rect.origin.x
+                        d1 = rect.origin.y
+                        d8 = rect.size.width
+                        d3 = rect.size.height
+                        d2 = d8
+                        d9 = CGRect(x: d0, y: d1, width: d2, height: d3).maxX
+                        d0 = d9 - d11
+                        d0 = d10 + d0
+                        d0 = d8 - d0
+                        rect.size.width = d0
+                        // <+2812>
+                    }
+                    // <+2812>
+                }
+                // <+2812>
+            }
+            // <+2812>
+        } else {
+            // <+2796>
+        }
     }
     
     fileprivate func mergedInsets(regions: SafeAreaRegions, adaptCorners: Bool) -> SafeAreaInsets.MergedInsets {

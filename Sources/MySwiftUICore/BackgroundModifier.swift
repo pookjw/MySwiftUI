@@ -1,6 +1,7 @@
 // 4F6988968057BB8D11F78AD2EE32ACB1
 internal import AttributeGraph
 public import CoreGraphics
+public import Spatial
 
 extension View {
     @available(iOS, introduced: 13.0, deprecated: 100000.0, message: "Use `background(alignment:content:)` instead.")
@@ -239,7 +240,7 @@ extension _BackgroundStyleModifier : @preconcurrency ShapeStyledLeafView {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     
@@ -426,7 +427,7 @@ extension _BackgroundShapeModifier : ShapeStyledLeafView {
         assertUnimplemented()
     }
     
-    @_spi(Internal) public func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

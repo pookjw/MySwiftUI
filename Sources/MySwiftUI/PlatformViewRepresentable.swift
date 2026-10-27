@@ -66,6 +66,7 @@ struct PlatformViewRepresentableFeature : @preconcurrency CoreViewRepresentableF
         
         // <+628>
         inputs.preferences.remove(_IdentifiedViewsKey.self)
+        inputs.preferences.remove(FocusableBounds.Key.self)
     }
     
     func modifyBridgedInputs<Representable : CoreViewRepresentable>(inputs: inout _ViewInputs, proxy: CoreViewRepresentableFeatureProxy<Representable>) {
@@ -247,7 +248,7 @@ struct PlatformViewIdentifiedViews<Representable : CoreViewRepresentable>: Rule 
     let responder: UIViewResponder // 0x18
     private(set) weak var viewGraph: ViewGraph? // 0x20
     @Attribute private(set) var keyPressHandlers: [KeyPress.Handler] // 0x28
-    private(set) var _preferredFocusableView: OptionalAttribute<Representable.PlatformViewProvider> // 0x2c
+    private(set) var _preferredFocusableView: OptionalAttribute<((Representable.PlatformViewProvider) -> UIView?)?> // 0x2c
     
     init(inputs: _ViewInputs, view: Attribute<ViewLeafView<Representable>>) {
         /*
@@ -342,7 +343,7 @@ struct PlatformViewIdentifiedViews<Representable : CoreViewRepresentable>: Rule 
 }
 
 struct RepresentablePreferredFocusableViewInput<Representable : CoreViewRepresentable>: ViewInput {
-    static var defaultValue: OptionalAttribute<Representable.PlatformViewProvider> {
+    static var defaultValue: OptionalAttribute<((Representable.PlatformViewProvider) -> UIView?)?> {
         return OptionalAttribute()
     }
 }
@@ -379,10 +380,10 @@ final class UIKitPlatformViewHost<Representable : CoreViewRepresentable>: UICore
         return importer
     }
     
-    override var _parentGestureRecognizerContainer: (any _UIGestureRecognizerContainer)? {
+    override var _parentContainer: (any _UIGestureRecognizerContainer)? {
         // self -> x20
         guard GestureContainerFeature.isEnabled else {
-            return super._parentGestureRecognizerContainer
+            return super._parentContainer
         }
         
         // <+44>

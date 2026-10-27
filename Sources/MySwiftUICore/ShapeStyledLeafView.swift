@@ -92,7 +92,7 @@ extension ShapeStyledLeafView {
         return true
     }
     
-    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     
@@ -349,7 +349,7 @@ struct ShapeStyledResponderData<T : ShapeStyledLeafView> : ContentResponder {
     fileprivate private(set) var view: T
     fileprivate private(set) var styles: _ShapeStyle_Pack
     
-    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

@@ -83,6 +83,9 @@ public enum ColorSchemeContrast : CaseIterable, Sendable {
     case increased
 }
 
+extension ColorSchemeContrast : Equatable {}
+extension ColorSchemeContrast : Hashable {}
+
 fileprivate struct ColorSchemeContrastKey : EnvironmentKey {
     static var defaultValue: ColorSchemeContrast {
         return .standard

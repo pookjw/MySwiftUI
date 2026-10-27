@@ -10,9 +10,9 @@ final class FocusBridge {
     weak var _host: (UIView & FocusBridgeProvider & FocusHost)? = nil // 0x18
     private(set) var focusStore = FocusStore() // 0x30
     private var currentEnvironment = EnvironmentValues() // 0x48
-    private var _focusItem: FocusItem? = nil // 0x58
+    private var _focusedItem: FocusItem? = nil // 0x58
     private weak var parentFocusBridge: FocusBridge? = nil // 0x98
-    private var requestedFocusItem: FocusItem? = nil // 0xa0
+    private var requestedFocusItem: UIFocusItem? = nil // 0xa0
     private var defaultFocusNamespace: Namespace.ID? = nil // 0xa8
     private var ignoreTextFocusEvents: Bool = false // 0xb1
     
@@ -20,16 +20,16 @@ final class FocusBridge {
         get {
             // self = x21
             // x25
-            guard let focusItem = _focusItem else {
+            guard let focusItem = _focusedItem else {
                 return nil
             }
             
             // <+352>
             if focusItem.isExpired {
                 // <+384>
-                _focusItem = nil
+                _focusedItem = nil
                 didChangeFocusItem(from: focusItem, to: nil)
-                return _focusItem
+                return _focusedItem
             } else {
                 return focusItem
             }
@@ -467,7 +467,7 @@ protocol FocusBridgeProvider : ViewRendererHost {
 }
 
 protocol FocusHost : AnyObject {
-    var focustedItem: FocusItem? {
+    var focusedItem: FocusItem? {
         get
     }
     

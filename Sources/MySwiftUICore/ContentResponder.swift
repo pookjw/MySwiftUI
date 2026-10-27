@@ -1,8 +1,8 @@
 public import AttributeGraph
-internal import Spatial
+public import Spatial
 
 @_spi(Internal) public protocol ContentResponder {
-    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64
     func contentPath(size: CGSize) -> Path
     func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path
 }
@@ -47,7 +47,7 @@ struct MergedContentShapes {
 package struct TrivialContentResponder : ContentResponder {
     package init() {}
     
-    package func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

@@ -2,13 +2,13 @@
 private import AttributeGraph
 
 struct PlatformItemCollection {
-    private var storage: PlatformItemCollection.Stroage
+    private var storage: PlatformItemCollection.Storage
     
     // TODO
 }
 
 extension PlatformItemCollection {
-    fileprivate enum Stroage {
+    fileprivate enum Storage {
         case attribute(WeakAttribute<PlatformItemList>)
         case list(PlatformItemList)
     }

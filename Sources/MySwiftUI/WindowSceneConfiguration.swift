@@ -340,7 +340,7 @@ extension ImmersiveSpaceConfigurationAttributes {
         fileprivate var minimumAmount: Double? // 0x30
         fileprivate var maximumAmount: Double? // 0x40
         fileprivate var initialAmount: Double? // 0x50
-        fileprivate var aspectRatio: ProgressiveImmersionAspectRatio.Stroage? // 0x59
+        fileprivate var aspectRatio: ProgressiveImmersionAspectRatio.Storage? // 0x59
         fileprivate private(set) var contentBrightness: CGFloat? // 0x60
         fileprivate private(set) var environmentBehavior: ImmersiveEnvironmentBehavior.Storage // 0x69
         fileprivate private(set) var backgroundedSceneSessionPersistentIdentifiers: Set<String>? // 0x70

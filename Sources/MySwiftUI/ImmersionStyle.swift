@@ -234,7 +234,7 @@ extension ProgressiveImmersionStyle : Sendable {}
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
-    private(set) var storage: ProgressiveImmersionAspectRatio.Stroage
+    private(set) var storage: ProgressiveImmersionAspectRatio.Storage
     
     public static var automatic: ProgressiveImmersionAspectRatio {
         return ProgressiveImmersionAspectRatio(storage: .automatic)
@@ -261,7 +261,7 @@ public struct ProgressiveImmersionAspectRatio : Equatable, Sendable {
 }
 
 extension ProgressiveImmersionAspectRatio {
-    enum Stroage: Hashable {
+    enum Storage: Hashable {
         case automatic
         case landscape
         case portrait

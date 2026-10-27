@@ -1,5 +1,5 @@
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
-public struct ButtonRole : Hashable, Sendable {
+public struct ButtonRole : Equatable, Sendable {
     private var role: ButtonRole.Role
     
     public static let destructive = ButtonRole(role: .destructive)

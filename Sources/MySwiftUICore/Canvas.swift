@@ -1,6 +1,7 @@
 // F41195D4CD7D6A29110580DFD3D4F891
 public import CoreGraphics
 private import AttributeGraph
+public import Spatial
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct Canvas<Symbols> where Symbols : View {
@@ -228,7 +229,7 @@ extension Canvas where Symbols == EmptyView {
 extension Canvas : UnaryView, PrimitiveView {}
 
 @_spi(Internal) extension Canvas : ContentResponder {
-    @_spi(Internal) public func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    @_spi(Internal) public func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

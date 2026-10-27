@@ -10,7 +10,7 @@ final class ContextMenuBridge : NSObject {
     private var menuOrder: MenuOrder = .automatic
     private var hasContextMenuSeed: VersionSeed = .empty
     private var menuOrderSeed: VersionSeed = .empty
-    private var inspectorBridgeToken: UncheckedSendable<NSObject>? = nil
+    private var popoverBridgeToken: UncheckedSendable<NSObject>? = nil
     private var lastPresentationValues: [ViewIdentity : ContextMenuPresentation] = [:]
     private var presentationSeed: VersionSeed = .empty
     private(set) var presentedMenu = ActiveContextMenu()

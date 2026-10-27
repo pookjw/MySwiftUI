@@ -1,6 +1,7 @@
 // 224F277BFC3CFE3DE5EC209B46CB1BA4
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
+internal import Spatial
 internal import _UIKitPrivate
 
 final class UIViewResponder : PlatformViewResponderBase<UIView, UIViewContentResponder> {
@@ -87,7 +88,7 @@ struct UIViewContentResponder : ContentResponder {
     weak var eventProvider: CurrentEventProvider?
     weak var platformView: UIView?
     
-    func contains(points: UnsafeBufferPointer<CGPoint>, size: CGSize) -> BitVector64 {
+    func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
         assertUnimplemented()
     }
     

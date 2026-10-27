@@ -1789,7 +1789,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
             return
         }
         
-        viewGraph.setFocusedItem(focustedItem)
+        viewGraph.setFocusedItem(focusedItem)
     }
     
     @_spi(Internal) public final func updateFocusedValues() {
@@ -2072,7 +2072,7 @@ extension _UIHostingView : @preconcurrency UIHostingViewBaseDelegate {
 }
 
 extension _UIHostingView : @preconcurrency FocusHost {
-    var focustedItem: FocusItem? {
+    var focusedItem: FocusItem? {
         return focusBridge.focusedItem
     }
     
