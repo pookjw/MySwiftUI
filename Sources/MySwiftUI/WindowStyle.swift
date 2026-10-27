@@ -7,10 +7,15 @@ public import MySwiftUICore
 public protocol WindowStyle {
     associatedtype _Body : View
     
+    @_spi(Internal) func configureWindow(_ window: AnyObject)
     @_spi(Internal) func updateSceneItem(_ item: inout _SceneItemProxy)
 }
 
 extension WindowStyle {
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
+        assertUnimplemented()
+    }
+    
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
         // noop
     }
@@ -66,6 +71,10 @@ public struct DefaultWindowStyle : WindowStyle {
         assertUnimplemented()
     }
     
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
+        assertUnimplemented()
+    }
+    
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
         assertUnimplemented()
     }
@@ -94,6 +103,10 @@ public struct VolumetricWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+    }
+    
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
+        assertUnimplemented()
     }
     
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
@@ -129,6 +142,10 @@ public struct HiddenTitleBarWindowStyle : WindowStyle {
         assertUnimplemented()
     }
     
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
+        assertUnimplemented()
+    }
+    
     @_spi(Internal) public func updateSceneItem(_ item: inout _SceneItemProxy) {
         assertUnimplemented()
     }
@@ -156,6 +173,10 @@ public struct PlainWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
         assertUnimplemented()
     }
     
@@ -188,6 +209,10 @@ public struct TitleBarWindowStyle : WindowStyle {
     public typealias _Body = Never
 
     public init() {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func configureWindow(_ window: AnyObject) {
         assertUnimplemented()
     }
     

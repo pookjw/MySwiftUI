@@ -6,6 +6,18 @@ struct Placement3D : Equatable {
     var anchor: UnitPoint3D
     var anchorPosition: Point3D
     
+    var proposedSize: Size3D {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
     init(proposedSize: _ProposedSize3D, anchor: UnitPoint3D, anchorPosition: Point3D) {
         assertUnimplemented()
     }

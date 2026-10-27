@@ -186,4 +186,8 @@ extension CGRect {
         
         return result
     }
+    
+    init(cornerPoints: ArraySlice<CGPoint>) {
+        assertUnimplemented()
+    }
 }

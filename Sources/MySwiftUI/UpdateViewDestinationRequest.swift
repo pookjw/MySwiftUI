@@ -32,6 +32,10 @@ struct NavigationLinkSelectionIdentifier : Hashable {
         assertUnimplemented()
     }
     
+    func matches(_ other: NavigationLinkSelectionIdentifier) -> Bool {
+        assertUnimplemented()
+    }
+    
     private var navigationLinkValue: AnyNavigationLinkPresentedValue?
     private var viewListID: _ViewList_ID.Canonical?
     private var namespace: Namespace.ID

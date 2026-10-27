@@ -14,6 +14,26 @@ extension PresentationKind {
         case blurOverFullScreen
     }
     
+    static var none: PresentationKind {
+        assertUnimplemented()
+    }
+    
+    static var popover: PresentationKind {
+        assertUnimplemented()
+    }
+    
+    static var sheet: PresentationKind {
+        assertUnimplemented()
+    }
+    
+    static var fullScreenCover: PresentationKind {
+        assertUnimplemented()
+    }
+    
+    static var blurOverFullScreen: PresentationKind {
+        assertUnimplemented()
+    }
+    
     var description: String {
         assertUnimplemented()
     }

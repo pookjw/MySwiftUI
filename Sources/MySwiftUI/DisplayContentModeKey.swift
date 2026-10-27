@@ -66,6 +66,10 @@ extension DisplayContentModeKey {
 
 struct DisplayContentMode : Hashable {
     fileprivate private(set) var storage: DisplayContentMode.Storage
+    
+    static var media: DisplayContentMode {
+        assertUnimplemented()
+    }
 }
 
 extension DisplayContentMode {
