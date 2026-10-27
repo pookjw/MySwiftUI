@@ -76,6 +76,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         
         if graph.requestedOutputs.contains(.focus) && focusStoreEnabled && (graph.parentHost != nil) {
             graph.removePreference(AccessibilityFocusStoreList.Key.self)
+            focusStoreEnabled = false
         }
     }
     

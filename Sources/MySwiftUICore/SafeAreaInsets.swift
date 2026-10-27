@@ -109,8 +109,8 @@ package struct SafeAreaInsets {
          cornerAdaptation -> x2 -> w21
          context -> x3
          */
-        let d12 = size.height
-        let d13 = size.width
+        var d12 = size.height
+        var d13 = size.width
         
         // x19 + 0xe0
         let mergedInsets = self.mergedInsets(regions: regions, adaptCorners: !cornerAdaptation.isEmpty)
@@ -306,6 +306,209 @@ package struct SafeAreaInsets {
         }
         
         // <+584>
+        let x190x30 = d13
+        let rect_1 = CGRect(cornerPoints: x190x1f8[0..<4])
+        var x190x98 = rect_1.size.height
+        var d11 = rect_1.origin.x
+        d13 = rect_1.origin.y
+        var d15 = rect_1.size.width
+        let x190x38 = d12
+        let rect_2 = CGRect(cornerPoints: x190x1f8[4..<8])
+        var x190xc0 = rect_2.origin.x
+        var x190x70 = rect_2.size.width
+        var x190x78 = rect_2.origin.y
+        var x190x68 = rect_2.size.height
+        var d9 = rect.origin.x
+        d12 = rect.origin.y
+        var d8 = rect.size.width
+        var d10 = rect.size.height
+        // rect -> x28 -> x19 + 0x90
+        let x190xa8 = CGRect(x: d9, y: d12, width: d8, height: d10).minY
+        let x190xb0 = CGRect(x: d9, y: d12, width: d8, height: d10).maxY
+        let x190xb8 = CGRect(x: d9, y: d12, width: d8, height: d10).minX
+        var x190x20 = d12
+        var x190x28 = d9
+        let x190x80 = d10
+        var x190x88 = d8
+        let x190xa0 = CGRect(x: d9, y: d12, width: d8, height: d10).maxX
+        
+        d9 = context.pixelLength
+        
+        // <+1104>
+        var d0: CGFloat = 0.5
+        d0 = d9 * d0
+        var d1: CGFloat = 0.001
+        d0 = d0 + d1
+        let x190xc8 = d0
+        d12 = d15
+        let d14 = x190x98
+        var x190x50 = CGRect(x: d11, y: d13, width: d15, height: d14).minX
+        
+        // <+1184>
+        d8 = x190xc0
+        d10 = x190x70
+        d9 = x190x78
+        d15 = x190x68
+        var x190x40 = CGRect(x: d8, y: d9, width: d10, height: d15).minX
+        var x190x58 = CGRect(x: d11, y: d13, width: d12, height: d14).maxX
+        var x190x60 = CGRect(x: d8, y: d9, width: d10, height: d15).maxX
+        var x190x48 = CGRect(x: d11, y: d13, width: d12, height: d14).minY
+        d8 = d13
+        d13 = x190xc0
+        
+        do {
+            let value_1 = CGRect(x: d13, y: d9, width: d10, height: d15).minY
+            let value_2 = CGRect(x: d11, y: d8, width: d12, height: d14).maxY
+            d12 = value_1
+            d11 = value_2
+        }
+        
+        d8 = x190xc8
+        d0 = CGRect(x: d13, y: d9, width: d10, height: d15).maxY
+        
+        // <+1372>
+        var d2 = x190xa8
+        let d7 = d2 - d8
+        d1 = x190x48
+        
+        var d4: CGFloat
+        let d3: CGFloat
+        var d16: CGFloat
+        
+        if !(d7 < d1) {
+            // <+1448>
+            d2 = x190xa0
+            d4 = x190xb0
+            d3 = x190xb8
+            d16 = x190x80
+        } else {
+            d1 = d2 + d8
+            if !(d12 < d1) {
+                // <+1448>
+                d2 = x190xa0
+                d4 = x190xb0
+                d3 = x190xb8
+                d16 = x190x80
+            } else {
+                // <+1404>
+                d1 = d2 - d12
+                d2 = x190x20
+                d2 = d2 - d1
+                rect.origin.y = d2
+                d16 = x190x80
+                d16 = d16 + d1
+                rect.size.height = d16
+                d2 = x190xa0
+                d4 = x190xb0
+                d3 = x190xb8
+                // <+1464>
+            }
+        }
+        
+        // rect -> x19 + 0x90 -> x20
+        // <+1464>
+        let d17 = x190x50
+        let d5 = x190x58
+        let d6 = d4 + d8
+        
+        if !(d11 < d6) {
+            // <+1504>
+        } else {
+            d1 = d4 - d8
+            
+            if !(d1 < d0) {
+                // <+1504>
+            } else {
+                // <+1492>
+                d0 = d0 - d4
+                d0 = d0 + d16
+                rect.size.height = d0
+                // <+1504>
+            }
+        }
+        
+        // <+1504>
+        d11 = d3 - d8
+        
+        if !(d11 < d17) {
+            // <+1576>
+            d1 = x190x88
+            d4 = x190x60
+            // <+1584>
+        } else {
+            // <+1516>
+            d0 = d3 + d8
+            d1 = x190x40
+            d4 = x190x60
+            
+            if !(d1 < d0) {
+                // <+1568>
+                d1 = x190x88
+                // <+1584>
+            } else {
+                // <+1536>
+                d0 = d3 - d1
+                d1 = x190x28
+                d1 = d1 - d0
+                rect.origin.x = d1
+                d1 = x190x88
+                d1 = d1 + d0
+                rect.size.width = d1
+                // <+1584>
+            }
+        }
+        
+        // <+1584>
+        d10 = d2 + d8
+        
+        if !(d5 < d10) {
+            // <+1620>
+        } else {
+            // <+1596>
+            d0 = d2 - d8
+            
+            if !(d0 < d4) {
+                // <+1620>
+            } else {
+                d0 = d4 - d2
+                d0 = d0 + d1
+                rect.size.width = d0
+                // <+1620>
+            }
+        }
+        
+        // <+1620>
+        guard !cornerAdaptation.isEmpty else {
+            return
+        }
+        
+        x190x20 = d7
+        x190x28 = d6
+        
+        let rect_3 = CGRect(cornerPoints: x190x1f8[8..<12])
+        x190xc0 = rect_3.size.width
+        x190x98 = rect_3.size.height
+        d9 = rect_3.origin.x
+        d15 = rect_3.origin.y
+        let x190x10 = d11
+        let x190x18 = d10
+        let rect_4 = CGRect(cornerPoints: x190x1f8[12..<16])
+        x190x88 = rect_4.origin.y
+        let x190x90 = rect_4.origin.x
+        x190x70 = rect_4.size.height
+        x190x78 = rect_4.size.width
+        let rect_5 = CGRect(cornerPoints: x190x1f8[16..<20])
+        x190x68 = rect_5.size.width
+        x190x70 = rect_5.origin.y
+        x190x60 = rect_5.size.height
+        d11 = rect_5.origin.x
+        let rect_6 = CGRect(cornerPoints: x190x1f8[20..<24])
+        x190x50 = rect_6.origin.y
+        x190x58 = rect_6.origin.x
+        x190x40 = rect_6.size.height
+        x190x48 = rect_6.size.width
+        
+        // <+1820>
         assertUnimplemented()
     }
     
