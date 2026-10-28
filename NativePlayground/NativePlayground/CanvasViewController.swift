@@ -16,8 +16,68 @@ fileprivate struct MyView: View {
                                 y: (size.height - 1000 * scale) / 2)
             context.scaleBy(x: scale, y: scale)
             Garden.draw(in: &context)
+            var glow = context
+                    glow.opacity = 0.8
+                    glow.blendMode = .screen
+                    glow.addFilter(.shadow(color: .yellow.opacity(0.8), radius: 12, x: 0, y: 0))
+                    glow.addFilter(.blur(radius: 2))
+                    glow.drawLayer { layer in
+                        layer.fill(Path(ellipseIn: CGRect(x: 520, y: 200, width: 90, height: 90)),
+                                   with: .conicGradient(Gradient(colors: [.yellow, .orange, .pink, .yellow]),
+                                                        center: CGPoint(x: 565, y: 245)))
+                    }
+
+                    var mask = context
+                    mask.clipToLayer { layer in
+                        layer.fill(Path(ellipseIn: CGRect(x: 50, y: 90, width: 170, height: 80)), with: .color(.white))
+                    }
+                    mask.fill(Path(CGRect(x: 40, y: 80, width: 190, height: 100)),
+                              with: .linearGradient(Gradient(colors: [.pink, .yellow]),
+                                                    startPoint: CGPoint(x: 40, y: 80),
+                                                    endPoint: CGPoint(x: 230, y: 180)))
+
+                    var badge = context
+                    badge.concatenate(CGAffineTransform(translationX: 0, y: 0))
+                    let bounds = badge.clipBoundingRect
+                    let currentTransform = badge.transform
+                    let environment = badge.environment
+                    _ = (bounds, currentTransform, environment)
+
+                    var shadow = context
+                    shadow.addFilter(.brightness(0.1))
+                    shadow.addFilter(.saturation(1.2))
+                    shadow.addFilter(.contrast(1.1))
+                    shadow.fill(Path(ellipseIn: CGRect(x: 650, y: 360, width: 45, height: 45)),
+                                with: .color(.pink))
+            context.withCGContext { cgContext in
+                cgContext.saveGState()
+                cgContext.setStrokeColor(UIColor.white.withAlphaComponent(0.65).cgColor)
+                cgContext.setLineWidth(2)
+                for index in 0..<7 {
+                    let x = CGFloat(490 + index * 40)
+                    let y = CGFloat(490 - index % 3 * 30)
+                    cgContext.move(to: CGPoint(x: x - 8, y: y))
+                    cgContext.addLine(to: CGPoint(x: x + 8, y: y))
+                    cgContext.move(to: CGPoint(x: x, y: y - 8))
+                    cgContext.addLine(to: CGPoint(x: x, y: y + 8))
+                }
+                cgContext.strokePath()
+                cgContext.restoreGState()
+            }
             if let circle = context.resolveSymbol(id: "circle") {
                 context.draw(circle, at: CGPoint(x: 745, y: 930))
+                let symbolSize = circle.size
+                var circleEffects = context
+                circleEffects.blendMode = .multiply
+                circleEffects.addFilter(.hueRotation(.degrees(90)))
+                circleEffects.addFilter(.grayscale(0.3))
+                circleEffects.draw(circle, in: CGRect(x: 80, y: 820, width: symbolSize.width * 1.5, height: symbolSize.height * 1.5))
+
+                var cutout = context
+                cutout.clip(to: Path(ellipseIn: CGRect(x: 180, y: 820, width: 60, height: 60)), options: .inverse)
+                cutout.fill(Path(ellipseIn: CGRect(x: 165, y: 805, width: 90, height: 90)),
+                            with: .conicGradient(Gradient(colors: [.red, .yellow, .red]),
+                                                 center: CGPoint(x: 210, y: 850), options: [.mirror]))
             }
         } symbols: {
             Circle()
