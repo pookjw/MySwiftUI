@@ -421,22 +421,40 @@ package import Spatial
             // <+548>
         } else {
             // <+112>
-            let capacity = (head.depth << 3)
+            let depth = head.depth
             
             withUnsafeTemporaryAllocation(
-                of: AnyElement.self,
-                capacity: capacity
+                of: Unmanaged<AnyElement>.self,
+                capacity: depth
             ) { buffer in
                 // $s7SwiftUI13ViewTransformV7forEach8inverted_ySb_yAC4ItemO_SbztXEtFySrys9UnmanagedVyAA10AnyElement33_1CC2FE016A82CF91549A64E942CE8ED4LLCGGXEfU1_
-                if inverted {
+                var next: AnyElement? = head
+                var i = 0
+                while let _next = next {
+                    unsafe buffer.initializeElement(
+                        at: i,
+                        to: Unmanaged.passUnretained(_next)
+                    )
                     
-                } else {
-                    
+                    i &+= 1
+                    next = _next.next
                 }
-                assertUnimplemented()
+                
+                // <+76>
+                for i in 0..<depth {
+                    unsafe buffer[depth &- (i + 1)]
+                        .takeUnretainedValue()
+                        .forEach(inverted: inverted, stop: &x190x1f, block)
+                    
+                    if x190x1f {
+                        break
+                    }
+                }
             }
-            
-            assertUnimplemented()
+
+            if !x190x1f && ((q1.width != 0) || (q1.height != 0)) {
+                block(.translation(q1), &x190x1f)
+            }
         }
     }
     

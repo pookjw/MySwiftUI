@@ -13,8 +13,6 @@ extension TypesettingConfigurationKey {
             traits.typesettingLanguage = language
         case .automatic, .contentAware:
             traits.typesettingLanguage = nil
-        default:
-            fatalError()
         }
     }
 }

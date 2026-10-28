@@ -200,10 +200,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     
     final var inheritedEnvironment: EnvironmentValues? {
         get {
-            return self.base.inheritedEnvironment
+            return _base.inheritedEnvironment
         }
         set {
-            self.base.inheritedEnvironment = newValue
+            _base.inheritedEnvironment = newValue
         }
     }
     
@@ -216,6 +216,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             return _boundsDepth
         }
         set {
+            guard allowFrameChanges else {
+                return
+            }
+            
             _boundsDepth = newValue
             immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
         }
@@ -223,15 +227,33 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     
     final var base: _UIKitShims::UIHostingViewBase {
         let base = _base
-        base.uiView = self
-        base.delegate = self
-        base.updateDelegate = self
-        base.viewGraph.renderer.host = self
+        
+        guard !isBaseConfigured else {
+            return base
+        }
+        
+        if base.uiView == nil {
+            base.uiView = self
+        }
+        
+        if base.delegate == nil {
+            base.delegate = self
+        }
+        
+        if base.updateDelegate == nil {
+            base.updateDelegate = self
+        }
+        
+        if base.viewGraph.renderer.host == nil {
+            base.viewGraph.renderer.host = self
+        }
+        
+        isBaseConfigured = true
         return base
     }
     
     private var traitCollectionOverride: UITraitCollection? {
-        return base.traitCollectionOverride
+        return _base.traitCollectionOverride
     }
     
     private var accessibilityEnabled: Bool {
@@ -263,7 +285,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         
         let viewControllers = navigationController.viewControllers
         
-        guard !viewControllers.isEmpty else {
+        guard viewControllers.count > 1 else {
             return false
         }
         
@@ -968,7 +990,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
          self = x21
          previousTraitCollection = x19
          */
-        super.traitCollectionDidChange(previousTraitCollection)
+        updateBackgroundColor()
         
         if
             (shouldDisableUIKitAnimation && isLinkedOnOrAfter(.v3)),
@@ -1119,7 +1141,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     public override func myswiftui_insertManagedSubview(_ subview: UIView, at index: Int) {
         insertingManagedSubviews += 1
         insertSubview(subview, at: index)
-        insertingManagedSubviews -= 1
+        insertingManagedSubviews = max(insertingManagedSubviews - 1, 0)
     }
     
     private func updateSnappingState(environment: inout EnvironmentValues) {
@@ -1187,7 +1209,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         // x26 -> (copy) x23 + x19
         let newColorScheme = self.colorScheme
         
-        guard (oldColorScheme != nil) || (newColorScheme != nil) else {
+        guard oldColorScheme != newColorScheme else {
             return
         }
         
@@ -1219,7 +1241,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
     
     private var isRotatingWindow: Bool {
-        return base.isRotatingWindow
+        return _base.isRotatingWindow
     }
     
     private var isResizingSheet: Bool {
@@ -1326,10 +1348,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     
     final var isHiddenForReuse: Bool {
         get {
-            return self.base.isHiddenForReuse
+            return _base.isHiddenForReuse
         }
         set {
-            self.base.isHiddenForReuse = newValue
+            _base.isHiddenForReuse = newValue
         }
     }
 }
@@ -1460,13 +1482,10 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
     
     package final var externalUpdateCount: Int {
         get {
-            return base.viewGraph.externalUpdateCount
+            return _base.viewGraph.externalUpdateCount
         }
         set {
-            base.viewGraph.externalUpdateCount = newValue
-        }
-        _modify {
-            yield &base.viewGraph.externalUpdateCount
+            _base.viewGraph.externalUpdateCount = newValue
         }
     }
     
@@ -1694,10 +1713,10 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         if let windowScene = window?.windowScene {
             let capabilities = windowScene._worldTrackingCapabilities()
             var worldTrackingLimitations: Set<WorldTrackingLimitation> = []
-            if capabilities.contains(.translation) {
+            if !capabilities.contains(.translation) {
                 worldTrackingLimitations.insert(.translation)
             }
-            if capabilities.contains(.orientation) {
+            if !capabilities.contains(.orientation) {
                 worldTrackingLimitations.insert(.orientation)
             }
             resolved.worldTrackingLimitations = worldTrackingLimitations
@@ -1989,10 +2008,10 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
 extension _UIHostingView : @preconcurrency UIHostingViewProvider {
     final var environmentOverride: EnvironmentValues? {
         get {
-            return base.environmentOverride
+            return _base.environmentOverride
         }
         set {
-            base.environmentOverride = newValue
+            _base.environmentOverride = newValue
         }
     }
     
@@ -2005,7 +2024,7 @@ extension _UIHostingView : @preconcurrency UIHostingViewProvider {
     }
     
     final var sceneActivationState: UIScene.ActivationState? {
-        return base.sceneActivationState
+        return _base.sceneActivationState
     }
 }
 
@@ -2186,8 +2205,8 @@ extension _UIHostingView : UIKitContainerFocusItem {
 
 extension _UIHostingView : @preconcurrency RootTransformAdjuster {
     package func updateRootTransform(_ transform: inout ViewTransform) {
-        if !base.registeredForGeometryChanges {
-            base.registeredForGeometryChanges = true
+        if !_base.registeredForGeometryChanges {
+            _base.registeredForGeometryChanges = true
             _registerForGeometryChanges()
         }
         

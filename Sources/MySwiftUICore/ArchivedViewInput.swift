@@ -40,10 +40,10 @@ extension ArchivedViewInput {
             return ArchivedViewInput.Value(flags: .isArchived, deploymentVersion: .current)
         }
         
-        var flags: ArchivedViewInput.Flags
-        var deploymentVersion: ArchivedViewInput.DeploymentVersion
+        private(set) var flags: ArchivedViewInput.Flags
+        private var deploymentVersion: ArchivedViewInput.DeploymentVersion
         
-        init(flags: ArchivedViewInput.Flags, deploymentVersion: ArchivedViewInput.DeploymentVersion) {
+        init(flags: ArchivedViewInput.Flags = [], deploymentVersion: ArchivedViewInput.DeploymentVersion = .current) {
             self.flags = flags
             self.deploymentVersion = deploymentVersion
         }

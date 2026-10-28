@@ -186,6 +186,10 @@ extension Shape {
     
     public typealias Body = Never
     
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+    
     package func sizeThatFits(in proposedSize: _ProposedSize) -> CGSize {
         return self.shape.sizeThatFits(ProposedViewSize(width: proposedSize.width, height: proposedSize.height))
     }

@@ -5,10 +5,10 @@ package struct TypesettingConfiguration : Equatable {
         assertUnimplemented()
     }
     
-    package var language: TypesettingLanguage
-    var languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio
+    package private(set) var language: TypesettingLanguage = .automatic
+    private var languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio = .automatic
     
-    init(language: TypesettingLanguage = .automatic, languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio) {
+    init(language: TypesettingLanguage = .automatic, languageAwareLineHeightRatio: TypesettingLanguageAwareLineHeightRatio = .automatic) {
         self.language = language
         self.languageAwareLineHeightRatio = languageAwareLineHeightRatio
     }
@@ -52,6 +52,9 @@ extension EnvironmentValues {
         }
         set {
             self[TypesettingConfigurationKey.self] = newValue
+        }
+        _modify {
+            yield &self[TypesettingConfigurationKey.self]
         }
     }
 }
