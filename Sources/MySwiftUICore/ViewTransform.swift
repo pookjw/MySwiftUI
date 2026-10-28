@@ -614,7 +614,7 @@ fileprivate struct SizedSpaceElement : ViewTransformElement {
     var size: CGSize
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        block(.sizedSpace(self.space, size: self.size), &stop)
     }
 }
 
@@ -639,7 +639,7 @@ fileprivate struct ProjectionTransformElement : ViewTransformElement {
     }
 }
 
-fileprivate final class Element<T : Equatable> : AnyElement {
+fileprivate final class Element<T : ViewTransformElement> : AnyElement {
     private let translation: CGSize
     private let element: T
     
@@ -654,7 +654,47 @@ fileprivate final class Element<T : Equatable> : AnyElement {
     }
     
     override func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x23
+         inverted -> w0 -> w24
+         stop -> x1 -> x22
+         block -> x2/x3 -> x19/x21
+         */
+        if !inverted {
+            // <+60>
+            let translation = self.translation
+            
+            if (translation.width != 0) || (translation.height != 0) {
+                // <+84>
+                block(.translation(translation), &stop)
+                
+                if stop {
+                    return
+                }
+            }
+            
+            // <+164>
+        }
+        
+        // <+164>
+        self.element.forEach(inverted: inverted, stop: &stop, block)
+        
+        if stop {
+            return
+        }
+        
+        if inverted {
+            let translation = self.translation
+            
+            if (translation.width != 0) || (translation.height != 0) {
+                block(
+                    .translation(
+                        CGSize(width: -translation.width, height: -translation.height)
+                    ),
+                    &stop
+                )
+            }
+        }
     }
     
     override func isEqual(to other: AnyElement) -> Bool {
@@ -1054,7 +1094,7 @@ extension ViewTransform {
         private(set) var isClipped: Bool
         
         func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-            assertUnimplemented()
+            block(.scrollGeometry(self), &stop)
         }
     }
 }

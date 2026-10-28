@@ -124,7 +124,7 @@ fileprivate struct SizedSpace3DElement : ViewTransformElement {
     private(set) var size3D: Size3D
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        block(.sizedSpace3D(self.space, size3D: self.size3D), &stop)
     }
 }
 
