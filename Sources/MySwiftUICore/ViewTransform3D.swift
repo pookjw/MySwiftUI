@@ -149,6 +149,9 @@ fileprivate struct AffineTransform3DElement : ViewTransformElement {
     private(set) var inverse: Bool
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        block(
+            .affineTransform3D(self.matrix, inverse: inverted != self.inverse),
+            &stop
+        )
     }
 }

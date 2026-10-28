@@ -350,12 +350,90 @@ package import Spatial
             }
         }
         
-        // capture x22, x290x81
         forEach(inverted: inverted) { item, stop in
-            // $s7SwiftUI13ViewTransformV7convertyyAC10ConversionO_yAC4ItemOXEtFyAH_SbztXEfU_
-            _ = x22
-            _ = x290x81
-            assertUnimplemented()
+            // $s7SwiftUI13ViewTransformV7convertyyAC10ConversionO_yAC4ItemOXEtFyAH_SbztXEfU_TA.8
+            switch item {
+            case .coordinateSpace(var tag), .sizedSpace(var tag, _), .sizedSpace3D(var tag, _):
+                // <+172>
+                if
+                    let globalTag = self.coordinateSpaceTag(.id(CoordinateSpace.globalID)),
+                    globalTag == tag
+                {
+                    tag = .global
+                }
+                
+                // <+264>
+                switch x22 {
+                case .rootToSpace(let _tag):
+                    // <+336>
+                    if tag == _tag {
+                        stop = true
+                    }
+                    
+                    // <+376>
+                    if x290x81 {
+                        block(item)
+                    }
+                case .spaceToRoot(let _tag):
+                    // <+356>
+                    if tag == _tag {
+                        x290x81 = true
+                    }
+                    
+                    // <+376>
+                    if x290x81 {
+                        block(item)
+                    }
+                case .localToSpace(let _tag):
+                    // <+336>
+                    if tag == _tag {
+                        stop = true
+                    }
+                    
+                    // <+376>
+                    if x290x81 {
+                        block(item)
+                    }
+                case .spaceToLocal(let _tag):
+                    // <+356>
+                    if tag == _tag {
+                        x290x81 = true
+                        // <+384>
+                        block(item)
+                    } else {
+                        // <+376>
+                        if x290x81 {
+                            block(item)
+                        }
+                    }
+                case .spaceToSpace(let _tag_1, let _tag_2):
+                    // <+316>
+                    if tag == _tag_2 {
+                        stop = true
+                        // <+376>
+                        if x290x81 {
+                            block(item)
+                        }
+                    } else {
+                        // <+356>
+                        if tag == _tag_1 {
+                            x290x81 = true
+                            // <+384>
+                            block(item)
+                        } else {
+                            // <+376>
+                            if x290x81 {
+                                block(item)
+                            }
+                        }
+                    }
+                }
+            case .translation, .affineTransform, .projectionTransform, .scrollGeometry, .depthTranslation, .affineTransform3D:
+                // <+376>
+                if x290x81 {
+                    block(item)
+                }
+            }
         }
     }
     
@@ -548,7 +626,7 @@ fileprivate struct CoordinateSpaceElement : ViewTransformElement {
     }
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        block(.coordinateSpace(self.space), &stop)
     }
 }
 
@@ -826,7 +904,56 @@ extension ViewTransform {
         }
         
         fileprivate func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-            assertUnimplemented()
+            /*
+             inverted -> w0
+             stop -> x1 -> x22
+             block -> x2/x3 -> x21/x19
+             */
+            if inverted {
+                // <+72>
+                withUnsafeTemporaryAllocation(
+                    of: ViewTransform.UnsafeBuffer.Element.self,
+                    capacity: self.contents.count
+                ) { buffer in
+                    // $s7SwiftUI13ViewTransformV12UnsafeBufferV7forEach33_1CC2FE016A82CF91549A64E942CE8ED4LL8inverted4stop_ySb_SbzyAC4ItemO_SbztXEtFySryAE7ElementAGLLVGXEfU_
+                    var i = 0
+                    for content in self.contents {
+                        unsafe buffer.initializeElement(
+                            at: i,
+                            to: ViewTransform.UnsafeBuffer.Element(unknown: content)
+                        )
+                        
+                        i &+= 1
+                    }
+                    
+                    for unsafe element in unsafe buffer.reversed() {
+                        unsafe element
+                            .unknown
+                            .vtable(as: ViewTransform.UnsafeBuffer.VTable.self)
+                            .forEach(
+                                elt: element.unknown,
+                                inverted: true,
+                                stop: &stop,
+                                block
+                            )
+                        
+                        if stop {
+                            return
+                        }
+                    }
+                }
+            } else {
+                // <+352>
+                for content in self.contents {
+                    content
+                        .vtable(as: ViewTransform.UnsafeBuffer.VTable.self)
+                        .forEach(elt: content, inverted: false, stop: &stop, block)
+                    
+                    if stop {
+                        return
+                    }
+                }
+            }
         } 
         
         package static func == (lhs: UnsafeBuffer, rhs: UnsafeBuffer) -> Bool {
@@ -857,11 +984,11 @@ extension ViewTransform {
 
 extension ViewTransform.UnsafeBuffer {
     fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
-        class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
+        class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
             // noop
         }
         
-        class func description(elt : _UnsafeHeterogeneousBuffer_Element) -> String {
+        class func description(elt: _UnsafeHeterogeneousBuffer_Element) -> String {
             return ""
         }
         
@@ -875,7 +1002,7 @@ extension ViewTransform.UnsafeBuffer {
             return Element.self
         }
         
-        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             let eltPtr = unsafe elt.body(as: Element.self)
             let fromPtr = unsafe from.body(as: Element.self)
             
@@ -883,22 +1010,29 @@ extension ViewTransform.UnsafeBuffer {
             unsafe eltPtr.initialize(to: element)
         }
         
-        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
             let pointer = unsafe elt.body(as: Element.self)
             unsafe pointer.deinitialize(count: 1)
         }
         
-        override class func forEach(elt : _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool) {
-            assertUnimplemented()
+        override class func forEach(elt: _UnsafeHeterogeneousBuffer_Element, inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+            unsafe elt
+                .body(as: Element.self)
+                .pointee
+                .forEach(inverted: inverted, stop: &stop, block)
         }
         
-        override class func description(elt : _UnsafeHeterogeneousBuffer_Element) -> String {
+        override class func description(elt: _UnsafeHeterogeneousBuffer_Element) -> String {
             assertUnimplemented()
         }
         
         override class func equal(_ lhs : _UnsafeHeterogeneousBuffer_Element, _ rhs: _UnsafeHeterogeneousBuffer_Element) -> Bool {
             return unsafe lhs.body(as: Element.self).pointee == rhs.body(as: Element.self).pointee
         }
+    }
+    
+    @unsafe fileprivate struct Element {
+        let unknown: _UnsafeHeterogeneousBuffer_Element
     }
 }
 

@@ -118,30 +118,30 @@ extension ViewGraphFeatureBuffer {
 extension ViewGraphFeatureBuffer {
     fileprivate class VTable : _UnsafeHeterogeneousBuffer_VTable {
 
-        class func modifyViewInputs(elt : _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
+        class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
         }
         
-        class func modifyViewOutputs(elt : _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
         }
         
-        class func uninstantiate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
         }
         
-        class func isHiddenForReuseDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        class func isHiddenForReuseDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
         }
         
-        class func needsUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
+        class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
             return false
         }
         
-        class func allowsAsyncUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
+        class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
             return true
         }
         
-        class func outputsDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
         }
         
-        class func update(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
         }
     }
     
@@ -151,45 +151,45 @@ extension ViewGraphFeatureBuffer {
             return T.self
         }
         
-        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             let new = unsafe elt.body(as: T.self)
             let old = unsafe from.body(as: T.self)
             unsafe new.initialize(to: old.move())
         }
         
-        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
             unsafe elt.body(as: T.self).deinitialize(count: 1)
         }
         
-        override class func modifyViewInputs(elt : _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
+        override class func modifyViewInputs(elt: _UnsafeHeterogeneousBuffer_Element, inputs: inout _ViewInputs, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.modifyViewInputs(inputs: &inputs, graph: graph)
         }
         
-        override class func modifyViewOutputs(elt : _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
+        override class func modifyViewOutputs(elt: _UnsafeHeterogeneousBuffer_Element, outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.modifyViewOutputs(outputs: &outputs, inputs: inputs, graph: graph)
         }
         
-        override class func uninstantiate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        override class func uninstantiate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.uninstantiate(graph: graph)
         }
         
-        override class func isHiddenForReuseDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        override class func isHiddenForReuseDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.isHiddenForReuseDidChange(graph: graph)
         }
         
-        override class func needsUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
+        override class func needsUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool {
             return unsafe elt.body(as: T.self).pointee.needsUpdate(graph: graph)
         }
         
-        override class func allowsAsyncUpdate(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
+        override class func allowsAsyncUpdate(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) -> Bool? {
             return unsafe elt.body(as: T.self).pointee.allowsAsyncUpdate(graph: graph)
         }
         
-        override class func outputsDidChange(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        override class func outputsDidChange(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.outputsDidChange(graph: graph)
         }
         
-        override class func update(elt : _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
+        override class func update(elt: _UnsafeHeterogeneousBuffer_Element, graph: ViewGraph) {
             unsafe elt.body(as: T.self).pointee.update(graph: graph)
         }
     }

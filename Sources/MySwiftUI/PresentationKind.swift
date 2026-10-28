@@ -46,12 +46,12 @@ extension PresentationKind {
 }
 
 extension EnvironmentValues {
-    var presentationKind: PresentationKind.Tag {
+    var presentationKind: PresentationKind {
         get {
-            return self[PresentationKind.Key.self]
+            return PresentationKind(tag: self[PresentationKind.Key.self])
         }
         set {
-            self[PresentationKind.Key.self] = newValue
+            self[PresentationKind.Key.self] = newValue.tag
         }
     }
 }

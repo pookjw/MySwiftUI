@@ -426,11 +426,11 @@ extension CoreViewRepresentableFeatureBuffer {
             assertUnimplemented()
         }
         
-        override class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+        override class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
             assertUnimplemented()
         }
         
-        override class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
+        override class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
             let body = unsafe elt.body(as: Feature.self)
             unsafe body.deinitialize(count: 1)
         }

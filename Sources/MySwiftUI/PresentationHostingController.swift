@@ -210,7 +210,7 @@ final class PresentationHostingController<Content : View>: UIHostingController<C
          environment -> x0 -> x21
          */
         // <+148>
-        environment.presentationKind = self.presentationKind.tag
+        environment.presentationKind = self.presentationKind
         environment.presentationWantsTransparentBackground = self.host.wantsTransparentBackground
         
         if environment.isVisionEnabled {

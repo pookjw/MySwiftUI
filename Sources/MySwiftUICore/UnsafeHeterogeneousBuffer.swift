@@ -337,11 +337,11 @@ class _UnsafeHeterogeneousBuffer_VTable {
         fatalError() // abstract
     }
     
-    class func moveInitialize(elt : _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
+    class func moveInitialize(elt: _UnsafeHeterogeneousBuffer_Element, from: _UnsafeHeterogeneousBuffer_Element) {
         fatalError() // abstract
     }
     
-    class func deinitialize(elt : _UnsafeHeterogeneousBuffer_Element) {
+    class func deinitialize(elt: _UnsafeHeterogeneousBuffer_Element) {
         fatalError() // abstract
     }
 }
