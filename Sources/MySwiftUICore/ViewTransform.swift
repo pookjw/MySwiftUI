@@ -1107,6 +1107,64 @@ extension Array where Element == CGPoint {
 
 extension MutableCollection where Element == CGPoint {
     fileprivate mutating func _applyTransform(item: ViewTransform.Item) {
+        /*
+         self -> x20 -> x19 + 0x68
+         item -> x0 -> x20
+         */
+        // <+556>
+        // x19 + 0x150
+        let copy_1 = item
+        // x29 - 0xf0
+        let copy_2 = item
+        
+        switch copy_1 {
+        case .translation(let size):
+            // <+1308>
+            for index in self.indices {
+                self[index] += size
+            }
+        case .affineTransform(var transform, let inverse):
+            // <+1204>
+            if inverse {
+                transform = transform.inverted()
+            }
+            
+            for index in self.indices {
+                self[index] = self[index].applying(transform)
+            }
+        case .projectionTransform(let transform, let inverse):
+            // <+1692>
+            self._apply(transform, inverse: inverse)
+        case .coordinateSpace(_):
+            // <+2232>
+            break
+        case .sizedSpace(_, _):
+            // <+2232>
+            break
+        case .scrollGeometry(_):
+            // <+2232>
+            break
+        case .depthTranslation(_):
+             // <+2232>
+            break
+        case .affineTransform3D(let transform3D, let inverse):
+            // <+676>
+            var transform = CGAffineTransform(transform3D)
+            
+            if inverse {
+                transform = transform.inverted()
+            }
+            
+            for index in self.indices {
+                self[index] = self[index].applying(transform)
+            }
+        case .sizedSpace3D(_, _):
+            // <+2232>
+            break
+        }
+    }
+    
+    fileprivate mutating func _apply(_: ProjectionTransform, inverse: Bool) {
         assertUnimplemented()
     }
 }
