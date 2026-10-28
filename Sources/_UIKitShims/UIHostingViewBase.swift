@@ -1118,8 +1118,19 @@ package final class UIHostingViewBase : NSObject {
         self._sceneDidActivate()
     }
     
-    @objc(sceneWillEnterForeground) private func _sceneWillEnterForeground() {
-        assertUnimplemented()
+    @MainActor @objc(sceneWillEnterForeground) private func _sceneWillEnterForeground() {
+        self.updateSceneActivationState()
+        self.isEnteringForeground = true
+        
+        RunLoop.main.perform(inModes: [.common]) {
+            MainActor.assumeIsolated {
+                self.isEnteringForeground = false
+                self.updateSceneActivationState()
+            }
+        }
+        
+        self.isExitingForeground = false
+        self.requestUpdateForFidelity()
     }
     
     @objc private func sceneDidUpdateSystemUserInterfaceStyle() {

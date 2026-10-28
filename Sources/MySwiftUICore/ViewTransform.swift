@@ -607,7 +607,40 @@ fileprivate final class BufferedElement : AnyElement {
     }
     
     override func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x23
+         inverted -> w0 -> w24
+         stop -> x1 -> x22
+         block -> x2/x3 -> x19/x21
+         */
+        do {
+            let translation = self.translation
+            
+            if !inverted && ((translation.width != 0) || (translation.height != 0)) {
+                // <+76>
+                block(.translation(translation), &stop)
+                
+                if stop {
+                    return
+                }
+            }
+        }
+        
+        // <+156>
+        self.elements.forEach(inverted: inverted, stop: &stop, block)
+        
+        if stop {
+            return
+        }
+        
+        let translation = self.translation
+        
+        if inverted && ((translation.width != 0) || (translation.height != 0)) {
+            block(
+                .translation(CGSize(width: -translation.width, height: -translation.height)),
+                &stop
+            )
+        }
     }
     
     override func isEqual(to other: AnyElement) -> Bool {
@@ -791,6 +824,10 @@ extension ViewTransform {
         mutating func append<T : ViewTransformElement>(_ element: T) {
             contents.append(element, vtable: ViewTransform.UnsafeBuffer._VTable<T>.self)
         }
+        
+        fileprivate func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+            assertUnimplemented()
+        } 
         
         package static func == (lhs: UnsafeBuffer, rhs: UnsafeBuffer) -> Bool {
             guard lhs.contents.count == rhs.contents.count else {
