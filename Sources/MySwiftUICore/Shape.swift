@@ -42,6 +42,14 @@ extension Shape {
             fillStyle: FillStyle(eoFill: false, antialiased: true)
         )
     }
+    
+    nonisolated public static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
 }
 
 @frozen public struct _ShapeView<Content : Shape, Style : ShapeStyle>: UnaryView, @preconcurrency ShapeStyledLeafView, PrimitiveView, @preconcurrency LeafViewLayout {

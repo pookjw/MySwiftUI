@@ -207,7 +207,7 @@ extension ViewGraphRootValueUpdater {
         } ?? T.defaultValue
     }
     
-    @_spi(Internal) public func _addPreference<T : HostPreferenceKey>(_ key: T.Type) -> T.Value {
+    @_spi(Internal) public func _addPreference<T : HostPreferenceKey>(_ key: T.Type) {
         assertUnimplemented()
     }
     
@@ -264,6 +264,10 @@ extension ViewGraphRootValueUpdater {
     }
     
     @_spi(Internal) public func updateFocusedItem() {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public func updateFocusedValues() {
         assertUnimplemented()
     }
     

@@ -27,8 +27,12 @@
         if base.isEmpty {
             unsafe self.init()
         } else {
+            let start = unsafe withUnsafeMutablePointer(to: &base.baseAddress.unsafelyUnwrapped.pointee[keyPath: keyPath]) { pointer in
+                unsafe pointer
+            }
+            
             unsafe self.init(
-                start: base.baseAddress.unsafelyUnwrapped.pointer(to: keyPath).unsafelyUnwrapped,
+                start: start,
                 count: base.count
             )
         }

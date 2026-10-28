@@ -75,7 +75,7 @@ package import AttributeGraph
         assertUnimplemented()
     }
     
-    package static func getNextTrace(id: inout UInt32) -> UInt32 {
+    package static func getNextTraceID(id: inout UInt32) -> UInt32 {
         assertUnimplemented()
     }
     
@@ -415,11 +415,11 @@ package import AttributeGraph
             a = duration
         case .circularEaseInOut(let duration):
             a = duration
-        case .bezier(let duration, _):
+        case .bezier(let duration, _, _):
             a = duration
         case .spring(let duration, _, _, _, _):
             a = duration
-        case .customFunction(_, _):
+        case .customFunction(_):
             // <+212>
             break
         case .delay(let delay, let function):

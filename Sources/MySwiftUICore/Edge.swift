@@ -55,6 +55,67 @@ extension Edge {
             return self.contains(set)
         }
     }
+    
+    enum Corner : Int8 {
+        case topLeading
+        case topTrailing
+        case bottomLeading
+        case bottomTrailing
+    }
+}
+
+extension Edge.Corner {
+    struct Set : OptionSet, CustomDebugStringConvertible {
+        let rawValue: Int8
+        
+        init(rawValue: Int8) {
+            self.rawValue = rawValue
+        }
+        
+        func contains(_ member: Edge.Corner) -> Bool {
+            var w8 = member.rawValue
+            let w9 = self.rawValue
+            var w10 = w8 & 7
+            let w11: Int8 = 1
+            w10 = (w11 << w10)
+            w8 = (w8 < 8) ? w10 : 0
+            return (w8 & ~w9) == 0
+        }
+        
+        static let all: Edge.Corner.Set = [.topLeading, .topTrailing, .bottomLeading, .bottomTrailing]
+        static let leading: Edge.Corner.Set = [.topLeading, .bottomLeading]
+        static let trailing: Edge.Corner.Set = [.topTrailing, .bottomTrailing]
+        static let bottom: Edge.Corner.Set = [.bottomLeading, .bottomTrailing]
+        static let top: Edge.Corner.Set = [.topLeading, .topTrailing]
+        
+        static var none: Edge.Corner.Set {
+            return []
+        }
+        
+        static var topLeading: Edge.Corner.Set {
+            return Edge.Corner.Set(rawValue: 1 << 0)
+        }
+        
+        static var topTrailing: Edge.Corner.Set {
+            return Edge.Corner.Set(rawValue: 1 << 1)
+        }
+        
+        static var bottomLeading: Edge.Corner.Set {
+            return Edge.Corner.Set(rawValue: 1 << 2)
+        }
+        
+        static var bottomTrailing: Edge.Corner.Set {
+            return Edge.Corner.Set(rawValue: 1 << 3)
+        }
+        
+        var debugDescription: String {
+            assertUnimplemented()
+        }
+    }
+    
+    struct Style {
+        // TODO
+    }
 }
 
 extension Edge.Set : Sendable {}

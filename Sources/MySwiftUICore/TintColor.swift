@@ -3,8 +3,9 @@
 extension EnvironmentValues {
     package var effectiveTintColor: Color? {
         get {
-            if let tintColor = self[TintKey.self] {
-                return tintColor.fallbackColor(in: self, level: 0)
+            if let tintColor = self[TintKey.self],
+               let color = tintColor.fallbackColor(in: self, level: 0) {
+                return color
             }
             
             return self.accentColor
@@ -13,7 +14,7 @@ extension EnvironmentValues {
 }
 
 fileprivate struct TintKey : EnvironmentKey {
-    static var defaultValue: Color? {
+    static var defaultValue: AnyShapeStyle? {
         return nil
     }
 }

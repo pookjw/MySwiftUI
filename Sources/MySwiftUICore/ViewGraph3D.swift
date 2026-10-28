@@ -9,6 +9,7 @@ package struct ViewGraph3D {
         let oldCurrent = Subgraph.current
         Subgraph.current = graph.globalSubgraph
         self._depthTransform = Attribute(graph.rootDepthTransform)
+        graph._transform = self._depthTransform
         Subgraph.current = oldCurrent
     }
 }
@@ -70,7 +71,6 @@ extension ViewGraph3D : ViewGraphFeature {
     package func uninstantiate(graph: ViewGraph) {
         self._depthTransform.mutateBody(as: RootDepthTransform.self, invalidating: true) { depthTransform in
             // $sSo11AGAttributea14AttributeGraphE10mutateBody2as12invalidating_yxm_SbyxzXEtlFySvXEfU_7SwiftUI18RootDepthTransformV_Tg503$s7h43UI11ViewGraph3DV13uninstantiate5graphyAA0C5c9C_tFyAA18jkL7VzXEfU_Tf3npf_n
-            depthTransform.$transform = Attribute(identifier: .empty)
             depthTransform.$layoutDirection = nil
             depthTransform.$childLayoutComputer = nil
         }

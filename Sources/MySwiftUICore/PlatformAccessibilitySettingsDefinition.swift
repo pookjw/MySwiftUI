@@ -147,6 +147,10 @@ extension EnvironmentValues {
         assertUnimplemented()
     }
     
+    package final var reduceHighlightingEffects: Bool {
+        assertUnimplemented()
+    }
+    
     package final var prefersCrossFadeTransitions: Bool {
         assertUnimplemented()
     }
@@ -222,6 +226,7 @@ extension PlatformAccessibilitySettingsDefinition {
         case fullKeyboardAccess
         case voiceControl
         case hoverText
+        case reduceHighlightingEffects
     }
     
     fileprivate struct Storage : Sendable {

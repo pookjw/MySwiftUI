@@ -242,12 +242,6 @@ extension Solarium {
         
     }
     
-    struct SolariumMetrics : ViewInputPredicate {
-        static func evaluate(inputs: _GraphInputs) -> Bool {
-            assertUnimplemented()
-        }
-    }
-    
     fileprivate struct TVFeatureFlagKey : FeatureFlagsKey {
         let domain: StaticString = "SwiftUI"
         let feature: StaticString = "SolariumTV"
@@ -296,6 +290,12 @@ extension Solarium {
 
 extension Solarium.EnablementCriteria : Hashable {
     func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
+struct SolariumMetrics : ViewInputPredicate {
+    static func evaluate(inputs: _GraphInputs) -> Bool {
         assertUnimplemented()
     }
 }

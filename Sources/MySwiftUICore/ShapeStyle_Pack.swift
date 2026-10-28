@@ -18,14 +18,14 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     
     subscript(name: _ShapeStyle_Name, index: Int) -> _ShapeStyle_Pack.Style {
         get {
-            let key = _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index))
+            let key = _ShapeStyle_Pack.Key(name, index)
             
             for i in self.styles.indices {
                 let value = self.styles[i]
                 
                 if value.key == key {
                     return value.style
-                } else if (name < value.key.name) || (!(value.key._level <= key._level) && (value.key.name == key.name)) {
+                } else if (name < value.key.name) || (!(value.key.level <= key.level) && (value.key.name == key.name)) {
                     if i == self.styles.startIndex {
                         break
                     }
@@ -44,7 +44,7 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
             return _ShapeStyle_Pack.Style.clear
         }
         set {
-            let key = _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index))
+            let key = _ShapeStyle_Pack.Key(name, index)
             
             for i in self.styles.indices {
                 let value = self.styles[i]
@@ -53,7 +53,7 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
                     // <+224>
                     self.styles[i] = (key: key, style: newValue)
                     return
-                } else if (name < value.key.name) || (!(value.key._level <= key._level) && (value.key.name == key.name)) {
+                } else if (name < value.key.name) || (!(value.key.level <= key.level) && (value.key.name == key.name)) {
                     // <+388>
                     self.styles.insert((key: key, style: newValue), at: i)
                     return
@@ -97,7 +97,7 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
                         self.styles[index].style.animatableData = incoming.data
                         startIndex = self.styles.index(after: index)
                         break
-                    } else if (key.name < incoming.key.name) || (!(key._level >= incoming.key._level) && (key.name == incoming.key.name)) {
+                    } else if (key.name < incoming.key.name) || (!(key.level >= incoming.key.level) && (key.name == incoming.key.name)) {
                         startIndex = self.styles.index(after: index)
                         continue
                     } else {
@@ -130,7 +130,7 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
             let opacity = definition.opacity(at: index, environment: environment)
             self.styles.insert(
                 (
-                    key: _ShapeStyle_Pack.Key(name: name, _level: UInt8(truncatingIfNeeded: index)),
+                    key: _ShapeStyle_Pack.Key(name, index),
                     style: firstStyle.style.applyingOpacity(opacity)
                 ),
                 at: indices.lowerBound &+ index
@@ -287,7 +287,7 @@ extension _ShapeStyle_Pack {
         static func < (lhs: _ShapeStyle_Pack.Key, rhs: _ShapeStyle_Pack.Key) -> Bool {
             if lhs.name >= rhs.name {
                 if lhs.name == rhs.name {
-                    return lhs._level < rhs._level
+                    return lhs.level < rhs.level
                 } else {
                     return false
                 }
@@ -297,7 +297,21 @@ extension _ShapeStyle_Pack {
         }
         
         private(set) var name: _ShapeStyle_Name
-        private(set) var _level: UInt8
+        private var _level: UInt8
+
+        private(set) var level: Int {
+            get {
+                return Int(_level)
+            }
+            set {
+                _level = UInt8(truncatingIfNeeded: newValue)
+            }
+        }
+        
+        init(_ name: _ShapeStyle_Name, _ level: Int) {
+            self.name = name
+            self._level = UInt8(truncatingIfNeeded: level)
+        }
     }
 }
 

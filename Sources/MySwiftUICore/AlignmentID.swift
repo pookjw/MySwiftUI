@@ -9,4 +9,8 @@ extension AlignmentID {
     public static func _combineExplicit(childValue: CGFloat, _ n: Int, into parentValue: inout CGFloat?) {
         assertUnimplemented()
     }
+    
+    public static func combineExplicit<S>(_ values: S) -> CGFloat? where S : Sequence, S.Element == CGFloat? {
+        assertUnimplemented()
+    }
 }

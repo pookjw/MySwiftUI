@@ -36,8 +36,8 @@ func traceDynamicPropertyEvent(
         "Updated: %{public}@ [ %p ] - %@",
         args: [
             String(describing: type(of: property)),
-            property.instrumentsLinkValueDescription,
-            UInt(bitPattern: elt)
+            UInt(bitPattern: elt),
+            property.instrumentsLinkValueDescription
         ]
     )
 }

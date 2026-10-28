@@ -1161,15 +1161,53 @@ package struct SafeAreaInsets {
     }
     
     fileprivate func mergedInsets(regions: SafeAreaRegions, adaptCorners: Bool) -> SafeAreaInsets.MergedInsets {
-        assertUnimplemented()
+        /*
+         regions -> x0
+         adaptCorners -> w1
+         */
+        var result = SafeAreaInsets.MergedInsets(
+            unknown0: 0,
+            unknown1: 0,
+            unknown2: 0,
+            unknown3: 0,
+            unknown4: 0,
+            unknown5: 0,
+            unknown6: 0,
+            unknown7: 0,
+            unknown8: 0,
+            unknown9: 0,
+            unknown10: 0,
+            unknown11: 0,
+            unknown12: 0,
+            unknown13: 0,
+            unknown14: 0,
+            unknown15: 0
+        )
+        
+        // w15
+        let corner: Edge.Corner.Set
+        if adaptCorners {
+            // <+48>
+            corner = .all
+        } else {
+            // <+76>
+            corner = .none
+        }
+        
+        // <+80>
+        for element in self.elements {
+            assertUnimplemented()
+        }
+        
+        return result
     }
 }
 
 extension SafeAreaInsets {
     struct Element {
-        var regions: SafeAreaRegions
-        var insets: EdgeInsets
-        var cornerInsets: AbsoluteRectangleCornerInsets?
+        var regions: SafeAreaRegions // 0x0
+        var insets: EdgeInsets // 0x8
+        var cornerInsets: AbsoluteRectangleCornerInsets? // 0x28
     }
     
     enum OptionalValue {

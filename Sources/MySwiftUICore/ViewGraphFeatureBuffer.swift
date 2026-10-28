@@ -65,42 +65,42 @@ extension ViewGraphFeatureBuffer {
         
         @inlinable
         func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).modifyViewInputs(elt: base, inputs: &inputs, graph: graph)
         }
         
         @inlinable
         func modifyViewOutputs(outputs: inout _ViewOutputs, inputs: _ViewInputs, graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).modifyViewOutputs(elt: base, outputs: &outputs, inputs: inputs, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).modifyViewOutputs(elt: base, outputs: &outputs, inputs: inputs, graph: graph)
         }
         
         @inlinable
         func uninstantiate(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).uninstantiate(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).uninstantiate(elt: base, graph: graph)
         }
         
         @inlinable
         func isHiddenForReuseDidChange(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).isHiddenForReuseDidChange(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).isHiddenForReuseDidChange(elt: base, graph: graph)
         }
         
         @inlinable
         func allowsAsyncUpdate(graph: ViewGraph) -> Bool? {
-            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).allowsAsyncUpdate(elt: base, graph: graph)
+            return base.vtable(as: ViewGraphFeatureBuffer.VTable.self).allowsAsyncUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func needsUpdate(graph: ViewGraph) -> Bool {
-            return base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).needsUpdate(elt: base, graph: graph)
+            return base.vtable(as: ViewGraphFeatureBuffer.VTable.self).needsUpdate(elt: base, graph: graph)
         }
         
         @inlinable
         func update(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).update(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).update(elt: base, graph: graph)
         }
         
         @inlinable
         func outputsDidChange(graph: ViewGraph) {
-            base.vtable(as: ViewGraphFeatureBuffer._VTable<Self>.self).outputsDidChange(elt: base, graph: graph)
+            base.vtable(as: ViewGraphFeatureBuffer.VTable.self).outputsDidChange(elt: base, graph: graph)
         }
         
         @inlinable

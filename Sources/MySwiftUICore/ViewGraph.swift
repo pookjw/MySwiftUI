@@ -1,5 +1,4 @@
 // 7D9EDEF832940A362646A6E979F296C8
-
 internal import AttributeGraph
 package import CoreGraphics
 internal import QuartzCore
@@ -21,7 +20,7 @@ private import Spatial
     private(set) var centersRootView = true // 0xe8
     private let rootView: AnyAttribute // 0xec
     @Attribute private(set) var rootTransform: ViewTransform // 0xf0
-    private var _transform: Attribute<ViewTransform> // 0xf4
+    var _transform: Attribute<ViewTransform> // 0xf4
     package var transform: ViewTransform {
         get {
             return self._transform.value

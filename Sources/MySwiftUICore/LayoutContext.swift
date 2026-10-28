@@ -68,7 +68,7 @@ struct PlacementContext {
             case .eager(let viewSize):
                 size = viewSize
             case .lazy(let attribute):
-                size = attribute.value
+                size = context[attribute]
             }
             
             // <+248>
@@ -81,7 +81,7 @@ struct PlacementContext {
             case .eager(let viewSize):
                 size = viewSize
             case .lazy(let attribute):
-                size = attribute.value
+                size = context[attribute]
             }
             
             return _ProposedSize(width: size.width, height: size.height)
@@ -93,7 +93,7 @@ struct PlacementContext {
         case .eager(let viewSize):
             return viewSize.value
         case .lazy(let attribute):
-            return attribute.value.value
+            return context[attribute].value
         }
     }
     

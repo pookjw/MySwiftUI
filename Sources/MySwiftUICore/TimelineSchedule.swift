@@ -8,3 +8,17 @@ public protocol TimelineSchedule {
 
     func entries(from startDate: Date, mode: Self.Mode) -> Self.Entries
 }
+
+extension TimelineSchedule {
+    public func entries(within range: DateInterval, mode: TimelineScheduleMode = .normal, limit: UInt? = nil) -> [Date] {
+        assertUnimplemented()
+    }
+    
+    public func lazyEntries(within range: Range<Date>, mode: TimelineScheduleMode = .normal, limit: UInt? = nil) -> LazySequence<AnySequence<Date>> {
+        assertUnimplemented()
+    }
+    
+    public func nextEntry(after date: Date, mode: TimelineScheduleMode, limit: UInt?) -> Date {
+        assertUnimplemented()
+    }
+}

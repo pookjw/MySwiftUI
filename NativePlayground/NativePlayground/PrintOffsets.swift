@@ -279,6 +279,7 @@ func printOffsets() {
     printFields(SwiftUI::_RendererConfiguration.RasterizationOptions.self, isClassType: false)
     printFields("7SwiftUI30_PositionAwarePlacementContextV", isClassType: false)
     printFields("7SwiftUI14SafeAreaInsetsV", isClassType: false)
+    printFields("7SwiftUI14SafeAreaInsetsV7ElementV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

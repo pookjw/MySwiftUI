@@ -68,7 +68,7 @@ extension RemoteEffectGroupInfo {
     enum NamespaceScope {
         case scene(String)
         case local
-        case globa
+        case global
     }
 }
 
