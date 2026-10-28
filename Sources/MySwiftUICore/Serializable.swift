@@ -3,7 +3,17 @@ package protocol Serializable {
     static func deserialize(from decoder: Decoder) throws -> Self
 }
 
-protocol CodableSerializable : Serializable {}
+protocol CodableSerializable : Codable, Serializable {}
+
+extension CodableSerializable {
+    func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    static func deserialize(from decoder: Decoder) throws -> Self {
+        assertUnimplemented()
+    }
+}
 
 protocol EmptySerializable : Serializable {
     init()

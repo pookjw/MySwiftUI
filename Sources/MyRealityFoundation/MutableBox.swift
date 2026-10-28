@@ -7,7 +7,7 @@ final class MutableBox<T> {
     }
 }
 
-extension MutableBox where T : Equatable {
+extension MutableBox : Equatable where T : Equatable {
     static func ==(lhs: MutableBox<T>, rhs: MutableBox<T>) -> Bool {
         return lhs.value == rhs.value
     }

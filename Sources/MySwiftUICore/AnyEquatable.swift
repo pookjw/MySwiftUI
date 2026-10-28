@@ -19,7 +19,41 @@ struct AnyEquatable: Equatable {
         assertUnimplemented()
     }
 
-    func `as`<A: Equatable>(_ type: A.Type) -> A? {
+    func `as`<A: Equatable>(type: A.Type) -> A? {
+        assertUnimplemented()
+    }
+}
+
+fileprivate class AnyEquatableBox {
+    var hash: StrongHash? {
+        assertUnimplemented()
+    }
+
+    func `as`<A: Equatable>(type: A.Type) -> A? {
+        assertUnimplemented()
+    }
+
+    func isEqual(to other: AnyEquatableBox) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+fileprivate class _AnyEquatableBox<A: Equatable>: AnyEquatableBox {
+    let value: A
+
+    init(_ value: A) {
+        self.value = value
+    }
+
+    override var hash: StrongHash? {
+        assertUnimplemented()
+    }
+
+    override func `as`<B: Equatable>(type: B.Type) -> B? {
+        assertUnimplemented()
+    }
+
+    override func isEqual(to other: AnyEquatableBox) -> Bool {
         assertUnimplemented()
     }
 }

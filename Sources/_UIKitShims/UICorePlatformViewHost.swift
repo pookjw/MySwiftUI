@@ -44,9 +44,9 @@ public import _UIKitPrivate
         // vc -> x19
         vc.willMove(toParent: nil)
         vc.view.removeFromSuperview()
-        vc.removeFromParent()
         
         super.removeFromSuperview()
+        vc.removeFromParent()
         
         if
             let host,
@@ -64,7 +64,7 @@ public import _UIKitPrivate
             let vc // x21
         {
             // x22
-            let vcView = vc.view
+            let vcView = vc.view!
             if let provider = host?.as(UICoreViewControllerProvider.self) {
                 // <+212>
                 let hostingController: UIViewController?
@@ -406,7 +406,8 @@ public import _UIKitPrivate
         }
         set {
             super.hostedView = newValue
-            updateSeparatedThicknessRegistration(hostedView: newValue)
+            cachedImplementsFittingSize = nil
+            updateSeparatedThicknessRegistration(hostedView: self.hostedView)
         }
     }
     
@@ -541,7 +542,7 @@ public import _UIKitPrivate
         var d1 = d8
         
         do {
-            let point = hostedView.convert(CGPoint(x: d0, y: d1), from: self)
+            let point = hostedView.convert(CGPoint(x: d0, y: d1), from: self as any UICoordinateSpace)
             d0 = point.x
             d1 = point.y
         }
@@ -606,7 +607,7 @@ public import _UIKitPrivate
         if newSuperview != nil, let vc {
             // vc -> x23
             // x29 - 0x80
-            let vcView = vc.view
+            let vcView = vc.view!
             let flag: Bool // true -> <+448> / false -> <+740>
             var hostingController: UIViewController!
             
@@ -1137,7 +1138,6 @@ extension UICorePlatformViewHost {
                     return
                 }
                 
-                let view = unsafe unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
                 let newDisplayScale = view.traitCollection.displayScale
                 
                 guard self.displayScale != newDisplayScale else {
@@ -1145,7 +1145,7 @@ extension UICorePlatformViewHost {
                 }
                 
                 self.displayScale = newDisplayScale
-                onChange()
+                self.onChange()
             }
             
             unsafe view.layer.addObserver(self, forKeyPath: "separatedOptions.separatedThickness", options: [.new], context: nil)
@@ -1157,7 +1157,7 @@ extension UICorePlatformViewHost {
             }
             
             let view = unsafe unsafeBitCast(self.hostedView, to: UIView.self) // FIXME
-            unsafe view.layer.removeObserver(self, forKeyPath: "separatedOptions.separatedThickness", context: nil)
+            unsafe view.layer.removeObserver(self, forKeyPath: "separatedOptions.separatedThickness")
             view.unregisterForTraitChanges(traitChangeRegistration)
             // self.traitChangeRegistration = nil은 안 보임
         }
@@ -1169,15 +1169,11 @@ extension UICorePlatformViewHost {
              object -> x3 -> x23
              change -> x4 -> x22
              */
-            guard
-                keyPath == "separatedOptions.separatedThickness",
-                let change,
-                let newValue = change[.newKey]
-            else {
+            guard keyPath == "separatedOptions.separatedThickness" else {
                 return
             }
             
-            let resolved = (newValue as? CGFloat) ?? 0
+            let resolved = (change?[.newKey] as? CGFloat) ?? 0
             
             guard separatedThickness != resolved else {
                 return

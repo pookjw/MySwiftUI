@@ -29,6 +29,12 @@ public import Foundation
     fileprivate final func removeNilEntries() {
         assertUnimplemented()
     }
+    
+    @inline(__always) // 원래 없음
+    final func setup(entity: MyRealityFoundation::Entity) {
+        self.addEntity(entity)
+        self.removeNilEntries()
+    }
 }
 
 extension __VideoResource {

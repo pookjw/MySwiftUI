@@ -3,6 +3,16 @@ protocol Paint : ShapeStyle {
     associatedtype ResolvedPaintType
 }
 
+extension Paint {
+    func _apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+    
+    static func _makeView<S : Shape>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
 package protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
     var isClear: Bool { get }
     var isOpaque: Bool { get }

@@ -364,7 +364,80 @@ package import Spatial
     }
     
     func forEach(inverted: Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
-        assertUnimplemented()
+        /*
+         inverted -> w0
+         block -> x1/x2 -> x23/x24
+         */
+        guard let head else {
+            return
+        }
+        
+        let q1 = self.pendingTranslation
+        var x190x1f = false
+        
+        if inverted {
+            // <+80>
+            if (q1.width != 0) || (q1.height != 0) {
+                // <+408>
+                let item = ViewTransform.Item.translation(
+                    CGSize(width: -q1.width, height: -q1.height)
+                )
+                
+                block(item, &x190x1f)
+                
+                if x190x1f {
+                    // <+548>
+                } else {
+                    // <+496>
+                    var _head: AnyElement? = head
+                    
+                    while let __head = _head {
+                        _head = __head.next
+                        __head.forEach(inverted: inverted, stop: &x190x1f, block)
+                        
+                        if x190x1f {
+                            break
+                        }
+                    }
+                    
+                    // <+548>
+                }
+            } else {
+                // <+496>
+                var _head: AnyElement? = head
+                
+                while let __head = _head {
+                    _head = __head.next
+                    __head.forEach(inverted: inverted, stop: &x190x1f, block)
+                    
+                    if x190x1f {
+                        break
+                    }
+                }
+                
+                // <+548>
+            }
+            
+            // <+548>
+        } else {
+            // <+112>
+            let capacity = (head.depth << 3)
+            
+            withUnsafeTemporaryAllocation(
+                of: AnyElement.self,
+                capacity: capacity
+            ) { buffer in
+                // $s7SwiftUI13ViewTransformV7forEach8inverted_ySb_yAC4ItemO_SbztXEtFySrys9UnmanagedVyAA10AnyElement33_1CC2FE016A82CF91549A64E942CE8ED4LLCGGXEfU1_
+                if inverted {
+                    
+                } else {
+                    
+                }
+                assertUnimplemented()
+            }
+            
+            assertUnimplemented()
+        }
     }
     
     fileprivate func spaceBeforeSpace(_: CoordinateSpaceTag, _: CoordinateSpaceTag) -> Bool {
@@ -484,6 +557,10 @@ fileprivate final class Element<T : Equatable> : AnyElement {
         super.init(next: next)
     }
     
+    override func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        assertUnimplemented()
+    }
+    
     override func isEqual(to other: AnyElement) -> Bool {
         guard let casted = other as? Self else {
             return false
@@ -511,7 +588,7 @@ fileprivate final class BufferedElement : AnyElement {
         elements.destroy()
     }
     
-    func forEach(inverted: Bool, stop: inout Bool, _: (ViewTransform.Item, inout Bool) -> Void) {
+    override func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
     }
     
@@ -552,6 +629,10 @@ fileprivate class AnyElement {
             depth = 1
         }
         self.depth = depth
+    }
+    
+    func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
+        // noop
     }
     
     func isEqual(to other: AnyElement) -> Bool {

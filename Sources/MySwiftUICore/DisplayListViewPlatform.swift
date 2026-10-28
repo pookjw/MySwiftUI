@@ -32,10 +32,10 @@ extension DisplayList.ViewUpdater {
         
         @inline(always)
         func setShadow(_ style: ResolvedShadowStyle?, layer: CALayer) {
-            let system = encoding.viewSystem
+            var system = encoding.viewSystem
             
-            let view = withUnsafeTemporaryAllocation(of: ViewSystem.self, capacity: 1) { pointer in
-                return unsafe CoreViewLayerView(system, layer, pointer.baseAddress.unsafelyUnwrapped)
+            let view = withUnsafeMutablePointer(to: &system) { pointer in
+                return unsafe CoreViewLayerView(encoding.viewSystem, layer, pointer)
             }
             
             if let style {
@@ -850,6 +850,8 @@ extension DisplayList.ViewUpdater {
                     // <+2364>
                     let layerView = platform.definition.makeLayerView(type: layerType, kind: .shape)
                     let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: layerView, kind: .shape)
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: layerView, kind: .shape, platform: platform)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
                     return viewInfo
                 case .sdfShape(_):
                     // <+156>
@@ -1246,6 +1248,7 @@ extension DisplayList.ViewUpdater {
                             size: boundingRect.size,
                             state: &copy_2
                         )
+                        return
                     case .sdfShape(_):
                         // <+5540>
                         assertUnimplemented()
@@ -1667,6 +1670,7 @@ extension DisplayList.ViewUpdater {
                     // <+828>
                     if flags.contains(.unknown4) {
                         viewInfo.layer.mask = nil
+                        viewInfo.state.flags.subtract(.unknown4)
                     }
                     // <+1152>
                 }
@@ -1897,12 +1901,16 @@ extension DisplayList.ViewUpdater {
                     // <+268>
                     // d0/d1
                     let position = viewInfo.state.position
-                    if position == .zero {
+                    if position == CGPoint(x: d13, y: d12) {
                         // <+908>
-                        w22 = false
                         w23 = false
-                        viewInfo.state.size = size
-                        w20 = true
+                        if w22 {
+                            viewInfo.state.size = size
+                            w20 = true
+                        } else {
+                            w20 = false
+                        }
+                        w22 = false
                         d10 = 0
                         d11 = 0
                         
@@ -1978,7 +1986,7 @@ extension DisplayList.ViewUpdater {
                         w22 = false
                         branch = .to1072Or588
                     } else {
-                        w24.subtract(.unknown0)
+                        w24.formUnion(.unknown0)
                         viewInfo.state.flags = w24
                         w22 = true
                         branch = .to1072Or588
@@ -2005,7 +2013,7 @@ extension DisplayList.ViewUpdater {
                     w26 = unsafe (state.pointee.transform.d != 1)
                     if w24.contains(.unknown1) {
                         // <+660>
-                    } else {
+                    } else if !w26 {
                         branch = .to728
                         // fin
                     }
@@ -2027,7 +2035,7 @@ extension DisplayList.ViewUpdater {
                         } else {
                             // <+708>
                             // <+724>
-                            viewInfo.state.flags.formUnion(.unknown2)
+                            viewInfo.state.flags.formUnion(.unknown1)
                             // <+728>
                             branch = .to728
                         }
@@ -2050,7 +2058,7 @@ extension DisplayList.ViewUpdater {
                 
                 let isPlatformView: Bool
                 switch viewInfo.state.kind {
-                case .platformView, .platformGroup, .platformLayer, .platformEffect:
+                case .platformView, .platformGroup, .platformLayer:
                     isPlatformView = true
                 default:
                     isPlatformView = false
@@ -2229,7 +2237,7 @@ extension DisplayList.ViewUpdater {
                 view: object,
                 identity: identity,
                 reason: .affine3D,
-                platform: DisplayList.ViewUpdater.Platform(definition: self.definition)
+                platform: self
             )
             
             CoreGlue2.shared.setSeparatedState(parameters)
@@ -2301,7 +2309,7 @@ extension DisplayList.ViewUpdater {
             )
         }
         
-        func maskContainerView(_: AnyObject, item: DisplayList.Item) -> AnyObject? {
+        func separatedMaskContainerView(_ view: AnyObject) -> AnyObject? {
             assertUnimplemented()
         }
         
@@ -2329,6 +2337,10 @@ extension DisplayList.ViewUpdater.PlatformViewInfo {
         var projectiveShadow: DisplayList.Seed
         var hitTestsAsOpaque: DisplayList.Seed
         var serverResponderID: DisplayList.Seed
+        
+        mutating func invalidate() {
+            assertUnimplemented()
+        }
         
         // 원래 없음
         @inline(always)

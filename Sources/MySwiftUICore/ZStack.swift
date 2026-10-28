@@ -1341,8 +1341,11 @@ struct StaticSpatialLayoutComputer<L : SpatialLayout> : StatefulRule {
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 extension ZStackLayout : BitwiseCopyable {}
 
-//extension ZStackLayout : DerivedLayout, DerivedSpatialLayout {
-//}
+extension ZStackLayout : DerivedLayout {
+    var base: _ZStackLayout {
+        return _ZStackLayout(alignment: self.alignment)
+    }
+}
 
 extension ZStackLayout {
     struct EnableDepthAwareSpacers : UserDefaultKeyedFeature {

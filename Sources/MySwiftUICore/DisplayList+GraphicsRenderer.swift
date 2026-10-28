@@ -1,6 +1,7 @@
 // EFAEDE41CB8C85EF3A6A18DC05438A3C
 
 private import CoreGraphics
+internal import QuartzCore
 
 extension DisplayList {
     package final class GraphicsRenderer {
@@ -15,6 +16,42 @@ extension DisplayList {
         var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
         
         init(platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode) {
+            assertUnimplemented()
+        }
+        
+        deinit {
+            assertUnimplemented()
+        }
+        
+        var placeholderUserInfo: [CodingUserInfoKey: Any]? {
+            assertUnimplemented()
+        }
+        
+        func render(at time: Time, do body: () -> ()) {
+            assertUnimplemented()
+        }
+        
+        func render(list: DisplayList, in context: inout GraphicsContext) {
+            assertUnimplemented()
+        }
+        
+        func render(item: DisplayList.Item, in context: inout GraphicsContext) {
+            assertUnimplemented()
+        }
+        
+        func renderDisplayList(_ list: DisplayList, at time: Time, in context: inout GraphicsContext) {
+            assertUnimplemented()
+        }
+        
+        func drawImplicitLayer(in context: inout GraphicsContext, content: (inout GraphicsContext) -> ()) {
+            assertUnimplemented()
+        }
+        
+        func drawPlatformLayer(_ layer: CALayer, in context: GraphicsContext, size: CGSize, update: Bool) {
+            assertUnimplemented()
+        }
+        
+        func renderPlatformView(_ view: Any?, in context: GraphicsContext, size: CGSize, viewType: Any.Type) {
             assertUnimplemented()
         }
     }

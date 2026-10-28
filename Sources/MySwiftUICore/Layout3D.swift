@@ -35,7 +35,7 @@ extension Layout3D {
 }
 
 struct LayoutDepthProperties {
-    private(set) var stackOrientationIsDepth: Bool
+    var stackOrientationIsDepth: Bool
 }
 
 struct AnyLayoutDepthProperties : AsyncAttribute, Rule {
@@ -49,6 +49,14 @@ struct AnyLayoutDepthProperties : AsyncAttribute, Rule {
 struct LayoutSubviews3D : Equatable, RandomAccessCollection {
     subscript(position: Int) -> LayoutSubview3D {
         return LayoutSubview3D(base: self.storage[position])
+    }
+    
+    subscript(subRange: Range<Int>) -> LayoutSubviews3D {
+        assertUnimplemented()
+    }
+    
+    subscript<A : Sequence>(indices: A) -> LayoutSubviews3D where A.Element == Int {
+        assertUnimplemented()
     }
     
     var storage: LayoutSubviews
@@ -374,6 +382,10 @@ fileprivate struct PlacementData3D {
     private(set) var layoutDirection: LayoutDirection // 0x60
     private(set) var layoutEngine: OpaquePointer // 0x68
     private(set) var type: any Layout3D.Type // 0x70
+    
+    func geometries(in bounds: Rect3D, proposal: _ProposedSize3D) -> [ViewGeometry] {
+        assertUnimplemented()
+    }
 }
 
 enum DepthDataSignature {

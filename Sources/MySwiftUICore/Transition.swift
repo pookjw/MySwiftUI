@@ -28,6 +28,10 @@ extension Transition {
     @MainActor @preconcurrency public func apply<V>(content: V, phase: TransitionPhase) -> some View where V : View {
         assertUnimplemented()
     }
+    
+    var hasContentTransition: Bool {
+        assertUnimplemented()
+    }
 }
 
 extension Transition {

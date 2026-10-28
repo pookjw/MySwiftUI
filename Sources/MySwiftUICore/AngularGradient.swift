@@ -34,6 +34,14 @@ internal import CoreGraphics
                   angle: angle)
     }
     
+    func fallbackColor(in environmentValues: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
+    
+    func resolvePaint(in environmentValues: EnvironmentValues) -> AngularGradient._Paint {
+        assertUnimplemented()
+    }
+    
     @available(*, deprecated, message: "obsolete")
     @_alwaysEmitIntoClient public static func _makeView<S>(view: _GraphValue<_ShapeView<S, AngularGradient>>, inputs: _ViewInputs) -> _ViewOutputs where S : Shape {
         _ShapeView<S, Self>._makeView(view: view, inputs: inputs)
@@ -54,6 +62,10 @@ extension AngularGradient {
         private var startAngle: Angle
         private var endAngle: Angle
         private(set) var allowedDynamicRange: Image.DynamicRange
+        
+        init(gradient: ResolvedGradient, center: UnitPoint, startAngle: Angle, endAngle: Angle, allowedDynamicRange: Image.DynamicRange) {
+            assertUnimplemented()
+        }
         
         var isClear: Bool {
             assertUnimplemented()

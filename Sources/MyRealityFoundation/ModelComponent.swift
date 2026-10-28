@@ -123,7 +123,7 @@ extension ModelComponent {
             
             // returnStrongReference 여부는 알 수 없음
             entity.components.doSet(VideoComponent.self, newValue: component, returnStrongReference: false)
-            videoResource.addEntity(entity)
+            videoResource.setup(entity: entity)
             
             // <+1080>
             let controller = videoMaterial.controller

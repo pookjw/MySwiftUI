@@ -354,7 +354,7 @@ extension Entity.ComponentSet {
          */
         if ImplicitAnimationStack.current != nil {
             // <+248>
-            if let existing = self[T.self] {
+            if let existing = self.doGet(T.self, borrowStrongReference: false) {
                 // <+448>
                 let data = T.animation(from: existing, to: component)
                 
@@ -368,7 +368,7 @@ extension Entity.ComponentSet {
                 
                 current.setComponent(
                     entity: self.entity,
-                    component: self[T.self]!,
+                    component: self.doGet(T.self, borrowStrongReference: false)!,
                     from: data.from,
                     to: data.to
                 )

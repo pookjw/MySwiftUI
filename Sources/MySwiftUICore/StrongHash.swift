@@ -145,6 +145,10 @@ func makeStableTypeData(_ type: Any.Type) -> StrongHash {
     return StrongHash(words: TypeID(type).signature.words)
 }
 
+func makeStableIDData<T>(from value: T) -> StrongHash {
+    assertUnimplemented()
+}
+
 extension UUID : StronglyHashable {
     func hash(into hasher: inout StrongHasher) {
         assertUnimplemented()

@@ -149,6 +149,22 @@ extension ViewModifier {
         outputs.multiModifier(modifier, inputs: inputs)
         return outputs
     }
+    
+    nonisolated static func makeUnaryViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func makeImplicitRoot(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+    
+    nonisolated static func requiring<P : ViewInputPredicate>(_ type: P.Type) -> StaticIf<P, Self, EmptyModifier> {
+        assertUnimplemented()
+    }
 }
 
 package protocol MultiViewModifier : ViewModifier where Body == Never {
@@ -217,6 +233,14 @@ public struct PlaceholderContentView<Value> : View {
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Swift.Int? {
         assertUnimplemented()
+    }
+    
+    public static func withPlaceholderContent<V : View>(result: (PlaceholderContentView<Value>) -> V) -> some View {
+        assertUnimplemented()
+        return EmptyView()
+    }
+    
+    public init() {
     }
     
     public typealias Body = Never

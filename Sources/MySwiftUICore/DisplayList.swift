@@ -1113,7 +1113,16 @@ struct _DisplayList_StableIdentity : Sendable {
 }
 
 struct _DisplayList_StableIdentityMap : Sendable {
-    fileprivate var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
+    private var map: [_DisplayList_Identity: _DisplayList_StableIdentity]
+    
+    subscript(_ identity: _DisplayList_Identity) -> _DisplayList_StableIdentity? {
+        get {
+            return self.map[identity]
+        }
+        set {
+            self.map[identity] = newValue
+        }
+    }
 }
 
 protocol ViewRendererBase : AnyObject {
@@ -1241,7 +1250,7 @@ struct _DisplayList_StableIdentityScope : ViewInput, _ViewTraitKey {
     var serial: UInt32
     
     mutating func pushIdentity(identity: _DisplayList_Identity) {
-        map.map[identity] = makeIdentity()
+        map[identity] = makeIdentity()
     }
     
     mutating func pushIdentity() -> _DisplayList_Identity {

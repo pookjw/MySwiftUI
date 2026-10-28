@@ -383,6 +383,10 @@ extension Spacing {
                 return lhs < rhs
             case (.bottomTextMetrics(let lhs), .bottomTextMetrics(let rhs)):
                 return lhs < rhs
+            case (.distance, _):
+                return true
+            case (.topTextMetrics, .bottomTextMetrics):
+                return true
             default:
                 return false
             }
@@ -411,12 +415,16 @@ extension Spacing {
             case .topTextMetrics(let top):
                 if case .bottomTextMetrics(let bottom) = other {
                     return Spacing.TextMetrics.spacing(top: top, bottom: bottom)
+                } else if case .distance(let distance) = other {
+                    return distance
                 } else {
                     return nil
                 }
             case .bottomTextMetrics(let bottom):
                 if case .topTextMetrics(let top) = other {
                     return Spacing.TextMetrics.spacing(top: top, bottom: bottom)
+                } else if case .distance(let distance) = other {
+                    return distance
                 } else {
                     return nil
                 }

@@ -113,6 +113,18 @@ struct Signpost {
         assertUnimplemented()
     }
     
+    var disabled: Signpost {
+        assertUnimplemented()
+    }
+    
+    var verbose: Signpost {
+        assertUnimplemented()
+    }
+    
+    static func scrollNotifyDidMoveToWindow(_ didMoveToWindow: Bool) {
+        assertUnimplemented()
+    }
+    
     @inlinable
     var isEnabled: Bool {
         switch level {

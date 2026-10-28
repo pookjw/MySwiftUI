@@ -244,6 +244,7 @@ private import Observation
     func registerBuiltInType(_ type: any MyRealityFoundation::Component.Type, typeEnum: CoreRE::ComponentType) {
         let componentClassPtr = CoreRE::Component.ClassPtr.fromType(typeEnum)!
         self.builtInComponentTypeToClassTable[ObjectIdentifier(type)] = componentClassPtr
+        self.builtInComponentClassToTypeTable[componentClassPtr] = type
     }
     
     nonisolated func componentTypeToComponentClass(_ type: any MyRealityFoundation::Component.Type) -> OpaquePointer? {

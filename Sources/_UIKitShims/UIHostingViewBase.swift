@@ -95,11 +95,11 @@ package final class UIHostingViewBase : NSObject {
     package var sceneActivationState: UIScene.ActivationState? {
         get {
             guard let uiView else {
-                return .foregroundInactive
+                return nil
             }
             
             guard uiView.window?._windowHostingScene() != nil else {
-                return .foregroundActive
+                return nil
             }
             
             return _sceneActivationState
@@ -115,16 +115,17 @@ package final class UIHostingViewBase : NSObject {
             return false
         }
         
-        guard let sceneActivationState = _sceneActivationState else {
-            return false
-        }
-        
         guard !isHiddenForReuse else {
             return false
         }
         
+        guard let sceneActivationState = _sceneActivationState else {
+            return true
+        }
+
+        
         switch sceneActivationState {
-        case .foregroundInactive, .foregroundActive:
+        case .foregroundActive, .foregroundInactive:
             return true
         default:
             return isEnteringForeground || isCapturingSnapshots
@@ -606,7 +607,7 @@ package final class UIHostingViewBase : NSObject {
             if oldScene == nil {
                 flag = true
             } else {
-                flag = (newScene != oldScene)
+                flag = (newScene !== oldScene)
             }
         }
         
@@ -633,7 +634,8 @@ package final class UIHostingViewBase : NSObject {
             notificationCenter.addObserver(self, selector: #selector(_sceneWillDeactivate), name: UIScene.willDeactivateNotification, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(_sceneDidActivate), name: UIScene.didActivateNotification, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(_sceneDidEnterBackground), name: UIScene.didEnterBackgroundNotification, object: newScene)
-            notificationCenter.addObserver(self, selector: #selector(_sceneWillEnterForeground), name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(_sceneWillEnterForeground), name: UIScene.willEnterForegroundNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(sceneDidUpdateSystemUserInterfaceStyle), name: ._UIWindowSceneDidUpdateSystemUserInterfaceStyle, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidBeginResize), name: ._UIWindowSceneDidBeginLiveResize, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidEndResize), name: ._UIWindowSceneDidEndLiveResize, object: newScene)
             notificationCenter.addObserver(self, selector: #selector(sceneDidBecomeKey), name: ._UISceneDidBecomeKey, object: newScene)
@@ -642,6 +644,7 @@ package final class UIHostingViewBase : NSObject {
             notificationCenter.addObserver(self, selector: #selector(sceneDidChangeRelativeTransform(_:)), name: .sceneDidChangeRelativeTransformNotification, object: nil)
             notificationCenter.addObserver(self, selector: #selector(sceneDidChangeWorldTrackingLimitations(_:)), name: .windowSceneWorldTrackingCapabilitiesDidChange, object: nil)
             notificationCenter.addObserver(self, selector: #selector(snappingUpdate(_:)), name: .windowSceneDidBeginSnapToSurfaceNotification, object: newScene)
+            notificationCenter.addObserver(self, selector: #selector(snappingUpdate(_:)), name: Notification.Name(rawValue: "MRUIWindowSceneDidEndSnapToSurfaceNotification"), object: newScene)
             notificationCenter.addObserver(self, selector: #selector(snappingUpdate(_:)), name: .windowSceneDidChangeSnappingSurfaceClassificationNotification, object: newScene)
         }
         
@@ -657,11 +660,11 @@ package final class UIHostingViewBase : NSObject {
     @MainActor
     private func updateSceneActivationState() {
         // x22
-        let activationState: UIScene.ActivationState
+        let activationState: UIScene.ActivationState?
         if let observedScene {
             activationState = observedScene.activationState
         } else {
-            activationState = .foregroundActive
+            activationState = nil
         }
         
         if let delegate {
@@ -688,7 +691,7 @@ package final class UIHostingViewBase : NSObject {
             if oldWindow == nil {
                 flag = true
             } else {
-                flag = (newWindow != oldWindow)
+                flag = (newWindow !== oldWindow)
             }
         }
         
@@ -706,12 +709,11 @@ package final class UIHostingViewBase : NSObject {
         
         if let newWindow {
             notificationCenter.addObserver(self, selector: #selector(windowWillRotateWithNotification(_:)), name: .UIWindowWillRotate, object: newWindow)
-            notificationCenter.addObserver(self, selector: #selector(windowWillRotateWithNotification(_:)), name: .UIWindowDidRotate, object: newWindow)
+            notificationCenter.addObserver(self, selector: #selector(windowDidRotateWithNotification(_:)), name: .UIWindowDidRotate, object: newWindow)
             notificationCenter.addObserver(self, selector: #selector(windowDidMoveToSceneWithNotification(_:)), name: .windowDidMoveToSceneNotification, object: newWindow)
         }
         
         observedWindow = newWindow
-        updateSceneActivationState()
     }
     
     package nonisolated func requestUpdateForFidelity() {
@@ -1167,7 +1169,7 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        guard let scene = notification.object as? UIScene, scene == windowScene else {
+        guard let scene = notification.object as? UIScene, scene === windowScene else {
             return
         }
         
@@ -1187,7 +1189,7 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        guard let scene = notification.object as? UIScene, scene == windowScene else {
+        guard let scene = notification.object as? UIScene, scene === windowScene else {
             return
         }
         
@@ -1199,6 +1201,10 @@ package final class UIHostingViewBase : NSObject {
     }
     
     @objc private func windowWillRotateWithNotification(_ notification: Notification) {
+        assertUnimplemented()
+    }
+    
+    @objc private func windowDidRotateWithNotification(_ notification: Notification) {
         assertUnimplemented()
     }
     

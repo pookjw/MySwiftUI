@@ -30,7 +30,7 @@ NSString * _Nullable _getBestLocalization(NSBundle *bundle, NSLocale * _Nullable
     
     // <+208>
     NSMutableDictionary<NSString *, NSString *> * _Nullable dictionary = [[cache objectForKey:bundle] retain];
-    NSString * _Nullable cached = [dictionary objectForKey:locale.localeIdentifier];
+    NSString * _Nullable cached = [[[dictionary objectForKey:locale.localeIdentifier] retain] autorelease];
     
     os_unfair_lock_unlock(&lock);
     

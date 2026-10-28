@@ -65,6 +65,10 @@ extension Component {
         }
     }
     
+    public static func registerComponentProxy(componentName: String) -> OpaquePointer? {
+        assertUnimplemented()
+    }
+
     @_spi(Internal) public static var componentName: String {
         return String(reflecting: Self.self)
     }

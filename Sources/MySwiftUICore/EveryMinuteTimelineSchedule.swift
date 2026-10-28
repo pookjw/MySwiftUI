@@ -10,6 +10,12 @@ extension TimelineSchedule where Self == EveryMinuteTimelineSchedule {
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct EveryMinuteTimelineSchedule : TimelineSchedule, Sendable {
     public struct Entries : Sequence, IteratorProtocol, Sendable {
+        static let zeroSecondComponents: DateComponents = { assertUnimplemented() }()
+
+        init(startDate: Date) {
+            assertUnimplemented()
+        }
+
         public mutating func next() -> Date? {
             assertUnimplemented()
         }

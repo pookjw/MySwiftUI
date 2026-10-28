@@ -67,7 +67,7 @@ extension ActionHandlerProtocol {
         
         if unsafe AnimationResource.actionHandlerCreators[ObjectIdentifier(Self.ActionType.self)] != nil {
             // <+232>
-            AnimationLogger.logger.log(level: .error, "Handler for \(String(describing: Self.self)) already registered.")
+            AnimationLogger.logger.log(level: .error, "Handler for \(String(describing: Self.ActionType.self)) already registered.")
         }
         
         // <+732>

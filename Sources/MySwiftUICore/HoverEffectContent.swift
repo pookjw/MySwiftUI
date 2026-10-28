@@ -8,9 +8,16 @@ public protocol HoverEffectContent {
 }
 
 public struct _HoverEffectContentInputs {
+    private var base: _CustomHoverEffectInputs
+    private var isActive: Bool
+    
+    init(base: _CustomHoverEffectInputs, isActive: Bool) {
+        self.base = base
+        self.isActive = isActive
+    }
 }
 
-extension _HoverEffectContentInputs : Sendable {
+extension _HoverEffectContentInputs : @unchecked Sendable {
 }
 
 public struct _HoverEffectContentOutputs {
