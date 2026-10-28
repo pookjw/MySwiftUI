@@ -48,7 +48,7 @@ extension Shape {
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        return self.makeViewList(view: view, inputs: inputs)
     }
 }
 

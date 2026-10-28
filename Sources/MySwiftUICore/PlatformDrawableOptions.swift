@@ -9,6 +9,30 @@ public struct PlatformDrawableOptions : Equatable {
     init(base: RasterizationOptions) {
         self.base = base
     }
+    
+    public var isAccelerated: Bool {
+        assertUnimplemented()
+    }
+    
+    public var isOpaque: Bool {
+        assertUnimplemented()
+    }
+    
+    public var rendersAsynchronously: Bool {
+        assertUnimplemented()
+    }
+    
+    public var rendersFirstFrameAsynchronously: Bool {
+        assertUnimplemented()
+    }
+    
+    public var caLayerContentsFormat: CALayerContentsFormat {
+        assertUnimplemented()
+    }
+    
+    public func update(rbLayer: OpaquePointer) {
+        assertUnimplemented()
+    }
 }
 
 @_spi(Internal)

@@ -359,6 +359,10 @@ package import Spatial
         }
     }
     
+    func forEach(_ block: (ViewTransform.Item, inout Bool) -> Void) {
+        self.forEach(inverted: false, block)
+    }
+    
     func forEach(inverted: Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
     }

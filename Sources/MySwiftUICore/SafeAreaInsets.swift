@@ -1184,21 +1184,223 @@ package struct SafeAreaInsets {
             unknown15: 0
         )
         
-        // w15
-        let corner: Edge.Corner.Set
+        var w15: Edge.Corner.Set
         if adaptCorners {
             // <+48>
-            corner = .all
+            w15 = .all
         } else {
             // <+76>
-            corner = .none
+            w15 = .none
         }
         
         // <+80>
-        for element in self.elements {
-            assertUnimplemented()
+        var v0_0: CGFloat = 0
+        var v0_1: CGFloat = 0
+        let d1: CGFloat = 0
+        var d2: CGFloat = 0
+        var d3: CGFloat = 0
+        var w16: Edge.Corner.Set = [.topLeading, .topTrailing, .bottomLeading, .bottomTrailing]
+        var d5: CGFloat = 0
+        var d4: CGFloat = 0
+        var d7: CGFloat = 0
+        var d6: CGFloat = 0
+        var d18: CGFloat = 0
+        var d16: CGFloat = 0
+        var v17_0: CGFloat = 0
+        var v17_1: CGFloat = 0
+        var v19_0: CGFloat = 0
+        var v19_1: CGFloat = 0
+        var v23_0: CGFloat = 0
+        var v23_1: CGFloat = 0
+        var v20_0: CGFloat = 0
+        var v20_1: CGFloat = 0
+        var v24_0: CGFloat = 0
+        var v24_1: CGFloat = 0
+        
+        for element in self.elements.reversed() {
+            // <+276>
+            let v21_0 = element.insets.top
+            let v21_1 = element.insets.leading
+            let v22_0 = element.insets.bottom
+            let v22_1 = element.insets.trailing
+            
+            if element.regions.intersection(regions).isEmpty {
+                // <+592>
+                var d9 = v21_1
+                var w1 = w16.subtracting(.topTrailing)
+                var w2 = w15.subtracting([.topLeading, .bottomLeading])
+                w15 = (d9 == 0) ? w15 : w2
+                w16 = (d9 == 0) ? w16 : w1
+                d9 = v22_1
+                w1 = w16.subtracting(.bottomTrailing)
+                w2 = w15.subtracting([.topTrailing, .bottomTrailing])
+                w15 = (d9 == 0) ? w15 : w2
+                w16 = (d9 == 0) ? w16 : w1
+                w1 = w16.subtracting(.topLeading)
+                w2 = w15.subtracting([.topLeading, .topTrailing])
+                w15 = (v21_0 == 0) ? w15 : w2
+                w16 = (v21_0 == 0) ? w16 : w1
+                w1 = w16.subtracting(.bottomLeading)
+                w2 = w15.subtracting([.bottomLeading, .bottomTrailing])
+                w15 = (v22_0 == 0) ? w15 : w2
+                w16 = (v22_0 == 0) ? w16 : w1
+                
+                if w1.isEmpty {
+                    // <+764>
+                    w15 = []
+                    // <+256>
+                } else if let cornerInsets = element.cornerInsets {
+                    // <+696>
+                    let d31 = cornerInsets.topLeft.width
+                    let d8 = cornerInsets.topLeft.height
+                    let d29 = cornerInsets.topRight.width
+                    let d30 = cornerInsets.topRight.height
+                    let d27 = cornerInsets.bottomLeft.width
+                    let d28 = cornerInsets.bottomLeft.height
+                    let d25 = cornerInsets.bottomRight.width
+                    let d26 = cornerInsets.bottomRight.height
+                    var w17 = w15.subtracting([.topLeading])
+                    w15 = (!(d8 > 0) || !(d31 > d1)) ? w15 : w17
+                    w17 = w15.subtracting([.topTrailing])
+                    w15 = (!(d30 > 0) || !(d29 > d1)) ? w15 : w17
+                    w17 = w15.subtracting([.bottomLeading])
+                    w15 = (!(d28 > 0) || !(d27 > d1)) ? w15 : w17
+                    w17 = w15.subtracting([.bottomTrailing])
+                    w15 = (!(d26 > 0) || !(d25 > d1)) ? w15 : w17
+                    // <+256>
+                } else {
+                    // <+256>
+                }
+                
+                // <+256>
+            } else {
+                if !w15.isEmpty, let cornerInsets = element.cornerInsets {
+                    // <+328>
+                    let d31 = cornerInsets.topLeft.width
+                    let d8 = cornerInsets.topLeft.height
+                    let d29 = cornerInsets.topRight.width
+                    let d30 = cornerInsets.topRight.height
+                    let d27 = cornerInsets.bottomLeft.width
+                    let d28 = cornerInsets.bottomLeft.height
+                    let d25 = cornerInsets.bottomRight.width
+                    let d26 = cornerInsets.bottomRight.height
+                    
+                    if w15.contains(.topLeading) && (d31 > 0) && (d8 > 0) {
+                        // <+348>
+                        var w17 = (d18 < v19_0)
+                        v23_0 = v19_1
+                        w17 = (d16 < v23_0) || w17
+                        d18 = w17 ? v19_0 : d18
+                        d16 = w17 ? v23_0 : d16
+                        d16 = d31 + d16
+                        d18 = d8 + d18
+                        result.unknown4 = d16
+                        result.unknown5 = d18
+                        // <+392>
+                    } else {
+                        // <+392>
+                    }
+                    
+                    // <+392>
+                    if w15.contains(.topTrailing) && (d29 > 0) && (d30 > 0) {
+                        // <+412>
+                        var w17 = (d7 < v19_0)
+                        v23_0 = v20_1
+                        w17 = (d6 < v23_0) || w17
+                        d7 = w17 ? v19_0 : d7
+                        d6 = w17 ? v23_0 : d6
+                        d6 = d29 + d6
+                        d7 = d30 + d7
+                        result.unknown6 = d6
+                        result.unknown7 = d7
+                        // <+456>
+                    } else {
+                        // <+456>
+                    }
+                    
+                    // <+456>
+                    if w15.contains(.bottomLeading) && (d27 > 0) && (d28 > 0) {
+                        // <+476>
+                        var w17 = (d5 < v20_0)
+                        v23_0 = v20_1
+                        w17 = (d4 < v23_0) || w17
+                        d5 = w17 ? v20_0 : d5
+                        v23_0 = v19_1
+                        d4 = w17 ? v23_0 : d4
+                        d4 = d27 + d4
+                        d5 = d28 + d5
+                        result.unknown8 = d4
+                        result.unknown9 = d5
+                        // <+524>
+                    } else {
+                        // <+524>
+                    }
+                    
+                    // <+524>
+                    if w15.contains(.bottomTrailing) && (d25 > 0) && (d26 > 0) {
+                        var w17 = (d2 < v20_0)
+                        v23_0 = v20_1
+                        w17 = (d3 < v23_0) || w17
+                        d2 = w17 ? v20_0 : d2
+                        d3 = w17 ? v23_0 : d3
+                        d3 = d25 + d3
+                        d2 = d26 + d2
+                        result.unknown10 = d3
+                        result.unknown11 = d2
+                        // <+192>
+                    } else {
+                        // <+192>
+                    }
+                    
+                    // <+192>
+                } else {
+                    // <+184>
+                    v19_0 = v23_0
+                    v19_1 = v23_1
+                    // <+192>
+                }
+                
+                // <+192>
+                let v24_0_s = w16.intersection([.topLeading])
+                let v24_1_s = w16.intersection([.topTrailing])
+                let v23_0_s = w16.intersection([.bottomLeading])
+                let v23_1_s = w16.intersection([.bottomTrailing])
+                
+                // <+212>
+                v24_0 = v24_0_s.isEmpty ? 0 : v21_0
+                v24_1 = v24_1_s.isEmpty ? 0 : v21_1
+                v19_0 = v19_0 + v24_0
+                v19_1 = v19_1 + v24_1
+                
+                v23_0 = v23_0_s.isEmpty ? 0 : v22_0
+                v23_1 = v23_1_s.isEmpty ? 0 : v22_1
+                v20_0 = v20_0 + v23_0
+                v20_1 = v20_1 + v23_1
+                
+                result.unknown0 = v19_0
+                result.unknown1 = v19_1
+                result.unknown2 = v20_0
+                result.unknown3 = v20_1
+                
+                v23_0 = v19_0
+                v23_1 = v19_1
+                v24_0 = v20_0
+                v24_1 = v20_1
+                // <+256>
+            }
+            
+            // <+256>
+            v0_0 = v0_0 + v21_0
+            v0_1 = v0_1 + v21_1
+            v17_0 = v17_0 + v22_0
+            v17_1 = v17_1 + v22_1
         }
         
+        result.unknown12 = v0_0
+        result.unknown13 = v0_1
+        result.unknown14 = v17_0
+        result.unknown15 = v17_1
+
         return result
     }
 }
@@ -1217,22 +1419,22 @@ extension SafeAreaInsets {
     
     // nominal type descriptor가 없음
     fileprivate struct MergedInsets {
-        let unknown0: CGFloat
-        let unknown1: CGFloat
-        let unknown2: CGFloat
-        let unknown3: CGFloat
-        let unknown4: CGFloat
-        let unknown5: CGFloat
-        let unknown6: CGFloat
-        let unknown7: CGFloat
-        let unknown8: CGFloat
-        let unknown9: CGFloat
-        let unknown10: CGFloat
-        let unknown11: CGFloat
-        let unknown12: CGFloat
-        let unknown13: CGFloat
-        let unknown14: CGFloat
-        let unknown15: CGFloat
+        var unknown0: CGFloat
+        var unknown1: CGFloat
+        var unknown2: CGFloat
+        var unknown3: CGFloat
+        var unknown4: CGFloat
+        var unknown5: CGFloat
+        var unknown6: CGFloat
+        var unknown7: CGFloat
+        var unknown8: CGFloat
+        var unknown9: CGFloat
+        var unknown10: CGFloat
+        var unknown11: CGFloat
+        var unknown12: CGFloat
+        var unknown13: CGFloat
+        var unknown14: CGFloat
+        var unknown15: CGFloat
     }
 }
 
