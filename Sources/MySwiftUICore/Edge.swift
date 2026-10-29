@@ -1,3 +1,5 @@
+public import CoreGraphics
+
 @frozen public enum Edge : Int8, CaseIterable {
     case top, leading, bottom, trailing
 }
@@ -55,66 +57,146 @@ extension Edge {
             return self.contains(set)
         }
     }
-    
-    enum Corner : Int8 {
-        case topLeading
-        case topTrailing
-        case bottomLeading
-        case bottomTrailing
+}
+
+extension Edge {
+  @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+    public enum Corner : Int8, Hashable, CaseIterable, Sendable {
+        case topLeading, topTrailing, bottomLeading, bottomTrailing
+        
+        public struct Set : OptionSet, Hashable, Sendable {
+            public typealias Element = Edge.Corner.Set
+            public let rawValue: Int8
+            
+            public init(rawValue: Int8) {
+                self.rawValue = rawValue
+            }
+            
+            public static let none: Edge.Corner.Set = []
+            public static let topLeading = Edge.Corner.Set(rawValue: 1 << 0)
+            public static let topTrailing = Edge.Corner.Set(rawValue: 1 << 1)
+            public static let bottomLeading = Edge.Corner.Set(rawValue: 1 << 2)
+            public static let bottomTrailing = Edge.Corner.Set(rawValue: 1 << 3)
+            public static let all: Edge.Corner.Set = [.topLeading, .topTrailing, .bottomLeading, .bottomTrailing]
+            public static let leading: Edge.Corner.Set = [.topLeading, .bottomLeading]
+            public static let trailing: Edge.Corner.Set = [.topTrailing, .bottomTrailing]
+            public static let bottom: Edge.Corner.Set = [.bottomLeading, .bottomTrailing]
+            public static let top: Edge.Corner.Set = [.topLeading, .topTrailing]
+            
+            public init(_ corner: Edge.Corner) {
+                assertUnimplemented()
+            }
+            
+            public func contains(_ corner: Edge.Corner) -> Bool {
+                var w8 = corner.rawValue
+                let w9 = self.rawValue
+                var w10 = w8 & 7
+                let w11: Int8 = 1
+                w10 = (w11 << w10)
+                w8 = (w8 < 8) ? w10 : 0
+                return (w8 & ~w9) == 0
+            }
+            
+            @available(iOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, macOS 26.0, *)
+            public typealias ArrayLiteralElement = Edge.Corner.Set.Element
+            @available(iOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, macOS 26.0, *)
+            public typealias RawValue = Int8
+        }
+        
+        @available(iOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, macOS 26.0, *)
+        public typealias AllCases = [Edge.Corner]
+        @available(iOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, macOS 26.0, *)
+        public typealias RawValue = Int8
+    }
+}
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Edge.Corner : CustomDebugStringConvertible {
+    public var debugDescription: String {
+        assertUnimplemented()
+    }
+}
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Edge.Corner.Set : CustomDebugStringConvertible {
+    public var debugDescription: String {
+        assertUnimplemented()
     }
 }
 
 extension Edge.Corner {
-    struct Set : OptionSet, CustomDebugStringConvertible {
-        let rawValue: Int8
-        
-        init(rawValue: Int8) {
-            self.rawValue = rawValue
+    @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+    public struct Style : Sendable, Hashable, Equatable, Animatable {
+        public static func fixed(_ radius: CGFloat) -> Edge.Corner.Style {
+            assertUnimplemented()
         }
         
-        func contains(_ member: Edge.Corner) -> Bool {
-            var w8 = member.rawValue
-            let w9 = self.rawValue
-            var w10 = w8 & 7
-            let w11: Int8 = 1
-            w10 = (w11 << w10)
-            w8 = (w8 < 8) ? w10 : 0
-            return (w8 & ~w9) == 0
+        public static var concentric: Edge.Corner.Style {
+            assertUnimplemented()
         }
         
-        static let all: Edge.Corner.Set = [.topLeading, .topTrailing, .bottomLeading, .bottomTrailing]
-        static let leading: Edge.Corner.Set = [.topLeading, .bottomLeading]
-        static let trailing: Edge.Corner.Set = [.topTrailing, .bottomTrailing]
-        static let bottom: Edge.Corner.Set = [.bottomLeading, .bottomTrailing]
-        static let top: Edge.Corner.Set = [.topLeading, .topTrailing]
-        
-        static var none: Edge.Corner.Set {
-            return []
+        public static func concentric(minimum: Edge.Corner.Style? = nil) -> Edge.Corner.Style {
+            assertUnimplemented()
         }
         
-        static var topLeading: Edge.Corner.Set {
-            return Edge.Corner.Set(rawValue: 1 << 0)
+        public var animatableData: Edge.Corner.Style.AnimatableData {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
         }
         
-        static var topTrailing: Edge.Corner.Set {
-            return Edge.Corner.Set(rawValue: 1 << 1)
+        public struct AnimatableData : VectorArithmetic, Sendable {
+            public static func - (lhs: Edge.Corner.Style.AnimatableData, rhs: Edge.Corner.Style.AnimatableData) -> Edge.Corner.Style.AnimatableData {
+                assertUnimplemented()
+            }
+            
+            public static func + (lhs: Edge.Corner.Style.AnimatableData, rhs: Edge.Corner.Style.AnimatableData) -> Edge.Corner.Style.AnimatableData {
+                assertUnimplemented()
+            }
+            
+            public mutating func scale(by rhs: Double) {
+                assertUnimplemented()
+            }
+            
+            public var magnitudeSquared: Double {
+                assertUnimplemented()
+            }
+            
+            public static var zero: Edge.Corner.Style.AnimatableData {
+                assertUnimplemented()
+            }
+            
+            public static func == (a: Edge.Corner.Style.AnimatableData, b: Edge.Corner.Style.AnimatableData) -> Bool {
+                assertUnimplemented()
+            }
         }
         
-        static var bottomLeading: Edge.Corner.Set {
-            return Edge.Corner.Set(rawValue: 1 << 2)
+        public static func == (a: Edge.Corner.Style, b: Edge.Corner.Style) -> Bool {
+            assertUnimplemented()
         }
         
-        static var bottomTrailing: Edge.Corner.Set {
-            return Edge.Corner.Set(rawValue: 1 << 3)
-        }
-        
-        var debugDescription: String {
+        public func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
     }
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Edge.Corner.Style : ExpressibleByFloatLiteral {
+    public typealias FloatLiteralType = Float
     
-    struct Style {
-        // TODO
+    public init(floatLiteral value: Edge.Corner.Style.FloatLiteralType) {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Edge.Corner.Style : ExpressibleByIntegerLiteral {
+    public typealias IntegerLiteralType = Int
+    
+    public init(integerLiteral value: Edge.Corner.Style.IntegerLiteralType) {
+        assertUnimplemented()
     }
 }
 

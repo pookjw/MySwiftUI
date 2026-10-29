@@ -309,7 +309,7 @@ public struct GeometryProxy3D {
             return AnyRuleContext(attribute: self.owner._attribute)[attribute]
         } else {
             // <+52>
-            var result = EnvironmentValues()
+            var result = EnvironmentValues(PropertyList())
             
             if ViewGraphHost.isDefaultEnvironmentConfigured {
                 // <+96>

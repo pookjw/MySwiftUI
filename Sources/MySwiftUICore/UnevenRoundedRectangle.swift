@@ -27,6 +27,10 @@ extension UnevenRoundedRectangle : RoundedRectangularShape {
     public func corners(in size: CGSize?) -> UnevenRoundedRectangle.Corners? {
         assertUnimplemented()
     }
+    
+    public nonisolated func inset(by amount: CGFloat) -> some InsettableShape {
+        assertUnimplemented()
+    }
 }
 
 struct RootContainerShape : Rule {

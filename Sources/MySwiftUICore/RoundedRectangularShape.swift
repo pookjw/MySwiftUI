@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-public protocol RoundedRectangularShape {
+public protocol RoundedRectangularShape : InsettableShape {
     typealias Corners = RoundedRectangularShapeCorners
     func corners(in size: CGSize?) -> Self.Corners?
 }

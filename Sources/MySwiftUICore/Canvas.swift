@@ -327,6 +327,41 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
     typealias Value = DisplayList
     
     func updateValue() {
+        /*
+         self -> x20
+         T -> x0 -> x21
+         */
+        // <+564>
+        let d8: CGFloat
+        let d12: CGFloat
+        // x19 + 0x138 (sp + 0x2b8)
+        let sizeChanged: Bool
+        do {
+            let (size, changed) = self.$size.changedValue(options: [])
+            d8 = size.width
+            d12 = size.height
+            sizeChanged = changed
+        }
+        
+        // x19 + 0xf0 (sp + 0x270) / w22
+        let (position, positionChanged) = self.$position.changedValue(options: [])
+        // x28 + 0x110 (sp + 0x430)
+        let (transform, transformChanged) = self.$transform.changedValue(options: [])
+        // x19 + 0x1a0
+        let copy_1: ViewTransform
+        // w26
+        let modified: Bool
+        
+        if sizeChanged || positionChanged || transformChanged {
+            // <+732>
+            assertUnimplemented()
+        } else {
+            // <+708>
+            copy_1 = transform
+            modified = Graph.currentAttributeWasModified
+            // <+1156>
+        }
+        
         assertUnimplemented()
     }
 }

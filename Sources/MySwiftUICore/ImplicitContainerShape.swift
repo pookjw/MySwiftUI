@@ -6,18 +6,23 @@ struct ImplicitContainerShape {
 
 extension ImplicitContainerShape : Shape {
     nonisolated func path(in rect: CGRect) -> Path {
-        assertUnimplemented()
-    }
-    
-    nonisolated static var role: ShapeRole {
-        assertUnimplemented()
-    }
-    
-    nonisolated var layoutDirectionBehavior: LayoutDirectionBehavior {
-        assertUnimplemented()
-    }
-    
-    nonisolated func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
-        assertUnimplemented()
+        if let proxy = GeometryProxy.current {
+            // <+44>
+            let containerShape = proxy.environment.containerShape
+            
+            if containerShape.isSystemShape {
+                return Path(rect)
+            } else {
+                return containerShape.type.path(
+                    in: rect,
+                    proxy: proxy,
+                    shape: containerShape.shape,
+                    context: containerShape.context
+                )
+            }
+        } else {
+            // <+148>
+            return Path(rect)
+        }
     }
 }

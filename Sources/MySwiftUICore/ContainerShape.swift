@@ -21,14 +21,16 @@ struct ContainerShapeTransform : Rule, AsyncAttribute {
 }
 
 protocol AnyContainerShapeType {
-    
+    static func path(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext) -> Path
+    static func corners(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext, corners: RoundedRectangularShapeCorners, uniformity: ConcentricRectangle.Uniformity) -> RectangleCornerRadii?
+    static func corners(in rect: CGSize?, shape: AnyWeakAttribute, context: ContainerShapeContext) -> RectangleCornerRadii?
 }
 
 struct ContainerShapeData {
-    fileprivate var type: (any AnyContainerShapeType.Type)
-    private var shape: AnyWeakAttribute
-    private var context: ContainerShapeContext
-    private var isSystemShape: Bool
+    private(set) var type: (any AnyContainerShapeType.Type)
+    private(set) var shape: AnyWeakAttribute
+    private(set) var context: ContainerShapeContext
+    private(set) var isSystemShape: Bool
     
     init(type: (any AnyContainerShapeType.Type), shape: AnyWeakAttribute, context: ContainerShapeContext, isSystemShape: Bool) {
         self.type = type
@@ -53,30 +55,65 @@ struct ContainerShapeContext {
 }
 
 struct ContainerCornerShapeType<T> : AnyContainerShapeType {
+    static func path(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext) -> Path {
+        assertUnimplemented()
+    }
     
+    static func corners(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext, corners: RoundedRectangularShapeCorners, uniformity: ConcentricRectangle.Uniformity) -> RectangleCornerRadii? {
+        assertUnimplemented()
+    }
+    
+    static func corners(in rect: CGSize?, shape: AnyWeakAttribute, context: ContainerShapeContext) -> RectangleCornerRadii? {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct DefaultContainerShapeType : AnyContainerShapeType {
+    static func path(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext) -> Path {
+        assertUnimplemented()
+    }
     
+    static func corners(in rect: CGRect, proxy: GeometryProxy, shape: AnyWeakAttribute, context: ContainerShapeContext, corners: RoundedRectangularShapeCorners, uniformity: ConcentricRectangle.Uniformity) -> RectangleCornerRadii? {
+        assertUnimplemented()
+    }
+    
+    static func corners(in rect: CGSize?, shape: AnyWeakAttribute, context: ContainerShapeContext) -> RectangleCornerRadii? {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct ContainerShapeEnvironment : Rule, AsyncAttribute {
+    @Attribute private(set) var environment: EnvironmentValues
+    private(set) var data: ContainerShapeData
+    
     var value: EnvironmentValues {
         var environment = self.environment
-        environment[ContainerShapeKey.self] = data.type
-        if let tracker = environment.tracker {
-            tracker.invalidateValue(for: EnvironmentPropertyKey<ContainerShapeKey>.self, from: environment.plist, to: environment.plist)
-        }
+        environment[ContainerShapeKey.self] = data
+        
         return environment
     }
-    
-    @Attribute var environment: EnvironmentValues
-    var data: ContainerShapeData
+}
+
+extension EnvironmentValues {
+    @inline(always) // 원래 없음
+    var containerShape: ContainerShapeData {
+        return self[ContainerShapeKey.self]
+    }
 }
 
 fileprivate struct ContainerShapeKey : EnvironmentKey {
-    static var defaultValue: (any AnyContainerShapeType.Type) {
-        return DefaultContainerShapeType.self
+    static var defaultValue: ContainerShapeData {
+        return ContainerShapeData(
+            type: DefaultContainerShapeType.self,
+            shape: AnyWeakAttribute(),
+            context: ContainerShapeContext(
+                id: CoordinateSpace.ID(rawValue: .invalid),
+                position: WeakAttribute(),
+                size: WeakAttribute(),
+                childTransform: WeakAttribute()
+            ),
+            isSystemShape: false
+        )
     }
 }
 
@@ -102,6 +139,7 @@ extension _ViewInputs {
                 id: id
             )
         )
+        self.transform = transformAttribute
         
         let environmentAttribute = Attribute(
             ContainerShapeEnvironment(

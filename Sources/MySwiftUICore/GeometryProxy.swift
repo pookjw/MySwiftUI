@@ -4,13 +4,13 @@ package import AttributeGraph
 private import _MySwiftUICoreShims
 
 public struct GeometryProxy {
-    private var owner: AnyWeakAttribute
-    private var _size: WeakAttribute<ViewSize>
-    private var _environment: WeakAttribute<EnvironmentValues>
-    private var _transform: WeakAttribute<ViewTransform>
-    private var _position: WeakAttribute<CGPoint>
-    private var _safeAreaInsets: WeakAttribute<SafeAreaInsets>
-    private var _seed: UInt32
+    private var owner: AnyWeakAttribute // 0x0
+    private var _size: WeakAttribute<ViewSize> // 0x8
+    private var _environment: WeakAttribute<EnvironmentValues> // 0x10
+    private var _transform: WeakAttribute<ViewTransform> // 0x18
+    private var _position: WeakAttribute<CGPoint> // 0x20
+    private var _safeAreaInsets: WeakAttribute<SafeAreaInsets> // 0x28
+    private var _seed: UInt32 // 0x30
     
     package init(
         owner: AnyAttribute,
@@ -46,7 +46,25 @@ public struct GeometryProxy {
     }
     
     var environment: EnvironmentValues {
-        assertUnimplemented()
+        Update.begin()
+        
+        var result: EnvironmentValues
+        
+        if let environment = self._environment.attribute {
+            result = AnyRuleContext(attribute: self.owner._attribute)[environment]
+        } else {
+            result = EnvironmentValues(PropertyList())
+            
+            if ViewGraphHost.isDefaultEnvironmentConfigured {
+                let defaultEnvironment = unsafe ViewGraphHost.defaultEnvironment
+                result.plist = defaultEnvironment.plist
+            } else {
+                CoreGlue2.shared.configureEmptyEnvironment(&result)
+            }
+        }
+        
+        Update.end()
+        return result
     }
     
     public subscript<T>(anchor: Anchor<T>) -> T {

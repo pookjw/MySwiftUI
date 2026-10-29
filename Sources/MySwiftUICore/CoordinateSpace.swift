@@ -65,10 +65,14 @@ extension CoordinateSpace {
 extension CoordinateSpace {
     @_spi(Internal)
     public struct ID : Equatable, Sendable {
-        var value: UniqueID
+        private var value: UniqueID
         
         init() {
             value = UniqueID()
+        }
+        
+        init(rawValue: UniqueID) {
+            self.value = rawValue
         }
     }
     
