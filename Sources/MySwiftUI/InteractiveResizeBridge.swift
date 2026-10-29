@@ -3,7 +3,7 @@ internal import UIKit
 internal import AttributeGraph
 
 final class InteractiveResizeBridge {
-    var lastValue: Bool = false
+    private var lastValue: Bool = false
     var isInteractivelyResizing = WeakAttribute<Bool>()
     
     func handleLiveResize(isResizing: Bool, host: ViewRendererHost) {

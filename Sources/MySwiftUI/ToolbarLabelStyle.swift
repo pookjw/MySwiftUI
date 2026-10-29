@@ -75,10 +75,10 @@ extension EnvironmentValues {
             assertUnimplemented()
         }
     }
-}
-
-fileprivate struct ToolbarLabelStyleKey : EnvironmentKey {
-    static var defaultValue: ToolbarLabelStyle? {
-        return nil
+    
+    fileprivate struct ToolbarLabelStyleKey : EnvironmentKey {
+        static var defaultValue: ToolbarLabelStyle? {
+            return nil
+        }
     }
 }

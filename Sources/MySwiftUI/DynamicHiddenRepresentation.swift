@@ -5,10 +5,10 @@ internal import AttributeGraph
 extension _ViewInputs {
     var requestedDynamicHiddenRepresentation: (any PlatformDynamicHiddenRepresentable.Type)? {
         get {
-            return self[_GraphInputs.DynamicHiddenRepresentationKey.self]
+            return self.base[_GraphInputs.DynamicHiddenRepresentationKey.self]
         }
         set {
-            self[_GraphInputs.DynamicHiddenRepresentationKey.self] = newValue
+            self.base[_GraphInputs.DynamicHiddenRepresentationKey.self] = newValue
         }
     }
 }
@@ -25,7 +25,7 @@ extension _GraphInputs {
 }
 
 extension _GraphInputs {
-    fileprivate struct DynamicHiddenRepresentationKey : ViewInput {
+    fileprivate struct DynamicHiddenRepresentationKey : GraphInput {
         static var defaultValue: (any PlatformDynamicHiddenRepresentable.Type)? {
             return nil
         }

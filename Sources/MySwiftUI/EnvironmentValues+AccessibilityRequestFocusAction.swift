@@ -13,6 +13,10 @@ extension EnvironmentValues {
 
 struct AccessibilityRequestFocusAction {
     var onAccessibilityFocus: ((AnyHashable, Namespace.ID) -> Void)?
+    
+    public func callAsFunction<A : Hashable>(id: A, in namespace: Namespace.ID) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct AccessibilityRequestFocusKey : EnvironmentKey {

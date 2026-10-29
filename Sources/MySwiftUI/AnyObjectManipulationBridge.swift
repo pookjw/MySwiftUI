@@ -2,7 +2,7 @@ private import MySwiftUICore
 
 @MainActor
 class AnyObjectManipulationBridge {
-    
+    // TODO
 }
 
 struct ObjectManipulationBridgeWrapper : Equatable {

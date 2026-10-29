@@ -28,8 +28,12 @@ fileprivate struct PresentSharingPickerKey : EnvironmentKey {
     }
 }
 
-fileprivate struct SharingPickerHostModifier {
+fileprivate struct SharingPickerHostModifier : ViewModifier {
     @State private var model: SharingPickerHostModifier.Model?
+    
+    func body(content: Content) -> some View {
+        assertUnimplemented() // TODO
+    }
 }
 
 extension SharingPickerHostModifier {

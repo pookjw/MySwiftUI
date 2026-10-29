@@ -18,5 +18,5 @@ public struct UIHostingControllerSizingOptions : OptionSet, Sendable {
         return UIHostingControllerSizingOptions(rawValue: 1 << 3)
     }
     
-    static let idealSize: UIHostingControllerSizingOptions = [.preferredContentSize, .intrinsicContentSize]
+    static let idealSizeOptions: UIHostingControllerSizingOptions = [.preferredContentSize, .intrinsicContentSize]
 }

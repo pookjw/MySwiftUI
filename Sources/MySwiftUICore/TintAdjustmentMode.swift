@@ -11,7 +11,7 @@ package struct TintAdjustmentMode : Hashable {
 }
 
 extension TintAdjustmentMode {
-    fileprivate enum Role {
+    enum Role {
         case normal
         case desaturated
     }
@@ -36,6 +36,12 @@ extension EnvironmentValues {
 
 extension Color {
     package func tintAdjustmentMode(_ mode: TintAdjustmentMode) -> Color {
+        assertUnimplemented()
+    }
+}
+
+extension View {
+    package func tintAdjustmentMode(_ mode: TintAdjustmentMode?) -> some View {
         assertUnimplemented()
     }
 }

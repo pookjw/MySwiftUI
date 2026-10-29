@@ -32,7 +32,7 @@ extension ContentPathObservers {
     static var size: ContentPathChanges { return ContentPathChanges(rawValue: 1 << 1) }
     static var transform: ContentPathChanges { return ContentPathChanges(rawValue: 1 << 2) }
     
-    @_spi(Internal) public let rawValue: UInt8
+    @_spi(Internal) public var rawValue: UInt8
     
     @_spi(Internal) public init(rawValue: UInt8) {
         self.rawValue = rawValue

@@ -1566,7 +1566,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         
         // <+2228>
         resolved.windowScene = window?.windowScene
-        resolved.undoManager = undoManager
+        resolved._undoManager = undoManager
         
         let focusAction: AccessibilityRequestFocusAction
         if accessibilityEnabled {

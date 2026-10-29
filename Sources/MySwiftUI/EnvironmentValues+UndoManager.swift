@@ -1,8 +1,14 @@
-internal import MySwiftUICore
-internal import UIKit
+public import MySwiftUICore
+public import UIKit
 
 extension EnvironmentValues {
-    var undoManager: UndoManager? {
+    public var undoManager: UndoManager? {
+        get {
+            return self[UndoManagerKey.self]
+        }
+    }
+    
+    var _undoManager: UndoManager? {
         get {
             return self[UndoManagerKey.self]
         }

@@ -1,5 +1,5 @@
 internal import UIKit
 
 extension UIPress.PressType {
-    static var back: UIPress.PressType { return UIPress.PressType(rawValue: 7)! }
+    static let back: UIPress.PressType = UIPress.PressType(rawValue: 7)!
 }

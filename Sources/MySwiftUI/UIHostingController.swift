@@ -660,7 +660,7 @@ open class UIHostingController<Content : View>: UIViewController {
         
         let shareConfigurationBridge = ShareConfigurationBridge()
         shareConfigurationBridge.host = host
-        host.viewGraph.addPreference(AnyShareConfiguration.Key.self)
+        shareConfigurationBridge.addPreferences(to: host.viewGraph)
         host.shareConfigurationBridge = shareConfigurationBridge
         
         host.viewGraph.addPreference(HostingGestureOverlayAuthorityKey.self)
@@ -748,7 +748,7 @@ open class UIHostingController<Content : View>: UIViewController {
         
         if
             !UIHostingControllerSizingOptions
-                .idealSize
+                .idealSizeOptions
                 .intersection(x27)
                 .isEmpty
         {
@@ -760,7 +760,7 @@ open class UIHostingController<Content : View>: UIViewController {
             }
         } else if
             UIHostingControllerSizingOptions
-                .idealSize
+                .idealSizeOptions
                 .intersection(self.sizingOptions)
                 .isEmpty
         {

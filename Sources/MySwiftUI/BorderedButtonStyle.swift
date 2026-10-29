@@ -25,8 +25,9 @@ extension BorderedButtonStyle : Sendable {
 }
 
 extension BorderedButtonStyle : ButtonStyleConvertible {
-    package var buttonStyleRepresentation: BorderedButtonStyle_Phone {
+    package var buttonStyleRepresentation: some ButtonStyle {
         assertUnimplemented()
+        return __MSUI_UnimplementedButtonStyle()
     }
 }
 

@@ -1,11 +1,16 @@
 // 9FD3F6427190D2BCAE3F219DB2F3E9C7
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 @MainActor final class ShareConfigurationBridge {
     weak var host: ViewRendererHost? = nil
     var shareConfigurationSeed = VersionSeedTracker<AnyShareConfiguration.Key>(seed: .invalid)
     
     init() {
+    }
+    
+    @inline(always)
+    final func addPreferences(to viewGraph: ViewGraph) {
+        viewGraph.addPreference(AnyShareConfiguration.Key.self)
     }
     
     @inline(always)

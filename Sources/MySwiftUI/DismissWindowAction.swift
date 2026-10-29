@@ -22,7 +22,7 @@ public import MySwiftUICore
 }
 
 extension EnvironmentValues {
-    public var dismissWindow: DismissWindowAction {
+    public internal(set) var dismissWindow: DismissWindowAction {
         get {
             return self[DismissWindowActionKey.self]
         }
@@ -30,8 +30,8 @@ extension EnvironmentValues {
             self[DismissWindowActionKey.self] = newValue
         }
     }
-}
-
-fileprivate struct DismissWindowActionKey : EnvironmentKey {
-    static let defaultValue = DismissWindowAction()
+    
+    fileprivate struct DismissWindowActionKey : EnvironmentKey {
+        static let defaultValue = DismissWindowAction()
+    }
 }

@@ -78,6 +78,7 @@ package struct PreferencesOutputs {
             for otherPreference in other.preferences {
                 if preference.key == otherPreference.key {
                     preference.value.indirectAttribute = otherPreference.value
+                    break
                 }
             }
         }

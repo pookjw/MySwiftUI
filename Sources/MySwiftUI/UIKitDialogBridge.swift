@@ -27,9 +27,9 @@ class UIKitDialogBridge/* : DialogActionDelegate*/ {
         let copy_1 = activePresentation
         
         switch copy_1 {
-        case .alert(let _):
+        case .alert(_):
             return
-        case .confirmationDialog(let _):
+        case .confirmationDialog(_):
             // <+328>
             assertUnimplemented()
         case .none:
@@ -99,7 +99,7 @@ class UIKitDialogBridge/* : DialogActionDelegate*/ {
 }
 
 extension UIKitDialogBridge {
-    enum ActivePresentation {
+    enum ActivePresentation : Equatable {
         case alert(ViewIdentity)
         case confirmationDialog(ViewIdentity)
         case none

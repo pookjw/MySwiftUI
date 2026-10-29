@@ -186,7 +186,7 @@ extension MainMenuItem {
         }
     }
     
-    enum Identifier : Equatable {
+    enum Identifier : Hashable {
         case custom(UUID)
         case app
         case file

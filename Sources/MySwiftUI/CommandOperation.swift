@@ -39,18 +39,18 @@ public struct CommandGroupPlacement : Sendable {
     public static let sidebar = CommandGroupPlacement(Text(verbatim: "Sidebar"))
     public static let windowSize = CommandGroupPlacement(Text(verbatim: "Window Size"))
     
-    static let windowList: CommandGroupPlacement = {
+    public static let windowList: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     
-    static let singleWindowList: CommandGroupPlacement = {
+    public static let singleWindowList: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     
-    static let windowArrangement = CommandGroupPlacement(Text(verbatim: "Window Arrangement"))
-    static let help = CommandGroupPlacement(Text(verbatim: "Help"))
+    public static let windowArrangement = CommandGroupPlacement(Text(verbatim: "Window Arrangement"))
+    public static let help = CommandGroupPlacement(Text(verbatim: "Help"))
     
-    static let appShortcuts: CommandGroupPlacement = {
+    public static let appShortcuts: CommandGroupPlacement = {
         assertUnimplemented()
     }()
     

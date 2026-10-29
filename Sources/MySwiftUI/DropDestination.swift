@@ -13,11 +13,29 @@ public protocol DropDelegate {
 }
 
 class DragDropDefaultPreviewResponder {
+    var hasSeparatePreview: Bool {
+        assertUnimplemented()
+    }
     
+    var previewSize: CGSize {
+        assertUnimplemented()
+    }
+    
+    var snapsBackOnCancellation: Bool {
+        assertUnimplemented()
+    }
+    
+    var previewParameters: UIDragPreviewParameters {
+        assertUnimplemented()
+    }
+    
+    func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
 }
 
 protocol DropPayloadProvider {
-    
+    var delegate: DropDelegate? { get }
 }
 
 fileprivate class DropInfoTargetStore {
