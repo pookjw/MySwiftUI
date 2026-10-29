@@ -326,14 +326,14 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
     
     typealias Value = DisplayList
     
-    func updateValue() {
+    mutating func updateValue() {
         /*
          self -> x20
          T -> x0 -> x21
          */
         // <+564>
-        let d8: CGFloat
-        let d12: CGFloat
+        var d8: CGFloat
+        var d12: CGFloat
         // x19 + 0x138 (sp + 0x2b8)
         let sizeChanged: Bool
         do {
@@ -347,14 +347,113 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         let (position, positionChanged) = self.$position.changedValue(options: [])
         // x28 + 0x110 (sp + 0x430)
         let (transform, transformChanged) = self.$transform.changedValue(options: [])
-        // x19 + 0x1a0
+        // x19 + 0x1a0 (sp + 0x320)
         let copy_1: ViewTransform
         // w26
         let modified: Bool
         
         if sizeChanged || positionChanged || transformChanged {
             // <+732>
-            assertUnimplemented()
+            // x28 + 0xb0 / x19 + 0x250 (sp + 0x3d0)
+            var copy_2 = transform
+            copy_2.appendPosition(position)
+            copy_1 = transform
+            
+            let x190x78 = d12
+            var d14: CGFloat!
+            var d11: CGFloat!
+            var d15: CGFloat!
+            var d10: CGFloat!
+            
+            if let containingScrollGeometry = copy_2.containingScrollGeometry {
+                let d9 = containingScrollGeometry.visibleRect.origin.x
+                d12 = containingScrollGeometry.visibleRect.origin.y
+                let d13 = containingScrollGeometry.visibleRect.size.width
+                let d3 = containingScrollGeometry.visibleRect.size.height
+                let x190x128 = d3
+                
+                var d0 = CGRect(x: d9, y: d12, width: d13, height: d3).width
+                d0 = d0 + d0
+                
+                let flag: Bool
+                
+                if d0 <= d8 {
+                    // <+944>
+                    flag = true
+                } else {
+                    d0 = CGRect(x: d9, y: d12, width: d13, height: d3).height
+                    d0 = d0 + d0
+                    d14 = 0
+                    d10 = x190x78
+                    d11 = 0
+                    d15 = d8
+                    
+                    if !(d0 <= d10) {
+                        // <+1088>
+                        flag = false
+                    } else {
+                        // <+944>
+                        flag = true
+                    }
+                }
+                
+                if flag {
+                    // <+944>
+                    d0 = 0.0078125
+                    var d1 = d9 * d0
+                    d1 = floor(d1)
+                    d15 = 128
+                    d1 = d1 * d15
+                    let x190x120 = d1
+                    d0 = d12 * d0
+                    d0 = floor(d0)
+                    d11 = d0 * d15
+                    d10 = x190x128
+                    d0 = CGRect(x: d9, y: d12, width: d13, height: d10).width
+                    d14 = d0 + d15
+                    d0 = CGRect(x: d9, y: d12, width: d13, height: d10).height
+                    let d7 = d0 + d15
+                    
+                    let intersection = CGRect(x: 0, y: 0, width: d8, height: x190x78)
+                        .intersection(CGRect(x: x190x120, y: d11, width: d14, height: d7))
+                    d14 = intersection.origin.x
+                    d11 = intersection.origin.y
+                    d15 = intersection.size.width
+                    d10 = intersection.size.height
+                    // <+1088>
+                }
+                
+                // <+1088>
+            } else {
+                // <+836>
+                d14 = 0
+                d11 = 0
+                d15 = d8
+                d10 = d12
+                // <+1088>
+            }
+            
+            // <+1088>
+            if CGRect(x: d14, y: d11, width: d15, height: d10) == self.lastBounds {
+                d12 = x190x78
+                
+                if sizeChanged {
+                    modified = true
+                    // <+1156>
+                } else {
+                    // <+720>
+                    modified = Graph.currentAttributeWasModified
+                    // <+1156>
+                }
+            } else {
+                // <+1140>
+                self.lastBounds = CGRect(x: d14, y: d11, width: d15, height: d10)
+                modified = true
+                d12 = x190x78
+                // <+1156>
+            }
+            
+            // <+1156>
         } else {
             // <+708>
             copy_1 = transform
@@ -362,6 +461,7 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             // <+1156>
         }
         
+        // <+1156>
         assertUnimplemented()
     }
 }

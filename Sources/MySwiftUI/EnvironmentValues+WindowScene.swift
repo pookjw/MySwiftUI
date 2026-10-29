@@ -5,7 +5,11 @@ private import os.log
 extension EnvironmentValues {
     var windowScene: UIWindowScene? {
         get {
-            return self[WindowSceneKey.self].base
+            if let box = self[WindowSceneKey.self] {
+                return box.base
+            } else {
+                return nil
+            }
         }
         set {
             self[WindowSceneKey.self] = WeakBox(newValue)
@@ -27,7 +31,7 @@ extension EnvironmentValues {
 }
 
 fileprivate struct WindowSceneKey : EnvironmentKey {
-    static var defaultValue: WeakBox<UIWindowScene> {
-        return WeakBox(nil)
+    static var defaultValue: WeakBox<UIWindowScene>? {
+        return nil
     }
 }

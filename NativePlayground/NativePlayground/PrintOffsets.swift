@@ -280,6 +280,7 @@ func printOffsets() {
     printFields("7SwiftUI30_PositionAwarePlacementContextV", isClassType: false)
     printFields("7SwiftUI14SafeAreaInsetsV", isClassType: false)
     printFields("7SwiftUI14SafeAreaInsetsV7ElementV", isClassType: false)
+    printFields(SwiftUI::ScrollGeometry.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

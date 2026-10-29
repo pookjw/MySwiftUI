@@ -536,6 +536,10 @@ package import Spatial
         }
     }
     
+    var containingScrollGeometry: ScrollGeometry? {
+        assertUnimplemented()
+    }
+    
     fileprivate func spaceBeforeSpace(_: CoordinateSpaceTag, _: CoordinateSpaceTag) -> Bool {
         assertUnimplemented()
     }

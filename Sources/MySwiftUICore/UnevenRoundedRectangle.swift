@@ -30,6 +30,7 @@ extension UnevenRoundedRectangle : RoundedRectangularShape {
     
     public nonisolated func inset(by amount: CGFloat) -> some InsettableShape {
         assertUnimplemented()
+        return Circle() // TODO
     }
 }
 
