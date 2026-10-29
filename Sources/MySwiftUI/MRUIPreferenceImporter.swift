@@ -122,7 +122,7 @@ extension MRUIPreferenceImporter {
             let signal = Attribute(value: ())
             // w24
             let preferences = Attribute(ImportedCustomPreferences(host: host, excludedKeys: excluding))
-            signal.addInput(preferences, options: .unknown2, token: 0)
+            preferences.addInput(signal, options: .unknown2, token: 0)
             
             outputs.preferences.makePreferenceWriter(inputs: inputs.preferences, key: MRUICustomPreferencesKey.self, value: {
                 // $s7SwiftUI28ManipulationGeometryModifierV9_makeView8modifier6inputs4bodyAA01_G7OutputsVAA11_GraphValueVyACG_AA01_G6InputsVAiA01_L0V_ANtctFZ09AttributeL00O0VySDy10Foundation4UUIDVASyAA06ObjectcD0VGGGyXEfu_TA

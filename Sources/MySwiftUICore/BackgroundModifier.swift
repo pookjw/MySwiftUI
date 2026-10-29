@@ -213,19 +213,22 @@ extension _BackgroundStyleModifier : @preconcurrency ShapeStyledLeafView {
     typealias ShapeUpdateData = Void
     
     static var animatesSize: Bool {
-        assertUnimplemented()
+        return true
     }
     
     func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
-        assertUnimplemented()
+        return false
     }
     
     func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
-        assertUnimplemented()
+        let path = ImplicitContainerShape()
+            .path(in: CGRect(origin: .zero, size: size))
+        
+        return (shape: .path(path, FillStyle(eoFill: false, antialiased: true)), frame: CGRect(origin: .zero, size: size))
     }
     
     static var hasBackground: Bool {
-        assertUnimplemented()
+        return false
     }
     
     func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {

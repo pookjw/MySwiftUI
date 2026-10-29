@@ -121,24 +121,23 @@ public struct AccessibilityTraits : SetAlgebra, Sendable {
     }
     
     public mutating func insert(_ newMember: AccessibilityTraits) -> (inserted: Bool, memberAfterInsert: AccessibilityTraits) {
-        let value = self.traitSet.insert(newMember.traitSet)
-        return (inserted: value.inserted, memberAfterInsert: AccessibilityTraits(traitSet: value.memberAfterInsert))
+        let inserted = !self.traitSet.contains(newMember.traitSet)
+        
+        if inserted {
+            self.traitSet.formUnion(newMember.traitSet)
+        }
+        
+        return (inserted: inserted, memberAfterInsert: self)
     }
     
     public mutating func remove(_ member: AccessibilityTraits) -> AccessibilityTraits? {
-        if let value = self.traitSet.remove(member.traitSet) {
-            return AccessibilityTraits(traitSet: value)
-        } else {
-            return nil
-        }
+        self.traitSet.subtract(member.traitSet)
+        return self
     }
     
     public mutating func update(with newMember: AccessibilityTraits) -> AccessibilityTraits? {
-        if let value = self.traitSet.update(with: newMember.traitSet) {
-            return AccessibilityTraits(traitSet: value)
-        } else {
-            return nil
-        }
+        self.traitSet.formIntersection(newMember.traitSet)
+        return self.traitSet.isEmpty ? nil : self
     }
     
     public typealias ArrayLiteralElement = AccessibilityTraits

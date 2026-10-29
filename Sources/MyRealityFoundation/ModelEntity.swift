@@ -21,7 +21,7 @@ internal import Foundation
     
     @MainActor @preconcurrency public init(mesh: MeshResource, materials: [any Material] = []) {
         super.init()
-        self.components.set(ModelComponent(mesh: mesh, materials: materials))
+        self.components[ModelComponent.self] = ModelComponent(mesh: mesh, materials: materials)
         
         if REShadowsGetEnableDefaultShadows() {
             let reEntity = unsafe unsafeBitCast(self.coreEntity, to: CoreRE::Entity.self)

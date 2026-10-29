@@ -39,6 +39,10 @@ extension AccessibilityViewModifier {
         inputs.preferences.add(ViewRespondersKey.self)
     }
     
+    nonisolated static func makeAccessibilityViewModifier(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        return body(_Graph(), inputs)
+    }
+    
     public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         /*
          self -> x20 -> x29 - 0xb0

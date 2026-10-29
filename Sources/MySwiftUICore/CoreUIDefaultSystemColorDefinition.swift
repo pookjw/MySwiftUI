@@ -51,8 +51,12 @@ struct CoreUIDefaultSystemColorDefinition : SystemColorDefinition {
         }
     }
     
-    static func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        assertUnimplemented()
+    static func opacity(at index: Int, environment: EnvironmentValues) -> Float {
+        var s0: Float = 0.18
+        s0 = (index == 2) ? 0.25 : s0
+        s0 = (index == 1) ? 0.5 : s0
+        s0 = (index < 1) ? 1 : s0
+        return s0
     }
     
     static func value(named: CUIColorName, in environment: EnvironmentValues) -> Color.ResolvedHDR {

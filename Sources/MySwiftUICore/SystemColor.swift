@@ -177,7 +177,7 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
 
 protocol SystemColorDefinition {
     static func value(for type: SystemColorType, environment: EnvironmentValues) -> Color.ResolvedHDR
-    static func opacity(at: Int, environment: EnvironmentValues) -> Float
+    static func opacity(at index: Int, environment: EnvironmentValues) -> Float
 }
 
 extension SystemColorDefinition {

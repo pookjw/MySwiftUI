@@ -173,7 +173,7 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
         fatalError() // abstract
     }
     
-    func opacity(at: Int, environment: EnvironmentValues) -> Float {
+    func opacity(at index: Int, environment: EnvironmentValues) -> Float {
         fatalError() // abstract
     }
 }
@@ -235,8 +235,8 @@ final class ColorBox<T : ColorProvider>: AnyColorBox, @unchecked Sendable {
         assertUnimplemented()
     }
     
-    override func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        assertUnimplemented()
+    override func opacity(at index: Int, environment: EnvironmentValues) -> Float {
+        return self.base.opacity(at: index, environment: environment)
     }
 }
 
@@ -248,7 +248,7 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     }
     
     var tag: Color.ProviderTag {
-        return .accent
+        return .constant
     }
     
     func resolve(in: EnvironmentValues) -> Color.Resolved {
@@ -257,10 +257,6 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     
     func resolveHDR(in: EnvironmentValues) -> Color.ResolvedHDR {
         return color
-    }
-    
-    func apply(color: Color, to: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
     }
     
     var staticColor: CGColor? {
@@ -272,10 +268,6 @@ struct ResolvedColorProvider : Hashable, ColorProvider {
     }
     
     var colorDescription: String {
-        assertUnimplemented()
-    }
-    
-    func opacity(at: Int, environment: EnvironmentValues) -> Float {
         assertUnimplemented()
     }
     
@@ -351,6 +343,10 @@ package protocol ColorProvider : Hashable, Serializable {
 extension ColorProvider {
     package func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
         self._apply(color: color, to: &shape)
+    }
+    
+    package func opacity(at index: Int, environment: EnvironmentValues) -> Float {
+        return environment.systemColorDefinition.opacity(at: index, environment: environment)
     }
     
     func _apply(color: Color, to shape: inout _ShapeStyle_Shape) {

@@ -19,7 +19,8 @@ public import CoreGraphics
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension _AnchoredShapeStyle {
     public func _apply(to shape: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+        shape.bounds = bounds
+        self.style._apply(to: &shape)
     }
     
     public static func _apply(to type: inout _ShapeStyle_ShapeType) {

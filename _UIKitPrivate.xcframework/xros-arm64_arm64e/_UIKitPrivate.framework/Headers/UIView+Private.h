@@ -56,7 +56,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 - (instancetype)_initWithLayer:(CALayer *)layer;
 - (__kindof UIViewController * _Nullable)_viewControllerForAncestor;
 - (BOOL)_ancestorHasInvertFilterApplied;
-- (UIColor *)_undimmedTintColor;
+- (UIColor * _Nullable)_undimmedTintColor;
 - (void)_invalidateSubviewCache;
 - (void)_unregisterForGeometryChanges;
 - (BOOL)_shouldAnimatePropertyWithKey:(NSString * _Nullable)key;

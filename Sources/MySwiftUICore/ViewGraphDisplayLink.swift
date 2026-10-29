@@ -94,18 +94,18 @@ final class ViewGraphDisplayLink : NSObject {
                 if s0 <= s1 {
                     // <+140>
                     s1 = 60
-                    range = CAFrameRateRange(minimum: s0, maximum: s1, preferred: nil)
+                    range = CAFrameRateRange(minimum: s0, maximum: s1, preferred: s0)
                     // <+156>
                 } else {
                     // <+104>
                     s1 = 80
                     
-                    if s0 < s1 {
+                    if !(s0 >= s1) {
                         range = CAFrameRateRange.default
                     } else {
                         s1 = s0
                         s0 = 80
-                        range = CAFrameRateRange(minimum: s0, maximum: s1, preferred: nil)
+                        range = CAFrameRateRange(minimum: s0, maximum: s1, preferred: s1)
                     }
                 }
             } else {

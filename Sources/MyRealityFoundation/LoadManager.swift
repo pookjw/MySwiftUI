@@ -9,7 +9,7 @@ final class LoadManager {
     private let sceneResourceCache: __SceneResourceCache
     
     init() {
-        self.queue = DispatchQueue(label: "com.apple.RealityKit.load-queue")
+        self.queue = DispatchQueue(label: "com.apple.RealityKit.load-queue", autoreleaseFrequency: .workItem)
         self.loadTracer = LoadTracer()
         self.sceneResourceCache = __SceneResourceCache()
     }

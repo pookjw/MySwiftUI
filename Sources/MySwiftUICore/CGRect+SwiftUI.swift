@@ -188,6 +188,38 @@ extension CGRect {
     }
     
     init(cornerPoints: ArraySlice<CGPoint>) {
-        assertUnimplemented()
+        var index = cornerPoints.startIndex
+        
+        let d8 = cornerPoints[index].x
+        let d9 = cornerPoints[index].y
+        
+        index = cornerPoints.index(after: index)
+        let d10 = cornerPoints[index].x
+        let d11 = cornerPoints[index].y
+        
+        index = cornerPoints.index(after: index)
+        let d13 = cornerPoints[index].x
+        let d12 = cornerPoints[index].y
+        
+        index = cornerPoints.index(after: index)
+        let d14 = cornerPoints[index].x
+        let d15 = cornerPoints[index].y
+        
+        var d0 = (d10 < d8) ? d10 : d8
+        var d1 = (d14 < d13) ? d14 : d13
+        d0 = (d1 < d0) ? d1 : d0
+        d1 = (d11 < d9) ? d11 : d9
+        var d2 = (d15 < d12) ? d15 : d12
+        d1 = (d2 < d1) ? d2 : d1
+        d2 = (d8 <= d10) ? d10 : d8
+        var d3 = (d13 <= d14) ? d14 : d13
+        d2 = (d2 <= d3) ? d3 : d2
+        d3 = (d9 <= d11) ? d11 : d9
+        let d4 = (d12 <= d15) ? d15 : d12
+        d3 = (d3 <= d4) ? d4 : d3
+        d2 = d2 - d0
+        d3 = d3 - d1
+        
+        self = CGRect(x: d0, y: d1, width: d2, height: d3)
     }
 }

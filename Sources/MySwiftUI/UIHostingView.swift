@@ -28,11 +28,11 @@ fileprivate let mySwiftUI_disableUnimplementedAssertion: Bool = {
 
 open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     class var requiresExplicitGeometryChangedRegistration: Bool {
-        assertUnimplemented()
+        return true
     }
 
     func appendViewGraphFeatures() {
-        assertUnimplemented()
+        // noop
     }
 
     class var ignoresPresentations : Bool {
@@ -303,14 +303,15 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         
         PlatformColorDefinition.setInternalDefinition(UIKitPlatformColorDefinition.self, system: .uiKit)
         PlatformScrollEdgeEffectTagDefinition.setDefinition(ScrollEdgeEffectTagModifierDefinition.self)
+        PlatformItemsDefinition.setDefinition(UIKitPlatformItemsDefinition.self, system: .uiKit)
         let viewDefinition = PlatformViewDefinition.for(UIView.self)!
-        let viewGraphHost = ViewGraphHost(rootViewType: Content.self, outputs: .defaults, viewDefinition: viewDefinition)
+        let viewGraphHost = ViewGraphHost(rootViewType: Content.self, outputs: Self.defaultViewGraphOutputs, viewDefinition: viewDefinition)
         let viewGraph = viewGraphHost.viewGraph
         
         var configuration = UIHostingViewBase.Configuration()
         configuration.options.formUnion(.allowKeyboardSafeArea)
         
-        if !Geometry3DEffectImpl._affectsLayout {
+        if !Self.requiresExplicitGeometryChangedRegistration {
             configuration.options.formUnion(.allowUnregisteredGeometryChanges)
         }
         
@@ -336,17 +337,17 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         
         self.eventBridge = UIKitEventBindingBridge(eventBindingManager: eventBindingManager)
         super.init(frame: .zero)
-        viewGraphHost.updateDelegate = self
         
         viewGraph.append(feature: HostViewGraph(host: self))
-        _base.setUp()
+        appendViewGraphFeatures()
+        base.setUp()
         
         if let values = unsafe RepresentableContextValues.current {
             if let preferenceBridge = values.preferenceBridge {
                 self.setPreferenceBridge(preferenceBridge)
             }
             
-            self.inheritedEnvironment = values.environment
+            viewGraphHost.initialInheritedEnvironment = values.environment
         }
         
         feedbackCache.host = self
@@ -412,7 +413,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         largeContentViewerInteractionBridge.host = self
         largeContentViewerInteractionBridge.updateRequestedPreferences(for: viewGraph)
         eventBindingManager.host = self
-        eventBindingManager.delegate = self
+        eventBindingManager.delegate = self.eventBridge
         
         let eventBridge = eventBridge
         if let gestureRecognizer = eventBridge.gestureRecognizer {
@@ -425,14 +426,18 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         
         if isAppleInternalBuild() && isWindowRoot {
             let pid = getpid()
-            unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+            let firstToken = unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                unsafe outToken.baseAddress.unsafelyUnwrapped.initialize(to: 0)
                 _ = unsafe notify_register_dispatch("NameLayerTree-\(pid)", outToken.baseAddress, .main, { [weak self] token in
                     self?.setLayerDebugName()
                 })
+                return unsafe outToken.baseAddress.unsafelyUnwrapped.pointee
             }
-            unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+            let secondToken = unsafe withUnsafeTemporaryAllocation(of: Int32.self, capacity: 1) { outToken in
+                unsafe outToken.baseAddress.unsafelyUnwrapped.initialize(to: 0)
                 _ = unsafe notify_register_dispatch("NameLayerTree", outToken.baseAddress, .main, { [pid, weak self] token in
                     let state64 = unsafe withUnsafeTemporaryAllocation(of: UInt64.self, capacity: 1) { outState64 in
+                        unsafe outState64.baseAddress.unsafelyUnwrapped.initialize(to: 0)
                         unsafe notify_get_state(token, outState64.baseAddress)
                         return unsafe outState64.baseAddress.unsafelyUnwrapped.pointee
                     }
@@ -441,7 +446,9 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
                         self?.setLayerDebugName()
                     }
                 })
+                return unsafe outToken.baseAddress.unsafelyUnwrapped.pointee
             }
+            unsafe dumpLayerNotificationTokens = (firstToken, secondToken)
         }
         
         unsafe notificationCenter.addObserver(self, selector: #selector(accessibilityFocusedElementDidChange(_:)), name: UIAccessibility.elementFocusedNotification, object: nil)
@@ -581,9 +588,6 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if unsafe context == &effectiveGeometryObservationContext {
-            guard change != nil else {
-                return
-            }
             guard keyPath == "effectiveGeometry" else {
                 return
             }
@@ -816,16 +820,17 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         // sp + 0x18
         var items: [any UIFocusItem] = []
         for item in superItems {
-            if let view = item as? UIView {
-                items.append(view)
+            if !(item is UIView) {
+                items.append(item)
             }
         }
         
         // <+456>
         let shouldIgnoreChildFocusRegions = (viewController?._shouldIgnoreChildFocusRegions()) ?? false
         if !shouldIgnoreChildFocusRegions {
-            let childItems = childFocusItems(in: rect)
-            items.append(contentsOf: childItems)
+            var childItems = childFocusItems(in: rect)
+            childItems.append(contentsOf: items)
+            return childItems
         }
         
         return items
@@ -975,7 +980,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         viewController?._viewDidMoveToWindow()
         
         sheetBridge?.didMoveToWindow()
-        _base.didMoveToWindow()
+        base.didMoveToWindow()
         
         Update.end()
     }
@@ -1437,8 +1442,9 @@ extension _UIHostingView {
             inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
             
             // <+1016>
-            let hasSearch = inputs[IsSearchAllowedInput.self]
-            host.navigationBridge?.hasSearch = hasSearch
+            if let navigationBridge = host.navigationBridge {
+                navigationBridge.hasSearch = inputs[IsSearchAllowedInput.self]
+            }
             
             // <+1128>
             let viewStyle = ViewStyleRegistry.InterfaceIdiom(idiom: inputs.base.interfaceIdiom)
@@ -1530,8 +1536,8 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         }
         
         // <+1764>
-        if window != nil {
-            resolved.accentColor = Color(_platformColor: _undimmedTintColor(), definition: UIKitPlatformColorDefinition.self)
+        if window != nil, let tintColor = _undimmedTintColor() {
+            resolved.accentColor = Color(_platformColor: tintColor, definition: UIKitPlatformColorDefinition.self)
         }
         
         // <+1868>

@@ -168,6 +168,7 @@ class UIKitNavigationBridge {
         
         guard !matches else {
             self.navigationDestinationSeed = preference.seed
+            self.destinations = preference.value
             return
         }
         
@@ -203,6 +204,7 @@ class UIKitNavigationBridge {
         
         // <+772>
         navigationDestinationSeed = preference.seed
+        self.destinations = preference.value
     }
     
     fileprivate final func updatePresentedContent(_: NavigationDestinationContent, animated: Bool) {

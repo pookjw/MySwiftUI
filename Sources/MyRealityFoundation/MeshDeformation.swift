@@ -117,13 +117,13 @@ extension _Proto_MeshDeformation_v1 {
         private lazy var _definition: [_Proto_MeshDeformation_v1.Stack] = []
         
         var definition: [_Proto_MeshDeformation_v1.Stack] {
-            guard self._definition.isEmpty, let coreAsset = unsafe self.coreAsset else {
+            guard self._definition.isEmpty, unsafe self.coreAsset != nil else {
                 return self._definition
             }
             
             // <+116>
             do {
-                let builder = try unsafe MeshDeformationBuilder(coreAsset)
+                let builder = try MeshDeformationBuilder(self)
                 self._definition = try builder.makeDefinition()
             } catch {
                 MyRealityFoundation::logger.error("Making a definition from an asset failed unexpectedly: \(error)")
