@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol RBDisplayListPredicate <NSObject>
+@protocol RBDisplayListContents <NSObject>
 // TODO
 @end
 
