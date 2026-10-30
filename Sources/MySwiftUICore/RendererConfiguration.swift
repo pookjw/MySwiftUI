@@ -43,7 +43,7 @@ extension _RendererConfiguration {
 package struct RasterizationOptions : Equatable {
     private var rbColorMode: RBColorMode // 0x0
     private var colorMode: ColorRenderingMode // 0x4
-    private var allowedDynamicRange: Image.DynamicRange? // 0x5
+    private(set) var allowedDynamicRange: Image.DynamicRange? // 0x5
     private var flags: RasterizationOptions.Flags // 0x8
     private var maxDrawableCount: Int8 // 0xc
     

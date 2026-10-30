@@ -213,7 +213,7 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func forEachRBDisplayList(_: (RBDisplayListContents) -> Void) {
+        func forEachRBDisplayList(_: (any RBDisplayListContents) -> Void) {
             assertUnimplemented()
         }
         

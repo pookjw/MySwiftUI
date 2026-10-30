@@ -526,7 +526,7 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         }
         
         // <+1796>
-        let d9: CGFloat
+        var d9: CGFloat
         let x190x30: CGFloat
         let containerPositionChanged: Bool
         do {
@@ -536,8 +536,8 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             containerPositionChanged = changed
         }
         
-        let d14 = self.lastBounds.size.width
-        let x190xc0 = self.lastBounds.size.height
+        var d14 = self.lastBounds.size.width
+        var x190xc0 = self.lastBounds.size.height
         
         if !x190x15f, let pointer: UnsafePointer<DisplayList> = unsafe Graph.outputValue() {
             // <+1856>
@@ -567,7 +567,119 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             rbDisplayList.translateBy(x: -self.lastBounds.origin.x, y: -self.lastBounds.origin.y)
             
             // <+2384>
+            // x19 + 0x150 (sp + 0x2d0)
             let storage = GraphicsContext.Storage(list: rbDisplayList, environment: environment)
+            
+            // <+2528>
+            let symbols: SymbolRenderer?
+            if let cachedSymbols {
+                // <+2784>
+                symbols = cachedSymbols
+            } else {
+                // <+2556>
+                if let elts = self.symbols {
+                    // <+2616>
+                    symbols = SymbolRenderer(
+                        elts: elts,
+                        ctx: AnyRuleContext(attribute: .current!),
+                        colorSpace: colorSpace,
+                        environment: self.$environment
+                    )
+                    
+                    self.cachedSymbols = symbols
+                    // <+2784>
+                } else {
+                    // <+2776>
+                    symbols = nil
+                }
+            }
+            
+            // <+2784>
+            storage.update(symbols: symbols)
+            var renderer = GraphicsContext(storage: storage)
+            
+            // <+2820>
+            // <+2880>
+            ObservationCenter.current._withObservation(attribute: self.attribute) { 
+                // $s7SwiftUI17CanvasDisplayList027_F41195D4CD7D6A29110580DFD3G4F891LLV11updateValueyyFyyXEfU0_
+                self.$view.syncMainIfReferences { canvas in
+                    // $s7SwiftUI17CanvasDisplayList027_F41195D4CD7D6A29110580DFD3G4F891LLV11updateValueyyFyyXEfU0_yAA0C0VyxGXEfU_TA
+                    canvas.renderer(&renderer, CGSize(width: d8, height: d12))
+                }
+            }
+            
+            // <+3744>
+            var d10: CGFloat = 0
+            var d11: CGFloat
+            let d13: CGFloat
+            
+            if self.isFlattened {
+                d11 = 0
+                // <+4140>
+            } else {
+                // <+3768>
+                let contentRect = rbDisplayList.boundingRect
+                d10 = contentRect.origin.x
+                d11 = contentRect.origin.y
+                d12 = contentRect.size.width
+                d13 = contentRect.size.height
+                
+                if contentRect.isEmpty {
+                    // <+3804>
+                    self.value = DisplayList()
+                    // <+5960>
+                    return
+                } else {
+                    // <+3912>
+                    var d0 = contentRect.minX
+                    let x190x100 = d14
+                    d14 = 0.0625
+                    d0 = d0 * d14
+                    d0 = floor(d0)
+                    var d1: CGFloat = 16
+                    d0 = d0 * d1
+                    let x190xe0 = d0
+                    d8 = 16
+                    d0 = contentRect.minY
+                    d0 = d0 * d14
+                    d0 = floor(d0)
+                    let x190x138 = d9
+                    d9 = d0 * d8
+                    var d15: CGFloat = 16
+                    d0 = contentRect.maxX
+                    d0 = d0 * d14
+                    d0 = ceil(d0)
+                    d8 = x190xc0
+                    d15 = d0 * d15
+                    d0 = contentRect.maxY
+                    d0 = d0 * d14
+                    d0 = ceil(d0)
+                    d1 = 16
+                    d0 = d0 * d1
+                    let d2 = x190xe0
+                    d1 = 0
+                    d11 = (d2 >= 0) ? d2 : d1
+                    d10 = (d9 >= 0) ? d9 : d1
+                    d9 = x190x138
+                    d1 = x190x100
+                    d1 = (d15 < d1) ? d15 : d1
+                    d14 = d1 - d11
+                    d0 = (d0 < d8) ? d0 : d8
+                    d0 = d0 - d10
+                    x190xc0 = d0
+                    // <+4140>
+                }
+                
+                // <+4140>
+            }
+            
+            // <+4140>
+            let dynamicRange = environment
+                .effectiveAllowedDynamicRange(
+                    explicitRange: view.rasterizationOptions.allowedDynamicRange
+                )
+            
+            let moveContents = rbDisplayList.moveContents()
             assertUnimplemented()
         }
         
@@ -576,5 +688,24 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
 }
 
 fileprivate final class SymbolRenderer : GraphicsContextSymbols {
-    // TODO
+    private let elts: [CanvasSymbols.Child] // 0x10
+    private let ctx: AnyRuleContext // 0x18
+    private let colorSpace: RBColorSpace // 0x1c
+    private let environment: Attribute<EnvironmentValues> // 0x20
+    private var cache: [AnyHashable: SymbolRenderer.CachedResolvedSymbol] = [:] // 0x28
+    
+    @inline(__always) // 원래 없음
+    init(elts: [CanvasSymbols.Child], ctx: AnyRuleContext, colorSpace: RBColorSpace, environment: Attribute<EnvironmentValues>) {
+        self.elts = elts
+        self.ctx = ctx
+        self.colorSpace = colorSpace
+        self.environment = environment
+    }
+}
+
+extension SymbolRenderer {
+    enum CachedResolvedSymbol {
+        case some(GraphicsContext.ResolvedSymbol)
+        case none
+    }
 }

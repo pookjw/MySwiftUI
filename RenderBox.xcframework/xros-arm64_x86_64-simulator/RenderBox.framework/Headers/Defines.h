@@ -13,8 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef const void * RBDisplayListContents;
-
 typedef NS_ENUM(uint32_t, RBPathElement) {
     RBPathElementUnknown5 = 5,
     RBPathElementUnknown7 = 7,

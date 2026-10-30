@@ -17,9 +17,7 @@ package final class ObservationCenter : @unchecked Sendable {
     
     private init() {
     }
-
     
-    @inline(always)
     func _withObservationStashed<T>(do block: () throws -> T) rethrows -> (value: T, accessOccurred: Bool) {
         /*
          x29 = sp + 0x140
@@ -28,7 +26,7 @@ package final class ObservationCenter : @unchecked Sendable {
          T = x25
          */
         var accessList: ObservationTracking._AccessList?
-        let result = try unsafe withUnsafeMutablePointer(to: &accessList) { pointer in
+        let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
             let key: pthread_key_t = 106 // tls_key::observation_transaction
             let old = unsafe pthread_getspecific(key)
             unsafe pthread_setspecific(key, pointer)
@@ -46,7 +44,6 @@ package final class ObservationCenter : @unchecked Sendable {
         }
     }
     
-    @inline(always)
     func _withObservation<T>(do block: () throws -> T) rethrows -> (value: T, accessList: ObservationTracking._AccessList?) {
         var accessList: ObservationTracking._AccessList?
         let result = try withUnsafeMutablePointer(to: &accessList) { pointer in
@@ -66,7 +63,6 @@ package final class ObservationCenter : @unchecked Sendable {
         }
     }
     
-    @inline(always)
     func _withObservation<T, U>(attribute: Attribute<U>, do block: () throws -> T) rethrows -> T {
         let previousAccessLists = latestAccessLists
         latestAccessLists = []

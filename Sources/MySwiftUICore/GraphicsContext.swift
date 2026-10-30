@@ -14,6 +14,7 @@ internal import RenderBox
         private var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
         
+        @inline(__always) // 원래 없음
         init(
             list: RBDisplayList,
             environment: EnvironmentValues
@@ -25,6 +26,11 @@ internal import RenderBox
         
         deinit {
             assertUnimplemented()
+        }
+        
+        @inline(__always) // 원래 없음
+        func update(symbols: GraphicsContextSymbols?) {
+            self.shared.symbols = symbols
         }
     }
 
@@ -751,7 +757,7 @@ extension GraphicsContext {
 extension GraphicsContext.Storage {
     fileprivate final class Shared {
         private let list: RBDisplayList
-        private var symbols: GraphicsContextSymbols?
+        fileprivate var symbols: GraphicsContextSymbols?
         private let shape: RBShape
         private let fill: RBFill
         private let _environment: EnvironmentValues

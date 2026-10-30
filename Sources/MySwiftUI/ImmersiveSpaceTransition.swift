@@ -82,6 +82,10 @@ fileprivate struct ImmersiveSpaceTransitionDispatcher<T: Equatable> : StatefulRu
     
     typealias Value = Void
     
+    static var initialValue: Void? {
+        return nil
+    }
+    
     mutating func updateValue() {
         // self -> x20 -> x24
         // <+752>

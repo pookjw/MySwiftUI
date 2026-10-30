@@ -1,9 +1,9 @@
 // 005A2BB2D44F4D559B7E508DC5B95FFB
 @_spi(Internal) internal import MySwiftUICore
-internal import UIKit
+public import UIKit
 private import RealitySimulationServices
 private import _UIKitPrivate
-private import _UIKitShims
+public import _UIKitShims
 
 final class UIKitPlatformColorDefinition : @MainActor PlatformColorDefinition {
     override class var system : PlatformSystemDefinition {
@@ -65,7 +65,7 @@ final class UIKitPlatformColorDefinition : @MainActor PlatformColorDefinition {
         // x26
         let traitCollection = env1[InheritedTraitCollectionKey.self] ?? .current
         // x20
-        let resolved1 = traitCollection.resolvedTraitCollection(environment: environment, wrapper: wrapper)
+        let resolved1 = traitCollection.resolvedPreTraitCollection(environment: environment, wrapper: wrapper, forImageAssetsOnly: false)
         let options = UICoreTraitCollectionResolutionOptions(rawValue: 0)
         // x25 -> x20
         let resolved2 = resolved1.coreResolvedBaseTraitCollection(environment: environment, wrapper: wrapper, options: options)
@@ -283,5 +283,15 @@ extension MySwiftUICore::EnvironmentValues {
 }
 
 fileprivate struct BridgedEnvironmentKeysKey : MySwiftUICore::EnvironmentKey {
-    static let defaultValue: [any MySwiftUI.UITraitBridgedEnvironmentKey.Type] = []
+    @safe static nonisolated(unsafe) let defaultValue: [any UITraitBridgedEnvironmentKey.Type] = []
+}
+
+extension AppearsActiveKey : UITraitBridgedEnvironmentKey {
+    public static func read(from traitCollection: UITraitCollection) -> Bool {
+        return traitCollection.activeAppearance != .inactive
+    }
+    
+    public static func write(to mutableTraits: inout any UIMutableTraits, value: Bool) {
+        mutableTraits.activeAppearance = (value ? .active : .inactive)
+    }
 }
