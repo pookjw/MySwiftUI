@@ -2,3 +2,7 @@
 #import <RenderBox/RBDisplayList.h>
 #import <RenderBox/RBPath.h>
 #import <RenderBox/RBPathStorage.h>
+#import <RenderBox/RBShape.h>
+#import <RenderBox/RBFill.h>
+#import <RenderBox/RBDisplayListPredicate.h>
+#import <RenderBox/RBDisplayListTransform.h>

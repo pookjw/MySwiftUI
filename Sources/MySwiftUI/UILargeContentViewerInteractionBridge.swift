@@ -1,3 +1,4 @@
+// 1C25C4B203EEAC6A19839AC5BDB6A345
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 private import _UIKitPrivate
@@ -25,6 +26,30 @@ private import _UIKitPrivate
     }
     
     @objc private func enabledStatusDidChange() {
+        assertUnimplemented()
+    }
+    
+    @objc private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+    
+    @objc private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+    
+    @objc private func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        assertUnimplemented()
+    }
+    
+    @objc private func largeContentViewerInteraction(_ largeContentViewerInteraction: UILargeContentViewerInteraction, itemAt point: CGPoint) -> UILargeContentViewerItem? {
+        assertUnimplemented()
+    }
+    
+    @objc private func largeContentViewerInteraction(_ largeContentViewerInteraction: UILargeContentViewerInteraction, didEndOn item: UILargeContentViewerItem?, at point: CGPoint) {
+        assertUnimplemented()
+    }
+    
+    private func hitTest(at point: CGPoint) -> ActiveItem? {
         assertUnimplemented()
     }
     

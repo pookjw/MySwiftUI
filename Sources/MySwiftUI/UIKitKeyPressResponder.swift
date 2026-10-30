@@ -1,4 +1,5 @@
 
+// BBD8610226FE23E138D25B0D9DE9C402
 internal import UIKit
 @_spi(Internal) private import MySwiftUICore
 
@@ -13,6 +14,10 @@ final class UIKitKeyPressResponder : UIResponder {
         }
         
         return fallbackResponderProvider.defaultNextResponder
+    }
+    
+    private func sendPresses(_ presses: Set<UIPress>, phase: EventPhase) -> Bool {
+        assertUnimplemented()
     }
     
     override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {

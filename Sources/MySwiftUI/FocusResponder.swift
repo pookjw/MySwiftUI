@@ -10,13 +10,13 @@ protocol BaseFocusResponder : AnyObject {
     var isEnabled: Bool { get }
     var prefersDefaultFocus: Bool { get }
     var defaultFocusNamespace: Namespace.ID? { get }
-//    var focusGroupID: FocusGroupIdentifier? { get }
+    var focusGroupID: FocusGroupIdentifier? { get }
     var focusGroupPriority: Int { get }
     var focusDebugDescription: String? { get }
 }
 
 protocol FocusResponder : BaseFocusResponder {
     var focusItem: FocusItem? { get }
-//    var focusAccessibilityNode: AccessibilityNode? { get set _modify }
-//    var keyPressHandlers: [KeyPress.Handler] { get set _modify }
+    var focusAccessibilityNode: AccessibilityNode? { get set }
+    var keyPressHandlers: [KeyPress.Handler] { get set }
 }

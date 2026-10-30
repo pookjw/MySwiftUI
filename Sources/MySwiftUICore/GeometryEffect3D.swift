@@ -153,8 +153,7 @@ fileprivate struct GeometryEffect3DTransform<T : _GeometryEffect3D> : Rule, Asyn
         do {
             var position = self.position
             position = position - result.positionAdjustment
-            position = -(position - result.pendingTranslation)
-            result.pendingTranslation = CGSize(position)
+            result.pendingTranslation = result.pendingTranslation - CGSize(position)
             result.positionAdjustment = .zero
         }
         

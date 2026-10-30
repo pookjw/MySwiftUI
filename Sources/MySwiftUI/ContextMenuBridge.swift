@@ -1,3 +1,4 @@
+// 7C8EEEBFF35173C2F62E3D95822F9814
 private import _MySwiftUIShims
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
@@ -6,7 +7,7 @@ internal import _UIKitPrivate
 @MainActor
 final class ContextMenuBridge : NSObject {
     weak var host: (any ViewRendererHost)? = nil
-    private var interaction: UIContextMenuInteraction? = nil
+    var interaction: UIContextMenuInteraction? = nil
     private var menuOrder: MenuOrder = .automatic
     private var hasContextMenuSeed: VersionSeed = .empty
     private var menuOrderSeed: VersionSeed = .empty
@@ -16,6 +17,14 @@ final class ContextMenuBridge : NSObject {
     private(set) var presentedMenu = ActiveContextMenu()
 
     deinit {
+        assertUnimplemented()
+    }
+    
+    fileprivate func invalidateActiveMenu() {
+        assertUnimplemented()
+    }
+    
+    fileprivate func setupNotifications() {
         assertUnimplemented()
     }
     
@@ -158,6 +167,14 @@ extension ContextMenuBridge : _UIContextMenuInteractionDelegate3D {
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: any UIContextMenuInteractionCommitAnimating) {
+        assertUnimplemented()
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configuration: UIContextMenuConfiguration, highlightPreviewForItemWithIdentifier identifier: any NSCopying) -> UITargetedPreview? {
+        assertUnimplemented()
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configuration: UIContextMenuConfiguration, dismissalPreviewForItemWithIdentifier identifier: any NSCopying) -> UITargetedPreview? {
         assertUnimplemented()
     }
 }

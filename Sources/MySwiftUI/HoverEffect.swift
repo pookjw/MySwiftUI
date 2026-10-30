@@ -23,8 +23,21 @@ public struct HoverEffect {
     @safe public nonisolated(unsafe) static let lift: HoverEffect = {
         assertUnimplemented()
     }()
+    
+    static func highlight(background: Bool) -> HoverEffect {
+        assertUnimplemented()
+    }
 }
 
 @available(*, unavailable)
 extension HoverEffect : Sendable {
+}
+
+@available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
+extension HoverEffect : CustomHoverEffect {
+    public static func _makeCustomHoverEffect(effect: _GraphValue<HoverEffect>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
+        assertUnimplemented()
+    }
+    
+    public typealias Body = Never
 }

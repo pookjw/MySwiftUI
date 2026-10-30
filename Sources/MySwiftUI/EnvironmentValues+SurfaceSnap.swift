@@ -1,6 +1,12 @@
+// FAF410D0B8C97A51B0FADAADE1A02F93
 public import ARKit
 public import MySwiftUICore
 
+@available(visionOS 26.0, *)
+@available(iOS, unavailable)
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
 public struct SurfaceSnappingInfo : Equatable, Sendable, CustomDebugStringConvertible {
     fileprivate static let __authorizationStatus = AtomicBox<AuthorizationStatus>(wrappedValue: .notDetermined)
     
@@ -22,6 +28,11 @@ public struct SurfaceSnappingInfo : Equatable, Sendable, CustomDebugStringConver
 }
 
 extension SurfaceSnappingInfo {
+    @available(visionOS 26.0, *)
+    @available(iOS, unavailable)
+    @available(macOS, unavailable)
+    @available(watchOS, unavailable)
+    @available(tvOS, unavailable)
     public enum AuthorizationStatus : Sendable, Hashable {
         case notDetermined
         case denied
@@ -31,8 +42,8 @@ extension SurfaceSnappingInfo {
 }
 
 struct _SceneSnapState : Equatable, CustomDebugStringConvertible {
-    private var isSnapped: Bool = false
-    private var classification: _SurfaceClassificationStatus = .notDetermined
+    private(set) var isSnapped: Bool = false
+    private(set) var classification: _SurfaceClassificationStatus = .notDetermined
     
     var debugDescription: String {
         assertUnimplemented()
@@ -50,6 +61,11 @@ enum _SurfaceClassificationStatus : Equatable, CustomDebugStringConvertible {
 }
 
 extension EnvironmentValues {
+    @available(visionOS 26.0, *)
+    @available(iOS, unavailable)
+    @available(macOS, unavailable)
+    @available(watchOS, unavailable)
+    @available(tvOS, unavailable)
     public internal(set) var surfaceSnappingInfo: SurfaceSnappingInfo {
         get {
             return self[SurfaceSnappingInfoKey.self]

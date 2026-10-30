@@ -18,9 +18,13 @@ extension Alert {
 
 extension Alert.Presentation {
     struct Key : HostPreferenceKey {
-        typealias Value = Never? // TODO
+        typealias Value = Alert.Presentation?
         
-        static func reduce(value: inout Never?, nextValue: () -> Never?) {
+        static var defaultValue: Alert.Presentation? {
+            return nil
+        }
+        
+        static func reduce(value: inout Alert.Presentation?, nextValue: () -> Alert.Presentation?) {
             assertUnimplemented()
         }
     }

@@ -6,13 +6,13 @@ internal import AttributeGraph
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct ImmersiveContentBrightness : Equatable, Sendable {
+public struct ImmersiveContentBrightness : Equatable {
     let value: Double?
     
-    public static let dark = ImmersiveContentBrightness(value: 0)
-    public static let dim = ImmersiveContentBrightness(value: 0.05)
-    public static let bright = ImmersiveContentBrightness(value: 0.3)
-    public static let automatic = ImmersiveContentBrightness(value: nil)
+    @safe public nonisolated(unsafe) static let dark = ImmersiveContentBrightness(value: 0)
+    @safe public nonisolated(unsafe) static let dim = ImmersiveContentBrightness(value: 0.05)
+    @safe public nonisolated(unsafe) static let bright = ImmersiveContentBrightness(value: 0.3)
+    @safe public nonisolated(unsafe) static let automatic = ImmersiveContentBrightness(value: nil)
     
     public static func custom(_ value: Double) -> ImmersiveContentBrightness {
         var d0 = value

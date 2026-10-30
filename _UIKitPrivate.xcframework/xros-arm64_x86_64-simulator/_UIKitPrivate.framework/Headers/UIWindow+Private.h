@@ -11,6 +11,8 @@ UIKIT_EXTERN const NSNotificationName UIWindowDidRotateNotification NS_SWIFT_NON
 - (UIScene * _Nullable)_windowHostingScene;
 - (UISheetPresentationController * _Nullable)_rootSheetPresentationController;
 - (UIResponder * _Nullable)firstResponder;
+- (BOOL)_canAffectStatusBarAppearance;
+- (BOOL)_isInVolumetricContext;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

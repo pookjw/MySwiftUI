@@ -32,4 +32,8 @@ struct BridgedSceneCoordinator {
     func register<T : UIHostingSceneDelegate>(_: T.Type) {
         assertUnimplemented()
     }
+    
+    func register<T>(_ scene: T) where T : Identifiable & Scene, T.ID == String {
+        assertUnimplemented()
+    }
 }

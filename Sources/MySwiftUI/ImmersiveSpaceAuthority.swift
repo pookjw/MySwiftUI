@@ -220,6 +220,14 @@ final class ImmersiveSpaceAuthority {
         assertUnimplemented()
     }
     
+    func sceneRequestFailed(namespace: SceneList.Namespace, item: SceneList.Item, error: SceneNavigationStrategy_Phone.Error) {
+        assertUnimplemented()
+    }
+    
+    func sceneDestructionFailed(namespace: SceneList.Namespace, item: SceneList.Item, error: Error) {
+        assertUnimplemented()
+    }
+    
     func sceneDidUpdateImmersionState(scene: UIScene, immersionState: MRUIImmersionState) {
         /*
          self -> x20

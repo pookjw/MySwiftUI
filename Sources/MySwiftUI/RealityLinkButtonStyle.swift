@@ -7,3 +7,9 @@ package struct RealityLinkButtonStyle : PrimitiveButtonStyle {
         assertUnimplemented()
     }
 }
+
+extension PrimitiveButtonStyle where Self == RealityLinkButtonStyle {
+    package static var realityLink: RealityLinkButtonStyle {
+        assertUnimplemented()
+    }
+}

@@ -1,10 +1,28 @@
 // A8D9ECD380926237F7E554221FB2DE85
 public import CoreGraphics
+internal import RenderBox
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @frozen public struct GraphicsContext {
     @_hasMissingDesignatedInitializers @usableFromInline
     final internal class Storage {
+        private let shared: GraphicsContext.Storage.Shared // 0x10
+        private let state: RBDrawingState // 0x18
+        private var environmentOverride: EnvironmentValues? = nil // 0x20
+        private var opacity: Float = 1 // 0x30
+        private var blendMode: RBBlendMode = .unknown0 // 0x34
+        private var shapeDistance: CGFloat = .nan // 0x38
+        private let ownsState: Bool // 0x40
+        
+        init(
+            list: RBDisplayList,
+            environment: EnvironmentValues
+        ) {
+            self.shared = GraphicsContext.Storage.Shared(list: list, environment: environment)
+            self.state = RBDisplayListGetState(list)
+            self.ownsState = false
+        }
+        
         deinit {
             assertUnimplemented()
         }
@@ -705,4 +723,74 @@ extension GraphicsContext.GradientOptions : BitwiseCopyable {}
 
 class GraphicsContextSymbols {
     // TODO
+}
+
+extension GraphicsContext {
+    enum ResolvedShading {
+        case backdrop(Color.ResolvedHDR)
+        case color(Color.ResolvedHDR)
+        case sRGBColor(RBColor)
+        case shader(Shader.ResolvedShader, CGRect)
+        case style(_ShapeStyle_Pack.Style)
+        case gradient(ResolvedGradient, GraphicsContext.GradientGeometry, GraphicsContext.GradientOptions)
+        case meshGradient(MeshGradient._Paint, CGRect)
+        case tiledImage(GraphicsImage, origin: CGPoint, sourceRect: CGRect, scale: CGFloat)
+        case levels([GraphicsContext.ResolvedShading])
+    }
+    
+    enum GradientGeometry {
+        case axial(CGPoint, CGPoint)
+        case radial(CGPoint, CGFloat, CGFloat)
+        case radial2(CGPoint, CGFloat, CGPoint, CGFloat)
+        case elliptical(CGRect, CGFloat, CGFloat)
+        case conic(CGPoint, Angle)
+        case angular(CGPoint, Angle, Angle)
+    }
+}
+
+extension GraphicsContext.Storage {
+    fileprivate final class Shared {
+        private let list: RBDisplayList
+        private var symbols: GraphicsContextSymbols?
+        private let shape: RBShape
+        private let fill: RBFill
+        private let _environment: EnvironmentValues
+        private let colorSpace: RBColorSpace
+        @IndirectOptional private var textProperties: TextLayoutProperties?
+        private var _resolvedForeground: GraphicsContext.ResolvedShading?
+        private var _foregroundIsMultiLevel: Bool?
+        private var _sharedPredicate: RBDisplayListPredicate?
+        private var _sharedTransform: RBDisplayListTransform?
+        private var _fillStyle: AnyShapeStyleBox?
+        
+        init(list: RBDisplayList, environment: EnvironmentValues) {
+            assertUnimplemented()
+        }
+        
+        func resolvedForeground(in environment: EnvironmentValues?) -> GraphicsContext.ResolvedShading {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension GraphicsContext.Storage.Shared {
+    func setShading(_ shading: GraphicsContext.Shading, in environment: EnvironmentValues) {
+        assertUnimplemented()
+    }
+    
+    func setShading(_ shading: GraphicsContext.ResolvedShading) {
+        assertUnimplemented()
+    }
+    
+    func setColor(_ color: Color.ResolvedHDR) {
+        assertUnimplemented()
+    }
+    
+    func setColor(_ color: Color, in environment: EnvironmentValues) {
+        assertUnimplemented()
+    }
+    
+    func setMeshGradient(_ paint: MeshGradient._Paint, in rect: CGRect) {
+        assertUnimplemented()
+    }
 }

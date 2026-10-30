@@ -16,4 +16,8 @@ class UIKitBarButtonItemGroup : UIBarButtonItemGroup {
     required init?(coder: NSCoder) {
         assertUnimplemented()
     }
+    
+    func didChangeGroupItem(from oldGroupItem: ToolbarStorage.GroupItem?) {
+        assertUnimplemented()
+    }
 }

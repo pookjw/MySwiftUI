@@ -38,4 +38,12 @@ protocol PlatformViewThatFitsRepresentable {
 
 final class SizeFittingState {
     // TODO
+    
+    func applyChildren(selectLast: Bool, to: (_ViewOutputs, Bool) -> Bool) {
+        assertUnimplemented()
+    }
+    
+    func invalidate() {
+        assertUnimplemented()
+    }
 }

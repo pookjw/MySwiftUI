@@ -10,6 +10,16 @@ public struct OrnamentAttachmentAnchor : Sendable {
         assertUnimplemented()
     }
     
+    @available(visionOS 2.0, *)
+    @_disfavoredOverload public static func scene(_ anchor: UnitPoint3D) -> OrnamentAttachmentAnchor {
+        assertUnimplemented()
+    }
+    
+    @available(visionOS 26.0, *)
+    public static func parent(_ anchor: UnitPoint3D) -> OrnamentAttachmentAnchor {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 

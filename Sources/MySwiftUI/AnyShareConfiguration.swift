@@ -16,6 +16,12 @@ extension AnyShareConfiguration {
 }
 
 extension AnyShareConfiguration {
+    fileprivate func resolveActivityItems(in env: EnvironmentValues) -> [Any] {
+        assertUnimplemented()
+    }
+}
+
+extension AnyShareConfiguration {
     struct Key : HostPreferenceKey {
         static func reduce(value: inout AnyShareConfiguration?, nextValue: () -> AnyShareConfiguration?) {
             assertUnimplemented()

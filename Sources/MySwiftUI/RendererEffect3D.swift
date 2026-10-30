@@ -4,8 +4,8 @@ internal import Spatial
 private import AttributeGraph
 private import CoreGraphics
 
-protocol _RendererEffect3D {
-    func effectValue(size: Size3D) -> DisplayList.Effect
+protocol _RendererEffect3D : PrimitiveViewModifier, MultiViewModifier {
+    nonisolated func effectValue(size: Size3D) -> DisplayList.Effect
 }
 
 extension _RendererEffect3D {
@@ -49,7 +49,7 @@ extension _RendererEffect3D {
     }
 }
 
-protocol RendererEffect3D : _RendererEffect3D {
+protocol RendererEffect3D : _RendererEffect3D, Animatable {
 }
 
 extension RendererEffect3D {
@@ -93,7 +93,7 @@ fileprivate struct RendererEffect3DDisplayList<T : _RendererEffect3D>: Rule, Asy
         // x23
         let version = DisplayList.Version(forUpdate: ())
         // x20
-        var proxy = GeometryProxy(
+        let proxy = GeometryProxy(
             owner: .current!,
             size: $size,
             environment: $environment,

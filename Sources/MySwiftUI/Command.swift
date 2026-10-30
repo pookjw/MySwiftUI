@@ -74,11 +74,11 @@ extension CommandsList.Item {
 }
 
 struct CommandsKey : HostPreferenceKey {
-    static var defaultValue: Never {
+    static var defaultValue: _ResolvedCommands {
         assertUnimplemented()
     }
     
-    static func reduce(value: inout Never, nextValue: () -> Never) {
+    static func reduce(value: inout _ResolvedCommands, nextValue: () -> _ResolvedCommands) {
         assertUnimplemented()
     }
 }

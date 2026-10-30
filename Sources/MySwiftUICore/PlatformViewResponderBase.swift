@@ -25,7 +25,7 @@ public import CoreGraphics
     }
     
     
-    override init(host: ViewGraphDelegate?) {
+    public override init(host: ViewGraphDelegate?) {
         assertUnimplemented()
     }
     

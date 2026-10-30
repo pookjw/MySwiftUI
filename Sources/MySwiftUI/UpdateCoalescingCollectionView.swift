@@ -59,4 +59,12 @@ final class UpdateCoalescingCollectionView : UICollectionView {
     override func didMoveToWindow() {
         assertUnimplemented()
     }
+    
+    func idealSize(in size: CGSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func invalidateStackBehaviorLayoutIfNeeded() {
+        assertUnimplemented()
+    }
 }

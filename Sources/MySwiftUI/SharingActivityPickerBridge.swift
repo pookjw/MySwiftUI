@@ -1,12 +1,13 @@
-private import UIKit
+// ED8966F32E79CAE8636A59B86DBA4A31
+internal import UIKit
 @_spi(Internal) private import MySwiftUICore
 private import AttributeGraph
 
 @MainActor final class SharingActivityPickerBridge {
     weak var host: ViewRendererHost? = nil // 0x10
-    private var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x20
-    private weak var presenterOverride: UIViewController? = nil // 0x30
-    private weak var barItemAnchor: UIBarButtonItem? = nil // 0x38
+    var overrideArrowDirections: UIPopoverArrowDirection? = nil // 0x20
+    weak var presenterOverride: UIViewController? = nil // 0x30
+    var barItemAnchor: UIBarButtonItem? = nil // 0x38
     private var activePresentation: SharingActivityPickerPresentation? = nil // 0x40
     private var presented: UIActivityViewController? = nil // 0xd8
     private var lastPresentationSeed: VersionSeed = .empty // 0x938
@@ -18,8 +19,6 @@ private import AttributeGraph
     init() {
     }
     
-    // 원래 없음
-    @inlinable
     @MainActor
     func hostRemovedFromWindow() {
         guard activePresentation != nil else {
@@ -48,14 +47,14 @@ private import AttributeGraph
         
         // x19 + 0x8
         let uiPresenterViewController: UIViewController?
-        if (presenterOverride == nil) {
+        if let presenterOverride {
+            uiPresenterViewController = presenterOverride
+        } else {
             guard let viewController = host!.uiPresenterViewController else {
                 return
             }
             
             uiPresenterViewController = viewController
-        } else {
-            uiPresenterViewController = nil
         }
         let _ = uiPresenterViewController
         
@@ -90,6 +89,10 @@ private import AttributeGraph
     }
     
     fileprivate func reset() {
+        assertUnimplemented()
+    }
+    
+    func popoverShouldAdapt(for delegate: PopoverPresentationDelegate) -> Bool {
         assertUnimplemented()
     }
     

@@ -4,16 +4,16 @@ public import MySwiftUICore
 @available(iOS 17.5, macOS 14.5, visionOS 26.2, *)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
-public struct PencilPreferredAction : Hashable, Sendable {
+public struct PencilPreferredAction : Hashable {
     private let guts: PencilPreferredAction.Guts
     
-    public static let switchEraser = PencilPreferredAction(guts: .switchEraser)
-    public static let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
-    public static let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
-    public static let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
-    public static let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
-    public static let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
-    public static let ignore = PencilPreferredAction(guts: .ignore)
+    @safe public nonisolated(unsafe) static let switchEraser = PencilPreferredAction(guts: .switchEraser)
+    @safe public nonisolated(unsafe) static let switchPrevious = PencilPreferredAction(guts: .switchPrevious)
+    @safe public nonisolated(unsafe) static let showColorPalette = PencilPreferredAction(guts: .showColorPalette)
+    @safe public nonisolated(unsafe) static let showInkAttributes = PencilPreferredAction(guts: .showInkAttributes)
+    @safe public nonisolated(unsafe) static let showContextualPalette = PencilPreferredAction(guts: .showContextualPalette)
+    @safe public nonisolated(unsafe) static let runSystemShortcut = PencilPreferredAction(guts: .runSystemShortcut)
+    @safe public nonisolated(unsafe) static let ignore = PencilPreferredAction(guts: .ignore)
 }
 
 @available(*, unavailable)

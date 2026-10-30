@@ -104,24 +104,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         }
     }
     private let deprecatedAlertBridge: DeprecatedAlertBridge<Alert.Presentation> = DeprecatedAlertBridge<Alert.Presentation>(
-        host: nil,
-        isShown: false,
-        seed: .empty,
-        alertController: nil,
-        lastEnvironment: EnvironmentValues(),
-        lastPresentation: nil,
-        isChangingIdentity: false,
         style: .alert
     )
     private let deprecatedActionSheetBridge: DeprecatedAlertBridge<ActionSheet.Presentation> = DeprecatedAlertBridge<ActionSheet.Presentation>(
-        host: nil,
-        isShown: false,
-        seed: .empty,
-        alertController: nil,
-        lastEnvironment: EnvironmentValues(),
-        lastPresentation: nil,
-        isChangingIdentity: false,
-        style: .alert
+        style: .actionSheet
     )
     private lazy var sheetBridge: SheetBridge<SheetPreference.Key>? = {
         guard !Self.ignoresPresentations else {
@@ -360,11 +346,11 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         
         let deprecatedAlertBridge = deprecatedAlertBridge
         deprecatedAlertBridge.host = self
-        deprecatedAlertBridge.addPreferences(to: viewGraph, isActionSheet: false)
+        deprecatedAlertBridge.addPreferences(to: viewGraph)
         
         let deprecatedActionSheetBridge = deprecatedActionSheetBridge
         deprecatedActionSheetBridge.host = self
-        deprecatedActionSheetBridge.addPreferences(to: viewGraph, isActionSheet: true)
+        deprecatedActionSheetBridge.addPreferences(to: viewGraph)
         
         if let sheetBridge {
             sheetBridge.host = self

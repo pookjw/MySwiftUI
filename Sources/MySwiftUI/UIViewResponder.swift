@@ -4,18 +4,30 @@ internal import UIKit
 internal import Spatial
 internal import _UIKitPrivate
 
+var uiViewGestureContainerIMP: OpaquePointer {
+    assertUnimplemented()
+}
+
 final class UIViewResponder : PlatformViewResponderBase<UIView, UIViewContentResponder> {
     override func isViewDescendant(hitView: UIView, of view: UIView) -> Bool {
         assertUnimplemented()
     }
 
     private weak var focusAccessibilityNode: AccessibilityNode? = nil
-    package var keyPressHandlers: [KeyPress.Handler] = []
-    private lazy var shouldUsePlatformViewAsParentContainer: Bool? = {
+    var keyPressHandlers: [KeyPress.Handler] = []
+    fileprivate lazy var _shouldUsePlatformViewAsParentContainer: Bool = {
         assertUnimplemented()
     }()
     
-    fileprivate var _shouldUsePlatformViewAsParentContainer: Bool {
+    var shouldUsePlatformViewAsParentContainer: Bool {
+        assertUnimplemented()
+    }
+    
+    var focusItem: FocusItem? {
+        assertUnimplemented()
+    }
+    
+    var wantsSwiftUIFocusItem: Bool {
         assertUnimplemented()
     }
     
@@ -29,6 +41,10 @@ final class UIViewResponder : PlatformViewResponderBase<UIView, UIViewContentRes
     
     override init() {
         super.init()
+    }
+
+    override init(host: ViewGraphDelegate?) {
+        super.init(host: host)
     }
 
     override func extendPrintTree(string: inout String) {

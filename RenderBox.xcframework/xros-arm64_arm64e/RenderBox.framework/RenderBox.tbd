@@ -23,7 +23,12 @@ exports:
     _RBPathStorageApplyElements,
     _RBPathGetBoundingRect,
     _RBPathStorageGetBoundingRect,
-    _RBPathCopyCGPath ]
-    objc-classes:         [ RBDisplayList ]
+    _RBPathCopyCGPath,
+    _RBDisplayListGetState ]
+    objc-classes:         [ RBDisplayList,
+    RBShape,
+    RBFill,
+    RBDisplayListPredicate,
+    RBDisplayListTransform ]
     objc-ivars:           [  ]
 ...

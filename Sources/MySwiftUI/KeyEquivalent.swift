@@ -61,7 +61,7 @@ public struct KeyEquivalent : Sendable {
         assertUnimplemented()
     }()
     
-    public static let `null`: KeyEquivalent = {
+    static let `null`: KeyEquivalent = {
         assertUnimplemented()
     }()
     

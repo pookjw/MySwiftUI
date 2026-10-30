@@ -42,6 +42,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 @property (nonatomic, setter=_setPreferredGroundingShadowVisibility:) _UIPlatterGroundingShadowVisibility _preferredGroundingShadowVisibility;
 @property (nonatomic, setter=_setExternalHitTestingId:) REEntityID _externalHitTestingId;
 @property (nonatomic, readonly, nullable) REEntity _reEntity;
+@property (nonatomic, setter=_setClipsToREBounds:) BOOL _clipsToREBounds;
 @property (nonatomic, readonly) UILayoutAxes _axesForDerivingIntrinsicContentSizeFromLayoutSize;
 @property (readonly, nonatomic, nullable) id<_UIGestureRecognizerContainer> _parentGestureRecognizerContainer NS_SWIFT_NAME(_parentContainer);
 @property (nonatomic, readonly) NSArray<id<_UIGestureRecognizerContainer>> *_childGestureRecognizerContainers NS_SWIFT_NAME(_childContainers);

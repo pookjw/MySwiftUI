@@ -1,3 +1,4 @@
+// 88477CCB0AEDAD452D0818B33FCEDC5F
 public import MySwiftUICore
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)

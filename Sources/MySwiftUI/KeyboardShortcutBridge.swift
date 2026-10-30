@@ -1,6 +1,6 @@
 internal import Foundation
 @_spi(Internal) internal import MySwiftUICore
-private import UIKit
+internal import UIKit
 
 @MainActor
 final class KeyboardShortcutBridge : NSObject {
@@ -106,7 +106,9 @@ final class KeyboardShortcutBridge : NSObject {
         self.currentBindings = self.updatedBindings
     }
     
-    // TODO
+    @objc func _performShortcutKeyCommand(_ command: UIKeyCommand) {
+        assertUnimplemented()
+    }
 }
 
 extension KeyboardShortcutBridge {

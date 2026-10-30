@@ -1,3 +1,4 @@
+// 062C14327F4C9197D92807A7F4DF7F3B
 internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
@@ -12,6 +13,14 @@ class UIKitGestureRecognizer : UIGestureRecognizer {
     private var gestureCategory = GestureCategory(rawValue: 0)
 
     func didAttach(to bridge: EventBindingBridge?) {
+        assertUnimplemented()
+    }
+
+    func eventBindingSourceDidUpdate(gestureCategory: GestureCategory, in bridge: EventBindingBridge) {
+        assertUnimplemented()
+    }
+    
+    func eventBindingSourceDidUpdate(phase: GesturePhase<()>, in bridge: EventBindingBridge) {
         assertUnimplemented()
     }
 

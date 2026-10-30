@@ -1,15 +1,21 @@
+// 06BAECED8B4325F4077AB1B0B39FB36F
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
 @MainActor final class DeprecatedAlertBridge<T : AlertControllerConvertible>: NSObject {
-    weak var host: (any ViewRendererHost)?
-    private var isShown: Bool
-    private var seed: VersionSeed
-    private var alertController: PlatformAlertController?
-    private var lastEnvironment: EnvironmentValues
-    private var lastPresentation: T?
-    private var isChangingIdentity: Bool
+    weak var host: (any ViewRendererHost)? = nil
+    private var isShown: Bool = false
+    private var seed: VersionSeed = .empty
+    private var alertController: PlatformAlertController? = nil
+    private var lastEnvironment: EnvironmentValues = EnvironmentValues()
+    private var lastPresentation: T? = nil
+    private var isChangingIdentity: Bool = false
     private var style: UIAlertController.Style
+    
+    init(style: UIAlertController.Style) {
+        self.style = style
+        super.init()
+    }
     
     init(host: (any ViewRendererHost)?, isShown: Bool, seed: VersionSeed, alertController: PlatformAlertController?, lastEnvironment: EnvironmentValues, lastPresentation: T?, isChangingIdentity: Bool, style: UIAlertController.Style) {
         self.host = host
@@ -21,6 +27,14 @@ internal import UIKit
         self.isChangingIdentity = isChangingIdentity
         self.style = style
         super.init()
+    }
+    
+    func addPreferences(to viewGraph: ViewGraph) {
+        if style == .actionSheet {
+            viewGraph.addPreference(ActionSheet.Presentation.Key.self)
+        } else {
+            viewGraph.addPreference(Alert.Presentation.Key.self)
+        }
     }
     
     // inlined from $s7SwiftUI14_UIHostingViewC04rootD0ACyxGx_tcfcTf4gn_n

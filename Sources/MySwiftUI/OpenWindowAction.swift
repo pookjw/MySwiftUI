@@ -59,6 +59,26 @@ private import os.log
     @MainActor public func callAsFunction<D>(id: String, value: D, sharingBehavior: OpenWindowAction.SharingBehavior) async throws where D : Decodable, D : Encodable, D : Hashable {
         assertUnimplemented()
     }
+
+    @MainActor @preconcurrency func callAsFunction<D>(presenting: D) where D : Decodable, D : Encodable, D : Hashable {
+        assertUnimplemented()
+    }
+
+    @MainActor @preconcurrency func callAsFunction<D>(id: String, presenting: D) where D : Decodable, D : Encodable, D : Hashable {
+        assertUnimplemented()
+    }
+
+    @MainActor func callAsFunction(id: String, destination: OpenWindowAction.Destination) async throws {
+        assertUnimplemented()
+    }
+
+    @MainActor func callAsFunction<D>(value: D, destination: OpenWindowAction.Destination) async throws where D : Decodable, D : Encodable, D : Hashable {
+        assertUnimplemented()
+    }
+
+    @MainActor func callAsFunction<D>(id: String, value: D, destination: OpenWindowAction.Destination) async throws where D : Decodable, D : Encodable, D : Hashable {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 16.0, macOS 13.0, *)

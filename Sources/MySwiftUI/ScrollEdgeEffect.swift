@@ -45,4 +45,10 @@ extension View {
     nonisolated public func scrollEdgeEffectHidden(_ hidden: Bool = true, for edges: Edge.Set = .all) -> some View {
         assertUnimplemented()
     }
+    
+    @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *)
+    @available(visionOS, unavailable)
+    @_spi(Internal) nonisolated public func scrollEdgeEffectDisabled(_ disabled: Bool, for edges: Edge.Set) -> some View {
+        assertUnimplemented()
+    }
 }

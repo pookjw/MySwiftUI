@@ -44,6 +44,10 @@ class NotifyingMulticolumnSplitViewController : UISplitViewController {
         assertUnimplemented()
     }
     
+    @objc func makeDetailNavigationController(root rootViewController: UIViewController) -> UINavigationController {
+        assertUnimplemented()
+    }
+    
     override func showDetailViewController(_ vc: UIViewController, sender: Any?) {
         assertUnimplemented()
     }

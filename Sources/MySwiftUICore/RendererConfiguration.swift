@@ -1,5 +1,5 @@
 internal import CoreGraphics
-private import RenderBox
+internal import RenderBox
 
 public struct _RendererConfiguration {
     public var renderer: Renderer
@@ -79,6 +79,10 @@ package struct RasterizationOptions : Equatable {
         
         self.flags = flags
         self.maxDrawableCount = Int8(truncatingIfNeeded: options.maxDrawableCount)
+    }
+    
+    var colorSpace: RBColorSpace {
+        assertUnimplemented()
     }
 }
 

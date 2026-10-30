@@ -25,7 +25,29 @@ extension SpringLoadingBehavior {
 }
 
 extension SpringLoadingBehavior {
-    struct Key {
+    struct Key : EnvironmentKey {
+        static var defaultValue: SpringLoadingBehavior {
+            return .automatic
+        }
+    }
+}
+
+extension EnvironmentValues {
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public var springLoadingBehavior: SpringLoadingBehavior {
+        get {
+            return self[SpringLoadingBehavior.Key.self]
+        }
+        set {
+            self[SpringLoadingBehavior.Key.self] = newValue
+        }
+    }
+}
+
+extension View {
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    nonisolated public func springLoadingBehavior(_ behavior: SpringLoadingBehavior) -> some View {
+        assertUnimplemented()
     }
 }
 

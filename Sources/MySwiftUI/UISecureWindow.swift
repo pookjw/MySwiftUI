@@ -15,4 +15,8 @@ final class UISecureWindow : UIWindow {
     required init?(coder: NSCoder) {
         assertUnimplemented()
     }
+    
+    @objc static func _isSecure() -> Bool {
+        assertUnimplemented()
+    }
 }

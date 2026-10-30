@@ -109,3 +109,9 @@ extension MeshGradient {
         assertUnimplemented()
     }
 }
+
+extension MeshGradient {
+    struct _Paint {
+        // TODO
+    }
+}

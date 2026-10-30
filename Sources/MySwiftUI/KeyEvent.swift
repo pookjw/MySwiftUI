@@ -13,6 +13,10 @@ struct KeyEvent {
 extension KeyEvent {
     struct Tracker {
         private var activeVersions: [AnyHashable : DisplayList.Version] = [:]
+        
+        func serial(for event: KeyEvent) -> Int {
+            assertUnimplemented()
+        }
     }
 }
 

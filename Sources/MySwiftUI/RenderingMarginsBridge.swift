@@ -5,7 +5,7 @@ internal import _UIKitPrivate
 
 @MainActor
 final class RenderingMarginsBridge<Content : View> : _UISceneEffectiveClippingMarginsObserver {
-    private weak var host: _UIHostingView<Content>? = nil // 0x10
+    weak var host: _UIHostingView<Content>? = nil // 0x10
     private weak var windowScene: UIWindowScene? = nil // 0x18
     private var preferredMarginsSeedTracker = VersionSeedTracker<RenderingMarginsKey>(seed: .invalid) // 0x20
     private var effectiveClippingMargins: EdgeInsets3D = .zero { // 0x28

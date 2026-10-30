@@ -86,7 +86,7 @@ extension UIHostingController {
 }
 
 extension EnvironmentValues {
-    public var isNavigationEnabled: Bool {
+    var isNavigationEnabled: Bool {
         return self[NavigationEnabledKey.self]
     }
     

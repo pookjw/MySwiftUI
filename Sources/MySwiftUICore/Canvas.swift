@@ -2,13 +2,14 @@
 public import CoreGraphics
 private import AttributeGraph
 public import Spatial
+private import RenderBox
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct Canvas<Symbols> where Symbols : View {
     public var symbols: Symbols
     public var renderer: (inout GraphicsContext, CGSize) -> Void // 0x24 (offset field)
-    private var rasterizationOptions: RasterizationOptions // 0x28 (offset field)
-    private var preservesMetadata: Bool // 0x2c (offset field)
+    fileprivate private(set) var rasterizationOptions: RasterizationOptions // 0x28 (offset field)
+    fileprivate private(set) var preservesMetadata: Bool // 0x2c (offset field)
     
     public var isOpaque: Bool {
         get {
@@ -536,13 +537,37 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         }
         
         let d14 = self.lastBounds.size.width
-        let x190xc8 = self.lastBounds.size.height
+        let x190xc0 = self.lastBounds.size.height
         
-        if x190x15f {
-            // <+1972>
-            assertUnimplemented()
+        if !x190x15f, let pointer: UnsafePointer<DisplayList> = unsafe Graph.outputValue() {
+            // <+1856>
+            if positionChanged || containerPositionChanged {
+                // <+1868>
+                for item in unsafe pointer.pointee.items {
+                    assertUnimplemented()
+                }
+                
+                // <+5128>
+                assertUnimplemented()
+            } else {
+                // <+2704>
+                assertUnimplemented()
+            }
         } else {
-            // <+1836>
+            // <+1972>
+            self.tracker.reset()
+            let colorSpace = view.rasterizationOptions.colorSpace
+            let environment = EnvironmentValues(environment.plist, tracker: self.tracker)
+            
+            let rbDisplayList = RBDisplayList()
+            rbDisplayList.profile = view.preservesMetadata ? .unknown0 : .unknown1
+            rbDisplayList.defaultColorSpace = colorSpace
+            rbDisplayList.contentRect = CGRect(x: 0, y: 0, width: d14, height: x190xc0)
+            rbDisplayList.deviceScale = environment.displayScale
+            rbDisplayList.translateBy(x: -self.lastBounds.origin.x, y: -self.lastBounds.origin.y)
+            
+            // <+2384>
+            let storage = GraphicsContext.Storage(list: rbDisplayList, environment: environment)
             assertUnimplemented()
         }
         

@@ -115,6 +115,32 @@ typedef NS_ENUM(int32_t, RBColorMode) {
     RBColorModeInvalid = -1
 };
 
+typedef NS_ENUM(int32_t, RBColorSpace) {
+    RBColorSpaceUnknown0 = 0
+};
+
+typedef NS_ENUM(int32_t, RBBlendMode) {
+    RBBlendModeUnknown0 = 0
+};
+
+typedef NS_ENUM(uint32_t, RBDisplayListContentsProfile) {
+    RBDisplayListContentsProfileUnknown0 = 0,
+    RBDisplayListContentsProfileUnknown1 = 1
+};
+
+typedef struct RBColor {
+    const float unknown0;
+    const float unknown1;
+    const float unknown2;
+    const float unknown3;
+    const float unknown4;
+    const float unknown5;
+    const float unknown6;
+    const float unknown7;
+} RBColor;
+
+typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
+
 NS_ASSUME_NONNULL_END
 
 #endif
