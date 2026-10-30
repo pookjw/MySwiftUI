@@ -16,6 +16,10 @@ class PPTTestBridge {
         self.testCase = testCase
     }
     
+    fileprivate func reset() {
+        assertUnimplemented()
+    }
+    
     // TODO
 }
 

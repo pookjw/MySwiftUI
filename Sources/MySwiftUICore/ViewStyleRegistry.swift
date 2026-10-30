@@ -64,30 +64,30 @@ package struct ViewStyleOverrides : Sendable {
         let defaultStyleModifierProtocolDescriptor = unsafe _defaultStyleModifierProtocolDescriptor()
         registeredStyles
             .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) != nil else {
+                guard let conformance = unsafe swift_conformsToProtocol(value, defaultStyleModifierProtocolDescriptor) else {
                     return
                 }
                 
-                unsafe unsafeBitCast(value, to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
+                unsafe unsafeBitCast((value, conformance), to: (any DefaultStyleModifier.Type).self).registerDefaultStyle(in: &inputs)
             }
         
         let styleOverrideModifierProtocolDescriptor = unsafe _styleOverrideModifierProtocolDescriptor()
         registeredStyleOverrides
             .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) != nil else {
+                guard let conformance = unsafe swift_conformsToProtocol(value, styleOverrideModifierProtocolDescriptor) else {
                     return
                 }
                 
-                unsafe unsafeBitCast(value, to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+                unsafe unsafeBitCast((value, conformance), to: (any StyleOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
             }
         
         registeredStyleWriterOverrides
             .forEach { key, value in
-                guard unsafe swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) != nil else {
+                guard let conformance = unsafe swift_conformsToProtocol(value, _styleWriterOverrideModifierProtocolDescriptor()) else {
                     return
                 }
                 
-                unsafe unsafeBitCast(value, to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
+                unsafe unsafeBitCast((value, conformance), to: (any StyleWriterOverrideModifier.Type).self).injectStyleOverride(in: &inputs)
             }
     }
     

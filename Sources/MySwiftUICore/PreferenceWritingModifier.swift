@@ -93,6 +93,8 @@ extension View {
 extension _PreferenceWritingModifier : Sendable {
 }
 
+extension _PreferenceWritingModifier : MultiViewModifier, PrimitiveViewModifier {}
+
 extension _PreferenceWritingModifier : Equatable where Key.Value : Equatable {
     public static func == (a: _PreferenceWritingModifier<Key>, b: _PreferenceWritingModifier<Key>) -> Bool {
         return a.value == b.value

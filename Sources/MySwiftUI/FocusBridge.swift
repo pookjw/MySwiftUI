@@ -367,6 +367,38 @@ final class FocusBridge {
         assertUnimplemented()
     }
     
+    var acceptsFirstResponder: Bool {
+        assertUnimplemented()
+    }
+    
+    func resetFocus(in: Namespace.ID?) {
+        assertUnimplemented()
+    }
+    
+    func firstResponderDidChange(to: UIResponder?, rootResponder: ResponderNode?) {
+        assertUnimplemented()
+    }
+    
+    func focusDidChange_PhoneWatch(rootResponder: ResponderNode?) {
+        assertUnimplemented()
+    }
+    
+    func hostingControllerWillDisappear() {
+        assertUnimplemented()
+    }
+    
+    func didUpdateFocus(in: UIFocusUpdateContext, with: UIFocusAnimationCoordinator) {
+        assertUnimplemented()
+    }
+    
+    static func representedFocusItem(_ item: FocusItem, in view: UIView) -> UIFocusItem? {
+        assertUnimplemented()
+    }
+    
+    static func focusItem(_ item: UIFocusItem?, in host: UIView & ViewRendererHost) -> FocusItem? {
+        assertUnimplemented()
+    }
+    
     fileprivate func preferredFocusItems(for responder: ViewResponder, in namespace: Namespace.ID?) -> (preferred: [any UIFocusEnvironment], regular: [any UIFocusEnvironment]) {
         /*
          x29 = sp + 0x160
@@ -449,6 +481,16 @@ extension FocusBridge {
 }
 
 extension FocusBridge {
+    fileprivate static func defaultFocusItemsContainer(responderNode: ResponderNode, host: UIView) -> (any UIKitHostedContainerFocusItem)? {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func defaultFocusItems(responderNode: ResponderNode, host: UIView) -> [any UIFocusItem] {
+        assertUnimplemented()
+    }
+}
+
+extension FocusBridge {
     struct Flags : OptionSet {
         static var unknown0: FocusBridge.Flags {
             return FocusBridge.Flags(rawValue: 1 << 0)
@@ -489,6 +531,22 @@ struct FocusItem {
     var isExpired: Bool {
         assertUnimplemented()
     }
+    
+    var isFocusable: Bool {
+        assertUnimplemented()
+    }
+    
+    var platformResponder: UIView? {
+        assertUnimplemented()
+    }
+    
+    func hasEqualIdentity(to other: FocusItem) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func isFocusChange(from: FocusItem?, to: FocusItem?) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension FocusItem {
@@ -515,6 +573,10 @@ struct FocusableOptions : OptionSet {
     static var platformContainerHandlesFocus: FocusableOptions { return FocusableOptions(rawValue: 1 << 3) }
     static var preventNavigationToSubviews: FocusableOptions { return FocusableOptions(rawValue: 1 << 4) }
     static var all: FocusableOptions { return [.fromMouse, .fromKeyboard, .platformItemDrawsFocusRingMask] /* 0x7 */ }
+    
+    func resolve(in environment: EnvironmentValues) -> FocusableOptions {
+        assertUnimplemented()
+    }
     
     let rawValue: Int
 }
@@ -569,12 +631,12 @@ fileprivate struct FocusBridgeKey : EnvironmentKey {
 }
 
 struct UIKitHostContainerFocusItemInput : ViewInput {
-    static let defaultValue = Attribute<WeakBox<UIView>>(identifier: .empty) 
+    static let defaultValue = OptionalAttribute<WeakBox<UIView>>()
 }
 
 extension _ViewInputs {
     // 원래 없음
-    var uiKitHostContainerFocusItem: Attribute<WeakBox<UIView>> {
+    var uiKitHostContainerFocusItem: OptionalAttribute<WeakBox<UIView>> {
         get {
             return self[UIKitHostContainerFocusItemInput.self]
         }
@@ -593,8 +655,6 @@ extension _ViewInputs {
     }
     
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)?
-    func childFocusItems(in rect: CGRect) -> [UIFocusItem]
-    func defaultFocusItemsContainer() -> UIKitHostedContainerFocusItem?
 }
 
 extension UIKitContainerFocusItem {
@@ -649,6 +709,10 @@ extension UIKitContainerFocusItem {
 }
 
 extension UIKitContainerFocusItem where Self : UIView {
+    var host: UIView? {
+        return self
+    }
+    
     func rootResponder() -> (responder: ResponderNode, isVisited: Bool)? {
         /*
          self = x19
@@ -683,8 +747,36 @@ protocol UIKitHostedContainerFocusItem : AnyUIKitHostedFocusItem, UIKitContainer
     // TODO
 }
 
+extension UIKitHostedContainerFocusItem {
+    func defaultFocusItems() -> [any UIFocusItem] {
+        assertUnimplemented()
+    }
+}
+
 protocol AnyUIKitHostedFocusItem : UIFocusItem {
     // TODO
+}
+
+extension AnyUIKitHostedFocusItem {
+    func ensureHost() {
+        assertUnimplemented()
+    }
+    
+    var defaultFrame: CGRect {
+        assertUnimplemented()
+    }
+    
+    fileprivate func addToHostIfNeeded(_ host: UIView) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func invalidateFocusIfNeeded() {
+        assertUnimplemented()
+    }
+    
+    fileprivate func move(toParent: UIView?) {
+        assertUnimplemented()
+    }
 }
 
 extension UIFocusEnvironment {
@@ -708,11 +800,15 @@ extension UIFocusEnvironment {
     }
 }
 
-final class FocusNamespaceViewResponder : DefaultLayoutViewResponder {
+class FocusNamespaceViewResponder : DefaultLayoutViewResponder {
     fileprivate private(set) var namespace: Namespace.ID?
     private var context: AnyRuleContext?
 //    @Attribute var modifier: FocusNamespaceModifier
     @Attribute private var viewResponders: [ViewResponder]
+    
+    fileprivate func updateNamespace() {
+        assertUnimplemented()
+    }
 }
 
 struct UIKitFocusItemDescription<T : UIFocusItem>: CustomStringConvertible {

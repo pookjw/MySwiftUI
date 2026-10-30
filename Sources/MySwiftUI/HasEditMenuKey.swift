@@ -1,9 +1,11 @@
 @_spi(Internal) internal import MySwiftUICore
 
 struct HasEditMenuKey : HostPreferenceKey {
-    typealias Value = Never? // TODO
-    
-    static func reduce(value: inout Never?, nextValue: () -> Never?) {
-        assertUnimplemented()
+    static var defaultValue: Bool {
+        return false
+    }
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = value || nextValue()
     }
 }

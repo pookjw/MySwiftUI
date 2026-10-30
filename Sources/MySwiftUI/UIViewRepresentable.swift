@@ -103,8 +103,17 @@ extension UIViewRepresentable {
     fileprivate private(set) var values: RepresentableContextValues
     @MainActor @preconcurrency public let coordinator: Representable.Coordinator
     
-    @MainActor @preconcurrency public var transaction: Transaction {
+    init<T>(_ context: PlatformViewRepresentableContext<T>) where T : PlatformViewRepresentable, T.Coordinator == Representable.Coordinator {
         assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public private(set) var transaction: Transaction {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
     }
     
     @MainActor @preconcurrency public var environment: EnvironmentValues {
@@ -139,13 +148,13 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base : UIViewRepresentable>:
     }
     
     func makeViewProvider(context: PlatformViewRepresentableContext<Self>) -> Base.UIViewType {
-        let repContext = UIViewRepresentableContext<Base>(values: context.values, coordinator: context.coordinator)
+        let repContext = UIViewRepresentableContext<Base>(context)
         let uiView = base.makeUIView(context: repContext)
         return uiView
     }
     
     func updateViewProvider(_ provider: Base.UIViewType, context: PlatformViewRepresentableContext<Self>) {
-        let repContext = UIViewRepresentableContext<Base>(values: context.values, coordinator: context.coordinator)
+        let repContext = UIViewRepresentableContext<Base>(context)
         base.updateUIView(provider, context: repContext)
     }
     
@@ -170,7 +179,7 @@ fileprivate struct PlatformViewRepresentableAdaptor<Base : UIViewRepresentable>:
         provider: Base.UIViewType,
         context: PlatformViewRepresentableContext<Self>
     ) -> CGSize? {
-        let repContext = UIViewRepresentableContext<Base>(values: context.values, coordinator: context.coordinator)
+        let repContext = UIViewRepresentableContext<Base>(context)
         return base.sizeThatFits(proposedSize, uiView: provider, context: repContext)
     }
     

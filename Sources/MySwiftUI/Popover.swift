@@ -18,3 +18,9 @@ extension EnvironmentValues {
         }
     }
 }
+
+extension View {
+    func popoverAutomaticallyDismissesWhenScrolledOutOfView(_ dismisses: Bool) -> some View {
+        assertUnimplemented()
+    }
+}

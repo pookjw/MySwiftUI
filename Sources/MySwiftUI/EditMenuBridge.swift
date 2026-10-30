@@ -40,6 +40,26 @@ final class EditMenuBridge : NSObject {
         
         assertUnimplemented()
     }
+    
+    func transformDidChange() {
+        assertUnimplemented()
+    }
+    
+    fileprivate func presentMenu(_ presentation: EditMenuPresentation) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func attributedString(from presentation: EditMenuPresentation, in rect: CGRect) -> NSAttributedString? {
+        assertUnimplemented()
+    }
+    
+    fileprivate func share() {
+        assertUnimplemented()
+    }
+    
+    fileprivate func lookup() {
+        assertUnimplemented()
+    }
 }
 
 extension EditMenuBridge : UIEditMenuInteractionDelegate {

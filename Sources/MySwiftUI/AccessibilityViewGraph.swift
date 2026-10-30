@@ -63,7 +63,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         // <+436>
         if graph.requestedOutputs.isSuperset(of: .layout) {
             inputs.needsAccessibilityGeometry = true
-            inputs.base[AccessibilityCapturesViewResponders.self] = true
+            inputs.base.accessibilityCapturesViewResponders = true
         }
         
         // <+624>
@@ -276,8 +276,4 @@ struct AccessibilityOpacityAttachment : ResolvableAccessibilityModifierRule {
     var value: AccessibilityOpacityModifier {
         assertUnimplemented()
     }
-}
-
-fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {
-    
 }

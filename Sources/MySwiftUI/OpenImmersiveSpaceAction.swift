@@ -1,6 +1,7 @@
 // E9ADBE8A4025300D40698E090BDABFC1
 public import MySwiftUICore
 private import os.log
+internal import Foundation
 private import MRUIKit
 
 @available(macOS 26.0, visionOS 1.0, *)
@@ -19,7 +20,7 @@ private import MRUIKit
     @discardableResult
     @MainActor public func callAsFunction(id: String) async -> OpenImmersiveSpaceAction.Result {
         // $s7SwiftUI24OpenImmersiveSpaceActionV14callAsFunction2idAC6ResultOSS_tYaFTY1_
-        let strategy = SceneNavigationStrategy_Phone.shared
+        let strategy = unsafe SceneNavigationStrategy_Phone.shared
         
         if strategy.sceneNavigationEnabled {
             let result = await strategy.openImmersiveSpace(
@@ -45,6 +46,11 @@ private import MRUIKit
     
     @discardableResult
     @MainActor public func callAsFunction<D>(id: String, value: D) async -> OpenImmersiveSpaceAction.Result where D: Decodable, D: Encodable, D: Hashable {
+        assertUnimplemented()
+    }
+    
+    @discardableResult
+    @MainActor func callAsFunction(id: String, forRemoteSessionInfo: RemoteScenes.SessionInfo, initialData: Data?) async -> OpenImmersiveSpaceAction.Result {
         assertUnimplemented()
     }
     

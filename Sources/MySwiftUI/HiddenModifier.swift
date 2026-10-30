@@ -27,4 +27,5 @@ extension View {
 
 extension _HiddenModifier : Sendable {}
 extension _HiddenModifier : BitwiseCopyable {}
+extension _HiddenModifier : PrimitiveViewModifier {}
 extension _HiddenModifier : MultiViewModifier {}

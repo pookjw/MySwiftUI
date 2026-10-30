@@ -28,7 +28,7 @@ final class AccessibilityNode {
 }
 
 extension _GraphInputs {
-    @inline(always)
+    @inline(always) // 원래 없음
     var accessibilityCapturesViewResponders: Bool {
         get {
             return self[AccessibilityCapturesViewResponders.self]
@@ -40,7 +40,6 @@ extension _GraphInputs {
 }
 
 fileprivate struct AccessibilityCapturesViewResponders : ViewInputBoolFlag {
-    
 }
 
 struct AccessibilityNodesKey : PreferenceKey {

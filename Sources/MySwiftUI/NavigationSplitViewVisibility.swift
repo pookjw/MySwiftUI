@@ -1,3 +1,4 @@
+internal import UIKit
 @_spi(Internal) internal import MySwiftUICore
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
@@ -33,6 +34,10 @@ public struct NavigationSplitViewVisibility : Equatable, Codable, Sendable {
 
 struct AnyNavigationSplitVisibility {
     private var kind: AnyNavigationSplitVisibility.Kind
+    
+    var visibility: NavigationSplitViewVisibility? {
+        assertUnimplemented()
+    }
 }
 
 extension AnyNavigationSplitVisibility : CustomStringConvertible {
@@ -48,6 +53,14 @@ extension AnyNavigationSplitVisibility {
         case threeColumn(visibility: NavigationSplitViewVisibility)
         case twoUnboundColumns
         case threeUnboundColumns
+        
+        func updateSplitViewController(_ splitViewController: UISplitViewController, isAnimated: Bool) -> NavigationSplitViewVisibility? {
+            assertUnimplemented()
+        }
+        
+        func adoptingVisibleLeadingColumnCount(_ count: Int) -> AnyNavigationSplitVisibility.Kind {
+            assertUnimplemented()
+        }
     }
     
     struct ToTwoColumns : Hashable {

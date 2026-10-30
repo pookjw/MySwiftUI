@@ -610,11 +610,6 @@ private import _UIKitShims
         self.transitioningDelegate.sourceRect = preference.sourceRect
     }
     
-    func removePreferences(from graph: ViewGraph) {
-        // noop
-        assert(type(of: self) == UIKitInspectorBridgeV5<T>.self)
-    }
-    
     func contingentlyPresent(_ preference: SheetPreference, from viewController: UIViewController, animated: Bool) {
         /*
          self -> x20 -> x19
@@ -769,6 +764,10 @@ private import _UIKitShims
     
     nonisolated var isBackingV5Inspector: Bool {
         return false
+    }
+    
+    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+        assertUnimplemented()
     }
     
     nonisolated func willTransitionToRegularSizeClass() {
@@ -950,7 +949,11 @@ extension SheetTransitioningDelegate : UIViewControllerTransitioningDelegate {
         return controller
     }
     
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        assertUnimplemented()
+    }
+    
+    func animationController(for dismissed: UIViewController, dismissing: Bool) -> (any UIViewControllerAnimatedTransitioning)? {
         assertUnimplemented()
     }
 }

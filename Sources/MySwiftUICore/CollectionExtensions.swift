@@ -15,7 +15,7 @@ extension Collection {
             // x27
             let index = self.index(startIndex, offsetBy: pivot)
             
-            if try block(self[index]) {
+            if try !block(self[index]) {
                 startIndex = self.index(after: index)
                 count &-= (pivot &+ 1)
             } else {

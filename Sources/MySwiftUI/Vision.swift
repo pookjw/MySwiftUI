@@ -1,7 +1,9 @@
 private import UIKit
 
-@MainActor fileprivate let isEnabled = UIDevice.current.userInterfaceIdiom == .vision
-
 @MainActor func isVisionInterfaceIdiom() -> Bool {
-    return isEnabled
+    struct Cache {
+        @MainActor static let isEnabled = UIDevice.current.userInterfaceIdiom == .vision
+    }
+    
+    return Cache.isEnabled
 }

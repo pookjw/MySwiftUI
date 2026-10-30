@@ -5,7 +5,7 @@ private import AttributeGraph
 internal import Foundation
 
 final class MRUIPreferenceImporter : NSObject, MRUIPreferenceHostConformer {
-    private weak var graph: ViewGraph? = nil // 0x8
+    weak var graph: ViewGraph? = nil // 0x8
     private let preferenceHost = MRUIPreferenceHost() // 0x10
     private var importedPreferences: [MRUIPreferenceImporter.PreferenceNode] = [] // 0x18
     private var customImportedPreference: MRUIPreferenceImporter.PreferenceNode? = nil

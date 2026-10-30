@@ -462,6 +462,90 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         }
         
         // <+1156>
+        // x19 + 0x15f (sp + 0x2df)
+        var x190x15f = modified
+        
+        guard !self.lastBounds.isEmpty else {
+            self.value = DisplayList()
+            return
+        }
+        
+        // <+1224>
+        // x27
+        let (view, viewChanged) = self.$view.changedValue(options: [])
+        // self -> x19 + 0x128 (sp + 0x2a8)
+        let (environment, environmentChanged) = self.$environment.changedValue(options: [])
+        
+        if modified {
+            // <+1360>
+            // <+1440>
+        } else {
+            // <+1384>
+            if viewChanged {
+                // <+1420>
+                x190x15f = true
+                // <+1440>
+            } else {
+                if environmentChanged {
+                    // <+2728>
+                    if self.tracker.hasDifferentUsedValues(environment.plist) {
+                        // <+1432>
+                        x190x15f = true
+                    } else {
+                        // <+1440>
+                    }
+                } else {
+                    // <+1404>
+                    // <+1440>
+                }
+            }
+        }
+        
+        // <+1440>
+        if let attribute = self.$symbols {
+            // <+1472>
+            Graph.registerDependency(attribute: attribute.identifier, flags: 0)
+            
+            let attributes = (self.$view, self.$position, self.$containerPosition, self.$size, self.$transform, self.$environment)
+            let count: UInt = 6
+            
+            withUnsafePointer(to: attributes) { pointer in
+                let changed = unsafe AGGraphAnyInputsChanged(
+                    UnsafeRawPointer(pointer)
+                        .unsafelyUnwrapped
+                        .assumingMemoryBound(to: AnyAttribute.self),
+                    count
+                )
+                
+                if changed {
+                    self.cachedSymbols = nil
+                    x190x15f = true
+                }
+            }
+        }
+        
+        // <+1796>
+        let d9: CGFloat
+        let x190x30: CGFloat
+        let containerPositionChanged: Bool
+        do {
+            let (containerPosition, changed) = self.$containerPosition.changedValue(options: [])
+            d9 = containerPosition.x
+            x190x30 = containerPosition.y
+            containerPositionChanged = changed
+        }
+        
+        let d14 = self.lastBounds.size.width
+        let x190xc8 = self.lastBounds.size.height
+        
+        if x190x15f {
+            // <+1972>
+            assertUnimplemented()
+        } else {
+            // <+1836>
+            assertUnimplemented()
+        }
+        
         assertUnimplemented()
     }
 }

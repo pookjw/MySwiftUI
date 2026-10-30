@@ -44,10 +44,6 @@ extension ViewGraphDelegate {
         return hostingView.shouldCreateUIInteractions
     }
     
-    var hosintingView: UIHostingViewProvider? {
-        assertUnimplemented()
-    }
-    
     var hostingControllerOverrides: HostingControllerOverrides {
         if let controller = self.as(UIHostingControllerProvider.self) {
             return controller.hostingControllerOverrides

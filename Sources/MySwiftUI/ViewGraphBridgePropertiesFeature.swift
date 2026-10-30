@@ -10,10 +10,6 @@ struct ViewGraphBridgePropertiesFeature : ViewGraphFeature {
     private var lastLocalBridgeProperties: ViewGraphBridgeProperties?
     private var lastEnvironment: EnvironmentValues?
     
-    func combine<T>(with other: T) -> Bool where T : GraphMutation {
-        assertUnimplemented()
-    }
-    
     mutating func modifyViewInputs(inputs: inout _ViewInputs, graph: ViewGraph) {
         /*
          self -> x20 -> x21

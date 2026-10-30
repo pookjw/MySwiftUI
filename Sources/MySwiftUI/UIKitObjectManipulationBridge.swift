@@ -3,7 +3,7 @@ internal import MRUIKit
 internal import AttributeGraph
 
 @MainActor
-final class UIKitObjectManipulationBridge<Content : View>: AnyObjectManipulationBridge {
+final class UIKitObjectManipulationBridge<Content : View>: AnyObjectManipulationBridge, _MRUIObjectTransformInteraction.Delegate {
     weak var host: _UIHostingView<Content>? = nil
     var mapping: [_MRUIObjectTransformInteraction.Target.ID: UIKitObjectManipulationBridge<Content>.Context] = [:]
     var proxyGeometries: [UUID : Attribute<ObjectManipulationGeometry>] = [:]
@@ -51,7 +51,7 @@ final class UIKitObjectManipulationBridge<Content : View>: AnyObjectManipulation
 }
 
 extension UIKitObjectManipulationBridge {
-    class Context {
+    class Context : _MRUIObjectTransformInteraction.Delegate {
         
     }
 }

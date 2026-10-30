@@ -8,8 +8,4 @@ struct HostingGestureOverlayAuthorityKey : HostPreferenceKey {
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
         assertUnimplemented()
     }
-    
-    static func reduce(value: inout Bool?, nextValue: () -> Bool?) {
-        assertUnimplemented()
-    }
 }

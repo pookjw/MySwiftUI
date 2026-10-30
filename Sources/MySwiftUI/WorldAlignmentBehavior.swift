@@ -19,6 +19,10 @@ public struct WorldAlignmentBehavior : Equatable, Sendable {
     public static var gravityAligned: WorldAlignmentBehavior {
         return WorldAlignmentBehavior(storage: .gravityAligned)
     }
+    
+    public static var floor: WorldAlignmentBehavior {
+        return WorldAlignmentBehavior(storage: .gravityAligned)
+    }
 }
 
 @available(visionOS 2.0, *)

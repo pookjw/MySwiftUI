@@ -13,6 +13,24 @@ public protocol ToggleStyle {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct ToggleStyleConfiguration {
+    public var isOn: Bool {
+        get {
+            assertUnimplemented()
+        }
+        nonmutating set {
+            assertUnimplemented()
+        }
+    }
+    
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    public var isMixed: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 //    @MainActor @preconcurrency
 //    public struct Label: View {
 //        @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)

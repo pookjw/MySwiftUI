@@ -1,8 +1,7 @@
 internal import UIKit
 internal import MySwiftUICore
 
-// TODO: final인지 검증
-class UIKitRelationshipGestureRecognizer : UIGestureRecognizer {
+final class UIKitRelationshipGestureRecognizer : UIGestureRecognizer {
     var gesturesRequiringFailure: Set<UIGestureRecognizer> = []
 
     override init(target: Any?, action: Selector?) {

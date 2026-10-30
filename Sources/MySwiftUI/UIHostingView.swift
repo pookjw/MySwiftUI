@@ -1439,7 +1439,7 @@ extension _UIHostingView {
             }
             
             // <+856>
-            inputs.uiKitHostContainerFocusItem = Attribute(value: WeakBox(host))
+            inputs.uiKitHostContainerFocusItem = OptionalAttribute(Attribute(value: WeakBox(host)))
             
             // <+1016>
             if let navigationBridge = host.navigationBridge {

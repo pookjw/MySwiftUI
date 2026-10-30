@@ -29,6 +29,10 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         assertUnimplemented()
     }
     
+    static func canonicalize(externalEvent: Set<String>) -> Foundation::Predicate<String>? {
+        assertUnimplemented()
+    }
+    
     private var sceneBridgePublishers: [ObjectIdentifier: [String: PassthroughSubject<Any, Never>]] = .init() // 0x10
     private(set) var isAnimatingSceneResize: Bool = false // 0x18
     weak var windowScene: UIWindowScene? = nil // 0x20
@@ -207,6 +211,10 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
                 viewGraph.sizeThatFitsObservers.stopObserving(proposal: _ProposedSize(ProposedViewSize.infinity))
             }
         }
+    }
+    
+    func updateSceneSizing(_ sizing: SizingPreferences, transaction: Transaction?, invalidateEnvironmentProperty: () -> Void) {
+        assertUnimplemented()
     }
     
     func userActivityPreferencesDidChange(_ preferenceValues: PreferenceValues) {
@@ -434,6 +442,10 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
         }
     }
     
+    fileprivate func flushEnqueuedEvents(for identifier: String, type: Any.Type) {
+        assertUnimplemented()
+    }
+    
     fileprivate func enqueueUnpublishedEvent(_ event: Any, for identifier: String) {
         /*
          self -> x20 -> x19
@@ -531,6 +543,10 @@ struct ConnectionOptionPayloadStoragePreferenceKey : HostPreferenceKey {
 struct ConnectionOptionPayloadStorage {
     private(set) var types: [any UISceneConnectionOptionDefinition.Type] = []
     private var actions: [ObjectIdentifier: [AnyConnectionOptionActionBox]] = .init()
+    
+    mutating func merge(_ other: ConnectionOptionPayloadStorage) {
+        assertUnimplemented()
+    }
 }
 
 final class UserActivityTrackingInfo : NSObject, NSUserActivityDelegate {
@@ -550,6 +566,10 @@ final class UserActivityTrackingInfo : NSObject, NSUserActivityDelegate {
     }
     
     func userActivityWillSave(_ userActivity: NSUserActivity) {
+        assertUnimplemented()
+    }
+    
+    func updateUserActivity(_ userActivity: NSUserActivity) {
         assertUnimplemented()
     }
 }

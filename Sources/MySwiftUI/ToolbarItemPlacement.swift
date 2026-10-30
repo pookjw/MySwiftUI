@@ -146,6 +146,16 @@ public struct ToolbarItemPlacement : Sendable {
     public static let largeSubtitle = ToolbarItemPlacement(role: .largeSubtitle)
     
     static let tabSidebar = ToolbarItemPlacement(role: .automatic)
+    
+    static let search = ToolbarItemPlacement(role: .search)
+    
+    static let tabBarLeading = ToolbarItemPlacement(role: .tabBarLeading)
+    
+    static let tabBarTrailing = ToolbarItemPlacement(role: .tabBarTrailing)
+    
+    static let _navigationBarLeading = ToolbarItemPlacement(role: ._navigationBarLeading)
+    
+    static let _navigationBarTrailing = ToolbarItemPlacement(role: ._navigationBarTrailing)
 }
 
 @available(*, unavailable)

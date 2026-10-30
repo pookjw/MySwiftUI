@@ -17,4 +17,12 @@ final class _UIInheritedView : _UIGraphicsView {
     override func _accessibilityOverridesInvalidFrames() -> Bool {
         return true
     }
+    
+    static let platterEnabledKeyPath: String = {
+        assertUnimplemented()
+    }()
+    
+    fileprivate var platterEnabled: Bool {
+        assertUnimplemented()
+    }
 }

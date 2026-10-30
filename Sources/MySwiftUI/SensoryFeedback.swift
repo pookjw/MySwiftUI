@@ -1,3 +1,5 @@
+internal import MRUIKit
+
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 public struct SensoryFeedback : Equatable, Sendable {
     private var type: FeedbackType
@@ -134,6 +136,10 @@ extension SensoryFeedback {
         case handFlipPalmDown
         case handFlipPalmUp
         case handReveal
+        
+        var mruiFeedbackType: MRUIFeedbackType? {
+            assertUnimplemented()
+        }
     }
 }
 
