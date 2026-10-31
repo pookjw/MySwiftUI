@@ -157,6 +157,10 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
         return platformVended.uiInputAccessoryGenerator
     }
     
+    var uiTabViewSidebarBottomBarItem: ToolbarStorage.Item? {
+        assertUnimplemented()
+    }
+    
     @inline(always)
     func layout() {
         guard let _ = platformVended.uiToolbar else {
@@ -423,6 +427,18 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
 }
 
 extension ToolbarBridge : ToolbarNamespace {
+}
+
+extension ToolbarBridge : ToolbarBridgeProvider where T == UIKitToolbarStrategy {
+    var toolbarBridge: ToolbarBridge<UIKitToolbarStrategy> {
+        assertUnimplemented()
+    }
+}
+
+extension ToolbarBridge where T == UIKitToolbarStrategy {
+    var platformDelegate: ToolbarPlatformDelegate? {
+        assertUnimplemented()
+    }
 }
 
 struct ToolbarKey : HostPreferenceKey {

@@ -3,7 +3,7 @@ package struct ViewIdentity {
     package static var invalid: ViewIdentity { ViewIdentity(seed: 0) }
     private let seed: UInt32
     
-    @safe nonisolated(unsafe) private static var nextSeed: UInt32 = 0
+    @safe nonisolated(unsafe) private static var nextSeed: UInt32 = 1
     
     init() {
         let seed = ViewIdentity.nextSeed

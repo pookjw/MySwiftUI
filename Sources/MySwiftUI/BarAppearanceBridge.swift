@@ -621,7 +621,7 @@ struct ToolbarAppearanceConfiguration : Equatable {
         assertUnimplemented()
     }
     
-    private var allowsUpdates: Bool = true // 0x0
+    var allowsUpdates: Bool = true // 0x0
     private(set) var visibility: Visibility = .automatic // 0x1
     private(set) var foregroundStyle: AnyShapeStyle? = nil // 0x8
     private(set) var background: AnyShapeStyle? = nil // 0x10

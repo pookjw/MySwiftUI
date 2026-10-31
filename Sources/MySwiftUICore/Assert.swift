@@ -3,5 +3,5 @@
         return
     }
     
-    assertionFailure(message(), file: file, line: line)
+    Swift.fatalError(message(), file: file, line: line)
 }

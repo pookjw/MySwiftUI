@@ -1245,7 +1245,7 @@ package struct SafeAreaInsets {
                 w15 = (v22_0 == 0) ? w15 : w2
                 w16 = (v22_0 == 0) ? w16 : w1
                 
-                if w1.isEmpty {
+                if w15.isEmpty {
                     // <+764>
                     w15 = []
                     // <+256>

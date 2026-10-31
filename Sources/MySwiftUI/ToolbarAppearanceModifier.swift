@@ -28,7 +28,7 @@ extension BarAppearanceBridge {
         self.allowedBars = roles
     }
     
-    @inline(always)
+    @inline(always) // 원래 없음
     func updateBarConfigurations(role: ToolbarPlacement.Role, preferences: PreferenceValues) -> Bool {
         // self.updateContext -> x24 -> x19 + 0x40
         // self -> x26 -> x19 + 0xa8
@@ -46,7 +46,7 @@ extension BarAppearanceBridge {
         // x29 - 0xf0
         let copy_1 = self.updateContext
         // x24 -> x19 + 0xd0
-        let newConfiguration = preferences.configuration(toolbarPlacement: role).value
+        var newConfiguration = preferences.configuration(toolbarPlacement: role).value
         
         // <+1116>
         if role == .navigationBar, let copy_2 = copy_1 {
@@ -56,7 +56,16 @@ extension BarAppearanceBridge {
             let copy_3 = copy_2
             if !copy_3.navigationAdaptor.adaptors.isEmpty {
                 // <+1216>
-                assertUnimplemented()
+                var options: UINavigationItemAdaptorOptions = []
+                
+                for adaptor in copy_3.navigationAdaptor.adaptors {
+                    options.formUnion(adaptor.base.options)
+                }
+                
+                if options.contains(.disableUpdates) {
+                    newConfiguration.allowsUpdates = false
+                }
+                
                 // <+1508>
                 // <+1520>
             } else {
@@ -72,50 +81,18 @@ extension BarAppearanceBridge {
         // <+1520>
         // x19 + 0xc8
         let oldConfiguration: ToolbarAppearanceConfiguration? = barConfigurations[role]
-        // x19 + 0x88
-        let copy_2: ToolbarAppearanceConfiguration? = newConfiguration
         // <+1712>
-        // x19 + 0x60
-        let copy_3 = oldConfiguration
-        // <+1756>
-        // *(x19 + 0x60) + 0x50 (x26 + x20)
-        let copy_4 = copy_2
-        
-        if copy_3 != nil {
-            // <+1876>
-            assertUnimplemented()
-        } else {
+        // x19 + 0x88
+        if oldConfiguration != newConfiguration {
             // <+1808>
-            if copy_4 != nil {
-                // <+1956>
-                // x29 - 0xf0
-                let copy_5 = role
-                // x19 + 0x28
-                let copy_6: ToolbarAppearanceConfiguration? = newConfiguration
-                // x19 + 0x30
-                let copy_7 = copy_6
-                
-                if let copy_7 {
-                    // <+2180>
-                    // x19 + 0x8
-                    let copy_8 = copy_7
-                    self.barConfigurations[copy_5] = copy_8
-                    // <+2272>
-                } else {
-                    // <+2100>
-                    self.barConfigurations.removeValue(forKey: copy_5)
-                    // <+2272>
-                }
-                
-                // <+2280>
-                // x19 + 0x130
-                let copy_8 = role
-                self.toUpdateBars.update(with: copy_8)
-                return true
-            } else {
-                // <+2548>
-                return false
-            }
+            self.barConfigurations[role] = newConfiguration
+            // <+2280>
+            // x19 + 0x130
+            self.toUpdateBars.update(with: role)
+            return true
+        } else {
+            // <+2548>
+            return false
         }
     }
 }
@@ -136,67 +113,70 @@ extension Set where Element == ToolbarPlacement.Role {
 
 extension ToolbarPlacement.Role {
     fileprivate func updatePreference(viewGraph: ViewGraph, tracker: inout VersionSeedSetTracker, isAdding: Bool) {
-        /*
-         self -> x20
-         isAdding -> x2 -> x27
-         viewGraph -> x0 -> x29 - 0x88
-         tracker -> x1 -> x29 - 0x80
-         */
-        // <+268>
-        // x29 - 0x78
-        let copy_1 = self
-        
-        switch copy_1 {
+        switch self {
         case .accessoryBar(_):
-            // <+1472>
-            assertUnimplemented()
-        case .navigationBar:
-            // <+920>
             if isAdding {
-                // <+924>
+                viewGraph.addPreference(AccessoryBarAppearanceKey.self)
+                tracker.addPreference(AccessoryBarAppearanceKey.self)
+            } else {
+                viewGraph.removePreference(AccessoryBarAppearanceKey.self)
+                tracker.removePreference(AccessoryBarAppearanceKey.self)
+            }
+        case .navigationBar:
+            if isAdding {
                 viewGraph.addPreference(NavigationBarAppearanceKey.self)
                 tracker.addPreference(NavigationBarAppearanceKey.self)
             } else {
-                // <+1304>
-                assertUnimplemented()
+                viewGraph.removePreference(NavigationBarAppearanceKey.self)
+                tracker.removePreference(NavigationBarAppearanceKey.self)
             }
         case .windowToolbarItems:
-            // <+1072>
-            assertUnimplemented()
-        case .windowToolbar:
-            // <+312>
-            assertUnimplemented()
-        case .bottomBar:
-            // <+632>
             if isAdding {
-                // <+636>
+                viewGraph.addPreference(WindowToolbarItemsAppearanceKey.self)
+                tracker.addPreference(WindowToolbarItemsAppearanceKey.self)
+            } else {
+                viewGraph.removePreference(WindowToolbarItemsAppearanceKey.self)
+                tracker.removePreference(WindowToolbarItemsAppearanceKey.self)
+            }
+        case .windowToolbar:
+            if isAdding {
+                viewGraph.addPreference(WindowToolbarAppearanceKey.self)
+                tracker.addPreference(WindowToolbarAppearanceKey.self)
+            } else {
+                viewGraph.removePreference(WindowToolbarAppearanceKey.self)
+                tracker.removePreference(WindowToolbarAppearanceKey.self)
+            }
+        case .bottomBar:
+            if isAdding {
                 viewGraph.addPreference(BottomBarAppearanceKey.self)
                 tracker.addPreference(BottomBarAppearanceKey.self)
             } else {
-                // <+1344>
-                assertUnimplemented()
+                viewGraph.removePreference(BottomBarAppearanceKey.self)
+                tracker.removePreference(BottomBarAppearanceKey.self)
             }
         case .keyboardBar:
-            // <+1464>
-            assertUnimplemented()
+            fatalError("Unsupported toolbar")
         case .tabBar:
-            // <+776>
-            assertUnimplemented()
-        case .bottomOrnament:
-            // <+480>
             if isAdding {
-                // <+484>
+                viewGraph.addPreference(TabBarAppearanceKey.self)
+                tracker.addPreference(TabBarAppearanceKey.self)
+            } else {
+                viewGraph.removePreference(TabBarAppearanceKey.self)
+                tracker.removePreference(TabBarAppearanceKey.self)
+            }
+        case .bottomOrnament:
+            if isAdding {
                 viewGraph.addPreference(BottomOrnamentAppearanceKey.self)
                 tracker.addPreference(BottomOrnamentAppearanceKey.self)
             } else {
-                // <+1264>
-                assertUnimplemented()
+                viewGraph.removePreference(BottomOrnamentAppearanceKey.self)
+                tracker.removePreference(BottomOrnamentAppearanceKey.self)
             }
         }
     }
 }
 
-protocol ToolbarAppearanceKey : HostPreferenceKey {
+protocol ToolbarAppearanceKey : HostPreferenceKey where Value == [ToolbarPlacement.Role : ToolbarAppearanceConfiguration] {
     static var toolbarPlacement: ToolbarPlacement.Role? {
         get
     }
@@ -204,59 +184,35 @@ protocol ToolbarAppearanceKey : HostPreferenceKey {
     static var isAccessoryBarPlacement: Bool {
         get
     }
-    
-    typealias Value = [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]
 }
 
-struct BottomBarAppearanceKey : ToolbarAppearanceKey {
-    static var toolbarPlacement: ToolbarPlacement.Role? {
-        assertUnimplemented()
-    }
-    
-    static var isAccessoryBarPlacement: Bool {
-        return false
-    }
-    
+extension ToolbarAppearanceKey {
     static var defaultValue: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] {
-        return .init()
+        return [:]
     }
     
     static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
         assertUnimplemented()
     }
-    
-    static var _isReadableByHost: Bool {
-        assertUnimplemented()
+}
+
+struct BottomBarAppearanceKey : ToolbarAppearanceKey {
+    static var toolbarPlacement: ToolbarPlacement.Role? {
+        return .bottomBar
     }
     
-    static var _includesRemovedValues: Bool {
-        assertUnimplemented()
+    static var isAccessoryBarPlacement: Bool {
+        return false
     }
 }
 
 struct BottomOrnamentAppearanceKey : ToolbarAppearanceKey {
     static var toolbarPlacement: ToolbarPlacement.Role? {
-        assertUnimplemented()
+        return .bottomOrnament
     }
     
     static var isAccessoryBarPlacement: Bool {
         return false
-    }
-    
-    static var defaultValue: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] {
-        return .init()
-    }
-    
-    static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
-        assertUnimplemented()
-    }
-    
-    static var _isReadableByHost: Bool {
-        assertUnimplemented()
-    }
-    
-    static var _includesRemovedValues: Bool {
-        assertUnimplemented()
     }
 }
 
@@ -268,20 +224,44 @@ struct NavigationBarAppearanceKey : ToolbarAppearanceKey {
     static var isAccessoryBarPlacement: Bool {
         return false
     }
-    
-    static var defaultValue: [ToolbarPlacement.Role: ToolbarAppearanceConfiguration] {
-        return .init()
-    }
-    
-    static func reduce(value: inout [ToolbarPlacement.Role: ToolbarAppearanceConfiguration], nextValue: () -> [ToolbarPlacement.Role: ToolbarAppearanceConfiguration]) {
+}
+
+struct WindowToolbarItemsAppearanceKey : ToolbarAppearanceKey {
+    static var toolbarPlacement: ToolbarPlacement.Role? {
         assertUnimplemented()
     }
     
-    static var _isReadableByHost: Bool {
+    static var isAccessoryBarPlacement: Bool {
+        assertUnimplemented()
+    }
+}
+
+struct WindowToolbarAppearanceKey : ToolbarAppearanceKey {
+    static var toolbarPlacement: ToolbarPlacement.Role? {
         assertUnimplemented()
     }
     
-    static var _includesRemovedValues: Bool {
+    static var isAccessoryBarPlacement: Bool {
+        assertUnimplemented()
+    }
+}
+
+struct TabBarAppearanceKey : ToolbarAppearanceKey {
+    static var toolbarPlacement: ToolbarPlacement.Role? {
+        assertUnimplemented()
+    }
+    
+    static var isAccessoryBarPlacement: Bool {
+        assertUnimplemented()
+    }
+}
+
+struct AccessoryBarAppearanceKey : ToolbarAppearanceKey {
+    static var toolbarPlacement: ToolbarPlacement.Role? {
+        assertUnimplemented()
+    }
+    
+    static var isAccessoryBarPlacement: Bool {
         assertUnimplemented()
     }
 }
@@ -289,34 +269,22 @@ struct NavigationBarAppearanceKey : ToolbarAppearanceKey {
 
 extension PreferenceValues {
     fileprivate func configuration(toolbarPlacement: ToolbarPlacement.Role) -> PreferenceValues.Value<ToolbarAppearanceConfiguration> {
-        /*
-         toolbarPlacement -> x0 -> x22
-         return pointer -> x8 -> x19
-         */
         switch toolbarPlacement {
         case .accessoryBar(_):
-            // <+464>
-            assertUnimplemented()
+            return configurationValue(key: AccessoryBarAppearanceKey.self, placement: toolbarPlacement)
         case .navigationBar:
-            // <+432>
             return configurationValue(key: NavigationBarAppearanceKey.self, placement: toolbarPlacement)
         case .windowToolbarItems:
-            // <+636>
-            assertUnimplemented()
+            return configurationValue(key: WindowToolbarItemsAppearanceKey.self, placement: toolbarPlacement)
         case .windowToolbar:
-            // <+336>
-            assertUnimplemented()
+            return configurationValue(key: WindowToolbarAppearanceKey.self, placement: toolbarPlacement)
         case .bottomBar:
-            // <+556>
             return configurationValue(key: BottomBarAppearanceKey.self, placement: toolbarPlacement)
         case .keyboardBar:
-            // <+188>
-            assertUnimplemented()
+            return PreferenceValues.Value(value: ToolbarAppearanceConfiguration(), seed: .invalid)
         case .tabBar:
-            // <+596>
-            assertUnimplemented()
+            return configurationValue(key: TabBarAppearanceKey.self, placement: toolbarPlacement)
         case .bottomOrnament:
-            // <+392>
             return configurationValue(key: BottomOrnamentAppearanceKey.self, placement: toolbarPlacement)
         }
     }

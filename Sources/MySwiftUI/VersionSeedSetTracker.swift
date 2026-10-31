@@ -8,6 +8,10 @@ struct VersionSeedSetTracker {
         values.append(VersionSeedSetTracker.Value(key: key, seed: .invalid))
     }
     
+    mutating func removePreference<T : HostPreferenceKey>(_ key: T.Type) {
+        assertUnimplemented()
+    }
+    
     func hasChanges(in preferenceValues: PreferenceValues) -> Bool {
         for value in values {
             if !value.seed.matches(preferenceValues.seed(for: value.key)) {

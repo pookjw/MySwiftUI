@@ -113,7 +113,7 @@ extension Toolbar {
     
     @MainActor
     struct PlatformVended {
-        private var platformDelegate: ToolbarPlatformDelegate? = nil // 0x0
+        var platformDelegate: ToolbarPlatformDelegate? = nil // 0x0
         private(set) var uiNavigationItem: UINavigationItem = UINavigationItem() // 0x8
         var uiToolbarItems: [UIBarButtonItem] = [] // 0x10
         var uiToolbar: UIKitToolbar? = nil // 0x18
@@ -189,7 +189,7 @@ fileprivate struct ToolbarUpdateContextKey : EnvironmentKey {
 
 @MainActor
 class ToolbarPlatformDelegate : NSObject, UINavigationItemRenameDelegate {
-    private weak var provider: ToolbarBridgeProvider?
+    weak var provider: ToolbarBridgeProvider?
     
     override init() {
         assertUnimplemented()
@@ -215,7 +215,7 @@ class ToolbarPlatformDelegate : NSObject, UINavigationItemRenameDelegate {
 }
 
 protocol ToolbarBridgeProvider : AnyObject {
-    // TODO
+    var toolbarBridge: ToolbarBridge<UIKitToolbarStrategy> { get }
 }
 
 class UIKitToolbar : UIToolbar {
@@ -469,12 +469,49 @@ struct UINavigationItemAdaptorStorage {
 
 extension UINavigationItemAdaptorStorage {
     struct Adaptor {
-        private var base: UINavigationItemAdaptor
+        private(set) var base: any UINavigationItemAdaptor
         private var seed: UInt32
     }
 }
 
 protocol UINavigationItemAdaptor {
+    var options: UINavigationItemAdaptorOptions { get }
+    func updateUINavigationItem(_ navigationItem: UINavigationItem, context: UINavigationItemAdaptorContext)
+    func viewControllerWillAppear(_ viewController: UIViewController, child: UIViewController) -> Bool
+    func viewControllerWillDisappear(_ viewController: UIViewController, child: UIViewController) -> Bool
+}
+
+extension UINavigationItemAdaptor {
+    var options: UINavigationItemAdaptorOptions {
+        assertUnimplemented()
+    }
+    
+    func viewControllerWillAppear(_ viewController: UIViewController, child: UIViewController) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func viewControllerWillDisappear(_ viewController: UIViewController, child: UIViewController) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+struct UINavigationItemAdaptorOptions : OptionSet {
+    let rawValue: Int
+    
+    init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    static var propagatesChildViewControllers: UINavigationItemAdaptorOptions {
+        return UINavigationItemAdaptorOptions(rawValue: 1 << 0)
+    }
+    
+    static var disableUpdates: UINavigationItemAdaptorOptions {
+        return UINavigationItemAdaptorOptions(rawValue: 1 << 1)
+    }
+}
+
+struct UINavigationItemAdaptorContext {
     // TODO
 }
 
