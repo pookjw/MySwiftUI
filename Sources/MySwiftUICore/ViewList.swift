@@ -180,7 +180,11 @@ extension _ViewList_SubgraphElements : _ViewList_Elements {
     }
 
     func makeElements(from index: inout Int, inputs: _ViewInputs, indirectMap: IndirectAttributeMap?, body: (_ViewInputs, @escaping (_ViewInputs) -> _ViewOutputs) -> (_ViewOutputs?, Bool)) -> (_ViewOutputs?, Bool) {
-        assertUnimplemented()
+        if self.subgraphs.isValid {
+            return self.base.makeElements(from: &index, inputs: inputs, indirectMap: indirectMap, body: body)
+        } else {
+            return (nil, true)
+        }
     }
 
     func tryToReuseElement(at index: Int, by other: any _ViewList_Elements, at otherIndex: Int, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {
@@ -2417,12 +2421,11 @@ fileprivate struct MergedElements : _ViewList_Elements {
 }
 
 fileprivate struct ModifiedElements : _ViewList_Elements {
-    let base: _ViewList_Elements
-    let modifier: AnyWeakAttribute
-    let modifierType: any ViewModifier.Type
-    let baseInputs: _GraphInputs
+    private let base: _ViewList_Elements
+    private let modifier: AnyWeakAttribute
+    private let modifierType: any ViewModifier.Type
+    private let baseInputs: _GraphInputs
     
-    @inline(always)
     init(base: _ViewList_Elements, modifier: AnyWeakAttribute, modifierType: any ViewModifier.Type, baseInputs: _GraphInputs) {
         self.base = base
         self.modifier = modifier

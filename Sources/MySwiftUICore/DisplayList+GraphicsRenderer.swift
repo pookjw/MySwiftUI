@@ -19,10 +19,6 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        deinit {
-            assertUnimplemented()
-        }
-        
         var placeholderUserInfo: [CodingUserInfoKey: Any]? {
             assertUnimplemented()
         }
