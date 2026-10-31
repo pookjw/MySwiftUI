@@ -239,12 +239,7 @@ private import AttributeGraph
     }
     
     package subscript<T : DerivedPropertyKey>(_ type: T.Type) -> T.Value {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
+        return T.value(in: self)
     }
     
     package mutating func prependValue<T : PropertyKey>(_ value: T.Value, for type: T.Type) {

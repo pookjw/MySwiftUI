@@ -140,7 +140,7 @@ struct EnvironmentPropertyKey<T : EnvironmentKey>: PropertyKey {
 
 fileprivate struct DerivedEnvironmentPropertyKey<T : DerivedEnvironmentKey>: DerivedPropertyKey {
     static func value(in propertyList: PropertyList) -> T.Value {
-        assertUnimplemented()
+        return T.value(in: EnvironmentValues(propertyList))
     }
 }
 
