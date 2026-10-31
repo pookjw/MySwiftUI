@@ -6,7 +6,9 @@ internal import MySwiftUICore
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @_functionBuilder public struct CompositorContentBuilder {
-    public struct Content<C> where C: CompositorContent {}
+    public struct Content<C> where C: CompositorContent {
+        // TODO
+    }
 
     @_alwaysEmitIntoClient public static func buildBlock<C>(_ content: C) -> C where C: CompositorContent {
         return content
@@ -42,7 +44,7 @@ extension CompositorContentBuilder.Content: CompositorContent {
 extension CompositorContentBuilder.Content {
     public var body: Never {
         get {
-            assertUnimplemented()
+            MySwiftUICore::preconditionFailure("`body` should never be accessed on `CompositorContentBuilder.Content`.")
         }
     }
 }
@@ -73,12 +75,12 @@ extension CompositorContentBuilder {
 
     @available(*, unavailable, message: "conditional branching in a CompositorContentBuilder can only be used with #available clauses")
     public static func buildEither<T, F>(first: T) -> _ConditionalContent<T, F> where T: CompositorContent, F: CompositorContent {
-        assertUnimplemented()
+        fatalError()
     }
 
     @available(*, unavailable, message: "conditional branching in a CompositorContentBuilder can only be used with #available clauses")
     public static func buildEither<T, F>(second: F) -> _ConditionalContent<T, F> where T: CompositorContent, F: CompositorContent {
-        assertUnimplemented()
+        fatalError()
     }
 
     @_alwaysEmitIntoClient public static func buildLimitedAvailability(_ content: some CompositorContent) -> _LimitedAvailabilityCompositorContent {
@@ -96,7 +98,51 @@ extension CompositorContentBuilder.Content: ImmersiveSpaceContent {}
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
+extension CompositorContentBuilder.Content: PrimitiveImmersiveSpaceContent {
+    func _makeView() -> AnyView {
+        assertUnimplemented()
+    }
+
+    static func _hasCompositorContent() -> Bool {
+        assertUnimplemented()
+    }
+
+    func _makePrimitiveCompositorContent() -> PrimitiveCompositorContent? {
+        assertUnimplemented()
+    }
+
+    static func _makeSceneSessionRole() -> UISceneSession.Role {
+        fatalError("Use the instance functions instead.")
+    }
+
+    static func _makeSceneWindowType() -> UIWindow.Type {
+        fatalError("Use the instance functions instead.")
+    }
+
+    static func _makeSupportedImmersionStyles() -> [ImmersionStyle] {
+        fatalError("Use the instance functions instead.")
+    }
+
+    func _makeSupportedImmersionStyles() -> [ImmersionStyle] {
+        assertUnimplemented()
+    }
+
+    func _makeSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+
+    func _makeSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+}
+
+@available(macOS 26.0, visionOS 26.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
 public struct AnyCompositorContent: CompositorContent, PrimitiveCompositorContent {
+    // TODO
+
     public init<T>(_ content: T) where T: CompositorContent {
         assertUnimplemented()
     }
@@ -116,11 +162,11 @@ public struct AnyCompositorContent: CompositorContent, PrimitiveCompositorConten
     }
     
     nonisolated static func _determineSceneWindowType() -> UIWindow.Type {
-        assertUnimplemented()
+        fatalError("Type eraser AnyCompositorContent does not support determining content information statically.")
     }
 
     nonisolated static func _determineSceneSessionRole() -> UISceneSession.Role {
-        assertUnimplemented()
+        fatalError("Type eraser AnyCompositorContent does not support determining content information statically.")
     }
     
     nonisolated func _makeSceneWindowType() -> UIWindow.Type {
@@ -153,10 +199,35 @@ extension AnyCompositorContent: Sendable {}
 @available(watchOS, unavailable)
 @usableFromInline
 internal class AnyCompositorContentStorageBase {
+    fileprivate var _viewRepresentation: AnyView {
+        get {
+            fatalError()
+        }
+    }
+
+    fileprivate func _makeSupportedImmersionStyles() -> [any ImmersionStyle] {
+        fatalError()
+    }
+
+    fileprivate func _makeSceneWindowType() -> UIWindow.Type {
+        fatalError()
+    }
+
+    fileprivate func _makeSceneSessionRole() -> UISceneSession.Role {
+        fatalError()
+    }
 }
 
 @available(*, unavailable)
 extension AnyCompositorContentStorageBase: Sendable {}
+
+@available(macOS 26.0, visionOS 26.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+fileprivate class AnyCompositorContentStorage<C>: AnyCompositorContentStorageBase where C: CompositorContent {
+    // TODO
+}
 
 @available(macOS 26.0, visionOS 26.0, *)
 @available(iOS, unavailable)
@@ -251,6 +322,28 @@ extension _ConditionalContent: CompositorContent, PrimitiveCompositorContent whe
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
+extension CompositorContent {
+    nonisolated func _determinePrimitiveCompositorContent() -> PrimitiveCompositorContent {
+        assertUnimplemented()
+    }
+
+    nonisolated func _determineSupportedImmersionStyles() -> [any ImmersionStyle] {
+        assertUnimplemented()
+    }
+
+    nonisolated func _determineSceneWindowType() -> UIWindow.Type {
+        assertUnimplemented()
+    }
+
+    nonisolated func _determineSceneSessionRole() -> UISceneSession.Role {
+        assertUnimplemented()
+    }
+}
+
+@available(macOS 26.0, visionOS 26.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
 extension CompositorContent where Self._ViewRepresentation == _CompositorContentBodyAdaptor<Self> {
     nonisolated public var _viewRepresentation: _CompositorContentBodyAdaptor<Self> {
         get {
@@ -276,6 +369,8 @@ extension Never: CompositorContent {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 public struct _CompositorContentBodyAdaptor<C>: View where C: CompositorContent {
+    // TODO
+    
     @MainActor @preconcurrency public var body: some View {
         get {
             assertUnimplemented()
@@ -328,8 +423,6 @@ extension PrimitiveCompositorContent where Self : PrimitiveImmersiveSpaceContent
     static func _determineSceneSessionRole() -> UISceneSession.Role {
         assertUnimplemented()
     }
-    
-    // TODO
 }
 
 protocol PrimitiveImmersiveSpaceContent {

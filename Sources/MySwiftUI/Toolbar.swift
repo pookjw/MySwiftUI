@@ -346,6 +346,10 @@ extension ToolbarStorage {
     struct Entry {
         private(set) var kind: ToolbarStorage.Entry.Kind
         private(set) var edge: HorizontalEdge?
+        
+        var id: ToolbarStorage.Entry.ID {
+            assertUnimplemented()
+        }
     }
     
     struct GroupItem {

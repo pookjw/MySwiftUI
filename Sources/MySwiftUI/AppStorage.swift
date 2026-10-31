@@ -26,8 +26,13 @@ private import os.log
         )
     }
     
-    public var objectWillChange: ObservableObjectPublisher? {
-        assertUnimplemented()
+    var objectWillChange: ObservableObjectPublisher? {
+        get {
+            assertUnimplemented()
+        }
+        nonmutating set {
+            assertUnimplemented()
+        }
     }
     
     public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
@@ -86,62 +91,83 @@ extension AppStorage {
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value == Date {
-        self.init(key: key, transform: PropertyListTransform.self, store: store, defaultValue: wrappedValue)
+        self.init(key: key, transform: PropertyListTransform<Date>.self, store: store, defaultValue: wrappedValue)
     }
     
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value == Data {
-        self.init(key: key, transform: PropertyListTransform.self, store: store, defaultValue: wrappedValue)
+        self.init(key: key, transform: PropertyListTransform<Data>.self, store: store, defaultValue: wrappedValue)
     }
     
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value : RawRepresentable, Value.RawValue == Int {
-        self.init(key: key, transform: IntegerTransform.self, store: store, defaultValue: wrappedValue)
+        self.init(key: key, transform: RawRepresentableTransform<Value, IntegerTransform>.self, store: store, defaultValue: wrappedValue)
     }
     
     public init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) where Value : RawRepresentable, Value.RawValue == String {
-        self.init(key: key, transform: StringTransform.self, store: store, defaultValue: wrappedValue)
+        self.init(key: key, transform: RawRepresentableTransform<Value, StringTransform>.self, store: store, defaultValue: wrappedValue)
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension AppStorage where Value : Decodable, Value : Encodable {
+    init(codableValue value: Value, _ key: String, store: UserDefaults? = nil) {
+        self.init(key: key, transform: JSONCodableTransform<Value>.self, store: store, defaultValue: value)
+    }
+    
+    init(wrappedValue: Value, _ key: String, store: UserDefaults? = nil) {
+        self.init(key: key, transform: JSONCodableTransform<Value>.self, store: store, defaultValue: wrappedValue)
     }
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension AppStorage where Value : ExpressibleByNilLiteral {
     public init(_ key: String, store: UserDefaults? = nil) where Value == Bool? {
-        assertUnimplemented()
+        self.init(key: key, transform: BoolTransform.self, store: store, defaultValue: nil)
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Int? {
-        assertUnimplemented()
+        self.init(key: key, transform: IntegerTransform.self, store: store, defaultValue: nil)
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Double? {
-        assertUnimplemented()
+        self.init(key: key, transform: DoubleTransform.self, store: store, defaultValue: nil)
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == String? {
-        assertUnimplemented()
+        self.init(key: key, transform: StringTransform.self, store: store, defaultValue: nil)
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == URL? {
-        assertUnimplemented()
+        self.init(key: key, transform: URLTransform.self, store: store, defaultValue: nil)
     }
     
     @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init(_ key: String, store: UserDefaults? = nil) where Value == Date? {
-        assertUnimplemented()
+        self.init(key: key, transform: PropertyListTransform<Date>.self, store: store, defaultValue: nil)
     }
     
     public init(_ key: String, store: UserDefaults? = nil) where Value == Data? {
-        assertUnimplemented()
+        self.init(key: key, transform: PropertyListTransform<Data>.self, store: store, defaultValue: nil)
+    }
+}
+
+extension AppStorage where Value : Decodable, Value : Encodable, Value : ExpressibleByNilLiteral {
+    init<R>(_ key: String, store: UserDefaults? = nil) where Value == R?, R : Decodable, R : Encodable {
+        self.init(key: key, transform: JSONCodableTransform<R>.self, store: store, defaultValue: nil)
+    }
+    
+    init<R>(keyForCodable key: String, store: UserDefaults? = nil) where Value == R?, R : Decodable, R : Encodable {
+        self.init(key: key, transform: JSONCodableTransform<R>.self, store: store, defaultValue: nil)
     }
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension AppStorage {
     public init<R>(_ key: String, store: UserDefaults? = nil) where Value == R?, R : RawRepresentable, R.RawValue == String {
-        assertUnimplemented()
+        self.init(key: key, transform: RawRepresentableTransform<R, StringTransform>.self, store: store, defaultValue: nil)
     }
     
     public init<R>(_ key: String, store: UserDefaults? = nil) where Value == R?, R : RawRepresentable, R.RawValue == Int {
-        assertUnimplemented()
+        self.init(key: key, transform: RawRepresentableTransform<R, IntegerTransform>.self, store: store, defaultValue: nil)
     }
 }
 
@@ -157,6 +183,13 @@ extension AppStorage {
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension View {
     nonisolated public func defaultAppStorage(_ store: UserDefaults) -> some View {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension Scene {
+    nonisolated public func defaultAppStorage(_ store: UserDefaults) -> some Scene {
         assertUnimplemented()
     }
 }
@@ -183,7 +216,7 @@ class UserDefaultLocation<Value> : @unchecked Sendable, Location, Equatable {
     private let base: UserDefaultLocation<Value>?
     
     // 0x80
-    private var observableObjectPublisher: ObservableObjectPublisher? = nil {
+    fileprivate var observableObjectPublisher: ObservableObjectPublisher? = nil {
         didSet {
             assertUnimplemented()
         }
@@ -324,7 +357,7 @@ extension ScalarUserDefaultsValueTransform {
     }
 }
 
-fileprivate struct JSONCodableTransform : UserDefaultsValueTransform {
+fileprivate struct JSONCodableTransform<Value : Decodable & Encodable> : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -334,7 +367,7 @@ fileprivate struct JSONCodableTransform : UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct RawRepresentableTransform : UserDefaultsValueTransform {
+fileprivate struct RawRepresentableTransform<Value : RawRepresentable, Transform : UserDefaultsValueTransform> : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -344,7 +377,7 @@ fileprivate struct RawRepresentableTransform : UserDefaultsValueTransform {
     }
 }
 
-fileprivate struct PropertyListTransform : UserDefaultsValueTransform {
+fileprivate struct PropertyListTransform<Value> : UserDefaultsValueTransform {
     static func readValue(from store: UserDefaults, key: String) -> Any? {
         assertUnimplemented()
     }
@@ -406,7 +439,7 @@ fileprivate struct DefaultAppStorageDefaultsKey : EnvironmentKey {
 fileprivate final class UserDefaultObserver : NSObject {
     nonisolated(unsafe) fileprivate static var observationContext: Int = 0
     fileprivate private(set) var state: UserDefaultObserver.State
-    fileprivate private(set) var target: UserDefaultObserver.Target
+    fileprivate var target: UserDefaultObserver.Target
     
     @inline(__always)
     init(state: UserDefaultObserver.State, target: UserDefaultObserver.Target) {
