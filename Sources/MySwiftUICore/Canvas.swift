@@ -248,7 +248,9 @@ extension Canvas {
         @Attribute private(set) var environment: EnvironmentValues
         
         var value: EnvironmentValues {
-            assertUnimplemented()
+            var environment = self.environment
+            environment.backgroundMaterial = nil
+            return environment
         }
     }
 }

@@ -110,7 +110,8 @@ typedef union RBPathShape {
 } RBPathShape;
 
 typedef NS_ENUM(int32_t, RBColorMode) {
-    RBColorModeInvalid = -1
+    RBColorModeInvalid = -1,
+    RBColorModeUnknown1 = 1
 };
 
 typedef NS_ENUM(int32_t, RBColorSpace) {

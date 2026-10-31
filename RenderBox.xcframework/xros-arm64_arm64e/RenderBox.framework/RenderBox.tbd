@@ -24,7 +24,8 @@ exports:
     _RBPathGetBoundingRect,
     _RBPathStorageGetBoundingRect,
     _RBPathCopyCGPath,
-    _RBDisplayListGetState ]
+    _RBDisplayListGetState,
+    _RBColorModeWorkingColorSpace ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

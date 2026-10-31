@@ -82,7 +82,36 @@ package struct RasterizationOptions : Equatable {
     }
     
     var colorSpace: RBColorSpace {
-        assertUnimplemented()
+        if self.rbColorMode == .invalid {
+            var w8 = self.flags.rawValue
+            
+            let w9: UInt32
+            switch self.colorMode {
+            case .nonLinear:
+                w9 = 0
+            case .linear:
+                w9 = 1
+            case .extendedLinear:
+                w9 = 2
+            }
+            
+            var w10 = w8 << 25
+            var w11: UInt32 = 9
+            w10 = w11 & UInt32(bitPattern: (Int32(bitPattern: w10) >> 31))
+            let flag = (w8 & 0x40) != 0
+            w8 = 10
+            w11 = flag ? w8 : 1
+            let w12: UInt32 = 2
+            w8 = !flag ? w12 : w8
+            w8 = (w9 == 1) ? w11 : w8
+            let w0 = (w9 == 0) ? w10 : w8
+            
+            return unsafe RBColorMode(rawValue: Int32(bitPattern: w0))
+                .unsafelyUnwrapped
+                .workingColorSpace
+        } else {
+            return self.rbColorMode.workingColorSpace
+        }
     }
 }
 
