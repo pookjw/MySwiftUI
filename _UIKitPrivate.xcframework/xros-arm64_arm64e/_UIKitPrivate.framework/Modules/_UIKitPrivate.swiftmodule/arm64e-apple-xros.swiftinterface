@@ -116,6 +116,9 @@ extension UIKit.UIScene {
 @_originallyDefinedIn(module: "UIKit", visionOS 26.0)
 extension UIKit.UISceneSessionActivationRequest {
   public init(configuration: UIKit.UISceneConfiguration, userActivity: Foundation.NSUserActivity?, options: UIKit.UIScene.ActivationRequestOptions?)
+  public subscript<T : _UIKitPrivate.UISceneConnectionOptionDefinition, U>(_: T.Type) -> U? where U == T.Payload {
+    get
+  }
 }
 
 @available(visionOS 26.0, *)

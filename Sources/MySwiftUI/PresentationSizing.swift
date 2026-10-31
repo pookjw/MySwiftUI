@@ -14,6 +14,10 @@ public protocol PresentationSizing {
 
 @_spi(Internal) public struct PresentationSubview {
     private weak var host: (any ViewRendererHost)?
+    
+    public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
+        assertUnimplemented()
+    }
 }
 
 @_spi(Internal) public struct PresentationSizingOptions {
@@ -41,6 +45,10 @@ extension PresentationSizingOptions {
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, watchOS 11.0, *)
 public struct PresentationSizingRoot {
     private(set) weak var host: (any ViewRendererHost)?
+    
+    init(host: (any ViewRendererHost)?) {
+        self.host = host
+    }
     
     public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
         assertUnimplemented()
@@ -79,6 +87,10 @@ extension PresentationSizing {
 }
 
 extension PresentationSizing {
+    public func proposedSize(for root: PresentationSizingRoot, context: PresentationSizingContext) -> ProposedViewSize {
+        assertUnimplemented()
+    }
+    
     @_spi(Internal) public func proposedSize(for subview: PresentationSubview, context: PresentationSizingContext) -> ProposedViewSize {
         assertUnimplemented()
     }

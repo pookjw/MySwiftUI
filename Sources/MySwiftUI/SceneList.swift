@@ -46,6 +46,10 @@ struct SceneList {
         return nil
     }
     
+    static func itemForRequest(_ request: UISceneSessionActivationRequest) -> SceneList.Item? {
+        assertUnimplemented()
+    }
+    
     fileprivate func itemForUserActivity(_ userActivity: NSUserActivity) -> SceneList.Item? {
         guard
             userActivity.activityType == NSUserActivity.userActivityTypeOpenWindowByID,
@@ -63,6 +67,10 @@ struct SceneList {
         }
         
         return nil
+    }
+    
+    func allDocumentGroups() -> [IdentifiedDocumentGroupConfiguration] {
+        assertUnimplemented()
     }
 }
 
@@ -210,9 +218,9 @@ extension SceneList {
         
         var identifyingDescription: String {
             if let presentationDataType = presentationDataType {
-                return "type: \(_typeName(presentationDataType, qualified: true)), id: \(id)"
+                return "type: '\(_typeName(presentationDataType, qualified: true))', id: '\(id)'"
             } else {
-                return "id: \(id)"
+                return "id: '\(id)'"
             }
         }
         
@@ -242,13 +250,26 @@ extension SceneList {
         }
     }
     
-    enum Namespace : Hashable, CustomStringConvertible {
+    enum Namespace : Hashable, CustomStringConvertible, Codable {
         case string(String)
         case host(ObjectIdentifier)
         case app
         
         var description: String {
             assertUnimplemented()
+        }
+        
+        func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+        
+        init(from decoder: any Decoder) throws {
+            assertUnimplemented()
+        }
+        
+        fileprivate enum CodingKeys : String, CodingKey, CustomStringConvertible, CustomDebugStringConvertible {
+            case string
+            case host
         }
     }
     

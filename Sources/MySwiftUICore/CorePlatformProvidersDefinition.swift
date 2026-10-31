@@ -2,7 +2,7 @@
 internal import _MySwiftUICoreShims
 
 @_spi(Internal) open class CorePlatformProvidersDefinition {
-    static var providers: CorePlatformProviders {
+    class var providers: CorePlatformProviders {
         guard self != CorePlatformProvidersDefinition.self else {
             return CorePlatformProviders(
                 defaultAccentColor: nil,

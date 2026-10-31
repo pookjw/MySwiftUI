@@ -428,7 +428,7 @@ extension ImmersiveSpaceConfigurationAttributes {
                     let joined = array.joined(separator: ", ")
                     result.append(" (")
                     result.append(joined)
-                    result.append(") ")
+                    result.append(")")
                 }
             }
             
@@ -487,6 +487,7 @@ extension UISceneAdaptorConfiguration {
 
 struct SingleWindowConfigurationAttributes : WindowSceneConfigurationAttributes {
     typealias RootModifier = Never // TODO
+    private(set) var suppressGlassBackground: Bool
     
     func sceneListValue(_ configuration: WindowSceneConfiguration<SingleWindowConfigurationAttributes>) -> SceneList.Item.Value {
         assertUnimplemented()
@@ -495,8 +496,6 @@ struct SingleWindowConfigurationAttributes : WindowSceneConfigurationAttributes 
     var rootModifier: Never {
         assertUnimplemented()
     }
-    
-    // TODO
 }
 
 struct DocumentIntroductionConfiguration {

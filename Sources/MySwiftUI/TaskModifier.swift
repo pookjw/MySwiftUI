@@ -10,7 +10,7 @@ extension View {
         priority: TaskPriority = .userInitiated,
         @_inheritActorContext _ action: @escaping @Sendable () async -> Void
     ) -> some View {
-        assertUnimplemented()
+        return modifier(_TaskModifier(priority: priority, action: action))
     }
 
     @usableFromInline
@@ -20,7 +20,7 @@ extension View {
         priority: TaskPriority = .userInitiated,
         @_inheritActorContext _ action: @escaping @Sendable () async -> Void
     ) -> some View where T : Equatable {
-        assertUnimplemented()
+        return modifier(_TaskValueModifier(value: value, priority: priority, action: action))
     }
 
     @_alwaysEmitIntoClient
@@ -52,7 +52,12 @@ extension View {
         line: Int = #line,
         @_inheritActorContext action: sending @escaping @isolated(any) () async -> Void
     ) -> some View {
-        assertUnimplemented()
+        return modifier(_TaskModifier2(
+            name: name ?? "View.task @ \(file):\(line)",
+            executorPreference: taskExecutor,
+            priority: priority,
+            action: action
+        ))
     }
 
     @_alwaysEmitIntoClient
@@ -93,7 +98,13 @@ extension View {
         line: Int = #line,
         @_inheritActorContext _ action: sending @escaping @isolated(any) () async -> Void
     ) -> some View where T : Equatable {
-        assertUnimplemented()
+        return modifier(_TaskValueModifier2(
+            id: id,
+            name: name ?? "View.task @ \(file):\(line)",
+            executorPreference: taskExecutor,
+            priority: priority,
+            action: action
+        ))
     }
 }
 
@@ -189,7 +200,7 @@ public struct _TaskModifier2 : ViewModifier {
         inputs: _ViewListCountInputs,
         body: (_ViewListCountInputs) -> Int?
     ) -> Int? {
-        assertUnimplemented()
+        return InnerModifier._viewListCount(inputs: inputs, body: body)
     }
 
     @available(iOS 26.4, tvOS 26.4, watchOS 26.4, visionOS 26.4, macOS 26.4, *)
@@ -287,14 +298,16 @@ public struct _TaskValueModifier2<ID> : ViewModifier where ID : Equatable {
         inputs: _ViewListInputs,
         body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs
     ) -> _ViewListOutputs {
-        assertUnimplemented()
+        let child = _TaskValueModifier2.Child(modifier: modifier.value)
+        let graphValue = _GraphValue(child)
+        return _TaskValueModifier2.InnerModifier.makeDebuggableViewList(modifier: graphValue, inputs: inputs, body: body)
     }
 
     nonisolated public static func _viewListCount(
         inputs: _ViewListCountInputs,
         body: (_ViewListCountInputs) -> Int?
     ) -> Int? {
-        assertUnimplemented()
+        return InnerModifier._viewListCount(inputs: inputs, body: body)
     }
 
     @available(iOS 26.4, tvOS 26.4, watchOS 26.4, visionOS 26.4, macOS 26.4, *)
@@ -409,7 +422,7 @@ extension _TaskValueModifier2 {
                         }
                     )
                 )
-                .onChange(of: base.id, initial: false) { oldValue, newValue in
+                .onChange(of: base.id, initial: false) {
                     // $s7SwiftUI19_TaskValueModifier2V13InnerModifier33_293A0AF83C78DECE53AFAAF3EDCBA9D4LLV4body7contentQrAA05_ViewG8_ContentVyAFyx_GG_tFyycfU1_TA
                     guard
                         let taskState,
