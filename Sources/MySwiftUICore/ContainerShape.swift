@@ -16,7 +16,10 @@ struct ContainerShapeTransform : Rule, AsyncAttribute {
     }
     
     var value: ViewTransform {
-        assertUnimplemented()
+        var transform = self.transform
+        transform.appendPosition(self.position)
+        transform.appendSizedSpace(id: self.id, size: self.size)
+        return transform
     }
 }
 

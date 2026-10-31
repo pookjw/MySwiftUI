@@ -537,7 +537,14 @@ package import Spatial
     }
     
     var containingScrollGeometry: ScrollGeometry? {
-        assertUnimplemented()
+        var result: ScrollGeometry? = nil
+        
+        self.forEach { item, stop in
+            // $s7SwiftUI13ViewTransformV24containingScrollGeometryAA0fG0VSgvgyAC4ItemO_SbztXEfU_TA
+            item.apply(to: &result, allowUnclipped: false)
+        }
+        
+        return result
     }
     
     fileprivate func spaceBeforeSpace(_: CoordinateSpaceTag, _: CoordinateSpaceTag) -> Bool {
@@ -1091,6 +1098,107 @@ extension ViewTransform {
         case depthTranslation(CGFloat)
         case affineTransform3D(AffineTransform3D, inverse: Bool)
         case sizedSpace3D(CoordinateSpaceTag, size3D: Size3D)
+        
+        fileprivate func apply(to geometry: inout ScrollGeometry?, allowUnclipped: Bool) {
+            switch self {
+            case .translation(let size):
+                // <+532>
+                guard var _geometry = geometry else {
+                    break
+                }
+                
+                _geometry.contentOffset = CGPoint(
+                    x: size.width + _geometry.contentOffset.x,
+                    y: size.height + _geometry.contentOffset.y
+                )
+                
+                geometry = _geometry
+            case .affineTransform(var transform, let inverse):
+                // <+244>
+                /*
+                 transform.a -> d10
+                 transform.b -> d11
+                 transform.c -> d12
+                 transform.d -> d13
+                 transform.tx -> d14
+                 transform.ty -> d15
+                 */
+                if ((transform.b != 0) || (transform.c != 0)) && ((transform.a != 0) || (transform.d != 0)) {
+                    // <+500>
+                    geometry = nil
+                } else {
+                    // <+300>
+                    guard var _geometry = geometry else {
+                        break
+                    }
+                    
+                    if inverse {
+                        transform = transform.inverted()
+                    }
+                    
+                    let oldContentOffset = _geometry.contentOffset
+                    let oldContainerSize = _geometry.containerSize
+                    let oldVisibleRect = _geometry.visibleRect
+                    let contentOffset = oldContentOffset.applying(transform)
+                    let containerSize = oldContainerSize.applying(transform)
+                    _geometry.contentOffset = contentOffset
+                    _geometry.visibleRect = oldVisibleRect // didSet 동작을 없애기 위해
+                    _geometry.containerSize = containerSize
+                    
+                    var v0_0 = containerSize.width
+                    var v0_1 = containerSize.height
+                    var v2_0 = contentOffset.x
+                    var v2_1 = contentOffset.y
+                    var v1_0 = oldContentOffset.x
+                    var v1_1 = oldContentOffset.y
+                    v1_0 = v2_0 - v1_0
+                    v1_1 = v2_1 - v1_1
+                    v2_0 = oldContainerSize.width
+                    v2_1 = oldContainerSize.height
+                    v0_0 = v0_0 - v2_0
+                    v0_1 = v0_1 - v2_1
+                    let v3_0 = oldVisibleRect.size.width
+                    let v3_1 = oldVisibleRect.size.height
+                    v2_0 = oldVisibleRect.origin.x
+                    v2_1 = oldVisibleRect.origin.y
+                    v0_0 = v3_0 + v0_0
+                    v0_1 = v3_1 + v0_1
+                    v1_0 = v2_0 + v1_0
+                    v1_1 = v2_1 + v1_1
+                    _geometry.visibleRect = CGRect(x: v1_0, y: v1_1, width: v0_0, height: v0_1)
+                    
+                    geometry = _geometry
+                }
+            case .projectionTransform(_, _):
+                // <+500>
+                geometry = nil
+            case .coordinateSpace(_):
+                // <+692>
+                break
+            case .sizedSpace(_, _):
+                // <+692>
+                break
+            case .scrollGeometry(let item):
+                // <+172>
+                if item.isClipped || allowUnclipped {
+                    // <+192>
+                    geometry = item.base
+                } else {
+                    // <+692>
+                    break
+                }
+            case .depthTranslation(_):
+                // <+692>
+                break
+            case .affineTransform3D(let transform, let inverse):
+                // <+592>
+                let item = ViewTransform.Item.affineTransform(CGAffineTransform(transform), inverse: inverse)
+                item.apply(to: &geometry, allowUnclipped: allowUnclipped)
+            case .sizedSpace3D(_, _):
+                // <+692>
+                break
+            }
+        }
     }
     
     struct ScrollGeometryItem : ViewTransformElement {
