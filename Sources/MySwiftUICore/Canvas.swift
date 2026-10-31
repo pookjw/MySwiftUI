@@ -348,17 +348,14 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         let (position, positionChanged) = self.$position.changedValue(options: [])
         // x28 + 0x110 (sp + 0x430)
         let (transform, transformChanged) = self.$transform.changedValue(options: [])
-        // x19 + 0x1a0 (sp + 0x320)
-        let copy_1: ViewTransform
         // w26
         let modified: Bool
         
         if sizeChanged || positionChanged || transformChanged {
             // <+732>
             // x28 + 0xb0 / x19 + 0x250 (sp + 0x3d0)
-            var copy_2 = transform
-            copy_2.appendPosition(position)
-            copy_1 = transform
+            var copy_1 = transform
+            copy_1.appendPosition(position)
             
             let x190x78 = d12
             var d14: CGFloat!
@@ -366,7 +363,7 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             var d15: CGFloat!
             var d10: CGFloat!
             
-            if let containingScrollGeometry = copy_2.containingScrollGeometry {
+            if let containingScrollGeometry = copy_1.containingScrollGeometry {
                 let d9 = containingScrollGeometry.visibleRect.origin.x
                 d12 = containingScrollGeometry.visibleRect.origin.y
                 let d13 = containingScrollGeometry.visibleRect.size.width
@@ -457,7 +454,6 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             // <+1156>
         } else {
             // <+708>
-            copy_1 = transform
             modified = Graph.currentAttributeWasModified
             // <+1156>
         }
@@ -476,6 +472,8 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
         let (view, viewChanged) = self.$view.changedValue(options: [])
         // self -> x19 + 0x128 (sp + 0x2a8)
         let (environment, environmentChanged) = self.$environment.changedValue(options: [])
+        // x19 + 0x38
+        let version = DisplayList.Version(forUpdate: ())
         
         if modified {
             // <+1360>
@@ -543,15 +541,55 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             // <+1856>
             if positionChanged || containerPositionChanged {
                 // <+1868>
-                for item in unsafe pointer.pointee.items {
-                    assertUnimplemented()
+                if let item = unsafe pointer.pointee.items.first {
+                    let d12 = self.lastBounds.origin.x
+                    let d13 = self.lastBounds.origin.y
+                    // <+1928>
+                    d14 = item.frame.size.width
+                    x190xc0 = item.frame.size.height
+                    
+                    let d10: CGFloat
+                    let d11: CGFloat
+                    switch item.value {
+                    case .content(let content):
+                        switch content.value {
+                        case .drawing(_, let point, _):
+                            d11 = point.x
+                            d10 = point.y
+                        default:
+                            d10 = 0
+                            d11 = 0
+                        }
+                    case .effect, .states, .empty:
+                        d10 = 0
+                        d11 = 0
+                    }
+                    
+                    // <+4420>
+                    var d0 = position.x - d9
+                    var d1 = position.y
+                    let d2 = x190x30
+                    d1 = d1 - d2
+                    d0 = d0 + d12
+                    d1 = d1 + d13
+                    d0 = d11 + d0
+                    d1 = d10 + d1
+                    
+                    // x19 + 0x1a0
+                    let item = DisplayList.Item(
+                        item.value,
+                        frame: CGRect(x: d0, y: d1, width: d14, height: x190xc0),
+                        identity: self.identity,
+                        version: version
+                    )
+                    
+                    self.value = DisplayList(item)
+                } else {
+                    // <+5128>
+                    return
                 }
-                
-                // <+5128>
-                assertUnimplemented()
-            } else {
                 // <+2704>
-                assertUnimplemented()
+                return
             }
         } else {
             // <+1972>
@@ -611,7 +649,6 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             // <+3744>
             var d10: CGFloat = 0
             var d11: CGFloat
-            let d13: CGFloat
             
             if self.isFlattened {
                 d11 = 0
@@ -622,7 +659,6 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
                 d10 = contentRect.origin.x
                 d11 = contentRect.origin.y
                 d12 = contentRect.size.width
-                d13 = contentRect.size.height
                 
                 if contentRect.isEmpty {
                     // <+3804>
@@ -674,16 +710,41 @@ fileprivate struct CanvasDisplayList<T : View> : AsyncAttribute, StatefulRule {
             }
             
             // <+4140>
-            let dynamicRange = environment
+            var rasterizationOptions = view.rasterizationOptions
+            rasterizationOptions.allowedDynamicRange = environment
                 .effectiveAllowedDynamicRange(
-                    explicitRange: view.rasterizationOptions.allowedDynamicRange
+                    explicitRange: rasterizationOptions.allowedDynamicRange
                 )
             
             let moveContents = rbDisplayList.moveContents()
-            assertUnimplemented()
+            
+            let value = DisplayList.Content.Value.drawing(
+                moveContents,
+                CGPoint(x: d11, y: d10),
+                rasterizationOptions
+            )
+            
+            d12 = self.lastBounds.origin.x
+            let d13 = self.lastBounds.origin.y
+            var d0 = position.x - d9
+            var d1 = position.y
+            let d2 = x190x30
+            d1 = d1 - d2
+            d0 = d0 + d12
+            d1 = d1 + d13
+            d0 = d11 + d0
+            d1 = d10 + d1
+            
+            // x19 + 0x1a0
+            let item = DisplayList.Item(
+                .content(DisplayList.Content(value, seed: DisplayList.Seed(version))),
+                frame: CGRect(x: d0, y: d1, width: d14, height: x190xc0),
+                identity: self.identity,
+                version: version
+            )
+            
+            self.value = DisplayList(item)
         }
-        
-        assertUnimplemented()
     }
 }
 

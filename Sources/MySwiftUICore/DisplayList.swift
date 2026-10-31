@@ -5,7 +5,7 @@ private import _QuartzCorePrivate
 internal import QuartzCore
 package import Spatial
 internal import AttributeGraph
-internal import RenderBox
+package import RenderBox
 
 package struct DisplayList : @unchecked Sendable {
     package private(set) var items: [DisplayList.Item] // 0x0
@@ -847,7 +847,6 @@ extension DisplayList {
         
         package private(set) var value: Int
         
-        @inline(always)
         package init() {
             self.value = 0
         }
@@ -857,14 +856,12 @@ extension DisplayList {
             self.value = decodedValue
         }
         
-        @inline(always)
         package init(forUpdate: Void) {
             let value = DisplayList.Version.lastValue &+ 1
             DisplayList.Version.lastValue = value
             self.value = value
         }
         
-        @inline(always)
         package mutating func combine(with other: DisplayList.Version) {
             self.value = max(other.value, self.value)
         }
@@ -879,7 +876,7 @@ extension DisplayList {
         case platformGroup(any PlatformGroupFactory)
         case opacity(Float)
         case blendMode(GraphicsBlendMode)
-        case clip/*(Path, FillStyle, GraphicsContext.ClipOptions)*/
+        case clip(Path, FillStyle, GraphicsContext.ClipOptions)
         case mask(DisplayList, GraphicsContext.ClipOptions)
         case sdfShape(SDFShape)
         case transform(DisplayList.Transform)
@@ -1217,7 +1214,7 @@ extension DisplayList.Content {
         case platformLayer(any PlatformLayerFactory)
         case text(StyledTextContentView, CGSize)
         case flattened(DisplayList, CGPoint, RasterizationOptions)
-        case drawing
+        case drawing(any RBDisplayListContents, CGPoint, RasterizationOptions)
         case view(any _DisplayList_ViewFactory)
         case placeholder(id: _DisplayList_Identity)
     }
