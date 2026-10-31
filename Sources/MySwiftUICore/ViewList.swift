@@ -67,7 +67,7 @@ class _ViewList_Subgraph {
 }
 
 package struct _ViewList_ID : Hashable {
-    private var _index: Int32
+    private(set) var _index: Int32
     private(set) var implicitID: Int32
     private(set) var explicitIDs: [_ViewList_ID.Explicit]
     

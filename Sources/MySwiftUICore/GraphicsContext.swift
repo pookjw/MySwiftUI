@@ -756,21 +756,23 @@ extension GraphicsContext {
 
 extension GraphicsContext.Storage {
     fileprivate final class Shared {
-        private let list: RBDisplayList
-        fileprivate var symbols: GraphicsContextSymbols?
-        private let shape: RBShape
-        private let fill: RBFill
-        private let _environment: EnvironmentValues
-        private let colorSpace: RBColorSpace
-        @IndirectOptional private var textProperties: TextLayoutProperties?
-        private var _resolvedForeground: GraphicsContext.ResolvedShading?
-        private var _foregroundIsMultiLevel: Bool?
-        private var _sharedPredicate: RBDisplayListPredicate?
-        private var _sharedTransform: RBDisplayListTransform?
-        private var _fillStyle: AnyShapeStyleBox?
+        private let list: RBDisplayList // 0x10
+        fileprivate var symbols: GraphicsContextSymbols? = nil // 0x18
+        private let shape = RBShape() // 0x20
+        private let fill = RBFill() // 0x28
+        private let _environment: EnvironmentValues // 0x30, 0x38
+        private let colorSpace: RBColorSpace // 0x40
+        @IndirectOptional private var textProperties: TextLayoutProperties? = nil // 0x48
+        private var _resolvedForeground: GraphicsContext.ResolvedShading? = nil // 0x50
+        private var _foregroundIsMultiLevel: Bool? = nil // 0xf8
+        private var _sharedPredicate: RBDisplayListPredicate? = nil // 0x100
+        private var _sharedTransform: RBDisplayListTransform? = nil // 0x108
+        private var _fillStyle: AnyShapeStyleBox? = nil // 0x110
         
         init(list: RBDisplayList, environment: EnvironmentValues) {
-            assertUnimplemented()
+            self.list = list
+            self._environment = environment
+            self.colorSpace = list.defaultColorSpace
         }
         
         func resolvedForeground(in environment: EnvironmentValues?) -> GraphicsContext.ResolvedShading {

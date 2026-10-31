@@ -8,6 +8,10 @@ public struct EnvironmentValues : CustomStringConvertible {
             return _plist
         }
         mutating set {
+            guard _plist.id != newValue.id else {
+                return
+            }
+            
             tracker?.invalidateAllValues(from: _plist, to: newValue)
             _plist = newValue
         }
@@ -48,7 +52,11 @@ public struct EnvironmentValues : CustomStringConvertible {
     }
     
     package subscript<K>(key: K.Type) -> K.Value where K : DerivedEnvironmentKey {
-        return K.value(in: self)
+        if let tracker {
+            return tracker.derivedValue(_plist, for: DerivedEnvironmentPropertyKey<K>.self)
+        } else {
+            return _plist[DerivedEnvironmentPropertyKey<K>.self]
+        }
     }
     
     public var description: String {
@@ -110,7 +118,7 @@ public protocol EnvironmentKey {
 
 extension EnvironmentKey {
     public static func _valuesEqual(_ lhs: Value, _ rhs: Value) -> Bool {
-        return compareValues(lhs, rhs, mode: .unknown103)
+        return compareValues(lhs, rhs, mode: .unknown3)
     }
 }
 
@@ -127,6 +135,12 @@ struct EnvironmentPropertyKey<T : EnvironmentKey>: PropertyKey {
     
     static func valuesEqual(_ lhs: T.Value, _ rhs: T.Value) -> Bool {
         return T._valuesEqual(lhs, rhs)
+    }
+}
+
+fileprivate struct DerivedEnvironmentPropertyKey<T : DerivedEnvironmentKey>: DerivedPropertyKey {
+    static func value(in propertyList: PropertyList) -> T.Value {
+        assertUnimplemented()
     }
 }
 

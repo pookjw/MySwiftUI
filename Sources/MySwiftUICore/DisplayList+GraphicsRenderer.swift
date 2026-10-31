@@ -58,9 +58,9 @@ extension DisplayList {
 }
 extension DisplayList.GraphicsRenderer {
     enum PlatformViewMode {
-        case rendered(update: Bool)
-        case ignored
-        case unsupported
+        case rendered(update: Bool) // 0/1
+        case ignored // 2
+        case unsupported // 3
     }
     
     fileprivate struct Cache {

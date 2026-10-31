@@ -264,25 +264,145 @@ fileprivate struct CanvasSymbols : AsyncAttribute, StatefulRule {
     
     typealias Value = [CanvasSymbols.Child]
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        var children: [CanvasSymbols.Child] = []
+        var index = 0
+        self.seed &+= 1
+        
+        _ = self.list.applySublists(from: &index, list: self.$list) { list in
+            // $s7SwiftUI13CanvasSymbols027_F41195D4CD7D6A29110580DFD3F4F891LLV11updateValueyyFSbAA17_ViewList_SublistVXEfU_TA
+            /*
+             list -> x0 -> x22
+             self -> x1 -> x21
+             children -> x2 -> x25
+             */
+            // w26
+            let index = list.id._index
+            // w28
+            var implicitID = list.id.implicitID
+            // x24
+            let explicitID: AnyHashable2?
+            if let _explicitID = list.id.explicitIDs.first {
+                // <+88>
+                explicitID = _explicitID.id
+                implicitID = !_explicitID.isUnary ? implicitID : -1
+                // <+136>
+            } else {
+                // <+124>
+                explicitID = nil
+                // <+136>
+            }
+            
+            // <+136>
+            let key = _ViewList_ID.Canonical(_index: index, implicitID: implicitID, explicitID: explicitID)
+            
+            if var child = self.children[key] {
+                if child.seed == self.seed {
+                    // <+1860>
+                    fatalError("child view IDs must be unique: \(key)")
+                } else {
+                    // <+216>
+                    child.seed = self.seed
+                    child.traits = list.traits
+                    self.children[key] = child
+                    children.append(child)
+                    // <+1652>
+                    return true
+                }
+            } else {
+                // <+552>
+                let graph = self.parentSubgraph.graph
+                let subgraph = Subgraph(graph: graph)
+                self.parentSubgraph.addChild(subgraph)
+                
+                subgraph.apply {
+                    var copy_1 = self.inputs
+                    copy_1.copyCaches()
+                    
+                    let symbolSize = CanvasSymbols.SymbolSize(
+                        size: self.inputs.size,
+                        layoutComputer: OptionalAttribute()
+                    )
+                    
+                    let size = Attribute(symbolSize)
+                    copy_1.size = size
+                    
+                    let outputs: _ViewOutputs
+                    if list.elements.subgraphs.isValid {
+                        let _outputs = list.elements.makeOneElement(
+                            at: 0,
+                            inputs: copy_1,
+                            indirectMap: nil
+                        ) { inputs, transform in
+                                // $s7SwiftUI18_ViewList_ElementsPAAE14makeOneElement2at6inputs11indirectMap4bodyAA01_C7OutputsVSgSi_AA01_C6InputsVAA017IndirectAttributeL0CSgAkM_AjMctXEtFA2kM_AjMctcXEfU_AK_SbtAM_AjMctXEfU_03$s7a5UI11_co9VAcA01_C7n128VIegnr_AESgIgngr_A2cEIegnr_AFIegngr_TR03$s7a79UI13CanvasSymbols027_F41195D4CD7D6A29110580DFD3F4F891LLV11updateValueyyFSbAA17_c32D64_SublistVXEfU_yyXEfU_AA01_N7e10VSgAA01_N6d7V_AiLctZ2U_Tf3nnnpf_nTf3nnnpf_n
+                            return transform(inputs)
+                        }
+                        
+                        outputs = _outputs ?? _ViewOutputs()
+                    } else {
+                        outputs = _ViewOutputs()
+                    }
+                    
+                    // <+1128>
+                    size.mutateBody(as: CanvasSymbols.SymbolSize.self, invalidating: true) { symbolSize in
+                        symbolSize.$layoutComputer = outputs.layoutComputer
+                    }
+                    
+                    let subgraphRelease = list.elements.subgraphs.retain()
+                    let displayList = outputs[DisplayList.Key.self]
+                    let renderer = DisplayList.GraphicsRenderer(platformViewMode: .rendered(update: true))
+                    
+                    let child = CanvasSymbols.Child(
+                        subgraph: subgraph,
+                        release: subgraphRelease,
+                        seed: self.seed,
+                        traits: list.traits,
+                        size: size,
+                        list: OptionalAttribute(displayList),
+                        renderer: renderer
+                    )
+                    
+                    self.children[key] = child
+                    children.append(child)
+                }
+                
+                return true
+            }
+        }
+        
+        // <+180>
+        self.children = self.children.filter { (_, value) in
+            if value.seed == self.seed {
+                return true
+            } else {
+                value.subgraph.willInvalidate(isInserted: true)
+                value.subgraph.invalidate()
+                return false
+            }
+        }
+        
+        self.value = children
     }
 }
 
 extension CanvasSymbols {
     fileprivate struct Child {
-        private var subgraph: Subgraph
-        private var release: _ViewList_SubgraphRelease?
-        private var seed: UInt32
-        private var traits: ViewTraitCollection
-        private var size: Attribute<ViewSize>
-        private var list: OptionalAttribute<DisplayList>
-        private let renderer: DisplayList.GraphicsRenderer
+        private(set) var subgraph: Subgraph // 0x0
+        private(set) var release: _ViewList_SubgraphRelease? // 0x8
+        var seed: UInt32 // 0x10
+        var traits: ViewTraitCollection // 0x18
+        private(set) var size: Attribute<ViewSize> // 0x20
+        private(set) var list: OptionalAttribute<DisplayList> // 0x24
+        let renderer: DisplayList.GraphicsRenderer // 0x28
     }
     
-    fileprivate struct SymbolSize {
+    fileprivate struct SymbolSize : AsyncAttribute, Rule {
         @Attribute var size: ViewSize
         @OptionalAttribute var layoutComputer: LayoutComputer?
+        
+        var value: ViewSize {
+            assertUnimplemented()
+        }
     }
 }
 

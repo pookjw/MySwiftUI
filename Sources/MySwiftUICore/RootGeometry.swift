@@ -39,7 +39,10 @@ struct RootGeometry : Rule, AsyncAttribute {
         var insets = EdgeInsets.zero
         if let safeAreaInsets = safeAreaInsetsAttribute?.value {
             // inlined
-            insets = safeAreaInsets.combined(layoutDirection: layoutDirectionAttribute?.value)
+            insets = safeAreaInsets.combined(layoutDirection: nil)
+            if insets.leading != insets.trailing, let layoutDirection = layoutDirectionAttribute?.value {
+                insets.xFlipIfRightToLeft { layoutDirection }
+            }
         }
         
         // <+388>

@@ -279,6 +279,14 @@ public struct DisplayList {
     public init()
   }
 
+  public final class GraphicsRenderer {
+    public enum PlatformViewMode {
+      case rendered(update: Swift.Bool)
+      case ignored
+      case unsupported
+    }
+  }
+
   public var items: [_SwiftUICorePrivate.DisplayList.Item] { get set }
 
   public init(_ item: _SwiftUICorePrivate.DisplayList.Item)
@@ -2595,7 +2603,6 @@ public enum GraphicsBlendMode {
   case blendMode(SwiftUI.GraphicsContext.BlendMode)
   case caFilter(AnyObject)
 }
-
 
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)

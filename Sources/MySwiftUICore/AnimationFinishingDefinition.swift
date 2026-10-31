@@ -1,10 +1,18 @@
 extension AnimationContext {
     var finishingDefinition: (any AnimationFinishingDefinition<Value>.Type)? {
         get {
-            return self.state[AnimationFinishingDefinitionKey<Value>.self].definition
+            if let key = self.state[AnimationFinishingDefinitionKey<Value>.self] {
+                return key.definition
+            } else {
+                return nil
+            }
         }
         set {
-            self.state[AnimationFinishingDefinitionKey<Value>.self] = AnimationFinishingDefinitionKey<Value>(definition: newValue.map { $0 })
+            if let newValue {
+                self.state[AnimationFinishingDefinitionKey<Value>.self] = AnimationFinishingDefinitionKey<Value>(definition: newValue)
+            } else {
+                self.state[AnimationFinishingDefinitionKey<Value>.self] = nil
+            }
         }
         _modify {
             var value = self.finishingDefinition
@@ -20,9 +28,9 @@ protocol AnimationFinishingDefinition<Value> : VectorArithmetic {
 }
 
 fileprivate struct AnimationFinishingDefinitionKey<Value: VectorArithmetic> : AnimationStateKey {
-    let definition: (any AnimationFinishingDefinition<Value>.Type)?
+    let definition: any AnimationFinishingDefinition<Value>.Type
     
-    static var defaultValue: AnimationFinishingDefinitionKey<Value> {
-        return AnimationFinishingDefinitionKey<Value>(definition: nil)
+    static var defaultValue: AnimationFinishingDefinitionKey<Value>? {
+        return nil
     }
 }

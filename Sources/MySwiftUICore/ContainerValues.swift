@@ -67,6 +67,7 @@ extension View {
         var copy_1 = inputs
         let traits = _ContainerValueWritingModifier<Value>.AddTrait(modifier: modifier.value, _traits: OptionalAttribute(inputs.$traits))
         copy_1.$traits = Attribute(traits)
+        copy_1.traitKeys = nil
         return body(_Graph(), copy_1)
     }
     

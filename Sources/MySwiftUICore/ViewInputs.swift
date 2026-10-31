@@ -106,7 +106,6 @@ public struct _ViewInputs : @unchecked Sendable {
         }
     }
     
-    @inline(always)
     mutating func copyCaches() {
         base.copyCaches()
     }

@@ -69,8 +69,6 @@ extension Layout {
             return 0
         }
         
-        Update.assertIsLocked()
-        
         // <+112>
         // x19
         var index = 0

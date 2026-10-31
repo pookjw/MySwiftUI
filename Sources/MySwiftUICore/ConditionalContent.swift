@@ -35,7 +35,7 @@ extension _ConditionalContent : View, PrimitiveView where TrueContent : View, Fa
     }
     
     nonisolated public static func _makeView(view: _GraphValue<_ConditionalContent<TrueContent, FalseContent>>, inputs: _ViewInputs) -> _ViewOutputs {
-        if isLinkedOnOrAfter(.v6) {
+        if isLinkedOnOrAfter(.v2) {
             return Self.makeImplicitRoot(view: view, inputs: inputs)
         } else {
             assertUnimplemented()

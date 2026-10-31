@@ -34,7 +34,7 @@ extension Never : View {
 
 extension View {
     package func bodyError() -> Never {
-        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false))")
+        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false)).")
     }
 }
 
