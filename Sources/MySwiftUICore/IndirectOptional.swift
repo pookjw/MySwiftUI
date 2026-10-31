@@ -5,15 +5,24 @@ enum IndirectOptional<T> : ExpressibleByNilLiteral {
     
     var wrappedValue: T? {
         get {
-            assertUnimplemented()
+            switch self {
+            case .some(let value):
+                return value
+            case .none:
+                return nil
+            }
         }
         set {
-            assertUnimplemented()
+            if let newValue {
+                self = .some(newValue)
+            } else {
+                self = .none
+            }
         }
     }
     
-    init(_: T) {
-        assertUnimplemented()
+    init(_ value: T) {
+        self = .some(value)
     }
     
     init(nilLiteral: Void) {
@@ -21,7 +30,11 @@ enum IndirectOptional<T> : ExpressibleByNilLiteral {
     }
     
     init(wrappedValue: T?) {
-        assertUnimplemented()
+        if let wrappedValue {
+            self = .some(wrappedValue)
+        } else {
+            self = .none
+        }
     }
 }
 
