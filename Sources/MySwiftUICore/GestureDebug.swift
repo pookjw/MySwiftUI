@@ -37,3 +37,7 @@ enum GestureDebug {
         }
     }
 }
+
+func printGestures(data: @autoclosure () -> GestureDebug.Data?, host: AnyObject?) {
+    assertUnimplemented()
+}

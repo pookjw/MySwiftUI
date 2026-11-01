@@ -43,7 +43,7 @@ extension FontDefinition {
     }
     
     static func resolveSystemFont(size: CGFloat, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
-        return DefaultFontDefinition.resolveSystemFont(size: size, design: design, weight: weight, in: context)
+        assertUnimplemented()
     }
     
     static func resolveCustomFont(name: String, size: CGFloat, textStyle: Font.TextStyle?, in: Font.Context) -> CTFontDescriptor {

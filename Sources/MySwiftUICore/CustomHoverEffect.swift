@@ -18,6 +18,10 @@ extension CustomHoverEffect {
     public static func _makeCustomHoverEffect(effect: _GraphValue<Self>, inputs: _CustomHoverEffectInputs, body: @escaping (_CustomHoverEffectInputs) -> _CustomHoverEffectOutputs) -> _CustomHoverEffectOutputs {
         assertUnimplemented()
     }
+    
+    func bodyError() -> Never {
+        fatalError("body() should not be called on \(_typeName(Self.self, qualified: false)).")
+    }
 }
 
 public struct EmptyHoverEffect : CustomHoverEffect {

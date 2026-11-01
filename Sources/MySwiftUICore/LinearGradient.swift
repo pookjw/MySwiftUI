@@ -26,6 +26,14 @@ internal import CoreGraphics
     
     public typealias Body = _ShapeView<Rectangle, LinearGradient>
     public typealias Resolved = Never
+    
+    func resolvePaint(in environment: EnvironmentValues) -> LinearGradient._Paint {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
 }
 
 extension LinearGradient {

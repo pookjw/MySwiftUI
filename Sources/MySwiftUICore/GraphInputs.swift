@@ -94,6 +94,10 @@ public struct _GraphInputs {
         return customInputs[Input.self].pop()
     }
     
+    mutating func merge(_ other: _GraphInputs) {
+        assertUnimplemented()
+    }
+    
     mutating func merge(_ other: _GraphInputs, ignoringPhase: Bool) {
         /*
          self -> x19
@@ -208,9 +212,7 @@ extension _GraphInputs {
             value = ((value & ~1) &+ other.value) | (value & 1)
         }
         
-        static var invalid: _GraphInputs.Phase {
-            return _GraphInputs.Phase(value: 0xFFFFFFF0)
-        }
+        static let invalid = _GraphInputs.Phase(value: 0xFFFFFFF0)
     }
 }
 
