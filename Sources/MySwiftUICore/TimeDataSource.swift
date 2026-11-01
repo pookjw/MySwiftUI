@@ -27,6 +27,10 @@ extension TimeDataSource {
     public static func dateRange(endingAt date: Date) -> TimeDataSource<Range<Date>> {
         assertUnimplemented()
     }
+    
+    public func offset(by duration: Duration) -> TimeDataSource<Value> {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)

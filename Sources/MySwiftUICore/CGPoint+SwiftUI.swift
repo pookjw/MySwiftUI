@@ -188,6 +188,24 @@ extension CGPoint {
     public func applying(_ m: ProjectionTransform) -> CGPoint {
         assertUnimplemented()
     }
+    
+    package func unapplying(_ m: ProjectionTransform) -> CGPoint {
+        assertUnimplemented()
+    }
+    
+    package func unapplying(_ t: CGAffineTransform) -> CGPoint {
+        assertUnimplemented()
+    }
+    
+    package static var invalidValue: CGPoint {
+        assertUnimplemented()
+    }
+}
+
+extension CGPoint : ProtobufEncodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) {
+        assertUnimplemented()
+    }
 }
 
 extension CGPoint {

@@ -49,6 +49,10 @@ extension GesturePhase {
         assertUnimplemented()
     }
     
+    package func paused() -> GesturePhase<T> {
+        assertUnimplemented()
+    }
+    
     package func and<U>(_ other: GesturePhase<U>) -> GesturePhase<(T, U)> {
         assertUnimplemented()
     }

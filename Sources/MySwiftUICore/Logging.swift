@@ -233,17 +233,18 @@ extension Log {
         guard UserDefaults.standard.bool(forKey: "com.apple.SwiftUI.OpenSceneLogging") else { return nil }
         return Logger(subsystem: Log.subsystem, category: "OpenScene")
     }()
+    
+    package static var fileExportImport: Logger? {
+        assertUnimplemented()
+    }
+    
+    package static func isLogEnabled(_ category: String) -> Bool {
+        assertUnimplemented()
+    }
 }
 
 extension OSLog {
-    nonisolated(unsafe) package static var runtimeIssuesLog: OSLog {
-        get {
-            return unsafe Log.runtimeIssuesLog
-        }
-        set {
-            unsafe Log.runtimeIssuesLog = newValue
-        }
-    }
+    nonisolated(unsafe) package static var runtimeIssuesLog = OSLog(subsystem: "com.apple.runtime-issues", category: "SwiftUI")
 }
 
 package struct LoggableRect : CustomStringConvertible {
@@ -270,6 +271,10 @@ package enum ResizeLogs {
     }
     
     static func proposal(_ size: _ProposedSize3D) -> String {
+        assertUnimplemented()
+    }
+    
+    static func animation(_ transaction: Transaction?) -> String {
         assertUnimplemented()
     }
     

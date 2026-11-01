@@ -1,3 +1,4 @@
+// 8A0FC0E1EA10CEEE185C2315B618A95C
 
 @safe struct ViewGraphFeatureBuffer : Collection, CustomDebugStringConvertible {        
     private(set) var contents: UnsafeHeterogeneousBuffer
@@ -7,7 +8,7 @@
     }
     
     @discardableResult
-    mutating func append<T : ViewGraphFeature>(feature: T) -> UnsafeHeterogeneousBuffer.Index {
+    mutating func append<T : ViewGraphFeature>(_ feature: T) -> UnsafeHeterogeneousBuffer.Index {
         return contents.append(feature, vtable: _VTable<T>.self)
     }
     

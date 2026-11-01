@@ -318,7 +318,7 @@ private import Spatial
     }
     
     package final func append<T : ViewGraphFeature>(feature: T) {
-        features.append(feature: feature)
+        features.append(feature)
     }
     
     package final func setRootView<Content : View>(_ rootView: Content) {

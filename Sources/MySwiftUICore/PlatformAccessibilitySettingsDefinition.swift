@@ -43,7 +43,7 @@ extension EnvironmentValues {
             return false
         }
         
-        return definition.isEnabled(in: setting)
+        return definition.isEnabled(setting: setting)
     }
 }
 
@@ -94,7 +94,7 @@ extension EnvironmentValues {
         return false
     }
     
-    fileprivate final func isEnabled(in setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
+    fileprivate final func isEnabled(setting: PlatformAccessibilitySettingsDefinition.Setting) -> Bool {
         let existing: (Int, Bool?)? = cache.withLock { storage in
             for index in storage.entries.indices {
                 let entry = storage.entries[index]

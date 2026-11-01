@@ -336,6 +336,10 @@ internal import RenderBox
             assertUnimplemented()
         }
 
+        public static func alphaMultiply(_ color: Color) -> GraphicsContext.Filter {
+            assertUnimplemented()
+        }
+
         public static func colorMultiply(_ color: Color) -> GraphicsContext.Filter {
             assertUnimplemented()
         }

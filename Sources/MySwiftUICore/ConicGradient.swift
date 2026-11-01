@@ -8,4 +8,12 @@ struct ConicGradient {
     init(angular: AngularGradient._Paint, bounds: CGRect) {
         assertUnimplemented()
     }
+    
+    init(gradient: ResolvedGradient, center: CGPoint, angle: Angle) {
+        assertUnimplemented()
+    }
+    
+    init(gradient: ResolvedGradient, center: CGPoint, startAngle: Angle, endAngle: Angle) {
+        assertUnimplemented()
+    }
 }

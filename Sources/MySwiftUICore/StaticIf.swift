@@ -52,6 +52,51 @@ extension View {
             }
         )
     }
+    
+    package func staticIf<Idiom : InterfaceIdiomProtocol, TrueBody : View, FalseBody : View>(
+        idiom: Idiom,
+        @ViewBuilder trueModifier: (Self) -> TrueBody,
+        @ViewBuilder falseModifier: (Self) -> FalseBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
+    package func staticIf<Idiom : InterfaceIdiomProtocol, TrueBody : View>(
+        idiom: Idiom,
+        @ViewBuilder trueModifier: (Self) -> TrueBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
+    package func staticIf<Semantic : SemanticProtocol, TrueBody : View, FalseBody : View>(
+        isLinkedOnOrAfter semantic: Semantic,
+        @ViewBuilder trueModifier: (Self) -> TrueBody,
+        @ViewBuilder falseModifier: (Self) -> FalseBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
+    package func staticIf<Semantic : SemanticProtocol, TrueBody : View>(
+        isLinkedOnOrAfter semantic: Semantic,
+        @ViewBuilder trueModifier: (Self) -> TrueBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
+    package func staticIf<Context : StyleContext, TrueBody : View, FalseBody : View>(
+        context: Context,
+        @ViewBuilder trueModifier: (Self) -> TrueBody,
+        @ViewBuilder falseModifier: (Self) -> FalseBody
+    ) -> some View {
+        assertUnimplemented()
+    }
+    
+    package func staticIf<Context : StyleContext, TrueBody : View>(
+        context: Context,
+        @ViewBuilder trueModifier: (Self) -> TrueBody
+    ) -> some View {
+        assertUnimplemented()
+    }
 }
 
 package struct StaticIf<Predicate, TrueBody, FalseBody> {

@@ -3,7 +3,7 @@ public import CoreGraphics
 private import _MySwiftUICoreShims
 public import Spatial
 
-public struct Color : Hashable, CustomStringConvertible, Sendable {
+@frozen public struct Color : Hashable, CustomStringConvertible, Sendable {
     public static func == (lhs: Color, rhs: Color) -> Bool {
         if ObjectIdentifier(lhs.provider) == ObjectIdentifier(rhs.provider) {
             return true
@@ -528,7 +528,7 @@ extension Color.ProviderTag {
 }
 
 extension Color {
-    public struct Resolved : Hashable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
+    @frozen public struct Resolved : Hashable, ShapeStyle, CustomStringConvertible, Animatable, Codable {
         @safe nonisolated(unsafe) static var legacyInterpolation = !isLinkedOnOrAfter(.v6)
         
         public var linearRed: Float
@@ -938,6 +938,11 @@ extension Color {
     public static let clear = Color(.clear)
     public static let primary = Color(box: ColorBox(SystemColorType.primary))
     public static let secondary = Color(box: ColorBox(SystemColorType.secondary))
+    
+    public static var accentColor: Color {
+        assertUnimplemented()
+    }
+    
     nonisolated package static var _background: Color {
         Color(box: ColorBox(BackgroundColorProvider()))
     }

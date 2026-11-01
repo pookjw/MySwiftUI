@@ -30,7 +30,7 @@ public struct PlatformDrawableOptions : Equatable {
         assertUnimplemented()
     }
     
-    public func update(rbLayer: OpaquePointer) {
+    public func update(rbLayer: AnyObject) {
         assertUnimplemented()
     }
 }
