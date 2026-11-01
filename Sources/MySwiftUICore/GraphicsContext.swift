@@ -7,7 +7,7 @@ internal import RenderBox
     @_hasMissingDesignatedInitializers @usableFromInline
     final internal class Storage {
         private let shared: GraphicsContext.Storage.Shared // 0x10
-        private let state: RBDrawingState // 0x18
+        fileprivate let state: RBDrawingState // 0x18
         private var environmentOverride: EnvironmentValues? = nil // 0x20
         private var opacity: Float = 1 // 0x30
         private var blendMode: RBBlendMode = .unknown0 // 0x34
@@ -22,6 +22,26 @@ internal import RenderBox
             self.shared = GraphicsContext.Storage.Shared(list: list, environment: environment)
             self.state = RBDisplayListGetState(list)
             self.ownsState = false
+        }
+        
+        @inline(__always) // 원래 없음
+        fileprivate init(from other: GraphicsContext.Storage) {
+            let state = RBDrawingState.initialize(other.state)
+            let shared = other.shared
+            
+            if shared.colorSpace != state.defaultColorSpace {
+                self.shared = GraphicsContext.Storage.Shared(
+                    list: state.displayList,
+                    environment: other.environmentOverride ?? shared._environment
+                )
+            } else {
+                self.shared = shared
+            }
+            
+            self.state = state
+            self.ownsState = true
+            self.opacity = other.opacity
+            self.blendMode = other.blendMode
         }
         
         deinit {
@@ -251,11 +271,21 @@ internal import RenderBox
     }
 
     public mutating func scaleBy(x: CGFloat, y: CGFloat) {
-        assertUnimplemented()
+        if (x == 1) && (y == 1) {
+            return
+        } else {
+            self.copyOnWrite()
+            self.storage.state.scaleCTM(sx: x, sy: y)
+        }
     }
 
     public mutating func translateBy(x: CGFloat, y: CGFloat) {
-        assertUnimplemented()
+        if (x != 0) || (y != 0) {
+            self.copyOnWrite()
+            self.storage.state.translateCTM(tx: x, ty: y)
+        } else {
+            return
+        }
     }
 
     public mutating func rotate(by angle: Angle) {
@@ -497,7 +527,13 @@ internal import RenderBox
         }
 
         public static func linearGradient(_ gradient: Gradient, startPoint: CGPoint, endPoint: CGPoint, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
-            assertUnimplemented()
+            return GraphicsContext.Shading(
+                storage: .gradient(
+                    .gradient(gradient),
+                    geometry: .axial(startPoint, endPoint),
+                    options: options
+                )
+            )
         }
 
         public static func radialGradient(_ gradient: Gradient, center: CGPoint, startRadius: CGFloat, endRadius: CGFloat, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
@@ -511,6 +547,8 @@ internal import RenderBox
         public static func tiledImage(_ image: Image, origin: CGPoint = .zero, sourceRect: CGRect = CGRect(x: 0, y: 0, width: 1, height: 1), scale: CGFloat = 1) -> GraphicsContext.Shading {
             assertUnimplemented()
         }
+        
+        private var storage: GraphicsContext.Shading.Storage
     }
 
     @frozen public struct GradientOptions : OptionSet {
@@ -549,7 +587,7 @@ internal import RenderBox
     }
 
     public func fill(_ path: Path, with shading: GraphicsContext.Shading, style: FillStyle = FillStyle()) {
-        assertUnimplemented()
+        self.draw(path, with: shading, style: .fill(style))
     }
 
     public func stroke(_ path: Path, with shading: GraphicsContext.Shading, style: StrokeStyle) {
@@ -691,6 +729,24 @@ extension GraphicsContext {
     }
 }
 
+extension GraphicsContext {
+    fileprivate mutating func copyOnWrite() {
+        guard !isKnownUniquelyReferenced(&self.storage) else {
+            return
+        }
+        
+        self.storage = GraphicsContext.Storage(from: self.storage)
+    }
+    
+    func draw(_ path: Path, with shading: GraphicsContext.Shading, style: PathDrawingStyle) {
+        assertUnimplemented()
+    }
+    
+    func draw(_ path: Path, with shading: GraphicsContext.ResolvedShading, style: PathDrawingStyle) {
+        assertUnimplemented()
+    } 
+}
+
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension GraphicsContext.BlendMode : Sendable {}
 
@@ -760,8 +816,8 @@ extension GraphicsContext.Storage {
         fileprivate var symbols: GraphicsContextSymbols? = nil // 0x18
         private let shape = RBShape() // 0x20
         private let fill = RBFill() // 0x28
-        private let _environment: EnvironmentValues // 0x30, 0x38
-        private let colorSpace: RBColorSpace // 0x40
+        let _environment: EnvironmentValues // 0x30, 0x38
+        let colorSpace: RBColorSpace // 0x40
         @IndirectOptional private var textProperties: TextLayoutProperties? = nil // 0x48
         private var _resolvedForeground: GraphicsContext.ResolvedShading? = nil // 0x50
         private var _foregroundIsMultiLevel: Bool? = nil // 0xf8
@@ -800,5 +856,21 @@ extension GraphicsContext.Storage.Shared {
     
     func setMeshGradient(_ paint: MeshGradient._Paint, in rect: CGRect) {
         assertUnimplemented()
+    }
+}
+
+extension GraphicsContext.Shading {
+    enum Storage : @unchecked Sendable {
+        case backdrop(Color.ResolvedHDR)
+        case color(Color)
+        case sRGBColor(RBColor)
+        case shader(Shader, CGRect)
+        case style(AnyShapeStyle)
+        case gradient(EitherGradient, geometry: GraphicsContext.GradientGeometry, options: GraphicsContext.GradientOptions)
+        case meshGradient(MeshGradient)
+        case tiledImage(Image, origin: CGPoint, sourceRect: CGRect, scale: CGFloat)
+        case levels([GraphicsContext.Shading])
+        case resolved(GraphicsContext.ResolvedShading)
+        case foreground
     }
 }

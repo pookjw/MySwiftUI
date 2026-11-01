@@ -6,7 +6,8 @@ public import CoreGraphics
         public var location: CGFloat
         
         public init(color: Color, location: CGFloat) {
-            assertUnimplemented()
+            self.color = color
+            self.location = location
         }
         
         public static func == (a: Gradient.Stop, b: Gradient.Stop) -> Bool {
@@ -21,7 +22,21 @@ public import CoreGraphics
     }
     
     public init(colors: [Color]) {
-        assertUnimplemented()
+        var stops: [Gradient.Stop] = []
+        
+        if colors.count == 1 {
+            stops.append(Gradient.Stop(color: colors[0], location: 0))
+        } else if colors.count > 1 {
+            let step = CGFloat(1) / CGFloat(colors.count &- 1)
+            stops.reserveCapacity(colors.count)
+            
+            for (index, color) in colors.enumerated() {
+                let stop = Gradient.Stop(color: color, location: step * CGFloat(index))
+                stops.append(stop)
+            }
+        }
+        
+        self.stops = stops
     }
     
     public static func == (a: Gradient, b: Gradient) -> Bool {
@@ -93,9 +108,13 @@ extension Gradient {
 @usableFromInline
 package class AnyGradientBox : AnyShapeStyleBox, @unchecked Sendable {
     // TODO
-
-
+    
     override func apply(to shape: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }
+}
+
+enum EitherGradient {
+    case gradient(Gradient)
+    case anyGradient(AnyGradient)
 }

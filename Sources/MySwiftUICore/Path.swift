@@ -56,7 +56,7 @@ private import _MySwiftUICoreShims
                 unsafe RBPathStorageDestroy(self.dataPointer)
             }
         }
-
+        
         @usableFromInline
         package static func == (lhs: Path.PathBox, rhs: Path.PathBox) -> Bool {
             assertUnimplemented()
@@ -615,8 +615,8 @@ extension Path {
         unsafe pointer.pointee.unknown2 = { pathBox in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_ySVcfU0_To
             unsafe Unmanaged<Path.PathBox>
-               .fromOpaque(pathBox)
-               .release()
+                .fromOpaque(pathBox)
+                .release()
         }
         
         unsafe pointer.pointee.unknown3 = { pathBox, arg1, arg2 in
@@ -667,4 +667,9 @@ extension Path {
         
         return unsafe UnsafePointer(pointer)
     }()
+}
+
+enum PathDrawingStyle {
+    case fill(FillStyle)
+    case stroke(StrokeStyle)
 }

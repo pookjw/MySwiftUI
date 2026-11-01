@@ -535,9 +535,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        if let index = appDelegate.activeWindowProxies.firstIndex(where: { $0.backingScene === windowScene }) {
-            appDelegate.activeWindowProxies.remove(at: index)
-        }
+        appDelegate.activeWindowProxies.removeAll(where: { $0.backingScene === windowScene })
         
         appDelegate.updateActiveWindows()
     }
@@ -558,7 +556,7 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
          self -> x20 -> x21
          scene -> x0 -> x19
          */
-        self.scenePhase = .active
+        self.scenePhase = .inactive
         
         // <+244>
         if let delegate = sceneDelegateBox?.delegate as? UISceneDelegate {

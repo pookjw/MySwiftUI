@@ -33,6 +33,48 @@ protocol FontDefinition {
     static func resolveFontInfo(_ font: CTFont) -> Font.ResolvedTraits
 }
 
+extension FontDefinition {
+    static func resolveTextStyleFont(textStyle: Font.TextStyle, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
+        assertUnimplemented()
+    }
+    
+    static func resolveTextStyleFontInfo(textStyle: Font.TextStyle, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> Font.ResolvedTraits {
+        assertUnimplemented()
+    }
+    
+    static func resolveSystemFont(size: CGFloat, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
+        return DefaultFontDefinition.resolveSystemFont(size: size, design: design, weight: weight, in: context)
+    }
+    
+    static func resolveCustomFont(name: String, size: CGFloat, textStyle: Font.TextStyle?, in: Font.Context) -> CTFontDescriptor {
+        assertUnimplemented()
+    }
+    
+    static func resolvePrivateTextStyleFont(textStyle: CFString, design: CFString?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
+        assertUnimplemented()
+    }
+    
+    static func resolvePrivateTextStyleFontInfo(textStyle: CFString, design: CFString?, weight: Font.Weight?, in context: Font.Context) -> Font.ResolvedTraits {
+        assertUnimplemented()
+    }
+    
+    static func resolvePrivateSystemDesignFont(size: CGFloat, design: CFString, weight: Font.Weight, in context: Font.Context) -> CTFontDescriptor {
+        assertUnimplemented()
+    }
+    
+    static func resolvePrivateSystemDesignFontInfo(size: CGFloat, design: CFString, weight: Font.Weight, in context: Font.Context) -> Font.ResolvedTraits {
+        assertUnimplemented()
+    }
+    
+    static func resolveFont(_ font: CTFont) -> CTFontDescriptor {
+        assertUnimplemented()
+    }
+    
+    static func resolveFontInfo(_ font: CTFont) -> Font.ResolvedTraits {
+        assertUnimplemented()
+    }
+}
+
 enum DefaultFontDefinition : FontDefinition {
     static func resolveTextStyleFont(textStyle: Font.TextStyle, design: Font.Design?, weight: Font.Weight?, in context: Font.Context) -> CTFontDescriptor {
         /*

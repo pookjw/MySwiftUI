@@ -71,7 +71,7 @@ extension BarAppearanceBridge {
             let copy_1 = self.lastEnvironment
             // x19 + 0xe0
             let uiContainingNavController = uiContainingNavController
-            uiContainingNavController?.navigationItem.hidesBackButton = barBackButtonHidden
+            targetController.navigationItem.hidesBackButton = barBackButtonHidden
             
             // <+1752>
             // targetController -> x24
@@ -181,7 +181,7 @@ extension BarAppearanceBridge {
                 if _SemanticFeature<Semantics_v4>.isEnabled {
                     // <+2300>
                     let w20: Bool
-                    if resolvedTitleString != nil {
+                    if let resolvedTitleString, !resolvedTitleString.isEmpty {
                         w20 = true
                     } else {
                         w20 = targetController.navigationItem.hasLargeContent
@@ -189,12 +189,12 @@ extension BarAppearanceBridge {
                     
                     // <+2364>
                     var w26 = Solarium.isEnabled(for: _GraphInputs.defaultInterfaceIdiom)
-                    w26 = w26 || isContainedInExpandedSplitViewColumn
+                    w26 = w26 && isContainedInExpandedSplitViewColumn
                     
                     var w8 = barBackButtonHidden
                     let w9 = hasOrWillHaveBackItem
                     
-                    if !w8 || w9 {
+                    if w8 || !w9 {
                         // <+2456>
                         w8 = w9 && w20
                         w8 = w8 || w26
@@ -240,7 +240,7 @@ extension BarAppearanceBridge {
             }
             
             // <+2508>
-            if let largeTitleDisplayMode {
+            if let largeTitleDisplayMode, targetController.navigationItem.largeTitleDisplayMode != largeTitleDisplayMode {
                 targetController.navigationItem.largeTitleDisplayMode = largeTitleDisplayMode
             }
             
@@ -612,7 +612,7 @@ extension BarAppearanceBridge {
                 // <+2072>
                 // copy_2 -> x29 - 0x148 -> x23
                 // i -> x29 - 0xfc
-                if copy_2.foregroundStyle != nil {
+                if copy_2.background != nil {
                     // <+3312>
                     flag = true
                 } else {
@@ -801,8 +801,8 @@ extension BarAppearanceBridge {
                     let w0 = _SemanticFeature<Semantics_v4>.isEnabled
                     let w8 = newConfiguration.visibility
                     let w10 = w25 != .visible
-                    let _ = isFromSwiftUI && !hasNavigationBarContent && w0 && w10
-                    let w2 = (w8 == .automatic) ? w10 : ((w8 == .visible) ? false : true)
+                    let automaticallyHidden = isFromSwiftUI && !hasNavigationBarContent && w0 && w10
+                    let w2 = (w8 == .automatic) ? automaticallyHidden : ((w8 == .visible) ? false : true)
                     // <+1304>
                     navigationController.setNavigationBarHidden(w2, animated: newConfiguration.animation != nil)
                 }
