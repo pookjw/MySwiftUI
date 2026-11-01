@@ -7,7 +7,7 @@ package import Spatial
 internal import AttributeGraph
 package import RenderBox
 
-package struct DisplayList : @unchecked Sendable {
+@_spi(Internal) public struct DisplayList : @unchecked Sendable {
     package private(set) var items: [DisplayList.Item] // 0x0
     package var features: DisplayList.Features // 0x8
     package var properties: DisplayList.Properties // 0xc
@@ -68,7 +68,7 @@ package struct DisplayList : @unchecked Sendable {
 }
 
 extension DisplayList : CustomStringConvertible {
-    package var description: String {
+    @_spi(Internal) public var description: String {
         assertUnimplemented()
     }
 }
@@ -1144,7 +1144,7 @@ protocol ViewRendererBase : AnyObject {
 
 @safe nonisolated(unsafe) fileprivate var lastIdentity: UInt32 = 0
 
-package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertible, Sendable {
+@_spi(Internal) public struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertible, Sendable {
     package var value: UInt32
     
     package init() {
@@ -1161,7 +1161,7 @@ package struct _DisplayList_Identity : Hashable, Codable, CustomStringConvertibl
         return _DisplayList_Identity(decodedValue: 0)
     }
     
-    package var description: String {
+    @_spi(Internal) public var description: String {
         assertUnimplemented()
     }
 }

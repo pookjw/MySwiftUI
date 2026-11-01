@@ -272,9 +272,9 @@ extension _ShapeStyle_Pack {
 //            assertUnimplemented()
 //        }
         
-//        func draw(_: Path, style: PathDrawingStyle, in: GraphicsContext, bounds: CGRect?) {
-//            assertUnimplemented()
-//        }
+        func draw(_: Path, style: PathDrawingStyle, in: GraphicsContext, bounds: CGRect?) {
+            assertUnimplemented()
+        }
     }
     
     enum Fill : Animatable {

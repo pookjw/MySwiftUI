@@ -1,5 +1,5 @@
 // 2757C8CEAD462372B32B033D63FAF712
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 private import FeatureFlags
 private import Spatial
 

@@ -1,5 +1,5 @@
 // 605E5F75314C8FB4F25003DB33D535B5
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import AttributeGraph
 private import os.log
 

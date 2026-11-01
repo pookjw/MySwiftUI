@@ -1,4 +1,4 @@
-package enum SeparatedState {
+@_spi(Internal) public enum SeparatedState {
     case none
     case tracked
     case separated

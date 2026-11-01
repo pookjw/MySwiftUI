@@ -3,6 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RBShape : NSObject
+- (void)setInfinite;
 // TODO
 @end
 

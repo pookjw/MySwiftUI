@@ -137,6 +137,10 @@ typedef struct RBColor {
     const float unknown7;
 } RBColor;
 
+typedef NS_ENUM(uint32_t, RBRenderingMode) {
+    RBRenderingModeUnknown0 = 0
+};
+
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
 
 NS_ASSUME_NONNULL_END

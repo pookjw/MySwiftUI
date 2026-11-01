@@ -2610,3 +2610,12 @@ public enum GraphicsFilter {
   case colorMultiply(SwiftUI.Color.ResolvedHDR)
   case alphaMultiply(SwiftUI.Color.ResolvedHDR)
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.GraphicsContext.Shading {
+  public enum Storage {
+    case style(SwiftUI.AnyShapeStyle)
+    case foreground
+  }
+}

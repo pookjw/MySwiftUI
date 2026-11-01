@@ -6,12 +6,12 @@ internal import RenderBox
 @frozen public struct GraphicsContext {
     @_hasMissingDesignatedInitializers @usableFromInline
     final internal class Storage {
-        private let shared: GraphicsContext.Storage.Shared // 0x10
+        fileprivate let shared: GraphicsContext.Storage.Shared // 0x10
         fileprivate let state: RBDrawingState // 0x18
-        private var environmentOverride: EnvironmentValues? = nil // 0x20
-        private var opacity: Float = 1 // 0x30
-        private var blendMode: RBBlendMode = .unknown0 // 0x34
-        private var shapeDistance: CGFloat = .nan // 0x38
+        fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
+        fileprivate private(set) var opacity: Float = 1 // 0x30
+        fileprivate private(set) var blendMode: RBBlendMode = .unknown0 // 0x34
+        fileprivate private(set) var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
         
         @inline(__always) // 원래 없음
@@ -255,9 +255,7 @@ internal import RenderBox
     }
 
     public var environment: EnvironmentValues {
-        get {
-            assertUnimplemented()
-        }
+        return self.storage.environmentOverride ?? self.storage.shared._environment
     }
 
     public var transform: CGAffineTransform {
@@ -548,7 +546,7 @@ internal import RenderBox
             assertUnimplemented()
         }
         
-        private var storage: GraphicsContext.Shading.Storage
+        fileprivate private(set) var storage: GraphicsContext.Shading.Storage
     }
 
     @frozen public struct GradientOptions : OptionSet {
@@ -739,7 +737,123 @@ extension GraphicsContext {
     }
     
     func draw(_ path: Path, with shading: GraphicsContext.Shading, style: PathDrawingStyle) {
-        assertUnimplemented()
+        /*
+         path -> x0
+         shading -> x1
+         style -> x2
+        */
+        switch shading.storage {
+        case .backdrop(let resolved):
+            // <+892>
+            switch style {
+            case .fill(let fillStyle):
+                // <+1204>
+                self.storage.shared.shape.setPath(
+                    path,
+                    style: fillStyle,
+                    shapeDistance: self.storage.shapeDistance
+                )
+            case .stroke(let strokeStyle):
+                self.storage.shared.shape.setStrokedPath(
+                    path,
+                    style: strokeStyle
+                )
+            }
+            
+            // <+1244>
+            let drawingState_1 = RBDrawingState.initialize(self.storage.state)
+            drawingState_1.clipShape(self.storage.shared.shape, renderingMode: .unknown0)
+            let drawingState_2 = drawingState_1.beginLayer(1)
+            
+            if resolved.opacity != 0 {
+                self.storage.shared.shape.setInfinite()
+                self.storage.shared.setColor(resolved)
+                
+                drawingState_2.drawShape(
+                    shape: self.storage.shared.shape,
+                    fill: self.storage.shared.fill,
+                    blendMode: .unknown0,
+                    opacity: 1
+                )
+            }
+            
+            // <+1344>
+            drawingState_1.drawLayer(
+                drawingState_2,
+                blendMode: self.storage.blendMode,
+                opacity: self.storage.opacity
+            )
+            
+            drawingState_1.destroy()
+        case .color, .sRGBColor, .shader, .gradient, .meshGradient, .tiledImage:
+            // <+516>
+            switch style {
+            case .fill(let fillStyle):
+                // <+984>
+                self.storage.shared.shape.setPath(
+                    path,
+                    style: fillStyle,
+                    shapeDistance: self.storage.shapeDistance
+                )
+            case .stroke(let strokeStyle):
+                self.storage.shared.shape.setStrokedPath(
+                    path,
+                    style: strokeStyle
+                )
+            }
+            
+            // <+1024>
+            self.storage.shared.setShading(shading, in: self.environment)
+            
+            self.storage.state.drawShape(
+                shape: self.storage.shared.shape,
+                fill: self.storage.shared.fill,
+                blendMode: self.storage.blendMode,
+                opacity: self.storage.opacity
+            )
+        case .style(let _style):
+            // <+312>
+            // sp + 0xd0
+            var shape = _ShapeStyle_Shape(
+                operation: .resolveStyle(name: .foreground, levels: 0..<1),
+                result: .none,
+                environment: self.environment,
+                foregroundStyle: nil,
+                bounds: nil,
+                role: .fill,
+                substrate: .graphicsContext
+            )
+            
+            _style._apply(to: &shape)
+            
+            var pack: _ShapeStyle_Pack
+            switch shape.result {
+            case .pack(let _pack):
+                pack = _pack
+            default:
+                pack = _ShapeStyle_Pack()
+            }
+            
+            // <+1412>
+            let __style = pack[.foreground, 0]
+            
+            __style.draw(
+                path,
+                style: style,
+                in: self,
+                bounds: shape.bounds
+            )
+        case .levels(let levels):
+            // <+592>
+            self.draw(path, with: levels.first!, style: style)
+        case .resolved(let shading):
+            // <+712>
+            self.draw(path, with: shading, style: style)
+        case .foreground:
+            // <+148>
+            let shading = self.storage.shared.resolvedForeground(in: self.environment)
+            self.draw(path, with: shading, style: style)
+        }
     }
     
     func draw(_ path: Path, with shading: GraphicsContext.ResolvedShading, style: PathDrawingStyle) {
@@ -814,8 +928,8 @@ extension GraphicsContext.Storage {
     fileprivate final class Shared {
         private let list: RBDisplayList // 0x10
         fileprivate var symbols: GraphicsContextSymbols? = nil // 0x18
-        private let shape = RBShape() // 0x20
-        private let fill = RBFill() // 0x28
+        let shape = RBShape() // 0x20
+        let fill = RBFill() // 0x28
         let _environment: EnvironmentValues // 0x30, 0x38
         let colorSpace: RBColorSpace // 0x40
         @IndirectOptional private var textProperties: TextLayoutProperties? = nil // 0x48
@@ -871,6 +985,16 @@ extension GraphicsContext.Shading {
         case tiledImage(Image, origin: CGPoint, sourceRect: CGRect, scale: CGFloat)
         case levels([GraphicsContext.Shading])
         case resolved(GraphicsContext.ResolvedShading)
-        case foreground
+        case foreground // 10
+    }
+}
+
+extension RBShape {
+    fileprivate func setPath(_ path: Path, style: FillStyle, shapeDistance: CGFloat) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func setStrokedPath(_: Path, style: StrokeStyle) {
+        assertUnimplemented()
     }
 }

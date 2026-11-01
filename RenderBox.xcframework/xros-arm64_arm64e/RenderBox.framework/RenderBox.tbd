@@ -30,7 +30,12 @@ exports:
     _RBDrawingStateInit,
     _RBDrawingStateGetDefaultColorSpace,
     _RBDrawingStateGetDisplayList,
-    _RBDrawingStateScaleCTM ]
+    _RBDrawingStateScaleCTM,
+    _RBDrawingStateDrawShape,
+    _RBDrawingStateClipShape,
+    _RBDrawingStateBeginLayer,
+    _RBDrawingStateDrawLayer,
+    _RBDrawingStateDestroy ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

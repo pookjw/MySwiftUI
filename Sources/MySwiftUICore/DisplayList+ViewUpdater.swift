@@ -11,7 +11,7 @@ private import AttributeGraph
 extension DisplayList {
     @safe nonisolated(unsafe) static var overrideMayInsertCALayers: Bool? = nil
     
-    package final class ViewUpdater : ViewRendererBase {
+    @_spi(Internal) public final class ViewUpdater : ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform // 0x10
         private weak var host: ViewRendererHost? = nil // 0x18
         private var viewCache: DisplayList.ViewUpdater.ViewCache // 0x28

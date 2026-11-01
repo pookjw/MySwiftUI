@@ -4,7 +4,7 @@ internal import _MySwiftUICoreShims
 private import os.log
 
 extension DisplayList.ViewUpdater {
-    package struct Platform : Equatable, CustomStringConvertible {
+    @_spi(Internal) public struct Platform : Equatable, CustomStringConvertible, Sendable {
         static let caLayer = DisplayList.ViewUpdater.Platform(definition: CALayerPlatformViewDefinition.self)
         
         fileprivate private(set) var encoding: DisplayList.ViewUpdater.Platform.Encoding
@@ -2223,7 +2223,7 @@ extension DisplayList.ViewUpdater {
             assertUnimplemented()
         }
         
-        package var description: String {
+        @_spi(Internal) public var description: String {
             assertUnimplemented()
         }
         
@@ -2981,7 +2981,7 @@ extension DisplayList.ViewUpdater.ViewCache {
 }
 
 extension DisplayList.ViewUpdater.Platform {
-    package enum SeparationReason : String, Hashable {
+    @_spi(Internal) public enum SeparationReason : String, Hashable {
         case separatedState = "SwiftUI.SeparatedState"
         case linkEnabled = "SwiftUI.LinkEnabled"
         case affine3D = "SwiftUI.Transform3D"

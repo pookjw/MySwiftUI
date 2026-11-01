@@ -301,8 +301,8 @@ struct DepthAlignedLayout<L : Layout> : DerivedLayout, Layout3D, _VariadicView_U
     fileprivate func placeChildren<T : Sequence>(
         _: T,
         proposal: _ProposedSize3D,
-        place: (LayoutSubview3D, DepthAlignedLayout<T>.DepthGeometry) -> ()
-    ) where T.Element == (_ proxy: LayoutSubview3D, _ geo: ViewGeometry) -> Double {
+        place: (LayoutSubview3D, DepthAlignedLayout<L>.DepthGeometry) -> ()
+    ) -> Double where T.Element == (proxy: LayoutSubview3D, geo: ViewGeometry) {
         assertUnimplemented()
     }
     

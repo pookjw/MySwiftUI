@@ -1,5 +1,5 @@
 // BEF4E4901B38F706548A7CBA9C5C4F4B
-private import MySwiftUICore
+@_spi(Internal) private import MySwiftUICore
 private import CoreGraphics
 internal import UIKit
 private import _UIKitPrivate

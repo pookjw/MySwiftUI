@@ -195,7 +195,7 @@ extension CoreViewRepresentable {
         assertUnimplemented()
     }
     
-    public func _unaryViewList<T : View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
+    nonisolated public static func _unaryViewList<T : View>(view: _GraphValue<T>, inputs: _ViewListInputs) -> _ViewListOutputs {
         assertUnimplemented()
     }
     
@@ -557,22 +557,24 @@ extension CoreViewRepresentableFeature {
         assertUnimplemented()
     }
     
-    func modifyViewInputs<Representable : CoreViewRepresentable>(
-        inputs: inout _ViewInputs,
-        proxy: CoreViewRepresentableFeatureProxy<Representable>
-    ) {
+    func modifyViewInputs(inputs: inout _ViewInputs) {
         assertUnimplemented()
     }
     
-    func modifyBridgedInputs<Representable : CoreViewRepresentable>(
-        inputs: inout _ViewInputs,
-        proxy: CoreViewRepresentableFeatureProxy<Representable>
-    ) {
+    func modifyBridgedInputs(inputs: inout _ViewInputs) {
         assertUnimplemented()
     }
 }
 
 @_spi(Internal) public struct CoreBaselineOffsetPair {
-    private var firstFromTop: CGFloat
-    private var lastFromBottom: CGFloat
+    @_spi(Internal) public var firstFromTop: CGFloat
+    @_spi(Internal) public var lastFromBottom: CGFloat
+    
+    @_spi(Internal) public init(firstFromTop: CGFloat, lastFromBottom: CGFloat) {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public static var zero: CoreBaselineOffsetPair {
+        assertUnimplemented()
+    }
 }

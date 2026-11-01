@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 public struct FocusedValues {
     var plist: PropertyList // 0x0

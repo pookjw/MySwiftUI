@@ -14,8 +14,16 @@ open class CoreGlue2 : NSObject {
         fatalError() // abstract
     }
     
+    open func setupPlatformProperties(_ view: AnyObject, kind: PlatformViewDefinition.ViewKind, platform: DisplayList.ViewUpdater.Platform) {
+        assertUnimplemented()
+    }
+    
     open func setSeparatedState(_ parameters: CoreGlue2.SetSeparatedStateParameters) {
         fatalError() // abstract
+    }
+    
+    open func setSeparatedState(_ state: SeparatedState, for view: AnyObject, identity: _DisplayList_Identity, reason: DisplayList.ViewUpdater.Platform.SeparationReason, platform: DisplayList.ViewUpdater.Platform) {
+        assertUnimplemented()
     }
 }
 
