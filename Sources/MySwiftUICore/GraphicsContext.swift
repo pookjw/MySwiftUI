@@ -995,10 +995,66 @@ extension GraphicsContext.Shading {
 
 extension RBShape {
     fileprivate func setPath(_ path: Path, style: FillStyle, shapeDistance: CGFloat) {
-        assertUnimplemented()
+        switch path.storage {
+        case .empty:
+            // <+392>
+            self.setEmpty()
+        case .rect(let rect):
+            // <+224>
+            self.setRect(rect)
+        case .ellipse(let rect):
+            // <+76>
+            self.setEllipseIn(rect)
+        case .roundedRect(let roundedRect):
+            // <+252>
+            let d9 = roundedRect.rect.origin.x
+            let d10 = roundedRect.rect.origin.y
+            let d11 = roundedRect.rect.size.width
+            let d12 = roundedRect.rect.size.height
+            let d13 = roundedRect.cornerSize.width
+            let d14 = roundedRect.cornerSize.height
+            var d0 = abs(roundedRect.rect.width)
+            var d1: CGFloat = 0.5
+            let d15 = d0 * d1
+            d0 = abs(roundedRect.rect.height)
+            d1 = 0.5
+            d0 = d0 * d1
+            d0 = (d0 < d15) ? d0 : d15
+            let d4 = (d0 < d13) ? d0 : d13
+            let d5 = (d0 < d14) ? d0 : d14
+            let cornerStyle: RBPathRoundedCornerStyle = (roundedRect.style == .circular) ? .circular : .continuous
+            
+            self.setRoundedRect(
+                CGRect(x: d9, y: d10, width: d11, height: d12),
+                cornerSize: CGSize(width: d4, height: d5),
+                cornerStyle: cornerStyle
+            )
+        case .stroked, .trimmed, .path:
+            // <+136>
+            let rbPath = unsafe path.retainRBPath()
+            let transform = CGAffineTransform(1, 0, 0, 1, 0, 0)
+            unsafe self.setRBPath(rbPath, transform: transform)
+            self.eoFill = style.isEOFilled
+            unsafe rbPath.release()
+        }
+        
+        // <+400>
+        self.setRenderingMode(
+            style: style,
+            shapeDistance: shapeDistance
+        )
     }
     
     fileprivate func setStrokedPath(_: Path, style: StrokeStyle) {
         assertUnimplemented()
     }
+    
+    fileprivate func setRenderingMode(style: FillStyle, shapeDistance: CGFloat) {
+        if shapeDistance.isNaN {
+            self.renderingMode = style.isAntialiased ? .unknown0 : .unknown1
+        } else {
+            self.renderingMode = (shapeDistance >= 0) ? .unknown2 : .unknown3
+            self.renderingModeArgument = abs(shapeDistance)
+        }
+    } 
 }
