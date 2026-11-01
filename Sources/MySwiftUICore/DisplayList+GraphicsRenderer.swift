@@ -1,26 +1,35 @@
 // EFAEDE41CB8C85EF3A6A18DC05438A3C
-
 private import CoreGraphics
 internal import QuartzCore
+private import RenderBox
 
 extension DisplayList {
     package final class GraphicsRenderer {
-        private var oldCache: DisplayList.GraphicsRenderer.Cache
-        private var newCache: DisplayList.GraphicsRenderer.Cache
-        private var index: DisplayList.Index
-        private var time: Time
-        private var nextTime: Time
-        var stableIDs: _DisplayList_StableIdentityMap?
-        private var inTransitionGroup: Bool
-        private var stateHashes: [StrongHash]
-        var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode
+        private var oldCache: DisplayList.GraphicsRenderer.Cache // 0x10
+        private var newCache: DisplayList.GraphicsRenderer.Cache // 0x20
+        private var index: DisplayList.Index // 0x30
+        private var time: Time // 0x48
+        private var nextTime: Time // 0x50
+        var stableIDs: _DisplayList_StableIdentityMap? // 0x58
+        private var inTransitionGroup: Bool // 0x60
+        private var stateHashes: [StrongHash] // 0x68
+        var platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode // 0x70
+        private var placeholderUserInfo: [CodingUserInfoKey: Any]? // 0x78
+        private var rbEncoderSet: RBEncoderSet? // 0x80
         
         init(platformViewMode: DisplayList.GraphicsRenderer.PlatformViewMode) {
-            assertUnimplemented()
-        }
-        
-        var placeholderUserInfo: [CodingUserInfoKey: Any]? {
-            assertUnimplemented()
+            self.oldCache = DisplayList.GraphicsRenderer.Cache(callbacks: [:], animators: [:])
+            self.newCache = DisplayList.GraphicsRenderer.Cache(callbacks: [:], animators: [:])
+            self.index = DisplayList.Index()
+            self.time = Time.zero
+            self.nextTime = Time.infinity
+            self.stableIDs = nil
+            self.inTransitionGroup = false
+            self.stateHashes = []
+            self.placeholderUserInfo = nil
+            self.rbEncoderSet = nil
+            self.platformViewMode = platformViewMode
+            self.index.enter(identity: _DisplayList_Identity())
         }
         
         func render(at time: Time, do body: () -> ()) {
@@ -60,8 +69,8 @@ extension DisplayList.GraphicsRenderer {
     }
     
     fileprivate struct Cache {
-//        private var callbacks: [DisplayList.GraphicsRenderer.Cache.CallbackKey: Void /* TODO */]
-        private var animators: [DisplayList.GraphicsRenderer.Cache.AnimatorKey: any _DisplayList_AnyEffectAnimator]
+        private(set) var callbacks: [DisplayList.GraphicsRenderer.Cache.CallbackKey: any RBDisplayListContents]
+        private(set) var animators: [DisplayList.GraphicsRenderer.Cache.AnimatorKey: any _DisplayList_AnyEffectAnimator]
     }
 }
 

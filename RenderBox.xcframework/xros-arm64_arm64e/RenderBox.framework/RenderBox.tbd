@@ -30,6 +30,7 @@ exports:
     RBShape,
     RBFill,
     RBDisplayListPredicate,
-    RBDisplayListTransform ]
+    RBDisplayListTransform,
+    RBEncoderSet ]
     objc-ivars:           [  ]
 ...
