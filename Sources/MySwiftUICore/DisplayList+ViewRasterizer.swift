@@ -6,7 +6,7 @@ extension DisplayList {
     fileprivate final class ViewRasterizer : ViewRendererBase {
         let rootPlatform: DisplayList.ViewUpdater.Platform // 0x10
         private weak var host: ViewRendererHost? // 0x18
-        private var drawingView: AnyObject? // 0x20
+        fileprivate var drawingView: AnyObject? // 0x20
         var options: _RendererConfiguration.RasterizationOptions // 0x30
         private let renderer: DisplayList.GraphicsRenderer // 0x48
         private var seed = DisplayList.Seed() // 0x50
@@ -75,7 +75,11 @@ extension DisplayList {
 extension DisplayList {
     package final class ViewRenderer : @unchecked Sendable {
         let platform: DisplayList.ViewUpdater.Platform
-        private(set) var configuration = _RendererConfiguration(renderer: .default)
+        var configuration = _RendererConfiguration(renderer: .default) {
+            didSet {
+                configChanged = true
+            }
+        }
         package weak var host: ViewRendererHost? = nil
         private var state: DisplayList.ViewRenderer.State = .none
         private(set) var renderer: ViewRendererBase? = nil
@@ -97,6 +101,10 @@ extension DisplayList {
             let d8 = time.seconds
             let d9 = nextTime.seconds
             let renderer = updateRenderer(rootView: rootView)
+            var environment = environment
+            if let contentsScale = configuration.contentsScale {
+                environment.contentsScale = contentsScale
+            }
             var d0 = renderer.render(rootView: rootView, from: displayList, time: time, version: version, maxVersion: maxVersion, environment: environment).seconds
             
             d0 = (d9 < d0) ? d9 : d0
@@ -168,15 +176,18 @@ extension DisplayList {
                 case .default:
                     // <+940>
                     self.renderer = DisplayList.ViewUpdater(rootPlatform: platform, host: host)
+                    self.state = .updating
                     return self.renderer!
                 case .rasterized(let options):
                     // <+420>
                     // x23
-                    let renderer = DisplayList.ViewRasterizer(rootPlatform: platform, host: host, drawingView: rootView, rasterizationOptions: options)
+                    let renderer = DisplayList.ViewRasterizer(rootPlatform: platform, host: host, drawingView: nil, rasterizationOptions: options)
                     
                     // <+668>
                     let rasterizationOptions = RasterizationOptions(options)
-                    platform.addDrawingView(rootView: rootView, options: PlatformDrawableOptions(base: rasterizationOptions))
+                    let drawingView = platform.makeDrawingView(options: PlatformDrawableOptions(base: rasterizationOptions))
+                    renderer.drawingView = drawingView
+                    platform.addDrawingView(drawingView, to: rootView)
                     
                     // <+860>
                     self.renderer = renderer

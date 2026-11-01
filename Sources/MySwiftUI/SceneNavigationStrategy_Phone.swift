@@ -19,7 +19,9 @@ struct SceneNavigationStrategy_Phone {
             return nil
         }
         
-        let sceneList = appGraph.sceneList(namespace: namespace)
+        let sceneList = Update.ensure {
+            appGraph.sceneList(namespace: namespace)
+        }
         return `do`(sceneList)
     }
     

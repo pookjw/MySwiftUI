@@ -288,8 +288,36 @@ internal import CoreGraphics
         }
     }
     
+    package func setContainerShape(_ shape: UnevenRoundedRectangle) {
+        assertUnimplemented()
+    }
+    
+    package func invalidateRootContainerShape() {
+        assertUnimplemented()
+    }
+    
     func setRootView<T : View>(_ rootView: T) {
         self.viewGraph.setRootView(rootView)
+    }
+    
+    package func updateRootValues(transaction: Transaction) {
+        assertUnimplemented()
+    }
+    
+    package func preferenceValue<T : HostPreferenceKey>(_ type: T.Type) -> T.Value {
+        assertUnimplemented()
+    }
+    
+    package func addPreference<T : HostPreferenceKey>(_ type: T.Type) {
+        assertUnimplemented()
+    }
+    
+    package func convertAnchor<T>(_ anchor: Anchor<T>) -> T {
+        assertUnimplemented()
+    }
+    
+    package func rootContentPath(kind: ContentShapeKinds) -> Path {
+        assertUnimplemented()
     }
     
     package var environment: EnvironmentValues {

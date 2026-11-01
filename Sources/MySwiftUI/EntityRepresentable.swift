@@ -296,6 +296,7 @@ extension GestureProxy {
         self.hostingComponent = hostingComponent
         self.links = links
         self.coordinator = coordinator
+        self.entityHost = entityHost
         self.resetSeed = resetSeed
     }
     
@@ -421,7 +422,7 @@ extension GestureProxy {
                     
                     if (entity.parent != nil) || (entity.scene != nil) {
                         // <+444>
-                        unsafe os_log(.fault, log: .runtimeIssuesLog, "Entity%s returned from %s.makeEntity(context:) was already parented to another entity. This is not supported and may lead to unexpected behavior. SwiftUI adds entities to internally-managed entity hierarchies.", entity.name, _typeName(T.self, qualified: false))
+                        unsafe os_log(.fault, log: .runtimeIssuesLog, "Entity%s returned from %s.makeEntity(context:) was already parented to another entity. This is not supported and may lead to unexpected behavior. SwiftUI adds entities to internally-managed entity hierarchies.", entity.name.isEmpty ? "" : " '\(entity.name)'", _typeName(T.self, qualified: false))
                     }
                     
                     // <+920>
@@ -669,7 +670,7 @@ final class EntityHost<T : EntityRepresentable> : RealityKit::Entity {
                     // <+2688>
                 }
                 
-                style2 = newStyle
+                style2 = .manipulation
                 // <+2688>
             } else {
                 // <+2536>

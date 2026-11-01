@@ -526,11 +526,11 @@ open class UIHostingController<Content : View>: UIViewController {
             return nil
         }
         
-        if let result = self.children.first?.childForStatusBarStyle {
+        if let result = self.children.last?.childForStatusBarStyle {
             return result
         }
         
-        if let result = self.children.first {
+        if let result = self.children.last {
             return result
         }
         
@@ -559,13 +559,16 @@ open class UIHostingController<Content : View>: UIViewController {
     final var _childForHomeIndicatorAutoHidden: UIViewController? {
         guard
             self._persistentSystemOverlays == .automatic,
-            self.shouldDeferPersistentSystemOverlaysToChildViewController,
-            let index = self.children.firstIndex(where: { $0.childForHomeIndicatorAutoHidden != nil })
+            self.shouldDeferPersistentSystemOverlaysToChildViewController
         else {
             return nil
         }
         
-        return self.children[index]
+        if let index = self.children.lastIndex(where: { $0.childForHomeIndicatorAutoHidden != nil }) {
+            return self.children[index]
+        }
+
+        return self.children.last
     }
     
     final var disallowAnimations: Bool {
@@ -811,13 +814,16 @@ open class UIHostingController<Content : View>: UIViewController {
     final var _childForScreenEdgesDeferringSystemGestures: UIViewController? {
         guard
             deferredEdges == nil,
-            shouldDeferScreenEdgesSystemGestureToChildViewController,
-            let index = self.children.firstIndex(where: { $0.childForScreenEdgesDeferringSystemGestures != nil })
+            shouldDeferScreenEdgesSystemGestureToChildViewController
         else {
             return nil
         }
         
-        return self.children[index]
+        if let index = self.children.lastIndex(where: { $0.childForScreenEdgesDeferringSystemGestures != nil }) {
+            return self.children[index]
+        }
+
+        return self.children.last
     }
     
     final var _preferredScreenEdgesDeferringSystemGestures: UIRectEdge {

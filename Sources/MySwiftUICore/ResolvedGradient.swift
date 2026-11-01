@@ -5,6 +5,12 @@ package struct ResolvedGradient : Sendable {
     private(set) var colorSpace: ResolvedGradient.ColorSpace
     private var headroom: Float?
     
+    package init(stops: [ResolvedGradient.Stop] = [], colorSpace: ResolvedGradient.ColorSpace = .default, headroom: Float?) {
+        self.stops = stops
+        self.colorSpace = colorSpace
+        self.headroom = headroom
+    }
+    
     var constantColor: Color.ResolvedHDR? {
         assertUnimplemented()
     }
@@ -22,16 +28,22 @@ extension ResolvedGradient : Animatable {
 }
 
 extension ResolvedGradient {
-    struct Stop : Sendable {
+    package struct Stop : Sendable {
         private var color: Color.Resolved
         private var location: CGFloat
         //        var interpolation: BezierTimingFunction<Float>?        
     }
     
-    enum ColorSpace : Sendable {
+    package enum ColorSpace : UInt8, Sendable {
         case device
         case linear
         case perceptual
+        
+        static let `default`: ResolvedGradient.ColorSpace = isLinkedOnOrAfter(.v4) ? .perceptual : .device
+        
+        func mix(_ color1: Color.Resolved, _ color2: Color.Resolved, by progress: Float) -> Color.Resolved {
+            assertUnimplemented()
+        }
         
         func convertIn(_ resolved: Color.Resolved) -> ResolvedGradient.ColorSpace.InterpolatableColor {
             var v0 = resolved.linearRed
@@ -472,7 +484,7 @@ extension ResolvedGradient {
 }
 
 extension ResolvedGradient.ColorSpace {
-    struct InterpolatableColor : Sendable {
+    struct InterpolatableColor : Sendable, Equatable {
         var r: Float
         var g: Float
         var b: Float

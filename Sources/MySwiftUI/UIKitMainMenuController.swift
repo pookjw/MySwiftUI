@@ -295,11 +295,11 @@ final class UIKitMainMenuController : UIResponder {
                         identifier: UIMenu.Identifier(rawValue: "com.apple.swiftui.synthesized.textEditing"),
                         options: [.displayInline],
                         preferredElementSize: .automatic,
-                        children: Array(elements[index..<indices.endIndex])
+                        children: Array(elements[index..<(index + 4)])
                     )
                     
                     var elements = elements
-                    elements.replaceSubrange(index..<indices.endIndex, with: [menu])
+                    elements.replaceSubrange(index..<(index + 4), with: [menu])
                     return elements
                 }
                 

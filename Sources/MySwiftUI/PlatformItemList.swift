@@ -283,7 +283,7 @@ extension _ViewInputs {
             switch editOperation {
             case .unknown0:
                 // <+460>
-                self[PlatformItemListFlagsInput.self] = []
+                self[PlatformItemListFlagsInput.self] = T.flags
             case .unknown1:
                 // <+520>
                 self[PlatformItemListFlagsInput.self].formUnion(T.flags)

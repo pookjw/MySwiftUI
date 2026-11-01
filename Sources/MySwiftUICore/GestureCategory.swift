@@ -1,13 +1,12 @@
-
-package struct GestureCategory : RawRepresentable {
+@_spi(Internal) public struct GestureCategory : RawRepresentable {
     package static var drag: GestureCategory { return GestureCategory(rawValue: 1 << 2) }
     package static var select: GestureCategory { return GestureCategory(rawValue: 1 << 3) }
     package static var longPress: GestureCategory { return GestureCategory(rawValue: 1 << 4) }
     package static var windowDrag: GestureCategory { return GestureCategory(rawValue: 1 << 5) }
     
-    package let rawValue: Int
+    @_spi(Internal) public let rawValue: Int
     
-    package init(rawValue: Int) {
+    @_spi(Internal) public init(rawValue: Int) {
         self.rawValue = rawValue
     }
 }

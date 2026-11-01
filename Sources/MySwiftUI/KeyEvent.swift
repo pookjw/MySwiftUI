@@ -1,9 +1,9 @@
 @_spi(Internal) private import MySwiftUICore
 
 struct KeyEvent {
-    private var phase: EventPhase
-    private var timestamp: Time
-    private var binding: EventBinding?
+    private(set) var phase: EventPhase
+    private(set) var timestamp: Time
+    var binding: EventBinding?
     private var modifiers: EventModifiers
     private var keys: String
     private var stringValue: String

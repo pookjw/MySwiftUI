@@ -36,7 +36,7 @@ extension PreferencesOutputs {
             keyRequested: false,
             wasEmpty: false,
             delta: 0,
-            nodeId: HostPreferencesKey.makeNoteId()
+            nodeId: HostPreferencesKey.makeNodeId()
         )
         
         self[HostPreferencesKey.self] = Attribute(rule)

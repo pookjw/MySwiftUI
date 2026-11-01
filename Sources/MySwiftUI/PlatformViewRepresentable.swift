@@ -195,8 +195,8 @@ struct PlatformViewRepresentableFeature : @preconcurrency CoreViewRepresentableF
             // <+632>
             // x28
             let focusedValues: (FocusedValues, Bool)
-            if let _focusedValues = self.focusedValues {
-                focusedValues = (_focusedValues, true)
+            if let changedValues = self.$focusedValues?.changedValue(options: []) {
+                focusedValues = (changedValues.value, changedValues.changed)
             } else {
                 focusedValues = (
                     FocusedValues(
@@ -453,10 +453,10 @@ extension UIKitPlatformViewHost {
                     return nil
                 }
                 
-                if (_view.subviews.count != 1) || _view.subviews.isEmpty {
+                if _view.subviews.count != 1 {
                     view = nil
                 } else {
-                    view = _view.subviews[0]
+                    view = _view.subviews.first
                 }
                 
                 return _view
@@ -567,16 +567,16 @@ extension UIView {
     fileprivate var _separatedThickness: CGFloat {
         guard
             let value = self.layer[SeparatedOptions.SeparatedThickness.self],
-            !(value <= 0)
+            value > 0
         else {
             return 0
         }
         
-        guard !(self.traitCollection.displayScale <= 0) else {
+        guard self.traitCollection.displayScale > 0 else {
             return 0
         }
         
-        return max(1.0 / traitCollection.displayScale, value)
+        return max(value, 1.0 / traitCollection.displayScale)
     }
 }
 

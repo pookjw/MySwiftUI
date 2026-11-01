@@ -117,7 +117,7 @@ fileprivate struct LeafDisplayList<Content : RendererLeafView>: CustomStringConv
         // x28
         let version = DisplayList.Version(forUpdate: ())
         
-        if flags == .changed {
+        if flags.contains(.changed) {
             self.contentSeed = DisplayList.Seed(version)
         }
         

@@ -1,10 +1,23 @@
-
-package struct EventID : Hashable {
+@_spi(Internal) public struct EventID : Hashable {
+    @_spi(Internal) public static func == (lhs: borrowing EventID, rhs: borrowing EventID) -> Bool {
+        assertUnimplemented()
+    }
     
+    private var type: Any.Type
+    private var serial: Int
+    
+    init(type: Any.Type, serial: Int) {
+        self.type = type
+        self.serial = serial
+    }
+    
+    @_spi(Internal) public func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
 }
 
 extension EventID : CustomStringConvertible {
-    package var description: String {
+    @_spi(Internal) public var description: String {
         assertUnimplemented()
     }
 }

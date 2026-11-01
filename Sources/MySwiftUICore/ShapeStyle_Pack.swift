@@ -16,6 +16,30 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
         self.styles = []
     }
     
+    static func style(_ style: _ShapeStyle_Pack.Style, name: _ShapeStyle_Name, level: Int = 0) -> _ShapeStyle_Pack {
+        assertUnimplemented()
+    }
+    
+    static func fill(_ fill: _ShapeStyle_Pack.Fill, name: _ShapeStyle_Name, level: Int = 0) -> _ShapeStyle_Pack {
+        assertUnimplemented()
+    }
+    
+    subscript(_ name: String) -> Color.ResolvedHDR? {
+        assertUnimplemented()
+    }
+    
+    func isClear(name: _ShapeStyle_Name) -> Bool {
+        assertUnimplemented()
+    }
+    
+    mutating func modify(name: _ShapeStyle_Name, levels: Range<Int>, _ body: (inout _ShapeStyle_Pack.Style) -> Void) {
+        assertUnimplemented()
+    }
+    
+    mutating func adjustLevelIndices(of name: _ShapeStyle_Name, by level: Int) {
+        assertUnimplemented()
+    }
+    
     subscript(name: _ShapeStyle_Name, index: Int) -> _ShapeStyle_Pack.Style {
         get {
             let key = _ShapeStyle_Pack.Key(name, index)
@@ -203,6 +227,14 @@ extension _ShapeStyle_Pack {
             assertUnimplemented()
         }
         
+        mutating func applyBlend(_ blend: GraphicsBlendMode) {
+            assertUnimplemented()
+        }
+        
+        var blend: GraphicsBlendMode {
+            assertUnimplemented()
+        }
+        
         func applyingOpacity(_ opacity: Float) -> _ShapeStyle_Pack.Style {
             assertUnimplemented()
         }
@@ -272,6 +304,10 @@ extension _ShapeStyle_Pack {
         private(set) var kind: _ShapeStyle_Pack.Effect.Kind // 0x0
         var opacity: Float // 0x38
         private(set) var _blend: GraphicsBlendMode? // 0x40
+        
+        var blend: GraphicsBlendMode {
+            assertUnimplemented()
+        }
         
         var animatableData: AnimatablePair<Float, _ShapeStyle_Pack.Effect.Kind.AnimatableData> {
             get {

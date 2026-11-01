@@ -22,7 +22,7 @@ extension BodyAccessor {
          fields = x26
          Self = x23
          */
-        precondition(Self.Body.self != Never.self, "\(type(of: self)) may not have Body == Never")
+        precondition(Self.Body.self != Never.self, "\(Self.Container.self) may not have Body == Never")
         
         return unsafe withUnsafeMutablePointer(to: &inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
             let flags: any RuleThreadFlags.Type

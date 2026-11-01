@@ -1,6 +1,9 @@
 
 protocol Paint : ShapeStyle {
-    associatedtype ResolvedPaintType
+    associatedtype ResolvedPaintType : ResolvedPaint
+    
+    func resolvePaint(in environment: EnvironmentValues) -> ResolvedPaintType
+    func fallbackColor(in environment: EnvironmentValues) -> Color?
 }
 
 extension Paint {

@@ -37,18 +37,18 @@ extension EventGraphHost {
     }
 }
 
-package protocol EventBindingManagerDelegate : AnyObject {
+@_spi(Internal) public protocol EventBindingManagerDelegate : AnyObject {
     func didBind(to event: EventBinding, id eventID: EventID)
     func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager)
     func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager)
 }
 
 extension EventBindingManagerDelegate {
-    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
         assertUnimplemented()
     }
     
-    package func didBind(to event: EventBinding, id eventID: EventID) {
+    @_spi(Internal) public func didBind(to event: EventBinding, id eventID: EventID) {
         assertUnimplemented()
     }
 }
@@ -57,12 +57,12 @@ package protocol ForwardedEventDispatcher {
     
 }
 
-package struct EventBinding {
+@_spi(Internal) public struct EventBinding {
     private var responder: ResponderNode
 }
 
 extension EventBinding : Equatable {
-    package static func == (lhs: EventBinding, rhs: EventBinding) -> Bool {
+    @_spi(Internal) public static func == (lhs: EventBinding, rhs: EventBinding) -> Bool {
         assertUnimplemented()
     }
 }

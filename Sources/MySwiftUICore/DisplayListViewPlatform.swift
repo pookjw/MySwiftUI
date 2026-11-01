@@ -15,8 +15,12 @@ extension DisplayList.ViewUpdater {
         
         // 원래 없음
         @inline(always)
-        func addDrawingView(rootView: AnyObject, options: PlatformDrawableOptions) {
-            let drawingView = encoding.definition.makeDrawingView(options: options)
+        func makeDrawingView(options: PlatformDrawableOptions) -> AnyObject {
+            return encoding.definition.makeDrawingView(options: options)
+        }
+
+        @inline(always)
+        func addDrawingView(_ drawingView: AnyObject, to rootView: AnyObject) {
             let system = encoding.viewSystem
             CoreViewAddSubview(system, rootView, system, drawingView, 0)
         }

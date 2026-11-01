@@ -28,7 +28,7 @@ extension PreferencesOutputs {
                 keyRequested: false,
                 wasEmpty: false,
                 delta: 0,
-                nodeId: HostPreferencesKey.makeNoteId()
+                nodeId: HostPreferencesKey.makeNodeId()
             )
             
             let writerAttribute = Attribute(writer)

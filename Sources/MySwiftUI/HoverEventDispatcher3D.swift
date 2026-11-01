@@ -1,4 +1,4 @@
-internal import MySwiftUICore
+@_spi(Internal) internal import MySwiftUICore
 
 struct HoverEventDispatcher3D : ForwardedEventDispatcher {
     private var eventBindings: [EventID : EventBinding] = [:]

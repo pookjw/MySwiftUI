@@ -193,7 +193,7 @@ extension Transaction {
             listeners.pending.append(weakListener)
             
             // <+660>
-            guard listeners.next == nil else {
+            guard listeners.next == nil || listeners.next == weakListener.time else {
                 return
             }
             
@@ -241,7 +241,7 @@ extension Transaction {
             listeners.pending.append(weakListener)
             
             // <+660>
-            guard listeners.next == nil else {
+            guard listeners.next == nil || listeners.next == weakListener.time else {
                 return
             }
             

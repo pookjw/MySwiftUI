@@ -199,19 +199,19 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
 }
 
 extension CAHostingLayer : EventGraphHost {
-    package func didBind(to event: EventBinding, id eventID: EventID) {
+    @_spi(Internal) public func didBind(to event: EventBinding, id eventID: EventID) {
         // noop
     }
     
-    package func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
         assertUnimplemented()
     }
     
-    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
         // noop
     }
     
-    package func isDescendant(of object: AnyObject) -> Bool {
+    @_spi(Internal) public func isDescendant(of object: AnyObject) -> Bool {
         return false
     }
 }

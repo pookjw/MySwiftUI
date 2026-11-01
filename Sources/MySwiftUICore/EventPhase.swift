@@ -1,4 +1,4 @@
-package enum EventPhase : Hashable {
+@_spi(Internal) public enum EventPhase : Hashable {
     case began
     case active
     case ended
@@ -6,7 +6,7 @@ package enum EventPhase : Hashable {
 }
 
 extension EventPhase {
-    package var isTerminal: Bool {
+    @_spi(Internal) public var isTerminal: Bool {
         switch self {
         case .ended, .failed:
             return true

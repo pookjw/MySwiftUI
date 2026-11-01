@@ -202,9 +202,7 @@ public struct _ViewModifier_Content<Modifier> : View where Modifier : ViewModifi
         _assertUnimplemented()
     }
     
-    public var body: some View {
-        bodyError()
-    }
+    public typealias Body = Never
 }
 
 extension ViewModifier {

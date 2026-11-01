@@ -1,8 +1,15 @@
-public struct BackdropEffect : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
+package struct BackdropEffect : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
     private var scale: Float
     private var color: Color.ResolvedHDR
     private var filters: [GraphicsFilter]
     private var captureOnly: Bool
+    
+    init(scale: Float = 1, color: Color.ResolvedHDR = .black, filters: [GraphicsFilter] = [], captureOnly: Bool = false) {
+        self.scale = scale
+        self.color = color
+        self.filters = filters
+        self.captureOnly = captureOnly
+    }
     
     package func encode(to encoder: inout ProtobufEncoder) throws {
         assertUnimplemented()
@@ -16,4 +23,8 @@ public struct BackdropEffect : Equatable, ProtobufEncodableMessage, ProtobufDeco
 enum BackdropGroupID {
     case index(DisplayList.Index.ID)
     case name(String)
+    
+    var string: String {
+        assertUnimplemented()
+    }
 }

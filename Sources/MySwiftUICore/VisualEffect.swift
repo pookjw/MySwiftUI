@@ -1,3 +1,5 @@
+public import AttributeGraph
+
 public protocol VisualEffect : Sendable, Animatable {
     static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs
     static func _makeTransform(effect: _GraphValue<Self>, inputs: _ViewInputs) -> _VisualEffectTransformOutputs
@@ -11,9 +13,18 @@ extension VisualEffect {
     package func combining<Effect>(_ effect: Effect) -> ModifiedContent<Self, Effect> where Effect : VisualEffect {
         assertUnimplemented()
     }
+    
+    public func concat<Effect>(_ effect: Effect) -> some View where Effect : VisualEffect {
+        assertUnimplemented()
+    }
 }
 
 public struct _VisualEffectTransformOutputs {
+    var transform: OptionalAttribute<ProjectionTransform>
+    
+    public init(transform: OptionalAttribute<ProjectionTransform>) {
+        self.transform = transform
+    }
 }
 
 extension _VisualEffectTransformOutputs : Sendable {

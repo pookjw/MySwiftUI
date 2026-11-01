@@ -81,6 +81,14 @@ package struct ContentSizedSceneFeature<GeometryMeasurer : ViewGraphGeometryMeas
     package func update(graph: ViewGraph) {
         assertUnimplemented()
     }
+    
+    func addObserver(for proposal: GeometryMeasurer.Proposal) {
+        assertUnimplemented()
+    }
+    
+    func stopObserving(proposal: GeometryMeasurer.Proposal) {
+        assertUnimplemented()
+    }
 }
 
 extension ContentSizedSceneFeature where GeometryMeasurer == SizeThatFitsMeasurer {

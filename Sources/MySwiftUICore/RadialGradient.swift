@@ -27,6 +27,14 @@ public import CoreGraphics
     
     public typealias Body = _ShapeView<Rectangle, RadialGradient>
     public typealias Resolved = Never
+    
+    func resolvePaint(in environment: EnvironmentValues) -> RadialGradient._Paint {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
 }
 
 extension RadialGradient {
@@ -40,6 +48,14 @@ extension RadialGradient {
         private(set) var startRadius: CGFloat
         private(set) var endRadius: CGFloat
         private(set) var allowedDynamicRange: Image.DynamicRange
+        
+        init(gradient: ResolvedGradient, center: UnitPoint, startRadius: CGFloat, endRadius: CGFloat, allowedDynamicRange: Image.DynamicRange) {
+            self.gradient = gradient
+            self.center = center
+            self.startRadius = startRadius
+            self.endRadius = endRadius
+            self.allowedDynamicRange = allowedDynamicRange
+        }
         
         var isClear: Bool {
             assertUnimplemented()

@@ -338,13 +338,14 @@ extension LocalizedStringKey {
             
             if options.contains(.includeAccessibility) {
                 // <+976>
+                let isUniqueSizeVariant = environmentValues.textSizeVariant == .regular
                 let args: [CVarArg] = arguments.map { arg in
                     // $s7SwiftUI18LocalizedStringKeyV7resolve4into2in7options5table6bundleyxz_AA17EnvironmentValuesVAA4TextV14ResolveOptionsVSSSgSo8NSBundleCSgtAA08ResolvedN9ContainerRzlFs7CVarArg_pAC14FormatArgumentVXEfU_
                     assertUnimplemented()
                 }
                 
                 let resolved = unsafe String(format: localized, locale: environmentValues.locale, arguments: args)
-                resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: false /* 확실하지 않음 */)
+                resolveArguments(from: resolved, into: &container, in: environmentValues, options: options, isUniqueSizeVariant: isUniqueSizeVariant)
             } else {
                 // <+1080>
                 container.append(localized, in: environmentValues, with: options)

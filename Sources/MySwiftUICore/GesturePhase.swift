@@ -1,5 +1,4 @@
-
-package enum GesturePhase<T> {
+@_spi(Internal) public enum GesturePhase<T> {
     case possible(T?)
     case active(T)
     case ended(T)

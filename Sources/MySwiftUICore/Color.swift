@@ -122,7 +122,15 @@ extension Color : EnvironmentalView {
 }
 
 extension Color : Paint {
-    typealias ResolvedPaintType = Never // TODO
+    typealias ResolvedPaintType = Color.Resolved
+    
+    func resolvePaint(in environment: EnvironmentValues) -> ResolvedPaintType {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
 }
 
 extension Color : Serializable {
@@ -737,6 +745,40 @@ extension Color {
 }
 
 extension Color.Resolved : BitwiseCopyable {}
+
+extension Color.Resolved : ResolvedPaint {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package var isClear: Bool {
+        assertUnimplemented()
+    }
+    
+    package var isOpaque: Bool {
+        assertUnimplemented()
+    }
+    
+    package var resolvedGradient: ResolvedGradient? {
+        assertUnimplemented()
+    }
+    
+    package var isCALayerCompatible: Bool {
+        assertUnimplemented()
+    }
+    
+    package var allowedDynamicRange: Image.DynamicRange {
+        assertUnimplemented()
+    }
+    
+    package var contentHeadroom: Float {
+        assertUnimplemented()
+    }
+    
+    package func encodePaint(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+}
 
 extension Color {
     @frozen public struct ResolvedHDR : Hashable, Sendable {

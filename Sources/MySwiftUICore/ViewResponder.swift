@@ -77,7 +77,7 @@ private import os.log
             let copy_3 = serverHitTest, // x29 - 0xd0
             let responderID = copy_3.responderID
         {
-            Log.events.log(level: .default, "Hit testing with a server responder ID (\(responderID) but no responder found")
+            Log.events.log(level: .default, "Hit testing with a server responder ID (\(responderID)) but no responder found")
         }
         
         // <+544>

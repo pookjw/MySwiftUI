@@ -691,6 +691,10 @@ struct TypedCanonicalViewID<T : Hashable> : Hashable {
         self.implicitID = implicitID
         self.explicitID = explicitID
     }
+    
+    func asCanonical() -> _ViewList_ID.Canonical {
+        assertUnimplemented()
+    }
 }
 
 struct HeterogeneousViewIDs {
@@ -741,10 +745,22 @@ struct HeterogeneousViewIDs {
 struct HeterogeneousIndexLookupTable {
     private let homogenousLookupTable: [ObjectIdentifier : HomogeneousLookupTable]
     private let count: Int
+    
+    init(_ collections: ContiguousArray<AbstractHomogeneousCollection>) {
+        assertUnimplemented()
+    }
+    
+    func index<T : Hashable>(for value: T) -> Int? {
+        assertUnimplemented()
+    }
 }
 
 struct HeterogeneousViewIDIndexLookupTable {
     private var lookupTable: HeterogeneousIndexLookupTable
+    
+    func index(for id: _ViewList_ID.Canonical) -> Int? {
+        assertUnimplemented()
+    }
 }
 
 fileprivate struct Nil : Hashable, ExpressibleByNilLiteral {

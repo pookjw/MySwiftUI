@@ -72,21 +72,23 @@ extension _RendererEffect {
                 let transform = Attribute(ResetPositionTransform(position: position, transform: copy_1.transform))
                 copy_2.transform = transform
                 
-                let _ = ViewGraph.current
+                let zeroPoint = ViewGraph.current.$zeroPoint
+                copy_2.position = zeroPoint
+                copy_2.containerPosition = zeroPoint
                 
                 let pixelLength: Attribute<CGFloat> = cachedEnvironment.value.attribute(id: .pixelLength) { environmentValues in
                     // $s7SwiftUI17CachedEnvironmentV17withAnimatedFrame33_B62A4B04AF9F1325924A089D63071424LL3for4bodyxAA11_ViewInputsV_xAC0fG0VzXEtlF12CoreGraphics7CGFloatVAA0D6ValuesVcfU_
                     assertUnimplemented()
                 }
                 
-                let size = Attribute(RoundedSize(position: position, size: copy_1.size, pixelLength: pixelLength))
+                let size = Attribute(RoundedSize(position: copy_1.position, size: copy_1.size, pixelLength: pixelLength))
                 copy_2.size = size
                 // <+868>
             } else {
                 // <+784>
                 copy_3 = copy_1
                 // sp + 0x1f4
-                let _ = cachedEnvironment.value.animatedPosition(for: copy_3)
+                copy_2.containerPosition = cachedEnvironment.value.animatedPosition(for: copy_3)
                 // <+868>
             }
         }
@@ -100,19 +102,21 @@ extension _RendererEffect {
         // sp + 0x68
         var outputs = body(_Graph(), copy_5)
        
-        do {
+        if hasDisplayList {
             // <+988>
             // sp + 0x18
             let inputOptions = copy_1.base.options
             // w22
-            let identity = _DisplayList_Identity()
+            let identity: _DisplayList_Identity
             // sp + 0x50
             let copy_6 = copy_1
             // x27
             let cachedEnvironment = copy_1.base.cachedEnvironment
             if copy_1.base.needsStableDisplayListIDs {
                // <+1712>
-                copy_6[_DisplayList_StableIdentityScope.self].attribute!.value.pushIdentity(identity: identity)
+                identity = copy_6[_DisplayList_StableIdentityScope.self].attribute!.value.pushIdentity()
+            } else {
+                identity = _DisplayList_Identity()
             }
             
             // sp + 0x90
@@ -141,7 +145,7 @@ extension _RendererEffect {
                     position: position,
                     size: size,
                     transform: copy_1.transform,
-                    containerPosition: copy_1.position,
+                    containerPosition: copy_1.containerPosition,
                     environment: cachedEnvironment.value.environment,
                     safeAreaInsets: copy_1.safeAreaInsets,
                     content: displayList,

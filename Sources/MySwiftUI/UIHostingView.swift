@@ -275,7 +275,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             return false
         }
         
-        return (navigationController.topViewController == self.viewController)
+        return (navigationController.topViewController === self.viewController)
     }
     
     final var safeAreaRegions: SafeAreaRegions {
@@ -2113,39 +2113,39 @@ extension _UIHostingView : @preconcurrency AccessibilityHost {
 }
 
 extension _UIHostingView : @preconcurrency EventGraphHost {
-    package func didBind(to event: EventBinding, id eventID: EventID) {
+    @_spi(Internal) public func didBind(to event: EventBinding, id eventID: EventID) {
         assertUnimplemented()
     }
     
-    package func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
         assertUnimplemented()
     }
     
-    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
         assertUnimplemented()
     }
     
-    package var focusedResponder: ResponderNode? {
+    @_spi(Internal) public var focusedResponder: ResponderNode? {
         assertUnimplemented()
     }
     
-    package var nextGestureUpdateTime: Time {
+    @_spi(Internal) public var nextGestureUpdateTime: Time {
         assertUnimplemented()
     }
     
-    package func sendEvents(_ events: [EventID : EventType], rootNode: ResponderNode, at time: Time) -> GesturePhase<Void> {
+    @_spi(Internal) public func sendEvents(_ events: [EventID : EventType], rootNode: ResponderNode, at time: Time) -> GesturePhase<Void> {
         assertUnimplemented()
     }
     
-    package func resetEvents() {
+    @_spi(Internal) public func resetEvents() {
         assertUnimplemented()
     }
     
-    package func gestureCategory() -> GestureCategory? {
+    @_spi(Internal) public func gestureCategory() -> GestureCategory? {
         assertUnimplemented()
     }
     
-    package func isDescendant(of object: AnyObject) -> Bool {
+    @_spi(Internal) public func isDescendant(of object: AnyObject) -> Bool {
         assertUnimplemented()
     }
 }

@@ -1,6 +1,4 @@
-
-@_spi(Internal)
-open class EventBindingBridge {
+@_spi(Internal) open class EventBindingBridge {
     public weak var eventBindingManager: EventBindingManager? = nil
 //    private var trackedEvents: [EventID: EventBindingBridge.TrackedEventState] = [:]
     
@@ -17,15 +15,15 @@ open class EventBindingBridge {
 }
 
 extension EventBindingBridge : EventBindingManagerDelegate {
-    package func didBind(to event: EventBinding, id eventID: EventID) {
+    @_spi(Internal) public func didBind(to event: EventBinding, id eventID: EventID) {
         assertUnimplemented()
     }
 
-    package func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(phase: GesturePhase<Void>, in manager: EventBindingManager) {
         assertUnimplemented()
     }
 
-    package func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
+    @_spi(Internal) public func didUpdate(gestureCategory: GestureCategory, in manager: EventBindingManager) {
         assertUnimplemented()
     }
 }

@@ -205,7 +205,7 @@ struct LayoutPositionQuery : Rule, AsyncAttribute {
     }
     
     var value: CGPoint {
-        return parentPosition + localPosition
+        return localPosition + parentPosition
     }
 }
 

@@ -11,7 +11,7 @@ package struct HostPreferencesKey : PreferenceKey {
         value.combine(with: nextValue())
     }
     
-    static func makeNoteId() -> UInt32 {
+    static func makeNodeId() -> UInt32 {
         HostPreferencesKey.nodeId &+= 1
         return HostPreferencesKey.nodeId
     }
@@ -187,6 +187,10 @@ extension PreferenceKey where Value : ExpressibleByNilLiteral {
 
 public struct _PreferenceValue<Key : PreferenceKey> {
     private var attribute: WeakAttribute<Key.Value>
+    
+    public var wrappedValue: Key.Value {
+        assertUnimplemented()
+    }
 }
 
 package protocol PreferenceKeyVisitor {
@@ -197,6 +201,10 @@ package protocol PreferenceKeyVisitor {
     @safe public nonisolated(unsafe) var transform: (_PreferenceValue<Key>) -> Content
     
     @inlinable public nonisolated init(transform: @escaping (_PreferenceValue<Key>) -> Content) {
+        self.transform = transform
+    }
+    
+    public init(key: Key.Type, transform: @escaping (_PreferenceValue<Key>) -> Content) {
         self.transform = transform
     }
     
@@ -215,7 +223,7 @@ extension _DelayedPreferenceView : UnaryView, PrimitiveView {
 extension _DelayedPreferenceView : Sendable {
 }
 
-package struct PreferenceValues {
+package struct PreferenceValues : CustomStringConvertible {
     static func combineHostKeyValues(into values: inout PreferenceValues, keys: PreferenceKeys, childIndices: Range<Int>, childAt: (Int) -> (PreferenceKeys, PreferenceValues)) {
         struct Child {
             let keys: PreferenceKeys // 0x0
@@ -224,7 +232,7 @@ package struct PreferenceValues {
             var to: Int // 0x18
         }
         
-        unsafe withUnsafeTemporaryAllocation(of: Child.self, capacity: childIndices.count) { pointer in
+        withUnsafeTemporaryAllocation(of: Child.self, capacity: childIndices.count) { pointer in
             // $s7SwiftUI16PreferenceValuesV014combineHostKeyD04into4keys12childIndices0J2AtyACz_AA0C4KeysVSnySiGAJ_ACtSiXEtFZySryAcdefgHyACz_AjkJ_ACtSiXEtFZ5ChildL_VGXEfU_03$s7a4UI23f30PreferencesCombinerV5valueAA16cd8VvgAA0G4M12V_AFtSiXEfU_SayAA0fqR0VALVGTf1nnnncnn_n
             /*
              pointer -> x0 -> x23
@@ -457,6 +465,26 @@ package struct PreferenceValues {
         return seed
     }
     
+    package var isEmpty: Bool {
+        assertUnimplemented()
+    }
+    
+    package func contains<T : PreferenceKey>(_ key: T.Type) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package func valueIfPresent<T : PreferenceKey>(for key: T.Type) -> Value<T.Value>? {
+        assertUnimplemented()
+    }
+    
+    package mutating func removeValue<T : PreferenceKey>(for key: T.Type) {
+        assertUnimplemented()
+    }
+    
+    package func mayNotBeEqual(to values: PreferenceValues) -> Bool {
+        assertUnimplemented()
+    }
+    
     package subscript<T : PreferenceKey>(_ key: T.Type) -> Value<T.Value> {
         get {
             if let value = index(of: key).map({ index -> Value<T.Value> in entries[index][] }) {
@@ -581,14 +609,19 @@ package struct PreferenceValues {
     }
     
     fileprivate func _index(of key: (any PreferenceKey.Type)) -> Int {
-        var i = 0
-        for entry in entries {
-            if ObjectIdentifier(entry.key) >= ObjectIdentifier(key) {
-                return i
+        var result = 0
+        var remaining = entries.count
+        while remaining > 0 {
+            let half = remaining / 2
+            let index = result + half
+            if Int(bitPattern: ObjectIdentifier(entries[index].key)) < Int(bitPattern: ObjectIdentifier(key)) {
+                result = index + 1
+                remaining -= half + 1
+            } else {
+                remaining = half
             }
-            i += 1
         }
-        return i
+        return result
     }
     
     fileprivate mutating func setValue<T>(_ value: PreferenceValues.Value<T>, of key: any PreferenceKey.Type, at index: Int) {
@@ -610,6 +643,12 @@ package struct PreferenceValues {
                 entries.remove(at: index)
             }
         }
+    }
+}
+
+extension PreferenceValues {
+    package var description: String {
+        assertUnimplemented()
     }
 }
 
