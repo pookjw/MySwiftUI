@@ -545,7 +545,7 @@ fileprivate struct CoreMaterialCache {
                 .filter(
                     .vibrantColorMatrix(
                         GraphicsFilter.VibrantColorMatrix(
-                            matrix: colorMatrix,
+                            colorMatrix,
                             maxColorComponent: .infinity,
                             options: []
                         )

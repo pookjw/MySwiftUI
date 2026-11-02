@@ -186,14 +186,12 @@ struct MRUICustomPreferencesKey : HostPreferenceKey {
     static func reduce(value: inout [AnyHashable: Any], nextValue: () -> [AnyHashable: Any]) {
         // value -> x0 -> x19
         // x20
-        var next = nextValue()
+        let next = nextValue()
         
-        next.merge(value) { _, _ in
+        value.merge(next) { _, _ in
             // $sxq_xq_Iegnnrr_x3key_q_5valuetx_q_tIegnr_SHRzr0_lTRs11AnyHashableV_ypTg5070$sSD5merge_16uniquingKeysWithySDyxq_Gn_q_q__q_tKXEtKFx_q_tx_q_tcfU_s11cD7V_ypTg5Tf3nnpf_n
             assertUnimplemented()
         }
-        
-        value = next
     }
     
     static var _includesRemovedValues: Bool {

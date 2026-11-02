@@ -288,7 +288,7 @@ extension ViewGraphRootValueUpdater {
     }
     
     @_spi(Internal) public func preferencesDidChange() {
-        assertUnimplemented()
+        // noop
     }
     
     @_spi(Internal) public nonisolated var isRendering: Bool {

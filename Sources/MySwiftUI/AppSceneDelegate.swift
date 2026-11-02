@@ -939,7 +939,18 @@ final class AppSceneDelegate : UIResponder, UIWindowSceneDelegate {
                                 styleString = "none"
                             }
                             
-                            Log.externalWarning("The initial immersion style defined in your app's Application Scene Manifest '\(styleString)' does not match the immersion style derived at runtime 'progressive. This may cause an inconsistency between your app's state and actual runtime behavior.")
+                            let runtimeStyleString: String
+                            if immsersionStyle == .mixed {
+                                runtimeStyleString = "mixed"
+                            } else if immsersionStyle == .progressive {
+                                runtimeStyleString = "progressive"
+                            } else if immsersionStyle == .full {
+                                runtimeStyleString = "full"
+                            } else {
+                                runtimeStyleString = "none"
+                            }
+                            
+                            Log.externalWarning("The initial immersion style defined in your app's Application Scene Manifest '\(styleString)' does not match the immersion style derived at runtime '\(runtimeStyleString)'. This may cause an inconsistency between your app's state and actual runtime behavior.")
                             // <+12584>
                         } else {
                             // <+12584>

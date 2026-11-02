@@ -1,3 +1,5 @@
+internal import Foundation
+
 package struct AccessibilityProperties {
     private var identifier: AccessibilityIdentifierStorage? // 0x0
     private var label: AccessibilityLabelStorage? // 0x18
@@ -16,11 +18,165 @@ package struct AccessibilityProperties {
         self.textLayoutProperties = nil
         self.storage = AccessibilityProperties.CustomPropertyStorage(storage: [:])
     }
+    
+    init(identifier: AccessibilityIdentifierStorage?, label: AccessibilityLabelStorage?, traits: AccessibilityNullableOptionSet<AccessibilityTraitSet>?, value: AccessibilityValueStorage?, visibility: AccessibilityNullableOptionSet<AccessibilityVisibility>?, textLayoutProperties: AccessibilityTextLayoutProperties?) {
+        assertUnimplemented()
+    }
+    
+    init(reserving capacity: Int = 0) {
+        assertUnimplemented()
+    }
+    
+    var isEmpty: Bool {
+        assertUnimplemented()
+    }
+    
+    subscript(_ trait: AccessibilityTrait) -> Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    subscript(_ trait: AccessibilityTrait, default defaultValue: Bool) -> Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    var inputLabels: [Text]? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var isTabButton: Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var isBackButton: Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var isTabBar: Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var excludeFromItemChooser: Bool? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var sortPriority: Double? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var roleDescription: Text? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var locale: Locale? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var hints: [Text] {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var images: [Image] {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
 }
 
 extension AccessibilityProperties {
-    struct CustomPropertyStorage {
+    struct CustomPropertyStorage : Equatable {
         fileprivate private(set) var storage: [ObjectIdentifier : any AnyAccessibilityPropertiesEntry]
+        
+        static func == (lhs: AccessibilityProperties.CustomPropertyStorage, rhs: AccessibilityProperties.CustomPropertyStorage) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -34,7 +190,7 @@ struct AccessibilityIdentifierStorage {
 }
 
 extension AccessibilityIdentifierStorage {
-    enum Placement {
+    enum Placement : Hashable {
         case assign
         case optional
         case suffix
@@ -47,7 +203,7 @@ struct AccessibilityLabelStorage {
 }
 
 extension AccessibilityLabelStorage {
-    enum Placement {
+    enum Placement : Hashable {
         case prefix
         case suffix
         case assign
@@ -61,7 +217,7 @@ struct AccessibilityValueStorage {
 }
 
 extension AccessibilityValueStorage {
-    enum Description {
+    enum Description : Equatable {
         case text([Text])
         case empty
     }
@@ -78,14 +234,32 @@ extension AccessibilityIdentifierStorage : Equatable {
     }
 }
 
+extension AccessibilityIdentifierStorage : AccessibilityCombinable {
+    func merge(with other: AccessibilityIdentifierStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
 extension AccessibilityLabelStorage : Equatable {
     static func == (lhs: AccessibilityLabelStorage, rhs: AccessibilityLabelStorage) -> Bool {
         assertUnimplemented()
     }
 }
 
+extension AccessibilityLabelStorage : AccessibilityCombinable {
+    func merge(with other: AccessibilityLabelStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
 extension AccessibilityValueStorage : Equatable {
     static func == (lhs: AccessibilityValueStorage, rhs: AccessibilityValueStorage) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityValueStorage : AccessibilityCombinable {
+    func merge(with other: AccessibilityValueStorage) -> Bool {
         assertUnimplemented()
     }
 }
@@ -98,12 +272,6 @@ extension AccessibilityTextLayoutProperties : Equatable {
 
 extension AccessibilityProperties : Equatable {
     package static func == (lhs: AccessibilityProperties, rhs: AccessibilityProperties) -> Bool {
-        assertUnimplemented()
-    }
-}
-
-extension AccessibilityProperties : AccessibilityCombinable {
-    package func merge(with other: AccessibilityProperties) -> Bool {
         assertUnimplemented()
     }
 }

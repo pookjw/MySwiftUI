@@ -35,12 +35,15 @@ exports:
     _RBDrawingStateClipShape,
     _RBDrawingStateBeginLayer,
     _RBDrawingStateDrawLayer,
-    _RBDrawingStateDestroy ]
+    _RBDrawingStateDestroy,
+    _RBColorFromLinear ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,
     RBDisplayListPredicate,
     RBDisplayListTransform,
-    RBEncoderSet ]
+    RBEncoderSet,
+    RBShader,
+    RBShaderLibrary ]
     objc-ivars:           [  ]
 ...

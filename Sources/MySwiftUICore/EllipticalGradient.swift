@@ -21,6 +21,14 @@ public import CoreGraphics
     
   public typealias Body = _ShapeView<Rectangle, EllipticalGradient>
   public typealias Resolved = Never
+    
+    func resolvePaint(in environment: EnvironmentValues) -> EllipticalGradient._Paint {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
 }
 
 extension EllipticalGradient {
@@ -59,6 +67,10 @@ extension EllipticalGradient {
             assertUnimplemented()
         }
         
+        func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+            assertUnimplemented()
+        }
+        
         init(from decoder: inout ProtobufDecoder) throws {
             assertUnimplemented()
         }
@@ -75,5 +87,38 @@ extension EllipticalGradient {
                 assertUnimplemented()
             }
         }
+    }
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+@frozen public struct _AnyEllipticalGradient : ShapeStyle {
+    @usableFromInline
+    internal var gradient: AnyGradient
+    @usableFromInline
+    internal var center: UnitPoint
+    @usableFromInline
+    internal var startRadiusFraction: CGFloat
+    @usableFromInline
+    internal var endRadiusFraction: CGFloat
+    
+    @inlinable internal init(gradient: AnyGradient, center: UnitPoint = .center, startRadiusFraction: CGFloat, endRadiusFraction: CGFloat) {
+        self.gradient = gradient
+        self.center = center
+        self.startRadiusFraction = startRadiusFraction
+        self.endRadiusFraction = endRadiusFraction
+    }
+    
+    public typealias Resolved = Never
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension ShapeStyle where Self == EllipticalGradient {
+    @_alwaysEmitIntoClient public static func ellipticalGradient(_ gradient: AnyGradient, center: UnitPoint = .center, startRadiusFraction: CGFloat = 0, endRadiusFraction: CGFloat = 0.5) -> some ShapeStyle {
+        return _AnyEllipticalGradient(
+            gradient: gradient,
+            center: center,
+            startRadiusFraction: startRadiusFraction,
+            endRadiusFraction: endRadiusFraction
+        )
     }
 }

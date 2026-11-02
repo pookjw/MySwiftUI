@@ -268,7 +268,6 @@ final class SceneBridge : CustomStringConvertible, ObservableObject {
                 info = _info
             } else {
                 info = UserActivityTrackingInfo(self, activityType: value.activityType)
-                self.userActivityTrackingInfo = info
             }
             
             // <+1304>

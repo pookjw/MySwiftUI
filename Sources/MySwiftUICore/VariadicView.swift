@@ -37,7 +37,7 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
         // sp + 0x1a0
         let _ = copy_1
         
-        copy_2[ViewListOptionsInput.self] = Root._viewListOptions
+        copy_2[ViewListOptionsInput.self] = Root.viewListOptions
         
         // <+188>
         // sp + 0xc8
@@ -58,7 +58,7 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
                 view: content,
                 inputs: _ViewListInputs(
                     inputs.base,
-                    options: _ViewListInputs.Options(rawValue: inputs[ViewListOptionsInput.self])
+                    options: inputs[ViewListOptionsInput.self]
                 )
             )
         }
@@ -71,7 +71,7 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
         // sp + 0x50
         var copy_1 = inputs
         // x20
-        let listOptions = Root._viewListOptions
+        let listOptions = Root.viewListOptions
         copy_1.base[ViewListOptionsInput.self] = listOptions
         
         // <+140>
@@ -83,7 +83,7 @@ extension _VariadicView.Tree : View where Root : _VariadicView_ViewRoot, Content
             // x29 - 0xc8
             var copy_1 = inputs
             let listOptions = inputs.base[ViewListOptionsInput.self]
-            copy_1.options.formUnion(_ViewListInputs.Options(rawValue: listOptions))
+            copy_1.options.formUnion(listOptions)
             
             let content = view[{ .of(&$0.content) }]
             return Content.makeDebuggableViewList(view: content, inputs: copy_1)
@@ -112,6 +112,10 @@ public protocol _VariadicView_Root {
 extension _VariadicView_Root {
     public static var _viewListOptions: Int {
         return 0
+    }
+    
+    static var viewListOptions: _ViewListInputs.Options {
+        assertUnimplemented()
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
@@ -213,7 +217,27 @@ extension _VariadicView_ViewRoot {
 public protocol _VariadicView_UnaryViewRoot : _VariadicView_ViewRoot {
 }
 
+extension _VariadicView_UnaryViewRoot {
+    nonisolated public static func _makeViewList(root: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
+}
+
 public protocol _VariadicView_MultiViewRoot : _VariadicView_ViewRoot {
+}
+
+extension _VariadicView_MultiViewRoot {
+    nonisolated public static func _makeView(root: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewListOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
+        assertUnimplemented()
+    }
 }
 
 public struct _VariadicView_Children : @unchecked Sendable {
@@ -221,7 +245,7 @@ public struct _VariadicView_Children : @unchecked Sendable {
     var contentSubgraph: Subgraph
     var transform: _ViewList_SublistTransform
     
-    init(_ list: ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform) {
+    init(_ list: ViewList, contentSubgraph: Subgraph, transform: _ViewList_SublistTransform = _ViewList_SublistTransform()) {
         self.list = list
         self.contentSubgraph = contentSubgraph
         self.transform = transform
@@ -410,7 +434,7 @@ fileprivate struct MakeViewRoot : _VariadicView_ImplicitRootVisitor {
         let copy_4 = inputs
         // sp + 0x160
         let _ = copy_2
-        copy_2[ViewListOptionsInput.self] = T._viewListOptions
+        copy_2[ViewListOptionsInput.self] = _ViewListInputs.Options(rawValue: T._viewListOptions)
         // sp + 0x7c
         let graphValue = _GraphValue<T>(attribute)
         
@@ -444,8 +468,8 @@ extension _ViewInputs {
 }
 
 struct ViewListOptionsInput : ViewInput {
-    static var defaultValue: Int {
-        return 0
+    static var defaultValue: _ViewListInputs.Options {
+        return []
     }
 }
 

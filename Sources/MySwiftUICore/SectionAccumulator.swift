@@ -538,7 +538,6 @@ extension SectionAccumulator {
             ]
         }
         
-        @inline(always) // 원래 없음
         init(chunks: [SectionAccumulator.RowIDs.Chunk]) {
             self.chunks = chunks
         }

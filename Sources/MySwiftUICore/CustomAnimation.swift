@@ -22,6 +22,22 @@ protocol InternalCustomAnimation : CustomAnimation {
     var function: Animation.Function { get }
 }
 
-protocol CustomAnimationModifier {
-    // TODO
+protocol CustomAnimationModifier : Hashable {
+    func animate<V, Base>(base: Base, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? where V : VectorArithmetic, Base : CustomAnimation
+    
+    func velocity<V, Base>(base: Base, value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic, Base : CustomAnimation
+    
+    func shouldMerge<V, Base>(base: Base, previous: Animation, previousBase: Base, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> Bool where V : VectorArithmetic, Base : CustomAnimation
+    
+    func function(base: Animation.Function) -> Animation.Function
+}
+
+extension CustomAnimationModifier {
+    func velocity<V, Base>(base: Base, value: V, time: TimeInterval, context: AnimationContext<V>) -> V? where V : VectorArithmetic, Base : CustomAnimation {
+        assertUnimplemented()
+    }
+    
+    func shouldMerge<V, Base>(base: Base, previous: Animation, previousBase: Base, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> Bool where V : VectorArithmetic, Base : CustomAnimation {
+        assertUnimplemented()
+    }
 }

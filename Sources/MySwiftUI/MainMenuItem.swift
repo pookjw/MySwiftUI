@@ -6,7 +6,7 @@ internal import Foundation
 final class MainMenuItemHost : @unchecked Sendable {
     let viewGraph: ViewGraph // 0x10
     var valuesNeedingUpdate = ViewGraphRootValues(rawValue: 0) // 0x18
-    var renderingPhase: ViewRenderingPhase = .rendering // 0x1a
+    var renderingPhase: ViewRenderingPhase = .none // 0x1a
     var currentTimestamp = Time() // 0x20
     var externalUpdateCount: Int = 0 // 0x28
     var mainMenuItem: MainMenuItem // 0x30
@@ -132,7 +132,7 @@ extension MainMenuItemHost {
                 modifier: PlatformItemListTransformModifier<AllPlatformItemListFlags>(
                     transform: { list in
                         // $s7SwiftUI16MainMenuItemHostC8RootViewV4bodyQrvgyAA08PlatformE4ListVzcfU_
-                        for group in itemContent.item.groups {
+                        for item in list.items {
                             assertUnimplemented()
                         }
                     }

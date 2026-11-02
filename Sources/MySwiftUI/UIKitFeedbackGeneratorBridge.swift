@@ -110,7 +110,7 @@ class UIKitFeedbackGeneratorBridge<Content : View> {
                         continue
                     }
 
-                    unsafe feedback.entityRef = unsafe entity.__coreEntity.__as(CoreRE::Entity.self)
+                    feedback.entityRef = entity.__coreEntity.__as(CoreRE::Entity.self)
                     feedback.play()
                 }
             }

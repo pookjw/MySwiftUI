@@ -320,7 +320,7 @@ extension ViewModifierContentProvider {
                     let listInputs = _ViewListInputs(
                         inputs.base,
                         implicitID: 0,
-                        options: _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
+                        options: copy_2[ViewListOptionsInput.self]
                     )
                     
                     return transform(_Graph(), listInputs)

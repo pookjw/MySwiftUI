@@ -32,7 +32,7 @@ extension Scene {
     nonisolated fileprivate static func makeBody(scene: _GraphValue<Self>, inputs: inout _GraphInputs, fields: DynamicPropertyCache.Fields) -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) {
         precondition(
             TypeID(Self.self).isValueType,
-            "apps must be value types; \(Self.self)"
+            "apps must be value types: \(_typeName(Self.self, qualified: false))"
         )
         
         let accessor = SceneBodyAccessor<Self>()
@@ -46,7 +46,7 @@ extension Never : Scene {}
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 extension Scene {
     func sceneBodyError() -> Never {
-        fatalError("body() should not be called on \(_typeName(type(of: self), qualified: false))")
+        fatalError("body() should not be called on \(_typeName(type(of: self), qualified: false)).")
     }
 }
 

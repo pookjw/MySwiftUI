@@ -29,6 +29,66 @@ struct HoverEffectState {
         assertUnimplemented()
     }
     
+    mutating func applyContent(_ content: DisplayList.Content) -> Bool {
+        assertUnimplemented()
+    }
+    
+    mutating func reset(hasRecursiveValues: inout Bool) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendContext(_ context: HoverEffectContext.Properties, identity: _DisplayList_Identity) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendOpacity(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, inactive: Float, active: Float, local: Float) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendTransform(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, inactive: CGAffineTransform, active: CGAffineTransform, local: CGAffineTransform) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendClipEffect(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, inactive: Path, active: Path, local: FixedRoundedRect?) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendResizeEffect(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, inactive: Path, active: Path, local: FixedRoundedRect?) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendResizeByEffect(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, insets: EdgeInsets?, isRecursive: Bool) {
+        assertUnimplemented()
+    }
+    
+    mutating func appendRemoteEffect(context: HoverEffectContext.Properties, identity: _DisplayList_Identity, descriptor: RemoteLeafEffectDescriptor) {
+        assertUnimplemented()
+    }
+    
+    fileprivate mutating func appendGroupIfNeeded(for group: HoverEffectContext.Group, block: (inout HoverEffectState) -> ()) {
+        assertUnimplemented()
+    }
+    
+    fileprivate mutating func appendNestedGroupsIfNeeded<Groups: Collection>(for groups: Groups, block: (inout HoverEffectState) -> ()) where Groups.Element == HoverEffectContext.Group {
+        assertUnimplemented()
+    }
+    
+    fileprivate mutating func updateLeafEffects(in state: HoverEffectContext.State, block: (inout HoverEffectLeafValues) -> ()) {
+        assertUnimplemented()
+    }
+    
+    fileprivate mutating func updateLeafEffects(in properties: HoverEffectContext.Properties, block: (inout HoverEffectLeafValues) -> ()) {
+        assertUnimplemented()
+    }
+    
+    fileprivate var containsClipEffects: Bool {
+        assertUnimplemented()
+    }
+    
+    fileprivate var containsResizeOrClipEffects: Bool {
+        assertUnimplemented()
+    }
+    
     // canMergeWithPlatformState에서 구현을 봐야함
     @inline(always) // 원래 없음
     func canMerge(with path: Path) -> Bool {

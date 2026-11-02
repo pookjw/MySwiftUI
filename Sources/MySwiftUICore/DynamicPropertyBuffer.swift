@@ -108,7 +108,7 @@ public struct _DynamicPropertyBuffer {
         contents.destroy()
     }
     
-    func getState<T>(type: T.Type) -> Binding<T>? {
+    func getState<T>(type: T.Type = T.self) -> Binding<T>? {
         for element in contents {
             if
                 let state = element

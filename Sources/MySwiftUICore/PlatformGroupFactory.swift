@@ -14,4 +14,22 @@ package protocol PlatformGroupFactory : AnyViewFactory {
     var features: DisplayList.Features {
         get
     }
+    
+    var groupHasContent: Bool {
+        get
+    }
+}
+
+extension PlatformGroupFactory {
+    package func renderPlatformGroup(_ displayList: DisplayList, in context: GraphicsContext, size: CGSize, renderer: DisplayList.GraphicsRenderer) {
+        assertUnimplemented()
+    }
+    
+    package var features: DisplayList.Features {
+        assertUnimplemented()
+    }
+    
+    package var groupHasContent: Bool {
+        assertUnimplemented()
+    }
 }

@@ -159,6 +159,16 @@ package struct LayoutComputer : @unchecked Sendable {
         return box.childPlacement(at: size)
     }
     
+    func childPlacement(at size: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        Update.assertIsLocked()
+        return box.childPlacement(at: size, placementContext: placementContext)
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        Update.assertIsLocked()
+        return box.ignoresAutomaticPadding()
+    }
+    
     func requiresSpacingProjection() -> Bool {
         Update.assertIsLocked()
         return box.requiresSpacingProjection()
@@ -701,6 +711,10 @@ extension StatefulRule where Value == LayoutComputer {
                 return engine
             }
         )
+    }
+    
+    package func updateIfNotEqual<Engine : LayoutEngine & Equatable>(to engine: Engine) {
+        assertUnimplemented()
     }
 }
 

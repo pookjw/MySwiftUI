@@ -72,20 +72,12 @@ struct FocusStoreList : Equatable, RangeReplaceableCollection {
         return items.index(after: i)
     }
     
-    var indices: [FocusStoreList.Item].Indices {
-        return items.indices
-    }
-    
     var startIndex: [FocusStoreList.Item].Index {
         return items.startIndex
     }
     
     var endIndex: [FocusStoreList.Item].Index {
         return items.endIndex
-    }
-    
-    func makeIterator() -> [FocusStoreList.Item].Iterator {
-        return items.makeIterator()
     }
     
     subscript(position: Int) -> FocusStoreList.Item {

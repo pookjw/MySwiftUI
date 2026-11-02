@@ -7,6 +7,14 @@ struct _ShapeSet {
 extension _ShapeSet {
     struct Tags : OptionSet {
         let rawValue: UInt
+        
+        static var all: Self {
+            assertUnimplemented()
+        }
+        
+        static var primaryTint: Self {
+            assertUnimplemented()
+        }
     }
     
     enum Operation {
@@ -29,6 +37,10 @@ extension _ShapeSet {
 extension _ShapeSet.Element {
     struct Options : OptionSet {
         let rawValue: UInt32
+        
+        static var ovalizeNonRoundedRects: Self {
+            assertUnimplemented()
+        }
     }
 }
 

@@ -68,6 +68,74 @@ extension _ColorMatrix {
         self.m44 = row4.3
         self.m45 = row4.4
     }
+    
+    init(_ matrix: ColorMatrix) {
+        assertUnimplemented()
+    }
+    
+    init(floatArray: [Float]) {
+        assertUnimplemented()
+    }
+    
+    var floatArray: [Float] {
+        assertUnimplemented()
+    }
+    
+    init(brightness: Double) {
+        assertUnimplemented()
+    }
+    
+    init(contrast: Double) {
+        assertUnimplemented()
+    }
+    
+    init(colorInvert: Float) {
+        assertUnimplemented()
+    }
+    
+    init(hueRotation: Angle) {
+        assertUnimplemented()
+    }
+    
+    init(colorMonochrome color: Color.Resolved, amount: Float = 1.0, bias: Float = 0.0) {
+        assertUnimplemented()
+    }
+    
+    init(colorMultiply color: Color.Resolved, premultiplied: Bool = false) {
+        assertUnimplemented()
+    }
+    
+    init(alphaMultiply color: Color.Resolved, premultiplied: Bool = false) {
+        assertUnimplemented()
+    }
+    
+    init(luminanceToAlpha: ()) {
+        assertUnimplemented()
+    }
+    
+    init?(_ filter: GraphicsFilter, premultiplied: Bool = false) {
+        assertUnimplemented()
+    }
+    
+    var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
+    
+    mutating func add(_ other: _ColorMatrix) {
+        assertUnimplemented()
+    }
+    
+    mutating func subtract(_ other: _ColorMatrix) {
+        assertUnimplemented()
+    }
+    
+    mutating func negate() {
+        assertUnimplemented()
+    }
+    
+    mutating func scale(by rhs: Double) {
+        assertUnimplemented()
+    }
 }
 
 extension _ColorMatrix : ShapeStyle {

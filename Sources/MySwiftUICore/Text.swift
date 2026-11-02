@@ -24,6 +24,18 @@ private import UIFoundation
                 storage.resolve(into: &container, in: environmentValues, with: options)
             }
         }
+        
+        func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func isStyled(options: Text.ResolveOptions) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func allowsTypesettingLanguage() -> Bool {
+            assertUnimplemented()
+        }
     }
     
     @usableFromInline
@@ -126,6 +138,58 @@ extension Text : View {
     public var body: Never {
         assertUnimplemented()
     }
+    
+    public func _resolveText(in environment: EnvironmentValues) -> String {
+        assertUnimplemented()
+    }
+}
+
+extension Text {
+    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+    public init<Subject>(_ subject: Subject, formatter: Formatter) where Subject : ReferenceConvertible {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+    public init<Subject>(_ subject: Subject, formatter: Formatter) where Subject : NSObject {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+    public init<F>(_ input: F.FormatInput, format: F) where F : FormatStyle, F.FormatInput : Equatable, F.FormatOutput == String {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, *)
+    public init<F>(_ input: F.FormatInput, format: F) where F : FormatStyle, F.FormatInput : Equatable, F.FormatOutput == AttributedString {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+    public init(_ image: Image) {
+        assertUnimplemented()
+    }
+    
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    public init(timerInterval: ClosedRange<Date>, pauseTime: Date? = nil, countsDown: Bool = true, showsHours: Bool = true) {
+        assertUnimplemented()
+    }
+    
+    package init(dateFormat: String, timeZone: TimeZone?) {
+        assertUnimplemented()
+    }
+    
+    package init(dateFormatTemplate: String, timeZone: TimeZone?) {
+        assertUnimplemented()
+    }
+    
+    package init(progressInterval: ClosedRange<Date>, countsDown: Bool = true) {
+        assertUnimplemented()
+    }
+    
+    package init(variants: [Text]) {
+        assertUnimplemented()
+    }
 }
 
 extension Text {
@@ -199,6 +263,14 @@ extension Text {
         mutating func append<T>(resolvable: T, in environment: EnvironmentValues, with options: Text.ResolveOptions, transition: ContentTransition?) where T : ResolvableStringAttribute {
             assertUnimplemented()
         }
+        
+        func finalized(in environment: EnvironmentValues) -> NSMutableAttributedString? {
+            assertUnimplemented()
+        }
+        
+        func nsAttributes(content: (() -> String)?, in environment: EnvironmentValues, with options: Text.ResolveOptions, properties: inout Text.ResolvedProperties) -> [NSAttributedString.Key : Any] {
+            assertUnimplemented()
+        }
     }
     
     struct ResolvedString : ResolvedTextContainer {
@@ -263,6 +335,10 @@ extension Text {
         public static let timer: Text.DateStyle = {
             assertUnimplemented()
         }()
+        
+        var units: NSCalendar.Unit {
+            assertUnimplemented()
+        }
     }
     
     public init(_ date: Date, style: Text.DateStyle) {
@@ -309,6 +385,12 @@ package class AnyTextStorage {
 }
 
 extension AnyTextStorage : @unchecked Sendable {
+}
+
+extension AnyTextStorage : CustomDebugStringConvertible {
+    @usableFromInline package var debugDescription: String {
+        assertUnimplemented()
+    }
 }
 
 package protocol ResolvedTextContainer {
@@ -359,9 +441,25 @@ extension Text {
         private var alignment: AttributedString.TextAlignment? = nil
         private var writingDirection: AttributedString.WritingDirection? = nil
         private var lineHeight: AttributedString.LineHeight? = nil
-        private var clearedFontModifiers: Set<ObjectIdentifier> = []
+        var clearedFontModifiers: Set<ObjectIdentifier> = []
         
         init() {}
+        
+        mutating func addFontModifier<T : StaticFontModifier>(type: T.Type) {
+            assertUnimplemented()
+        }
+        
+        mutating func removeFontModifier<T : StaticFontModifier>(ofType: T.Type) {
+            assertUnimplemented()
+        }
+        
+        func fontTraits(in environment: EnvironmentValues) -> Font.ResolvedTraits {
+            assertUnimplemented()
+        }
+        
+        func nsAttributes(content: (() -> String)?, environment: EnvironmentValues, includeDefaultAttributes: Bool, with options: Text.ResolveOptions, properties: inout Text.ResolvedProperties) -> [NSAttributedString.Key : Any] {
+            assertUnimplemented()
+        }
     }
     
     package struct ResolvedProperties {
@@ -397,6 +495,10 @@ extension Text.Style {
         case explicit(Font)
         case implicit
         case `default`
+        
+        func resolve(in environment: EnvironmentValues, includeDefaultAttributes: Bool) -> Font? {
+            assertUnimplemented()
+        }
     }
     
     enum TextStyleColor {
@@ -404,6 +506,10 @@ extension Text.Style {
         case foregroundKeyColor(base: AnyShapeStyle)
         case implicit
         case `default`
+        
+        func resolve(in environment: EnvironmentValues, with options: Text.ResolveOptions, properties: inout Text.ResolvedProperties, includeDefaultAttributes: Bool) -> Color.ResolvedHDR? {
+            assertUnimplemented()
+        }
     }
     
     enum LineStyle {

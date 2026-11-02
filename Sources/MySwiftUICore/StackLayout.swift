@@ -112,7 +112,10 @@ extension HVStack {
     }
     
     nonisolated public static var layoutProperties: LayoutProperties {
-        return LayoutProperties()
+        var properties = LayoutProperties()
+        properties.stackOrientation = majorAxis
+        properties.isIdentityUnaryLayout = true
+        return properties
     }
     
     nonisolated public func makeCache(subviews: LayoutSubviews) -> _StackLayoutCache {
@@ -244,7 +247,9 @@ struct StackLayout {
         )
         
         return withUnmanagedImplementation { unmanaged in
-            return unmanaged.explicitAlignment(key, at: size)
+            return unmanaged.explicitAlignment(key, at: size).map {
+                $0 + (key.axis == .horizontal ? bounds.origin.x : bounds.origin.y)
+            }
         }
     }
     
@@ -442,7 +447,12 @@ extension StackLayout {
                 // <+1920>
                 let rhsEstimate = _LayoutTraits.FlexibilityEstimate(minLength: rhsRangeMin, maxLength: rhsRangeMax)
                 let lhsEstimate = _LayoutTraits.FlexibilityEstimate(minLength: lhsRangeMin, maxLength: lhsRangeMax)
-                return lhsEstimate < rhsEstimate
+                if lhsEstimate < rhsEstimate {
+                    return true
+                } else if rhsEstimate < lhsEstimate {
+                    return false
+                }
+                return lhs < rhs
             }
             
             // <+2508>

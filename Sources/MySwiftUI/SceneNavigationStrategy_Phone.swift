@@ -6,6 +6,7 @@ private import os.log
 private import MRUIKit
 private import _UIKitPrivate
 private import Spatial
+private import _SwiftPrivate
 
 struct SceneNavigationStrategy_Phone {
     // $s7SwiftUI29SceneNavigationStrategy_PhoneV6shared_WZ
@@ -502,7 +503,14 @@ struct SceneNavigationStrategy_Phone {
                     continue
                 }
                 
-                return item
+                switch item.value {
+                case .immersiveSpace:
+                    return item
+                case .menuBarExtra:
+                    _diagnoseUnexpectedEnumCase(type: SceneList.Item.Value.self)
+                default:
+                    continue
+                }
             }
             
             return nil

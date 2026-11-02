@@ -1,9 +1,17 @@
-struct ShaderVectorData : VectorArithmetic {
+struct ShaderVectorData : VectorArithmetic, Equatable {
     static func + (lhs: ShaderVectorData, rhs: ShaderVectorData) -> ShaderVectorData {
         assertUnimplemented()
     }
     
     static func - (lhs: ShaderVectorData, rhs: ShaderVectorData) -> ShaderVectorData {
+        assertUnimplemented()
+    }
+    
+    static func += (lhs: inout ShaderVectorData, rhs: ShaderVectorData) {
+        assertUnimplemented()
+    }
+    
+    static func -= (lhs: inout ShaderVectorData, rhs: ShaderVectorData) {
         assertUnimplemented()
     }
     
@@ -23,12 +31,20 @@ struct ShaderVectorData : VectorArithmetic {
 }
 
 extension ShaderVectorData {
-    enum Element : VectorArithmetic {
+    enum Element : VectorArithmetic, Equatable {
         static func + (lhs: ShaderVectorData.Element, rhs: ShaderVectorData.Element) -> ShaderVectorData.Element {
             assertUnimplemented()
         }
         
         static func - (lhs: ShaderVectorData.Element, rhs: ShaderVectorData.Element) -> ShaderVectorData.Element {
+            assertUnimplemented()
+        }
+        
+        static func += (lhs: inout ShaderVectorData.Element, rhs: ShaderVectorData.Element) {
+            assertUnimplemented()
+        }
+        
+        static func -= (lhs: inout ShaderVectorData.Element, rhs: ShaderVectorData.Element) {
             assertUnimplemented()
         }
         

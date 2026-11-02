@@ -85,11 +85,10 @@ struct LayoutSubview3D : Equatable {
         let pointer = unsafe _threadLayoutData()!
             .assumingMemoryBound(to: PlacementData3D.self)
         
-        unsafe pointer.pointee.geometry[Int(self.base.index)] = geometry
-        
-        if !geometry.isInvalid {
+        if unsafe pointer.pointee.geometry[Int(self.base.index)].isInvalid {
             unsafe pointer.pointee.validCount &+= 1
         }
+        unsafe pointer.pointee.geometry[Int(self.base.index)] = geometry
     }
     
     func dimensions(in size: _ProposedSize3D) -> ViewDimensions3D {
@@ -339,12 +338,13 @@ struct ViewLayoutEngine3D<L : Layout3D>: DefaultAlignmentFunction3D, LayoutEngin
                             origin = d11
                         }
                         
+                        if unsafe pointer_2.pointee.geometry[i].isInvalid {
+                            unsafe pointer_2.pointee.validCount &+= 1
+                        }
                         unsafe pointer_2.pointee.geometry[i] = ViewDepthGeometry(
                             origin: origin,
                             dimensions: dimensions
                         )
-                        
-                        unsafe pointer_2.pointee.validCount &+= 1
                     }
                 }
                 

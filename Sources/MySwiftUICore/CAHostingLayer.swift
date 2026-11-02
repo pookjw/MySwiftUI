@@ -196,6 +196,26 @@ public class CAHostingLayer<Content> : CALayer where Content : View {
     fileprivate final func startDisplayLink(delay: Double) {
         assertUnimplemented()
     }
+    
+    func convertAnchor<T>(_ anchor: Anchor<T>) -> T {
+        assertUnimplemented()
+    }
+    
+    func send(event: CAHostingLayerEvent) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func observeSizeThatFitsChanges(proposal: ProposedViewSize, handler: (CGSize) -> ()) {
+        assertUnimplemented()
+    }
+    
+    func stopObservingSizeThatFitsChanges(proposal: ProposedViewSize) {
+        assertUnimplemented()
+    }
 }
 
 extension CAHostingLayer : EventGraphHost {

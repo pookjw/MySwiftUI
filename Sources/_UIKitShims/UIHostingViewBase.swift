@@ -1287,7 +1287,7 @@ package final class UIHostingViewBase : NSObject {
 extension UIHostingViewBase {
     package struct Configuration {
         package var options: UIHostingViewBase.Options = []
-        package var colorDefinitions: MySwiftUICore::PlatformColorDefinition.Type? = nil
+        package var colorDefinition: MySwiftUICore::PlatformColorDefinition.Type? = nil
         
         package init() {}
     }
@@ -1296,8 +1296,9 @@ extension UIHostingViewBase {
 extension UIHostingViewBase {
     package struct Options : OptionSet {
         package static var allowUnregisteredGeometryChanges: Options { return Options(rawValue: 1 << 0) }
-        package static var allowKeyboardSafeArea: Options { return Options(rawValue: 1 << 1) }
+        package static var allowKeyboardSafeArea: Options { return Options(rawValue: 0) }
         package static var allowContainerShape: Options { return Options(rawValue: 0) }
+        package static var `default`: Options { return Options(rawValue: 0) }
         
         package let rawValue: Int
         
@@ -1406,7 +1407,7 @@ fileprivate let isChaaranaApp: Bool = {
 extension UIHostingViewBase : @unchecked Sendable {}
 
 fileprivate func ___lldb_unnamed_symbol319514(configuration: UIHostingViewBase.Configuration) {
-    let colorDefinitions = configuration.colorDefinitions ?? UICorePlatformColorDefinition.self
+    let colorDefinitions = configuration.colorDefinition ?? UICorePlatformColorDefinition.self
     PlatformColorDefinition.setDefinition(colorDefinitions, system: .uiKit)
     
     PlatformGlassDefinition.setDefinition(UIKitPlatformGlassDefinition.self, system: .uiKit)

@@ -98,9 +98,16 @@ fileprivate struct ContainerShapeEnvironment : Rule, AsyncAttribute {
 }
 
 extension EnvironmentValues {
-    @inline(always) // 원래 없음
     var containerShape: ContainerShapeData {
-        return self[ContainerShapeKey.self]
+        get {
+            return self[ContainerShapeKey.self]
+        }
+        set {
+            self[ContainerShapeKey.self] = newValue
+        }
+        _modify {
+            yield &self[ContainerShapeKey.self]
+        }
     }
 }
 
@@ -121,7 +128,11 @@ fileprivate struct ContainerShapeKey : EnvironmentKey {
 }
 
 extension _ViewInputs {
-    mutating func setContainerShape<T : RoundedRectangularShape>(_ shape: Attribute<T>, isSystemShape: Bool) {
+    var containerShape: Attribute<ContainerShapeData> {
+        assertUnimplemented()
+    }
+    
+    mutating func setContainerShape<T : RoundedRectangularShape>(_ shape: Attribute<T>, isSystemShape: Bool = false) {
         // $s7SwiftUI11_ViewInputsVAAE17setContainerShape_08isSystemG0y14AttributeGraph0J0VyxG_SbtAA018RoundedRectangularG0RzlFAA06UnevenL9RectangleV_Tg5
         /*
          self = x19
@@ -164,7 +175,13 @@ extension _ViewInputs {
         base.environment = environmentAttribute
     }
 
-    mutating func setContainerShape<T : InsettableShape>(_ shape: Attribute<T>, isSystemShape: Bool) {
+    mutating func setContainerShape<T : InsettableShape>(_ shape: Attribute<T>, isSystemShape: Bool = false) {
+        assertUnimplemented()
+    }
+}
+
+extension _GraphInputs {
+    var containerShape: Attribute<ContainerShapeData> {
         assertUnimplemented()
     }
 }

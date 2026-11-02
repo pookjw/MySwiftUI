@@ -279,6 +279,7 @@ extension BarAppearanceBridge {
             
             // <+3312>
             // self.platformStorage -> x23
+            self.platformStorage.uiIsHidingBackButton = barBackButtonHidden
             if isLinkedOnOrAfter(.v2) && !targetController.navigationItem.leftItemsSupplementBackButton {
                 targetController.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -304,7 +305,7 @@ extension BarAppearanceBridge {
             // <+3592>
             // x22
             let hasBottomBarContent = targetController.hasBottomBarContent
-            if hasBottomBarContent != platformStorage.uiHasBottomBarContent && hasBottomBarContent {
+            if hasBottomBarContent != (platformStorage.uiHasBottomBarContent ?? false) {
                 // <+3656>
                 self.invalidate(bar: .bottomBar)
             }

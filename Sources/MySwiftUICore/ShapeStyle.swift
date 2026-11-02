@@ -469,7 +469,7 @@ struct _ShapeStyle_RenderedShape {
             let colorMatrix = resolved.colorMatrix
             let filter = GraphicsFilter.vibrantColorMatrix(
                 GraphicsFilter.VibrantColorMatrix(
-                    matrix: colorMatrix,
+                    colorMatrix,
                     maxColorComponent: .infinity,
                     options: []
                 )

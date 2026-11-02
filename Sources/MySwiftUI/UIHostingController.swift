@@ -1230,7 +1230,7 @@ open class UIHostingController<Content : View>: UIViewController {
         {
             // <+520>
             if animated {
-                UIView.animate(withDuration: 1.0 / 3.0) {
+                UIView.animate(withDuration: 0.3) {
                     rootViewController.setNeedsUpdateOfHomeIndicatorAutoHidden()
                 }
             } else {
@@ -1242,7 +1242,7 @@ open class UIHostingController<Content : View>: UIViewController {
         // <+252>
         let viewController = host.viewController
         if animated {
-            UIView.animate(withDuration: 1.0 / 3.0) {
+            UIView.animate(withDuration: 0.3) {
                 viewController?.setNeedsUpdateOfHomeIndicatorAutoHidden()
             }
         } else {

@@ -449,13 +449,13 @@ extension DynamicViewList {
         }
     }
     
-    fileprivate struct WrappedList : CustomStringConvertible {
+    fileprivate struct WrappedList : CustomDebugStringConvertible {
         private let base: any ViewList
         private let item: DynamicViewList<Content>.Item
         private let lastID: Content.ID?
         private let lastTransaction: TransactionID
         
-        var description: String {
+        var debugDescription: String {
             assertUnimplemented()
         }
         
@@ -652,23 +652,8 @@ struct DynamicViewListItem : DynamicContainerItem {
     private(set) var list: Attribute<any ViewList>? // 0x48
 }
 
-extension DynamicViewListItem {
-    @unsafe fileprivate class Item<T : DynamicView> {
-        private let type: any Any.Type
-        private let id: T.ID
-        private let owner: AnyAttribute
-        @Attribute private var list: ViewList
-        private let isUnary: Bool
-        private let allItems: MutableBox<[Unmanaged<DynamicViewList<T>.Item>]>
-        
-        init() {
-            assertUnimplemented()
-        }
-    }
-}
-
-struct EmptyViewList : CustomStringConvertible {
-    var description: String {
+struct EmptyViewList : CustomDebugStringConvertible {
+    var debugDescription: String {
         assertUnimplemented()
     }
 }

@@ -93,9 +93,7 @@ extension UINavigationItem {
             assertUnimplemented()
         } else {
             // <+712>
-            var _updates = updates
-            _updates.navigationProperties = updates.navigationProperties.intersection(Toolbar.Updates.NavigationProperties(rawValue: 0x01))
-            adoptSystemUpdates(other, updates: _updates, forceUpdate: forceUpdate, isFromSwiftUI: isFromSwiftUI)
+            adoptSystemUpdates(other, updates: updates, forceUpdate: forceUpdate, isFromSwiftUI: isFromSwiftUI)
             // <+752>
         }
         

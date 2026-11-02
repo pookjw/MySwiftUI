@@ -1,7 +1,7 @@
 package import AttributeGraph
 internal import CoreGraphics
 
-public struct _ViewInputs : @unchecked Sendable {
+public struct _ViewInputs {
     package var base: _GraphInputs // 0x0
     package var preferences: PreferencesInputs // 0x30
     package var transform: Attribute<ViewTransform> { // 0x3c
@@ -419,3 +419,190 @@ extension _ViewInputs {
         return _ViewOutputs(preferences: prefOutputs, layoutComputer: layoutComputer)
     }
 }
+
+extension _ViewInputs {
+    static func invalidInputs(_ base: _GraphInputs) -> _ViewInputs {
+        assertUnimplemented()
+    }
+    
+    var withoutGeometryDependencies: _ViewInputs {
+        assertUnimplemented()
+    }
+    
+    var changedDebugProperties: _ViewDebug.Properties {
+        get {
+            return base.changedDebugProperties
+        }
+        set {
+            base.changedDebugProperties = newValue
+        }
+        _modify {
+            yield &base.changedDebugProperties
+        }
+    }
+    
+    var needsLayout: Bool {
+        return !base.options.isDisjoint(with: [.viewRequestsLayoutComputer, .viewNeedsGeometry])
+    }
+    
+    var needsDisplayList: Bool {
+        assertUnimplemented()
+    }
+    
+    var isEnabled: Attribute<Bool> {
+        assertUnimplemented()
+    }
+    
+    var accessibilityEnabled: Attribute<Bool> {
+        assertUnimplemented()
+    }
+    
+    var isVisionEnabled: Bool {
+        assertUnimplemented()
+    }
+    
+    var isDepthStashingEnabled: Bool {
+        assertUnimplemented()
+    }
+    
+    var isSpatialAspectRatioLayoutEnabled: Bool {
+        assertUnimplemented()
+    }
+    
+    var isTrueDepthLayoutZStackEnabled: Bool {
+        assertUnimplemented()
+    }
+    
+    var accessibilityPreferenceProvider: (any PreferenceKey.Type)? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var allScrollableAxes: Attribute<Axis.Set> {
+        assertUnimplemented()
+    }
+    
+    var nearestScrollableAxes: Attribute<Axis.Set> {
+        assertUnimplemented()
+    }
+    
+    var disableNavigationDestination: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var hasWidgetMetadata: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var isInLazyContainer: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var platformItemFeatures: PlatformItem.Features {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    var requestsPlatformItems: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+        _modify {
+            assertUnimplemented()
+        }
+    }
+    
+    func top<Input : ViewInput, Value>(_ input: Input.Type) -> Value? where Input.Value == Stack<Value> {
+        assertUnimplemented()
+    }
+    
+    func geometryTransaction() -> Attribute<Transaction> {
+        assertUnimplemented()
+    }
+    
+    func makeStableIdentity() -> _DisplayList_Identity {
+        assertUnimplemented()
+    }
+    
+    mutating func configureStableIDs(root: _DisplayList_StableIdentityRoot) {
+        assertUnimplemented()
+    }
+    
+    mutating func configureForLazyContainer() {
+        assertUnimplemented()
+    }
+    
+    mutating func configureForLazyContainerContent() {
+        assertUnimplemented()
+    }
+    
+    mutating func addPlatformItemKey() {
+        assertUnimplemented()
+    }
+    
+    mutating func resetPlatformItem() {
+        assertUnimplemented()
+    }
+    
+    mutating func resetPlatformItemKeys() {
+        assertUnimplemented()
+    }
+    
+    mutating func appendRequiresServerHitTesting(_ value: Attribute<Bool>) {
+        assertUnimplemented()
+    }
+    
+    mutating func enableLegacyScrollEdgeEffectTag() {
+        assertUnimplemented()
+    }
+    
+    mutating func resetCaches() {
+        assertUnimplemented()
+    }
+}
+
+//@available(*, unavailable)
+//extension _ViewInputs : Sendable {
+//}
+extension _ViewInputs : @unchecked Sendable {}

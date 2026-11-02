@@ -29,3 +29,7 @@ extension TupleStyleContext {
         // TODO
     }
 }
+
+fileprivate struct QueryVisitor<U> : StyleContextVisitor {
+    // TODO
+}

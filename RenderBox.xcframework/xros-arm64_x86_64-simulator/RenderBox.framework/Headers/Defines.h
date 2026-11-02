@@ -114,7 +114,9 @@ typedef NS_ENUM(int32_t, RBColorMode) {
 };
 
 typedef NS_ENUM(int32_t, RBColorSpace) {
-    RBColorSpaceUnknown0 = 0
+    RBColorSpaceUnknown0 = 0,
+    RBColorSpaceUnknown1 = 1,
+    RBColorSpaceUnknown2 = 2
 };
 
 typedef NS_ENUM(int32_t, RBBlendMode) {
@@ -127,14 +129,10 @@ typedef NS_ENUM(uint32_t, RBDisplayListContentsProfile) {
 };
 
 typedef struct RBColor {
-    const float unknown0;
-    const float unknown1;
-    const float unknown2;
-    const float unknown3;
-    const float unknown4;
-    const float unknown5;
-    const float unknown6;
-    const float unknown7;
+    const float red;
+    const float green;
+    const float blue;
+    const float alpha;
 } RBColor;
 
 typedef NS_ENUM(uint32_t, RBRenderingMode) {
@@ -142,6 +140,18 @@ typedef NS_ENUM(uint32_t, RBRenderingMode) {
     RBRenderingModeUnknown1 = 1,
     RBRenderingModeUnknown2 = 2,
     RBRenderingModeUnknown3 = 3
+};
+
+typedef NS_OPTIONS(unsigned int, RBGradientFlags) {
+    RBGradientFlagsNone = 0
+};
+
+typedef NS_OPTIONS(unsigned int, RBShaderFlags) {
+    RBShaderFlagsNone = 0
+};
+
+typedef NS_OPTIONS(unsigned int, RBShaderFillFlags) {
+    RBShaderFillFlagsNone = 0
 };
 
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));

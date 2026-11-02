@@ -143,7 +143,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     // updateRootTransform에서 getter 직접 호출하고 있기에 final
     private final var sceneSize: CGSize = .zero {
         didSet {
-            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
+            invalidateProperties(.transform, mayDeferUpdate: true)
         }
     }
     
@@ -207,7 +207,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             }
             
             _boundsDepth = newValue
-            immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace()
+            invalidateProperties(.transform, mayDeferUpdate: true)
         }
     }
     
@@ -513,7 +513,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             return super.transform
         }
         set {
-            let oldValue = transform
+            let oldValue = super.transform
             super.transform = newValue
             base.transformDidChange(oldValue: oldValue)
         }
@@ -698,8 +698,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
     
     open override func _safeAreaCornerInsetsDidChange() {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        super._safeAreaCornerInsetsDidChange()
+        self.safeAreaInsetsDidChange()
     }
     
     open override func _shouldAnimateProperty(withKey key: String?) -> Bool {
@@ -719,7 +718,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         }
     }
     
-    open override class func accessibilityElementCount() -> Int {
+    open override func accessibilityElementCount() -> Int {
         assert(mySwiftUI_disableUnimplementedAssertion)
         return super.accessibilityElementCount()
     }
@@ -896,18 +895,15 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
 
     open override func _accessibilityAutomationHitTestReverseOrder() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super._accessibilityAutomationHitTestReverseOrder()
+        return true
     }
 
     open override func _accessibilityIsSwiftUIHostingView() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super._accessibilityIsSwiftUIHostingView()
+        return true
     }
 
     open override func accessibilityShouldEnumerateContainerElementsArrayDirectly() -> Bool {
-        assert(mySwiftUI_disableUnimplementedAssertion)
-        return super.accessibilityShouldEnumerateContainerElementsArrayDirectly()
+        return true
     }
 
     @objc open override var _accessibilitySwiftUIDebugData: [[String : Any]] {
@@ -915,7 +911,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
 
     @objc open override func _accessibilityIsSwiftUIHostingCellView() -> Bool {
-        assertUnimplemented()
+        return false
     }
     
     open override dynamic func didMoveToWindow() {
@@ -1016,7 +1012,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         guard let rootView = rootViewController.viewIfLoaded else {
             return false
         }
-        return self == rootView
+        return self === rootView
     }
     
     private final var navigationBridge: NavigationBridge_PhoneTV? {
@@ -1058,7 +1054,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     private func updateWindowGeometryScene() {
         let windowScene = window?.windowScene
         
-        guard unsafe windowScene != windowGeometryScene else {
+        guard unsafe windowScene !== windowGeometryScene else {
             return
         }
         
@@ -1071,7 +1067,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
     
     @objc private func immersiveSpaceAuthorityDidChangeCurrentImmersiveSpace() {
-        invalidateProperties([.transform], mayDeferUpdate: true)
+        invalidateProperties(.environment, mayDeferUpdate: true)
     }
     
     @objc private func immersiveSpaceAuthorityDidChangeImmersion() {
@@ -1164,20 +1160,18 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
         // environment = x19
         // <+872>
         // x29, #-0x90 (value), w19 (Optional)
-        let surfaceClassification: SurfaceClassification?
         if authorization == 0 {
             // <+1064>
             SurfaceSnappingInfo.authorizationStatus = .denied
-            surfaceClassification = nil
             // <+1272>
         } else if authorization != 2 {
             // <+1120>
             SurfaceSnappingInfo.authorizationStatus = .notDetermined
-            surfaceClassification = nil
             // <+1272>
         } else {
             // <+928>
             SurfaceSnappingInfo.authorizationStatus = .authorized
+            let surfaceClassification: SurfaceClassification?
             
             if windowScene.isSnappedToSurface {
                 // <+1028>
@@ -1187,11 +1181,10 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
                 surfaceClassification = nil
             }
             
-            // <+1272>
+            surfaceSnappingInfo.classification = surfaceClassification
         }
         
         // <+1272>
-        surfaceSnappingInfo.classification = surfaceClassification
         environment.surfaceSnappingInfo = surfaceSnappingInfo
     }
     
@@ -1279,7 +1272,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
          event -> x23
          self -> x22
          */
-        guard _eventDebugTriggers.isSuperset(of: .hitTest) else {
+        guard _eventDebugTriggers.isSuperset(of: .hitTest), let event else {
             return
         }
         
@@ -1518,7 +1511,19 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
         
         // <+1700>
         if resolved.accessibilityInvertColors {
-            resolved.ignoreInvertColorsFilterActive = _ancestorHasInvertFilterApplied()
+            var hasInvertFilter = false
+            if responds(to: #selector(_ancestorHasInvertFilterApplied)) {
+                hasInvertFilter = _ancestorHasInvertFilterApplied()
+                if let window {
+                    let isDarkWindowSelector = Selector(("_accessibilityInvertColorsIsDarkWindow"))
+                    let supportsDarkWindowInvertSelector = Selector(("_accessibilityInvertColorsSupportsDarkWindowInvert"))
+                    let send = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> ObjCBool).self)
+                    let isDarkWindow = window.responds(to: isDarkWindowSelector) ? send(window, isDarkWindowSelector).boolValue : false
+                    let supportsDarkWindowInvert = window.responds(to: supportsDarkWindowInvertSelector) ? send(window, supportsDarkWindowInvertSelector).boolValue : false
+                    hasInvertFilter = hasInvertFilter || (isDarkWindow && supportsDarkWindowInvert)
+                }
+            }
+            resolved.ignoreInvertColorsFilterActive = hasInvertFilter
         }
         
         // <+1764>
@@ -1638,7 +1643,7 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
             let flag: Bool // true -> <+4224>
             if let windowScene {
                 if let immersiveSpaceScene {
-                    if immersiveSpaceScene == windowScene {
+                    if immersiveSpaceScene === windowScene {
                         // <+3988>
                         if let casted = immersiveSpaceScene as? UIWindowScene {
                             // <+4020>
@@ -2229,7 +2234,7 @@ extension _UIHostingView : @preconcurrency RootTransformAdjuster {
             // <+792>
             if let window = self.window {
                 // <+844>
-                let frameInWindow = self.convert(bounds, to: window)
+                let frameInWindow = self.convert(bounds, to: window as any UICoordinateSpace)
                 let geometry = ScrollGeometry.rootViewTransform(contentOffset: bounds.origin, containerSize: frameInWindow.size)
                 buffer.appendScrollGeometry(geometry, isClipped: true)
             }

@@ -65,9 +65,9 @@ private import _UIKitShims
     }
     
     final func didMoveToWindow() {
-        if host!.uiView?.window != nil {
-            hasWindow = true
-            
+        hasWindow = host!.uiView?.window != nil
+
+        if clientNeedsOutOfWindowPresentationSuppression && presenterHasWindow {
             var presentationState = presentationState
             let delayedPresentation = presentationState.delayedPresentation
             presentationState.didMoveToNonNilWindow()
@@ -79,8 +79,6 @@ private import _UIKitShims
             {
                 present(delayedPresentation.presentation, from: viewController, animated: delayedPresentation.animated, existingPresentedVC: nil, isPreempting: false)
             }
-        } else {
-            hasWindow = false
         }
     }
     

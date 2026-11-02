@@ -82,7 +82,7 @@ extension ToolbarStrategy {
     
     func withUpdate<T>(_ block: (ToolbarBridge<Self>, Toolbar.UpdateContext) -> T) -> T {
         guard let updater else {
-            fatalError()
+            fatalError("Attempted to update outside withUpdater() call")
         }
         
         guard let updateContext else {

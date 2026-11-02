@@ -10,3 +10,6 @@
 #import <RenderBox/RBColorMode.h>
 #import <RenderBox/RBEncoderSet.h>
 #import <RenderBox/RBDrawingState.h>
+#import <RenderBox/RBColor.h>
+#import <RenderBox/RBShader.h>
+#import <RenderBox/RBShaderLibrary.h>

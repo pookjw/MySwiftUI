@@ -38,7 +38,7 @@ class _ViewList_Subgraph {
     }
 
     
-    final func wrapping(_ vistList: ViewList) -> _ViewList_Subgraph {
+    final func wrapping(_ viewList: any ViewList) -> any ViewList {
         assertUnimplemented()
     }
     
@@ -2712,9 +2712,9 @@ extension Layout {
         let archivedViewInput = copy_3[ArchivedViewInput.self]
         if archivedViewInput.flags.contains(.isArchived) {
             // <+1260>
-            var options = _ViewListInputs.Options(rawValue: copy_2[ViewListOptionsInput.self])
+            var options = copy_2[ViewListOptionsInput.self]
             options.formUnion(.needsArchivedAnimationTraits)
-            copy_2[ViewListOptionsInput.self] = options.rawValue
+            copy_2[ViewListOptionsInput.self] = options
         }
         
         // <+620>
@@ -3045,7 +3045,7 @@ extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
         // x19 + 0x1e0
         let _ = copy_1
         
-        copy_2[ViewListOptionsInput.self] = 0
+        copy_2[ViewListOptionsInput.self] = []
         // w26
         let layoutValue = view[{ .of(&$0.root) }]
         
@@ -3071,7 +3071,7 @@ extension _VariadicView.Tree where Root == _ZStackLayout, Content : View {
              Content.self - View -> x4 -> x19
              return pointer -> x8 -> x22
              */
-            let listOptions = _ViewListInputs.Options(rawValue: inputs[ViewListOptionsInput.self])
+            let listOptions = inputs[ViewListOptionsInput.self]
             // x29 - 0x98
             let contentValue = view[{ .of(&$0.content) }]
             

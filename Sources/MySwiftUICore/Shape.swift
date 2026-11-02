@@ -83,11 +83,8 @@ extension Shape {
             // <+156>
             if Style.self == ForegroundStyle.self {
                 // <+224>
-                let copy_2 = inputs
-                
                 // inlined
                 styles = copy_1.resolvedShapeStyles(
-                    for: copy_2,
                     role: Content.role,
                     mode: nil
                 )
@@ -609,8 +606,8 @@ extension AnimatedShape {
 }
 
 extension _ViewInputs {
-    func resolvedShapeStyles(for inputs: _ViewInputs, role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
-        return self.base.cachedEnvironment.value.resolvedShapeStyles(for: inputs, role: role, mode: mode)
+    func resolvedShapeStyles(role: ShapeRole, mode: Attribute<_ShapeStyle_ResolverMode>?) -> Attribute<_ShapeStyle_Pack> {
+        return self.base.cachedEnvironment.value.resolvedShapeStyles(for: self, role: role, mode: mode)
     }
 }
 

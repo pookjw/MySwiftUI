@@ -7,7 +7,7 @@ package import Spatial
 internal import AttributeGraph
 package import RenderBox
 
-@_spi(Internal) public struct DisplayList : @unchecked Sendable {
+@_spi(Internal) public struct DisplayList : Equatable, @unchecked Sendable {
     package private(set) var items: [DisplayList.Item] // 0x0
     package var features: DisplayList.Features // 0x8
     package var properties: DisplayList.Properties // 0xc
@@ -42,23 +42,18 @@ package import RenderBox
         assertUnimplemented()
     }
     
-    mutating func append(contentsOf other: DisplayList) {
-        // index -> x28
+    package mutating func append(_ item: DisplayList.Item) {
+        if case .empty = item.value {
+            return
+        }
+        self.items.append(item)
+        self.features.formUnion(item.features)
+        self.properties.formUnion(item.properties)
+    }
+    
+    package mutating func append(contentsOf other: DisplayList) {
         for otherItem in other.items {
-            // self -> x19
-            // sp + 0x70 -> x23, x25, x9, x22/w27(case)
-            let copy_1 = otherItem
-            // <+156>
-            if case .empty = copy_1.value {
-                continue
-            }
-            
-            // sp + 0x20
-            let copy_2 = copy_1
-            self.items.append(copy_1)
-            
-            self.features.formUnion(copy_2.features)
-            self.properties.formUnion(copy_2.properties)
+            append(otherItem)
         }
     }
     

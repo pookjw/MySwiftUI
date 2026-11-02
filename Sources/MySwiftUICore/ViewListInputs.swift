@@ -125,7 +125,7 @@ extension _ViewListInputs {
 
 extension _ViewInputs {
     var implicitRootBodyInputs: _ViewListInputs {
-        let options = _ViewListInputs.Options(rawValue: self[ViewListOptionsInput.self])
+        let options = self[ViewListOptionsInput.self]
         // <+88>
         var inputs = _ViewListInputs(base, options: options)
         

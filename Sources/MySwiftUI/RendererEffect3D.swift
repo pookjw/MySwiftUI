@@ -100,7 +100,7 @@ fileprivate struct RendererEffect3DDisplayList<T : _RendererEffect3D>: Rule, Asy
             transform: $transform,
             position: $position,
             safeAreaInsets: $safeAreaInsets,
-            seed: numericCast(version.value)
+            seed: UInt32(truncatingIfNeeded: version.value)
         )
         
         let effect: DisplayList.Effect = proxy.asCurrent {

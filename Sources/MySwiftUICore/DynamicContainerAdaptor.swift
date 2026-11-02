@@ -442,7 +442,7 @@ fileprivate struct DynamicLayoutViewChildGeometry : StatefulRule, AsyncAttribute
         // x19
         if
             let viewIndex = containerInfo.viewIndex(id: id),
-            childGeometries.indices.contains(viewIndex)
+            viewIndex < childGeometries.count
         {
             // <+260>
             value = childGeometries[viewIndex]

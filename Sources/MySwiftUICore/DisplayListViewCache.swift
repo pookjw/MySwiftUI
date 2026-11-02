@@ -26,7 +26,7 @@ extension DisplayList.ViewUpdater {
             
             for (key, value) in self.map {
                 var value = value
-                value.isInvalid = true
+                value.seeds.invalidate()
                 map[key] = value
             }
             
@@ -128,33 +128,29 @@ extension DisplayList.ViewUpdater {
                 // x25
                 var subview = view
                 
-                while maskView != nil {
-                    unsafe removeChildren(platform: viewInfo.platform, container: unsafeBitCast(maskView, to: AnyObject.self))
-                    
-                    guard (system == .caLayer) || (system == .uiView) else {
-                        break
-                    }
-                    
+                if maskView == nil, (system == .caLayer) || (system == .uiView) {
                     let layer = CoreViewLayer(system, subview)
                     
-                    if layer.isSeparated {
-                        if layer.value(forKeyPath: "separatedOptions.platter.enabled") as? Bool == true {
-                            break
+                    if !(layer.isSeparated && layer.value(forKeyPath: "separatedOptions.platter.enabled") as? Bool == true) {
+                        guard CoreViewSubviewsCount(system, subview) == 1 else {
+                            continue
+                        }
+                        
+                        var outSystem = system
+                        guard let child = CoreViewSubviewAtIndex(system, subview, 0, &outSystem) else {
+                            continue
+                        }
+                        subview = child as AnyObject
+                        
+                        guard isPlatter(system, subview) else {
+                            continue
                         }
                     }
                     
-                    guard CoreViewSubviewsCount(system, subview) == 1 else {
-                        break
-                    }
-                    
-                    var outSystem = system
-                    subview = unsafe unsafeBitCast(CoreViewSubviewAtIndex(system, subview, 0, &outSystem), to: AnyObject.self)
-                    
-                    guard isPlatter(system, subview) else {
-                        break
-                    }
-                    
                     maskView = CoreViewMaskView(system, subview)
+                }
+                if let maskView {
+                    removeChildren(platform: viewInfo.platform, container: maskView as AnyObject)
                 }
             }
             
@@ -162,7 +158,7 @@ extension DisplayList.ViewUpdater {
             animators = animators
                 .filter { animator in
                     // $sSD6filterySDyxq_GSbx3key_q_5valuet_tKXEKF7SwiftUI11DisplayListV11ViewUpdaterC0H5CacheV3KeyV_AK12AnimatorInfo33_A9949015C771FF99F7528BB7239FD006LLVTg503$s7d4UI11fg3V11hi4C0E5j31V7reclaim4timeyAA4TimeV_tFSbAG3k10V3key_AG12l7Info33_nopqrS17LLV5valuet_tXEfU_AE4TimeVTf1cn_n
-                    return animator.value.deadline >= time
+                    return !(animator.value.deadline < time)
                 }
             
             self.cacheSeed &+= 1

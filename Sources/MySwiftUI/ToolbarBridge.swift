@@ -244,9 +244,7 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
             assertUnimplemented()
         } else {
             // <+1428>
-            var _updates = updates
-            _updates.navigationProperties = updates.navigationProperties.intersection(Toolbar.Updates.NavigationProperties(rawValue: 0x01))
-            adoptSystemUpdates(_updates, hostingController: hostingController, context: context)
+            adoptSystemUpdates(updates, hostingController: hostingController, context: context)
         }
     }
     
@@ -376,7 +374,7 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
         // location -> x21 -> x29 - 0xeo
         // <+532>
         
-        if !storage.entries.isEmpty {
+        if !storage.entryIDs.isEmpty {
             // <+540>
             assertUnimplemented()
         }
@@ -780,7 +778,6 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
                     uiSearchController = _uiSearchController
                 } else {
                     uiSearchController = SwiftUISearchController()
-                    updater.platformVended.uiSearchController = uiSearchController
                 }
             } else {
                 uiSearchController = nil
@@ -850,6 +847,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             
             // <+988>
             configureNavigationItem(uiNavigationItem, searchItem: copy_1, controller: uiSearchController)
+            updater.platformVended.uiSearchController = uiSearchController
             // x20
             let copy_4 = copy_1
             
@@ -1221,10 +1219,10 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             }
             
             // x21
-            let old = bridge.platformVended.uiNavigationItem._subtitleView
-            bridge.platformVended.uiNavigationItem._subtitleView = new
+            let old = bridge.platformVended.uiNavigationItem.perform(Selector(("subtitleView")))?.takeUnretainedValue() as? UIView
+            bridge.platformVended.uiNavigationItem.perform(Selector(("setSubtitleView:")), with: new)
             // x20
-            let new2 = bridge.platformVended.uiNavigationItem._subtitleView
+            let new2 = bridge.platformVended.uiNavigationItem.perform(Selector(("subtitleView")))?.takeUnretainedValue() as? UIView
             
             if let old {
                 if new2 != nil {
@@ -1260,10 +1258,10 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             }
             
             // x21
-            let old = bridge.platformVended.uiNavigationItem._largeSubtitleView
-            bridge.platformVended.uiNavigationItem._largeSubtitleView = new
+            let old = bridge.platformVended.uiNavigationItem.perform(Selector(("largeSubtitleView")))?.takeUnretainedValue() as? UIView
+            bridge.platformVended.uiNavigationItem.perform(Selector(("setLargeSubtitleView:")), with: new)
             // x20
-            let new2 = bridge.platformVended.uiNavigationItem._largeSubtitleView
+            let new2 = bridge.platformVended.uiNavigationItem.perform(Selector(("largeSubtitleView")))?.takeUnretainedValue() as? UIView
             
             if let old {
                 if new2 != nil {
@@ -1369,7 +1367,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
                 // <+328>
                 // <+400>
                 bridge.platformVended.uiNavigationItem.titleMenuProvider = nil
-                return old != nil
+                return bridge.platformVended.uiNavigationItem.titleMenuProvider != nil || old != nil
             }
         }
     }
@@ -1651,7 +1649,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
             let storage = bridge.storageByLocation[.bottomBar] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
             
             // <+260>
-            if !storage.entries.isEmpty {
+            if !storage.entryIDs.isEmpty {
                 // <+268>
                 assertUnimplemented()
             }

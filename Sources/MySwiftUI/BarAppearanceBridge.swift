@@ -145,8 +145,8 @@ private import _MySwiftUIShims
         graph.addPreference(NavigationBarBackButtonHiddenKey.self)
         seedTracker.addPreference(NavigationBarBackButtonHiddenKey.self)
         
-        graph.addPreference(ToolbarKey.self)
         seedTracker.addPreference(ToolbarKey.self)
+        seedTracker.addPreference(SearchKey.self)
     }
     
     func preferencesDidChange<Content : View>(_ preferenceValues: PreferenceValues, hostingController: UIHostingController<Content>) {
@@ -350,7 +350,7 @@ private import _MySwiftUIShims
             // inlined
             let result = self.updateBarConfigurations(role: role, preferences: preferenceValues)
             guard result else {
-                break
+                continue
             }
         }
         

@@ -17,7 +17,7 @@ extension UINavigationItem {
         }
         set {
             let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, ObjCBool) -> Void).self)
-            let cmd = Selector(("searchBarPlacementAllowsExternalIntegration"))
+            let cmd = Selector(("setSearchBarPlacementAllowsExternalIntegration:"))
             casted(self, cmd, ObjCBool(newValue))
         }
     }

@@ -19,14 +19,14 @@ public struct Image : View {
 
 extension Image {
     @frozen public enum Orientation : UInt8, CaseIterable, Hashable {
-        case up
-        case upMirrored
-        case down
-        case downMirrored
-        case left
-        case leftMirrored
-        case right
-        case rightMirrored
+        case up = 0
+        case upMirrored = 2
+        case down = 6
+        case downMirrored = 4
+        case left = 1
+        case leftMirrored = 3
+        case right = 7
+        case rightMirrored = 5
     }
     
     struct ResizingInfo {

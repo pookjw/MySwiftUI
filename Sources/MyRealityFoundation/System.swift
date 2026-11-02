@@ -357,6 +357,10 @@ final class SystemRegistry {
     private var knownSystems: [any System.Type] = [] // 0x10
     fileprivate var registeredSystems: [any System.Type] = [] // 0x18
     
+    var systems: [any System.Type] {
+        assertUnimplemented()
+    }
+    
     func getId(of system: any System.Type) -> Int32? {
         for (index, element) in self.knownSystems.enumerated() {
             if element == system {

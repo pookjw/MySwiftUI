@@ -41,6 +41,36 @@ public struct Canvas<Symbols> where Symbols : View {
         }
     }
 
+    var isAccelerated: Bool {
+        get {
+            assertUnimplemented()
+        }
+
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    var allowsPackedDrawable: Bool {
+        get {
+            assertUnimplemented()
+        }
+
+        set {
+            assertUnimplemented()
+        }
+    }
+
+    var rendersFirstFrameAsynchronously: Bool {
+        get {
+            assertUnimplemented()
+        }
+
+        set {
+            assertUnimplemented()
+        }
+    }
+
     public init(
         opaque: Bool = false,
         colorMode: ColorRenderingMode = .nonLinear,
@@ -883,6 +913,10 @@ fileprivate final class SymbolRenderer : GraphicsContextSymbols {
         self.ctx = ctx
         self.colorSpace = colorSpace
         self.environment = environment
+    }
+    
+    func symbol<A : Hashable>(for key: A) -> GraphicsContext.ResolvedSymbol? {
+        assertUnimplemented()
     }
 }
 

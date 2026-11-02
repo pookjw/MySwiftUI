@@ -18,7 +18,7 @@ extension App {
     @MainActor @preconcurrency public static func main() {
         precondition(
             (isLinkedOnOrAfter(.v6) ? TypeID(Self.self).isValueType : true),
-            "apps must be value types; \(Self.self)"
+            "apps must be value types; \(_typeName(Self.self, qualified: false)) is a class."
         )
         
         runApp(Self())

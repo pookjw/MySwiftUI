@@ -1,7 +1,12 @@
+// 59349949219F590F26B6A55CEC9D59A2
 internal import os.signpost
 private import _KernPrivate
 
-let _signpostLog = OSLog(subsystem: "com.apple.SwiftUI", category: "SwiftUI")
+private let _signpostLog = OSLog(subsystem: "com.apple.SwiftUI", category: "SwiftUI")
+
+extension OSSignpostID {
+    fileprivate static let continuation = OSSignpostID(0x0ea89ce2)
+}
 
 struct Signpost {
     private let style: Style
@@ -355,7 +360,7 @@ extension Signpost {
                     
                     remaining -= 4
                 }
-                rawSignpostID = 0x0ea89ce2
+                rawSignpostID = OSSignpostID.continuation.rawValue
             } while remaining >= 0
         }
     }
@@ -436,6 +441,14 @@ extension CVarArg {
                     }
                 }
             }
+        }
+    }
+}
+
+extension String {
+    fileprivate func kdebugValue(_ debugid: UInt32) -> (arg: UInt64, destroy: Bool) {
+        return unsafe withCString { pointer in
+            return unsafe (kdebug_trace_string(debugid & 0xffff0000, 0, pointer), true)
         }
     }
 }

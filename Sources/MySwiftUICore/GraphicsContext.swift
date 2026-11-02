@@ -957,7 +957,197 @@ extension GraphicsContext.Storage {
 
 extension GraphicsContext.Storage.Shared {
     func setShading(_ shading: GraphicsContext.Shading, in environment: EnvironmentValues) {
-        assertUnimplemented()
+        /*
+         self -> x20 -> x21
+         shading -> x0 -> x25
+         environment -> x1 -> x20
+         */
+        switch shading.storage {
+        case .color(let color):
+            // <+284>
+            if let fillStyle = self._fillStyle, fillStyle === color.provider {
+                // <+1464>
+                return
+            } else {
+                // <+304>
+                let resolved = color.provider.resolveHDR(in: environment)
+                
+                var rbColor = RBColor(
+                    red: resolved.linearRed,
+                    green: resolved.linearGreen,
+                    blue: resolved.linearBlue,
+                    alpha: resolved.opacity
+                )
+                
+                if self.colorSpace != .unknown2 {
+                    rbColor = .fromLinear(r: rbColor.red, g: rbColor.green, b: rbColor.blue, a: rbColor.alpha)
+                }
+                
+                self.fill.setColor(rbColor)
+                
+                if let headroom = resolved.headroom {
+                    self.fill.headroom = headroom
+                }
+                
+                self._fillStyle = color.provider
+            }
+        case .sRGBColor(let color):
+            // <+828>
+            self.fill.setColor(color, colorSpace: .unknown1)
+            self._fillStyle = nil
+        case .shader(let shader, let bounds):
+            // <+600>
+            let rbShader = shader.rbShader(in: environment)
+            
+            withUnsafePointer(to: bounds) { bounds in
+                unsafe self.fill.setShader(
+                    rbShader,
+                    bounds: bounds,
+                    flags: RBShaderFlags(rawValue: shader.options.rawValue & 1)
+                )
+            }
+        case .gradient(let gradient, let geometry, options: let options):
+            // <+728>
+            switch gradient {
+            case .gradient(let gradient):
+                // <+768>
+                if gradient.stops.count == 1 {
+                    // <+1408>
+                    self.setColor(gradient.stops[0].color, in: environment)
+                    return
+                } else if !gradient.stops.isEmpty {
+                    // <+1348>
+                } else {
+                    // <+784>
+                    self.setColor(.clear, in: environment)
+                    return
+                }
+            case .anyGradient(_):
+                // <+1348>
+                break
+            }
+            
+            unsafe withGradient(
+                gradient,
+                in: environment,
+                colorSpace: self.colorSpace
+            ) { count, colors, headroom, locations, flags in
+                // $s7SwiftUI15GraphicsContextV7StorageC6Shared33_A8D9ECD380926237F7E554221FB2DE85LLCAAE11setGradient_8geometry7options2in10colorSpaceyAA06EitherO0O_AC0O8GeometryOAC0O7OptionsVAA17EnvironmentValuesVSo07RBColorT0VtFySi_SPySo0Z0aGSfSgSPy04CoreC07CGFloatVGSgSo15RBGradientFlagsVtXEfU_Tm
+                /*
+                 index -> x0
+                 color -> x1
+                 unknown -> x2
+                 locations -> x3
+                 flags -> x4
+                 */
+                let newFlags = flags.union(options)
+                
+                switch geometry {
+                case .axial(let startPoint, let endPoint):
+                    // <+192>
+                    unsafe self.fill.setAxialGradientStart(
+                        startPoint,
+                        end: endPoint,
+                        stopCount: count,
+                        colors: colors,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    // <+360>
+                case .radial(let center, let startRadius, let endRadius):
+                    // <+140>
+                    unsafe self.fill.setRadialGradientCenter(
+                        center,
+                        startRadius: startRadius,
+                        endRadius: endRadius,
+                        stopCount: count,
+                        colors: colors,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    // <+360>
+                case .radial2(let startCenter, let startRadius, let endCenter, let endRadius):
+                    // <+328>
+                    unsafe self.fill.setRadialGradientStartCenter(
+                        startCenter,
+                        startRadius: startRadius,
+                        endCenter: endCenter,
+                        endRadius: endRadius,
+                        stopCount: count,
+                        colors: colors,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    // <+360>
+                case .elliptical(let rect, let startRadius, let endRadius):
+                    // <+200>
+                    unsafe self.fill.setRadialGradientCenter(
+                        .zero,
+                        startRadius: startRadius,
+                        endRadius: endRadius,
+                        stopCount: count,
+                        colors: colors,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    let transform = CGAffineTransform(rect.width, 0, 0, rect.height, rect.origin.x, rect.origin.y)
+                    self.fill.concat(transform)
+                    
+                    // <+360>
+                case .conic(let center, let angle):
+                    // <+168>
+                    unsafe self.fill.setConicGradientCenter(
+                        center,
+                        angle: angle.radians,
+                        stopCount: count,
+                        colors: colors,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    // <+360>
+                case .angular(let center, let startAngle, let endAngle):
+                    // <+336>
+                    unsafe self.fill.setAngularGradientCenter(
+                        center,
+                        startAngle: startAngle.radians,
+                        endAngle: endAngle.radians,
+                        stopCount: count,
+                        colors: colors,
+                        colorSpace: .unknown0,
+                        locations: locations,
+                        flags: newFlags
+                    )
+                    
+                    // <+360>
+                }
+                
+                // <+360>
+                if let headroom {
+                    self.fill.headroom = headroom
+                }
+                
+                self._fillStyle = nil
+            }
+        case .meshGradient(let mesh):
+            // <+440>
+            let resolved = mesh.background.provider.resolveHDR(in: environment)
+            
+            mesh.withResolvedColors(in: environment) { colors, headroom in
+                // $s7SwiftUI12MeshGradientV18withResolvedColors2in_yAA17EnvironmentValuesV_ySRyAA5ColorV0F0VG_SfSgtXEtFySryAKGXEfU_03$s7a105UI15GraphicsContextV7StorageC6Shared33_A8D9ECD380926237F7E554221FB2DE85LLCAAE10setShading_2inyAC0O0V_AA17ij10VtFySRyAA5k2V8F13VG_SfSgtXEfU_AiAE0F3HDRVAA0nO0V0Q0C6Shared01_tuvwxyZ0LLCACTf1nnnnnnnc_n
+                assertUnimplemented()
+            }
+        case .tiledImage(let image, origin: let origin, sourceRect: let sourceRect, scale: let scale):
+            // <+944>
+            assertUnimplemented()
+        case .backdrop, .style, .levels, .resolved, .foreground:
+            // <+1564>
+            fatalError("not reached")
+        }
     }
     
     func setShading(_ shading: GraphicsContext.ResolvedShading) {
@@ -1057,4 +1247,21 @@ extension RBShape {
             self.renderingModeArgument = abs(shapeDistance)
         }
     } 
+}
+
+fileprivate func withGradient(
+    _: EitherGradient,
+    in: EnvironmentValues,
+    colorSpace: RBColorSpace,
+    do: (Int, UnsafePointer<RBColor>, Float?, UnsafePointer<CGFloat>?, RBGradientFlags) -> Void
+) {
+    assertUnimplemented()
+} 
+
+fileprivate func withGradient(
+    _: ResolvedGradient,
+    in: RBColorSpace,
+    do: (Int, UnsafePointer<RBColor>, Float?, UnsafePointer<CGFloat>?, RBGradientFlags) -> Void
+) {
+    assertUnimplemented()
 }

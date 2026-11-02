@@ -1,5 +1,6 @@
 // 638EB2064D6D992C8A48A894A8F58A16
 internal import CoreGraphics
+internal import Foundation
 public import Spatial
 internal import AttributeGraph
 
@@ -13,6 +14,10 @@ internal import AttributeGraph
     
     @inlinable public init(@ViewBuilder content: @escaping (GeometryProxy3D) -> Content) {
         self.content = content
+    }
+    
+    init(unit: UnitLength, @ViewBuilder content: @escaping (GeometryProxy3D) -> Content) {
+        assertUnimplemented()
     }
     
     nonisolated public static func _makeView(view: _GraphValue<GeometryReader3D<Content>>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -148,8 +153,20 @@ public struct GeometryProxy3D {
     private var _transform: WeakAttribute<ViewTransform> // 0x20
     @WeakAttribute private var position: CGPoint? // 0x28
     private var _safeAreaInsets: WeakAttribute<SafeAreaInsets> // 0x30
-    private var unit: LengthUnit? = .points // 0x38
+    fileprivate var unit: LengthUnit? = .points // 0x38
     private var seed: UInt32 // 0x40
+    
+    var lengthUnit: UnitLength? {
+        assertUnimplemented()
+    }
+    
+    var context: AnyRuleContext {
+        assertUnimplemented()
+    }
+    
+    var placementContext: _PositionAwarePlacementContext? {
+        assertUnimplemented()
+    }
     
     init(
         owner: AnyAttribute,
@@ -249,6 +266,14 @@ public struct GeometryProxy3D {
     }
     
     public func frame(in coordinateSpace: some CoordinateSpaceProtocol) -> Rect3D {
+        assertUnimplemented()
+    }
+    
+    package func bounds3D(of named: NamedCoordinateSpace) -> Rect3D? {
+        assertUnimplemented()
+    }
+    
+    package func immersiveSpaceDisplacement<A>(in coordinateSpace: A) -> Pose3D where A : CoordinateSpaceProtocol {
         assertUnimplemented()
     }
     

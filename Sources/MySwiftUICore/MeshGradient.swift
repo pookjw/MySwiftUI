@@ -43,17 +43,11 @@ public struct MeshGradient : ShapeStyle, Equatable, Sendable {
     }
 
     public var width: Int
-
     public var height: Int
-
     public var locations: MeshGradient.Locations
-
     public var colors: MeshGradient.Colors
-
     public var background: Color
-
     public var smoothsColors: Bool
-
     public var colorSpace: Gradient.ColorSpace
 
     public init(width: Int, height: Int, locations: MeshGradient.Locations, colors: MeshGradient.Colors, background: Color = .clear, smoothsColors: Bool = true, colorSpace: Gradient.ColorSpace = .device) {
@@ -91,6 +85,10 @@ public struct MeshGradient : ShapeStyle, Equatable, Sendable {
         assertUnimplemented()
     }
 
+    func resolvePaint(in environment: EnvironmentValues) -> MeshGradient._Paint {
+        assertUnimplemented()
+    }
+
     @available(iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, macOS 15.0, *)
     public typealias Body = _ShapeView<Rectangle, MeshGradient>
 
@@ -98,8 +96,14 @@ public struct MeshGradient : ShapeStyle, Equatable, Sendable {
     public typealias Resolved = Never
 }
 
+extension MeshGradient {
+    func withResolvedColors(in: EnvironmentValues, _: (UnsafeBufferPointer<Color.Resolved>, Float?) -> Void) {
+        assertUnimplemented()
+    }
+}
+
 @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
-extension MeshGradient : View {}
+extension MeshGradient : UnaryView {}
 
 @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
 extension MeshGradient.BezierPoint : BitwiseCopyable {}
@@ -113,5 +117,15 @@ extension MeshGradient {
 extension MeshGradient {
     struct _Paint {
         // TODO
+    }
+}
+
+extension MeshGradient.Locations : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
     }
 }

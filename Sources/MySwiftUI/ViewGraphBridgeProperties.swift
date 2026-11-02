@@ -42,11 +42,9 @@ extension EnvironmentValues {
             self[BridgePropertiesEnvironmentKey.self] = newValue
         }
     }
-}
 
-fileprivate struct BridgePropertiesEnvironmentKey : EnvironmentKey {
-    static var defaultValue: ViewGraphBridgeProperties {
-        return ViewGraphBridgeProperties(suppliedBridges: [], managedBridges: [], requestedBars: [], managedBars: ViewGraphBridgeProperties.defaultRequestedBars)
+    fileprivate struct BridgePropertiesEnvironmentKey : EnvironmentKey {
+        @safe nonisolated(unsafe) static let defaultValue = ViewGraphBridgeProperties(suppliedBridges: [], managedBridges: [], requestedBars: [], managedBars: ViewGraphBridgeProperties.defaultRequestedBars)
     }
 }
 

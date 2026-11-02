@@ -435,6 +435,10 @@ fileprivate enum PaintType {
     case angularGradient(AngularGradient._Paint)
     case other
     
+    var isOpaqueForShadow: Bool {
+        assertUnimplemented()
+    }
+    
     init<T : ResolvedPaint>(_ paint: T) {
         if let casted = paint as? Color.Resolved {
             self = .color(Color.ResolvedHDR(casted))
@@ -536,6 +540,76 @@ fileprivate func updateContent(layer: CALayer, color: Color.ResolvedHDR, radius:
     layer.cornerRadius = radius
     layer.cornerCurve = (style == .continuous) ? .continuous : .circular
 }
+
+fileprivate func updateContentAsync(
+    layer: inout DisplayList.ViewUpdater.AsyncLayer,
+    oldSize: CGSize,
+    newSize: CGSize,
+    oldPaintType: PaintType,
+    newPaintType: PaintType,
+    old: UnsafeMutablePointer<ShapeLayerHelper>,
+    new: UnsafeMutablePointer<ShapeLayerHelper>
+) -> Bool {
+    assertUnimplemented()
+}
+
+fileprivate func updateShadow(
+    platform: DisplayList.ViewUpdater.Platform,
+    gradientLayer: UnclippedGradientLayer,
+    shadow: ResolvedShadowStyle?,
+    opaque: Bool
+) {
+    assertUnimplemented()
+}
+
+fileprivate func updateShadow(
+    platform: DisplayList.ViewUpdater.Platform,
+    layer: CALayer,
+    shadow: ResolvedShadowStyle?
+) {
+    assertUnimplemented()
+}
+
+struct ShapeLayerShadowHelper {
+    var roundness: Int // 0x0
+    var layer: CALayer // 0x8
+    var path: Path // 0x10
+    var shadowSize: CGSize // 0x38
+    var shadow: ResolvedShadowStyle // 0x48
+    
+    mutating func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
+        assertUnimplemented()
+    }
+}
+
+extension ShapeLayerShadowHelper : ResolvedPaintVisitor {}
+
+fileprivate struct ShapeLayerAsyncHelper {
+    var layer: UnsafeMutablePointer<DisplayList.ViewUpdater.AsyncLayer> // 0x0
+    var old: UnsafeMutablePointer<ShapeLayerHelper> // 0x8
+    var new: UnsafeMutablePointer<ShapeLayerHelper> // 0x10
+    var newPaint: PaintType // 0x18
+    
+    mutating func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
+        assertUnimplemented()
+    }
+}
+
+extension ShapeLayerAsyncHelper : ResolvedPaintVisitor {}
+
+fileprivate struct ShapeLayerAsyncShadowHelper {
+    var layer: UnsafeMutablePointer<DisplayList.ViewUpdater.AsyncLayer> // 0x0
+    var old: UnsafeMutablePointer<ShapeLayerHelper> // 0x8
+    var new: UnsafeMutablePointer<ShapeLayerHelper> // 0x10
+    var newPaint: PaintType // 0x18
+    var result: UnsafeMutablePointer<Bool>
+    
+    mutating func visitPaint<T>(_ paint: T) where T : ResolvedPaint {
+        assertUnimplemented()
+    }
+}
+
+extension ShapeLayerAsyncShadowHelper : ResolvedPaintVisitor {}
 
 fileprivate func updateContent(shapeLayer: ColorShapeLayer, color: Color.ResolvedHDR, strokedPath: Path, origin: CGPoint, style: StrokeStyle) {
     let cgPath: CGPath

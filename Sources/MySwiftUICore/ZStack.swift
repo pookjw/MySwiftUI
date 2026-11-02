@@ -993,6 +993,22 @@ extension ZStackSpatialLayout.PartialPlacement {
     }
 }
 
+struct ZStack3D<Content> : View where Content : View {
+    private var _tree: _VariadicView.Tree<ZStackLayout3D, Content>
+    
+    init(alignment: Alignment, spacing: CGFloat?, @ViewBuilder content: () -> Content) {
+        assertUnimplemented()
+    }
+    
+    nonisolated package static func _makeView(view: _GraphValue<ZStack3D<Content>>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    package typealias Body = Never
+}
+
+extension ZStack3D : UnaryView, PrimitiveView {}
+
 @frozen // ZStackContent3D._SpacedZStack.value에서 init 이후 크기를 알고 있음
 package struct ZStackLayout3D {
     fileprivate private(set) var alignment: Alignment

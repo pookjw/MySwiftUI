@@ -184,29 +184,6 @@ extension Layout {
             return _ViewOutputs()
         }
     }
-    
-    static func makeChildDepthTransform(at index: Int, inputs: _ViewInputs, childDepths: Attribute<[ViewDepth]>?, body: inout (_ViewInputs) -> _ViewOutputs) {
-        guard let childDepths else {
-            return
-        }
-        
-        body = { [childDepths, index, body] inputs in
-            // $s7SwiftUI6LayoutPAAE23makeChildDepthTransform2at6inputs11childDepths4bodyySi_AA11_ViewInputsV14AttributeGraph0O0VySayAA0mF0VGGSgAA01_M7OutputsVAJcztFZAtJcfU_TA
-            /*
-             inputs -> x19
-             body -> x21, x20
-             return register -> x22
-             */
-            // inlined
-            return _ViewOutputs.makeDepthTransform(
-                inputs: inputs,
-                depth: {
-                    return Attribute(LayoutChildDepth(childDepths: childDepths, index: index))
-                },
-                body: body
-            )
-        }
-    }
 }
 
 fileprivate struct StaticLayoutComputer<L : Layout>: StatefulRule, AsyncAttribute, CustomStringConvertible {
@@ -231,16 +208,5 @@ fileprivate struct LayoutChildGeometry : Rule, AsyncAttribute {
     
     var value: ViewGeometry {
         return childGeometries[index]
-    }
-}
-
-fileprivate struct LayoutChildDepth : Rule, AsyncAttribute {
-    @Attribute var childDepths: [ViewDepth]
-    let index: Int
-    
-    typealias Value = ViewDepth
-    
-    var value: ViewDepth {
-        return childDepths[index]
     }
 }

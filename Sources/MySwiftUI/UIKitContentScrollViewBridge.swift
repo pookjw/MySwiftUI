@@ -122,7 +122,7 @@ final class UIKitContentScrollViewBridge {
         }
         
         let _: [ContentScrollViewBox] = []
-        for _ in scrollViews {
+        for _ in scrollViews.reversed() {
             assertUnimplemented()
         }
         assertUnimplemented()
