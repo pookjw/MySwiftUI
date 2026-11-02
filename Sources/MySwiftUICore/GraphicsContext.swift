@@ -1357,12 +1357,17 @@ extension RBFill {
 }
 
 fileprivate func withGradient(
-    _: EitherGradient,
-    in: EnvironmentValues,
+    _ gradient: EitherGradient,
+    in environment: EnvironmentValues,
     colorSpace: RBColorSpace,
-    do: (Int, UnsafePointer<RBColor>, Float?, UnsafePointer<CGFloat>?, RBGradientFlags) -> Void
+    do block: (Int, UnsafePointer<RBColor>, Float?, UnsafePointer<CGFloat>?, RBGradientFlags) -> Void
 ) {
-    assertUnimplemented()
+    switch gradient {
+    case .gradient(let gradient):
+        assertUnimplemented()
+    case .anyGradient(let gradient):
+        assertUnimplemented()
+    }
 } 
 
 fileprivate func withGradient(
