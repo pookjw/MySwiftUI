@@ -283,6 +283,7 @@ func printOffsets() {
     printFields(SwiftUI::ScrollGeometry.self, isClassType: false)
     printFields("7SwiftUI15GraphicsContextV7StorageC", isClassType: true)
     printFields("7SwiftUI11DisplayListV16GraphicsRendererC", isClassType: true)
+    printFields("7SwiftUI22ImageResolutionContextV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

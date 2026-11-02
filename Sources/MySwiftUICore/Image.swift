@@ -376,13 +376,13 @@ extension View {
 }
 
 struct ImageResolutionContext {
-    private var environment: EnvironmentValues
-    private var symbolAnimator: RBSymbolAnimator? = nil
-    private var textStyle: Text.Style?
-    private var transaction: OptionalAttribute<Transaction>
-    private var symbolRenderingOptions = SymbolRenderingOptions()
-    private var allowedDynamicRange: Image.DynamicRange? = nil
-    var options: ImageResolutionContext.Options = .inferSymbolRenderingMode
+    private var environment: EnvironmentValues // 0x0
+    private var symbolAnimator: RBSymbolAnimator? = nil // 0x10
+    private var textStyle: Text.Style? // 0x18 (offset field)
+    private var transaction: OptionalAttribute<Transaction> // 0x1c (offset field)
+    private var symbolRenderingOptions = SymbolRenderingOptions() // 0x20 (offset field)
+    private var allowedDynamicRange: Image.DynamicRange? // 0x24 (offset field)
+    var options: ImageResolutionContext.Options = [.inferSymbolRenderingMode] // 0x28 (offset field)
     
     init(
         environment: EnvironmentValues,
