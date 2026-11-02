@@ -69,15 +69,11 @@ extension Gradient : ShapeStyle {
 
 extension Gradient {
     public struct ColorSpace : Hashable, Sendable {
-        // TODO
+        private var base: ResolvedGradient.ColorSpace
         
-        public static let device: Gradient.ColorSpace = {
-            assertUnimplemented()
-        }()
-        
-        public static let perceptual: Gradient.ColorSpace = {
-            assertUnimplemented()
-        }()
+        public static let device = Gradient.ColorSpace(base: .device)
+        public static let perceptual = Gradient.ColorSpace(base: .perceptual)
+        static let linear = Gradient.ColorSpace(base: .linear)
     }
 }
 

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setConicGradientCenter:(CGPoint)center angle:(CGFloat)angle stopCount:(NSInteger)stopCount colors:(const RBColor *)colors colorSpace:(RBColorSpace)colorSpace locations:(const CGFloat * _Nullable)locations flags:(RBGradientFlags)flags;
 - (void)setAngularGradientCenter:(CGPoint)center startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle stopCount:(NSInteger)stopCount colors:(const RBColor *)colors colorSpace:(RBColorSpace)colorSpace locations:(const CGFloat * _Nullable)locations flags:(RBGradientFlags)flags;
 - (void)setRadialGradientStartCenter:(CGPoint)startCenter startRadius:(CGFloat)startRadius endCenter:(CGPoint)endCenter endRadius:(CGFloat)endRadius stopCount:(NSInteger)stopCount colors:(const RBColor *)colors locations:(const CGFloat * _Nullable)locations flags:(RBGradientFlags)flags;
+- (void)setMeshGradientType:(RBMeshGradientType)meshGradientType positions:(const float *)positions colors:(const RBColor *)colors count:(NSUInteger)count width:(NSUInteger)width background:(RBColor)background colorSpace:(RBColorSpace)colorSpace flags:(RBMeshGradientFlags)flags;
 - (void)setShader:(RBShader * _Nullable)shader bounds:(const CGRect *)bounds flags:(RBShaderFlags)flags;
 @end
 

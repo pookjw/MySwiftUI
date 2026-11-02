@@ -1137,9 +1137,92 @@ extension GraphicsContext.Storage.Shared {
             // <+440>
             let resolved = mesh.background.provider.resolveHDR(in: environment)
             
-            mesh.withResolvedColors(in: environment) { colors, headroom in
-                // $s7SwiftUI12MeshGradientV18withResolvedColors2in_yAA17EnvironmentValuesV_ySRyAA5ColorV0F0VG_SfSgtXEtFySryAKGXEfU_03$s7a105UI15GraphicsContextV7StorageC6Shared33_A8D9ECD380926237F7E554221FB2DE85LLCAAE10setShading_2inyAC0O0V_AA17ij10VtFySRyAA5k2V8F13VG_SfSgtXEfU_AiAE0F3HDRVAA0nO0V0Q0C6Shared01_tuvwxyZ0LLCACTf1nnnnnnnc_n
-                assertUnimplemented()
+            unsafe mesh.withResolvedColors(in: environment) { colors, headroom in
+                let block: (RBMeshGradientType, UnsafePointer<Float>) -> Void = { meshGradientType, positions in
+                    let _headroom: Float
+                    if let __headroom = resolved.headroom {
+                        if let headroom {
+                            _headroom = (__headroom <= headroom) ? headroom : __headroom
+                        } else {
+                            _headroom = __headroom
+                        }
+                    } else {
+                        if let headroom {
+                            _headroom = headroom
+                        } else {
+                            _headroom = .nan
+                        }
+                    }
+                    
+                    let flags: RBMeshGradientFlags
+                    let w8 = mesh.smoothsColors
+                    let w9 = mesh.colorSpace
+                    
+                    if w9 == .device {
+                        // <+292>
+                        if w8 {
+                            flags = [.unknown4]
+                        } else {
+                            flags = []
+                        }
+                    } else if w9 == .linear {
+                        // <+280>
+                        if w8 {
+                            flags = [.unknown0, .unknown4]
+                        } else {
+                            flags = [.unknown0]
+                        }
+                    } else {
+                        // <+304>
+                        if w8 {
+                            flags = [.unknown0, .unknown1, .unknown4]
+                        } else {
+                            flags = [.unknown0, .unknown1]
+                        }
+                    }
+                    
+                    unsafe self.fill.setMeshGradientType(
+                        meshGradientType,
+                        positions: positions,
+                        colors: UnsafeRawPointer(colors.baseAddress.unsafelyUnwrapped)
+                            .assumingMemoryBound(to: RBColor.self),
+                        count: UInt(bitPattern: mesh.height * mesh.width),
+                        width: UInt(bitPattern: mesh.width),
+                        background: RBColor(
+                            red: resolved.linearRed,
+                            green: resolved.linearGreen,
+                            blue: resolved.linearBlue,
+                            alpha: resolved.opacity
+                        ),
+                        colorSpace: .unknown2,
+                        flags: flags
+                    )
+                    
+                    if !_headroom.isNaN {
+                        self.fill.headroom = _headroom
+                    }
+                    
+                    self._fillStyle = nil
+                }
+                
+                switch mesh.locations {
+                case .points(let array):
+                    array.withUnsafeBufferPointer { pointer in
+                        unsafe block(
+                            .unknown1,
+                            UnsafeRawPointer(pointer.baseAddress.unsafelyUnwrapped)
+                                .assumingMemoryBound(to: Float.self),
+                        )
+                    }
+                case .bezierPoints(let array):
+                    array.withUnsafeBufferPointer { pointer in
+                        unsafe block(
+                            .unknown2,
+                            UnsafeRawPointer(pointer.baseAddress.unsafelyUnwrapped)
+                                .assumingMemoryBound(to: Float.self),
+                        )
+                    }
+                }
             }
         case .tiledImage(let image, origin: let origin, sourceRect: let sourceRect, scale: let scale):
             // <+944>

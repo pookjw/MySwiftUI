@@ -42,13 +42,13 @@ public struct MeshGradient : ShapeStyle, Equatable, Sendable {
         }
     }
 
-    public var width: Int
-    public var height: Int
-    public var locations: MeshGradient.Locations
-    public var colors: MeshGradient.Colors
-    public var background: Color
-    public var smoothsColors: Bool
-    public var colorSpace: Gradient.ColorSpace
+    public var width: Int // 0x0
+    public var height: Int // 0x8
+    public var locations: MeshGradient.Locations // 0x10
+    public var colors: MeshGradient.Colors // 0x20
+    public var background: Color // 0x30
+    public var smoothsColors: Bool // 0x38
+    public var colorSpace: Gradient.ColorSpace // 0x39
 
     public init(width: Int, height: Int, locations: MeshGradient.Locations, colors: MeshGradient.Colors, background: Color = .clear, smoothsColors: Bool = true, colorSpace: Gradient.ColorSpace = .device) {
         assertUnimplemented()
@@ -97,8 +97,43 @@ public struct MeshGradient : ShapeStyle, Equatable, Sendable {
 }
 
 extension MeshGradient {
-    func withResolvedColors(in: EnvironmentValues, _: (UnsafeBufferPointer<Color.Resolved>, Float?) -> Void) {
-        assertUnimplemented()
+    func withResolvedColors(in environment: EnvironmentValues, _ block: (UnsafeBufferPointer<Color.Resolved>, Float?) -> Void) {
+        switch self.colors {
+        case .colors(let colors):
+            let count = self.width * self.height
+            
+            withUnsafeTemporaryAllocation(of: Color.Resolved.self, capacity: count) { buffer in
+                var headroom: Float?
+                
+                for index in 0..<min(colors.count, count) {
+                    let resolved = colors[index].resolveHDR(in: environment)
+                    
+                    unsafe buffer.initializeElement(
+                        at: index,
+                        to: Color.Resolved(
+                            linearRed: resolved.linearRed,
+                            linearGreen: resolved.linearGreen,
+                            linearBlue: resolved.linearBlue,
+                            opacity: resolved.opacity
+                        )
+                    )
+                    
+                    if let _headroom = headroom {
+                        if let __headroom = resolved.headroom {
+                            headroom = (_headroom <= __headroom) ? __headroom : _headroom
+                        }
+                    } else {
+                        headroom = resolved.headroom
+                    }
+                }
+                
+                unsafe block(UnsafeBufferPointer(buffer), headroom)
+            }
+        case .resolvedColors(let colors):
+            colors.withUnsafeBufferPointer { pointer in
+                unsafe block(pointer, nil)
+            }
+        }
     }
 }
 

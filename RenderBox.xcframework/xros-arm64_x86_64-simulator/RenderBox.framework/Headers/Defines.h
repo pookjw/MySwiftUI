@@ -154,6 +154,18 @@ typedef NS_OPTIONS(unsigned int, RBShaderFillFlags) {
     RBShaderFillFlagsNone = 0
 };
 
+typedef NS_ENUM(unsigned int, RBMeshGradientType) {
+    RBMeshGradientTypeUnknown1 = 1,
+    RBMeshGradientTypeUnknown2 = 2
+};
+
+typedef NS_OPTIONS(unsigned int, RBMeshGradientFlags) {
+    RBMeshGradientFlagsNone = 0,
+    RBMeshGradientFlagsUnknown0 = (1 << 0),
+    RBMeshGradientFlagsUnknown1 = (1 << 1),
+    RBMeshGradientFlagsUnknown4 = (1 << 4)
+};
+
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
 
 NS_ASSUME_NONNULL_END
