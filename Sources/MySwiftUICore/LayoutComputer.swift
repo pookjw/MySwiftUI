@@ -344,15 +344,15 @@ extension LayoutComputer {
 
 fileprivate class AnyLayoutEngineBox {
     func mutateEngine<T : LayoutEngine, U>(as type: T.Type, do body: (inout T) -> U) -> U {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func layoutPriority() -> Double {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func ignoresAutomaticPadding() -> Bool {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func requiresSpacingProjection() -> Bool {
@@ -360,43 +360,43 @@ fileprivate class AnyLayoutEngineBox {
     }
     
     func spacing() -> Spacing {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func lengthThatFits(_ size: _ProposedSize, in axis: Axis) -> CGFloat {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func childPlacement(at size: ViewSize) -> _Placement {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func childPlacement(at size: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func explicitDepthAlignment(_ key: DepthAlignmentKey, at size: ViewSize3D) -> CGFloat? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func requiresTrueDepthLayout() -> Bool {
-        fatalError() // abstract
+        fatalError("abstract")
     }
 }
 

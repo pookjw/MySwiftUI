@@ -91,7 +91,7 @@ extension _AnyAnimatableData : Sendable {
 @usableFromInline
 package class _AnyAnimatableDataVTable {
     class var zero: Any {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     class func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {

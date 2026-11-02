@@ -13,3 +13,4 @@
 #import <RenderBox/RBColor.h>
 #import <RenderBox/RBShader.h>
 #import <RenderBox/RBShaderLibrary.h>
+#import <RenderBox/RBSymbolAnimator.h>

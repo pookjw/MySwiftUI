@@ -4,7 +4,7 @@ class AttachmentStateControllerBase {
     init() {}
     
     func initialize<T : EntityRepresentable>(with context: EntityRepresentableContext<T>) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
 }
 

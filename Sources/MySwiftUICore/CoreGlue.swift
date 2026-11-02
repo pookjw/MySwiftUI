@@ -7,11 +7,11 @@ open class CoreGlue2 : NSObject {
     @safe nonisolated(unsafe) static var shared: CoreGlue2 = _initializeMyCoreGlue2() as! CoreGlue2
     
     open func configureEmptyEnvironment(_ environmentValues: inout EnvironmentValues) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     open func setupPlatformProperties(_ parameters: CoreGlue2.SetupPlatformPropertiesParameters) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     open func setupPlatformProperties(_ view: AnyObject, kind: PlatformViewDefinition.ViewKind, platform: DisplayList.ViewUpdater.Platform) {
@@ -19,7 +19,7 @@ open class CoreGlue2 : NSObject {
     }
     
     open func setSeparatedState(_ parameters: CoreGlue2.SetSeparatedStateParameters) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     open func setSeparatedState(_ state: SeparatedState, for view: AnyObject, identity: _DisplayList_Identity, reason: DisplayList.ViewUpdater.Platform.SeparationReason, platform: DisplayList.ViewUpdater.Platform) {

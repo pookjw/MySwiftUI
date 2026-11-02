@@ -3,7 +3,7 @@ public import QuartzCore
 
 @_spi(Internal) open class PlatformViewDefinition {
     open class func setAllowsWindowActivationEvents(_ allowed : Bool?, for object: AnyObject) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     open class func setHitTestsAsOpaque(_ flag : Bool, for object: AnyObject) {
@@ -19,11 +19,11 @@ public import QuartzCore
     }
     
     open class var supportsMixedHierarchy : Bool {
-        fatalError() //abstract
+        fatalError() // abstract
     }
     
     open class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {
-        fatalError() //abstract
+        fatalError() // abstract
     }
     
     open class func makeLayerView(type : CALayer.Type, kind: PlatformViewDefinition.ViewKind) -> AnyObject {

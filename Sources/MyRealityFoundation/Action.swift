@@ -102,9 +102,8 @@ extension EntityAction {
         
         // <+516>
         if let handle = subscriptions[event] {
-            // ConstantForceEffect인지 확실하지 않음
             unsafe unsafeBitCast(
-                ConstantForceEffect.eventBus(engine),
+                Self.eventBus(engine),
                 to: CoreRE::EventBus.self
             )
                 .unsubscribe(handle)
@@ -113,7 +112,7 @@ extension EntityAction {
         // <+572>
         // x28
         let eventBus = unsafe unsafeBitCast(
-            ConstantForceEffect.eventBus(engine),
+            Self.eventBus(engine),
             to: CoreRE::EventBus.self
         )
         
@@ -138,6 +137,10 @@ extension EntityAction {
         from event: ActionEventType,
         _ engine: __Engine?
     ) {
+        assertUnimplemented()
+    }
+    
+    static func eventBus(_ engine: __Engine?) -> OpaquePointer {
         assertUnimplemented()
     }
 }

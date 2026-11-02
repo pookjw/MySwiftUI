@@ -94,10 +94,10 @@ class SceneStorageTransformBox {
     }
     
     func readValue(from encodedValues: [AnyHashable: Any], key: String, read: inout Bool) -> Any? {
-        fatalError() //abstract
+        fatalError("Abstract")
     }
     
     func writeValue(_ value: Any, to encodedValues: inout [AnyHashable: Any], key: String) {
-        fatalError() //abstract
+        fatalError("Abstract")
     }
 }

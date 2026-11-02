@@ -1,0 +1,33 @@
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+public struct SymbolRenderingMode : Sendable {
+    public static let monochrome: SymbolRenderingMode = { assertUnimplemented() }()
+    public static let multicolor: SymbolRenderingMode = { assertUnimplemented() }()
+    public static let hierarchical: SymbolRenderingMode = { assertUnimplemented() }()
+    public static let palette: SymbolRenderingMode = { assertUnimplemented() }()
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+public struct SymbolVariableValueMode : Equatable, Sendable {
+    public static let color: SymbolVariableValueMode = { assertUnimplemented() }()
+    public static let draw: SymbolVariableValueMode = { assertUnimplemented() }()
+    
+    public static func == (a: SymbolVariableValueMode, b: SymbolVariableValueMode) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+public struct SymbolColorRenderingMode : Equatable, Sendable {
+    public static let flat: SymbolColorRenderingMode = { assertUnimplemented() }()
+    public static let gradient: SymbolColorRenderingMode = { assertUnimplemented() }()
+    
+    public static func == (a: SymbolColorRenderingMode, b: SymbolColorRenderingMode) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+struct SymbolRenderingOptions {
+    private var renderingMode: SymbolRenderingMode? = nil
+    private var variableValueMode: SymbolVariableValueMode? = nil
+    private var colorMode: SymbolColorRenderingMode? = nil
+}

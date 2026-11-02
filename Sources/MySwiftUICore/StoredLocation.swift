@@ -128,15 +128,15 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
     }
     
     fileprivate func commit(transaction: Transaction, id: Transaction.ID, mutation: StoredLocationBase<Value>.BeginUpdate) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     fileprivate func notifyObservers() {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     fileprivate var isValid: Bool {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     fileprivate final func beginUpdate() {

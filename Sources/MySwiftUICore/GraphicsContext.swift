@@ -1,6 +1,7 @@
 // A8D9ECD380926237F7E554221FB2DE85
 public import CoreGraphics
 internal import RenderBox
+private import AttributeGraph
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @frozen public struct GraphicsContext {
@@ -1226,7 +1227,24 @@ extension GraphicsContext.Storage.Shared {
             }
         case .tiledImage(let image, origin: let origin, sourceRect: let sourceRect, scale: let scale):
             // <+944>
-            assertUnimplemented()
+            var context = ImageResolutionContext(
+                environment: environment,
+                textStyle: nil,
+                transaction: OptionalAttribute()
+            )
+            context.options = []
+            
+            let resolved = image.provider.resolve(in: context)
+            
+            self.fill.setRepeatedImage(
+                resolved.image,
+                origin: origin,
+                scale: scale,
+                sourceRect: sourceRect,
+                in: self.colorSpace
+            )
+            
+            self._fillStyle = nil
         case .backdrop, .style, .levels, .resolved, .foreground:
             // <+1564>
             fatalError("not reached")
@@ -1330,6 +1348,12 @@ extension RBShape {
             self.renderingModeArgument = abs(shapeDistance)
         }
     } 
+}
+
+extension RBFill {
+    fileprivate func setRepeatedImage(_: GraphicsImage, origin: CGPoint, scale: CGFloat, sourceRect: CGRect, in: RBColorSpace) {
+        assertUnimplemented()
+    }
 }
 
 fileprivate func withGradient(

@@ -527,7 +527,7 @@ extension PropertyList {
         }
         
         func value<T>(as type: T.Type) -> T {
-            fatalError() // abstract
+            fatalError("abstract")
         }
         
         func forEach(filter: BloomFilter, _ handler: (Unmanaged<Element>, inout Bool) -> Void) -> Bool {

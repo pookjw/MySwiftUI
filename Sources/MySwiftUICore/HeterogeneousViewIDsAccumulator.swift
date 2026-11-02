@@ -602,7 +602,7 @@ class AbstractHomogeneousCollection {
     }
     
     func asAnyHashable() -> [AnyHashable] {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func asAnyHashable2() -> [AnyHashable2] {

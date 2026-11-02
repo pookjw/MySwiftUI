@@ -78,48 +78,48 @@ private import Spatial
     }
     
     var layoutProperties: LayoutProperties {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func makeCache(subviews: LayoutSubviews) -> AnyLayout.Cache {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func updateCache(_: inout AnyLayout.Cache, subviews: LayoutSubviews) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func spacing(subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> ViewSpacing {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func sizeThatFits(proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGSize {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func explicitAlignment(of alignment: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func explicitAlignment(of alignment: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout AnyLayout.Cache) -> CGFloat? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     var animatableData: _AnyAnimatableData {
         get {
-            fatalError() // abstract
+            fatalError("abstract")
         }
         set {
-            fatalError() // abstract
+            fatalError("abstract")
         }
     }
     
     func withAnimatableData(_ animatableData: _AnyAnimatableData) -> AnyLayoutBox {
-        fatalError() // abstract
+        fatalError("abstract")
     }
 }
 
@@ -213,23 +213,23 @@ final class _AnyLayoutBox<L : Layout> : AnyLayoutBox, @unchecked Sendable {
 
 fileprivate class AnyLayout3DBox {
     var depthProperties: LayoutDepthProperties {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) -> CGFloat {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func placeSubviewDepths(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func explicitAlignment(of alignment: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout AnyLayout.Cache) -> CGFloat? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func withAnimatableData(_ animatableData: _AnyAnimatableData) -> AnyLayout3DBox {
-        fatalError() // abstract
+        fatalError("abstract")
     }
 }
 

@@ -154,35 +154,35 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
     }
     
     func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func resolveHDR(in environment: EnvironmentValues) -> Color.ResolvedHDR {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func apply(color: Color, to shape: inout _ShapeStyle_Shape) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     var staticColor: CGColor? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     package var kitColor: AnyObject? {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func hash(into hasher: inout Hasher) {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     var description: String {
-        fatalError() // abstract
+        fatalError("abstract")
     }
     
     func opacity(at index: Int, environment: EnvironmentValues) -> Float {
-        fatalError() // abstract
+        fatalError("abstract")
     }
 }
 
