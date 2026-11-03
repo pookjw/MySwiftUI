@@ -487,7 +487,6 @@ extension PlatformColorProvider where Self == UIKitPlatformColorProvider {
 
 extension Color {
     package enum ProviderTag {
-        case platform(Color.ProviderTag.PlatformTag)
         case custom
         case customHDR
         case foreground
@@ -514,6 +513,7 @@ extension Color {
         case _destructive
         case headroom
         case linearScale
+        case platform(Color.ProviderTag.PlatformTag)
         
         // TODO: CodingKeys
     }

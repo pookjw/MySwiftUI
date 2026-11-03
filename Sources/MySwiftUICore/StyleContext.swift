@@ -40,6 +40,14 @@ extension View {
     package func styleContext<T : StyleContext>(_ context: T) -> some View {
         self.modifier(StyleContextWriter<T>())
     }
+
+    func styleContext<T : StyleContext, P : ViewInputPredicate>(_ context: T, if predicate: P) -> some View {
+        assertUnimplemented()
+    }
+
+    func styleContext<T : StyleContext, U : StyleContext>(_ context: T, in other: U) -> some View {
+        assertUnimplemented()
+    }
 }
 
 extension ViewModifier {
@@ -48,6 +56,11 @@ extension ViewModifier {
             StyleContextAcceptsPredicate<(repeat each T)>.self,
             then: self
         )
+    }
+
+    func requiring<T : StyleContext, U : StyleContext>(_ first: T, or second: U) -> some ViewModifier {
+        assertUnimplemented()
+        return __MSUI_UnimplementeViewModifier()
     }
 }
 

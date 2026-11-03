@@ -26,12 +26,13 @@ final class SceneStorageValues {
     
     @inline(always) // 원래 없음
     func encode(into values: inout [AnyHashable: Any]) {
+        var encodedValues = self.encodedValues
         for entry in entries.values {
-            entry.encode(into: &values)
+            entry.encode(into: &encodedValues)
         }
         
         // merge -> values/encodedValues
-        self.encodedValues.merge(values) { _, _ in
+        values.merge(encodedValues) { _, _ in
             // $sxq_xq_Iegnnrr_x3key_q_5valuetx_q_tIegnr_SHRzr0_lTRs11AnyHashableV_ypTg5070$sSD5merge_16uniquingKeysWithySDyxq_Gn_q_q__q_tKXEtKFx_q_tx_q_tcfU_s11cD7V_ypTg5Tf3nnpf_n
             assertUnimplemented()
         }

@@ -36,6 +36,10 @@ internal import CoreGraphics
     }
 }
 
+extension LinearGradient : @preconcurrency Paint {
+    typealias ResolvedPaintType = LinearGradient._Paint
+}
+
 extension LinearGradient {
     struct _Paint : ResolvedPaint, ProtobufDecodableMessage {
         static func == (lhs: LinearGradient._Paint, rhs: LinearGradient._Paint) -> Bool {

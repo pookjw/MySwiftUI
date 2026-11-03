@@ -37,6 +37,10 @@ public import CoreGraphics
     }
 }
 
+extension RadialGradient : @preconcurrency Paint {
+    typealias ResolvedPaintType = RadialGradient._Paint
+}
+
 extension RadialGradient {
     struct _Paint : ResolvedPaint, ProtobufDecodableMessage {
         static func == (lhs: RadialGradient._Paint, rhs: RadialGradient._Paint) -> Bool {

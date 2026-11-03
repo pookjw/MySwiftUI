@@ -261,6 +261,10 @@ public struct GeometryProxy3D {
         assertUnimplemented()
     }
     
+    subscript<T>(anchor: Anchor3D<T>) -> T {
+        assertUnimplemented()
+    }
+    
     package func frame(in coordinateSpace: CoordinateSpace) -> Rect3D {
         assertUnimplemented()
     }

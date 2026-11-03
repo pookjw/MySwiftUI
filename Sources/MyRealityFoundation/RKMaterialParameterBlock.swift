@@ -127,6 +127,22 @@ public struct __RKMaterialParameterBlock : Sendable {
     private var savedTransparentPassesFromCore: [(pass: __RKMaterialParameterBlock.TransparentPass, techniqueHash: Int)]? // 0x10
     @safe private(set) nonisolated(unsafe) var coreParameterBlockValue: CoreRE::MaterialParameterBlockValue // 0x18
     
+    var transparentPassTechniqueMappingEnabled: Bool {
+        assertUnimplemented()
+    }
+    
+    func toCore(_ ref: __ComponentRef, index: Int) {
+        assertUnimplemented()
+    }
+    
+    func __toCore(_ ref: __ComponentRef, index: Int) {
+        assertUnimplemented()
+    }
+    
+    static func fromCore(_ ref: __ComponentRef, index: Int) -> __RKMaterialParameterBlock {
+        assertUnimplemented()
+    }
+    
     @available(*, deprecated, message: "Pass mappings in __RKMaterialParameterBlock are no longer supported. Please use CustomMaterial instead.")
     public mutating func setTransparentPassTechniqueMappingEnabled(_ enabled: Bool) {
         assertUnimplemented()

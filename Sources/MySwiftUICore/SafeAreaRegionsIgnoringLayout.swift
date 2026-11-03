@@ -24,7 +24,7 @@ extension _SafeAreaRegionsIgnoringLayout : Sendable {}
 extension _SafeAreaRegionsIgnoringLayout : BitwiseCopyable {}
 
 extension _SafeAreaRegionsIgnoringLayout : UnaryLayout {
-    typealias PlacementContextType = Never
+    typealias PlacementContextType = _PositionAwarePlacementContext
     
     nonisolated func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
         assertUnimplemented()

@@ -56,6 +56,10 @@ extension Scene {
  */
 enum SceneID : Hashable {
     static func == (lhs: SceneID, rhs: SceneID) -> Bool {
+        if case let .type(lhsType, lhsValue) = lhs,
+           case let .type(rhsType, rhsValue) = rhs {
+            return lhsType == rhsType && lhsValue == rhsValue
+        }
         return lhs.sessionID == rhs.sessionID
     }
     

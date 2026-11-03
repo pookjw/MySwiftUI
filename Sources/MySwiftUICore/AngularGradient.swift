@@ -51,6 +51,10 @@ internal import CoreGraphics
     public typealias Resolved = Never
 }
 
+extension AngularGradient : @preconcurrency Paint {
+    typealias ResolvedPaintType = AngularGradient._Paint
+}
+
 extension AngularGradient {
     struct _Paint : ResolvedPaint, ProtobufDecodableMessage {
         static func == (lhs: AngularGradient._Paint, rhs: AngularGradient._Paint) -> Bool {

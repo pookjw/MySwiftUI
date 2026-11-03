@@ -228,6 +228,10 @@ extension CGSize {
         return CGSize(width: d3, height: d1)
     }
     
+    func outset(by insets: EdgeInsets) -> CGSize {
+        assertUnimplemented()
+    }
+    
     func clamped(to traits: _LayoutTraits) -> CGSize {
         var d0 = width
         var d1 = height
@@ -248,5 +252,43 @@ extension CGSize {
     
     package init(_ size3D: Spatial::Size3D) {
         self.init(width: size3D.width, height: size3D.height)
+    }
+
+    init(_ point3D: Spatial::Point3D) {
+        assertUnimplemented()
+    }
+
+    init(_ vector3D: Spatial::Vector3D) {
+        assertUnimplemented()
+    }
+
+    init?(_ proposed: _ProposedSize) {
+        assertUnimplemented()
+    }
+
+    var magnitude: Double {
+        assertUnimplemented()
+    }
+
+    mutating func normalize() {
+        assertUnimplemented()
+    }
+
+    func centeredIn(_ other: CGSize) -> CGRect {
+        assertUnimplemented()
+    }
+
+    func centeredIn(_ rect: CGRect) -> CGRect {
+        assertUnimplemented()
+    }
+}
+
+extension CGSize : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) {
+        assertUnimplemented()
+    }
+
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
     }
 }

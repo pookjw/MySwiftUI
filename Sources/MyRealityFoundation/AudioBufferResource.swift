@@ -13,6 +13,8 @@ extension AudioBufferResource {
         
         public var mixGroupName: String?
         
+        private var layoutTagOverride: UInt32?
+        
         public init(shouldLoop: Bool = false, shouldRandomizeStartTime: Bool = false, normalization: AudioResource.Normalization? = nil, calibration: AudioResource.Calibration? = nil, mixGroupName: String? = nil) {
             assertUnimplemented()
         }

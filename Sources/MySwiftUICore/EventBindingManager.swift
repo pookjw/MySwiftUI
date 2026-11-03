@@ -18,6 +18,10 @@ internal import Foundation
     package func addForwardedEventDispatcher(_ dispatcher: ForwardedEventDispatcher) {
         forwardedEventDispatchers[ObjectIdentifier(type(of: dispatcher).eventType)] = dispatcher
     }
+
+    func willRemoveResponder(_ responder: ResponderNode) {
+        assertUnimplemented()
+    }
 }
 
 package protocol EventGraphHost : AnyObject, EventBindingManagerDelegate {

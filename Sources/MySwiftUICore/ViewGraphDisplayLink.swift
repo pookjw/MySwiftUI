@@ -414,7 +414,7 @@ extension ViewGraphHost {
         clearUpdateTimer()
     }
     
-    func displayLinkTimer(timestamp: Time, targetTimestamp: Time, isAsyncThread: Bool) {
+    fileprivate func displayLinkTimer(timestamp: Time, targetTimestamp: Time, isAsyncThread: Bool) {
         /*
          self -> x20 -> x22
          isAsyncThread -> w2 -> w25
@@ -486,7 +486,7 @@ extension ViewGraphHost {
                     d0 = self.currentTimestamp.seconds
                     d0 = d8 - d0
                     let d1 = 0.000001
-                    d0 = max(d0, d1)
+                    d0 = d0.isNaN ? d1 : max(d0, d1)
                     updateDelegate.requestUpdate(after: d0)
                 }
                 

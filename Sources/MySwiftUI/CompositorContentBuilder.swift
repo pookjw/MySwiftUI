@@ -450,7 +450,7 @@ extension PrimitiveImmersiveSpaceContent {
     }
     
     static func _makeOverwriteImmersionStyle() -> ImmersionStyle {
-        fatalError()
+        fatalError("Needs overwrite")
     }
     
     func _makeCompositorContent() -> AnyCompositorContent? {

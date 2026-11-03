@@ -8,10 +8,7 @@ public import Spatial
             return _children
         }
         set {
-            _children = newValue
-        }
-        _modify {
-            yield &_children
+            assertUnimplemented()
         }
     }
     

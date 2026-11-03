@@ -28,8 +28,8 @@ public struct Subview : View, Identifiable {
     }
 
     nonisolated public static func _makeView(view: _GraphValue<Subview>, inputs: _ViewInputs) -> _ViewOutputs {
-        let value = view[{ .of(&$0.base.view )}]
-        return _ViewList_View.makeDebuggableView(view: value, inputs: inputs)
+        let value = view[{ .of(&$0.base) }]
+        return _VariadicView_Children.Element.makeDebuggableView(view: value, inputs: inputs)
     }
 
     nonisolated public static func _makeViewList(view: _GraphValue<Subview>, inputs: _ViewListInputs) -> _ViewListOutputs {

@@ -1,3 +1,5 @@
+internal import Spatial
+
 @frozen public struct Anchor<Value> {
     fileprivate let box: AnchorValueBoxBase<Value>
     
@@ -56,3 +58,35 @@ class AnchorValueBoxBase<T> {
 }
 
 extension AnchorValueBoxBase : @unchecked Sendable where T : Sendable {}
+
+struct Anchor3D<Value> {
+    // TODO
+    
+    func convert(to transform: ViewTransform) -> Value {
+        assertUnimplemented()
+    }
+    
+    struct Source {
+        // TODO
+        
+        func prepare(size: Size3D, transform: ViewTransform) -> Anchor3D<Value> {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension Anchor3D : Sendable where Value : Sendable {}
+extension Anchor3D.Source : Sendable where Value : Sendable {}
+
+extension Anchor3D : Equatable where Value : Equatable {
+    static func == (a: Anchor3D<Value>, b: Anchor3D<Value>) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension Anchor3D : Hashable where Value : Hashable {
+    func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+

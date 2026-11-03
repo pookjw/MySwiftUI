@@ -64,6 +64,10 @@ fileprivate struct SpringModel {
     let d: Double // 0x18
     let e: Double // 0x20
     
+    func sample(at: Double) -> Double {
+        assertUnimplemented()
+    }
+    
     func duration(epsilon: Double) -> Double {
         var d0 = epsilon
         var d8 = d0
