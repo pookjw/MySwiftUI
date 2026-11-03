@@ -1,5 +1,6 @@
 // 16926B370582AC5E886A9B0FCFCEA0ED
 internal import MySwiftUICore
+private import AttributeGraph
 
 extension View {
     @inline(always)
@@ -14,12 +15,12 @@ fileprivate struct PresentedSceneValueInputModifier : @MainActor ViewInputsModif
     @safe nonisolated(unsafe) private(set) var presentedValue: AnyHashable?
     
     nonisolated static func _makeViewInputs(modifier: _GraphValue<PresentedSceneValueInputModifier>, inputs: inout _ViewInputs) {
-        inputs[PresentedSceneValueInput.self] = modifier.value[keyPath: \.presentedValue]
+        inputs[PresentedSceneValueInput.self] = OptionalAttribute(modifier.value[keyPath: \.presentedValue])
     }
 }
 
 fileprivate struct PresentedSceneValueInput : ViewInput {
-    static var defaultValue: AnyHashable? {
-        return nil
+    static var defaultValue: OptionalAttribute<AnyHashable?> {
+        return OptionalAttribute()
     }
 }

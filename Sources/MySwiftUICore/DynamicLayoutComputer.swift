@@ -169,7 +169,7 @@ extension Layout3D {
         
         // <+1224>
         if scrollTargetRole.attribute != nil {
-            copy_2.scrollTargetRole = OptionalAttribute()
+            copy_2.base.scrollTargetRole = OptionalAttribute()
             // <+1288>
             copy_2.preferences.keys.remove(ScrollTargetRole.ContentKey.self)
         }

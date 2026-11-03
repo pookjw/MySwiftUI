@@ -6,7 +6,7 @@ struct ScrollTargetRole {
 }
 
 extension ScrollTargetRole {
-    enum Role {
+    enum Role : Hashable {
         case container
         case target
     }
@@ -48,27 +48,11 @@ extension ScrollTargetRole {
 
 extension _ViewInputs {
     var scrollTargetRole: OptionalAttribute<ScrollTargetRole.Role?> {
-        get {
-            return base.scrollTargetRole
-        }
-        set {
-            base.scrollTargetRole = newValue
-        }
-        _modify {
-            yield &base.scrollTargetRole
-        }
+        return base.scrollTargetRole
     }
     
     var scrollTargetRemovePreference: Bool {
-        get {
-            return base.scrollTargetRemovePreference
-        }
-        set {
-            base.scrollTargetRemovePreference = newValue
-        }
-        _modify {
-            yield &base.scrollTargetRemovePreference
-        }
+        return base.scrollTargetRemovePreference
     }
 }
 
@@ -81,7 +65,7 @@ extension _GraphInputs {
             self[_GraphInputs.ScrollTargetRoleKey.self] = newValue
         }
         _modify {
-            assertUnimplemented()
+            yield &self[_GraphInputs.ScrollTargetRoleKey.self]
         }
     }
     
@@ -93,7 +77,7 @@ extension _GraphInputs {
             self[_GraphInputs.RemovePreferenceInput.self] = newValue
         }
         _modify {
-            assertUnimplemented()
+            yield &self[_GraphInputs.RemovePreferenceInput.self]
         }
     }
     

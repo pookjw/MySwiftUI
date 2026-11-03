@@ -7,7 +7,7 @@
         if unsafe self._ref == nil {
             unsafe self._ref = _OrderedCoatCheckBagRef<T>()
         } else if unsafe !isKnownUniquelyReferenced(&self._ref!) {
-            assertionFailure("Attempting to form more than one copy of a bag. These should be held by at most one reference type.")
+            fatalError("Attempting to form more than one copy of a bag. These should be held by at most one reference type.")
         }
     }
     
@@ -90,7 +90,7 @@ extension OrderedCoatCheckBag {
         // <+376>
         guard unsafe ticket._ptr == Unmanaged.passUnretained(self).toOpaque() else {
             // <+1116>
-            assertionFailure("Attempting to remove an element from the wrong bag.  This is a serious error.")
+            fatalError("Attempting to remove an element from the wrong bag.  This is a serious error.")
         }
         
         var result: T? = nil
@@ -100,7 +100,7 @@ extension OrderedCoatCheckBag {
         }
         
         guard unsafe !storage.isEmpty else {
-            assertionFailure("Removing from an empty bag. This is almost always an error -- are you removing from the correct bag?")
+            fatalError("Removing from an empty bag. This is almost always an error -- are you removing from the correct bag?")
         }
         
         var iterator = unsafe storage.enumerated().makeIterator()

@@ -39,8 +39,8 @@ extension PresentationKind {
     }
     
     fileprivate struct Key : EnvironmentKey {
-        static var defaultValue: PresentationKind.Tag {
-            return .none
+        static var defaultValue: PresentationKind {
+            return PresentationKind(tag: .none)
         }
     }
 }
@@ -48,10 +48,10 @@ extension PresentationKind {
 extension EnvironmentValues {
     var presentationKind: PresentationKind {
         get {
-            return PresentationKind(tag: self[PresentationKind.Key.self])
+            return self[PresentationKind.Key.self]
         }
         set {
-            self[PresentationKind.Key.self] = newValue.tag
+            self[PresentationKind.Key.self] = newValue
         }
     }
 }

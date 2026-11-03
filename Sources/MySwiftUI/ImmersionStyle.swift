@@ -44,7 +44,7 @@ extension AutomaticImmersionStyle : Sendable {}
 
 extension AutomaticImmersionStyle {
     @_spi(Internal) public func _resolved() -> _ResolvedImmersionStyle {
-        return _ResolvedImmersionStyle(wrappedStyle: self, initialImmersionLevel: 0)
+        return _ResolvedImmersionStyle(wrappedStyle: MixedImmersionStyle(), initialImmersionLevel: 0)
     }
 }
 

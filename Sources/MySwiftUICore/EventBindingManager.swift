@@ -16,7 +16,7 @@ internal import Foundation
     }
     
     package func addForwardedEventDispatcher(_ dispatcher: ForwardedEventDispatcher) {
-        forwardedEventDispatchers[ObjectIdentifier(type(of: dispatcher))] = dispatcher
+        forwardedEventDispatchers[ObjectIdentifier(type(of: dispatcher).eventType)] = dispatcher
     }
 }
 
@@ -54,7 +54,7 @@ extension EventBindingManagerDelegate {
 }
 
 package protocol ForwardedEventDispatcher {
-    
+    static var eventType: any EventType.Type { get }
 }
 
 @_spi(Internal) public struct EventBinding {

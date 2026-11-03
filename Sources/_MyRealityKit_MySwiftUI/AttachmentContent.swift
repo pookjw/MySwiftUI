@@ -1,3 +1,5 @@
+public import MySwiftUICore
+
 @available(visionOS 1.0, *)
 @available(macOS, unavailable)
 @available(macCatalyst, unavailable)
@@ -21,7 +23,7 @@ extension PrimitiveAttachmentContent {
 }
 
 protocol AttachmentProtocol : Identifiable {
-    associatedtype ViewType
+    associatedtype ViewType : View
     
     var view: Self.ViewType {
         get

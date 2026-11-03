@@ -157,8 +157,8 @@ struct SwiftUIImageAccessibilityProvider : ImageAccessibilityProvider {
 }
 
 struct SwiftUIPrivacyReductionAccessibilityProvider : PrivacyReductionAccessibilityProvider {
-    func body(content: Content) -> Never {
-        assertUnimplemented() // TODO
+    static func makeModifier(shouldRedact: Bool) -> __MSUI_UnimplementeViewModifier /* TODO */ {
+        assertUnimplemented()
     }
 }
 

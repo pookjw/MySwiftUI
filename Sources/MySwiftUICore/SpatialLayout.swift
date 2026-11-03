@@ -153,8 +153,8 @@ extension SpatialLayout where Self == _ZStackLayout {
         
         // <+1080>
         if scrollTargetRole.attribute != nil {
-            copy_2.scrollTargetRole = OptionalAttribute()
-            copy_2.scrollTargetRemovePreference = true
+            copy_2.base.scrollTargetRole = OptionalAttribute()
+            copy_2.base.scrollTargetRemovePreference = true
             copy_2.base.resetScrollPosition(kind: .scrollContent)
         }
         

@@ -19,7 +19,7 @@ extension EnvironmentValues {
 }
 
 #else
-private import os.lock
+private import Synchronization
 
 package struct MaterialBackdropProxy : Equatable {
     package static func == (lhs: MaterialBackdropProxy, rhs: MaterialBackdropProxy) -> Bool {
@@ -90,7 +90,7 @@ package struct MaterialBackdropProxy : Equatable {
 
 extension MaterialBackdropProxy {
     fileprivate final class Storage {
-        let data = OSAllocatedUnfairLock(uncheckedState: MaterialBackdropProxy.Storage.Data())
+        let data = Mutex(MaterialBackdropProxy.Storage.Data())
     }
     
     fileprivate struct Observer {

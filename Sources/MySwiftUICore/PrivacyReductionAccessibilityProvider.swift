@@ -1,5 +1,6 @@
-package protocol PrivacyReductionAccessibilityProvider : ViewModifier {
-    
+package protocol PrivacyReductionAccessibilityProvider {
+    associatedtype Modifier : ViewModifier
+    static func makeModifier(shouldRedact: Bool) -> Modifier
 }
 
 extension _GraphInputs {
@@ -16,12 +17,12 @@ extension _GraphInputs {
     }
     
     fileprivate struct PrivacyReductionAccessibilityProviderKey : GraphInput {
-        static let defaultValue: (any PrivacyReductionAccessibilityProvider.Type) = EmptyPrivacyReductionAccessibilityProvider.self
+        @safe static nonisolated(unsafe) let defaultValue: (any PrivacyReductionAccessibilityProvider.Type) = EmptyPrivacyReductionAccessibilityProvider.self
     }
 }
 
 struct EmptyPrivacyReductionAccessibilityProvider : PrivacyReductionAccessibilityProvider {
-    func body(content: Content) -> some View {
-        assertUnimplemented()
+    static func makeModifier(shouldRedact: Bool) -> EmptyModifier {
+        return EmptyModifier()
     }
 }

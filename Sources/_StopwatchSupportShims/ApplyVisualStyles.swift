@@ -40,7 +40,7 @@ private let implicitButtonStyleSensoryFeedback: Bool = {
         let infoDictionary = Bundle.main.infoDictionary,
         let boolValue = infoDictionary["SupportsImplicitButtonStyleSensoryFeedback"] as? Bool
     {
-        unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: App explicitly specified support as \(boolValue).")
+        unsafe os_log(.info, log: OSLog.stopwatchSupport, "Implicit ButtonStyle feedback: App explicitly specified support as %{bool}d.", boolValue)
         return boolValue
     }
     

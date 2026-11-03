@@ -662,8 +662,8 @@ extension Layout {
         
         if scrollTargetRole.attribute != nil {
             // <+1488>
-            copy_3.scrollTargetRole = OptionalAttribute<ScrollTargetRole.Role?>()
-            copy_3.scrollTargetRemovePreference = true
+            copy_3.base.scrollTargetRole = OptionalAttribute<ScrollTargetRole.Role?>()
+            copy_3.base.scrollTargetRemovePreference = true
             copy_3.base.resetScrollPosition(kind: .scrollContent)
         }
         

@@ -8,13 +8,13 @@ internal import MySwiftUICore
         assertUnimplemented()
     }
     
-    nonisolated var buttonStyleRepresentation: SWSPlainButtonStyle.Representation {
+    nonisolated var buttonStyleRepresentation: SWSPlainButtonStyle.ButtonStyleRepresentation {
         assertUnimplemented()
     }
 }
 
 extension SWSPlainButtonStyle {
-    struct Representation : ButtonStyle, AnyDefaultStyle {
+    struct ButtonStyleRepresentation : ButtonStyle, AnyDefaultStyle {
         nonisolated init() {}
         
         func makeBody(configuration: ButtonStyleConfiguration) -> Never {

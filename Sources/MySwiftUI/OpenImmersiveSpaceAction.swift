@@ -70,7 +70,6 @@ private import MRUIKit
                 }
                 
                 return .error
-                assertUnimplemented()
             case .userActivityEncoding:
                 return .error
             case .invalidRequest:

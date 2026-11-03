@@ -5,7 +5,7 @@ extension Color {
     static let _destructive = Color(box: ColorBox(DestructiveColorProvider()))
 }
 
-struct DestructiveColorProvider : ColorProvider {
+struct DestructiveColorProvider : ColorProvider, EmptySerializable {
     var tag: Color.ProviderTag {
         assertUnimplemented()
     }
