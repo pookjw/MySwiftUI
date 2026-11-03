@@ -8,7 +8,7 @@ Inspired by [OpenSwiftUI](https://github.com/OpenSwiftUIProject/OpenSwiftUI).
 
 ## Requirements
 
-- Xcode 27.2
+- Xcode 27.3
 
 - visionOS 26.5
 
