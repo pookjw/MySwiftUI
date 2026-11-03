@@ -1,0 +1,2 @@
+package protocol NonGestureEventType : EventType {
+}

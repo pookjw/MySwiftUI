@@ -28,3 +28,7 @@ public struct EventModifiers : OptionSet {
 extension EventModifiers : Sendable {}
 extension EventModifiers : BitwiseCopyable {}
 extension EventModifiers : Hashable {}
+
+package protocol ModifiersEventType : EventType {
+    var modifiers: EventModifiers { get set }
+}

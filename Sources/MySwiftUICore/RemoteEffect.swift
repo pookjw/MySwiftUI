@@ -484,7 +484,7 @@ struct RemoteEffectNamespaceScope : Equatable {
     }
 }
 
-enum TouchType : Hashable {
+package enum TouchType : Hashable {
     case direct
     case indirect
     case indirectPointer
