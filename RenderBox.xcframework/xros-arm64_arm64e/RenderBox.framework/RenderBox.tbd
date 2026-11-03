@@ -44,6 +44,7 @@ exports:
     RBDisplayListTransform,
     RBEncoderSet,
     RBShader,
-    RBShaderLibrary ]
+    RBShaderLibrary,
+    RBSymbolAnimator ]
     objc-ivars:           [  ]
 ...
