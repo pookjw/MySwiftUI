@@ -32,6 +32,10 @@ extension HorizontalEdge {
                 self = .trailing
             }
         }
+        
+        func contains(_ edge: HorizontalEdge) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 

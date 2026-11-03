@@ -18,6 +18,10 @@
     public init() {
     }
 
+    static func `for`(system: PlatformSystemDefinition) -> PlatformItemsDefinition.Type? {
+        assertUnimplemented()
+    }
+
     
     static nonisolated(unsafe) var uiKit: PlatformItemsDefinition.Type?
     static nonisolated(unsafe) var appKit: PlatformItemsDefinition.Type?

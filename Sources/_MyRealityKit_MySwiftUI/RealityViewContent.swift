@@ -159,6 +159,18 @@ public struct RealityViewContent : RealityViewContentProtocol {
             return self._base
         }
     }
+    
+    public func _proto_findEntity(named: String) -> MyRealityFoundation::Entity? {
+        assertUnimplemented()
+    }
+    
+    public func _proto_findEntity(id: UInt64) -> MyRealityFoundation::Entity? {
+        assertUnimplemented()
+    }
+    
+    public func _proto_performQuery(_ query: EntityQuery) -> QueryResult<MyRealityFoundation::Entity> {
+        assertUnimplemented()
+    }
 }
 
 @available(visionOS 1.0, *)

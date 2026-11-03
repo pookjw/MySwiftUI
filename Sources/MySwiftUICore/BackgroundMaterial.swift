@@ -14,9 +14,47 @@ extension EnvironmentValues {
     }
 }
 
+extension View {
+    public func backgroundMaterial(_ material: Material) -> some View {
+        assertUnimplemented()
+    }
+
+    public func backgroundMaterial<S : Shape>(_ material: Material, in shape: S) -> some View {
+        assertUnimplemented()
+    }
+}
+
 fileprivate struct BackgroundMaterialKey : EnvironmentKey {
     static var defaultValue: Material? {
         return nil
+    }
+}
+
+struct MaterialView<Shape : MySwiftUICore.Shape> : PrimitiveView, PrimitiveViewModifier {
+    private var material: Material
+    private var shape: Shape
+    private var ignoredSafeAreaEdges: Edge.Set
+
+    init(material: Material, shape: Shape, ignoredSafeAreaEdges: Edge.Set = []) {
+        self.material = material
+        self.shape = shape
+        self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
+    }
+
+    static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+
+    static func _makeViewList(view: _GraphValue<Self>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+
+    static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+
+    static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
     }
 }
 

@@ -91,7 +91,7 @@ extension EllipticalGradient {
 }
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-@frozen public struct _AnyEllipticalGradient : ShapeStyle {
+@frozen public struct _AnyEllipticalGradient : ShapeStyle, Paint {
     @usableFromInline
     internal var gradient: AnyGradient
     @usableFromInline
@@ -109,6 +109,14 @@ extension EllipticalGradient {
     }
     
     public typealias Resolved = Never
+    
+    func resolvePaint(in environment: EnvironmentValues) -> EllipticalGradient._Paint {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)

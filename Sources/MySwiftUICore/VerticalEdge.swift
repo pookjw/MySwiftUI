@@ -32,6 +32,10 @@ extension VerticalEdge {
                 self = .bottom
             }
         }
+        
+        func contains(_ edge: VerticalEdge) -> Bool {
+            assertUnimplemented()
+        }
     }
 }
 

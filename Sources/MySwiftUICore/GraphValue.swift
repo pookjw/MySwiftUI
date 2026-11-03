@@ -20,6 +20,10 @@ public struct _GraphValue<Value> : Equatable {
         return _GraphValue<T>(casted)
     }
     
+    func unsafeCast<T>(to type: T.Type = T.self) -> _GraphValue<T> {
+        assertUnimplemented()
+    }
+    
     public subscript<U>(keyPath: KeyPath<Value, U>) -> _GraphValue<U> {
         let result = self.value[keyPath: keyPath]
         return _GraphValue<U>(result)

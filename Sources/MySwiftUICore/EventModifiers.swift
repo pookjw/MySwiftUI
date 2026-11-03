@@ -22,6 +22,7 @@ public struct EventModifiers : OptionSet {
     package static let _function = EventModifiers(rawValue: 1 << 6)
     
     public static let all: EventModifiers = [.capsLock, .shift, .control, .option, .command, .numericPad]
+    static let _all: EventModifiers = [.capsLock, .shift, .control, .option, .command, .numericPad, ._function]
 }
 
 extension EventModifiers : Sendable {}

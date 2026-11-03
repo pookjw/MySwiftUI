@@ -89,6 +89,10 @@ extension Entity {
         @MainActor @preconcurrency public func replaceAll<S>(_ children: S, preservingWorldTransforms: Bool = false) where S : Sequence, S.Element : Entity {
             assertUnimplemented()
         }
+        
+        func forEach(recursive: Bool = false, using body: (Entity) -> Void) {
+            assertUnimplemented()
+        }
     }
 }
 
@@ -129,15 +133,23 @@ extension Entity.ChildCollection.IndexingIterator : IteratorProtocol, Sequence {
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension Entity.ChildCollection : @MainActor EntityCollection {
+    @MainActor @preconcurrency public func append(_ entity: Entity) {
+        assertUnimplemented()
+    }
+    
     @MainActor @preconcurrency public func append<S>(contentsOf sequence: S) where S : Sequence, S.Element : Entity {
         self.append(contentsOf: sequence, preservingWorldTransforms: false)
     }
     
-    @MainActor @preconcurrency public func remove(_ child: Entity) {
+    @MainActor @preconcurrency public func insert(_ entity: Entity, beforeIndex index: Int) {
         assertUnimplemented()
     }
     
     @MainActor @preconcurrency public func insert<S>(contentsOf sequence: S, beforeIndex index: Int) where S : Sequence, S.Element : Entity {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public func remove(_ child: Entity) {
         assertUnimplemented()
     }
     
@@ -146,6 +158,10 @@ extension Entity.ChildCollection : @MainActor EntityCollection {
     }
     
     @MainActor @preconcurrency public func removeAll() {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency public func removeAll(where shouldBeRemoved: (Entity) throws -> Bool) rethrows {
         assertUnimplemented()
     }
     

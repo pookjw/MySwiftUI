@@ -108,4 +108,12 @@ extension AffineTransform3D {
     mutating func applyTransform(item: ViewTransform.Item, isDownwards: Bool) {
         assertUnimplemented()
     }
+    
+    init(_ transform: CGAffineTransform) {
+        assertUnimplemented()
+    }
+    
+    init(_ transform: ProjectionTransform) {
+        assertUnimplemented()
+    }
 }

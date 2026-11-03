@@ -7,11 +7,11 @@ protocol Paint : ShapeStyle {
 }
 
 extension Paint {
-    func _apply(to shape: inout _ShapeStyle_Shape) {
+    public func _apply(to shape: inout _ShapeStyle_Shape) {
         assertUnimplemented()
     }
     
-    static func _makeView<S : Shape>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs {
+    public static func _makeView<S : Shape>(view: _GraphValue<_ShapeView<S, Self>>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
 }

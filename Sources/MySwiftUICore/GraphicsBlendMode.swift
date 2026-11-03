@@ -16,6 +16,25 @@ package enum GraphicsBlendMode {
     }
     
     @safe static nonisolated(unsafe) let normal = GraphicsBlendMode.blendMode(.normal)
+    
+    init(_ blendMode: BlendMode) {
+        assertUnimplemented()
+    }
+    
+    enum CAFilterType : UInt, Hashable, RawRepresentable {
+        case plusLIgnoreAlpha
+        case subtractSIgnoreAlpha
+        case destOutPassthrough
+        case plusDIgnoreAlpha
+        
+        init?(_ filter: CAFilter) {
+            assertUnimplemented()
+        }
+    }
+    
+    init?(_ caFilterType: CAFilterType) {
+        assertUnimplemented()
+    }
 }
 
 extension GraphicsBlendMode : RendererEffect {

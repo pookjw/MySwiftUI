@@ -86,11 +86,25 @@ extension ContentStyle {
     struct Style : Hashable {
         private(set) var id: ContentStyle.ID
         private(set) var primitive: ContentStyle.Primitive
+
+        package init(id: ContentStyle.ID, primitive: ContentStyle.Primitive) {
+            self.id = id
+            self.primitive = primitive
+        }
     }
     
     struct MaterialStyle : Hashable {
-        private(set) var material: Material.ResolvedMaterial // 0x0
-        private(set) var base: ContentStyle.Style // 0x11
+        private var material: Material.ResolvedMaterial // 0x0
+        private var base: ContentStyle.Style // 0x11
+
+        init(material: Material.ResolvedMaterial, base: ContentStyle.Style) {
+            self.material = material
+            self.base = base
+        }
+
+        func resolveColor(in environment: EnvironmentValues) -> Color.ResolvedHDR {
+            resolveCoreMaterialColor(in: environment)
+        }
         
         func resolveCoreMaterialColor(in environment: EnvironmentValues) -> Color.ResolvedHDR {
             guard environment.isVisionEnabled else {

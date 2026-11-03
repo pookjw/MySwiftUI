@@ -1,4 +1,8 @@
-struct EventSubscriptionComponent : Component {
+struct EventSubscriptionComponent : Component, TransientComponent, DefaultInitializable {
+    init() {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> EventSubscriptionComponent {
         assertUnimplemented()
     }

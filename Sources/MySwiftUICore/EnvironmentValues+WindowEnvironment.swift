@@ -58,6 +58,18 @@ extension EnvironmentValues {
             yield &self[WindowEnvironmentKeys.IsMain.self]
         }
     }
+    
+    var windowBackgroundIsOpaque: Bool {
+        get {
+            return self[WindowEnvironmentKeys.BackgroundIsOpaque.self]
+        }
+        set {
+            self[WindowEnvironmentKeys.BackgroundIsOpaque.self] = newValue
+        }
+        _modify {
+            yield &self[WindowEnvironmentKeys.BackgroundIsOpaque.self]
+        }
+    }
 }
 
 enum WindowEnvironmentKeys {
@@ -86,6 +98,12 @@ enum WindowEnvironmentKeys {
     }
     
     struct IsMain : EnvironmentKey {
+        static var defaultValue: Bool {
+            return true
+        }
+    }
+    
+    struct BackgroundIsOpaque : EnvironmentKey {
         static var defaultValue: Bool {
             return true
         }

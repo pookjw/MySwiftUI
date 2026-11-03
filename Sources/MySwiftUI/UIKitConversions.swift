@@ -977,6 +977,22 @@ extension BarAppearanceBridge {
         
         assertUnimplemented()
     }
+
+    fileprivate func updateNavigationBarMargins(_ viewController: UIViewController, isTop: Bool) {
+        assertUnimplemented()
+    }
+
+    fileprivate func updateTabBarVisibility(_ configuration: ToolbarAppearanceConfiguration, tabBarController: UITabBarController) {
+        assertUnimplemented()
+    }
+
+    fileprivate func updateTabBarConfiguration() -> Bool {
+        assertUnimplemented()
+    }
+
+    fileprivate func updateTabBarAppearance(_ configuration: ToolbarAppearanceConfiguration, tabBarController: UITabBarController) {
+        assertUnimplemented()
+    }
 }
 
 struct NavigationBarUpdateFlags {
@@ -1075,6 +1091,43 @@ extension UINavigationController {
 extension UISplitViewController {
     func column(forViewController viewController: UIViewController) -> UISplitViewController.Column? {
         assertUnimplemented()
+    }
+
+    fileprivate func mayHaveNavigationBarContent(given: UINavigationController, isCollapsed: Bool) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension UINavigationBarAppearance {
+    fileprivate func updateForeground(configuration: ToolbarAppearanceConfiguration, titleVisibility: Visibility?, in: EnvironmentValues) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate protocol NavigationAppearanceSubscriptable {
+    associatedtype Appearance: Equatable
+    subscript(index: Int) -> Appearance? { get set }
+}
+
+extension UINavigationItem: NavigationAppearanceSubscriptable {
+    fileprivate subscript(index: Int) -> UINavigationBarAppearance? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension UIToolbar: NavigationAppearanceSubscriptable {
+    fileprivate subscript(index: Int) -> UIToolbarAppearance? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
     }
 }
 

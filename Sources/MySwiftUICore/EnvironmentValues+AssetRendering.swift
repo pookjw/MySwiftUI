@@ -17,17 +17,17 @@ extension EnvironmentValues {
         set {
             self[RenderingRootViewKey.self] = WeakBox(newValue)
         }
-    } 
-}
-
-fileprivate struct AssetCatalogConfigurationKey : EnvironmentKey {
-    static var defaultValue: ViewGraphHost.AssetCatalogConfiguration? {
-        return nil
     }
-}
 
-fileprivate struct RenderingRootViewKey : EnvironmentKey {
-    static var defaultValue: WeakBox<AnyObject> {
-        return WeakBox(nil)
+    fileprivate struct AssetCatalogConfigurationKey : EnvironmentKey {
+        static var defaultValue: ViewGraphHost.AssetCatalogConfiguration? {
+            return nil
+        }
+    }
+
+    fileprivate struct RenderingRootViewKey : EnvironmentKey {
+        static var defaultValue: WeakBox<AnyObject> {
+            return WeakBox(nil)
+        }
     }
 }

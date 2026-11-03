@@ -18,18 +18,34 @@ struct TupleStyleContext<T> : StyleContext {
 
 extension TupleStyleContext {
     fileprivate struct QueryAtIndexVisitor<U> : StyleContextVisitor {
+        mutating func visit<V>(_ type: V.Type) where V : StyleContext {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
     
     fileprivate struct QueryVisitor<each U> : StyleContextVisitor {
+        mutating func visit<V>(_ type: V.Type) where V : StyleContext {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
     
     fileprivate struct ContextAcceptsVisitor<U> : StyleContextVisitor {
+        mutating func visit<V>(_ type: V.Type) where V : StyleContext {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
 }
 
 fileprivate struct QueryVisitor<U> : StyleContextVisitor {
+    mutating func visit<V>(_ type: V.Type) where V : StyleContext {
+        assertUnimplemented()
+    }
+    
     // TODO
 }

@@ -15,6 +15,47 @@ public struct UnitCurve {
     public var inverse: UnitCurve {
         assertUnimplemented()
     }
+    
+    static var easeIn: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var easeOut: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var easeInOut: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var easeInEaseOut: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var linear: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var circularEaseIn: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var circularEaseOut: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    static var circularEaseInOut: UnitCurve {
+        assertUnimplemented()
+    }
+    
+    var function: UnitCurve.Function {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 }
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
@@ -58,5 +99,29 @@ extension UnitCurve {
         init(from decoder: inout ProtobufDecoder) throws {
             assertUnimplemented()
         }
+        
+        var startControlPoint: UnitPoint {
+            assertUnimplemented()
+        }
+        
+        var endControlPoint: UnitPoint {
+            assertUnimplemented()
+        }
+        
+        func value(at progress: Double) -> Double {
+            assertUnimplemented()
+        }
+        
+        func velocity(at progress: Double) -> Double {
+            assertUnimplemented()
+        }
+    }
+    
+    enum Function: Hashable {
+        case bezier(startControlPoint: UnitPoint, endControlPoint: UnitPoint)
+        case linear
+        case circularEaseIn
+        case circularEaseOut
+        case circularEaseInOut
     }
 }

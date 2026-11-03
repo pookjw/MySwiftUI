@@ -97,6 +97,18 @@ package struct OptionalEdgeInsets : Hashable, Sendable {
                 self.trailing = newValue
             }
         }
+        _modify {
+            switch edge {
+            case .top:
+                yield &self.top
+            case .leading:
+                yield &self.leading
+            case .bottom:
+                yield &self.bottom
+            case .trailing:
+                yield &self.trailing
+            }
+        }
     }
     
     func `in`(axes: Axis.Set) -> OptionalEdgeInsets {

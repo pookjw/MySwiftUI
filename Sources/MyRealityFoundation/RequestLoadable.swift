@@ -108,14 +108,18 @@ final class RequestLoadableUtilities {
 }
 
 enum NetworkSendBlockingCategory : String, Hashable, CaseIterable {
-     case animation
-     case audio
-     case environment
-     case builtInMaterial
-     case shaderGraphMaterial
-     case mesh
-     case physics
-     case texture
-     case entityLoad
-     case video
- }
+    case animation
+    case audio
+    case environment
+    case builtInMaterial
+    case shaderGraphMaterial
+    case mesh
+    case physics
+    case texture
+    case entityLoad
+    case video
+    
+    var supportsResourceSharingBeforeECSCommits: Bool {
+        assertUnimplemented()
+    }
+}

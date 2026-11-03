@@ -1,4 +1,5 @@
 internal import CoreGraphics
+internal import Spatial
 
 protocol DerivedLayout : Layout {
     associatedtype Base : Layout
@@ -37,5 +38,25 @@ extension DerivedLayout {
     
     public func explicitAlignment(of guide: VerticalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: LayoutSubviews, cache: inout Base.Cache) -> CGFloat? {
         return self.base.explicitAlignment(of: guide, in: bounds, proposal: proposal, subviews: subviews, cache: &cache)
+    }
+}
+
+protocol DerivedLayout3D : DerivedLayout, Layout3D where Base : Layout3D {}
+
+extension DerivedLayout3D {
+    static var depthProperties: LayoutDepthProperties {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Base.Cache) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func placeSubviewDepths(in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Base.Cache) {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(of guide: DepthAlignment, in bounds: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout Base.Cache) -> CGFloat? {
+        assertUnimplemented()
     }
 }

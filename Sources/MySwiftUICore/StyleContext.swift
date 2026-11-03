@@ -88,7 +88,7 @@ extension StyleContext where Self == SheetStyleContext {
 }
 
 package protocol StyleContextVisitor {
-    // TODO
+    mutating func visit<T : StyleContext>(_ type: T.Type)
 }
 
 package struct StyleContextAcceptsPredicate<T> : ViewInputPredicate {

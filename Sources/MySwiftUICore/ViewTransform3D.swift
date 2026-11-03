@@ -86,9 +86,17 @@ extension ViewTransform {
         let element = DepthTranslationElement(depth: depth)
         self.updateHead(element: element)
     }
+    
+    mutating func appendSizedSpace3D(id: CoordinateSpace.ID, size3D: Size3D) {
+        assertUnimplemented()
+    }
 }
 
 extension ViewTransform.UnsafeBuffer {
+    mutating func appendTranslation3D(_ size: Size3D) {
+        assertUnimplemented()
+    }
+    
     package mutating func appendAffineTransform3D(_ transform: AffineTransform3D, inverse: Bool) {
         /*
          self -> x20

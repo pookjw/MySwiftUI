@@ -107,6 +107,10 @@ extension ContentSizedSceneFeature where GeometryMeasurer == VolumeThatFitsMeasu
             assertUnimplemented()
         }
     }
+    
+    static func ornament(graph: ViewGraph) -> ContentSizedSceneFeature<VolumeThatFitsMeasurer> {
+        assertUnimplemented()
+    }
 }
 
 fileprivate final class SizingPreferencesChangeDispatcher {

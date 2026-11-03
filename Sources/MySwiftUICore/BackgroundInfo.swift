@@ -31,6 +31,15 @@ extension EnvironmentValues {
             self.backgroundInfo.layer = newValue
         }
     }
+    
+    var backgroundGroupLevel: Int {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
 }
 
 fileprivate struct BackgroundInfoKey : EnvironmentKey {
