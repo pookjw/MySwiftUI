@@ -1394,22 +1394,67 @@ extension RBShape {
                     let d0 = style.miterLimit
                     let d1: CGFloat = 1.4142
                     
-                    if d0 < d1 {
+                    if !(d1 <= d0) {
                         // <+64>
                     } else {
-                        
+                        self.setStrokedRect(rect, lineWidth: style.lineWidth)
+                        return
                     }
-                    assertUnimplemented()
                 default:
                     // <+64>
                     break
                 }
             case .ellipse(let rect):
                 // <+220>
-                assertUnimplemented()
+                if rect.width != rect.height {
+                    // <+64>
+                } else {
+                    // <+288>
+                    var d0 = rect.width
+                    let d14: CGFloat = 0.5
+                    d0 = d0 * d14
+                    let d12 = d0 + rect.origin.x
+                    d0 = rect.height
+                    d0 = d0 * d14
+                    let d13 = d0 + rect.origin.y
+                    d0 = rect.width
+                    let d2 = d0 * d14
+                    
+                    self.setStrokedCircleAt(
+                        CGPoint(x: d12, y: d13),
+                        radius: d2,
+                        lineWidth: style.lineWidth
+                    )
+                    return
+                }
             case .roundedRect(let rect):
                 // <+608>
-                assertUnimplemented()
+                let d13 = rect.cornerSize.width
+                var d0 = rect.cornerSize.height
+                let cmp = (d13 != d0)
+                d0 = abs(d13 - d0)
+                var d1: CGFloat = 0.001
+                
+                if cmp && !(d0 < d1) {
+                    // <+64>
+                } else {
+                    // <+648>
+                    let d12 = rect.rect.width
+                    d0 = rect.rect.height
+                    d0 = (d0 < d12) ? d0 : d12
+                    d1 = 0.5
+                    d0 = d0 * d1
+                    let d4 = (d0 < d13) ? d0 : d13
+                    
+                    self.setStrokedRoundedRect(
+                        rect.rect,
+                        cornerRadius: d4,
+                        cornerStyle: (rect.style == .circular) ? .circular : .continuous,
+                        lineWidth: style.lineWidth
+                    )
+                    
+                    return
+                }
             case .stroked, .trimmed, .path:
                 // <+64>
                 break

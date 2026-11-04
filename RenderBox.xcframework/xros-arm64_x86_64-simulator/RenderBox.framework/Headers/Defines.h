@@ -176,6 +176,13 @@ typedef NS_OPTIONS(unsigned int, RBMeshGradientFlags) {
 
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
 
+typedef struct RBCornerRadii {
+    const CGFloat topLeft;
+    const CGFloat topRight;
+    const CGFloat bottomLeft;
+    const CGFloat bottomRight;
+} RBCornerRadii;
+
 NS_ASSUME_NONNULL_END
 
 #endif
