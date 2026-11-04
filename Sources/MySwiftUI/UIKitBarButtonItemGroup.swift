@@ -2,8 +2,10 @@ internal import UIKit
 internal import MySwiftUICore
 private import _MySwiftUICoreShims
 
-class UIKitBarButtonItemGroup : UIBarButtonItemGroup {
-    // TODO
+final class UIKitBarButtonItemGroup : UIBarButtonItemGroup {
+    private var groupItem: ToolbarStorage.GroupItem?
+    private var edge: HorizontalEdge?
+    private var viewController: UIViewController?
 
     override class func _isFromMySwiftUI() -> Bool {
         assertUnimplemented()

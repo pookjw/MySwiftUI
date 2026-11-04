@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(uint32_t, RBPathElement) {
     RBPathElementUnknown0 = 0,
     RBPathElementUnknown1 = 1,
+    RBPathElementUnknown2 = 2,
     RBPathElementUnknown3 = 3,
     RBPathElementUnknown4 = 4,
     RBPathElementUnknown5 = 5,

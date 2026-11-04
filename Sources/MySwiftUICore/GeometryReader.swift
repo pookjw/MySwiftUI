@@ -4,6 +4,7 @@ internal import CoreGraphics
 
 @frozen public struct GeometryReader<Content> : View where Content : View {
     public var content: (GeometryProxy) -> Content
+    public typealias Body = Never
     
     @inlinable public init(@ViewBuilder content: @escaping (GeometryProxy) -> Content) {
         self.content = content

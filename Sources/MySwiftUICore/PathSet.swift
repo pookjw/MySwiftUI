@@ -4,11 +4,11 @@ struct PathSet {
     var elements: [PathSet.Element]
     var smoothness: CGFloat
     
-    init(_ path: Path, smoothness: CGFloat) {
+    init(_ path: Path, smoothness: CGFloat = 0) {
         assertUnimplemented()
     }
     
-    init(elements: [PathSet.Element], smoothness: CGFloat) {
+    init(elements: [PathSet.Element] = [], smoothness: CGFloat = 0) {
         assertUnimplemented()
     }
     
@@ -16,6 +16,14 @@ struct PathSet {
         assertUnimplemented()
     }
 }
+
+extension PathSet : Equatable {
+    static func == (a: PathSet, b: PathSet) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension PathSet : SDFRenderer {}
 
 extension PathSet : ProtobufEncodableMessage {
     func encode(to encoder: inout ProtobufEncoder) throws {

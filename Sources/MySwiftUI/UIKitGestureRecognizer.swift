@@ -1,16 +1,53 @@
 // 062C14327F4C9197D92807A7F4DF7F3B
 internal import UIKit
+internal import _UIKitPrivate
 @_spi(Internal) internal import MySwiftUICore
 
-// TODO: final인지 검증
-class UIKitGestureRecognizer : UIGestureRecognizer {
+class UIKitGestureRecognizer : UIGestureRecognizer, EventBindingSource, _UIScrollEventRespondable, _UITransformEventRespondable {
+    private static var nextTouchSerialID: UInt32 = 0
     weak var eventBridge: EventBindingBridge? = nil
-    let twoHandedInteractionRelationshipGesture = UIKitRelationshipGestureRecognizer()
+    final let twoHandedInteractionRelationshipGesture = UIKitRelationshipGestureRecognizer()
     private var inFlightTouchSerialIDs: [ObjectIdentifier : UInt32] = [:]
     private var initialScale: CGFloat = 1.0
     private var initialAngle: Angle = .zero
     private var scrollConverter = ScrollEventConverter()
     private var gestureCategory = GestureCategory(rawValue: 0)
+
+    func attach(to bridge: EventBindingBridge) {
+        assertUnimplemented()
+    }
+
+    func `as`<T>(_ type: T.Type) -> T? {
+        assertUnimplemented()
+    }
+
+    func didBind(to binding: EventBinding, id: EventID, in bridge: EventBindingBridge) {
+        assertUnimplemented()
+    }
+
+    func didUpdate(phase: GesturePhase<Void>, in bridge: EventBindingBridge) {
+        assertUnimplemented()
+    }
+
+    func didUpdate(gestureCategory: GestureCategory, in bridge: EventBindingBridge) {
+        assertUnimplemented()
+    }
+
+    fileprivate func serialIDForTouch(_ touch: UITouch) -> EventID {
+        assertUnimplemented()
+    }
+
+    fileprivate func updateTwoHandedInteraction() {
+        assertUnimplemented()
+    }
+
+    func _scrollingChanged(with event: UIScrollEvent) {
+        assertUnimplemented()
+    }
+
+    func _transformChanged(with event: UITransformEvent) {
+        assertUnimplemented()
+    }
 
     func didAttach(to bridge: EventBindingBridge?) {
         assertUnimplemented()

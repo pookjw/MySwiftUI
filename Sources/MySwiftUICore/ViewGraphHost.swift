@@ -161,6 +161,24 @@ internal import CoreGraphics
         assertUnimplemented()
     }
     
+    var updateRequiredMainThread: Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    func updateRootView(transaction: Transaction) {
+        assertUnimplemented()
+    }
+    
+    func observeSizeThatFitsChanges(proposal: ProposedViewSize, handler: @escaping (CGSize) -> Void) {
+        assertUnimplemented()
+    }
+    
+    func stopObservingSizeThatFitsChanges(proposal: ProposedViewSize) {
+        assertUnimplemented()
+    }
+    
     package func nextRenderInterval(interval: () -> Double) -> Double {
         if let displayLink {
             let nextUpdate = displayLink.nextUpdate
@@ -322,6 +340,10 @@ internal import CoreGraphics
     
     package var environment: EnvironmentValues {
         return viewGraph.environment
+    }
+    
+    deinit {
+        assertUnimplemented()
     }
 }
 

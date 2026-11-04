@@ -54,8 +54,8 @@ extension EnvironmentValues {
 }
 
 enum ImmersiveSpaceClientOptionsUpdate {
-    struct V1: CustomStringConvertible, Decodable, Encodable {
-        var description: String {
+    struct V1: CustomDebugStringConvertible, Decodable, Encodable {
+        var debugDescription: String {
             assertUnimplemented()
         }
         

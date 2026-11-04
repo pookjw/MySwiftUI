@@ -1,11 +1,11 @@
 // 793D6F3A821DF9AD951A5651887F0D07
 internal import AttributeGraph
-internal import Combine
+package import Combine
 private import _DarwinFoundation3.pthread
 private import os.log
 private import _MySwiftUICoreShims
 
-final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::Subscriber, Combine::Cancellable, Combine::CustomCombineIdentifierConvertible {
+package final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::Subscriber, Combine::Cancellable, Combine::CustomCombineIdentifierConvertible {
     private weak var host: GraphHost? = nil
     let attribute: WeakAttribute<Void>
     private var state: AttributeInvalidatingSubscriber<T>.StateType = .unsubscribed
@@ -15,17 +15,17 @@ final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::S
         self.attribute = attribute
     }
     
-    func receive(subscription: Combine::Subscription) {
+    package func receive(subscription: Combine::Subscription) {
         switch self.state {
-        case .subscribed(_):
+        case .subscribed(_), .complete:
             subscription.cancel()
-        case .unsubscribed, .complete:
+        case .unsubscribed:
             self.state = .subscribed(subscription)
             subscription.request(.unlimited)
         }
     }
     
-    func receive(_ output: T.Output) -> Combine::Subscribers.Demand {
+    package func receive(_ output: T.Output) -> Combine::Subscribers.Demand {
         if case .subscribed(_) = self.state {
             self.invalidateAttribute()
         }
@@ -63,11 +63,11 @@ final class AttributeInvalidatingSubscriber<T : Combine::Publisher> : Combine::S
         }
     }
     
-    func receive(completion: Combine::Subscribers.Completion<T.Failure>) {
+    package func receive(completion: Combine::Subscribers.Completion<T.Failure>) {
         assertUnimplemented()
     }
     
-    func cancel() {
+    package func cancel() {
         if case .subscribed(let subscription) = self.state {
             subscription.cancel()
         }

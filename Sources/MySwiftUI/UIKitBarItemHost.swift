@@ -1,7 +1,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import UIKit
 
-class UIKitBarItemHost<Content : View>: _UIHostingView<Content> {
+final class UIKitBarItemHost<Content : View>: _UIHostingView<Content> {
     // TODO
 
     override class var requiresExplicitGeometryChangedRegistration: Bool {
@@ -25,6 +25,10 @@ class UIKitBarItemHost<Content : View>: _UIHostingView<Content> {
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
+        assertUnimplemented()
+    }
+    
+    func initializeSize() {
         assertUnimplemented()
     }
 }

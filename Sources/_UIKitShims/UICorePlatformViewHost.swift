@@ -1111,7 +1111,7 @@ public import _UIKitPrivate
 }
 
 extension UICorePlatformViewHost {
-    fileprivate enum ViewControllerParentingMode {
+    fileprivate enum ViewControllerParentingMode: Hashable {
         case unknown0
         case unknown1
     }

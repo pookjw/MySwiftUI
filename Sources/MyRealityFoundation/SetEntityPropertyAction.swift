@@ -21,7 +21,13 @@ struct SetEntityPropertyAction<Value> : EntityAction, Codable {
         assertUnimplemented()
     }
 
-    fileprivate enum CodingKeys : CodingKey {
-        // TODO
+    enum CodingKeys : CodingKey {
+        case targetEntity
+        case key
+        case value
+    }
+    
+    enum DecodingErrors : Error {
+        case unsupportedValueType
     }
 }

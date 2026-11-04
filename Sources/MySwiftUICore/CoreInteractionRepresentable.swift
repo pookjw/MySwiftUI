@@ -9,6 +9,10 @@
 }
 
 @_spi(Internal) public protocol CoreInteractionView {
+    var coreInteractions: CoreInteractionRepresentableInteractionsProxy { get set }
+    
+    func coreAddInteraction(_ interaction: AnyObject)
+    func coreRemoveInteraction(_ interaction: AnyObject)
 }
 
 @_spi(Internal) public struct CoreInteractionRepresentableFeatureBufferProxy {

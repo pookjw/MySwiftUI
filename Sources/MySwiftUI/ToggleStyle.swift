@@ -1,79 +1,43 @@
 public import MySwiftUICore
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-@preconcurrency @MainActor
-public protocol ToggleStyle {
+@preconcurrency @MainActor public protocol ToggleStyle {
     associatedtype Body : View
-    
-    @ViewBuilder @MainActor @preconcurrency
-    func makeBody(configuration: Self.Configuration) -> Self.Body
-    
+    @ViewBuilder @MainActor @preconcurrency func makeBody(configuration: Self.Configuration) -> Self.Body
     typealias Configuration = ToggleStyleConfiguration
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct ToggleStyleConfiguration {
-    public var isOn: Bool {
-        get {
-            assertUnimplemented()
-        }
-        nonmutating set {
-            assertUnimplemented()
-        }
+    @MainActor @preconcurrency public struct Label : View, ViewAlias {
+        public typealias Body = Never
     }
     
+    public let label: ToggleStyleConfiguration.Label
+    @Binding public var isOn: Bool
+    @Binding private var toggleState: ToggleState
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    public var isMixed: Bool {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
-//    @MainActor @preconcurrency
-//    public struct Label: View {
-//        @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-//        public typealias Body = Never
-//    }
-//    
-//    public let label: ToggleStyleConfiguration.Label
-//    
-////    @Binding
-////    @_projectedValueProperty($isOn)
-//    public var isOn: Bool {
-//        get {
-//            assertUnimplemented()
-//        }
-//        @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-//        nonmutating set {
-//            assertUnimplemented()
-//        }
-//    }
-//    
-//    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-//    public var isMixed: Bool
+    public var isMixed: Bool
+    
+    private var effect: ToggleStyleConfiguration.Effect
 }
 
-//@available(*, unavailable)
-//extension ToggleStyleConfiguration: Sendable {}
-//
-//@available(*, unavailable)
-//extension ToggleStyleConfiguration.Label: Sendable {}
-//
-//@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-//extension View {
-//    nonisolated public func toggleStyle<S>(_ style: S) -> some View where S : ToggleStyle {
-//        assertUnimplemented()
-//    }
-//}
-//
-//@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-//extension Toggle where Label == ToggleStyleConfiguration.Label {
-//    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-//    nonisolated public init(_ configuration: ToggleStyleConfiguration) {
-//        assertUnimplemented()
-//    }
-//}
-//
-//extension ToggleStyleConfiguration: /*ViewAlias,*/ PrimitiveView {}
+@available(*, unavailable)
+extension ToggleStyleConfiguration : Sendable {
+}
+
+@available(*, unavailable)
+extension ToggleStyleConfiguration.Label : Sendable {
+}
+
+extension View {
+    nonisolated public func toggleStyle<S>(_ style: S) -> some View where S : ToggleStyle {
+        assertUnimplemented()
+    }
+}
+
+extension ToggleStyleConfiguration {
+    enum Effect {
+//        case appIntent(AppIntentAction)
+        case binding
+    }
+}

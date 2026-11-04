@@ -28,6 +28,12 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
         assertUnimplemented()
     }
     
+    subscript(_ name: _ShapeStyle_Name) -> _ShapeStyle_Pack.Slice {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
     func isClear(name: _ShapeStyle_Name) -> Bool {
         assertUnimplemented()
     }
@@ -205,6 +211,44 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
 }
 
 extension _ShapeStyle_Pack {
+    struct Slice : BidirectionalCollection {
+        init(pack: _ShapeStyle_Pack, name: _ShapeStyle_Name) {
+            assertUnimplemented()
+        }
+        
+        var allColors: Bool {
+            get {
+                assertUnimplemented()
+            }
+        }
+        
+        var startIndex: Int {
+            get {
+                assertUnimplemented()
+            }
+        }
+        
+        var endIndex: Int {
+            get {
+                assertUnimplemented()
+            }
+        }
+        
+        subscript(index: Int) -> _ShapeStyle_Pack.Style {
+            get {
+                assertUnimplemented()
+            }
+        }
+        
+        func index(after i: Int) -> Int {
+            assertUnimplemented()
+        }
+        
+        func index(before i: Int) -> Int {
+            assertUnimplemented()
+        }
+    }
+    
     struct Style : Animatable, Equatable {
         static func == (lhs: _ShapeStyle_Pack.Style, rhs: _ShapeStyle_Pack.Style) -> Bool {
             assertUnimplemented()

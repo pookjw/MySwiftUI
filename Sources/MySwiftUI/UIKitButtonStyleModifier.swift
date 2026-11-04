@@ -15,3 +15,8 @@ struct UIKitButtonStyleModifier<Style> : StyleModifier {
 struct UIKitButtonConfiguration {
     // TODO
 }
+
+extension UIKitButtonConfiguration {
+    struct Label : View, ViewAlias {
+    }
+}

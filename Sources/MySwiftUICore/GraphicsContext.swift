@@ -337,6 +337,7 @@ private import AttributeGraph
             assertUnimplemented()
         }
 
+        @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
         public static func alphaMultiply(_ color: Color) -> GraphicsContext.Filter {
             assertUnimplemented()
         }
@@ -346,6 +347,11 @@ private import AttributeGraph
         }
 
         public static func colorMatrix(_ matrix: ColorMatrix) -> GraphicsContext.Filter {
+            assertUnimplemented()
+        }
+
+        @available(iOS 18.2, macOS 15.2, watchOS 11.2, tvOS 18.2, visionOS 2.2, *)
+        public static func colorMatrix(_ matrix: ColorMatrix, isPremultiplied: Bool) -> GraphicsContext.Filter {
             assertUnimplemented()
         }
 
@@ -549,7 +555,32 @@ private import AttributeGraph
             )
         }
 
+        @available(iOS 18.2, macOS 15.2, watchOS 11.2, tvOS 18.2, visionOS 2.2, *)
+        public static func radialGradient(_ gradient: Gradient, startCenter: CGPoint, startRadius: CGFloat, endCenter: CGPoint, endRadius: CGFloat, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
+            assertUnimplemented()
+        }
+
         public static func conicGradient(_ gradient: Gradient, center: CGPoint, angle: Angle = Angle(), options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
+            assertUnimplemented()
+        }
+
+        @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+        public static func linearGradient(_ gradient: AnyGradient, startPoint: CGPoint, endPoint: CGPoint, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
+            assertUnimplemented()
+        }
+
+        @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+        public static func radialGradient(_ gradient: AnyGradient, center: CGPoint, startRadius: CGFloat, endRadius: CGFloat, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
+            assertUnimplemented()
+        }
+
+        @available(iOS 18.2, macOS 15.2, watchOS 11.2, tvOS 18.2, visionOS 2.2, *)
+        public static func radialGradient(_ gradient: AnyGradient, startCenter: CGPoint, startRadius: CGFloat, endCenter: CGPoint, endRadius: CGFloat, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
+            assertUnimplemented()
+        }
+
+        @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+        public static func conicGradient(_ gradient: AnyGradient, center: CGPoint, angle: Angle = Angle(), options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
             assertUnimplemented()
         }
 
@@ -600,7 +631,7 @@ private import AttributeGraph
     }
 
     public func stroke(_ path: Path, with shading: GraphicsContext.Shading, style: StrokeStyle) {
-        assertUnimplemented()
+        self.draw(path, with: shading, style: .stroke(style))
     }
 
     public func stroke(_ path: Path, with shading: GraphicsContext.Shading, lineWidth: CGFloat = 1) {
@@ -1342,8 +1373,68 @@ extension RBShape {
         )
     }
     
-    fileprivate func setStrokedPath(_: Path, style: StrokeStyle) {
-        assertUnimplemented()
+    fileprivate func setStrokedPath(_ path: Path, style: StrokeStyle) {
+        /*
+         self -> x20 -> x19
+         path -> x0 -> x20
+         style -> x1 -> x21
+         */
+        if style.dash.isEmpty {
+            // <+188>
+            switch path.storage {
+            case .empty:
+                // <+460>
+                self.setEmpty()
+                return
+            case .rect(let rect):
+                // <+504>
+                switch style.lineJoin {
+                case .miter:
+                    // <+512>
+                    let d0 = style.miterLimit
+                    let d1: CGFloat = 1.4142
+                    
+                    if d0 < d1 {
+                        // <+64>
+                    } else {
+                        
+                    }
+                    assertUnimplemented()
+                default:
+                    // <+64>
+                    break
+                }
+            case .ellipse(let rect):
+                // <+220>
+                assertUnimplemented()
+            case .roundedRect(let rect):
+                // <+608>
+                assertUnimplemented()
+            case .stroked, .trimmed, .path:
+                // <+64>
+                break
+            }
+        }
+        
+        // <+64>
+        style.dash.withUnsafeBufferPointer { pointer in
+            let rbPath = unsafe path.retainRBPath()
+            let transform = CGAffineTransform(1, 0, 0, 1, 0, 0)
+            
+            unsafe self.setStrokedRBPath(
+                rbPath,
+                transform: transform,
+                lineWidth: style.lineWidth,
+                lineCap: style.lineCap,
+                lineJoin: style.lineJoin,
+                miterLimit: style.miterLimit,
+                dashPhase: style.dashPhase,
+                dashPattern: pointer.baseAddress.unsafelyUnwrapped,
+                dashCount: pointer.count
+            )
+            
+            unsafe rbPath.release()
+        }
     }
     
     fileprivate func setRenderingMode(style: FillStyle, shapeDistance: CGFloat) {

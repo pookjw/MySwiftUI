@@ -58,7 +58,69 @@ public struct PointLightComponent : Component, Equatable {
 }
 
 extension PointLightComponent {
-    struct Shadow : Component {
+    struct Shadow : Component, Equatable {
+        init() {
+            assertUnimplemented()
+        }
+        
+        init(depthBias: Float) {
+            assertUnimplemented()
+        }
+        
+        enum ClippingPlane : Equatable {
+            case automatic
+            case fixed(Float)
+            
+            static func == (a: PointLightComponent.Shadow.ClippingPlane, b: PointLightComponent.Shadow.ClippingPlane) -> Bool {
+                assertUnimplemented()
+            }
+        }
+        
+        var maximumDistance: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var depthBias: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var zNear: PointLightComponent.Shadow.ClippingPlane {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var zFar: PointLightComponent.Shadow.ClippingPlane {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var cullModeOverride: MaterialParameterTypes.FaceCulling? {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
         @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> PointLightComponent.Shadow {
             assertUnimplemented()
         }
@@ -67,35 +129,39 @@ extension PointLightComponent {
             assertUnimplemented()
         }
 
-        @_spi(Internal) public static var componentName: String {
+        static func == (a: PointLightComponent.Shadow, b: PointLightComponent.Shadow) -> Bool {
+            assertUnimplemented()
+        }
+
+        static var componentName: String {
             get {
                 assertUnimplemented()
             }
         }
 
-        @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+        static func __load(from ref: UnsafeRawPointer) {
             assertUnimplemented()
         }
 
-        @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+        static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
             assertUnimplemented()
         }
 
-        @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+        static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
             assertUnimplemented()
         }
 
-        @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+        static var __coreComponentType: __ComponentTypeRef {
             get {
                 assertUnimplemented()
             }
         }
 
-        @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
+        static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
             assertUnimplemented()
         }
 
-        @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        static var coreComponentType: CoreComponentType {
             assertUnimplemented()
         }
     }
@@ -110,6 +176,10 @@ extension PointLightComponent {
         set {
             assertUnimplemented()
         }
+    }
+    
+    public init(cgColor: CGColor, intensity: Float, attenuationRadius: Float, attenuationFalloffExponent: Float) {
+        assertUnimplemented()
     }
 }
 
@@ -132,3 +202,13 @@ extension PointLightComponent : CustomReflectable {
         assertUnimplemented()
     }
 }
+
+extension PointLightComponent.Shadow : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}
+
+extension PointLightComponent.Shadow : DefaultInitializable {
+}
+

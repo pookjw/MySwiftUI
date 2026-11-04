@@ -27,6 +27,22 @@ class OrnamentBridge<Content : View> {
         updateSceneOrnamentFrameMonitor()
     }
     
+    fileprivate var ornamentsItem: MRUIOrnamentsItem {
+        assertUnimplemented()
+    }
+    
+    fileprivate final func updateOrnament(for state: OrnamentBridge<Content>.PresentationState) {
+        assertUnimplemented()
+    }
+    
+    fileprivate final func updateState(_ state: inout OrnamentBridge<Content>.PresentationState, for presentation: OrnamentPresentation) {
+        assertUnimplemented()
+    }
+    
+    fileprivate final func updateVisibility(state: OrnamentBridge<Content>.PresentationState, newPresentation: OrnamentPresentation) -> Bool {
+        assertUnimplemented()
+    }
+    
     fileprivate final func updateSceneOrnamentFrameMonitor() {
         let platterOrnamentManager: AnyObject?
         if

@@ -1,0 +1,3 @@
+protocol SDFRenderer {
+    // TODO
+}

@@ -85,6 +85,10 @@ final class CALayerPlatformViewDefinition : PlatformViewDefinition {
     override class func setHiddenForReuse(_ flag: Bool, of object: AnyObject) {
         assertUnimplemented()
     }
+    
+    deinit {
+        assertUnimplemented()
+    }
 }
 
 extension CALayer {

@@ -389,6 +389,10 @@ final class ToolbarBridge<T : ToolbarStrategy>: NSObject {
         return storage.entryIDs.count
     }
     
+    func hasItem(withPlacement role: ToolbarItemPlacement.Role) -> Bool {
+        assertUnimplemented()
+    }
+    
     func entries(in location: Toolbar.BarLocation) -> [String: ToolbarStorage.Entry] {
         let storage = storageByLocation[location] ?? Toolbar.LocationStorage(entryIDs: [], entries: [:], vendedItems: [:])
         return storage.entries

@@ -92,6 +92,20 @@ extension TypesettingLanguage {
         case automatic
         case contentAware
     }
+    
+    struct Resolved : Equatable {
+        var fontModifier: AnyFontModifier? {
+            assertUnimplemented()
+        }
+        
+        static func == (a: TypesettingLanguage.Resolved, b: TypesettingLanguage.Resolved) -> Bool {
+            assertUnimplemented()
+        }
+    }
+    
+    func resolve(with: (() -> String)?, locale: Locale) -> TypesettingLanguage.Resolved {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)

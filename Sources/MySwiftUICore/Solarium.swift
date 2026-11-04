@@ -20,6 +20,18 @@ package struct Solarium : ViewInputPredicate {
         return value.0 == .enabled
     }
     
+    static func enablement(_ idiom: Solarium.EnablementIdiom) -> Solarium.EnablementLevel {
+        assertUnimplemented()
+    }
+    
+    static func enablementCriteria(_ idiom: Solarium.EnablementIdiom) -> Solarium.EnablementCriteria {
+        assertUnimplemented()
+    }
+    
+    static func useMetrics(for idiom: Solarium.EnablementIdiom) -> Bool {
+        assertUnimplemented()
+    }
+    
     fileprivate static func computeValues(_ idiom: Solarium.EnablementIdiom) -> (Solarium.EnablementLevel, Solarium.EnablementCriteria) {
         return Solarium.cachedValues.withLock { values in
             // $s7SwiftUI8SolariumV13computeValues33_DB20D13822F3237D192A89B71B0DBAEALLyAC15EnablementLevelO_AC0N8CriteriaVtAC0N5IdiomOFZAG_AItSDyAkG_AItGzYuYTXEfU_

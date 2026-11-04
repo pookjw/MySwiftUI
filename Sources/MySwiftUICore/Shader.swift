@@ -212,6 +212,8 @@ public struct Shader : Equatable, Sendable {
     }
 }
 
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, *)
+@available(watchOS, unavailable)
 extension Shader {
     public func compile(as type: Shader.UsageType) async throws {
         assertUnimplemented()
@@ -345,6 +347,7 @@ public struct _ShaderFilterEffect : ViewModifier, VisualEffect, Sendable {
     }
     
     public typealias Body = Never
+    public typealias AnimatableData = EmptyAnimatableData
 }
 
 extension _ShaderFilterEffect {

@@ -18,7 +18,7 @@ extension View {
     }
 }
 
-fileprivate struct CoreInteractionRepresentableAdaptor<T : _UIInteractionRepresentable> : CoreInteractionRepresentable {
+fileprivate struct CoreInteractionRepresentableAdaptor<T : _UIInteractionRepresentable> : @MainActor CoreInteractionRepresentable {
     typealias InteractionView = _UIInteractionView<T.UIInteractionType, Self>
     
     private(set) var base: T
@@ -38,6 +38,14 @@ fileprivate struct CoreInteractionRepresentableAdaptor<T : _UIInteractionReprese
 
 fileprivate class _UIInteractionView<Interaction : UIInteraction, Content : CoreInteractionRepresentable> : UIView, CoreInteractionView {
     var coreInteractions: CoreInteractionRepresentableInteractionsProxy
+
+    func coreAddInteraction(_ interaction: AnyObject) {
+        assertUnimplemented()
+    }
+
+    func coreRemoveInteraction(_ interaction: AnyObject) {
+        assertUnimplemented()
+    }
 
     override init(frame: CGRect) {
         assertUnimplemented()

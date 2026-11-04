@@ -375,12 +375,12 @@ extension View {
     }
 }
 
-struct ImageResolutionContext {
+package struct ImageResolutionContext {
     private var environment: EnvironmentValues // 0x0
     private var symbolAnimator: RBSymbolAnimator? = nil // 0x10
     private var textStyle: Text.Style? // 0x18 (offset field)
     private var transaction: OptionalAttribute<Transaction> // 0x1c (offset field)
-    private var symbolRenderingOptions = SymbolRenderingOptions() // 0x20 (offset field)
+    private var symbolRenderingOptions = SymbolRenderingOptions(renderingMode: nil, variableValueMode: nil, colorMode: nil) // 0x20 (offset field)
     private var allowedDynamicRange: Image.DynamicRange? // 0x24 (offset field)
     var options: ImageResolutionContext.Options = [.inferSymbolRenderingMode] // 0x28 (offset field)
     
@@ -418,5 +418,13 @@ extension ImageResolutionContext {
         }
         
         let rawValue: UInt8
+    }
+}
+
+extension Image {
+    package enum Location {
+        case bundle(Bundle)
+        case system
+        case privateSystem
     }
 }

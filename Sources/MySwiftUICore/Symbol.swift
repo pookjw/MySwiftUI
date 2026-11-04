@@ -9,7 +9,7 @@ public struct SymbolRenderingMode : Sendable {
 }
 
 extension SymbolRenderingMode {
-    enum Storage {
+    enum Storage : Equatable, Hashable, Codable {
         case monochrome
         case multicolor
         case hierarchical
@@ -34,7 +34,7 @@ public struct SymbolVariableValueMode : Equatable, Sendable {
 }
 
 extension SymbolVariableValueMode {
-    enum Storage : Equatable {
+    enum Storage : Equatable, Hashable, Codable {
         case color
         case draw
     }
@@ -53,14 +53,33 @@ public struct SymbolColorRenderingMode : Equatable, Sendable {
 }
 
 extension SymbolColorRenderingMode {
-    enum Storage : Equatable {
+    enum Storage : Equatable, Hashable, Codable {
         case flat
         case gradient
     }
 }
 
-struct SymbolRenderingOptions {
-    private var renderingMode: SymbolRenderingMode? = nil
-    private var variableValueMode: SymbolVariableValueMode? = nil
-    private var colorMode: SymbolColorRenderingMode? = nil
+struct SymbolRenderingOptions : Equatable, Codable {
+    private(set) var renderingMode: SymbolRenderingMode?
+    private(set) var variableValueMode: SymbolVariableValueMode?
+    private(set) var colorMode: SymbolColorRenderingMode?
+    
+    @inline(always) // 원래 없음
+    init(renderingMode: SymbolRenderingMode?, variableValueMode: SymbolVariableValueMode?, colorMode: SymbolColorRenderingMode?) {
+        self.renderingMode = renderingMode
+        self.variableValueMode = variableValueMode
+        self.colorMode = colorMode
+    }
+    
+    static func == (a: SymbolRenderingOptions, b: SymbolRenderingOptions) -> Bool {
+        assertUnimplemented()
+    }
+
+    init(from decoder: any Decoder) throws {
+        assertUnimplemented()
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
 }

@@ -1,3 +1,3 @@
 package protocol LayerStackBitmapProvider {
-    // TODO
+    static func resolveLayerStackBitmap(name: String, location: Image.Location, context: ImageResolutionContext) -> Image.Resolved?
 }

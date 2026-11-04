@@ -17,6 +17,10 @@ internal import UIKit
         super.init()
     }
     
+    var descriptionName: String {
+        assertUnimplemented()
+    }
+    
     init(host: (any ViewRendererHost)?, isShown: Bool, seed: VersionSeed, alertController: PlatformAlertController?, lastEnvironment: EnvironmentValues, lastPresentation: T?, isChangingIdentity: Bool, style: UIAlertController.Style) {
         self.host = host
         self.isShown = isShown

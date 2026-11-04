@@ -35,11 +35,33 @@ enum SwipeActions {
         private var itemList: PlatformItemList // 0x18
         private var isPresented: Binding<Bool>? // 0x20
         private(set) var resultToken: Binding<SwipeActionResultToken?>? // 0x38
+        
+        static func reduce(_ lhs: SwipeActions.Configuration?, _ rhs: SwipeActions.Configuration?) -> SwipeActions.Configuration {
+            assertUnimplemented()
+        }
     }
 }
 
 struct SwipeActionsStyle {
     private var storage: SwipeActionsStyle.Storage
+}
+
+extension SwipeActionsStyle {
+    static var rounded: SwipeActionsStyle {
+        assertUnimplemented()
+    }
+    
+    static func rounded(radius: CGFloat) -> SwipeActionsStyle {
+        assertUnimplemented()
+    }
+    
+    static var automatic: SwipeActionsStyle {
+        assertUnimplemented()
+    }
+    
+    static var standard: SwipeActionsStyle {
+        assertUnimplemented()
+    }
 }
 
 extension SwipeActionsStyle {

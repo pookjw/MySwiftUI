@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEmpty;
 - (void)setRBPath:(RBPath)path transform:(CGAffineTransform)transform;
 - (void)setRoundedRect:(CGRect)rect cornerSize:(CGSize)cornerSize cornerStyle:(RBPathRoundedCornerStyle)cornerStyle;
+- (void)setStrokedRBPath:(RBPath)path transform:(CGAffineTransform)transform lineWidth:(CGFloat)lineWidth lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin miterLimit:(CGFloat)miterLimit dashPhase:(CGFloat)dashPhase dashPattern:(const CGFloat *)dashPattern dashCount:(NSInteger)dashCount;
+- (void)setStrokedRect:(CGRect)rect lineWidth:(CGFloat)lineWidth;
 @end
 
 NS_ASSUME_NONNULL_END

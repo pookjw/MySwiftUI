@@ -5,6 +5,10 @@
 #import <_UIKitPrivate/UICoreKeyboardTrackingElement.h>
 #import <_UIKitPrivate/Configurations.h>
 #import <_UIKitPrivate/UIGestureRecognizer+Private.h>
+#import <_UIKitPrivate/UIScrollEvent.h>
+#import <_UIKitPrivate/UITransformEvent.h>
+#import <_UIKitPrivate/_UIScrollEventRespondable.h>
+#import <_UIKitPrivate/_UITransformEventRespondable.h>
 #import <_UIKitPrivate/UIWindow+Private.h>
 #import <_UIKitPrivate/_UISceneZoomInteraction.h>
 #import <_UIKitPrivate/_UIContextMenuInteractionDelegate3D.h>

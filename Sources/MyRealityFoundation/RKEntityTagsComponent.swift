@@ -99,7 +99,7 @@ public struct __RKEntityTagsComponent {
         }
     }
     
-    public fileprivate(set) static nonisolated(unsafe) var registration: __RKEntityTagsComponent.Registration?
+    public internal(set) static nonisolated(unsafe) var registration: __RKEntityTagsComponent.Registration?
 }
 
 extension __RKEntityTagsComponent.Registration {
@@ -108,7 +108,10 @@ extension __RKEntityTagsComponent.Registration {
     }
 }
 
-extension __RKEntityTagsComponent : RegisterableComponent {
+extension __RKEntityTagsComponent.Registration : InternalComponentRegistryEntry {
+}
+
+extension __RKEntityTagsComponent : @unsafe InternalComponent {
     static func register() throws {
         unsafe __RKEntityTagsComponent.registration = try __RKEntityTagsComponent.Registration()
     }

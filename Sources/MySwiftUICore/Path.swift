@@ -501,7 +501,30 @@ extension Path {
     }
     
     public mutating func addQuadCurve(to end: CGPoint, control: CGPoint) {
-        assertUnimplemented()
+        let d4 = end.y
+        let d5 = end.x
+        let d0 = control.x
+        let d1 = control.y
+        let d2 = d5
+        let d3 = d4
+        
+        unsafe self.withMutableBuffer { buffer in
+            let d8 = d3
+            let d9 = d2
+            let d10 = d1
+            let d11 = d0
+            
+            let values = (d11, d10, d9, d8)
+            
+            withUnsafePointer(to: values) { pointer in
+                unsafe RBPathStorageAppendElement(
+                    buffer,
+                    .unknown2,
+                    UnsafeRawPointer(pointer),
+                    nil
+                )
+            }
+        }
     }
     
     public mutating func addCurve(to end: CGPoint, control1: CGPoint, control2: CGPoint) {
@@ -779,14 +802,20 @@ extension Path {
             assertUnimplemented()
         }
         
-        unsafe pointer.pointee.unknown8 = { _ in
+        unsafe pointer.pointee.unknown8 = { pathBox in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_So6CGRectVSVcfU6_To
-            assertUnimplemented()
+            let casted = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .takeUnretainedValue()
+            
+            return unsafe RBPathStorageGetBoundingRect(casted.dataPointer)
         }
         
         return unsafe UnsafePointer(pointer)
     }()
 }
+
+extension Path : SDFRenderer {}
 
 enum PathDrawingStyle {
     case fill(FillStyle)
