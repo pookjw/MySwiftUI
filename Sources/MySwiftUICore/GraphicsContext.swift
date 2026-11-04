@@ -503,7 +503,7 @@ private import AttributeGraph
         }
 
         public static func color(_ color: Color) -> GraphicsContext.Shading {
-            assertUnimplemented()
+            return GraphicsContext.Shading(storage: .color(color))
         }
 
         public static func color(_ colorSpace: Color.RGBColorSpace = .sRGB, red: Double, green: Double, blue: Double, opacity: Double = 1) -> GraphicsContext.Shading {
@@ -540,7 +540,13 @@ private import AttributeGraph
         }
 
         public static func radialGradient(_ gradient: Gradient, center: CGPoint, startRadius: CGFloat, endRadius: CGFloat, options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
-            assertUnimplemented()
+            return GraphicsContext.Shading(
+                storage: .gradient(
+                    .gradient(gradient),
+                    geometry: .radial(center, startRadius, endRadius),
+                    options: options
+                )
+            )
         }
 
         public static func conicGradient(_ gradient: Gradient, center: CGPoint, angle: Angle = Angle(), options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
