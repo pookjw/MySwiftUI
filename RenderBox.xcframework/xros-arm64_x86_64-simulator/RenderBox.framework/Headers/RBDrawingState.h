@@ -14,5 +14,6 @@ RB_EXTERN void RBDrawingStateClipShape(RBDrawingState, RBShape *, RBRenderingMod
 RB_EXTERN RBDrawingState RBDrawingStateBeginLayer(RBDrawingState, uint32_t) NS_SWIFT_NAME(RBDrawingState.beginLayer(self:_:));
 RB_EXTERN void RBDrawingStateDrawLayer(RBDrawingState, RBDrawingState, RBBlendMode, float) NS_SWIFT_NAME(RBDrawingState.drawLayer(self:_:blendMode:opacity:));
 RB_EXTERN void RBDrawingStateDestroy(RBDrawingState) NS_SWIFT_NAME(RBDrawingState.destroy(self:));
+RB_EXTERN void RBDrawingStateRotateCTM(RBDrawingState, CGFloat angle) NS_SWIFT_NAME(RBDrawingState.rotateCTM(self:angle:));
 
 NS_ASSUME_NONNULL_END
