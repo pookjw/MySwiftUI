@@ -46,6 +46,34 @@ private import _MySwiftUICoreShims
             self.kind = .buffer
         }
         
+        @inline(__always) // 원래 없음
+        fileprivate init(from other: Path.PathBox) {
+            unsafe self.data = PathData(
+                element: PathDataElement(buffer: nil),
+                unknown0: nil,
+                unknown1: nil,
+                unknown2: nil,
+                unknown3: nil,
+                unknown4: nil,
+                unknown5: nil,
+                unknown6: nil,
+                unknown7: nil,
+                unknown8: nil,
+                unknown9: nil
+            )
+            
+            self.kind = other.kind
+            
+            switch other.kind {
+            case .cgPath:
+                unsafe self.data.element = PathDataElement(cgPath: other.data.element.cgPath.retain())
+            case .rbPath:
+                unsafe self.data.element = PathDataElement(rbPath: other.data.element.rbPath.retain())
+            case .buffer:
+                unsafe RBPathStorageInit(self.dataPointer, MemoryLayout<PathData>.size, other.dataPointer)
+            }
+        }
+        
         deinit {
             switch self.kind {
             case .cgPath:
@@ -446,11 +474,30 @@ extension Path : Shape {
 
 extension Path {
     public mutating func move(to end: CGPoint) {
-        assertUnimplemented()
+        // inlined
+        unsafe self.withMutableBuffer { buffer in
+            withUnsafePointer(to: end) { pointer in
+                unsafe RBPathStorageAppendElement(
+                    buffer,
+                    .unknown0,
+                    UnsafeRawPointer(pointer),
+                    nil
+                )
+            }
+        }
     }
     
     public mutating func addLine(to end: CGPoint) {
-        assertUnimplemented()
+        unsafe self.withMutableBuffer { buffer in
+            withUnsafePointer(to: end) { pointer in
+                unsafe RBPathStorageAppendElement(
+                    buffer,
+                    .unknown1,
+                    UnsafeRawPointer(pointer),
+                    nil
+                )
+            }
+        }
     }
     
     public mutating func addQuadCurve(to end: CGPoint, control: CGPoint) {
@@ -458,11 +505,46 @@ extension Path {
     }
     
     public mutating func addCurve(to end: CGPoint, control1: CGPoint, control2: CGPoint) {
-        assertUnimplemented()
+        let d6 = end.y
+        let d7 = end.x
+        let d0 = control1.x
+        let d1 = control1.y
+        let d2 = control2.x
+        let d3 = control2.y
+        let d4 = d7
+        let d5 = d6
+        
+        unsafe self.withMutableBuffer { buffer in
+            let d8 = d5
+            let d9 = d4
+            let d10 = d3
+            let d11 = d2
+            let d12 = d1
+            let d13 = d0
+            
+            let values = (d13, d12, d11, d10, d9, d8)
+            
+            withUnsafePointer(to: values) { pointer in
+                unsafe RBPathStorageAppendElement(
+                    buffer,
+                    .unknown3,
+                    UnsafeRawPointer(pointer),
+                    nil
+                )
+            }
+        }
     }
     
     public mutating func closeSubpath() {
-        assertUnimplemented()
+        // inlined
+        unsafe self.withMutableBuffer { buffer in
+            unsafe RBPathStorageAppendElement(
+                buffer,
+                .unknown4,
+                nil,
+                nil
+            )
+        }
     }
     
     public mutating func addRect(_ rect: CGRect, transform: CGAffineTransform = .identity) {
@@ -551,6 +633,43 @@ extension Path {
     
     public func offsetBy(dx: CGFloat, dy: CGFloat) -> Path {
         assertUnimplemented()
+    }
+    
+    mutating func withMutableBuffer(do block: (UnsafeMutableRawPointer) -> Void) {
+        let box: Path.PathBox
+        
+        switch self.storage {
+        case .path(var _box):
+            if isKnownUniquelyReferenced(&_box) {
+                box = _box
+            } else {
+                // inlined
+                box = Path.PathBox(from: _box)
+            }
+        default:
+            box = unsafe Path.PathBox(buffer: nil)
+            unsafe RBPathStorageInit(box.dataPointer, MemoryLayout<PathData>.size, nil)
+            
+            switch box.kind {
+            case .cgPath, .rbPath:
+                box.prepareBuffer()
+            case .buffer:
+                break
+            }
+            
+            unsafe self.append(to: box.dataPointer)
+        }
+        
+        self = Path(storage: .path(box))
+        
+        switch box.kind {
+        case .cgPath, .rbPath:
+            box.prepareBuffer()
+        case .buffer:
+            break
+        }
+        
+        unsafe block(box.dataPointer)
     }
 }
 
