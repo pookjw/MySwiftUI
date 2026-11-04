@@ -100,12 +100,32 @@ extension Gradient {
     public typealias Resolved = Never
 }
 
+extension Gradient {
+    enum ProviderTag {
+        // TODO
+    }
+}
+
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 @usableFromInline
 package class AnyGradientBox : AnyShapeStyleBox, @unchecked Sendable {
-    // TODO
-    
     override func apply(to shape: inout _ShapeStyle_Shape) {
+        assertUnimplemented()
+    }
+    
+    var tag: Gradient.ProviderTag {
+        assertUnimplemented()
+    }
+    
+    func resolve(in environment: EnvironmentValues) -> ResolvedGradient {
+        assertUnimplemented()
+    }
+    
+    func fallbackColor(in environment: EnvironmentValues) -> Color? {
+        assertUnimplemented()
+    }
+    
+    func hash(into hasher: inout Hasher) {
         assertUnimplemented()
     }
 }

@@ -1364,9 +1364,133 @@ fileprivate func withGradient(
 ) {
     switch gradient {
     case .gradient(let gradient):
-        assertUnimplemented()
+        var headroom: Float? = nil
+        let count = gradient.stops.count
+        
+        guard count != 0 else {
+            return
+        }
+        
+        unsafe withGradientStorage(
+            count: count,
+            valuesPerLocation: 1,
+            element: { index, color, value in
+                // $s7SwiftUI12withGradient33_A8D9ECD380926237F7E554221FB2DE85LL_2in10colorSpace2doyAA06EitherD0O_AA17EnvironmentValuesVSo07RBColorN0VySi_SPySo0S0aGSfSgSPy12CoreGraphics7CGFloatVGSgSo15RBGradientFlagsVtXEtFySi_ANzSpyASGtXEfU_TA
+                let stop = gradient.stops[index]
+                let resolved = stop.color.resolveHDR(in: environment)
+                var rbColor = RBColor(
+                    red: resolved.linearRed,
+                    green: resolved.linearGreen,
+                    blue: resolved.linearBlue,
+                    alpha: resolved.opacity
+                )
+                
+                if colorSpace != .unknown2 {
+                    rbColor = RBColor.fromLinear(
+                        r: rbColor.red,
+                        g: rbColor.green,
+                        b: rbColor.blue,
+                        a: rbColor.alpha
+                    )
+                }
+                
+                color = rbColor
+                
+                if let _headroom = headroom {
+                    if let __headroom = resolved.headroom {
+                        headroom = (_headroom <= __headroom) ? __headroom : _headroom
+                    }
+                } else {
+                    headroom = resolved.headroom
+                }
+                
+                unsafe value.initialize(to: stop.location)
+            },
+            do: { colors, values in
+                // $s7SwiftUI12withGradient33_A8D9ECD380926237F7E554221FB2DE85LL_2in10colorSpace2doyAA06EitherD0O_AA17EnvironmentValuesVSo07RBColorN0VySi_SPySo0S0aGSfSgSPy12CoreGraphics7CGFloatVGSgSo15RBGradientFlagsVtXEtFyAO_ATtXEfU0_TA
+                unsafe block(count, colors, headroom, values, [])
+            }
+        )
     case .anyGradient(let gradient):
-        assertUnimplemented()
+        let resolved = gradient.provider.resolve(in: environment)
+        let hasInterpolations = resolved.hasInterpolations
+        let count = resolved.stops.count
+        
+        guard count != 0 else {
+            return
+        }
+        
+        unsafe withGradientStorage(
+            count: count,
+            valuesPerLocation: hasInterpolations ? 5 : 1,
+            element: { index, color, value in
+                // $s7SwiftUI12withGradient33_A8D9ECD380926237F7E554221FB2DE85LL_2in2doyAA08ResolvedD0V_So12RBColorSpaceVySi_SPySo0O0aGSfSgSPy12CoreGraphics7CGFloatVGSgSo15RBGradientFlagsVtXEtFySi_AKzSpyAPGtXEfU_TA
+                let stop = resolved.stops[index]
+                var rbColor = RBColor(
+                    red: stop.color.linearRed,
+                    green: stop.color.linearGreen,
+                    blue: stop.color.linearBlue,
+                    alpha: stop.color.opacity
+                )
+                
+                if colorSpace != .unknown2 {
+                    rbColor = RBColor.fromLinear(
+                        r: rbColor.red,
+                        g: rbColor.green,
+                        b: rbColor.blue,
+                        a: rbColor.alpha
+                    )
+                }
+                
+                color = rbColor
+                unsafe value.initialize(to: stop.location)
+                
+                if hasInterpolations {
+                    if let interpolation = stop.interpolation {
+                        unsafe value.advanced(by: 1).initialize(to: CGFloat(interpolation.p1x))
+                        unsafe value.advanced(by: 2).initialize(to: CGFloat(interpolation.p1y))
+                        unsafe value.advanced(by: 3).initialize(to: CGFloat(interpolation.p2x))
+                        unsafe value.advanced(by: 4).initialize(to: CGFloat(interpolation.p2y))
+                    } else {
+                        unsafe value.advanced(by: 1).initialize(to: 0)
+                        unsafe value.advanced(by: 2).initialize(to: 0)
+                        unsafe value.advanced(by: 3).initialize(to: 1)
+                        unsafe value.advanced(by: 4).initialize(to: 1)
+                    }
+                }
+            },
+            do: { colors, values in
+                // $s7SwiftUI12withGradient33_A8D9ECD380926237F7E554221FB2DE85LL_2in2doyAA08ResolvedD0V_So12RBColorSpaceVySi_SPySo0O0aGSfSgSPy12CoreGraphics7CGFloatVGSgSo15RBGradientFlagsVtXEtFyAL_AQtXEfU0_TA
+                let headroom = resolved.headroom
+                let colorspace = resolved.colorSpace
+                
+                let flags: RBGradientFlags
+                if colorspace == .device {
+                    // <+72>
+                    if hasInterpolations {
+                        flags = [.unknown7, .unknown9]
+                    } else {
+                        flags = [.unknown7]
+                    }
+                } else if colorspace == .linear {
+                    // <+60>
+                    if hasInterpolations {
+                        flags = [.unknown6, .unknown9]
+                    } else {
+                        flags = [.unknown6]
+                    }
+                } else {
+                    // <+84>
+                    if hasInterpolations {
+                        flags = [.unknown6, .unknown7, .unknown9]
+                    } else {
+                        flags = [.unknown6, .unknown7]
+                    }
+                }
+                
+                unsafe block(count, colors, headroom, values, flags)
+            }
+        )
     }
 } 
 
@@ -1376,4 +1500,26 @@ fileprivate func withGradient(
     do: (Int, UnsafePointer<RBColor>, Float?, UnsafePointer<CGFloat>?, RBGradientFlags) -> Void
 ) {
     assertUnimplemented()
+}
+
+fileprivate func withGradientStorage(
+    count: Int,
+    valuesPerLocation: Int,
+    element: (Int, inout RBColor, UnsafeMutablePointer<CGFloat>) -> Void,
+    do block: (UnsafePointer<RBColor>, UnsafePointer<CGFloat>) -> Void
+) {
+    withUnsafeTemporaryAllocation(of: RBColor.self, capacity: count) { colorsBuffer in
+        // $s7SwiftUI19withGradientStorage33_A8D9ECD380926237F7E554221FB2DE85LL5count17valuesPerLocation7element2doySi_SiySi_So7RBColorazSpy12CoreGraphics7CGFloatVGtXEySPyAIG_SPyALGtXEtFySryAIGXEfU_
+        withUnsafeTemporaryAllocation(of: CGFloat.self, capacity: count * valuesPerLocation) { buffer in
+            // $s7SwiftUI19withGradientStorage33_A8D9ECD380926237F7E554221FB2DE85LL5count17valuesPerLocation7element2doySi_SiySi_So7RBColorazSpy12CoreGraphics7CGFloatVGtXEySPyAIG_SPyALGtXEtFySryAIGXEfU_ySryALGXEfU_
+            for i in 0..<count {
+                unsafe element(i, &colorsBuffer[i], &buffer[i * valuesPerLocation])
+            }
+            
+            unsafe block(
+                UnsafePointer(colorsBuffer.baseAddress.unsafelyUnwrapped),
+                UnsafePointer(buffer.baseAddress.unsafelyUnwrapped)
+            )
+        }
+    }
 }

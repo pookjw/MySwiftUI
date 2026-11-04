@@ -1,9 +1,9 @@
-private import CoreGraphics
+internal import CoreGraphics
 
 package struct ResolvedGradient : Sendable {
-    private var stops: [ResolvedGradient.Stop]
-    private(set) var colorSpace: ResolvedGradient.ColorSpace
-    private var headroom: Float?
+    private(set) var stops: [ResolvedGradient.Stop] // 0x0
+    private(set) var colorSpace: ResolvedGradient.ColorSpace // 0x8
+    private(set) var headroom: Float? // 0xc
     
     package init(stops: [ResolvedGradient.Stop] = [], colorSpace: ResolvedGradient.ColorSpace = .default, headroom: Float?) {
         self.stops = stops
@@ -12,6 +12,10 @@ package struct ResolvedGradient : Sendable {
     }
     
     var constantColor: Color.ResolvedHDR? {
+        assertUnimplemented()
+    }
+    
+    var hasInterpolations: Bool {
         assertUnimplemented()
     }
 }
@@ -29,9 +33,9 @@ extension ResolvedGradient : Animatable {
 
 extension ResolvedGradient {
     package struct Stop : Sendable {
-        private var color: Color.Resolved
-        private var location: CGFloat
-        //        var interpolation: BezierTimingFunction<Float>?        
+        private(set) var color: Color.Resolved // 0x0
+        private(set) var location: CGFloat // 0x10
+        private(set) var interpolation: BezierTimingFunction<Float>? // 0x18
     }
     
     package enum ColorSpace : UInt8, Sendable {

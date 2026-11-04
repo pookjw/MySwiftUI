@@ -143,7 +143,10 @@ typedef NS_ENUM(uint32_t, RBRenderingMode) {
 };
 
 typedef NS_OPTIONS(unsigned int, RBGradientFlags) {
-    RBGradientFlagsNone = 0
+    RBGradientFlagsNone = 0,
+    RBGradientFlagsUnknown6 = (1 << 6),
+    RBGradientFlagsUnknown7 = (1 << 7),
+    RBGradientFlagsUnknown9 = (1 << 9)
 };
 
 typedef NS_OPTIONS(unsigned int, RBShaderFlags) {
