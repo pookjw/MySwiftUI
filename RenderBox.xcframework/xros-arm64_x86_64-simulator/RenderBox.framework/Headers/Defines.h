@@ -154,6 +154,14 @@ typedef NS_OPTIONS(unsigned int, RBGradientFlags) {
     RBGradientFlagsUnknown9 = (1 << 9)
 };
 
+typedef NS_OPTIONS(unsigned int, RBBlurFlags) {
+    RBBlurFlagsNone = 0
+};
+
+typedef NS_OPTIONS(unsigned int, RBPathProjectionFlags) {
+    RBPathProjectionFlagsNone = 0
+};
+
 typedef NS_OPTIONS(unsigned int, RBShaderFlags) {
     RBShaderFlagsNone = 0
 };

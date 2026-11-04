@@ -1698,7 +1698,40 @@ fileprivate func withGradientStorage(
 }
 
 extension GraphicsContext.Filter {
-    enum Storage {
+    struct Shadow {
         // TODO
+    }
+
+    struct ResolvedShadow {
+        // TODO
+    }
+    
+    enum Storage {
+        case projection(ProjectionTransform)
+        case rotation(_RotationEffect.Data)
+        case rotation3D(_Rotation3DEffect.Data)
+        case shadow(GraphicsContext.Filter.Shadow)
+        case resolvedShadow(GraphicsContext.Filter.ResolvedShadow)
+        case pathProjection(CGPoint, CGPoint, Path, RBPathProjectionFlags)
+        case colorMultiply(Color)
+        case colorMultiplyResolved(Color.ResolvedHDR)
+        case alphaMultiply(Color)
+        case alphaMultiplyResolved(Color.ResolvedHDR)
+        case colorMatrix(_ColorMatrix, premultiplied: Bool)
+        case hueRotate(Angle)
+        case saturate(Float)
+        case brightness(Float)
+        case contrast(Float)
+        case invert(Float)
+        case grayscale(Float)
+        case blur(CGFloat, RBBlurFlags)
+        case variableBlur(CGFloat, GraphicsContext.Shading, RBBlurFlags)
+        case alphaThreshold(Float, Float, Color)
+        case alphaGradient(EitherGradient)
+        case colorMonochrome(GraphicsFilter.ColorMonochrome)
+        case luminanceCurve(GraphicsFilter.LuminanceCurve)
+        case colorCurves(GraphicsFilter.ColorCurves)
+        case shader(Shader, border: CGSize, size: CGSize)
+        case luminanceToAlpha
     }
 }
