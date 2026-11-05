@@ -123,9 +123,9 @@ extension GraphicsFilter {
     }
     
     package struct ColorMonochrome {
-        private var color: Color.ResolvedHDR
-        private var amount: Float
-        private var bias: Float
+        private(set) var color: Color.ResolvedHDR
+        private(set) var amount: Float
+        private(set) var bias: Float
         
         package init(color: Color.ResolvedHDR, amount: Float, bias: Float) {
             self.color = color
@@ -151,7 +151,7 @@ extension GraphicsFilter {
     }
     
     package struct Curve {
-        private var values: (Float, Float, Float, Float)
+        private(set) var values: (Float, Float, Float, Float)
         
         package init(_ values: (Float, Float, Float, Float)) {
             self.values = values
@@ -163,8 +163,8 @@ extension GraphicsFilter {
     }
     
     package struct LuminanceCurve {
-        private var curve: Curve
-        private var amount: Float
+        private(set) var curve: GraphicsFilter.Curve
+        private(set) var amount: Float
         
         init(curve: Curve, amount: Float) {
             self.curve = curve
@@ -173,10 +173,10 @@ extension GraphicsFilter {
     }
     
     package struct ColorCurves {
-        private var redCurve: GraphicsFilter.Curve
-        private var greenCurve: GraphicsFilter.Curve
-        private var blueCurve: GraphicsFilter.Curve
-        private var opacityCurve: GraphicsFilter.Curve
+        private(set) var redCurve: GraphicsFilter.Curve
+        private(set) var greenCurve: GraphicsFilter.Curve
+        private(set) var blueCurve: GraphicsFilter.Curve
+        private(set) var opacityCurve: GraphicsFilter.Curve
         
         init(
             redCurve: GraphicsFilter.Curve,

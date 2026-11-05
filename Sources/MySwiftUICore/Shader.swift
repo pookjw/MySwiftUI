@@ -200,7 +200,7 @@ public struct Shader : Equatable, Sendable {
     }
     
     func rbShader(in environment: EnvironmentValues) -> RBShader? {
-        assertUnimplemented()
+        return self.makeRBShader(in: environment)
     }
     
     fileprivate func makeRBShader(in environment: EnvironmentValues?) -> RBShader {
@@ -270,11 +270,11 @@ extension Shader {
 
 extension Shader {
     struct ResolvedShader : ResolvedPaint, @MainActor RendererEffect, ViewModifier, ProtobufEncodableMessage, ProtobufDecodableMessage {
-        var rbShader: RBShader?
+        @safe nonisolated(unsafe) var rbShader: RBShader?
         var maxSampleOffset: CGSize
         var options: Shader.Options
         
-        init(rbShader: RBShader?, maxSampleOffset: CGSize, options: Shader.Options) {
+        nonisolated init(rbShader: RBShader?, maxSampleOffset: CGSize, options: Shader.Options) {
             self.rbShader = rbShader
             self.maxSampleOffset = maxSampleOffset
             self.options = options
@@ -305,8 +305,31 @@ extension Shader {
             assertUnimplemented()
         }
         
-        var rbFillFlags: RBShaderFillFlags {
+        nonisolated var rbFillFlags: RBShaderFillFlags {
             assertUnimplemented()
+        }
+
+        nonisolated var rbFilterFlags: RBShaderFilterFlags {
+            let options = self.options.rawValue
+            var flags: UInt32 = 0
+
+            if options & 2 != 0 {
+                flags = 1
+            } else if options & 4 != 0 {
+                flags = 2
+            }
+
+            if options & 1 != 0 {
+                flags |= 0x10
+            }
+            if options & 8 != 0 {
+                flags |= 0x40
+            }
+            if options & 16 != 0 {
+                flags |= 0x80
+            }
+
+            return RBShaderFilterFlags(rawValue: flags)
         }
         
         func encode(to encoder: inout ProtobufEncoder) throws {

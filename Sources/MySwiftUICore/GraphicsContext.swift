@@ -657,6 +657,515 @@ private import AttributeGraph
             }
         case .colorMultiplyResolved(let resolved):
             // <+1904>
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            if self.storage.shared.colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+            }
+            
+            let colorSpace = self.storage.shared.colorSpace
+            var unknown0: UInt32 = 1
+            if colorSpace != .unknown2 {
+                unknown0 &+= 1
+            }
+            if options.contains(.linearColor) {
+                unknown0 = 1;
+            }
+            
+            let data = RBDisplayListColorMultiply(
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: resolved.headroom ?? 0,
+                unknown0: unknown0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown5, data: pointer)
+            }
+        case .alphaMultiply(let color):
+            // <+2896>
+            let resolved = color.provider.resolveHDR(in: self.environment)
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            var colorSpace = self.storage.shared.colorSpace
+            var unknown0: UInt32
+            
+            if colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+                
+                colorSpace = self.storage.shared.colorSpace
+                
+                unknown0 = 1
+                if colorSpace != .unknown2 {
+                    unknown0 &+= 1
+                }
+                
+                if options.contains(.linearColor) {
+                    unknown0 = 1;
+                }
+            } else {
+                unknown0 = 1
+            }
+            
+            let data = RBColorStyleAlphaMultiply(
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: resolved.headroom ?? 0,
+                unknown0: unknown0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown6, data: pointer)
+            }
+        case .alphaMultiplyResolved(let resolved):
+            // <+1036>
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            var colorSpace = self.storage.shared.colorSpace
+            var unknown0: UInt32
+            
+            if colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+                
+                colorSpace = self.storage.shared.colorSpace
+                
+                unknown0 = 1
+                if colorSpace != .unknown2 {
+                    unknown0 &+= 1
+                }
+                
+                if options.contains(.linearColor) {
+                    unknown0 = 1;
+                }
+            } else {
+                unknown0 = 1
+            }
+            
+            let data = RBColorStyleAlphaMultiply(
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: resolved.headroom ?? 0,
+                unknown0: unknown0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown6, data: pointer)
+            }
+        case .colorMatrix(let matrix, let premultiplied):
+            // <+2824>
+            self.copyOnWrite()
+            
+            var flags: RBColorMatrixFlags
+            if options.contains(.linearColor) {
+                // <+4088>
+                flags = [.unknown0]
+                
+                if premultiplied {
+                    flags.formUnion(.unknown2)
+                }
+            } else {
+                // <+2868>
+                flags = [.unknown0]
+                
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+                
+                if premultiplied {
+                    flags.formUnion(.unknown2)
+                }
+            }
+            
+            let values = RBColorMatrixFilter(
+                m11: matrix.m11, m12: matrix.m12, m13: matrix.m13, m14: matrix.m14, m15: matrix.m15,
+                m21: matrix.m21, m22: matrix.m22, m23: matrix.m23, m24: matrix.m24, m25: matrix.m25,
+                m31: matrix.m31, m32: matrix.m32, m33: matrix.m33, m34: matrix.m34, m35: matrix.m35,
+                m41: matrix.m41, m42: matrix.m42, m43: matrix.m43, m44: matrix.m44, m45: matrix.m45,
+            )
+            
+            withUnsafePointer(to: values) { pointer in
+                unsafe self.storage.state.addColorMatrixFilter(matrix: pointer, flags: flags)
+            }
+        case .hueRotate(let angle):
+            // <+512>
+            self.copyOnWrite()
+            
+            var flags: RBHueRotationFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addHueRotationFilter(flags: flags, angle: angle.radians)
+        case .saturate(let amount):
+            // <+908>
+            self.copyOnWrite()
+            
+            var flags: RBSaturationFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addSaturationFilter(flags: flags, amount: amount)
+        case .brightness(let amount):
+            // <+2576>
+            self.copyOnWrite()
+            
+            var flags: RBBrightnessFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addBrightnessFilter(flags: flags, amount: amount)
+        case .contrast(let amount):
+            // <+384>
+            self.copyOnWrite()
+            
+            var flags: RBContrastFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addContrastFilter(flags: flags, amount: amount)
+        case .invert(let amount):
+            // <+1680>
+            self.copyOnWrite()
+            
+            var flags: RBColorInvertFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addColorInvertFilter(flags: flags, amount: amount)
+        case .grayscale(let amount):
+            // <+256>
+            self.copyOnWrite()
+            
+            var flags: RBGrayscaleFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addGrayscaleFilter(flags: flags, amount: amount)
+        case .blur(let radius, let flags):
+            // <+2100>
+            if radius <= 0 {
+                return
+            }
+            
+            self.copyOnWrite()
+            
+            let flags = RBBlurFlags(rawValue: flags.rawValue | ((options.rawValue & 1) << 1))
+            
+            self.storage.state.addBlurFilter(
+                flags: flags,
+                radius: radius,
+                CGFloat(bitPattern: 0xffdfffffffffffff),
+                CGFloat(bitPattern: 0xffdfffffffffffff),
+                CGFloat(bitPattern: 0x7fefffffffffffff),
+                CGFloat(bitPattern: 0x7fefffffffffffff)
+            )
+        case .variableBlur(let radius, let shading, let flags):
+            // <+2760>
+            if radius <= 0 {
+                return
+            }
+            
+            let flags = RBBlurFlags(rawValue: flags.rawValue | ((options.rawValue & 1) << 1))
+            
+            self.addVariableBlurFilter(radius: radius, mask: shading, flags: flags)
+        case .alphaThreshold(let value_1, let value_2, let color):
+            // <+3044>
+            let resolved = color.provider.resolveHDR(in: self.environment)
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            var colorSpace = self.storage.shared.colorSpace
+            if colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+                
+                colorSpace = self.storage.shared.colorSpace
+            }
+            
+            let data = RBAlphaThresholdEffect(
+                unknown0: 3,
+                unknown1: value_1,
+                unknown2: (value_2 >= 1) ? .infinity : value_2,
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: resolved.headroom ?? 0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown0, data: pointer)
+            }
+        case .alphaGradient(let gradient):
+            // <+2240>
+            self.copyOnWrite()
+            
+            switch gradient {
+            case .gradient(let gradient):
+                // <+2284>
+                let color: Color?
+                
+                if gradient.stops.count == 1 {
+                    // <+4632>
+                    color = gradient.stops[0].color
+                } else if !gradient.stops.isEmpty {
+                    // <+3196>
+                    color = nil
+                } else {
+                    // <+2300>
+                    color = .clear
+                }
+                
+                if let color {
+                    // <+4640>
+                    let resolved = color.provider.resolveHDR(in: self.environment)
+                    
+                    var rbColor = RBColor(
+                        red: resolved.linearRed,
+                        green: resolved.linearGreen,
+                        blue: resolved.linearBlue,
+                        alpha: resolved.opacity
+                    )
+                    
+                    var colorSpace = self.storage.shared.colorSpace
+                    if colorSpace != .unknown2 {
+                        rbColor = RBColor.fromLinear(
+                            r: rbColor.red,
+                            g: rbColor.green,
+                            b: rbColor.blue,
+                            a: rbColor.alpha
+                        )
+                        
+                        colorSpace = self.storage.shared.colorSpace
+                    }
+                    
+                    withUnsafePointer(to: (rbColor, rbColor)) { pointer in
+                        let data = unsafe RBAlphaGradientEffect(
+                            unknown0: 3,
+                            lowerBound: 0,
+                            upperBound: 1,
+                            count: 2,
+                            colors: UnsafeRawPointer(pointer).assumingMemoryBound(to: RBColor.self),
+                            colorSpace: colorSpace,
+                            headroom: resolved.headroom ?? 0,
+                            locations: nil,
+                            flags: []
+                        )
+                        
+                        withUnsafePointer(to: data) { pointer in
+                            unsafe self.storage.state.addStyle(style: .unknown1, data: pointer)
+                        }
+                    }
+                    
+                    return
+                } else {
+                    // <+3196>
+                }
+            case .anyGradient(_):
+                // <+3196>
+                break
+            }
+            
+            // <+3196>
+            unsafe withGradient(
+                gradient,
+                in: self.environment,
+                colorSpace: self.storage.shared.colorSpace
+            ) { count, colors, headroom, locations, flags in
+                // $s7SwiftUI15GraphicsContextV9addFilter_7optionsyAC0F0V_AC0F7OptionsVtFySi_SPySo7RBColoraGSfSgSPy04CoreC07CGFloatVGSgSo15RBGradientFlagsVtXEfU1_
+                var flags = flags
+                
+                if options.contains(.linearColor) {
+                    flags.formUnion(.unknown6)
+                }
+                
+                let data = unsafe RBAlphaGradientEffect(
+                    unknown0: 3,
+                    lowerBound: 0,
+                    upperBound: 1,
+                    count: count,
+                    colors: colors,
+                    colorSpace: self.storage.shared.colorSpace,
+                    headroom: headroom ?? 0,
+                    locations: locations,
+                    flags: flags
+                )
+                
+                withUnsafePointer(to: data) { pointer in
+                    unsafe self.storage.state.addStyle(style: .unknown1, data: pointer)
+                }
+            }
+        case .colorMonochrome(let monochrome):
+            // <+2496>
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: monochrome.color.linearRed,
+                green: monochrome.color.linearGreen,
+                blue: monochrome.color.linearBlue,
+                alpha: monochrome.color.opacity
+            )
+            
+            var unknown0: UInt32
+            var colorSpace = self.storage.shared.colorSpace
+            
+            if colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+                
+                colorSpace = self.storage.shared.colorSpace
+                
+                unknown0 = 1
+                if colorSpace != .unknown2 {
+                    unknown0 &+= 1
+                }
+            } else {
+                unknown0 = 1
+            }
+            
+            // <+3820>
+            if options.contains(.linearColor) {
+                unknown0 = 1;
+            }
+            
+            let data = RBDisplayListColorMonochrome(
+                amount: monochrome.amount,
+                bias: monochrome.bias,
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: monochrome.color.headroom ?? 0,
+                unknown0: unknown0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown7, data: pointer)
+            }
+        case .luminanceCurve(let curve):
+            // <+2952>
+            self.copyOnWrite()
+            
+            var flags: RBLuminanceCurveFlags = [.unknown0]
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            withUnsafePointer(to: curve.curve.values) { pointer in
+                unsafe self.storage.state.addLuminanceCurveFilter(
+                    curve: UnsafeRawPointer(pointer).assumingMemoryBound(to: Float.self),
+                    flags: flags,
+                    1,
+                    1,
+                    1,
+                    curve.amount
+                )
+            }
+        case .colorCurves(let curves):
+            // <+3104>
+            self.copyOnWrite()
+            
+            let values = (
+                curves.redCurve.values,
+                curves.greenCurve.values,
+                curves.blueCurve.values,
+                curves.opacityCurve.values,
+            )
+            
+            var flags: RBRCurvesFlags = [.unknown0]
+            
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            withUnsafePointer(to: values) { pointer in
+                unsafe self.storage.state
+                    .addRGBACurvesFilter(
+                        curves: UnsafeRawPointer(pointer).assumingMemoryBound(to: Float.self),
+                        flags: flags
+                    )
+            }
+        case .shader(let shader, let border, let size):
+            // <+1232>
+            guard let rbShader = shader.rbShader(in: self.environment) else {
+                return
+            }
+            
+            self.copyOnWrite()
+            
             /*
              x15 x22
              x19 x28
@@ -667,62 +1176,46 @@ private import AttributeGraph
              x4 x2
              x3 x26
              x25 x10
+             w27
              */
-            assertUnimplemented()
-        case .alphaMultiply(let color):
-            // <+2896>
-            assertUnimplemented()
-        case .alphaMultiplyResolved(let resolvedHDR):
-            // <+1036>
-            assertUnimplemented()
-        case .colorMatrix(let _ColorMatrix, let premultiplied):
-            // <+2824>
-            assertUnimplemented()
-        case .hueRotate(let angle):
-            // <+512>
-            assertUnimplemented()
-        case .saturate(let float):
-            // <+908>
-            assertUnimplemented()
-        case .brightness(let float):
-            // <+2576>
-            assertUnimplemented()
-        case .contrast(let float):
-            // <+384>
-            assertUnimplemented()
-        case .invert(let float):
-            // <+1680>
-            assertUnimplemented()
-        case .grayscale(let float):
-            // <+256>
-            assertUnimplemented()
-        case .blur(let cGFloat, let rBBlurFlags):
-            // <+2100>
-            assertUnimplemented()
-        case .variableBlur(let cGFloat, let shading, let rBBlurFlags):
-            // <+2760>
-            assertUnimplemented()
-        case .alphaThreshold(let float, let float2, let color):
-            // <+3044>
-            assertUnimplemented()
-        case .alphaGradient(let eitherGradient):
-            // <+2240>
-            assertUnimplemented()
-        case .colorMonochrome(let colorMonochrome):
-            // <+2496>
-            assertUnimplemented()
-        case .luminanceCurve(let luminanceCurve):
-            // <+2952>
-            assertUnimplemented()
-        case .colorCurves(let colorCurves):
-            // <+3104>
-            assertUnimplemented()
-        case .shader(let shader, let border, let size):
-            // <+1232>
-            assertUnimplemented()
+            /*
+             x6 -> sp + 0x40
+             x5 -> sp + 0x20
+             x3 -> sp + 0x28
+             x4 -> sp + 0x50
+             x2 -> sp + 0x60
+             x27
+             */
+            
+            let resolvedShader = Shader.ResolvedShader(
+                rbShader: rbShader,
+                maxSampleOffset: border,
+                options: shader.options
+            )
+            
+            let flags = resolvedShader.rbFilterFlags
+            let rect = CGRect(origin: .zero, size: size)
+            
+            withUnsafePointer(to: rect) { rect in
+                unsafe self.storage.state.addShaderFilter(
+                    shader: rbShader,
+                    rect: rect ,
+                    filterFlags: flags,
+                    size: border
+                )
+            }
         case .luminanceToAlpha:
             // <+1112>
-            assertUnimplemented()
+            self.copyOnWrite()
+            
+            var flags: RBLuminanceToAlphaFlags = [.unknown0]
+            if !options.contains(.linearColor) {
+                if self.storage.shared.colorSpace != .unknown2 {
+                    flags = [.unknown1]
+                }
+            }
+            
+            self.storage.state.addLuminanceToAlphaFilter(flags: flags)
         }
     }
     
@@ -1144,7 +1637,11 @@ extension GraphicsContext {
     
     func draw(_ path: Path, with shading: GraphicsContext.ResolvedShading, style: PathDrawingStyle) {
         assertUnimplemented()
-    } 
+    }
+    
+    func addVariableBlurFilter(radius: CGFloat, mask: GraphicsContext.Shading, flags: RBBlurFlags) {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)

@@ -154,6 +154,16 @@ typedef NS_OPTIONS(unsigned int, RBGradientFlags) {
     RBGradientFlagsUnknown9 = (1 << 9)
 };
 
+typedef NS_OPTIONS(unsigned int, RBBlurFlags) {
+    RBBlurFlagsNone = 0,
+    RBBlurFlagsUnknown0 = (1 << 0),
+    RBBlurFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBPathProjectionFlags) {
+    RBPathProjectionFlagsNone = 0
+};
+
 typedef NS_OPTIONS(unsigned int, RBShaderFlags) {
     RBShaderFlagsNone = 0
 };
@@ -174,6 +184,10 @@ typedef NS_OPTIONS(unsigned int, RBMeshGradientFlags) {
     RBMeshGradientFlagsUnknown4 = (1 << 4)
 };
 
+typedef NS_OPTIONS(unsigned int, RBShadowFlags) {
+    RBShadowFlagsNone = 0
+};
+
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
 
 typedef struct RBCornerRadii {
@@ -182,6 +196,130 @@ typedef struct RBCornerRadii {
     const CGFloat bottomLeft;
     const CGFloat bottomRight;
 } RBCornerRadii;
+
+typedef struct RBDisplayListColorMultiply {
+    const RBColor color;
+    const RBColorSpace colorSpace;
+    const float headroom;
+    const uint32_t unknown0;
+} RBDisplayListColorMultiply;
+
+typedef NS_ENUM(unsigned int, RBDisplayListStyle) {
+    RBDisplayListStyleUnknown0 = 0,
+    RBDisplayListStyleUnknown1 = 1,
+    RBDisplayListStyleUnknown5 = 5,
+    RBDisplayListStyleUnknown6 = 6,
+    RBDisplayListStyleUnknown7 = 7
+};
+
+typedef struct RBColorStyleAlphaMultiply {
+    const RBColor color;
+    const RBColorSpace colorSpace;
+    const float headroom;
+    const uint32_t unknown0;
+} RBColorStyleAlphaMultiply;
+
+typedef NS_OPTIONS(unsigned int, RBColorMatrixFlags) {
+    RBColorMatrixFlagsNone = 0,
+    RBColorMatrixFlagsUnknown0 = (1 << 0),
+    RBColorMatrixFlagsUnknown1 = (1 << 1),
+    RBColorMatrixFlagsUnknown2 = (1 << 2)
+};
+
+typedef struct RBColorMatrixFilter {
+    const float m11, m12, m13, m14, m15;
+    const float m21, m22, m23, m24, m25;
+    const float m31, m32, m33, m34, m35;
+    const float m41, m42, m43, m44, m45;
+} RBColorMatrixFilter;
+
+typedef NS_OPTIONS(unsigned int, RBHueRotationFlags) {
+    RBHueRotationFlagsNone = 0,
+    RBHueRotationFlagsUnknown0 = (1 << 0),
+    RBHueRotationFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBSaturationFlags) {
+    RBSaturationFlagsNone = 0,
+    RBSaturationFlagsUnknown0 = (1 << 0),
+    RBSaturationFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBBrightnessFlags) {
+    RBBrightnessFlagsNone = 0,
+    RBBrightnessFlagsUnknown0 = (1 << 0),
+    RBBrightnessFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBContrastFlags) {
+    RBContrastFlagsNone = 0,
+    RBContrastFlagsUnknown0 = (1 << 0),
+    RBContrastFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBColorInvertFlags) {
+    RBColorInvertFlagsNone = 0,
+    RBColorInvertFlagsUnknown0 = (1 << 0),
+    RBColorInvertFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBGrayscaleFlags) {
+    RBGrayscaleFlagsNone = 0,
+    RBGrayscaleFlagsUnknown0 = (1 << 0),
+    RBGrayscaleFlagsUnknown1 = (1 << 1)
+};
+
+typedef struct RBAlphaThresholdEffect {
+    const uint8_t unknown0;
+    const float unknown1;
+    const float unknown2;
+    const RBColor color;
+    const RBColorSpace colorSpace;
+    const float headroom;
+} RBAlphaThresholdEffect;
+
+typedef struct RBAlphaGradientEffect {
+    const uint8_t unknown0;
+    const float lowerBound;
+    const float upperBound;
+    const NSInteger count;
+    const RBColor *colors;
+    const RBColorSpace colorSpace;
+    const float headroom;
+    const CGFloat * _Nullable locations;
+    const RBGradientFlags flags;
+} RBAlphaGradientEffect;
+
+typedef NS_OPTIONS(unsigned int, RBShaderFilterFlags) {
+    RBShaderFilterFlagsNone = 0
+};
+
+typedef struct RBDisplayListColorMonochrome {
+    const float amount;
+    const float bias;
+    const RBColor color;
+    const RBColorSpace colorSpace;
+    const float headroom;
+    const uint32_t unknown0;
+} RBDisplayListColorMonochrome;
+
+typedef NS_OPTIONS(unsigned int, RBLuminanceCurveFlags) {
+    RBLuminanceCurveFlagsNone = 0,
+    RBLuminanceCurveFlagsUnknown0 = (1 << 0),
+    RBLuminanceCurveFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBRCurvesFlags) {
+    RBRCurvesFlagsNone = 0,
+    RBRCurvesFlagsUnknown0 = (1 << 0),
+    RBRCurvesFlagsUnknown1 = (1 << 1)
+};
+
+typedef NS_OPTIONS(unsigned int, RBLuminanceToAlphaFlags) {
+    RBLuminanceToAlphaFlagsNone = 0,
+    RBLuminanceToAlphaFlagsUnknown0 = (1 << 0),
+    RBLuminanceToAlphaFlagsUnknown1 = (1 << 1)
+};
 
 NS_ASSUME_NONNULL_END
 
