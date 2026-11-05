@@ -441,7 +441,25 @@ extension PropertyList {
         }
         
         package func derivedValue<T : DerivedPropertyKey>(_ other: PropertyList, for type: T.Type) -> T.Value {
-            assertUnimplemented()
+            return self.$data.access { data in
+                if let elements = other.elements {
+                    if data.plistID != elements.id {
+                        data.unrecordedDependencies = true
+                        return T.value(in: other)
+                    }
+                } else if data.plistID != .invalid {
+                    data.unrecordedDependencies = true
+                    return T.value(in: other)
+                }
+
+                if let value = data.derivedValues[ObjectIdentifier(T.self)] {
+                    return value.unwrap()
+                } else {
+                    let value = T.value(in: other)
+                    data.derivedValues[ObjectIdentifier(T.self)] = DerivedValue<T>(value: value)
+                    return value
+                }
+            }
         }
         
         final func forEach(filter: BloomFilter, _ body: (Unmanaged<PropertyList.Element>, inout Bool) -> Void) -> Bool {
@@ -483,7 +501,7 @@ extension PropertyList {
             var skipFilter = BloomFilter(type: keyType)
             
             if let before {
-                var length = before.length &+ 1
+                var length = before.length + 1
                 if let after {
                     length += after.length
                 }
@@ -493,7 +511,7 @@ extension PropertyList {
                 self.skipFilter = skipFilter
                 unsafe self.skip = .passUnretained(self)
             } else if let after {
-                let length = after.length &+ 1
+                let length = after.length + 1
                 if after.skipCount > 15 {
                     self.length = length
                     self.skipCount = 1
@@ -569,7 +587,7 @@ extension PropertyKey where Value : Equatable {
 }
 
 package protocol DerivedPropertyKey {
-    associatedtype Value
+    associatedtype Value : Equatable
     static func value(in propertyList: PropertyList) -> Self.Value
 }
 
@@ -838,11 +856,11 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
 }
 
 fileprivate struct TrackerData {
-    var plistID: UniqueID
-    var values: [ObjectIdentifier: any AnyTrackedValue]
-    var derivedValues: [ObjectIdentifier: any AnyTrackedValue]
-    var invalidValues: [any AnyTrackedValue]
-    var unrecordedDependencies: Bool
+    var plistID: UniqueID // 0x0
+    var values: [ObjectIdentifier: any AnyTrackedValue] // 0x8
+    var derivedValues: [ObjectIdentifier: any AnyTrackedValue] // 0x10
+    var invalidValues: [any AnyTrackedValue] // 0x18
+    var unrecordedDependencies: Bool // 0x20
     
     @inline(always)
     init(
@@ -878,5 +896,18 @@ fileprivate struct TrackedValue<T : PropertyKey> : AnyTrackedValue {
     
     func hasMatchingValue(in propertyList: PropertyList) -> Bool {
         return T.valuesEqual(self.value, propertyList[T.self])
+    }
+}
+
+fileprivate struct DerivedValue<T : DerivedPropertyKey> : AnyTrackedValue {
+    private(set) var value: T.Value
+    
+    func unwrap<Value>() -> Value {
+        return unsafe unsafeBitCast(self.value, to: Value.self)
+    }
+    
+    func hasMatchingValue(in propertyList: PropertyList) -> Bool {
+        let incoming = T.value(in: propertyList)
+        return self.value == incoming
     }
 }

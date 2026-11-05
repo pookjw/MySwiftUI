@@ -518,6 +518,18 @@ private import AttributeGraph
     }
     
     public mutating func addFilter(_ filter: GraphicsContext.Filter, options: GraphicsContext.FilterOptions = FilterOptions()) {
+        /*
+         x15 x22
+         x19 x28
+         x21 x23
+         x0 x24
+         x16 x17
+         x6 x5
+         x4 x2
+         x3 x26
+         x25 x10
+         w27
+         */
         switch filter.storage {
         case .projection(let transform):
             // <+204>
@@ -1165,27 +1177,6 @@ private import AttributeGraph
             }
             
             self.copyOnWrite()
-            
-            /*
-             x15 x22
-             x19 x28
-             x21 x23
-             x0 x24
-             x16 x17
-             x6 x5
-             x4 x2
-             x3 x26
-             x25 x10
-             w27
-             */
-            /*
-             x6 -> sp + 0x40
-             x5 -> sp + 0x20
-             x3 -> sp + 0x28
-             x4 -> sp + 0x50
-             x2 -> sp + 0x60
-             x27
-             */
             
             let resolvedShader = Shader.ResolvedShader(
                 rbShader: rbShader,

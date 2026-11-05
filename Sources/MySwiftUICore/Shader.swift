@@ -310,26 +310,7 @@ extension Shader {
         }
 
         nonisolated var rbFilterFlags: RBShaderFilterFlags {
-            let options = self.options.rawValue
-            var flags: UInt32 = 0
-
-            if options & 2 != 0 {
-                flags = 1
-            } else if options & 4 != 0 {
-                flags = 2
-            }
-
-            if options & 1 != 0 {
-                flags |= 0x10
-            }
-            if options & 8 != 0 {
-                flags |= 0x40
-            }
-            if options & 16 != 0 {
-                flags |= 0x80
-            }
-
-            return RBShaderFilterFlags(rawValue: flags)
+            assertUnimplemented()
         }
         
         func encode(to encoder: inout ProtobufEncoder) throws {
