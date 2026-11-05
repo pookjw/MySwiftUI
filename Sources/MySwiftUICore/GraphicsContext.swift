@@ -463,6 +463,14 @@ private import AttributeGraph
             get { Self(rawValue: 1 << 3) }
         }
         
+        static var dither: GraphicsContext.ShadowOptions {
+            get { Self(rawValue: 1 << 4) }
+        }
+        
+        static var knockout: GraphicsContext.ShadowOptions {
+            get { Self(rawValue: 1 << 5) }
+        }
+        
         @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
         public typealias ArrayLiteralElement = GraphicsContext.ShadowOptions
         

@@ -185,7 +185,13 @@ typedef NS_OPTIONS(unsigned int, RBMeshGradientFlags) {
 };
 
 typedef NS_OPTIONS(unsigned int, RBShadowFlags) {
-    RBShadowFlagsNone = 0
+    RBShadowFlagsNone = 0,
+    RBShadowFlagsUnknown0 = (1 << 0),
+    RBShadowFlagsUnknown1 = (1 << 1),
+    RBShadowFlagsUnknown2 = (1 << 2),
+    RBShadowFlagsUnknown3 = (1 << 3),
+    RBShadowFlagsUnknown4 = (1 << 4),
+    RBShadowFlagsUnknown5 = (1 << 5)
 };
 
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
