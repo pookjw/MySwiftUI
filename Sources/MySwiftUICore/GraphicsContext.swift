@@ -354,7 +354,15 @@ private import AttributeGraph
             blendMode: GraphicsContext.BlendMode = .normal,
             options: GraphicsContext.ShadowOptions = ShadowOptions()
         ) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            let shadow = GraphicsContext.Filter.Shadow(
+                color: color,
+                radius: radius,
+                offset: CGSize(width: x, height: y),
+                blend: blendMode,
+                options: options
+            )
+            
+            return GraphicsContext.Filter(storage: .shadow(shadow))
         }
         
         @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
@@ -431,7 +439,7 @@ private import AttributeGraph
             assertUnimplemented()
         }
         
-        private var storage: GraphicsContext.Filter.Storage
+        fileprivate private(set) var storage: GraphicsContext.Filter.Storage
     }
     
     @frozen public struct ShadowOptions : OptionSet {
@@ -510,7 +518,212 @@ private import AttributeGraph
     }
     
     public mutating func addFilter(_ filter: GraphicsContext.Filter, options: GraphicsContext.FilterOptions = FilterOptions()) {
-        assertUnimplemented()
+        switch filter.storage {
+        case .projection(let transform):
+            // <+204>
+            self.copyOnWrite()
+            self.storage.state.addProjectionTransform(transform)
+        case .rotation(let data):
+            // <+1980>
+            self.copyOnWrite()
+            self.storage.state.addRotationStyle(angle: data.angle.radians, anchor: data.anchor)
+        case .rotation3D(let data):
+            // <+1552>
+            self.copyOnWrite()
+            self.storage.state.addRotation3DStyle(
+                angle: data.angle.radians,
+                axisX: Float(data.axis.x),
+                axisY: Float(data.axis.y),
+                axisZ: Float(data.axis.z),
+                anchorX: Float(data.anchor.x),
+                anchorY: Float(data.anchor.y),
+                anchorZ: Float(data.anchor.z),
+                perspective: data.perspective,
+                flipWidth: data.flipWidth
+            )
+        case .shadow(let shadow):
+            // <+1808>
+            self.copyOnWrite()
+            let resolved = shadow.color.provider.resolve(in: self.environment)
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            if self.storage.shared.colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+            }
+            
+            let flags = RBShadowFlags(shadow.options)
+            
+            unsafe self.storage.state.addShadowStyle(
+                blendMode: RBBlendMode(rawValue: shadow.blend.rawValue).unsafelyUnwrapped,
+                flags: flags,
+                radius: shadow.radius,
+                offset: shadow.offset,
+                color: rbColor
+            )
+        case .resolvedShadow(let shadow):
+            // <+644>
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: shadow.color.linearRed,
+                green: shadow.color.linearGreen,
+                blue: shadow.color.linearBlue,
+                alpha: shadow.color.opacity
+            )
+            
+            if self.storage.shared.colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+            }
+            
+            let flags = RBShadowFlags(shadow.options)
+            
+            unsafe self.storage.state.addShadowStyle3(
+                0,
+                blendMode:RBBlendMode(rawValue: shadow.blend.rawValue).unsafelyUnwrapped,
+                flags: flags,
+                radius: shadow.radius,
+                midpoint: shadow.midpoint,
+                offset: shadow.offset,
+                color: rbColor
+            )
+        case .pathProjection(let startPoint, let endPoint, let path, let flags):
+            // <+2328>
+            self.copyOnWrite()
+            let rbPath = unsafe path.retainRBPath()
+            
+            unsafe self.storage.state.addPathProjectionStyle(
+                path: rbPath,
+                transform: CGAffineTransformMake(1, 0, 0, 1, 0, 0),
+                flags: flags,
+                startPoint: startPoint,
+                endPoint: endPoint
+            )
+            
+            unsafe rbPath.release()
+        case .colorMultiply(let color):
+            // <+2704>
+            let resolved = color.provider.resolveHDR(in: self.environment)
+            self.copyOnWrite()
+            
+            var rbColor = RBColor(
+                red: resolved.linearRed,
+                green: resolved.linearGreen,
+                blue: resolved.linearBlue,
+                alpha: resolved.opacity
+            )
+            
+            if self.storage.shared.colorSpace != .unknown2 {
+                rbColor = RBColor.fromLinear(
+                    r: rbColor.red,
+                    g: rbColor.green,
+                    b: rbColor.blue,
+                    a: rbColor.alpha
+                )
+            }
+            
+            let colorSpace = self.storage.shared.colorSpace
+            var unknown0: UInt32 = 1
+            if colorSpace != .unknown2 {
+                unknown0 &+= 1
+            }
+            if options.contains(.linearColor) {
+                unknown0 = 1;
+            }
+            
+            let data = RBDisplayListColorMultiply(
+                color: rbColor,
+                colorSpace: colorSpace,
+                headroom: resolved.headroom ?? 0,
+                unknown0: unknown0
+            )
+            
+            withUnsafePointer(to: data) { pointer in
+                unsafe self.storage.state.addStyle(style: .unknown5, data: pointer)
+            }
+        case .colorMultiplyResolved(let resolved):
+            // <+1904>
+            /*
+             x15 x22
+             x19 x28
+             x21 x23
+             x0 x24
+             x16 x17
+             x6 x5
+             x4 x2
+             x3 x26
+             x25 x10
+             */
+            assertUnimplemented()
+        case .alphaMultiply(let color):
+            // <+2896>
+            assertUnimplemented()
+        case .alphaMultiplyResolved(let resolvedHDR):
+            // <+1036>
+            assertUnimplemented()
+        case .colorMatrix(let _ColorMatrix, let premultiplied):
+            // <+2824>
+            assertUnimplemented()
+        case .hueRotate(let angle):
+            // <+512>
+            assertUnimplemented()
+        case .saturate(let float):
+            // <+908>
+            assertUnimplemented()
+        case .brightness(let float):
+            // <+2576>
+            assertUnimplemented()
+        case .contrast(let float):
+            // <+384>
+            assertUnimplemented()
+        case .invert(let float):
+            // <+1680>
+            assertUnimplemented()
+        case .grayscale(let float):
+            // <+256>
+            assertUnimplemented()
+        case .blur(let cGFloat, let rBBlurFlags):
+            // <+2100>
+            assertUnimplemented()
+        case .variableBlur(let cGFloat, let shading, let rBBlurFlags):
+            // <+2760>
+            assertUnimplemented()
+        case .alphaThreshold(let float, let float2, let color):
+            // <+3044>
+            assertUnimplemented()
+        case .alphaGradient(let eitherGradient):
+            // <+2240>
+            assertUnimplemented()
+        case .colorMonochrome(let colorMonochrome):
+            // <+2496>
+            assertUnimplemented()
+        case .luminanceCurve(let luminanceCurve):
+            // <+2952>
+            assertUnimplemented()
+        case .colorCurves(let colorCurves):
+            // <+3104>
+            assertUnimplemented()
+        case .shader(let shader, let border, let size):
+            // <+1232>
+            assertUnimplemented()
+        case .luminanceToAlpha:
+            // <+1112>
+            assertUnimplemented()
+        }
     }
     
     public struct Shading : Sendable {
@@ -1699,18 +1912,27 @@ fileprivate func withGradientStorage(
 
 extension GraphicsContext.Filter {
     struct Shadow {
-        // TODO
+        private(set) var color: Color
+        private(set) var radius: CGFloat
+        private(set) var offset: CGSize
+        private(set) var blend: GraphicsContext.BlendMode
+        private(set) var options: GraphicsContext.ShadowOptions
     }
 
     struct ResolvedShadow {
-        // TODO
+        private(set) var color: Color.ResolvedHDR
+        private(set) var radius: CGFloat
+        private(set) var offset: CGSize
+        private(set) var midpoint: Float
+        private(set) var blend: GraphicsContext.BlendMode
+        private(set) var options: GraphicsContext.ShadowOptions
     }
     
     enum Storage {
         case projection(ProjectionTransform)
         case rotation(_RotationEffect.Data)
         case rotation3D(_Rotation3DEffect.Data)
-        case shadow(GraphicsContext.Filter.Shadow)
+        case shadow(GraphicsContext.Filter.Shadow) // 0x18000000
         case resolvedShadow(GraphicsContext.Filter.ResolvedShadow)
         case pathProjection(CGPoint, CGPoint, Path, RBPathProjectionFlags)
         case colorMultiply(Color)
@@ -1733,5 +1955,11 @@ extension GraphicsContext.Filter {
         case colorCurves(GraphicsFilter.ColorCurves)
         case shader(Shader, border: CGSize, size: CGSize)
         case luminanceToAlpha
+    }
+}
+
+extension RBDrawingState {
+    fileprivate func addProjectionTransform(_ transform: ProjectionTransform) {
+        assertUnimplemented()
     }
 }

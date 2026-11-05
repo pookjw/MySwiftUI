@@ -33,6 +33,7 @@ extension _RotationEffect : BitwiseCopyable {}
 
 extension _RotationEffect {
     struct Data {
-        // TODO
+        private(set) var angle: Angle
+        private(set) var anchor: CGPoint
     }
 }

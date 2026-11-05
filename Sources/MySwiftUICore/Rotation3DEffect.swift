@@ -45,6 +45,10 @@ extension _Rotation3DEffect : BitwiseCopyable {}
 
 extension _Rotation3DEffect {
     struct Data {
-        // TODO
+        private(set) var angle: Angle
+        private(set) var axis: (x: CGFloat, y: CGFloat, z: CGFloat)
+        private(set) var anchor: (x: CGFloat, y: CGFloat, z: CGFloat)
+        private(set) var perspective: CGFloat
+        private(set) var flipWidth: CGFloat
     }
 }

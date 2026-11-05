@@ -37,7 +37,13 @@ exports:
     _RBDrawingStateDrawLayer,
     _RBDrawingStateDestroy,
     _RBColorFromLinear,
-    _RBDrawingStateRotateCTM ]
+    _RBDrawingStateRotateCTM,
+    _RBDrawingStateAddShadowStyle,
+    _RBDrawingStateAddRotationStyle,
+    _RBDrawingStateAddRotation3DStyle,
+    _RBDrawingStateAddShadowStyle3,
+    _RBDrawingStateAddPathProjectionStyle,
+    _RBDrawingStateAddStyle ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

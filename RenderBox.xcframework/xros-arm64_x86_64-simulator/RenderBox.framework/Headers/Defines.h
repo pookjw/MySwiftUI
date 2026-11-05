@@ -182,6 +182,10 @@ typedef NS_OPTIONS(unsigned int, RBMeshGradientFlags) {
     RBMeshGradientFlagsUnknown4 = (1 << 4)
 };
 
+typedef NS_OPTIONS(unsigned int, RBShadowFlags) {
+    RBShadowFlagsNone = 0
+};
+
 typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
 
 typedef struct RBCornerRadii {
@@ -190,6 +194,17 @@ typedef struct RBCornerRadii {
     const CGFloat bottomLeft;
     const CGFloat bottomRight;
 } RBCornerRadii;
+
+typedef struct RBDisplayListColorMultiply {
+    const RBColor color;
+    const RBColorSpace colorSpace;
+    const float headroom;
+    const uint32_t unknown0;
+} RBDisplayListColorMultiply;
+
+typedef NS_ENUM(unsigned int, RBDisplayListStyle) {
+    RBDisplayListStyleUnknown5 = 5
+};
 
 NS_ASSUME_NONNULL_END
 
