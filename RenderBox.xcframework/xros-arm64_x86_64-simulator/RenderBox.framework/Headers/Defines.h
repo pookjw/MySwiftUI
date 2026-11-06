@@ -343,6 +343,32 @@ typedef NS_OPTIONS(unsigned int, RBCGContextFlags) {
     RBCGContextFlagsNone = 0
 };
 
+typedef struct RBUUID {
+    const uint8_t v0;
+    const uint8_t v1;
+    const uint8_t v2;
+    const uint8_t v3;
+    const uint8_t v4;
+    const uint8_t v5;
+    const uint8_t v6;
+    const uint8_t v7;
+    const uint8_t v8;
+    const uint8_t v9;
+    const uint8_t v10;
+    const uint8_t v11;
+    const uint8_t v12;
+    const uint8_t v13;
+    const uint8_t v14;
+    const uint8_t v15;
+} RBUUID;
+
+typedef struct RBHash {
+    const uint32_t v0;
+    const uint32_t v1;
+    const uint32_t v2;
+    const uint32_t v3;
+} RBHash;
+
 NS_ASSUME_NONNULL_END
 
 #endif

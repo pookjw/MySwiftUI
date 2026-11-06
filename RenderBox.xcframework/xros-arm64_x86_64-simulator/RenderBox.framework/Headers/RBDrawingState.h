@@ -2,6 +2,7 @@
 #import <RenderBox/Defines.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <RenderBox/RBShader.h>
+#include <uuid/uuid.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,5 +42,9 @@ RB_EXTERN CGAffineTransform RBDrawingStateGetCTM(RBDrawingState) NS_SWIFT_NAME(g
 RB_EXTERN void RBDrawingStateSetCTM(RBDrawingState, const CGAffineTransform *);
 RB_EXTERN CGContextRef RBDrawingStateBeginCGContext(RBDrawingState, float alpha, RBCGContextFlags) NS_SWIFT_NAME(RBDrawingState.beginCGContext(self:alpha:flags:));
 RB_EXTERN void RBDrawingStateEndCGContext(RBDrawingState) NS_SWIFT_NAME(RBDrawingState.endCGContext(self:));
+RB_EXTERN RBUUID RBDrawingStateGetIdentifierNamespace2(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.identifierNamespace2(self:));
+RB_EXTERN void RBDrawingStateSetIdentifier2(RBDrawingState, unsigned int, RBUUID) NS_SWIFT_NAME(RBDrawingState.setIdentifier2(self:identifier:namespace2:));
+RB_EXTERN uint32_t RBDrawingStateGetIdentifier(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.identifier(self:));
+RB_EXTERN void RBDrawingStateSetIdentifier(RBDrawingState, uint32_t, NSUUID * _Nullable) NS_SWIFT_NAME(RBDrawingState.setIdentifier(self:_:uuid:));
 
 NS_ASSUME_NONNULL_END

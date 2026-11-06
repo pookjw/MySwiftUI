@@ -37,7 +37,43 @@ extension DisplayList {
         }
         
         func render(list: DisplayList, in context: inout GraphicsContext) {
-            assertUnimplemented()
+            let identifier = context.storage.state.identifier
+            
+            let identifierNamespace2 = unsafe UUID(
+                uuid: unsafeBitCast(context.storage.state.identifierNamespace2, to: uuid_t.self)
+            )
+            
+            for item in list.items {
+                // <+112>
+                // item -> sp + 0x70
+                let oldIndex = self.index.enter(identity: item.identity)
+                
+                if item.identity == .none {
+                    // <+404>
+                } else {
+                    // <+172>
+                    if let stableIDs, let existing = stableIDs[item.identity] {
+                        // <+220>
+                        let rbHash = RBHash(
+                            v0: existing.hash.words.0,
+                            v1: existing.hash.words.1,
+                            v2: existing.hash.words.2,
+                            v3: existing.hash.words.3
+                        )
+                        
+                        let rbUUID = RBUUID.fromHash(rbHash, version: 5)
+                        context.setIdentifier(existing.serial, in: rbUUID)
+                    } else {
+                        // <+328>
+                        context.identifier = item.identity.value
+                    }
+                }
+                
+                self.render(item: item, in: &context)
+                self.index.leave(index: oldIndex)
+            }
+            
+            context.setIdentifier(identifier, in: identifierNamespace2)
         }
         
         func render(item: DisplayList.Item, in context: inout GraphicsContext) {

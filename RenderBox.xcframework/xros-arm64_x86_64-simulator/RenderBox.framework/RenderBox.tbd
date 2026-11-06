@@ -62,7 +62,12 @@ exports:
     _RBDrawingStateGetCTM,
     _RBDrawingStateSetCTM,
     _RBDrawingStateBeginCGContext,
-    _RBDrawingStateEndCGContext ]
+    _RBDrawingStateEndCGContext,
+    _RBDrawingStateGetIdentifier,
+    _RBDrawingStateGetIdentifierNamespace2,
+    _RBDrawingStateSetIdentifier2,
+    _RBUUIDInitFromHash,
+    _RBDrawingStateSetIdentifier ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

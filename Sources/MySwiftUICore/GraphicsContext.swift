@@ -8,7 +8,7 @@ private import AttributeGraph
     @_hasMissingDesignatedInitializers @usableFromInline
     final internal class Storage {
         fileprivate let shared: GraphicsContext.Storage.Shared // 0x10
-        fileprivate let state: RBDrawingState // 0x18
+        let state: RBDrawingState // 0x18
         fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
         fileprivate var opacity: Float = 1 // 0x30
         fileprivate var blendMode: RBBlendMode = .unknown0 // 0x34
@@ -1835,6 +1835,33 @@ extension GraphicsContext {
         case elliptical(CGRect, CGFloat, CGFloat)
         case conic(CGPoint, Angle)
         case angular(CGPoint, Angle, Angle)
+    }
+    
+    mutating func setIdentifier(_ identifier: UInt32, in namespace2: UUID) {
+        let uuid = unsafe unsafeBitCast(namespace2.uuid, to: RBUUID.self)
+        self.setIdentifier(identifier, in: uuid)
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func setIdentifier(_ identifier: UInt32, in namespace2: RBUUID) {
+        self.copyOnWrite()
+        self.storage.state.setIdentifier2(identifier: identifier, namespace2: namespace2)
+    }
+    
+    var identifier: UInt32 {
+        get {
+            return self.storage.state.identifier
+        }
+        set {
+            self.copyOnWrite()
+            self.storage.state.setIdentifier(newValue, uuid: nil)
+        }
+        _modify {
+            var identifier = self.storage.state.identifier
+            yield &identifier
+            self.copyOnWrite()
+            self.storage.state.setIdentifier(identifier, uuid: nil)
+        }
     }
 }
 

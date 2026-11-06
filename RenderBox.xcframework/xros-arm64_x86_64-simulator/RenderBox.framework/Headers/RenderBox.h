@@ -14,3 +14,4 @@
 #import <RenderBox/RBShader.h>
 #import <RenderBox/RBShaderLibrary.h>
 #import <RenderBox/RBSymbolAnimator.h>
+#import <RenderBox/RBUUID.h>
