@@ -51,7 +51,14 @@ struct ViewTraitCollection {
     }
     
     func tagValue<T : Hashable>(for type: T.Type) -> T? {
-        assertUnimplemented()
+        let value = self[TagValueTraitKey<T>.self]
+        
+        switch value {
+        case .untagged:
+            return nil
+        case .tagged(let value):
+            return value
+        }
     }
 }
 

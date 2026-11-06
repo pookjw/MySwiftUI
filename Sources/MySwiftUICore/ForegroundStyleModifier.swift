@@ -52,13 +52,54 @@ extension _ForegroundStyleModifier : ViewInputsModifier {
     }
 }
 
+@frozen public struct _DefaultForegroundStyleModifier<Style> where Style : ShapeStyle {
+    public var style: Style?
+
+    nonisolated public static func _makeViewInputs(modifier: _GraphValue<_DefaultForegroundStyleModifier<Style>>, inputs: inout _ViewInputs) {
+        inputs.environment = Attribute(
+            DefaultForegroundStyleEnvironment(
+                modifier: modifier.value,
+                environment: inputs.environment
+            )
+        )
+    }
+    public typealias Body = Never
+}
+
+extension _DefaultForegroundStyleModifier : ViewModifier {}
+extension _DefaultForegroundStyleModifier : PrimitiveViewModifier {}
+extension _DefaultForegroundStyleModifier : @MainActor ViewInputsModifier {}
+
+extension _DefaultForegroundStyleModifier {
+    fileprivate struct DefaultForegroundStyleEnvironment : AsyncAttribute, Rule {
+        @Attribute var modifier: _DefaultForegroundStyleModifier<Style>
+        @Attribute var environment: EnvironmentValues
+
+        var value: EnvironmentValues {
+            var environment = self.environment
+
+            let style: Style? = self.modifier.style
+            let resolved = style.map { style -> AnyShapeStyle in
+                // $s7SwiftUI31_DefaultForegroundStyleModifierV0cdE11Environment33_BEFE9363F68E039B4AB6422B8AA4535ALLV5valueAA0G6ValuesVvgAA08AnyShapeE0VxXEfU_TA
+                return style.copyStyle(in: environment, foregroundStyle: nil)
+            }
+
+            environment.defaultForegroundStyle = resolved
+            return environment
+        }
+    }
+}
+
 extension _ForegroundStyleModifier {
     fileprivate struct ForegroundStyleEnvironment : AsyncAttribute, Rule {
         @Attribute var modifier: _ForegroundStyleModifier<Style>
         @Attribute var environment: EnvironmentValues
-        
+
         var value: EnvironmentValues {
-            assertUnimplemented()
+            var environment = self.environment
+            let resolved = self.modifier.style.copyStyle(in: environment, foregroundStyle: nil)
+            environment.foregroundStyle = resolved
+            return environment
         }
     }
 }

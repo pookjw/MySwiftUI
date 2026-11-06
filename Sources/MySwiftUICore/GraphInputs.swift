@@ -300,7 +300,13 @@ fileprivate struct MergedEnvironment : Rule, AsyncAttribute {
     @Attribute private(set) var rhs: EnvironmentValues
     
     var value: EnvironmentValues {
-        assertUnimplemented()
+        var result = self.rhs
+        
+        if let lhs {
+            result.plist.merge(lhs.plist)
+        }
+        
+        return result
     }
 }
 

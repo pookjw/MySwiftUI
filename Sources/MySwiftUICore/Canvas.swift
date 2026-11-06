@@ -431,7 +431,15 @@ extension CanvasSymbols {
         @OptionalAttribute var layoutComputer: LayoutComputer?
         
         var value: ViewSize {
-            assertUnimplemented()
+            guard let layoutComputer else {
+                return ViewSize.fixed(self.size.value)
+            }
+            
+            let size = self.size
+            let proposedSize = _ProposedSize(width: size.width, height: size.height)
+            let sizeThatFits = layoutComputer.sizeThatFits(proposedSize)
+            
+            return ViewSize(sizeThatFits, proposal: proposedSize)
         }
     }
 }
