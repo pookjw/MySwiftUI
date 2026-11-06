@@ -45,7 +45,17 @@ extension DisplayList {
         }
         
         func renderDisplayList(_ list: DisplayList, at time: Time, in context: inout GraphicsContext) {
-            assertUnimplemented()
+            let index = self.index
+            self.time = time
+            self.nextTime = .infinity
+            
+            self.render(list: list, in: &context)
+            
+            self.oldCache.callbacks = [:]
+            let newCache = self.newCache
+            self.newCache = DisplayList.GraphicsRenderer.Cache(callbacks: [:], animators: [:])
+            self.oldCache = newCache
+            self.index = index
         }
         
         func drawImplicitLayer(in context: inout GraphicsContext, content: (inout GraphicsContext) -> ()) {
@@ -69,7 +79,7 @@ extension DisplayList.GraphicsRenderer {
     }
     
     fileprivate struct Cache {
-        private(set) var callbacks: [DisplayList.GraphicsRenderer.Cache.CallbackKey: any RBDisplayListContents]
+        var callbacks: [DisplayList.GraphicsRenderer.Cache.CallbackKey: any RBDisplayListContents]
         private(set) var animators: [DisplayList.GraphicsRenderer.Cache.AnimatorKey: any _DisplayList_AnyEffectAnimator]
     }
 }

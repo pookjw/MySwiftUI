@@ -152,10 +152,6 @@ enum SystemColorType : CodableSerializable, Hashable, ColorProvider, Codable {
         assertUnimplemented()
     }
     
-    func opacity(at: Int, environment: EnvironmentValues) -> Float {
-        assertUnimplemented()
-    }
-    
     init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }

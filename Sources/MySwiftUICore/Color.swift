@@ -149,8 +149,20 @@ package class AnyColorBox : AnyShapeStyleBox, @unchecked Sendable {
         fatalError() // abstract
     }
     
-    override func apply(to: inout _ShapeStyle_Shape) {
-        assertUnimplemented()
+    override func apply(to shape: inout _ShapeStyle_Shape) {
+        switch shape.operation {
+        case .fallbackColor(let level):
+            // <+44>
+            if level < 1 {
+                shape.result = .color(Color(box: self))
+            } else {
+                let opacity = self.opacity(at: level, environment: shape.environment)
+                shape.result = .color(Color(box: self).opacity(Double(opacity)))
+            }
+        default:
+            // <+160>
+            self.apply(color: Color(box: self), to: &shape)
+        }
     }
     
     func resolve(in environment: EnvironmentValues) -> Color.Resolved {
@@ -345,7 +357,7 @@ package protocol ColorProvider : Hashable, Serializable {
     var staticColor: CGColor? { get }
     var kitColor: AnyObject? { get }
     var colorDescription: String { get }
-    func opacity(at: Int, environment: EnvironmentValues) -> Float
+    func opacity(at index: Int, environment: EnvironmentValues) -> Float
 }
 
 extension ColorProvider {

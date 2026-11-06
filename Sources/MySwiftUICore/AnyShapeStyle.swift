@@ -49,7 +49,7 @@ extension AnyShapeStyle.Storage : @unchecked Sendable {
 package class AnyShapeStyleBox : @unchecked Sendable {
     init() {}
     
-    func apply(to: inout _ShapeStyle_Shape) {
+    func apply(to shape: inout _ShapeStyle_Shape) {
         // noop
     }
     
