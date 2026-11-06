@@ -12,7 +12,6 @@ RB_EXTERN RBDisplayList * RBDrawingStateGetDisplayList(RBDrawingState) NS_SWIFT_
 RB_EXTERN void RBDrawingStateScaleCTM(RBDrawingState, CGFloat sx, CGFloat sy) NS_SWIFT_NAME(RBDrawingState.scaleCTM(self:sx:sy:));
 RB_EXTERN void RBDrawingStateDrawShape(RBDrawingState, RBShape *, RBFill *, RBBlendMode, float) NS_SWIFT_NAME(RBDrawingState.drawShape(self:shape:fill:blendMode:opacity:));
 RB_EXTERN void RBDrawingStateClipShape(RBDrawingState, RBShape *, RBRenderingMode) NS_SWIFT_NAME(RBDrawingState.clipShape(self:_:renderingMode:));
-RB_EXTERN RBDrawingState RBDrawingStateBeginLayer(RBDrawingState, uint32_t) NS_SWIFT_NAME(RBDrawingState.beginLayer(self:_:));
 RB_EXTERN void RBDrawingStateDrawLayer(RBDrawingState, RBDrawingState, RBBlendMode, float) NS_SWIFT_NAME(RBDrawingState.drawLayer(self:_:blendMode:opacity:));
 RB_EXTERN void RBDrawingStateDestroy(RBDrawingState) NS_SWIFT_NAME(RBDrawingState.destroy(self:));
 RB_EXTERN void RBDrawingStateRotateCTM(RBDrawingState, CGFloat angle) NS_SWIFT_NAME(RBDrawingState.rotateCTM(self:angle:));
@@ -34,5 +33,13 @@ RB_EXTERN void RBDrawingStateAddLuminanceCurveFilter(RBDrawingState, const float
 RB_EXTERN void RBDrawingStateAddRGBACurvesFilter(RBDrawingState, const float *curves, RBRCurvesFlags flags) NS_SWIFT_NAME(RBDrawingState.addRGBACurvesFilter(self:curves:flags:));
 RB_EXTERN void RBDrawingStateAddLuminanceToAlphaFilter(RBDrawingState, RBLuminanceToAlphaFlags flags) NS_SWIFT_NAME(RBDrawingState.addLuminanceToAlphaFilter(self:flags:));
 RB_EXTERN void RBDrawingStateAddShaderFilter(RBDrawingState, RBShader *, const CGRect * _Nullable, RBShaderFilterFlags, CGSize) NS_SWIFT_NAME(RBDrawingState.addShaderFilter(self:shader:rect:filterFlags:size:));
+RB_EXTERN RBDrawingState RBDrawingStateBeginLayer(RBDrawingState, RBLayerFlags) NS_SWIFT_NAME(RBDrawingState.beginLayer(self:flags:));
+RB_EXTERN void RBDrawingStateClipLayer(RBDrawingState, RBDrawingState, RBClipFlags, float opacity) NS_SWIFT_NAME(RBDrawingState.clipLayer(self:_:flags:opacity:));
+RB_EXTERN void RBDrawingStateConcatCTM(RBDrawingState, const CGAffineTransform *) NS_SWIFT_NAME(RBDrawingState.concatCTM(self:transform:));
+RB_EXTERN CGRect RBDrawingStateGetClipBoundingBox(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.clipBoundingBox(self:));
+RB_EXTERN CGAffineTransform RBDrawingStateGetCTM(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.ctm(self:));
+RB_EXTERN void RBDrawingStateSetCTM(RBDrawingState, const CGAffineTransform *);
+RB_EXTERN CGContextRef RBDrawingStateBeginCGContext(RBDrawingState, float alpha, RBCGContextFlags) NS_SWIFT_NAME(RBDrawingState.beginCGContext(self:alpha:flags:));
+RB_EXTERN void RBDrawingStateEndCGContext(RBDrawingState) NS_SWIFT_NAME(RBDrawingState.endCGContext(self:));
 
 NS_ASSUME_NONNULL_END

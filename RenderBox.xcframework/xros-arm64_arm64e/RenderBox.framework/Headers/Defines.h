@@ -327,6 +327,20 @@ typedef NS_OPTIONS(unsigned int, RBLuminanceToAlphaFlags) {
     RBLuminanceToAlphaFlagsUnknown1 = (1 << 1)
 };
 
+typedef NS_OPTIONS(unsigned int, RBLayerFlags) {
+    RBLayerFlagsNone = 0,
+    RBLayerFlagsUnknown0 = (1 << 0),
+    RBLayerFlagsUnknown5 = (1 << 5)
+};
+
+typedef NS_OPTIONS(uint32_t, RBClipFlags) {
+    RBClipFlagsNone = 0
+};
+
+typedef NS_OPTIONS(unsigned int, RBCGContextFlags) {
+    RBCGContextFlagsNone = 0
+};
+
 NS_ASSUME_NONNULL_END
 
 #endif

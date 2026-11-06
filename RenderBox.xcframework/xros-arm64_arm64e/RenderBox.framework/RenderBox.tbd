@@ -55,7 +55,14 @@ exports:
     _RBDrawingStateAddLuminanceCurveFilter,
     _RBDrawingStateAddRGBACurvesFilter,
     _RBDrawingStateAddLuminanceToAlphaFilter,
-    _RBDrawingStateAddShaderFilter ]
+    _RBDrawingStateAddShaderFilter,
+    _RBDrawingStateClipLayer,
+    _RBDrawingStateConcatCTM,
+    _RBDrawingStateGetClipBoundingBox,
+    _RBDrawingStateGetCTM,
+    _RBDrawingStateSetCTM,
+    _RBDrawingStateBeginCGContext,
+    _RBDrawingStateEndCGContext ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

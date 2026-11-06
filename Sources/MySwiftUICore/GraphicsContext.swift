@@ -45,6 +45,24 @@ private import AttributeGraph
             self.blendMode = other.blendMode
         }
         
+        @inline(__always) // 원래 없음
+        fileprivate init(flags: RBLayerFlags, other: GraphicsContext.Storage) {
+            let state = other.state.beginLayer(flags: flags)
+            let shared = other.shared
+            
+            if shared.colorSpace != state.defaultColorSpace {
+                self.shared = GraphicsContext.Storage.Shared(
+                    list: state.displayList,
+                    environment: other.environmentOverride ?? shared._environment
+                )
+            } else {
+                self.shared = shared
+            }
+            
+            self.state = state
+            self.ownsState = false
+        }
+        
         deinit {
             if self.ownsState {
                 self.state.destroy()
@@ -271,11 +289,18 @@ private import AttributeGraph
     
     public var transform: CGAffineTransform {
         get {
-            assertUnimplemented()
+            return self.storage.state.ctm
         }
-        
         set {
-            assertUnimplemented()
+            guard self.storage.state.ctm != newValue else {
+                return
+            }
+            
+            self.copyOnWrite()
+            
+            withUnsafePointer(to: newValue) { pointer in
+                unsafe RBDrawingStateSetCTM(self.storage.state, pointer)
+            }
         }
     }
     
@@ -305,7 +330,15 @@ private import AttributeGraph
     }
     
     public mutating func concatenate(_ matrix: CGAffineTransform) {
-        assertUnimplemented()
+        guard !matrix.isIdentity else {
+            return
+        }
+        
+        self.copyOnWrite()
+        
+        withUnsafePointer(to: matrix) { pointer in
+            unsafe self.storage.state.concatCTM(transform: pointer)
+        }
     }
     
     @frozen public struct ClipOptions : OptionSet {
@@ -328,22 +361,41 @@ private import AttributeGraph
     }
     
     public var clipBoundingRect: CGRect {
-        get {
-            assertUnimplemented()
-        }
+        return self.storage.state.clipBoundingBox
     }
     
     public mutating func clip(to path: Path, style: FillStyle = FillStyle(), options: GraphicsContext.ClipOptions = ClipOptions()) {
         assertUnimplemented()
     }
     
-    public mutating func clipToLayer(opacity: Double = 1, options: GraphicsContext.ClipOptions = ClipOptions(), content: (inout GraphicsContext) throws -> Void) rethrows {
-        assertUnimplemented()
+    public mutating func clipToLayer(
+        opacity: Double = 1,
+        options: GraphicsContext.ClipOptions = ClipOptions(),
+        content: (inout GraphicsContext) throws -> Void
+    ) rethrows {
+        self.copyOnWrite()
+        
+        // inlined
+        var newContext = GraphicsContext(
+            storage: GraphicsContext.Storage(flags: [], other: self.storage)
+        )
+        
+        let newState = newContext.storage.state
+        
+        defer {
+            self.storage.state.clipLayer(
+                newState,
+                flags: RBClipFlags(rawValue: options.rawValue & 1),
+                opacity: Float(opacity)
+            )
+        }
+        
+        try content(&newContext)
     }
     
     public struct Filter : Sendable {
         public static func projectionTransform(_ matrix: ProjectionTransform) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .projection(matrix))
         }
         
         public static func shadow(
@@ -367,58 +419,67 @@ private import AttributeGraph
         
         @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
         public static func alphaMultiply(_ color: Color) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .alphaMultiply(color))
         }
         
         public static func colorMultiply(_ color: Color) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .colorMultiply(color))
         }
         
         public static func colorMatrix(_ matrix: ColorMatrix) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(
+                storage: .colorMatrix(_ColorMatrix(matrix), premultiplied: false)
+            )
         }
         
         @available(iOS 18.2, macOS 15.2, watchOS 11.2, tvOS 18.2, visionOS 2.2, *)
         public static func colorMatrix(_ matrix: ColorMatrix, isPremultiplied: Bool) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(
+                storage: .colorMatrix(_ColorMatrix(matrix), premultiplied: isPremultiplied)
+            )
         }
         
         public static func hueRotation(_ angle: Angle) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .hueRotate(angle))
         }
         
         public static func saturation(_ amount: Double) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .saturate(Float(amount)))
         }
         
         public static func brightness(_ amount: Double) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .brightness(Float(amount)))
         }
         
         public static func contrast(_ amount: Double) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .contrast(Float(amount)))
         }
         
         public static func colorInvert(_ amount: Double = 1) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .invert(Float(amount)))
         }
         
         public static func grayscale(_ amount: Double) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            return GraphicsContext.Filter(storage: .grayscale(Float(amount)))
         }
         
         public static var luminanceToAlpha: GraphicsContext.Filter {
-            get {
-                assertUnimplemented()
-            }
+            return GraphicsContext.Filter(storage: .luminanceToAlpha)
         }
         
         public static func blur(radius: CGFloat, options: GraphicsContext.BlurOptions = BlurOptions()) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            var w9 = options.rawValue & 1
+            let w10: UInt32 = options.contains(.opaque) ? 9 : 8
+            w9 = options.contains(.dithersResult) ? w10 : w9
+            
+            return GraphicsContext.Filter(
+                storage: .blur(radius, RBBlurFlags(rawValue: w9))
+            )
         }
         
         public static func alphaThreshold(min: Double, max: Double = 1, color: Color = Color.black) -> GraphicsContext.Filter {
-            assertUnimplemented()
+            precondition(min < max, "invalid alpha range: \(min)..<\(max)")
+            return GraphicsContext.Filter(storage: .alphaThreshold(Float(min), Float(max), color))
         }
         
         @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
@@ -1288,7 +1349,13 @@ private import AttributeGraph
         }
         
         public static func conicGradient(_ gradient: Gradient, center: CGPoint, angle: Angle = Angle(), options: GraphicsContext.GradientOptions = GradientOptions()) -> GraphicsContext.Shading {
-            assertUnimplemented()
+            return GraphicsContext.Shading(
+                storage: .gradient(
+                    .gradient(gradient),
+                    geometry: .conic(center, angle),
+                    options: options
+                )
+            )
         }
         
         @available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
@@ -1350,7 +1417,7 @@ private import AttributeGraph
     }
     
     public func drawLayer(content: (inout GraphicsContext) throws -> Void) rethrows {
-        assertUnimplemented()
+        return try self.drawLayer(flags: [], content: content)
     }
     
     public func fill(_ path: Path, with shading: GraphicsContext.Shading, style: FillStyle = FillStyle()) {
@@ -1478,7 +1545,25 @@ extension GraphicsContext.ResolvedSymbol : Sendable {
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 extension GraphicsContext {
     public func withCGContext(content: (CGContext) throws -> Void) rethrows {
-        assertUnimplemented()
+        let state = self.storage.state
+        let cgContext = unsafe state.beginCGContext(
+            alpha: self.storage.opacity,
+            flags: []
+        ).takeUnretainedValue()
+        
+        let blendMode = self.storage.blendMode
+        if blendMode != .unknown0 {
+            unsafe cgContext.setBlendMode(
+                CGBlendMode(rawValue: blendMode.rawValue)
+                    .unsafelyUnwrapped
+            )
+        }
+        
+        defer {
+            state.endCGContext()
+        }
+        
+        try content(cgContext)
     }
 }
 
@@ -1541,7 +1626,7 @@ extension GraphicsContext {
             // <+1244>
             let drawingState_1 = RBDrawingState.initialize(self.storage.state)
             drawingState_1.clipShape(self.storage.shared.shape, renderingMode: .unknown0)
-            let drawingState_2 = drawingState_1.beginLayer(1)
+            let drawingState_2 = drawingState_1.beginLayer(flags: [.unknown0])
             
             if resolved.opacity != 0 {
                 self.storage.shared.shape.setInfinite()
@@ -1640,6 +1725,42 @@ extension GraphicsContext {
     
     func addVariableBlurFilter(radius: CGFloat, mask: GraphicsContext.Shading, flags: RBBlurFlags) {
         assertUnimplemented()
+    }
+    
+    func drawLayer(flags: RBLayerFlags, content: (inout GraphicsContext) throws -> Void) rethrows {
+        /*
+         flags -> w0 -> w25
+         content -> x1/x2 -> x27
+         self -> x3 -> x24
+         */
+        // inlined
+        var newContext = GraphicsContext(
+            storage: GraphicsContext.Storage(flags: flags, other: self.storage)
+        )
+        
+        let currentState = self.storage.state
+        let newState = newContext.storage.state
+        
+        if flags.contains(.unknown5) {
+            newContext.storage.opacity = self.storage.opacity
+            newContext.storage.blendMode = self.storage.blendMode
+        }
+        
+        defer {
+            let opacity: Float
+            let blendMode: RBBlendMode
+            if flags.contains(.unknown5) {
+                blendMode = .unknown0
+                opacity = 1
+            } else {
+                blendMode = self.storage.blendMode
+                opacity = self.storage.opacity
+            }
+            
+            currentState.drawLayer(newState, blendMode: blendMode, opacity: opacity)
+        }
+        
+        try content(&newContext)
     }
 }
 
@@ -2442,7 +2563,7 @@ extension GraphicsContext.Filter {
         case contrast(Float)
         case invert(Float)
         case grayscale(Float)
-        case blur(CGFloat, RBBlurFlags)
+        case blur(CGFloat, RBBlurFlags) // -0x78000000
         case variableBlur(CGFloat, GraphicsContext.Shading, RBBlurFlags)
         case alphaThreshold(Float, Float, Color)
         case alphaGradient(EitherGradient)
