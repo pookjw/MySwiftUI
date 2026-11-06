@@ -385,7 +385,8 @@ private import AttributeGraph
         defer {
             self.storage.state.clipLayer(
                 newState,
-                flags: RBClipFlags(rawValue: options.rawValue & 1),
+                flags: RBClipFlags(rawValue: options.rawValue)
+                    .intersection(.unknown0),
                 opacity: Float(opacity)
             )
         }
@@ -1510,15 +1511,21 @@ private import AttributeGraph
     }
     
     public struct ResolvedSymbol {
-        public var size: CGSize {
-            get {
-                assertUnimplemented()
-            }
+        private var list: RBDisplayListContents
+        public internal(set) var size: CGSize
+        
+        init(list: RBDisplayListContents, size: CGSize) {
+            self.list = list
+            self.size = size
         }
     }
     
     public func resolveSymbol<ID>(id: ID) -> GraphicsContext.ResolvedSymbol? where ID : Hashable {
-        assertUnimplemented()
+        guard let symbols = self.storage.shared.symbols else {
+            return nil
+        }
+        
+        return symbols.symbol(for: id)
     }
     
     public func draw(_ symbol: GraphicsContext.ResolvedSymbol, in rect: CGRect) {
@@ -1801,7 +1808,11 @@ extension GraphicsContext.GradientOptions : Sendable {}
 extension GraphicsContext.GradientOptions : BitwiseCopyable {}
 
 class GraphicsContextSymbols {
-    // TODO
+    func symbol<A : Hashable>(for key: A) -> GraphicsContext.ResolvedSymbol? {
+        fatalError("abstract")
+    }
+    
+    init() {}
 }
 
 extension GraphicsContext {
@@ -1902,7 +1913,8 @@ extension GraphicsContext.Storage.Shared {
                 unsafe self.fill.setShader(
                     rbShader,
                     bounds: bounds,
-                    flags: RBShaderFlags(rawValue: shader.options.rawValue & 1)
+                    flags: RBShaderFlags(rawValue: shader.options.rawValue)
+                        .intersection(.unknown0)
                 )
             }
         case .gradient(let gradient, let geometry, options: let options):

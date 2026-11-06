@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// expr -l objc -O -- [NSObject _fd__protocolDescriptionForProtocol:(Protocol *)NSProtocolFromString(@"_RBDisplayListContents")]
+
 @interface NSObject (Foundation_IvarDescription)
 - (NSString *)_fd_shortMethodDescription;
 - (NSString *)_fd_methodDescription;

@@ -49,6 +49,10 @@ struct ViewTraitCollection {
     mutating func setTagIfUnset<Value : Hashable>(for type: Value.Type, value: Value) {
         self.setValueIfUnset(.tagged(value), for: TagValueTraitKey<Value>.self)
     }
+    
+    func tagValue<T : Hashable>(for type: T.Type) -> T? {
+        assertUnimplemented()
+    }
 }
 
 extension ViewTraitCollection {

@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RBDisplayList : NSObject
+@interface RBDisplayList : NSObject <_RBDisplayListContents>
 @property (nonatomic) RBDisplayListContentsProfile profile;
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat deviceScale;

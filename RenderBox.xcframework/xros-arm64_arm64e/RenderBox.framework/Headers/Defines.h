@@ -165,7 +165,8 @@ typedef NS_OPTIONS(unsigned int, RBPathProjectionFlags) {
 };
 
 typedef NS_OPTIONS(unsigned int, RBShaderFlags) {
-    RBShaderFlagsNone = 0
+    RBShaderFlagsNone = 0,
+    RBShaderFlagsUnknown0 = (1 << 0)
 };
 
 typedef NS_OPTIONS(unsigned int, RBShaderFillFlags) {
@@ -334,7 +335,8 @@ typedef NS_OPTIONS(unsigned int, RBLayerFlags) {
 };
 
 typedef NS_OPTIONS(uint32_t, RBClipFlags) {
-    RBClipFlagsNone = 0
+    RBClipFlagsNone = 0,
+    RBClipFlagsUnknown0 = (1 << 0)
 };
 
 typedef NS_OPTIONS(unsigned int, RBCGContextFlags) {

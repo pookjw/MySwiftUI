@@ -913,10 +913,62 @@ fileprivate final class SymbolRenderer : GraphicsContextSymbols {
         self.ctx = ctx
         self.colorSpace = colorSpace
         self.environment = environment
+        super.init()
     }
     
-    func symbol<A : Hashable>(for key: A) -> GraphicsContext.ResolvedSymbol? {
-        assertUnimplemented()
+    override func symbol<A : Hashable>(for key: A) -> GraphicsContext.ResolvedSymbol? {
+        if let existing = self.cache[AnyHashable(key)] {
+            switch existing {
+            case .some(let symbol):
+                return symbol
+            case .none:
+                return nil
+            }
+        }
+        
+        // <+304>
+        for index in self.elts.indices {
+            guard let tagValue = self.elts[index].traits.tagValue(for: A.self) else {
+                continue
+            }
+            
+            if tagValue == key {
+                // <+648>
+                let size = self.ctx[self.elts[index].size].value
+                let rbDisplayList = RBDisplayList()
+                rbDisplayList.defaultColorSpace = self.colorSpace
+                
+                if let displayListAttribute = self.elts[index].list.attribute {
+                    let displayList = self.ctx[displayListAttribute]
+                    let environment = self.ctx[self.environment]
+                    
+                    var graphicsContext = GraphicsContext(
+                        storage: GraphicsContext.Storage(
+                            list: rbDisplayList,
+                            environment: environment
+                        )
+                    )
+                    
+                    self.elts[index].renderer.renderDisplayList(
+                        displayList,
+                        at: .zero,
+                        in: &graphicsContext
+                    )
+                }
+                
+                let resolved = GraphicsContext.ResolvedSymbol(
+                    list: rbDisplayList,
+                    size: size
+                )
+                
+                self.cache[AnyHashable(key)] = SymbolRenderer.CachedResolvedSymbol.some(resolved)
+                return resolved
+            }
+        }
+        
+        // <+512>
+        self.cache[AnyHashable(key)] = SymbolRenderer.CachedResolvedSymbol.none
+        return nil
     }
 }
 
