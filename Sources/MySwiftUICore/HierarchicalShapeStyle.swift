@@ -1,7 +1,7 @@
 // BE30CA4BBA5F98638AD9D34F1557FB4D
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
-@frozen public struct HierarchicalShapeStyle : ShapeStyle {
+@frozen public struct HierarchicalShapeStyle : ShapeStyle, PrimitiveShapeStyle {
     package var id: UInt32
     
     public static let primary = HierarchicalShapeStyle(id: 0)

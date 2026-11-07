@@ -23,7 +23,19 @@ extension PathSet : Equatable {
     }
 }
 
-extension PathSet : SDFRenderer {}
+extension PathSet : SDFRenderer {
+    func drawSDF(in context: inout GraphicsContext, distanceRange: ClosedRange<CGFloat>, gradient: SDFGradient, ovalization: Float) {
+        assertUnimplemented()
+    }
+    
+    func fillShape(in: inout GraphicsContext, color: Color.ResolvedHDR) {
+        assertUnimplemented()
+    }
+    
+    func clipToShape(in context: inout GraphicsContext) {
+        assertUnimplemented()
+    }
+}
 
 extension PathSet : ProtobufEncodableMessage {
     func encode(to encoder: inout ProtobufEncoder) throws {

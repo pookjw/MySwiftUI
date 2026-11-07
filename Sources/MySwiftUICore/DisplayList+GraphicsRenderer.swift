@@ -90,34 +90,176 @@ extension DisplayList {
             case .content(let content):
                 // <+228>
                 switch content.value {
-                case .backdrop(let backdropEffect):
+                case .backdrop(let effect):
                     // <+256>
-                    assertUnimplemented()
+                    for filter in effect.filters.reversed() {
+                        context.addFilter(filter, in: CGRect(origin: .zero, size: copy_1.frame.size))
+                    }
+                    
+                    // <+9092>
+                    context.draw(
+                        Path(copy_1.frame),
+                        with: GraphicsContext.Shading(storage: .backdrop(effect.color)),
+                        style: .fill(FillStyle(eoFill: false, antialiased: true))
+                    )
+                    
+                    // <+12424>
+                    return
                 case .color(let colorView):
                     // <+3736>
-                    assertUnimplemented()
+                    context.draw(
+                        Path(copy_1.frame),
+                        with: .color(colorView.color),
+                        style: .fill(FillStyle(eoFill: false, antialiased: colorView.isAntialiased))
+                    )
+                    
+                    return
                 case .chameleonColor(let chameleonColor):
                     // <+3844>
-                    assertUnimplemented()
-                case .image(let graphicsImage):
+                    for filter in chameleonColor.filters.reversed() {
+                        context.addFilter(filter, in: CGRect(origin: .zero, size: copy_1.frame.size))
+                    }
+                    
+                    // <+9028>
+                    context.draw(
+                        Path(copy_1.frame),
+                        with: .color(chameleonColor.fallback),
+                        style: .fill(FillStyle(eoFill: false, antialiased: true))
+                    )
+                    
+                    return
+                case .image(let image):
                     // <+3308>
-                    assertUnimplemented()
+                    context.draw(
+                        image,
+                        in: copy_1.frame,
+                        style: FillStyle(eoFill: false, antialiased: true),
+                        shading: nil
+                    )
+                    
+                    return
                 case .shape(let path, let paint, let fillStyle):
                     // <+4160>
-                    assertUnimplemented()
-                case .sdfShape(let sDFShape):
+                    let w8 = (copy_1.frame.origin.x == 0)
+                    let w22 = (copy_1.frame.origin.y != 0) ? false : w8
+                    
+                    if !w22 {
+                        // <+8356>
+                        context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                        // <+8388>
+                    } else {
+                        // <+8388>
+                    }
+                    
+                    // <+8388>
+                    paint.draw(
+                        path: path,
+                        style: .fill(fillStyle),
+                        in: context,
+                        bounds: CGRect(origin: .zero, size: copy_1.frame.size)
+                    )
+                    
+                    if !w22 {
+                        context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
+                        // <+12440>
+                    } else {
+                        // <+12440>
+                    }
+                    
+                    // <+12440>
+                    return
+                case .sdfShape(let shape):
                     // <+4328>
-                    assertUnimplemented()
-                case .sdfMask(let displayList, let sDFLayer):
+                    let d0 = shape.origin.x
+                    let d1 = shape.origin.y
+                    let d2 = copy_1.frame.origin.x
+                    let d3 = copy_1.frame.origin.y
+                    let d10 = d2 - d0
+                    let d11 = d3 - d1
+                    
+                    if (d10 != 0) || (d11 != 0) {
+                        // <+8152>
+                        context.translateBy(x: d10, y: d11)
+                        // <+8236>
+                    } else {
+                        // <+8236>
+                    }
+                    
+                    // <+8236>
+                    context.fillSDF(
+                        of: shape.path,
+                        with: shape.style,
+                        ovalization: shape.ovalization,
+                        bounds: nil,
+                        context: nil
+                    )
+                    
+                    return
+                case .sdfMask(let list, let layer):
                     // <+4064>
-                    assertUnimplemented()
-                case .shadow(let path, let resolvedShadowStyle):
+                    if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
+                        // <+7980>
+                        context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                        // <+8048>
+                    } else {
+                        // <+8048>
+                    }
+                    
+                    let renderer = DisplayListSDFRenderer(
+                        list: list,
+                        renderer: self
+                    )
+                    
+                    context.drawSDFStyle(
+                        layer.style,
+                        ovalization: layer.ovalizationAmount,
+                        renderer: renderer,
+                        bounds: { 
+                            return copy_1.frame
+                        },
+                        content: nil
+                    )
+                    
+                    return
+                case .shadow(let path, let style):
                     // <+4528>
-                    assertUnimplemented()
-                case .platformView(let platformViewFactory):
+                    if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
+                        // <+8496>
+                        context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                        // <+8556>
+                    } else {
+                        // <+8556>
+                    }
+                    
+                    // <+8556>
+                    // inlined
+                    context.addFilter(
+                        GraphicsContext.Filter(
+                            storage: .resolvedShadow(
+                                GraphicsContext.Filter.ResolvedShadow(
+                                    color: style.color,
+                                    radius: style.radius,
+                                    offset: style.offset,
+                                    midpoint: style.midpoint,
+                                    blend: context.blendMode,
+                                    options: .shadowOnly
+                                )
+                            )
+                        ),
+                        options: [] // 알 수 없음
+                    )
+                    
+                    context.draw(
+                        path,
+                        with: GraphicsContext.ResolvedShading.color(.white),
+                        style: .fill(FillStyle(eoFill: false, antialiased: true))
+                    )
+                    
+                    return
+                case .platformView(let factory):
                     // <+3588>
                     assertUnimplemented()
-                case .platformLayer(let platformLayerFactory):
+                case .platformLayer(let factory):
                     // <+4456>
                     assertUnimplemented()
                 case .text(let styledTextContentView, let cGSize):
@@ -213,5 +355,22 @@ extension DisplayList.GraphicsRenderer.Cache {
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
+    }
+}
+
+fileprivate struct DisplayListSDFRenderer : SDFRenderer {
+    let list: DisplayList
+    let renderer: DisplayList.GraphicsRenderer
+    
+    func drawSDF(in context: inout GraphicsContext, distanceRange: ClosedRange<CGFloat>, gradient: SDFGradient, ovalization: Float) {
+        assertUnimplemented()
+    }
+    
+    func fillShape(in: inout GraphicsContext, color: Color.ResolvedHDR) {
+        assertUnimplemented()
+    }
+    
+    func clipToShape(in context: inout GraphicsContext) {
+        assertUnimplemented()
     }
 }

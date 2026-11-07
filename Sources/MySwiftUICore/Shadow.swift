@@ -5,7 +5,7 @@ package struct ResolvedShadowStyle : Equatable, Animatable, ProtobufEncodableMes
     private(set) var color: Color.ResolvedHDR // 0x0
     private(set) var radius: CGFloat // 0x18
     private(set) var offset: CGSize // 0x20
-    private var midpoint: Float // 0x30
+    private(set) var midpoint: Float // 0x30
     private(set) var kind: ShadowStyle.Kind // 0x34
 
     package static func == (lhs: ResolvedShadowStyle, rhs: ResolvedShadowStyle) -> Bool {

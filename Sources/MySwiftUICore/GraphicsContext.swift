@@ -501,7 +501,7 @@ private import AttributeGraph
             assertUnimplemented()
         }
         
-        fileprivate private(set) var storage: GraphicsContext.Filter.Storage
+        private(set) var storage: GraphicsContext.Filter.Storage
     }
     
     @frozen public struct ShadowOptions : OptionSet {
@@ -1383,7 +1383,7 @@ private import AttributeGraph
             assertUnimplemented()
         }
         
-        fileprivate private(set) var storage: GraphicsContext.Shading.Storage
+        private(set) var storage: GraphicsContext.Shading.Storage
     }
     
     @frozen public struct GradientOptions : OptionSet {
@@ -1769,6 +1769,51 @@ extension GraphicsContext {
         
         try content(&newContext)
     }
+    
+    mutating func setIdentifier(_ identifier: UInt32, in namespace2: UUID) {
+        let uuid = unsafe unsafeBitCast(namespace2.uuid, to: RBUUID.self)
+        self.setIdentifier(identifier, in: uuid)
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func setIdentifier(_ identifier: UInt32, in namespace2: RBUUID) {
+        self.copyOnWrite()
+        self.storage.state.setIdentifier2(identifier: identifier, namespace2: namespace2)
+    }
+    
+    var identifier: UInt32 {
+        get {
+            return self.storage.state.identifier
+        }
+        set {
+            self.copyOnWrite()
+            self.storage.state.setIdentifier(newValue, uuid: nil)
+        }
+        _modify {
+            var identifier = self.storage.state.identifier
+            yield &identifier
+            self.copyOnWrite()
+            self.storage.state.setIdentifier(identifier, uuid: nil)
+        }
+    }
+    
+    mutating func addFilter(_: GraphicsFilter, in: CGRect) {
+        assertUnimplemented()
+    }
+    
+    func draw(_: GraphicsImage, in: CGRect, style: FillStyle, shading: GraphicsContext.Shading?) {
+        assertUnimplemented()
+    }
+    
+    mutating func drawSDFStyle<T : SDFRenderer>(
+        _ style: SDFStyle,
+        ovalization: Float,
+        renderer: T,
+        bounds: () -> CGRect,
+        content: ((inout GraphicsContext) -> Void)?
+    ) {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
@@ -1835,33 +1880,6 @@ extension GraphicsContext {
         case elliptical(CGRect, CGFloat, CGFloat)
         case conic(CGPoint, Angle)
         case angular(CGPoint, Angle, Angle)
-    }
-    
-    mutating func setIdentifier(_ identifier: UInt32, in namespace2: UUID) {
-        let uuid = unsafe unsafeBitCast(namespace2.uuid, to: RBUUID.self)
-        self.setIdentifier(identifier, in: uuid)
-    }
-    
-    @inline(always) // 원래 없음
-    mutating func setIdentifier(_ identifier: UInt32, in namespace2: RBUUID) {
-        self.copyOnWrite()
-        self.storage.state.setIdentifier2(identifier: identifier, namespace2: namespace2)
-    }
-    
-    var identifier: UInt32 {
-        get {
-            return self.storage.state.identifier
-        }
-        set {
-            self.copyOnWrite()
-            self.storage.state.setIdentifier(newValue, uuid: nil)
-        }
-        _modify {
-            var identifier = self.storage.state.identifier
-            yield &identifier
-            self.copyOnWrite()
-            self.storage.state.setIdentifier(identifier, uuid: nil)
-        }
     }
 }
 

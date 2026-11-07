@@ -815,9 +815,21 @@ extension Path {
     }()
 }
 
-extension Path : SDFRenderer {}
+extension Path : SDFRenderer {
+    func drawSDF(in context: inout GraphicsContext, distanceRange: ClosedRange<CGFloat>, gradient: SDFGradient, ovalization: Float) {
+        assertUnimplemented()
+    }
+    
+    func fillShape(in: inout GraphicsContext, color: Color.ResolvedHDR) {
+        assertUnimplemented()
+    }
+    
+    func clipToShape(in context: inout GraphicsContext) {
+        assertUnimplemented()
+    }
+}
 
-enum PathDrawingStyle {
+package enum PathDrawingStyle {
     case fill(FillStyle)
     case stroke(StrokeStyle)
 }

@@ -1,8 +1,10 @@
+// 64BC530FF7DFD7354D9DE185F4962CA7
 internal import CoreGraphics
 private import simd
 #if SwiftUICompatibility
 package import _SwiftUICorePrivate
 #endif
+private import RenderBox
 
 package struct SDFShape : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
     private(set) var origin: CGPoint // 0x0
@@ -231,4 +233,47 @@ extension SDFStyle {
             assertUnimplemented()
         }
     }
+}
+
+fileprivate struct SDF {
+    private var list: RBDisplayList
+    private var range: ClosedRange<CGFloat>
+    private var bounds: CGRect
+    private var content: ((inout GraphicsContext) -> Void)?
+    private var format: SDFFormat
+    private var hasGradient: Bool
+    private var drewContent: Bool
+}
+
+enum SDFFormat {
+    case fixed8
+    case fixed10
+    case float16
+}
+
+extension GraphicsContext {
+    mutating func fillSDF(
+        of: PathSet,
+        with: SDFStyle,
+        ovalization: Float,
+        bounds: CGRect?,
+        context: ((inout GraphicsContext) -> Void)?
+    ) {
+        // $s7SwiftUI15GraphicsContextVAAE12drawSDFStyle_11ovalization8renderer6bounds7contentyAA0F0O_SfxSo6CGRectVyXEyACzcSgtAA11SDFRendererRzlFAA7PathSetV_TB503$s7a4UI15cd52VAAE7fillSDF2of4with11ovalization6bounds7contentyAA7mn5V_AA8f6OSfSo6K20VSgyACzcSgtFAOyXEfU_ALSgAPTf1nnncnn_nTf4nnnnnng_n
+        /*
+         bounds -> x5
+         context -> x2/x3
+         */
+        assertUnimplemented()
+    }
+}
+
+protocol SDFRenderer {
+    func drawSDF(in context: inout GraphicsContext, distanceRange: ClosedRange<CGFloat>, gradient: SDFGradient, ovalization: Float)
+    func fillShape(in: inout GraphicsContext, color: Color.ResolvedHDR)
+    func clipToShape(in context: inout GraphicsContext)
+}
+
+enum SDFGradient {
+    // TODO
 }

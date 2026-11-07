@@ -145,7 +145,13 @@ extension Material.Layer {
     }
     
     package struct SDFLayer : Equatable {
-        // TODO
+        package static func == (lhs: Material.Layer.SDFLayer, rhs: Material.Layer.SDFLayer) -> Bool {
+            assertUnimplemented()
+        }
+        
+        private(set) var style: SDFStyle
+        private var options: Material.Layer.SDFLayer.Options
+        private(set) var ovalizationAmount: Float
     }
 }
 

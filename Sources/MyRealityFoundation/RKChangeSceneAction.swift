@@ -6,6 +6,10 @@ public class __RKChangeSceneAction : __RKEntityAction {
         assertUnimplemented()
     }()
     
+    deinit {
+        assertUnimplemented()
+    }
+    
     public var rootEntity: Entity?
     
     public init(rootEntity: Entity?, targetSceneIdentifier: UUID) {

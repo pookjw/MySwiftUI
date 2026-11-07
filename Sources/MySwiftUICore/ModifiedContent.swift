@@ -19,6 +19,8 @@ extension ModifiedContent : Sendable where Content : Sendable, Modifier : Sendab
 }
 
 extension ModifiedContent : Animatable where Content : Animatable, Modifier : Animatable {
+    public typealias AnimatableData = AnimatablePair<Content.AnimatableData, Modifier.AnimatableData>
+    
     public var animatableData: AnimatablePair<Content.AnimatableData, Modifier.AnimatableData> {
         get {
             assertUnimplemented()

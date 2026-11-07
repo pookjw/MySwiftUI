@@ -1,10 +1,13 @@
-private import CoreGraphics
+package import CoreGraphics
 
-package struct FocusableBounds : Sendable {
+package struct FocusableBounds {
     private var bounds: CGRect
     private var isLazyContainer: Bool
     
-    // TODO
+    package init(bounds: CGRect, isLazyContainer: Bool) {
+        self.bounds = bounds
+        self.isLazyContainer = isLazyContainer
+    }
 }
 
 extension FocusableBounds {

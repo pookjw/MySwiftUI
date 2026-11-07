@@ -1,7 +1,7 @@
 package struct BackdropEffect : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
     private var scale: Float
-    private var color: Color.ResolvedHDR
-    private var filters: [GraphicsFilter]
+    private(set) var color: Color.ResolvedHDR
+    private(set) var filters: [GraphicsFilter]
     private var captureOnly: Bool
     
     init(scale: Float = 1, color: Color.ResolvedHDR = .black, filters: [GraphicsFilter] = [], captureOnly: Bool = false) {

@@ -1,4 +1,10 @@
+internal import RenderBox
+
 struct ShaderVectorData : VectorArithmetic, Equatable {
+    init(rbShader: RBShader?) {
+        assertUnimplemented()
+    }
+    
     static func + (lhs: ShaderVectorData, rhs: ShaderVectorData) -> ShaderVectorData {
         assertUnimplemented()
     }

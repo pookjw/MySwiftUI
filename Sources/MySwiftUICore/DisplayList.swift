@@ -1290,9 +1290,9 @@ extension _ViewInputs {
 
 extension DisplayList {
     package struct ChameleonColor {
-        private var fallback: Color.ResolvedHDR
+        private(set) var fallback: Color.ResolvedHDR
         private var allowedDynamicRange: Image.DynamicRange
-        private var filters: [GraphicsFilter]
+        private(set) var filters: [GraphicsFilter]
     }
     
     package struct ArchiveIDs {
