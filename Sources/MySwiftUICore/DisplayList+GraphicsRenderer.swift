@@ -77,7 +77,75 @@ extension DisplayList {
         }
         
         func render(item: DisplayList.Item, in context: inout GraphicsContext) {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x22
+             item -> x0 -> x20
+             context -> x1 -> x24
+             */
+            // <+164>
+            // x19 + 0x390 (sp + 0x3d0)
+            let copy_1 = item
+            
+            switch copy_1.value {
+            case .content(let content):
+                // <+228>
+                switch content.value {
+                case .backdrop(let backdropEffect):
+                    // <+256>
+                    assertUnimplemented()
+                case .color(let colorView):
+                    // <+3736>
+                    assertUnimplemented()
+                case .chameleonColor(let chameleonColor):
+                    // <+3844>
+                    assertUnimplemented()
+                case .image(let graphicsImage):
+                    // <+3308>
+                    assertUnimplemented()
+                case .shape(let path, let paint, let fillStyle):
+                    // <+4160>
+                    assertUnimplemented()
+                case .sdfShape(let sDFShape):
+                    // <+4328>
+                    assertUnimplemented()
+                case .sdfMask(let displayList, let sDFLayer):
+                    // <+4064>
+                    assertUnimplemented()
+                case .shadow(let path, let resolvedShadowStyle):
+                    // <+4528>
+                    assertUnimplemented()
+                case .platformView(let platformViewFactory):
+                    // <+3588>
+                    assertUnimplemented()
+                case .platformLayer(let platformLayerFactory):
+                    // <+4456>
+                    assertUnimplemented()
+                case .text(let styledTextContentView, let cGSize):
+                    // <+3096>
+                    assertUnimplemented()
+                case .flattened(let displayList, let cGPoint, let rasterizationOptions):
+                    // <+3508>
+                    assertUnimplemented()
+                case .drawing(let rBDisplayListContents, let cGPoint, let rasterizationOptions):
+                    // <+4248>
+                    assertUnimplemented()
+                case .view(let _DisplayList_ViewFactory):
+                    // <+2860>
+                    assertUnimplemented()
+                case .placeholder(let id):
+                    // <+12440>
+                    return
+                }
+            case .effect(let effect, let list):
+                // <+628>
+                assertUnimplemented()
+            case .states(let states):
+                // <+488>
+                assertUnimplemented()
+            case .empty:
+                // <+12448>
+                return
+            }
         }
         
         func renderDisplayList(_ list: DisplayList, at time: Time, in context: inout GraphicsContext) {
