@@ -358,6 +358,7 @@ extension DisplayList.GraphicsRenderer.Cache {
     }
 }
 
+// nominal type descriptor가 없음
 fileprivate struct DisplayListSDFRenderer : SDFRenderer {
     let list: DisplayList
     let renderer: DisplayList.GraphicsRenderer

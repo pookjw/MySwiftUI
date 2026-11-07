@@ -75,6 +75,17 @@ extension Gradient {
         public static let perceptual = Gradient.ColorSpace(base: .perceptual)
         static let linear = Gradient.ColorSpace(base: .linear)
     }
+    
+    public func colorSpace(_ space: Gradient.ColorSpace) -> AnyGradient {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension AnyGradient {
+    public func colorSpace(_ space: Gradient.ColorSpace) -> AnyGradient {
+        assertUnimplemented()
+    }
 }
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)

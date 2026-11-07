@@ -209,6 +209,8 @@ extension _BackgroundStyleModifier : Sendable {
 
 extension _BackgroundStyleModifier : MultiViewModifier, PrimitiveViewModifier {}
 
+@_spi(Internal) extension _BackgroundStyleModifier : @preconcurrency ContentResponder {}
+
 extension _BackgroundStyleModifier : @preconcurrency ShapeStyledLeafView {
     typealias ShapeUpdateData = Void
     
@@ -398,6 +400,8 @@ extension _BackgroundShapeModifier : Sendable {
 }
 
 extension _BackgroundShapeModifier : MultiViewModifier, PrimitiveViewModifier {}
+
+@_spi(Internal) extension _BackgroundShapeModifier : ContentResponder {}
 
 extension _BackgroundShapeModifier : ShapeStyledLeafView {
     typealias ShapeUpdateData = Never // TODO
