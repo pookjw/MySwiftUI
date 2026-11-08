@@ -1150,7 +1150,7 @@ package struct ColorView :  @preconcurrency RendererLeafView {
 
 extension ColorView : @preconcurrency ResolvedPaint {
     package func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
-        assertUnimplemented()
+        context.draw(path, with: .color(self.color), style: style)
     }
     
     package nonisolated var isClear: Bool {

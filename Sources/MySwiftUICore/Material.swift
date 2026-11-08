@@ -12,12 +12,18 @@ public struct Material : Sendable {
 }
 
 extension Material {
-    public static let regular: Material = { assertUnimplemented() }()
-    public static let thick: Material = { assertUnimplemented() }()
-    public static let thin: Material = { assertUnimplemented() }()
-    public static let ultraThin: Material = { assertUnimplemented() }()
-    public static let ultraThick: Material = { assertUnimplemented() }()
-    public static let bar: Material = { assertUnimplemented() }()
+    public static let regular: Material = Material(.regular)
+    public static let thick: Material = Material(.thick)
+    public static let thin: Material = Material(.thin)
+    public static let ultraThin: Material = Material(.ultraThin)
+    public static let ultraThick: Material = Material(.ultraThick)
+}
+
+@available(iOS 15.0, macOS 12.0, *)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+extension Material {
+    public static let bar: Material = Material(.systemBars)
 }
 
 extension Material {
@@ -388,15 +394,15 @@ extension Material {
     }
     
     package static var darkerGlass: Material {
-        fatalError()
+        return Material(.darkerGlass)
     }
     
     package static var lighterGlass: Material {
-        fatalError()
+        return Material(.lighterGlass)
     }
     
     package static var ultraDarkerGlass: Material {
-        fatalError()
+        return Material(.ultraDarkerGlass)
     }
     
     package static var modal: Material {

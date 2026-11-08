@@ -1745,6 +1745,79 @@ extension GraphicsContext {
     }
     
     func draw(_ path: Path, with shading: GraphicsContext.ResolvedShading, style: PathDrawingStyle) {
+        switch shading {
+        case .backdrop(let resolved):
+            // <+188>
+            switch style {
+            case .fill(let fillStyle):
+                // <+656>
+                self.storage.shared.shape.setPath(
+                    path,
+                    style: fillStyle,
+                    shapeDistance: self.storage.shapeDistance
+                )
+                
+            case .stroke(let strokeStyle):
+                // <+228>
+                self.storage.shared.shape.setStrokedPath(path, style: strokeStyle)
+            }
+            
+            // <+688>
+            let blendMode = self.storage.blendMode
+            let opacity = self.storage.opacity
+            // x21
+            let newState = RBDrawingState.initialize(self.storage.state)
+            newState.clipShape(self.storage.shared.shape, renderingMode: .unknown0)
+            
+            // x23
+            let layerState = newState.beginLayer(flags: [.unknown0])
+            
+            if !(resolved.opacity == 0) {
+                self.storage.shared.shape.setInfinite()
+                self.storage.shared.setColor(resolved)
+                
+                layerState.drawShape(
+                    shape: self.storage.shared.shape,
+                    fill: self.storage.shared.fill,
+                    blendMode: .unknown0,
+                    opacity: 1
+                )
+            }
+            
+            // <+788>
+            newState.drawLayer(layerState, blendMode: blendMode, opacity: opacity)
+            newState.destroy()
+        case .style(let _style):
+            // <+276>
+            _style.draw(path, style: style, in: self, bounds: nil)
+        case .levels(let levels):
+            // <+408>
+            self.draw(path, with: levels[0], style: style)
+        default:
+            // <+596>
+            switch style {
+            case .fill(let fillStyle):
+                // <+820>
+                self.storage.shared.shape.setPath(
+                    path,
+                    style: fillStyle,
+                    shapeDistance: self.storage.shapeDistance
+                )
+            case .stroke(let strokeStyle):
+                // <+612>
+                self.storage.shared.shape.setStrokedPath(path, style: strokeStyle)
+            }
+            
+            // <+852>
+            self.storage.shared.setShading(shading)
+            self.storage.state.drawShape(
+                shape: self.storage.shared.shape,
+                fill: self.storage.shared.fill,
+                blendMode: self.storage.blendMode,
+                opacity: self.storage.opacity
+            )
+        }
+        
         assertUnimplemented()
     }
     
