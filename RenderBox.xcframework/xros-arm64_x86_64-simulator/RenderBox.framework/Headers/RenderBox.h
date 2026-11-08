@@ -20,3 +20,4 @@
 #import <RenderBox/RBEncoderDelegate.h>
 #import <RenderBox/RBPlaceholderStyleContent.h>
 #import <RenderBox/RBPlaceholderStyle.h>
+#import <RenderBox/RBAnimation.h>

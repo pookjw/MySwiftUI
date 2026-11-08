@@ -1,3 +1,3 @@
 package protocol DefaultAccentColorProvider {
-    // TODO
+    static func accentColor(in environment: EnvironmentValues) -> Color
 }

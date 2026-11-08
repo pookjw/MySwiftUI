@@ -1,5 +1,5 @@
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-public struct ToolbarPlacement : Hashable {
+public struct ToolbarPlacement {
     private(set) var storage: ToolbarPlacement.Storage
     
     public static var automatic: ToolbarPlacement {

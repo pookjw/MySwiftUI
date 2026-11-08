@@ -59,6 +59,24 @@ extension EventBindingManagerDelegate {
 
 package protocol ForwardedEventDispatcher {
     static var eventType: any EventType.Type { get }
+    var isActive: Bool { get }
+    func wantsEvent(_ event: EventType, manager: EventBindingManager) -> Bool
+    func receiveEvents(_ events: [EventID : EventType], manager: EventBindingManager) -> Set<EventID>
+    func reset()
+}
+
+extension ForwardedEventDispatcher {
+    package var isActive: Bool {
+        assertUnimplemented()
+    }
+    
+    package func wantsEvent(_ event: EventType, manager: EventBindingManager) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package func reset() {
+        assertUnimplemented()
+    }
 }
 
 @_spi(Internal) public struct EventBinding {

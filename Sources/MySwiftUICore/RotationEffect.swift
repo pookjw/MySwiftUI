@@ -32,7 +32,7 @@ extension _RotationEffect : Sendable {}
 extension _RotationEffect : BitwiseCopyable {}
 
 extension _RotationEffect {
-    struct Data {
+    package struct Data {
         private(set) var angle: Angle
         private(set) var anchor: CGPoint
     }

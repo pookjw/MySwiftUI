@@ -29,6 +29,10 @@ struct OrbitEntityActionHandler : ActionHandlerProtocol {
         assertUnimplemented()
     }
 
+    func computeOrbitTransform(event: Self.EventType, normalizedTime: Double, isAdditive: Bool) -> Transform {
+        assertUnimplemented()
+    }
+
     static func register(_ creationHandler: @escaping (Self.EventType) -> (any ActionHandlerProtocol)?) {
         assertUnimplemented()
     }

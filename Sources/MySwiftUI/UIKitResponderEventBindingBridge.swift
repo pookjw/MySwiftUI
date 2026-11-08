@@ -24,7 +24,7 @@ final class UIKitResponderEventBindingBridge : EventBindingBridge, GestureGraphD
         self.gestureRecognizer.addTarget(self, action: #selector(flushActions))
     }
     
-    var eventSources: [any EventBindingSource] {
+    public override var eventSources: [any EventBindingSource] {
         get {
             assertUnimplemented()
         }
@@ -34,7 +34,7 @@ final class UIKitResponderEventBindingBridge : EventBindingBridge, GestureGraphD
         assertUnimplemented()
     }
     
-    func reset(eventSource: any EventBindingSource, resetForwardedEventDispatchers: Bool) {
+    public override func reset(eventSource: any EventBindingSource, resetForwardedEventDispatchers: Bool) {
         assertUnimplemented()
     }
     

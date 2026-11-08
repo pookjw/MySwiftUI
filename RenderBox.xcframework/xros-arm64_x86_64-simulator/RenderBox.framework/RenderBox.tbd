@@ -70,7 +70,10 @@ exports:
     _RBDrawingStateSetIdentifier,
     _RBDrawingStateDrawPlaceholder,
     _RBDrawingStateDrawDisplayList,
-    _RBDrawingStateDrawDisplayList2 ]
+    _RBDrawingStateDrawDisplayList2,
+    _RBDrawingStateAddPlaceholderStyle,
+    _RBDrawingStateAddAnimationStyle,
+    _RBDrawingStateAddAffineTransformStyle ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,
@@ -79,6 +82,7 @@ exports:
     RBEncoderSet,
     RBShader,
     RBShaderLibrary,
-    RBSymbolAnimator ]
+    RBSymbolAnimator,
+    RBAnimation ]
     objc-ivars:           [  ]
 ...

@@ -26,4 +26,8 @@ public import UIKit
     @MainActor @preconcurrency @objc override dynamic public init(target: Any?, action: Selector?) {
         assertUnimplemented()
     }
+
+    deinit {
+        assertUnimplemented()
     }
+}

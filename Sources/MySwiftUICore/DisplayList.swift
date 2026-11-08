@@ -879,7 +879,7 @@ extension DisplayList {
         case animation(any _DisplayList_AnyEffectAnimation)
         case contentTransition(ContentTransition.State)
         case view(_DisplayList_ViewFactory)
-        case accessibility([AccessibilityNodeAttachment])
+        case accessibility(DisplayList.AccessibilityEffect)
         case platform(DisplayList.PlatformEffect)
         case state(StrongHash)
         case interpolatorRoot(DisplayList.InterpolatorGroup, contentOrigin: CGPoint, SwiftOffset: CGSize)
@@ -990,6 +990,11 @@ extension DisplayList {
             }
         }
     }
+    
+    package enum AccessibilityEffect {
+        case attachments([AccessibilityNodeAttachment])
+        case representation(DisplayList)
+    }
 }
 
 extension DisplayList {
@@ -1065,6 +1070,10 @@ extension DisplayList {
         }
         
         mutating func skip(effect: DisplayList.Effect) {
+            assertUnimplemented()
+        }
+        
+        mutating func updateArchive(entering: Bool) {
             assertUnimplemented()
         }
     }
@@ -1297,7 +1306,7 @@ extension DisplayList {
     
     package struct ArchiveIDs {
         private var uuid: UUID
-        private var stableIDs: _DisplayList_StableIdentityMap
+        private(set) var stableIDs: _DisplayList_StableIdentityMap
     }
     
     package struct BackdropGroup {
@@ -1309,8 +1318,8 @@ extension DisplayList {
         case affine(CGAffineTransform)
         case projection(ProjectionTransform)
         case affine3D(AffineTransform3D)
-//        case rotation(RotationEffect.Data)
-//        case rotation3D(_Rotation3DEffect.Data)
+        case rotation(_RotationEffect.Data)
+        case rotation3D(_Rotation3DEffect.Data)
     }
     
     package class InterpolatorGroup {

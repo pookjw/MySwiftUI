@@ -6,6 +6,14 @@ public class __RKEntitySpinAction : __RKEntityAction {
         assertUnimplemented()
     }
     
+    public override init(targetEntity: Entity?) {
+        assertUnimplemented()
+    }
+    
+    deinit {
+        assertUnimplemented()
+    }
+    
     override public func perform(with context: __RKEntityActionContext) -> Bool {
         assertUnimplemented()
     }

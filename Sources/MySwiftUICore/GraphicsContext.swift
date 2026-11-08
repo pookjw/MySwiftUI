@@ -10,7 +10,7 @@ private import AttributeGraph
         fileprivate let shared: GraphicsContext.Storage.Shared // 0x10
         let state: RBDrawingState // 0x18
         fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
-        fileprivate(set) var opacity: Float = 1 // 0x30
+        var opacity: Float = 1 // 0x30
         fileprivate var blendMode: RBBlendMode = .unknown0 // 0x34
         fileprivate private(set) var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
@@ -253,6 +253,10 @@ private import AttributeGraph
         
         @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
         public typealias RawValue = Int32
+        
+        init(_: GraphicsBlendMode) {
+            assertUnimplemented()
+        }
     }
     
     public var opacity: Double {
@@ -266,6 +270,20 @@ private import AttributeGraph
             } else {
                 self.copyOnWrite()
                 self.storage.opacity = converted
+            }
+        }
+    }
+    
+    @inline(always) // 원래 없음
+    var _opacity: Float {
+        get {
+            return self.storage.opacity
+        }
+        set {
+            if self.storage.opacity == newValue {
+            } else {
+                self.copyOnWrite()
+                self.storage.opacity = newValue
             }
         }
     }
@@ -1825,6 +1843,73 @@ extension GraphicsContext {
     
     var userToDeviceScale: CGFloat {
         assertUnimplemented()
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func addPlaceholderStyle(_ style: any RBPlaceholderObject) {
+        self.copyOnWrite()
+        self.storage.state.addPlaceholderStyle(style)
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func drawPlaceholder(_ operation: any RBPlaceholderDrawingOperation) {
+        self.copyOnWrite()
+        self.storage.state.drawPlaceholder(operation: operation)
+    }
+    
+    init(displayList: RBDisplayList, environment: EnvironmentValues) {
+        self.storage = GraphicsContext.Storage(list: displayList, environment: environment)
+    }
+    
+    mutating func setTransition(_: ContentTransition?) {
+        assertUnimplemented()
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func addInterpolatorAnimation(_ animation: DisplayList.InterpolatorAnimation) {
+        let rbUUID: RBUUID
+        if let value = animation.value {
+            let rbHash = RBHash(
+                v0: value.words.0,
+                v1: value.words.1,
+                v2: value.words.2,
+                v3: value.words.3
+            )
+            
+            rbUUID = RBUUID.fromHash(rbHash, version: 5)
+        } else {
+            rbUUID = RBUUID()
+        }
+        
+        self.copyOnWrite()
+        
+        let rbAnimation: RBAnimation?
+        if let animation = animation.animation {
+            let _rbAnimation = RBAnimation()
+            animation.function.apply(to: _rbAnimation)
+            rbAnimation = _rbAnimation
+        } else {
+            rbAnimation = nil
+        }
+        
+        self.storage.state.addAnimationStyle(rbAnimation, uuid: rbUUID)
+    }
+    
+    @inline(always)
+    mutating func addAffineTransformStyle() {
+        self.copyOnWrite()
+        
+        let ctm = self.storage.state.ctm
+        
+        if !ctm.isIdentity {
+            withUnsafePointer(to: CGAffineTransform.identity) { pointer in
+                unsafe RBDrawingStateSetCTM(self.storage.state, pointer)
+            }
+            
+            withUnsafePointer(to: ctm) { pointer in
+                unsafe self.storage.state.addAffineTransformStyle(transform: pointer)
+            }
+        }
     }
 }
 

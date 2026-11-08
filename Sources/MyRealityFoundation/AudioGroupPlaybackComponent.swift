@@ -1,4 +1,10 @@
+internal import Foundation
+
 struct AudioGroupPlaybackComponent : Component {
+    enum Error : Swift.Error, Hashable, LocalizedError {
+        // TODO
+    }
+
     @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> AudioGroupPlaybackComponent {
         assertUnimplemented()
     }

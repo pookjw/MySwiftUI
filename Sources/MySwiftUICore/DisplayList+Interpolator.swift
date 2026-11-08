@@ -2,7 +2,8 @@
 
 extension DisplayList {
     package struct InterpolatorAnimation {
-        // TODO
+        private(set) var value: StrongHash?
+        private(set) var animation: Animation?
     }
     
     struct InterpolatorLayer {

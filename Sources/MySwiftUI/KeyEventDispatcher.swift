@@ -31,4 +31,16 @@ struct KeyEventDispatcher : ForwardedEventDispatcher {
     }
     
     private var bindings: [EventID: [KeyPress.Handler]] = [:]
+    
+    func wantsEvent(_ event: EventType, manager: EventBindingManager) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func receiveEvents(_ events: [EventID : EventType], manager: EventBindingManager) -> Set<EventID> {
+        assertUnimplemented()
+    }
+    
+    fileprivate func bind(_ eventID: EventID, _ keyPress: KeyPress, _ focusResponder: FocusResponder) -> Bool {
+        assertUnimplemented()
+    }
 }

@@ -374,6 +374,10 @@ extension DisplayList.ViewUpdater.Model {
                         )
                     
                     requirements.formUnion(results)
+                case .rotation(_):
+                    assertUnimplemented()
+                case .rotation3D(_):
+                    assertUnimplemented()
                 }
             case .filter(_):
                 // <+3532>

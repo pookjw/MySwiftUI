@@ -9,4 +9,8 @@ class ListCollectionViewCell : ListCollectionViewCellBase<_ViewList_View> {
     required init?(coder: NSCoder) {
         assertUnimplemented()
     }
+
+    deinit {
+        assertUnimplemented()
+    }
 }

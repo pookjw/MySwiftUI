@@ -44,7 +44,7 @@ extension _Rotation3DEffect : Sendable {}
 extension _Rotation3DEffect : BitwiseCopyable {}
 
 extension _Rotation3DEffect {
-    struct Data {
+    package struct Data {
         private(set) var angle: Angle
         private(set) var axis: (x: CGFloat, y: CGFloat, z: CGFloat)
         private(set) var anchor: (x: CGFloat, y: CGFloat, z: CGFloat)

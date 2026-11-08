@@ -151,6 +151,10 @@ struct HoverEffectState {
                 assertUnimplemented()
             case .affine3D(_):
                 return false
+            case .rotation(_):
+                assertUnimplemented()
+            case .rotation3D(_):
+                assertUnimplemented()
             }
         default:
             return false

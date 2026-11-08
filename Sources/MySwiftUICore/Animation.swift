@@ -1,9 +1,9 @@
 // 4FD7A1D5440B1394D12A74675615ED20
-
 public import CoreGraphics
 public import Spatial
 internal import AttributeGraph
 private import Foundation
+internal import RenderBox
 
 public struct Animation : Equatable, Sendable {
     public static func == (lhs: Animation, rhs: Animation) -> Bool {
@@ -85,6 +85,12 @@ extension Animation {
         indirect case delay(Double, Animation.Function)
         indirect case speed(Double, Animation.Function)
         indirect case `repeat`(count: Double, autoreverses: Bool, Animation.Function)
+    }
+}
+
+extension Animation.Function {
+    func apply(to animation: RBAnimation) {
+        assertUnimplemented()
     }
 }
 

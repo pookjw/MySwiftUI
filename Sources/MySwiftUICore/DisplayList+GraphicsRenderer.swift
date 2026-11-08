@@ -1,7 +1,7 @@
 // EFAEDE41CB8C85EF3A6A18DC05438A3C
 private import CoreGraphics
 internal import QuartzCore
-private import RenderBox
+internal import RenderBox
 private import _MySwiftUICoreShims
 
 extension DisplayList {
@@ -93,6 +93,8 @@ extension DisplayList {
                 switch content.value {
                 case .backdrop(let effect):
                     // <+256>
+                    var context = context
+                    
                     for filter in effect.filters.reversed() {
                         context.addFilter(filter, in: CGRect(origin: .zero, size: copy_1.frame.size))
                     }
@@ -117,6 +119,8 @@ extension DisplayList {
                     return
                 case .chameleonColor(let chameleonColor):
                     // <+3844>
+                    var context = context
+                    
                     for filter in chameleonColor.filters.reversed() {
                         context.addFilter(filter, in: CGRect(origin: .zero, size: copy_1.frame.size))
                     }
@@ -171,6 +175,8 @@ extension DisplayList {
                     return
                 case .sdfShape(let shape):
                     // <+4328>
+                    var context = context
+                    
                     let d0 = shape.origin.x
                     let d1 = shape.origin.y
                     let d2 = copy_1.frame.origin.x
@@ -198,6 +204,7 @@ extension DisplayList {
                     return
                 case .sdfMask(let list, let layer):
                     // <+4064>
+                    var context = context
                     if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
                         // <+7980>
                         context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
@@ -224,6 +231,8 @@ extension DisplayList {
                     return
                 case .shadow(let path, let style):
                     // <+4528>
+                    var context = context
+                    
                     if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
                         // <+8496>
                         context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
@@ -302,7 +311,7 @@ extension DisplayList {
                             
                             let d0 = round(context.userToDeviceScale)
                             let d1: CGFloat = 1
-                            let d10 = max(d0, d1)
+                            let d10 = d0.isNaN ? d1 : max(d0, d1)
                             
                             let key = DisplayList.GraphicsRenderer.Cache.CallbackKey(
                                 index: self.index.id,
@@ -436,7 +445,7 @@ extension DisplayList {
                     }
                    
                     // <+3060>
-                    context.storage.state.drawPlaceholder(operation: placeholder)
+                    context.drawPlaceholder(placeholder)
                     return
                 case .placeholder(_):
                     // <+12440>
@@ -474,54 +483,286 @@ extension DisplayList {
                 
                 // <+2588>
                 switch effect {
-                case .backdropGroup, .properties, .animation, .view, .accessibility, .platform, .interpolatorRoot, .interpolatorLayer, .geometryGroup:
+                case .backdropGroup(_):
                     // <+2620>
-                    assertUnimplemented()
+                    // <+11340>
+                    self.render(list: list, in: &context)
                 case .archive(let archiveIDs):
                     // <+5916>
-                    assertUnimplemented()
-                case .platformGroup(let platformGroupFactory):
+                    let oldStableIDs = self.stableIDs
+                    if let archiveIDs {
+                        // <+9816>
+                        self.stableIDs = archiveIDs.stableIDs
+                    } else {
+                        // <+6032>
+                        self.stableIDs = nil
+                        // <+9872>
+                    }
+                    
+                    self.index.updateArchive(entering: (archiveIDs != nil))
+                    self.render(list: list, in: &context)
+                    self.stableIDs = oldStableIDs
+                case .properties(let properties):
+                    // <+2620>
+                    if self.placeholderUserInfo != nil {
+                        // <+4636>
+                        var context = context
+                        let placeholder = DisplayList.PropertiesPlaceholder(properties: properties)
+                        
+                        // <+9692>
+                        context.addPlaceholderStyle(placeholder)
+                        context.drawLayer(flags: [.unknown5]) { context in
+                            self.render(list: list, in: &context)
+                        }
+                        
+                        // <+11384>
+                    } else {
+                        // <+11340>
+                        self.render(list: list, in: &context)
+                    }
+                case .platformGroup(let factory):
                     // <+5240>
-                    assertUnimplemented()
-                case .opacity(let float):
+                    factory.renderPlatformGroup(list, in: context, size: copy_1.frame.size, renderer: self)
+                case .opacity(let opacity):
                     // <+5812>
-                    assertUnimplemented()
-                case .blendMode(let graphicsBlendMode):
+                    var context = context
+                    context._opacity = context.storage.opacity * opacity
+                    self.render(list: list, in: &context)
+                case .blendMode(let blendMode):
                     // <+4872>
-                    assertUnimplemented()
-                case .clip(let path, let fillStyle, let clipOptions):
+                    var context = context
+                    context.blendMode = GraphicsContext.BlendMode(blendMode)
+                    self.render(list: list, in: &context)
+                case .clip(let path, let fillStyle, let options):
                     // <+5012>
-                    assertUnimplemented()
-                case .mask(let displayList, let clipOptions):
+                    var context = context
+                    context.clip(to: path, style: fillStyle, options: options)
+                    self.render(list: list, in: &context)
+                case .mask(let displayList, let options):
                     // <+5604>
-                    assertUnimplemented()
-                case .sdfShape(let sDFShape):
+                    var context = context
+                    context.clipToLayer(
+                        opacity: 1,
+                        options: options
+                    ) { context in
+                        self.render(list: displayList, in: &context)
+                    }
+                    
+                    self.render(list: list, in: &context)
+                case .sdfShape(let shape):
                     // <+6936>
-                    assertUnimplemented()
+                    var context = context
+                    
+                    context.fillSDF(
+                        of: shape.path,
+                        with: shape.style,
+                        ovalization: shape.ovalization,
+                        bounds: nil,
+                        context: { context in
+                            // $s7SwiftUI11DisplayListV16GraphicsRendererC6render4item2inyAC4ItemV_AA0E7ContextVztFyALzcfU8_TA
+                            self.render(list: list, in: &context)
+                        }
+                    )
                 case .transform(let transform):
                     // <+5392>
-                    assertUnimplemented()
-                case .filter(let graphicsFilter):
+                    var context = context
+                    
+                    switch transform {
+                    case .affine(let transform):
+                        // <+11192>
+                        context.concatenate(transform)
+                    case .projection(let transform):
+                        // <+12992>
+                        context.addFilter(.projectionTransform(transform), options: [] /* 알 수 없음 */)
+                    case .affine3D(let transform):
+                        // <+12740>
+                        context.concatenate(CGAffineTransform(transform))
+                    case .rotation(let data):
+                        // <+5528>
+                        context.addFilter(GraphicsContext.Filter(storage: .rotation(data)), options: [] /* 알 수 없음 */)
+                    case .rotation3D(let data):
+                        // <+12860>
+                        context.addFilter(GraphicsContext.Filter(storage: .rotation3D(data)), options: [] /* 알 수 없음 */)
+                    }
+                    
+                    self.render(list: list, in: &context)
+                case .filter(let filter):
                     // <+7300>
-                    assertUnimplemented()
+                    var context = context
+                    
+                    if case .vibrantColorMatrix(let matrix) = filter {
+                        // <+7408>
+                        context.clipToLayer(opacity: 1, options: []) { context in
+                            self.render(list: list, in: &context)
+                        }
+                        
+                        context.addFilter(
+                            GraphicsContext.Filter(
+                                storage: .colorMatrix(matrix.matrix, premultiplied: false)
+                            ),
+                            options: [] // 정확히 알 수 없지만 linearColor는 없음
+                        )
+                        
+                        // <+12588>
+                        context.draw(
+                            Path(context.clipBoundingRect),
+                            with: .backdrop(.clear),
+                            style: .fill(FillStyle(eoFill: false, antialiased: true))
+                        )
+                    } else {
+                        // <+10212>
+                        context.addFilter(filter, in: CGRect(origin: .zero, size: copy_1.frame.size))
+                        self.render(list: list, in: &context)
+                    }
+                case .animation(let animation):
+                    // <+2620>
+                    if self.placeholderUserInfo != nil {
+                        // <+2660>
+                        var context = context
+                        let placeholder = DisplayList.AnimationPlaceholder(
+                            animation: animation,
+                            size: copy_1.frame.size
+                        )
+                        
+                        context.addPlaceholderStyle(placeholder)
+                        context.drawLayer(flags: [.unknown5]) { context in
+                            self.render(list: list, in: &context)
+                        }
+                        
+                        // <+11384>
+                    } else {
+                        // <+11340>
+                        self.render(list: list, in: &context)
+                    }
                 case .contentTransition(let state):
                     // <+6080>
-                    assertUnimplemented()
-                case .state(let strongHash):
+                    var context = context
+                    let oldInTransitionGroup = self.inTransitionGroup
+                    
+                    if state.options.intersection([.formsGroup, .implicitGroup]).isEmpty {
+                        // <+11448>
+                        self.render(list: list, in: &context)
+                    } else {
+                        // <+6152>
+                        context.setTransition(state.transition)
+                        
+                        let formsGroup = state.options.contains(.formsGroup)
+                        self.inTransitionGroup = self.inTransitionGroup || formsGroup
+                        
+                        if formsGroup {
+                            // <+6332>
+                            context.drawLayer(flags: [.unknown5]) { context in
+                                self.render(list: list, in: &context)
+                            }
+                        } else {
+                            // <+11496>
+                            self.render(list: list, in: &context)
+                        }
+                    }
+                    
+                    // <+11568>
+                    self.inTransitionGroup = oldInTransitionGroup
+                case .view(let factory):
+                    // <+2620>
+                    if let placeholderUserInfo {
+                        // <+4696>
+                        if let placeholder = FactoryStylePlaceholder(factory: factory, userInfo: placeholderUserInfo) {
+                            var context = context
+                            context.addPlaceholderStyle(placeholder)
+                            context.drawLayer(flags: [.unknown5]) { context in
+                                self.render(list: list, in: &context)
+                            }
+                            
+                            // <+11384>
+                        } else {
+                            // <+11320>
+                            self.render(list: list, in: &context)
+                        }
+                        // <+11384>
+                    } else {
+                        // <+11340>
+                        self.render(list: list, in: &context)
+                    }
+                case .accessibility(let accessibilityEffect):
+                    // <+2620>
+                    if self.placeholderUserInfo != nil {
+                        // <+2788>
+                        var context = context
+                        switch accessibilityEffect {
+                        case .attachments(let attachments):
+                            let placeholder = AccessibilityAttachmentsPlaceholder(attachments: attachments)
+                            
+                            context.addPlaceholderStyle(placeholder)
+                            context.drawLayer(flags: [.unknown5]) { context in
+                                self.render(list: list, in: &context)
+                            }
+                            
+                            // <+11384>
+                        case .representation(let displayList):
+                            // <+9344>
+                            let rbDisplayList = RBDisplayList()
+                            rbDisplayList.defaultColorSpace = context.storage.state.defaultColorSpace
+                            var anotherContext = GraphicsContext(displayList: rbDisplayList, environment: context.environment)
+                            self.render(list: displayList, in: &anotherContext)
+                            let contents = rbDisplayList.moveContents()
+                            
+                            if let rbEncoderSet {
+                                rbEncoderSet.addDisplayList(contents)
+                            }
+                            
+                            let placeholder = AccessibilityRepresentationPlaceholder(representation: contents)
+                            context.addPlaceholderStyle(placeholder)
+                            context.drawLayer(flags: [.unknown5]) { context in
+                                self.render(list: list, in: &context)
+                            }
+                            
+                            // <+11384>
+                        }
+                        // <+11384>
+                    } else {
+                        // <+11340>
+                        self.render(list: list, in: &context)
+                    }
+                case .platform(_):
+                    // <+2620>
+                    // <+11340>
+                    self.render(list: list, in: &context)
+                case .state(let hash):
                     // <+6656>
-                    assertUnimplemented()
-                case .interpolatorAnimation(let interpolatorAnimation):
+                    self.stateHashes.append(hash)
+                    self.render(list: list, in: &context)
+                    self.stateHashes.removeLast()
+                case .interpolatorRoot(_, _, _):
+                    // <+2620>
+                    self.render(list: list, in: &context)
+                case .interpolatorLayer(_, _):
+                    // <+2620>
+                    self.render(list: list, in: &context)
+                case .interpolatorAnimation(let animation):
                     // <+7212>
-                    assertUnimplemented()
+                    var context = context
+                    context.addInterpolatorAnimation(animation)
+                    context.drawLayer(flags: [.unknown5]) { context in
+                        self.render(list: list, in: &context)
+                    }
                 case .identity:
                     // <+6440>
-                    assertUnimplemented()
+                    // <+2620>
+                    self.render(list: list, in: &context)
+                case .geometryGroup:
+                    // <+6468>
+                    var context = context
+                    context.addAffineTransformStyle()
+                    context.drawLayer(flags: [.unknown5]) { context in
+                        self.render(list: list, in: &context)
+                    }
                 case .compositingGroup:
-                    // <+6100>
-                    assertUnimplemented()
+                    // <+12520>
+                    context.drawLayer(flags: []) { context in
+                        self.render(list: list, in: &context)
+                    }
                 }
                 
-                // <+8820>
                 if !w8 {
                     context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
                 }
@@ -529,7 +770,77 @@ extension DisplayList {
                 return
             case .states(let states):
                 // <+488>
-                assertUnimplemented()
+                if let lastHash = self.stateHashes.popLast() {
+                    // <+1616>
+                    for state in states {
+                        if state.0 == lastHash {
+                            if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
+                                // <+1968>
+                                context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                                self.render(list: state.1, in: &context)
+                                context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
+                            } else {
+                                self.render(list: state.1, in: &context)
+                            }
+                            
+                            break
+                        }
+                    }
+                    
+                    // <+1848>
+                    self.stateHashes.append(lastHash)
+                    return
+                } else {
+                    // <+900>
+                    if self.placeholderUserInfo != nil {
+                        // <+928>
+                        let rbDisplayList = RBDisplayList()
+                        rbDisplayList.defaultColorSpace = context.storage.state.defaultColorSpace
+                        
+                        var contents: [(StrongHash, any RBDisplayListContents)] = []
+                        
+                        if !states.isEmpty {
+                            contents.reserveCapacity(states.count)
+                            
+                            for state in states {
+                                // <+1104>
+                                var newContext = GraphicsContext(
+                                    displayList: rbDisplayList,
+                                    environment: context.environment
+                                )
+                                
+                                self.render(list: state.1, in: &newContext)
+                                let _contents = rbDisplayList.moveContents()
+                                
+                                if let rbEncoderSet {
+                                    rbEncoderSet.addDisplayList(_contents)
+                                }
+                                
+                                contents.append((state.0, _contents))
+                            }
+                        }
+                        
+                        // <+2108>
+                        let w8 = (copy_1.frame.origin.x == 0)
+                        let w21 = (copy_1.frame.origin.y != 0) ? false : w8
+                        
+                        if !w21 {
+                            context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                        }
+                        
+                        let placeholder = DisplayList.StatesPlaceholder(states: contents)
+                        context.drawPlaceholder(placeholder)
+                        
+                        if !w21 {
+                            context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
+                        }
+                        
+                        return
+                    } else {
+                        // <+12448>
+                        return
+                    }
+                }
             case .empty:
                 // <+12448>
                 return
@@ -625,6 +936,135 @@ fileprivate struct DisplayListSDFRenderer : SDFRenderer {
     }
     
     func clipToShape(in context: inout GraphicsContext) {
+        assertUnimplemented()
+    }
+}
+
+extension DisplayList {
+    final class PropertiesPlaceholder: NSObject, RBPlaceholderStyle {
+        private let properties: DisplayList.Properties
+        
+        var identifier: String? {
+            assertUnimplemented()
+        }
+        
+        func boundingRect(for content: any RBPlaceholderStyleContent) -> CGRect {
+            assertUnimplemented()
+        }
+        
+        func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+            assertUnimplemented()
+        }
+        
+        func encodedData(delegate: (any RBEncoderDelegate)?) throws -> Data {
+            assertUnimplemented()
+        }
+        
+        init(properties: DisplayList.Properties) {
+            self.properties = properties
+            super.init()
+        }
+    }
+    
+    final class AnimationPlaceholder: NSObject, RBPlaceholderStyle {
+        private let animation: any _DisplayList_AnyEffectAnimation
+        private let size: CGSize
+        
+        init(animation: any _DisplayList_AnyEffectAnimation, size: CGSize) {
+            self.animation = animation
+            self.size = size
+            super.init()
+        }
+        
+        var identifier: String? {
+            assertUnimplemented()
+        }
+        
+        func boundingRect(for content: any RBPlaceholderStyleContent) -> CGRect {
+            assertUnimplemented()
+        }
+        
+        func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+            assertUnimplemented()
+        }
+        
+        func encodedData(delegate: (any RBEncoderDelegate)?) throws -> Data {
+            assertUnimplemented()
+        }
+    }
+    
+    final class StatesPlaceholder: NSObject, RBPlaceholderDrawingOperation {
+        private let states: [(StrongHash, any RBDisplayListContents)]
+        
+        init(states: [(StrongHash, any RBDisplayListContents)]) {
+            self.states = states
+            super.init()
+        }
+        
+        var identifier: String? {
+            assertUnimplemented()
+        }
+        
+        var boundingRect: CGRect {
+            assertUnimplemented()
+        }
+        
+        func draw(inState state: RBDrawingState) {
+            assertUnimplemented()
+        }
+        
+        func encodedData(delegate: (any RBEncoderDelegate)?) throws -> Data {
+            assertUnimplemented()
+        }
+    }
+}
+
+final class AccessibilityAttachmentsPlaceholder: NSObject, RBPlaceholderStyle {
+    private let attachments: [AccessibilityNodeAttachment]
+    
+    init(attachments: [AccessibilityNodeAttachment]) {
+        self.attachments = attachments
+        super.init()
+    }
+    
+    var identifier: String? {
+        assertUnimplemented()
+    }
+    
+    func boundingRect(for content: any RBPlaceholderStyleContent) -> CGRect {
+        assertUnimplemented()
+    }
+    
+    func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+        assertUnimplemented()
+    }
+    
+    func encodedData(delegate: (any RBEncoderDelegate)?) throws -> Data {
+        assertUnimplemented()
+    }
+}
+
+final class AccessibilityRepresentationPlaceholder: NSObject, RBPlaceholderStyle {
+    private let representation: any RBDisplayListContents
+    
+    init(representation: any RBDisplayListContents) {
+        self.representation = representation
+        super.init()
+    }
+    
+    var identifier: String? {
+        assertUnimplemented()
+    }
+    
+    func boundingRect(for content: any RBPlaceholderStyleContent) -> CGRect {
+        assertUnimplemented()
+    }
+    
+    func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+        assertUnimplemented()
+    }
+    
+    func encodedData(delegate: (any RBEncoderDelegate)?) throws -> Data {
         assertUnimplemented()
     }
 }

@@ -37,4 +37,8 @@ class AnyListCollectionViewCell : UICollectionViewListCell {
     required init?(coder: NSCoder) {
         assertUnimplemented()
     }
+
+    deinit {
+        assertUnimplemented()
+    }
 }

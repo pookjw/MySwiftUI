@@ -14,6 +14,10 @@ public class __RKEntityLookAtCameraAction : __RKEntityAction {
         assertUnimplemented()
     }
     
+    deinit {
+        assertUnimplemented()
+    }
+    
     public func update() {
         assertUnimplemented()
     }

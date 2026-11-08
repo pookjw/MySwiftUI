@@ -29,7 +29,46 @@ public struct ContentTransition : Equatable, Sendable {
 
 extension ContentTransition {
     package struct State {
-        // TODO
+        private(set) var transition: ContentTransition
+        private var style: ContentTransition.Style
+        private var animation: Animation?
+        private(set) var options: ContentTransition.Options
+    }
+    
+    struct Style {
+        private var storage: ContentTransition.Style.Storage
+    }
+    
+    struct Options: OptionSet {
+        static var addsDrawingGroup: ContentTransition.Options {
+            return ContentTransition.Options(rawValue: 1 << 0)
+        }
+        
+        static var animatesDifferentContent: ContentTransition.Options {
+            return ContentTransition.Options(rawValue: 1 << 1)
+        }
+        
+        static var formsGroup: ContentTransition.Options {
+            return ContentTransition.Options(rawValue: 1 << 2)
+        }
+        
+        static var implicitGroup: ContentTransition.Options {
+            return ContentTransition.Options(rawValue: 1 << 3)
+        }
+        
+        static var inherited: ContentTransition.Options {
+            return ContentTransition.Options(rawValue: 1 << 0)
+        }
+            
+        let rawValue: UInt32
+    }
+}
+
+extension ContentTransition.Style {
+    enum Storage {
+        case `default`
+        case sessionWidget
+        case animatedWidget
     }
 }
 

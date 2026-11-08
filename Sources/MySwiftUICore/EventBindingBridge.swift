@@ -12,6 +12,25 @@
         self.eventBindingManager = eventBindingManager
     }
 
+    deinit {
+        assertUnimplemented()
+    }
+
+    open var eventSources: [any EventBindingSource] {
+        assertUnimplemented()
+    }
+
+    open func send(_ events: [EventID : EventType], source: any EventBindingSource) -> Set<EventID> {
+        assertUnimplemented()
+    }
+
+    open func reset(eventSource: any EventBindingSource, resetForwardedEventDispatchers: Bool) {
+        assertUnimplemented()
+    }
+
+    fileprivate func resetEvents() {
+        assertUnimplemented()
+    }
 }
 
 extension EventBindingBridge : EventBindingManagerDelegate {
