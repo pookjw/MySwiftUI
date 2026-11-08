@@ -2,6 +2,7 @@
 private import CoreGraphics
 internal import QuartzCore
 private import RenderBox
+private import _MySwiftUICoreShims
 
 extension DisplayList {
     package final class GraphicsRenderer {
@@ -258,29 +259,274 @@ extension DisplayList {
                     return
                 case .platformView(let factory):
                     // <+3588>
-                    assertUnimplemented()
+                    self.drawImplicitLayer(in: &context) { context in
+                        // $s7SwiftUI11DisplayListV16GraphicsRendererC6render4item2inyAC4ItemV_AA0E7ContextVztFyALzXEfU0_TA
+                        if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
+                            context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                        }
+                        
+                        factory.renderPlatformView(in: context, size: copy_1.frame.size, renderer: self)
+                    }
+                    
+                    return
                 case .platformLayer(let factory):
                     // <+4456>
-                    assertUnimplemented()
-                case .text(let styledTextContentView, let cGSize):
+                    let w8 = (copy_1.frame.origin.x == 0)
+                    let w23 = (copy_1.frame.origin.y != 0) ? false : w8
+                    
+                    if !w23 {
+                        context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                    }
+                    
+                    factory.renderPlatformLayer(in: context, size: copy_1.frame.size, renderer: self)
+                    
+                    if !w23 {
+                        context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
+                    }
+                    
+                    return
+                case .text(let text, let size):
                     // <+3096>
-                    assertUnimplemented()
-                case .flattened(let displayList, let cGPoint, let rasterizationOptions):
+                    if
+                        self.placeholderUserInfo != nil,
+                        text.text.needsDynamicRenderingInArchive
+                    {
+                        context.draw(text.text, size: size)
+                        return
+                    } else {
+                        // <+10404>
+                        self.drawImplicitLayer(in: &context) { context in
+                            if (copy_1.frame.origin.x != 0) || (copy_1.frame.origin.y != 0) {
+                                context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                            }
+                            
+                            let d0 = round(context.userToDeviceScale)
+                            let d1: CGFloat = 1
+                            let d10 = max(d0, d1)
+                            
+                            let key = DisplayList.GraphicsRenderer.Cache.CallbackKey(
+                                index: self.index.id,
+                                seed: content.seed,
+                                scale: d10
+                            )
+                            
+                            let callback: (any RBDisplayListContents)
+                            if let existing = self.oldCache.callbacks[key] {
+                                callback = existing
+                            } else {
+                                callback = {
+                                    // $s7SwiftUI11DisplayListV16GraphicsRendererC6render4item2inyAC4ItemV_AA0E7ContextVztFyALzXEfU1_So09RBDisplayD8Contents_pyKXEfu_SoAM_pyXEfU_
+                                    let displayList = RBDisplayList()
+                                    displayList.defaultColorSpace = context.storage.state.defaultColorSpace
+                                    displayList.deviceScale = d10
+                                    
+                                    let state = RBDisplayListGetState(displayList)
+                                    
+                                    let cgContext = unsafe state.beginCGContext(
+                                        alpha: 1,
+                                        flags: []
+                                    ).takeUnretainedValue()
+                                    
+                                    let msuiContext = CoreGraphicsContext(cgContext: cgContext)
+                                    msuiContext.push()
+                                    
+                                    let textContext = TextDrawingContext.shared
+                                    
+                                    text.text.draw(
+                                        in: CGRect(origin: .zero, size: size),
+                                        with: size,
+                                        applyingMarginOffsets: true,
+                                        context: textContext,
+                                        renderer: text.renderer
+                                    )
+                                    
+                                    msuiContext.pop()
+                                    state.endCGContext()
+                                    
+                                    return displayList.moveContents()
+                                }()
+                            }
+                            
+                            self.newCache.callbacks[key] = callback
+                            context.storage.state.drawDisplayList(callback)
+                        }
+                        
+                        return
+                    }
+                case .flattened(let list, let point, let options):
                     // <+3508>
-                    assertUnimplemented()
-                case .drawing(let rBDisplayListContents, let cGPoint, let rasterizationOptions):
+                    let d8 = copy_1.frame.origin.x - point.x
+                    let d9 = copy_1.frame.origin.y - point.y
+                    
+                    if options.flags.contains(.requiresLayer) {
+                        // <+7636>
+                        // inlined
+                        context.drawLayer(flags: []) { context in
+                            if (d8 != 0) || (d9 != 0) {
+                                context.translateBy(x: d8, y: d9)
+                            }
+                            
+                            self.render(list: list, in: &context)
+                        }
+                        
+                        return
+                    } else {
+                        // <+3548>
+                        let w8 = (d8 == 0)
+                        let w22 = (d9 != 0) ? false : w8
+                        
+                        if !w22 {
+                            context.translateBy(x: d8, y: d9)
+                        }
+                        
+                        self.render(list: list, in: &context)
+                        
+                        if !w22 {
+                            context.translateBy(x: -d8, y: -d9)
+                        }
+                        
+                        return
+                    }
+                case .drawing(let contents, let point, let options):
                     // <+4248>
-                    assertUnimplemented()
-                case .view(let _DisplayList_ViewFactory):
+                    let d8 = copy_1.frame.origin.x - point.x
+                    let d9 = copy_1.frame.origin.y - point.y
+                    
+                    if options.flags.contains(.requiresLayer) {
+                        // <+8796>
+                        self.drawImplicitLayer(in: &context) { context in
+                            if (d8 != 0) || (d9 != 0) {
+                                context.translateBy(x: d8, y: d9)
+                            }
+                            
+                            context.storage.state.drawDisplayList2(
+                                contents: contents,
+                                opacity: context.storage.opacity
+                            )
+                        }
+                        
+                        return
+                    } else {
+                        // <+4284>
+                        let w8 = (d8 == 0)
+                        let w21 = (d9 != 0) ? false : w8
+                        
+                        if !w21 {
+                            context.translateBy(x: d8, y: d9)
+                        }
+                        
+                        context.storage.state.drawDisplayList2(
+                            contents: contents,
+                            opacity: context.storage.opacity
+                        )
+                        
+                        if !w21 {
+                            context.translateBy(x: -d8, y: -d9)
+                        }
+                        
+                        return
+                    }
+                case .view(let factory):
                     // <+2860>
-                    assertUnimplemented()
-                case .placeholder(let id):
+                    guard
+                        let placeholderUserInfo,
+                        let placeholder = FactoryViewPlaceholder(factory: factory, userInfo: placeholderUserInfo)
+                    else {
+                        return
+                    }
+                   
+                    // <+3060>
+                    context.storage.state.drawPlaceholder(operation: placeholder)
+                    return
+                case .placeholder(_):
                     // <+12440>
                     return
                 }
-            case .effect(let effect, let list):
+            case .effect(var effect, let list):
                 // <+628>
-                assertUnimplemented()
+                var w8 = (copy_1.frame.origin.x == 0)
+                w8 = (copy_1.frame.origin.y != 0) ? false : w8
+                
+                if !w8 {
+                    context.translateBy(x: copy_1.frame.origin.x, y: copy_1.frame.origin.y)
+                }
+                
+                // <+736>
+                if (self.placeholderUserInfo == nil), case .animation(let animation) = effect {
+                    let key = DisplayList.GraphicsRenderer.Cache.AnimatorKey(index: self.index.id)
+                    
+                    let animator: any _DisplayList_AnyEffectAnimator
+                    if let existing = self.oldCache.animators[key] {
+                        animator = existing
+                    } else {
+                        animator = animation.makeAnimator()
+                    }
+                    
+                    let (_effect, finished) = animator.evaluate(animation, at: self.time, size: copy_1.size)
+                    effect = _effect
+                    
+                    if !finished {
+                        self.nextTime = self.time
+                    }
+                    
+                    self.newCache.animators[key] = animator
+                }
+                
+                // <+2588>
+                switch effect {
+                case .backdropGroup, .properties, .animation, .view, .accessibility, .platform, .interpolatorRoot, .interpolatorLayer, .geometryGroup:
+                    // <+2620>
+                    assertUnimplemented()
+                case .archive(let archiveIDs):
+                    // <+5916>
+                    assertUnimplemented()
+                case .platformGroup(let platformGroupFactory):
+                    // <+5240>
+                    assertUnimplemented()
+                case .opacity(let float):
+                    // <+5812>
+                    assertUnimplemented()
+                case .blendMode(let graphicsBlendMode):
+                    // <+4872>
+                    assertUnimplemented()
+                case .clip(let path, let fillStyle, let clipOptions):
+                    // <+5012>
+                    assertUnimplemented()
+                case .mask(let displayList, let clipOptions):
+                    // <+5604>
+                    assertUnimplemented()
+                case .sdfShape(let sDFShape):
+                    // <+6936>
+                    assertUnimplemented()
+                case .transform(let transform):
+                    // <+5392>
+                    assertUnimplemented()
+                case .filter(let graphicsFilter):
+                    // <+7300>
+                    assertUnimplemented()
+                case .contentTransition(let state):
+                    // <+6080>
+                    assertUnimplemented()
+                case .state(let strongHash):
+                    // <+6656>
+                    assertUnimplemented()
+                case .interpolatorAnimation(let interpolatorAnimation):
+                    // <+7212>
+                    assertUnimplemented()
+                case .identity:
+                    // <+6440>
+                    assertUnimplemented()
+                case .compositingGroup:
+                    // <+6100>
+                    assertUnimplemented()
+                }
+                
+                // <+8820>
+                if !w8 {
+                    context.translateBy(x: -copy_1.frame.origin.x, y: -copy_1.frame.origin.y)
+                }
+                
+                return
             case .states(let states):
                 // <+488>
                 assertUnimplemented()
@@ -305,7 +551,14 @@ extension DisplayList {
         }
         
         func drawImplicitLayer(in context: inout GraphicsContext, content: (inout GraphicsContext) -> ()) {
-            assertUnimplemented()
+            let old = self.inTransitionGroup
+            self.inTransitionGroup = false
+            
+            context.drawLayer(flags: old ? [] : [.unknown4]) { context in
+                content(&context)
+            }
+            
+            self.inTransitionGroup = old
         }
         
         func drawPlatformLayer(_ layer: CALayer, in context: GraphicsContext, size: CGSize, update: Bool) {
@@ -326,13 +579,13 @@ extension DisplayList.GraphicsRenderer {
     
     fileprivate struct Cache {
         var callbacks: [DisplayList.GraphicsRenderer.Cache.CallbackKey: any RBDisplayListContents]
-        private(set) var animators: [DisplayList.GraphicsRenderer.Cache.AnimatorKey: any _DisplayList_AnyEffectAnimator]
+        var animators: [DisplayList.GraphicsRenderer.Cache.AnimatorKey: any _DisplayList_AnyEffectAnimator]
     }
 }
 
 extension DisplayList.GraphicsRenderer.Cache {
     fileprivate struct AnimatorKey : Hashable {
-        private var index: DisplayList.Index.ID
+        private(set) var index: DisplayList.Index.ID
         
         static func == (lhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey, rhs: DisplayList.GraphicsRenderer.Cache.AnimatorKey) -> Bool {
             assertUnimplemented()
@@ -344,9 +597,9 @@ extension DisplayList.GraphicsRenderer.Cache {
     }
     
     fileprivate struct CallbackKey : Hashable {
-        private var index: DisplayList.Index.ID
-        private var seed: DisplayList.Seed
-        private var scale: CGFloat
+        private(set) var index: DisplayList.Index.ID
+        private(set) var seed: DisplayList.Seed
+        private(set) var scale: CGFloat
         
         static func == (lhs: DisplayList.GraphicsRenderer.Cache.CallbackKey, rhs: DisplayList.GraphicsRenderer.Cache.CallbackKey) -> Bool {
             assertUnimplemented()

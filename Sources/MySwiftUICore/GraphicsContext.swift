@@ -10,7 +10,7 @@ private import AttributeGraph
         fileprivate let shared: GraphicsContext.Storage.Shared // 0x10
         let state: RBDrawingState // 0x18
         fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
-        fileprivate var opacity: Float = 1 // 0x30
+        fileprivate(set) var opacity: Float = 1 // 0x30
         fileprivate var blendMode: RBBlendMode = .unknown0 // 0x34
         fileprivate private(set) var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
@@ -1812,6 +1812,18 @@ extension GraphicsContext {
         bounds: () -> CGRect,
         content: ((inout GraphicsContext) -> Void)?
     ) {
+        assertUnimplemented()
+    }
+    
+    @inline(always) // 원래 없음
+    mutating func draw(_ text: ResolvedStyledText, size: CGSize) {
+        self.copyOnWrite()
+        
+        let placeholder = DynamicTextPlaceholder(text: text, size: size)
+        self.storage.state.drawPlaceholder(operation: placeholder)
+    }
+    
+    var userToDeviceScale: CGFloat {
         assertUnimplemented()
     }
 }

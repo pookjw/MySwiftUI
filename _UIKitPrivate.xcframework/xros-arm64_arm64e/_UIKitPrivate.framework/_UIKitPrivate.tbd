@@ -15,7 +15,7 @@ exports:
     _$sSo7UISceneC5UIKitE22_destructionConditionsShyAbCE21_DestructionConditionVGvs,
     __UIWindowSceneSessionRoleVolumetricApplication,
     _NSFontAttributeName ]
-    objc-classes:         [  ]
+    objc-classes:         [ NSStringDrawingContext ]
     objc-ivars:           [  ]
 --- !tapi-tbd
 tbd-version:     4

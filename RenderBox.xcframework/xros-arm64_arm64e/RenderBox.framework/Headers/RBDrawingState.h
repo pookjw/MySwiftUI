@@ -2,7 +2,7 @@
 #import <RenderBox/Defines.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <RenderBox/RBShader.h>
-#include <uuid/uuid.h>
+#import <RenderBox/RBPlaceholderDrawingOperation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +18,7 @@ RB_EXTERN void RBDrawingStateDestroy(RBDrawingState) NS_SWIFT_NAME(RBDrawingStat
 RB_EXTERN void RBDrawingStateRotateCTM(RBDrawingState, CGFloat angle) NS_SWIFT_NAME(RBDrawingState.rotateCTM(self:angle:));
 RB_EXTERN void RBDrawingStateAddShadowStyle(RBDrawingState, RBBlendMode, RBShadowFlags, CGFloat, CGSize, RBColor) NS_SWIFT_NAME(RBDrawingState.addShadowStyle(self:blendMode:flags:radius:offset:color:));
 RB_EXTERN void RBDrawingStateAddRotationStyle(RBDrawingState, CGFloat angle, CGPoint anchor) NS_SWIFT_NAME(RBDrawingState.addRotationStyle(self:angle:anchor:));
+RB_EXTERN void RBDrawingStateDrawPlaceholder(RBDrawingState, id<RBPlaceholderDrawingOperation>) NS_SWIFT_NAME(RBDrawingState.drawPlaceholder(self:operation:));
 RB_EXTERN void RBDrawingStateAddRotation3DStyle(RBDrawingState, CGFloat angle, float axisX, float axisY, float axisZ, float anchorX, float anchorY, float anchorZ, CGFloat perspective, CGFloat flipWidth) NS_SWIFT_NAME(RBDrawingState.addRotation3DStyle(self:angle:axisX:axisY:axisZ:anchorX:anchorY:anchorZ:perspective:flipWidth:));
 RB_EXTERN void RBDrawingStateAddShadowStyle3(RBDrawingState, uint32_t, RBBlendMode blendmode, RBShadowFlags flags, CGFloat radius, float midpoint, CGSize offset, RBColor color) NS_SWIFT_NAME(RBDrawingState.addShadowStyle3(self:_:blendMode:flags:radius:midpoint:offset:color:));
 RB_EXTERN void RBDrawingStateAddPathProjectionStyle(RBDrawingState, RBPath, CGAffineTransform, RBPathProjectionFlags, CGPoint, CGPoint) NS_SWIFT_NAME(RBDrawingState.addPathProjectionStyle(self:path:transform:flags:startPoint:endPoint:));
@@ -46,5 +47,7 @@ RB_EXTERN RBUUID RBDrawingStateGetIdentifierNamespace2(RBDrawingState) NS_SWIFT_
 RB_EXTERN void RBDrawingStateSetIdentifier2(RBDrawingState, unsigned int, RBUUID) NS_SWIFT_NAME(RBDrawingState.setIdentifier2(self:identifier:namespace2:));
 RB_EXTERN uint32_t RBDrawingStateGetIdentifier(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.identifier(self:));
 RB_EXTERN void RBDrawingStateSetIdentifier(RBDrawingState, uint32_t, NSUUID * _Nullable) NS_SWIFT_NAME(RBDrawingState.setIdentifier(self:_:uuid:));
+RB_EXTERN void RBDrawingStateDrawDisplayList(RBDrawingState, id<RBDisplayListContents>) NS_SWIFT_NAME(RBDrawingState.drawDisplayList(self:_:));
+RB_EXTERN void RBDrawingStateDrawDisplayList2(RBDrawingState, id<RBDisplayListContents>, float opacity) NS_SWIFT_NAME(RBDrawingState.drawDisplayList2(self:contents:opacity:));
 
 NS_ASSUME_NONNULL_END

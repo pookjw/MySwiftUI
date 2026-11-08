@@ -331,6 +331,7 @@ typedef NS_OPTIONS(unsigned int, RBLuminanceToAlphaFlags) {
 typedef NS_OPTIONS(unsigned int, RBLayerFlags) {
     RBLayerFlagsNone = 0,
     RBLayerFlagsUnknown0 = (1 << 0),
+    RBLayerFlagsUnknown4 = (1 << 4),
     RBLayerFlagsUnknown5 = (1 << 5)
 };
 

@@ -44,7 +44,7 @@ package struct RasterizationOptions : Equatable {
     private var rbColorMode: RBColorMode // 0x0
     private var colorMode: ColorRenderingMode // 0x4
     var allowedDynamicRange: Image.DynamicRange? // 0x5
-    private var flags: RasterizationOptions.Flags // 0x8
+    private(set) var flags: RasterizationOptions.Flags // 0x8
     private var maxDrawableCount: Int8 // 0xc
     
     init(colorMode: ColorRenderingMode, allowedDynamicRange: Image.DynamicRange?, flags: RasterizationOptions.Flags) {
@@ -81,7 +81,7 @@ package struct RasterizationOptions : Equatable {
         self.maxDrawableCount = Int8(truncatingIfNeeded: options.maxDrawableCount)
     }
     
-    var colorSpace: RBColorSpace {
+    var resolvedColorMode: RBColorMode {
         if self.rbColorMode == .invalid {
             var w8 = self.flags.rawValue
             
@@ -108,10 +108,13 @@ package struct RasterizationOptions : Equatable {
             
             return unsafe RBColorMode(rawValue: Int32(bitPattern: w0))
                 .unsafelyUnwrapped
-                .workingColorSpace
         } else {
-            return self.rbColorMode.workingColorSpace
+            return self.rbColorMode
         }
+    }
+    
+    var colorSpace: RBColorSpace {
+        return self.resolvedColorMode.workingColorSpace
     }
 }
 

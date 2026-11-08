@@ -15,3 +15,8 @@
 #import <RenderBox/RBShaderLibrary.h>
 #import <RenderBox/RBSymbolAnimator.h>
 #import <RenderBox/RBUUID.h>
+#import <RenderBox/RBPlaceholderObject.h>
+#import <RenderBox/RBPlaceholderDrawingOperation.h>
+#import <RenderBox/RBEncoderDelegate.h>
+#import <RenderBox/RBPlaceholderStyleContent.h>
+#import <RenderBox/RBPlaceholderStyle.h>

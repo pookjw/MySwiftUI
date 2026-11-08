@@ -9,7 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// expr -l objc -O -- [NSObject _fd__protocolDescriptionForProtocol:(Protocol *)NSProtocolFromString(@"_RBDisplayListContents")]
+/*
+ expr -l objc -O -- [NSObject _fd__protocolDescriptionForProtocol:(Protocol *)NSProtocolFromString(@"_RBDisplayListContents")]
+ expr -l objc -O -- [NSObject _fd__ivarDescriptionForClass:(Class)NSClassFromString(@"SwiftUI.DynamicTextPlaceholder") resolveValue:NO]
+ */
 
 @interface NSObject (Foundation_IvarDescription)
 - (NSString *)_fd_shortMethodDescription;

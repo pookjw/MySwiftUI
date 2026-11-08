@@ -274,7 +274,7 @@ struct _ShapeStyle_RenderedShape {
             break
         case .text(let contentView):
             // <+324>
-            if contentView.needsStyledRendering {
+            if contentView.text.needsStyledRendering {
                 let style = styles()[name, 0]
                 self.renderKeyedText(contentView, style: style, name: name, layers: &layers)
             } else {

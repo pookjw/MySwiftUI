@@ -1095,8 +1095,8 @@ extension DisplayList.Index {
     }
 }
 
-protocol _DisplayList_AnyEffectAnimator {
-    // TODO
+package protocol _DisplayList_AnyEffectAnimator {
+    func evaluate(_ animation: _DisplayList_AnyEffectAnimation, at time: Time, size: CGSize) -> (DisplayList.Effect, finished: Bool)
 }
 
 struct _DisplayList_StableIdentity : Sendable {
@@ -1366,8 +1366,15 @@ extension DisplayList {
     }
 }
 
-package protocol _DisplayList_AnyEffectAnimation /* TODO */ {
-    // TODO
+package protocol _DisplayList_AnyEffectAnimation: ProtobufDecodableMessage, ProtobufEncodableMessage {
+    static var leafProtobufTag : CodableEffectAnimation.Tag? { get }
+    func makeAnimator() -> any _DisplayList_AnyEffectAnimator
+}
+
+extension _DisplayList_AnyEffectAnimation {
+    func encodeAnimation(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
 }
 
 extension _DisplayList_StableIdentity : Decodable, Encodable {
@@ -1377,5 +1384,15 @@ extension _DisplayList_StableIdentity : Decodable, Encodable {
     
     func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
+    }
+}
+
+package struct CodableEffectAnimation {
+    // TODO
+}
+
+package extension CodableEffectAnimation {
+    struct Tag {
+        let rawValue: UInt
     }
 }

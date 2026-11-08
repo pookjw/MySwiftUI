@@ -67,7 +67,10 @@ exports:
     _RBDrawingStateGetIdentifierNamespace2,
     _RBDrawingStateSetIdentifier2,
     _RBUUIDInitFromHash,
-    _RBDrawingStateSetIdentifier ]
+    _RBDrawingStateSetIdentifier,
+    _RBDrawingStateDrawPlaceholder,
+    _RBDrawingStateDrawDisplayList,
+    _RBDrawingStateDrawDisplayList2 ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,
