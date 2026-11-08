@@ -51,7 +51,7 @@ RB_EXTERN uint32_t RBDrawingStateGetIdentifier(RBDrawingState) NS_SWIFT_NAME(get
 RB_EXTERN void RBDrawingStateSetIdentifier(RBDrawingState, uint32_t, NSUUID * _Nullable) NS_SWIFT_NAME(RBDrawingState.setIdentifier(self:_:uuid:));
 RB_EXTERN void RBDrawingStateDrawDisplayList(RBDrawingState, id<RBDisplayListContents>) NS_SWIFT_NAME(RBDrawingState.drawDisplayList(self:_:));
 RB_EXTERN void RBDrawingStateDrawDisplayList2(RBDrawingState, id<RBDisplayListContents>, float opacity) NS_SWIFT_NAME(RBDrawingState.drawDisplayList2(self:contents:opacity:));
-RB_EXTERN void RBDrawingStateAddPlaceholderStyle(RBDrawingState, id<RBPlaceholderObject>) NS_SWIFT_NAME(RBDrawingState.addPlaceholderStyle(self:_:));
+RB_EXTERN void RBDrawingStateAddPlaceholderStyle(RBDrawingState, id<RBPlaceholderStyle>) NS_SWIFT_NAME(RBDrawingState.addPlaceholderStyle(self:_:));
 RB_EXTERN void RBDrawingStateAddAnimationStyle(RBDrawingState, RBAnimation * _Nullable, RBUUID) NS_SWIFT_NAME(RBDrawingState.addAnimationStyle(self:_:uuid:));
 RB_EXTERN void RBDrawingStateAddAffineTransformStyle(RBDrawingState, const CGAffineTransform *) NS_SWIFT_NAME(RBDrawingState.addAffineTransformStyle(self:transform:));
 

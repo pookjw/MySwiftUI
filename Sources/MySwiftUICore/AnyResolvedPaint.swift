@@ -60,7 +60,7 @@ final class _AnyResolvedPaint<P : ResolvedPaint> : AnyResolvedPaint {
     }
     
     override func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
-        assertUnimplemented()
+        self.paint.draw(path: path, style: style, in: context, bounds: bounds)
     }
     
     override var protobufPaint: Any? {

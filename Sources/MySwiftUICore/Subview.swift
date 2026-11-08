@@ -1,6 +1,10 @@
 // AC3F3B54DEA93347066C3491F9AA3DD4
 private import AttributeGraph
 
+public protocol HasCustomIDRepresentation {
+    func containsID<Selection>(_ selection: Selection) -> Bool where Selection : Hashable
+}
+
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 public struct Subview : View, Identifiable {
     @safe private nonisolated(unsafe) var base: _VariadicView_Children.Element
@@ -27,6 +31,18 @@ public struct Subview : View, Identifiable {
         return ContainerValues(base: self.base.traits)
     }
 
+    public func isSelected<Selection>(selection: Selection) -> Bool where Selection : Hashable {
+        assertUnimplemented()
+    }
+
+    public func tagValue<Tag>(for key: Tag.Type) -> Tag? where Tag : Hashable {
+        assertUnimplemented()
+    }
+
+    public subscript<Trait>(key: Trait.Type) -> Trait.Value where Trait : _ViewTraitKey {
+        assertUnimplemented()
+    }
+
     nonisolated public static func _makeView(view: _GraphValue<Subview>, inputs: _ViewInputs) -> _ViewOutputs {
         let value = view[{ .of(&$0.base) }]
         return _VariadicView_Children.Element.makeDebuggableView(view: value, inputs: inputs)
@@ -49,6 +65,12 @@ extension Subview : Sendable {}
 
 @available(*, unavailable)
 extension Subview.ID : Sendable {}
+
+extension Subview.ID : HasCustomIDRepresentation {
+    public func containsID<Selection>(_ selection: Selection) -> Bool where Selection : Hashable {
+        assertUnimplemented()
+    }
+}
 
 extension Subview : UnaryView, PrimitiveView {}
 

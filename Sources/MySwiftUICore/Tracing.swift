@@ -1,6 +1,8 @@
 private import AttributeGraph
 
 struct Tracing {
+    @safe fileprivate nonisolated(unsafe) static let moduleLookupCache = ThreadSpecific<[UnsafeRawPointer : String]>([:])
+
     static func libraryName(defining type: Any.Type) -> String {
         assertUnimplemented()
     }

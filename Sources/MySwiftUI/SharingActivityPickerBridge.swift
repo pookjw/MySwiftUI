@@ -96,6 +96,14 @@ private import AttributeGraph
         assertUnimplemented()
     }
     
+    func popoverSource(for delegate: PopoverPresentationDelegate) -> PopoverPresentationDelegate.PopoverSource? {
+        assertUnimplemented()
+    }
+    
+    func popoverWillDismiss(for delegate: PopoverPresentationDelegate) {
+        assertUnimplemented()
+    }
+    
     @inline(always)
     final func addPreferences(to viewGraph: ViewGraph) {
         viewGraph.addPreference(SharingActivityPickerPresentation.Key.self)

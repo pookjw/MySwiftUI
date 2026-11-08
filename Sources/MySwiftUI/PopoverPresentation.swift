@@ -27,6 +27,12 @@ class PopoverPresentationDelegate : NSObject {
     }
 }
 
+extension PopoverPresentationDelegate {
+    struct PopoverSource {
+        // TODO
+    }
+}
+
 extension PopoverPresentationDelegate : UIPopoverPresentationControllerDelegate {
     func popoverPresentationController(_ popoverPresentationController: UIPopoverPresentationController, willRepositionPopoverTo rect: UnsafeMutablePointer<CGRect>, in view: AutoreleasingUnsafeMutablePointer<UIView>) {
         assertUnimplemented()
@@ -46,5 +52,7 @@ extension PopoverPresentationDelegate : UIPopoverPresentationControllerDelegate 
 }
 
 protocol PopoverPresentationDelegateDelegate : AnyObject {
-    // TODO
+    func popoverShouldAdapt(for delegate: PopoverPresentationDelegate) -> Bool
+    func popoverSource(for delegate: PopoverPresentationDelegate) -> PopoverPresentationDelegate.PopoverSource?
+    func popoverWillDismiss(for delegate: PopoverPresentationDelegate)
 }

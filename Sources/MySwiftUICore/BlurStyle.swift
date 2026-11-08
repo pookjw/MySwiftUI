@@ -21,7 +21,7 @@ package struct BlurStyle {
     }
 
     var isIdentity: Bool {
-        return self.radius <= 0
+        return !(self.radius > 0)
     }
 }
 

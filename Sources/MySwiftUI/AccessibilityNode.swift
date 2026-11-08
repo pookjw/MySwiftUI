@@ -2,6 +2,7 @@
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 internal import CoreGraphics
+internal import Spatial
 
 struct AccessibilityNodeList {
     private var nodes: [AccessibilityNode] = []
@@ -73,10 +74,26 @@ struct AccessibilityViewResponderUpdater {
         self.attachment = attachment
         self.subgraph = subgraph
     }
+    
+    func updateAccessibilityNodes(list: inout AccessibilityNodeList, listChanged: Bool, source: AnyAttribute) {
+        assertUnimplemented()
+    }
 }
 
-struct AccessibilityGeometryStorage {
+final class AccessibilityGeometryStorage {
     // TODO
+    
+    var frame: CGRect? {
+        assertUnimplemented()
+    }
+    
+    var size3D: Size3D? {
+        assertUnimplemented()
+    }
+    
+    var viewSpaceTransform: AffineTransform3D? {
+        assertUnimplemented()
+    }
 }
 
 extension AccessibilityGeometryStorage {
@@ -120,6 +137,10 @@ struct AccessibilityGeometryUpdater {
         self.id = id
         self.attachment = attachment
         self.subgraph = subgraph
+    }
+    
+    func updateAccessibilityNodes(list: inout AccessibilityNodeList, listChanged: Bool, source: AnyAttribute) {
+        assertUnimplemented()
     }
 }
 

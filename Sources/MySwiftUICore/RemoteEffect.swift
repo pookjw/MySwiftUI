@@ -1,5 +1,6 @@
 // 3E16A233DDB220D680CDDD5BF460B837
 internal import CoreGraphics
+internal import _QuartzCorePrivate
 
 enum RemoteEffectInfo {
     case group(RemoteEffectGroupInfo)
@@ -40,6 +41,14 @@ extension RemoteEffectInfo {
         case inactiveTemporarily(UInt32?, Int?)
         case toggledTemporarily(UInt32?, Int?)
         
+        var triggerValue: Int? {
+            assertUnimplemented()
+        }
+        
+        var identityValue: UInt32? {
+            assertUnimplemented()
+        }
+        
         static func == (lhs: RemoteEffectInfo.ActivationBehavior, rhs: RemoteEffectInfo.ActivationBehavior) -> Bool {
             assertUnimplemented()
         }
@@ -64,6 +73,10 @@ extension RemoteEffectInfo {
 struct RemoteEffectGroupInfo {
     private var effects: [RemoteEffectInfo]
     private var properties: RemoteEffectGroupInfo.Properties
+    
+    func apply(to remoteEffect: CARemoteEffectGroup, identity: RemoteEffectGroupInfo.ID) {
+        assertUnimplemented()
+    }
 }
 
 extension RemoteEffectGroupInfo {
@@ -78,6 +91,10 @@ extension RemoteEffectGroupInfo {
         private var namespaceScope: RemoteEffectGroupInfo.NamespaceScope
         private var exclusiveHitTestNamespace: RemoteEffectGroupInfo.ExclusiveHitTestNamespace?
         private var hitTestMode: RemoteEffectGroupInfo.HitTestMode?
+        
+        func apply(to remoteEffect: CARemoteEffectGroup, identity: RemoteEffectGroupInfo.ID) {
+            assertUnimplemented()
+        }
     }
     
     enum ID : Hashable {
@@ -290,6 +307,14 @@ struct RemoteEffectOptions : Equatable {
     private var namespaceScope: RemoteEffectNamespaceScope
     private var allowedTouchTypes: Set<TouchType>?
     
+    static var `default`: RemoteEffectOptions {
+        assertUnimplemented()
+    }
+    
+    static var defaultResize: RemoteEffectOptions {
+        assertUnimplemented()
+    }
+    
     init(applyInPlace: Bool) {
         assertUnimplemented()
     }
@@ -386,6 +411,14 @@ struct RemoteEffectOptions : Equatable {
             }
             
             init(arrayLiteral elements: Options...) {
+                assertUnimplemented()
+            }
+            
+            static var opaque: Options {
+                assertUnimplemented()
+            }
+            
+            static var exclusive: Options {
                 assertUnimplemented()
             }
         }
@@ -543,6 +576,10 @@ struct RemotePropertyEffectContent {
     init(keyPath: String, value: NSObject, baseState: RemoteEffectState?, userInfo: [String : Any]?) {
         assertUnimplemented()
     }
+    
+    var requiresServerHitTesting: Bool {
+        assertUnimplemented()
+    }
 }
 
 struct RemotePropertyEffectDescriptor {
@@ -560,6 +597,10 @@ struct RemotePropertyEffectDescriptor {
     }
     
     init(inactive: RemotePropertyEffectContent, active: RemotePropertyEffectContent) {
+        assertUnimplemented()
+    }
+    
+    var requiresServerHitTesting: Bool {
         assertUnimplemented()
     }
 }

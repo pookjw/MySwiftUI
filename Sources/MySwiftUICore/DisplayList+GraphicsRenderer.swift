@@ -410,7 +410,7 @@ extension DisplayList {
                             
                             context.storage.state.drawDisplayList2(
                                 contents: contents,
-                                opacity: context.storage.opacity
+                                opacity: context._opacity
                             )
                         }
                         
@@ -426,7 +426,7 @@ extension DisplayList {
                         
                         context.storage.state.drawDisplayList2(
                             contents: contents,
-                            opacity: context.storage.opacity
+                            opacity: context._opacity
                         )
                         
                         if !w21 {
@@ -526,7 +526,7 @@ extension DisplayList {
                 case .opacity(let opacity):
                     // <+5812>
                     var context = context
-                    context._opacity = context.storage.opacity * opacity
+                    context._opacity = context._opacity * opacity
                     self.render(list: list, in: &context)
                 case .blendMode(let blendMode):
                     // <+4872>

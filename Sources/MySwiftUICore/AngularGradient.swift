@@ -71,6 +71,10 @@ extension AngularGradient {
             assertUnimplemented()
         }
         
+        func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+            assertUnimplemented()
+        }
+        
         var isClear: Bool {
             assertUnimplemented()
         }

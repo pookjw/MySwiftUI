@@ -1,3 +1,4 @@
+internal import MySwiftUICore
 
 struct AccessibilityChildBehavior {
     private var modifier: any AnyResolvableAccessibilityViewModifier
@@ -17,6 +18,12 @@ extension AccessibilityChildBehavior : Hashable {
     }
     
     func hash(into hasher: inout Hasher) {
+        assertUnimplemented()
+    }
+}
+
+extension View {
+    func accessibilityElement(children: AccessibilityChildBehavior) -> some View {
         assertUnimplemented()
     }
 }

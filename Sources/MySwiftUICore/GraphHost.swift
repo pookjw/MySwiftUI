@@ -785,7 +785,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
                 if flag {
                     // <+440>
                     lastTransaction.append(mutation)
-                    CustomEventTrace.transactionAppend(lastTransaction.traceID)
+                    CustomEventTrace.transactionAppend(to: lastTransaction.traceID)
                     pendingTransactions[count - 1] = lastTransaction
                     self.pendingTransactions = pendingTransactions
                     

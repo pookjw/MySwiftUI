@@ -1,3 +1,3 @@
-struct _LazyLayout_PlacedSubview {
+package struct _LazyLayout_PlacedSubview {
     // TODO
 }

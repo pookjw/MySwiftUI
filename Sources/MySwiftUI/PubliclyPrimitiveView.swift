@@ -21,10 +21,6 @@ extension PubliclyPrimitiveView {
         return Self.InternalBody.makeDebuggableViewList(view: internalView, inputs: inputs)
     }
     
-    nonisolated static func defaultMakeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
-    }
-    
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
         assertUnimplemented()
     }

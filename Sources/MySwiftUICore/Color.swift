@@ -763,6 +763,10 @@ extension Color.Resolved : ResolvedPaint {
         assertUnimplemented()
     }
     
+    package func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+        assertUnimplemented()
+    }
+    
     package var isClear: Bool {
         assertUnimplemented()
     }
@@ -1145,6 +1149,10 @@ package struct ColorView :  @preconcurrency RendererLeafView {
 }
 
 extension ColorView : @preconcurrency ResolvedPaint {
+    package func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+        assertUnimplemented()
+    }
+    
     package nonisolated var isClear: Bool {
         assertUnimplemented()
     }

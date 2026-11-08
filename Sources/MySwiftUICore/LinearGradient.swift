@@ -51,6 +51,10 @@ extension LinearGradient {
         private(set) var endPoint: UnitPoint
         private(set) var allowedDynamicRange: Image.DynamicRange
         
+        func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+            assertUnimplemented()
+        }
+        
         var isClear: Bool {
             assertUnimplemented()
         }
@@ -102,6 +106,10 @@ extension LinearGradient {
         private(set) var startPoint: CGPoint
         private(set) var endPoint: CGPoint
         private(set) var allowedDynamicRange: Image.DynamicRange
+        
+        func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
+            assertUnimplemented()
+        }
         
         var isClear: Bool {
             assertUnimplemented()

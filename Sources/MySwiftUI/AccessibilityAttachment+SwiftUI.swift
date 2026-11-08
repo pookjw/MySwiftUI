@@ -19,9 +19,27 @@ extension AccessibilityAttachment {
         }
     }
     
-    enum Tree {
+    enum Tree : Equatable {
         case leaf(AccessibilityAttachment)
         indirect case branch([AccessibilityAttachment.Tree])
         case empty
+    }
+}
+
+extension AccessibilityAttachment.Tree {
+    var attachment: AccessibilityAttachment? {
+        assertUnimplemented()
+    }
+    
+    var properties: AccessibilityProperties? {
+        assertUnimplemented()
+    }
+    
+    var mergedProperties: AccessibilityProperties? {
+        assertUnimplemented()
+    }
+    
+    mutating func combine(with attachment: AccessibilityAttachment) {
+        assertUnimplemented()
     }
 }

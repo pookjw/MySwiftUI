@@ -321,7 +321,11 @@ extension _ShapeStyle_Pack {
         }
     }
     
-    enum Fill : Animatable {
+    enum Fill : Animatable, Equatable {
+        static func == (lhs: _ShapeStyle_Pack.Fill, rhs: _ShapeStyle_Pack.Fill) -> Bool {
+            assertUnimplemented()
+        }
+        
         case color(Color.ResolvedHDR)
         case paint(AnyResolvedPaint)
         case foregroundMaterial(Color.ResolvedHDR, ContentStyle.MaterialResolved)
@@ -507,6 +511,10 @@ extension _ShapeStyle_Pack.Fill {
         }
         
         func set(fill: inout _ShapeStyle_Pack.Fill) {
+            assertUnimplemented()
+        }
+        
+        private mutating func negate() {
             assertUnimplemented()
         }
         

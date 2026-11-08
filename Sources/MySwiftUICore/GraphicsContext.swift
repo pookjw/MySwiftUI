@@ -10,7 +10,7 @@ private import AttributeGraph
         fileprivate let shared: GraphicsContext.Storage.Shared // 0x10
         let state: RBDrawingState // 0x18
         fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
-        var opacity: Float = 1 // 0x30
+        fileprivate var opacity: Float = 1 // 0x30
         fileprivate var blendMode: RBBlendMode = .unknown0 // 0x34
         fileprivate private(set) var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
@@ -1846,7 +1846,7 @@ extension GraphicsContext {
     }
     
     @inline(always) // 원래 없음
-    mutating func addPlaceholderStyle(_ style: any RBPlaceholderObject) {
+    mutating func addPlaceholderStyle(_ style: any RBPlaceholderStyle) {
         self.copyOnWrite()
         self.storage.state.addPlaceholderStyle(style)
     }

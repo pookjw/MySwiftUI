@@ -92,3 +92,7 @@ extension PlatformItemsModifier {
         assertUnimplemented()
     }
 }
+
+package protocol UnaryPlatformItemsModifier : PlatformItemsModifier {
+    static nonisolated func updateItem(modifier: Self, item: inout PlatformItem)
+}

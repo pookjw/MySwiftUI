@@ -71,9 +71,9 @@ extension RunLoop {
     }
 }
 
-final class ThreadSpecific<T : Sendable> {
+final class ThreadSpecific<T> {
     nonisolated(unsafe) private var key: UInt
-    private let defaultValue: T
+    @safe private nonisolated(unsafe) let defaultValue: T
     
     init(_ defaultValue: T) {
         unsafe self.key = 0

@@ -1,3 +1,4 @@
+package import CoreGraphics
 
 protocol Paint : ShapeStyle {
     associatedtype ResolvedPaintType : ResolvedPaint
@@ -17,6 +18,7 @@ extension Paint {
 }
 
 package protocol ResolvedPaint : Equatable, Animatable, ProtobufEncodableMessage {
+    func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?)
     var isClear: Bool { get }
     var isOpaque: Bool { get }
     var resolvedGradient: ResolvedGradient? { get }

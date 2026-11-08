@@ -749,7 +749,7 @@ fileprivate struct PlatformAccessibilityTransform : StatefulRule {
     }
 }
 
-fileprivate struct AccessibilityPlatformItemTransform : PlatformItemsModifier, PrimitiveViewModifier {
+fileprivate struct AccessibilityPlatformItemTransform : UnaryPlatformItemsModifier, PrimitiveViewModifier {
     var accessibility: PlatformItem.AccessibilityContent?
     
     static nonisolated var features: PlatformItem.Features {
@@ -757,6 +757,10 @@ fileprivate struct AccessibilityPlatformItemTransform : PlatformItemsModifier, P
     }
     
     static nonisolated func updateItems(modifier: Self, items: inout PlatformItems) {
+        assertUnimplemented()
+    }
+    
+    static nonisolated func updateItem(modifier: Self, item: inout PlatformItem) {
         assertUnimplemented()
     }
     

@@ -3,7 +3,11 @@ internal import AttributeGraph
 internal import Spatial
 internal import CoreGraphics
 
-final class LeafViewResponder3D : ViewResponder {
+protocol EntityGestureParentResponder {
+    func addChild(responder: EntityGestureResponder)
+}
+
+final class LeafViewResponder3D : ViewResponder, EntityGestureParentResponder {
     private let inputs: _ViewInputs
     private let viewSubgraph: Subgraph
     var helper = ContentResponder3DHelper(size: .zero, transform: ViewTransform())
@@ -38,6 +42,10 @@ final class LeafViewResponder3D : ViewResponder {
     }
 
     override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
+    
+    func addChild(responder: EntityGestureResponder) {
         assertUnimplemented()
     }
 }

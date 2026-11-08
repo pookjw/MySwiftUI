@@ -121,7 +121,7 @@ package import AttributeGraph
         unsafe recorder.graph.addTraceEvent(cefOp, value: transaction)
     }
     
-    package static func transactionAppend(_ transaction: UInt32) {
+    package static func transactionAppend(to transaction: UInt32) {
         guard
             unsafe enabledCategories[Int(CustomEventCategory.transaction.rawValue)],
             let recorder = unsafe recorder
@@ -233,6 +233,7 @@ package import AttributeGraph
         
         let cefOp = unsafe recorder.cefOp
         unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.graph.rawValue
+        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.GraphEventType.setNeedsUpdate.rawValue
         unsafe recorder.graph.addTraceEvent(cefOp, value: (values, graph))
     }
     
@@ -545,6 +546,12 @@ extension CustomEventTrace.InstantiationEventType {
         case view = 0x2
         case gesture = 0x3
         case widget = 0x4
+    }
+}
+
+extension CustomEventTrace {
+    package enum GraphEventType : Int8, Hashable {
+        case setNeedsUpdate = 0x4e
     }
 }
 
