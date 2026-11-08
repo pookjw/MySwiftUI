@@ -383,7 +383,19 @@ private import AttributeGraph
     }
     
     public mutating func clip(to path: Path, style: FillStyle = FillStyle(), options: GraphicsContext.ClipOptions = ClipOptions()) {
-        assertUnimplemented()
+        self.copyOnWrite()
+        
+        self.storage.shared.shape.setPath(
+            path,
+            style: style,
+            shapeDistance: self.storage.shapeDistance
+        )
+        
+        self.storage.state.clipShape2(
+            shape: self.storage.shared.shape,
+            flags: options.contains(.inverse) ? [.unknown0] : [],
+            opacity: 1
+        )
     }
     
     public mutating func clipToLayer(
@@ -1529,7 +1541,7 @@ private import AttributeGraph
     }
     
     public struct ResolvedSymbol {
-        private var list: RBDisplayListContents
+        fileprivate private(set) var list: RBDisplayListContents
         public internal(set) var size: CGSize
         
         init(list: RBDisplayListContents, size: CGSize) {
@@ -1547,11 +1559,67 @@ private import AttributeGraph
     }
     
     public func draw(_ symbol: GraphicsContext.ResolvedSymbol, in rect: CGRect) {
-        assertUnimplemented()
+        let d0 = rect.origin.x
+        let d1 = rect.origin.y
+        let d2 = rect.size.width
+        let d3 = rect.size.height
+        let d4 = symbol.size.width
+        let d5 = symbol.size.height
+        let d8 = d2 / d4
+        let d9 = d3 / d5
+        
+        if (d0 != 0) || (d1 != 0) || (!(d8 == 1) || d9 != 1) {
+            // <+112>
+            let d10 = d1
+            let d11 = d0
+            let newState = RBDrawingState.initialize(self.storage.state)
+            newState.translateCTM(tx: d11, ty: d10)
+            newState.scaleCTM(sx: d8, sy: d9)
+            newState.drawDisplayList2(
+                contents: symbol.list,
+                opacity: self.storage.opacity
+            )
+            newState.destroy()
+        } else {
+            // <+80>
+            self.storage.state.drawDisplayList2(
+                contents: symbol.list,
+                opacity: self.storage.opacity
+            )
+        }
     }
     
     public func draw(_ symbol: GraphicsContext.ResolvedSymbol, at point: CGPoint, anchor: UnitPoint = .center) {
-        assertUnimplemented()
+        var d0 = point.x
+        let d1 = point.y
+        var d2 = anchor.x
+        let d3 = anchor.y
+        let d4 = symbol.size.width
+        let d5 = symbol.size.height
+        d2 = d2 * d4
+        let d10 = d0 - d2
+        d0 = d3 * d5
+        let d11 = d1 - d0
+        let d8 = d4 / d4
+        let d9 = d5 / d5
+        d0 = 1
+        
+        if (d8 != d0) || (d10 != 0) || (!(d11 == 0) || d9 != d0) {
+            // <+128>
+            let newState = RBDrawingState.initialize(self.storage.state)
+            newState.translateCTM(tx: d10, ty: d11)
+            newState.scaleCTM(sx: d8, sy: d9)
+            newState.drawDisplayList2(
+                contents: symbol.list,
+                opacity: self.storage.opacity
+            )
+            newState.destroy()
+        } else {
+            self.storage.state.drawDisplayList2(
+                contents: symbol.list,
+                opacity: self.storage.opacity
+            )
+        }
     }
 }
 

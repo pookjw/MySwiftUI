@@ -73,7 +73,8 @@ exports:
     _RBDrawingStateDrawDisplayList2,
     _RBDrawingStateAddPlaceholderStyle,
     _RBDrawingStateAddAnimationStyle,
-    _RBDrawingStateAddAffineTransformStyle ]
+    _RBDrawingStateAddAffineTransformStyle,
+    _RBDrawingStateClipShape2 ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

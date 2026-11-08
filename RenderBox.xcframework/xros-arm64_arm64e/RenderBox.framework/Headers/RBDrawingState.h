@@ -5,11 +5,12 @@
 #import <RenderBox/RBPlaceholderDrawingOperation.h>
 #import <RenderBox/RBPlaceholderStyle.h>
 #import <RenderBox/RBAnimation.h>
+#import <RenderBox/RBShape.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 RB_EXTERN void RBDrawingStateTranslateCTM(RBDrawingState, CGFloat tx, CGFloat ty) NS_SWIFT_NAME(RBDrawingState.translateCTM(self:tx:ty:));
-RB_EXTERN RBDrawingState RBDrawingStateInit(RBDrawingState)  NS_SWIFT_NAME(RBDrawingState.initialize(_:));
+RB_EXTERN RBDrawingState RBDrawingStateInit(RBDrawingState) NS_SWIFT_NAME(RBDrawingState.initialize(_:));
 RB_EXTERN RBColorSpace RBDrawingStateGetDefaultColorSpace(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.defaultColorSpace(self:));
 RB_EXTERN RBDisplayList * RBDrawingStateGetDisplayList(RBDrawingState) NS_SWIFT_NAME(getter:RBDrawingState.displayList(self:));
 RB_EXTERN void RBDrawingStateScaleCTM(RBDrawingState, CGFloat sx, CGFloat sy) NS_SWIFT_NAME(RBDrawingState.scaleCTM(self:sx:sy:));
@@ -54,5 +55,6 @@ RB_EXTERN void RBDrawingStateDrawDisplayList2(RBDrawingState, id<RBDisplayListCo
 RB_EXTERN void RBDrawingStateAddPlaceholderStyle(RBDrawingState, id<RBPlaceholderStyle>) NS_SWIFT_NAME(RBDrawingState.addPlaceholderStyle(self:_:));
 RB_EXTERN void RBDrawingStateAddAnimationStyle(RBDrawingState, RBAnimation * _Nullable, RBUUID) NS_SWIFT_NAME(RBDrawingState.addAnimationStyle(self:_:uuid:));
 RB_EXTERN void RBDrawingStateAddAffineTransformStyle(RBDrawingState, const CGAffineTransform *) NS_SWIFT_NAME(RBDrawingState.addAffineTransformStyle(self:transform:));
+RB_EXTERN void RBDrawingStateClipShape2(RBDrawingState, RBShape *, RBClipFlags, float opacity) NS_SWIFT_NAME(RBDrawingState.clipShape2(self:shape:flags:opacity:));
 
 NS_ASSUME_NONNULL_END
