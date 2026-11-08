@@ -1817,8 +1817,6 @@ extension GraphicsContext {
                 opacity: self.storage.opacity
             )
         }
-        
-        assertUnimplemented()
     }
     
     func addVariableBlurFilter(radius: CGFloat, mask: GraphicsContext.Shading, flags: RBBlurFlags) {
@@ -2377,11 +2375,91 @@ extension GraphicsContext.Storage.Shared {
     }
     
     func setShading(_ shading: GraphicsContext.ResolvedShading) {
-        assertUnimplemented()
+        switch shading {
+        case .backdrop(_):
+            // <+832>
+            fatalError("not reached")
+        case .color(let resolved):
+            // <+180>
+            self.setColor(resolved)
+        case .sRGBColor(let color):
+            // <+544>
+            self.fill.setColor(color, colorSpace: .unknown1)
+            self._fillStyle = nil
+        case .shader(let shader, let rect):
+            // <+300>
+            if let rbShader = shader.rbShader {
+                withUnsafePointer(to: rect) { pointer in
+                    unsafe self.fill.setShader(
+                        rbShader,
+                        bounds: pointer,
+                        flags: shader.options.contains(.dithersColor) ? [.unknown0] : []
+                    )
+                }
+            } else {
+                // <+800>
+                self.fill.setColor(RBColor(red: 1, green: 1, blue: 1, alpha: 1))
+            }
+        case .style(_):
+            // <+832>
+            fatalError("not reached")
+        case .gradient(let gradient, let geometry, let options):
+            // <+352>
+            if let constantColor = gradient.constantColor {
+                // <+764>
+                self.setColor(constantColor)
+            } else {
+                // <+456>
+                self.setGradient(
+                    gradient,
+                    geometry: geometry,
+                    options: options,
+                    in: self.colorSpace
+                )
+            }
+        case .meshGradient(let paint, let rect):
+            // <+232>
+            self.setMeshGradient(paint, in: rect)
+        case .tiledImage(let image, let origin, let rect, let scale):
+            // <+592>
+            self.fill.setRepeatedImage(
+                image,
+                origin: origin,
+                scale: scale,
+                sourceRect: rect,
+                in: self.colorSpace
+            )
+            self._fillStyle = nil
+        case .levels(_):
+            // <+832>
+            fatalError("not reached")
+        }
     }
     
     func setColor(_ color: Color.ResolvedHDR) {
-        assertUnimplemented()
+        var rbColor = RBColor(
+            red: color.linearRed,
+            green: color.linearGreen,
+            blue: color.linearBlue,
+            alpha: color.opacity
+        )
+        
+        if self.colorSpace != .unknown2 {
+            rbColor = RBColor.fromLinear(
+                r: rbColor.red,
+                g: rbColor.green,
+                b: rbColor.blue,
+                a: rbColor.alpha
+            )
+        }
+        
+        self.fill.setColor(rbColor)
+        
+        if let headroom = color.headroom {
+            self.fill.headroom = headroom
+        }
+        
+        self._fillStyle = nil
     }
     
     func setColor(_ color: Color, in environment: EnvironmentValues) {
@@ -2390,6 +2468,18 @@ extension GraphicsContext.Storage.Shared {
     
     func setMeshGradient(_ paint: MeshGradient._Paint, in rect: CGRect) {
         assertUnimplemented()
+    }
+    
+    func setGradient(
+        _ gradient: ResolvedGradient,
+        geometry: GraphicsContext.GradientGeometry,
+        options: GraphicsContext.GradientOptions,
+        in colorSpace: RBColorSpace
+    ) {
+        unsafe withGradient(gradient, in: colorSpace) { _, _, _, _, _ in
+            // $s7SwiftUI15GraphicsContextV7StorageC6Shared33_A8D9ECD380926237F7E554221FB2DE85LLCAAE11setGradient_8geometry7options2inyAA08ResolvedO0V_AC0O8GeometryOAC0O7OptionsVSo12RBColorSpaceVtFySi_SPySo0V0aGSfSgSPy04CoreC07CGFloatVGSgSo15RBGradientFlagsVtXEfU_TA
+            assertUnimplemented()
+        }
     }
 }
 

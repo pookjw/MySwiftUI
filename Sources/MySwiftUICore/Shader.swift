@@ -260,11 +260,11 @@ extension Shader {
             self.rawValue = rawValue
         }
         
-        static let dithersColor = Options(rawValue: 1)
-        static let colorFilter = Options(rawValue: 2)
-        static let distortionFilter = Options(rawValue: 4)
-        static let alphaOnlyLayer = Options(rawValue: 8)
-        static let ignoresSecondaryDOD = Options(rawValue: 16)
+        static let dithersColor = Options(rawValue: 1 << 0)
+        static let colorFilter = Options(rawValue: 1 << 1)
+        static let distortionFilter = Options(rawValue: 1 << 2)
+        static let alphaOnlyLayer = Options(rawValue: 1 << 3)
+        static let ignoresSecondaryDOD = Options(rawValue: 1 << 4)
     }
 }
 
