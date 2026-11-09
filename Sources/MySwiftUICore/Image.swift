@@ -100,14 +100,6 @@ extension Image {
         init(storage: Image.DynamicRange.Storage) {
             self.storage = storage
         }
-        
-        public static func == (a: Image.DynamicRange, b: Image.DynamicRange) -> Bool {
-            assertUnimplemented()
-        }
-        
-        public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
-        }
     }
 }
 
@@ -123,7 +115,7 @@ extension Image.DynamicRange {
         case high
         
         static func < (lhs: Storage, rhs: Storage) -> Bool {
-            assertUnimplemented()
+            return lhs.rawValue < rhs.rawValue
         }
     }
 }

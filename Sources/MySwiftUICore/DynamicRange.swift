@@ -23,7 +23,7 @@ extension EnvironmentValues {
         }
         
         if let maxRange = self[EnvironmentValues.MaxAllowedDynamicRangeKey.self] {
-            if maxRange.storage.rawValue < range.storage.rawValue {
+            if maxRange.storage < range.storage {
                 return maxRange
             } else {
                 return range
