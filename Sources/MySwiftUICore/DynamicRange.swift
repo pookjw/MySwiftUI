@@ -1,8 +1,50 @@
 // B0F5FD51133E70141176B7B8AC4E9712
-
 internal import QuartzCore
 private import _QuartzCorePrivate
 private import CoreGraphics
+
+extension EnvironmentValues {
+    func effectiveAllowedDynamicRange(hdrContent: Bool, explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
+        assertUnimplemented()
+    }
+    
+    func effectiveAllowedDynamicRange(explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
+        let range: Image.DynamicRange
+        if let explicitRange {
+            range = explicitRange
+        } else if let allowedRange = self[EnvironmentValues.AllowedDynamicRangeKey.self] {
+            range = allowedRange
+        } else {
+            range = .high
+        }
+        
+        if range == .standard {
+            return .standard
+        }
+        
+        if let maxRange = self[EnvironmentValues.MaxAllowedDynamicRangeKey.self] {
+            if maxRange.storage.rawValue < range.storage.rawValue {
+                return maxRange
+            } else {
+                return range
+            }
+        } else {
+            return range
+        }
+    }
+    
+    fileprivate struct AllowedDynamicRangeKey : EnvironmentKey {
+        static var defaultValue: Image.DynamicRange? {
+            return nil
+        }
+    }
+    
+    struct MaxAllowedDynamicRangeKey : BridgedEnvironmentKey {
+        static var defaultValue: Image.DynamicRange? {
+            return nil
+        }
+    }
+}
 
 extension CALayer {
     @inline(always)

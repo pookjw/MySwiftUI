@@ -841,7 +841,7 @@ extension DisplayList.ViewUpdater {
                 case .image(_):
                     // <+2588>
                     assertUnimplemented()
-                case .shape(let path, let paint, let fillStyle):
+                case .shape(let path, let paint, _):
                     // <+2148>
                     let hasDODEffects = unsafe state.pointee.hasDODEffects
                     // inlined
@@ -896,9 +896,19 @@ extension DisplayList.ViewUpdater {
                 case .flattened(_, _, _):
                     // <+1852>
                     assertUnimplemented()
-                case .drawing:
+                case .drawing(_, _, let options):
                     // <+1832>
-                    assertUnimplemented()
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                        platform = .caLayer
+                    }
+                    
+                    let drawingView = platform.makeDrawingView(options: PlatformDrawableOptions(base: options))
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: drawingView, kind: .drawing)
+                    
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: drawingView, kind: .drawing, platform: platform)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
+                    
+                    return viewInfo
                 case .view(_):
                     // <+5076>
                     assertUnimplemented()

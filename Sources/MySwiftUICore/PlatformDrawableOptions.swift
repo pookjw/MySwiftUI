@@ -3,7 +3,7 @@ public import QuartzCore
 public import RenderBox
 
 @_spi(Internal)
-public struct PlatformDrawableOptions : Equatable {
+public struct PlatformDrawableOptions : Equatable, Sendable {
     var base: RasterizationOptions
     
     init(base: RasterizationOptions) {

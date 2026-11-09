@@ -1174,16 +1174,6 @@ extension ColorView : @preconcurrency ResolvedPaint {
     }
 }
 
-extension EnvironmentValues {
-    func effectiveAllowedDynamicRange(hdrContent: Bool, explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
-        assertUnimplemented()
-    }
-    
-    func effectiveAllowedDynamicRange(explicitRange: Image.DynamicRange?) -> Image.DynamicRange {
-        assertUnimplemented()
-    }
-}
-
 extension Color {
     public enum RGBColorSpace : Sendable, Hashable {
         case sRGB

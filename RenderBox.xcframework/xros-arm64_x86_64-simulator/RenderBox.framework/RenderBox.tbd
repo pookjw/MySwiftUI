@@ -84,6 +84,8 @@ exports:
     RBShader,
     RBShaderLibrary,
     RBSymbolAnimator,
-    RBAnimation ]
+    RBAnimation,
+    RBDevice,
+    RBLayer ]
     objc-ivars:           [  ]
 ...

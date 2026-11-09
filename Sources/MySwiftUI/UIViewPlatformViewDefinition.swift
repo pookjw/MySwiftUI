@@ -4,6 +4,7 @@ public import UIKit
 private import _UIKitPrivate
 private import _MySwiftUIShims
 private import _MySwiftUICoreShims
+private import RenderBox
 
 final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     override class var system : PlatformViewDefinition.System {
@@ -19,7 +20,22 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     }
 
     override class func makeDrawingView(options: PlatformDrawableOptions) -> any PlatformDrawable {
-        assertUnimplemented()
+        // options -> x0 -> x20
+        if options.isAccelerated && RBDevice.isSupported {
+            let drawingView = RBDrawingView(options: options)
+            drawingView.contentMode = .topLeft
+            UIViewPlatformViewDefinition.initView(drawingView, kind: .drawing)
+            
+            return drawingView
+        } else {
+            let drawingView = CGDrawingView(options: options)
+            drawingView.isOpaque = drawingView.options.isOpaque
+            drawingView.layer.contentsFormat = drawingView.options.caLayerContentsFormat
+            drawingView.contentMode = .topLeft
+            
+            UIViewPlatformViewDefinition.initView(drawingView, kind: .drawing)
+            return drawingView
+        }
     }
 
     override class func setPath(_ path: Path, shapeView: AnyObject) {

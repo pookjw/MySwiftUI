@@ -21,3 +21,7 @@
 #import <RenderBox/RBPlaceholderStyleContent.h>
 #import <RenderBox/RBPlaceholderStyle.h>
 #import <RenderBox/RBAnimation.h>
+#import <RenderBox/RBImageRenderer.h>
+#import <RenderBox/RBDevice.h>
+#import <RenderBox/RBLayer.h>
+#import <RenderBox/RBLayerDelegate.h>

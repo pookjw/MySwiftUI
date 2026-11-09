@@ -6,4 +6,8 @@ extension PlatformDrawableContent {
     enum Storage {
         // TODO
     }
+    
+    package struct State {
+        // TODO
+    }
 }
