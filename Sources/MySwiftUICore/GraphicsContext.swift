@@ -11,8 +11,8 @@ private import AttributeGraph
         let state: RBDrawingState // 0x18
         fileprivate private(set) var environmentOverride: EnvironmentValues? = nil // 0x20
         fileprivate var opacity: Float = 1 // 0x30
-        fileprivate var blendMode: RBBlendMode = .unknown0 // 0x34
-        fileprivate private(set) var shapeDistance: CGFloat = .nan // 0x38
+        fileprivate(set) var blendMode: RBBlendMode = .unknown0 // 0x34
+        private(set) var shapeDistance: CGFloat = .nan // 0x38
         private let ownsState: Bool // 0x40
         
         @inline(__always) // 원래 없음
@@ -21,7 +21,7 @@ private import AttributeGraph
             environment: EnvironmentValues
         ) {
             self.shared = GraphicsContext.Storage.Shared(list: list, environment: environment)
-            self.state = RBDisplayListGetState(list)
+            self.state = list.state
             self.ownsState = false
         }
         

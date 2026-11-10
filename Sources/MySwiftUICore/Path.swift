@@ -797,9 +797,13 @@ extension Path {
             return unsafe RBPathStorageIsSingleElement(casted.dataPointer)
         }
         
-        unsafe pointer.pointee.unknown7 = { _ in
+        unsafe pointer.pointee.unknown7 = { pathBox in
             // $s7SwiftUI4PathV0C3BoxCAAE15bufferCallbacks33_3591905F51357E95FA93E39751507471LLSPySo06RBPathF0VGvpZfiAJyXEfU_SiSVcfU5_To
-            assertUnimplemented()
+            let casted = unsafe Unmanaged<Path.PathBox>
+                .fromOpaque(pathBox)
+                .takeUnretainedValue()
+            
+            return unsafe RBPathStorageGetBezierOrder(casted.dataPointer)
         }
         
         unsafe pointer.pointee.unknown8 = { pathBox in

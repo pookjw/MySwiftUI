@@ -329,7 +329,7 @@ extension DisplayList {
                                     displayList.defaultColorSpace = context.storage.state.defaultColorSpace
                                     displayList.deviceScale = d10
                                     
-                                    let state = RBDisplayListGetState(displayList)
+                                    let state = displayList.state
                                     
                                     let cgContext = unsafe state.beginCGContext(
                                         alpha: 1,
@@ -952,7 +952,7 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+        func draw(in state: RBDrawingState, content: any RBPlaceholderStyleContent) {
             assertUnimplemented()
         }
         
@@ -984,7 +984,7 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+        func draw(in state: RBDrawingState, content: any RBPlaceholderStyleContent) {
             assertUnimplemented()
         }
         
@@ -1035,7 +1035,7 @@ final class AccessibilityAttachmentsPlaceholder: NSObject, RBPlaceholderStyle {
         assertUnimplemented()
     }
     
-    func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+    func draw(in state: RBDrawingState, content: any RBPlaceholderStyleContent) {
         assertUnimplemented()
     }
     
@@ -1060,7 +1060,7 @@ final class AccessibilityRepresentationPlaceholder: NSObject, RBPlaceholderStyle
         assertUnimplemented()
     }
     
-    func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+    func draw(in state: RBDrawingState, content: any RBPlaceholderStyleContent) {
         assertUnimplemented()
     }
     

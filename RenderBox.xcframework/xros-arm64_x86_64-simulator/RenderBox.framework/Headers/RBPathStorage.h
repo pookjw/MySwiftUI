@@ -11,5 +11,6 @@ RB_EXTERN void RBPathStorageDestroy(void *);
 RB_EXTERN bool RBPathStorageIsSingleElement(void *);
 RB_EXTERN bool RBPathStorageApplyElements(void *, void *, bool (*)(void *, RBPathElement, const CGFloat *, const void * _Nullable));
 RB_EXTERN CGRect RBPathStorageGetBoundingRect(void *);
+RB_EXTERN NSInteger RBPathStorageGetBezierOrder(void *);
 
 NS_ASSUME_NONNULL_END

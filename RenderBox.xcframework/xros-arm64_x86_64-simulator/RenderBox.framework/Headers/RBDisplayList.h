@@ -13,8 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) RBColorSpace defaultColorSpace;
 - (id<RBDisplayListContents>)moveContents NS_RETURNS_RETAINED;
 - (void)translateByX:(CGFloat)x Y:(CGFloat)y;
+- (void)drawDisplayList:(id<RBDisplayListContents>)contents;
 @end
 
-RB_EXTERN RBDrawingState RBDisplayListGetState(RBDisplayList *displayList);
+RB_EXTERN RBDrawingState RBDisplayListGetState(RBDisplayList *displayList) NS_SWIFT_NAME(getter:RBDisplayList.state(self:));
 
 NS_ASSUME_NONNULL_END

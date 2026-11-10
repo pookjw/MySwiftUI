@@ -1,6 +1,7 @@
 // 0CB954C9DC99A8A907C58D7882F9389E
 internal import UIKit
 internal import RenderBox
+private import _UIKitShims
 
 class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     final var rendersFirstFrameAsynchronously: Bool
@@ -36,7 +37,14 @@ class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     }
     
     override func didMoveToWindow() {
-        assertUnimplemented()
+        guard let window else {
+            return
+        }
+        
+        let layer = self.layer
+        layer.contentsScale = window.myUIScreen?.scale ?? 0
+        
+        self.setNeedsDisplay()
     }
     
     func draw(inDisplayList displayList: RBDisplayList) {
@@ -44,7 +52,7 @@ class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     }
     
     func rbLayerDraw(_ layer: RBLayer, inDisplayList displayList: RBDisplayList) {
-        assertUnimplemented()
+        self.draw(inDisplayList: displayList)
     }
     
     override func setNeedsDisplay() {

@@ -20,3 +20,4 @@
 #import "RenderBox+SwiftUI.h"
 #import "CGColorSpace+SwiftUI.h"
 #import "PathData.h"
+#import "CGContext+SwiftUI.h"

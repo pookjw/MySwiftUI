@@ -195,7 +195,11 @@ typedef NS_OPTIONS(unsigned int, RBShadowFlags) {
     RBShadowFlagsUnknown5 = (1 << 5)
 };
 
-typedef const void * RBDrawingState __attribute__((swift_wrapper(struct)));
+typedef struct _RBDrawingState {
+    // TODO
+} _RBDrawingState;
+
+typedef const _RBDrawingState * RBDrawingState __attribute__((swift_wrapper(struct)));
 
 typedef struct RBCornerRadii {
     const CGFloat topLeft;

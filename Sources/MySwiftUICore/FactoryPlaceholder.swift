@@ -42,7 +42,7 @@ final class FactoryStylePlaceholder: FactoryPlaceholder, RBPlaceholderStyle {
         assertUnimplemented()
     }
     
-    func draw(inState state: RBDrawingState, content: any RBPlaceholderStyleContent) {
+    func draw(in state: RBDrawingState, content: any RBPlaceholderStyleContent) {
         assertUnimplemented()
     }
 }
