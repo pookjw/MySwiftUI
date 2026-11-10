@@ -15,7 +15,9 @@ final class RBDrawingView: RenderBoxView {
     @AtomicBox private var state: RBDrawingView.State
     
     fileprivate func updateOptions() {
-        assertUnimplemented()
+        self.isOpaque = self.options.isOpaque
+        self.options.update(rbLayer: self.layer)
+        self.rendersFirstFrameAsynchronously = self.options.rendersFirstFrameAsynchronously
     }
     
     init(options: PlatformDrawableOptions) {
@@ -63,7 +65,7 @@ extension RBDrawingView : @preconcurrency PlatformDrawable {
     }
     
     func setContentsScale(_ contentsScale: CGFloat) {
-        assertUnimplemented()
+        self.layer.contentsScale = contentsScale
     }
     
     func drawForTesting(in displayList: RBDisplayList) {

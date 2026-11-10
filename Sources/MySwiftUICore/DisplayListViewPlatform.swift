@@ -184,11 +184,47 @@ extension DisplayList.ViewUpdater {
         }
         
         func updateDrawingView(
-            _: inout AnyObject,
+            _ drawingView: inout AnyObject,
             options: RasterizationOptions,
             contentsScale: CGFloat
         ) -> any PlatformDrawable {
-            assertUnimplemented()
+            /*
+             drawingView -> x0 -> x19
+             options -> x1
+             contentsScale -> d0 -> d8
+             */
+            var d8 = contentsScale
+            
+            var drawable: any PlatformDrawable
+            if let casted = drawingView as? PlatformDrawable {
+                drawable = casted
+            } else {
+                drawable = self.encoding.definition.makeDrawingView(options: PlatformDrawableOptions(base: options))
+            }
+            
+            let newOptions = drawable.options.base
+            
+            if options == newOptions {
+                // <+396>
+            } else if newOptions.flags.symmetricDifference(options.flags).contains(.isAccelerated) {
+                // <+336>
+                drawable = self.encoding.definition.makeDrawingView(options: PlatformDrawableOptions(base: options))
+                // <+396>
+            } else {
+                // <+288>
+                drawable.options = PlatformDrawableOptions(base: options)
+                // <+396>
+            }
+            
+            // <+396>
+            var d0: CGFloat = 3
+            d0 = (d8 <= d0) ? d0 : d8
+            d8 = options.flags.contains(.highRes) ? d0 : d8
+            
+            drawable.setContentsScale(d8)
+            drawingView = drawable
+            
+            return drawable
         }
         
         fileprivate func updateState(

@@ -45,7 +45,7 @@ package struct RasterizationOptions : Equatable {
     private var colorMode: ColorRenderingMode // 0x4
     var allowedDynamicRange: Image.DynamicRange? // 0x5
     private(set) var flags: RasterizationOptions.Flags // 0x8
-    private var maxDrawableCount: Int8 // 0xc
+    private(set) var maxDrawableCount: Int8 // 0xc
     
     init(colorMode: ColorRenderingMode, allowedDynamicRange: Image.DynamicRange?, flags: RasterizationOptions.Flags) {
         assertUnimplemented()

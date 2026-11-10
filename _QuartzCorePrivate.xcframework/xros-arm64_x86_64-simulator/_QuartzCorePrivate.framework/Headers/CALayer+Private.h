@@ -7,7 +7,11 @@ CG_EXTERN id _Nullable CALayerGetDelegate(CALayer *layer);
 CG_EXTERN CALayer * _Nullable CALayerGetSuperlayer(CALayer *layer);
 CG_EXTERN void CALayerMapGeometry(CALayer * _Nullable, CALayer *, void (*)(void * _Nullable, CATransform3D), void (*)(void * _Nullable, CATransform3D), void * _Nullable);
 
+CA_EXTERN CALayerContentsFormat const kCAContentsFormatAutomaticSPI NS_SWIFT_NAME (automaticSPI);
+CA_EXTERN CALayerContentsFormat const kCAContentsFormatA8 NS_SWIFT_NAME (a8);
+
 @interface CALayer (Private)
+@property BOOL allowsDisplayCompositing;
 @property BOOL allowsGroupBlending;
 @property (getter=isSeparated) BOOL separated;
 @property (copy) NSArray<CAPresentationModifier *> *presentationModifiers;

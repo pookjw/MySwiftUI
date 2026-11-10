@@ -100,6 +100,17 @@ extension Image {
         init(storage: Image.DynamicRange.Storage) {
             self.storage = storage
         }
+        
+        var maxHeadroom: Float {
+            switch self.storage {
+            case .standard:
+                return 1
+            case .constrainedHigh:
+                return 2
+            case .high:
+                return .infinity
+            }
+        }
     }
 }
 

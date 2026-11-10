@@ -3,7 +3,7 @@ internal import UIKit
 internal import RenderBox
 
 class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
-    private var rendersFirstFrameAsynchronously: Bool // final인지 검증
+    final var rendersFirstFrameAsynchronously: Bool
     
     override class var layerClass: AnyClass {
         return RenderBoxLayer.self
