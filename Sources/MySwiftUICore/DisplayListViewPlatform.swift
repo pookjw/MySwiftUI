@@ -187,7 +187,7 @@ extension DisplayList.ViewUpdater {
             _: inout AnyObject,
             options: RasterizationOptions,
             contentsScale: CGFloat
-        ) -> PlatformDrawable {
+        ) -> any PlatformDrawable {
             assertUnimplemented()
         }
         
@@ -1305,9 +1305,62 @@ extension DisplayList.ViewUpdater {
                     case .flattened(_, _, _):
                         // <+4832>
                         assertUnimplemented()
-                    case .drawing:
+                    case .drawing(let contents, let point, let options):
                         // <+5056>
-                        assertUnimplemented()
+                        switch viewInfo.state.kind {
+                        case .drawing:
+                            // <+5108>
+                            // <+7700>
+                            break
+                        default:
+                            // <+7512>
+                            viewInfo = unsafe self._makeItemView(item: item, state: state)
+                            // <+7700>
+                        }
+                        
+                        // <+7700>
+                        let d10 = unsafe state.pointee.globals.pointee.environment.contentsScale
+                        let d0 = viewInfo.state.size.width
+                        let d1 = viewInfo.state.size.height
+                        var x190x50 = (size.width != d0)
+                        x190x50 = (size.height == d1) ? x190x50 : true
+                        
+                        let oldView = viewInfo.view
+                        
+                        let drawable = self.updateDrawingView(
+                            &viewInfo.view,
+                            options: options,
+                            contentsScale: d10
+                        )
+                        
+                        let updated = drawable.update(
+                            content: PlatformDrawableContent(storage: .rbDisplayList(contents, point)),
+                            required: x190x50
+                        )
+                        
+                        viewInfo.isInvalid = !updated
+                        
+                        if viewInfo.view === oldView {
+                            // <+11732>
+                            // <+13872>
+                        } else {
+                            viewInfo.reset()
+                            // <+13872>
+                        }
+                        
+                        if viewInfo.state.flags.contains(.unknown5) {
+                            unsafe copy_1.versions.transform.combine(with: item.version)
+                        }
+                        
+                        if !viewInfo.isInvalid {
+                            if viewInfo.nextUpdate == .infinity {
+                                viewInfo.seeds.content = seed
+                            }
+                        }
+                        
+                        let platform = viewInfo.platform
+                        unsafe platform.updateState(&viewInfo, item: item, size: size, state: &copy_1)
+                        return
                     case .view(_):
                         // <+14476>
                         fatalError()

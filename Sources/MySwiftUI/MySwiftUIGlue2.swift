@@ -1,5 +1,4 @@
 // CE8713EF1F659E3933681417E097F9F6
-
 @_spi(Internal) internal import MySwiftUICore
 internal import Foundation
 private import _UIKitPrivate
@@ -63,14 +62,16 @@ private import CoreRE
 
 extension MySwiftUIGlue2 {
     fileprivate func _setupPlatformProperties(_ view: AnyObject, kind: PlatformViewDefinition.ViewKind, platform: DisplayList.ViewUpdater.Platform) {
-        /*
-         self = x19
-         kind = x25
-         */
-        guard case .drawing = kind else {
+        guard
+            case .drawing = kind,
+            let casted = view as? CGDrawingView
+        else {
             return
         }
         
-        assertUnimplemented()
+        let technique_1 = RenderingTechnique.defaultTextValue
+        let technique_2 = RenderingTechnique.perspectiveCorrect
+        
+        casted._usesPerspectiveCorrectRendering = (technique_1 == technique_2)
     }
 }

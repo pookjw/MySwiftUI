@@ -8,7 +8,7 @@ extension RenderingTechnique {
         assertUnimplemented()
     }
     
-    static var defaultTextValue: RenderingTechnique {
+    package static var defaultTextValue: RenderingTechnique {
         assertUnimplemented()
     }
 }

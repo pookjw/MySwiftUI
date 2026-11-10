@@ -37,9 +37,7 @@ extension View {
             )
             
             let attribute = Attribute(binder)
-            var flags = attribute.flags
-            flags = [.unknown0]
-            attribute.flags = flags
+            attribute.setFlags(.unknown0, mask: .all)
         }
         
         // <+756>

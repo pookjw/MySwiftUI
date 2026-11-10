@@ -86,6 +86,7 @@ exports:
     RBSymbolAnimator,
     RBAnimation,
     RBDevice,
-    RBLayer ]
+    RBLayer,
+    RBDisplayListInterpolator ]
     objc-ivars:           [  ]
 ...

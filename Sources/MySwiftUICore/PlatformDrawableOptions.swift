@@ -10,27 +10,27 @@ public struct PlatformDrawableOptions : Equatable, Sendable {
         self.base = base
     }
     
-    public var isAccelerated: Bool {
+    package var isAccelerated: Bool {
+        return self.base.flags.contains(.isAccelerated)
+    }
+    
+    package var isOpaque: Bool {
         assertUnimplemented()
     }
     
-    public var isOpaque: Bool {
+    package var rendersAsynchronously: Bool {
         assertUnimplemented()
     }
     
-    public var rendersAsynchronously: Bool {
+    package var rendersFirstFrameAsynchronously: Bool {
         assertUnimplemented()
     }
     
-    public var rendersFirstFrameAsynchronously: Bool {
+    package var caLayerContentsFormat: CALayerContentsFormat {
         assertUnimplemented()
     }
     
-    public var caLayerContentsFormat: CALayerContentsFormat {
-        assertUnimplemented()
-    }
-    
-    public func update(rbLayer: AnyObject) {
+    package func update(rbLayer: AnyObject) {
         assertUnimplemented()
     }
 }

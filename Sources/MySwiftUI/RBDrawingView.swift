@@ -19,7 +19,10 @@ final class RBDrawingView: RenderBoxView {
     }
     
     init(options: PlatformDrawableOptions) {
-        assertUnimplemented()
+        self._state = AtomicBox(wrappedValue: RBDrawingView.State())
+        self.options = options
+        super.init(frame: .zero)
+        self.updateOptions()
     }
     
     override func draw(inDisplayList displayList: RBDisplayList) {
@@ -41,8 +44,8 @@ final class RBDrawingView: RenderBoxView {
 
 extension RBDrawingView {
     fileprivate struct State {
-        private var content: PlatformDrawableContent
-        private var renderer: PlatformDrawableContent.State
+        private var content = PlatformDrawableContent()
+        private var renderer = PlatformDrawableContent.State()
     }
 }
 

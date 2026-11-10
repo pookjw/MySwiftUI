@@ -21,21 +21,20 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
 
     override class func makeDrawingView(options: PlatformDrawableOptions) -> any PlatformDrawable {
         // options -> x0 -> x20
+        let drawingView: (UIView & PlatformDrawable)
         if options.isAccelerated && RBDevice.isSupported {
-            let drawingView = RBDrawingView(options: options)
-            drawingView.contentMode = .topLeft
-            UIViewPlatformViewDefinition.initView(drawingView, kind: .drawing)
-            
-            return drawingView
+            drawingView = RBDrawingView(options: options)
         } else {
-            let drawingView = CGDrawingView(options: options)
-            drawingView.isOpaque = drawingView.options.isOpaque
-            drawingView.layer.contentsFormat = drawingView.options.caLayerContentsFormat
-            drawingView.contentMode = .topLeft
-            
-            UIViewPlatformViewDefinition.initView(drawingView, kind: .drawing)
-            return drawingView
+            let _drawingView = CGDrawingView(options: options)
+            _drawingView.isOpaque = _drawingView.options.isOpaque
+            _drawingView.layer.contentsFormat = _drawingView.options.caLayerContentsFormat
+            drawingView = _drawingView
         }
+        
+        drawingView.contentMode = .topLeft
+        UIViewPlatformViewDefinition.initView(drawingView, kind: .drawing)
+        
+        return drawingView
     }
 
     override class func setPath(_ path: Path, shapeView: AnyObject) {

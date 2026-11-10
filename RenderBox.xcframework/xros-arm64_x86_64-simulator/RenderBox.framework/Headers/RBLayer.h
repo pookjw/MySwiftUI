@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RBLayer : CALayer
-// TODO
+@property (nonatomic) BOOL needsSynchronousUpdate;
 @end
 
 NS_ASSUME_NONNULL_END

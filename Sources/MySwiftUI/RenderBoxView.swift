@@ -1,3 +1,4 @@
+// 0CB954C9DC99A8A907C58D7882F9389E
 internal import UIKit
 internal import RenderBox
 
@@ -5,7 +6,7 @@ class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     private var rendersFirstFrameAsynchronously: Bool // final인지 검증
     
     override class var layerClass: AnyClass {
-        assertUnimplemented()
+        return RenderBoxLayer.self
     }
     
     required init?(coder: NSCoder) {
@@ -18,15 +19,20 @@ class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     
     override var isOpaque: Bool {
         get {
-            assertUnimplemented()
+            return super.isOpaque
         }
         set {
-            assertUnimplemented()
+            self.layer.isOpaque = newValue
+            super.isOpaque = newValue
         }
     }
     
     override init(frame: CGRect) {
-        assertUnimplemented()
+        self.rendersFirstFrameAsynchronously = false
+        super.init(frame: frame)
+        let layer = self.layer
+        layer.delegate = self
+        layer.isOpaque = self.isOpaque
     }
     
     override func didMoveToWindow() {
@@ -42,6 +48,29 @@ class RenderBoxView: _UIGraphicsView, RBLayerDelegate {
     }
     
     override func setNeedsDisplay() {
-        assertUnimplemented()
+        self.layer.setNeedsDisplay()
     }
 }
+
+fileprivate final class RenderBoxLayer: RBLayer {
+    override var needsSynchronousUpdate: Bool {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        assertUnimplemented()
+    }
+    
+    override init(layer: Any) {
+        assertUnimplemented()
+    }
+} 
