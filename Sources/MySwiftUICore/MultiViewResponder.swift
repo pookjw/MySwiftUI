@@ -5,10 +5,201 @@ public import Spatial
     
     open override var children: [ViewResponder] {
         get {
-            return _children
+            return self._children
         }
         set {
-            assertUnimplemented()
+            /*
+             self -> x20 -> x19
+             newValue -> x0 -> x20
+             */
+            var x21 = self._children.count
+            let x26 = newValue.count
+            var x22 = 0
+            
+            if x26 != 0 {
+                var x25 = 0
+                let sp0x20 = x26
+                var sp0x38 = -x21
+                var sp0x14 = false
+                var sp0x28: Int
+                
+                first: while true {
+                    sp0x28 = (x26 &+ x22) &- x25
+                    let x27 = newValue[x25]
+                    assert(x25 != Int.max)
+                    x25 &+= 1
+                    
+                    if
+                        let parent = x27.parent,
+                        parent === self
+                    {
+                        assert(!(x21 < x22))
+                        
+                        if x22 == x21 {
+                            // <+508>
+                        } else {
+                            var x26 = 0
+                            let x23 = sp0x38 &+ x22
+                            
+                            while true {
+                                let x20 = x22 &+ x26
+                                assert(!(x20 >= x21))
+                                
+                                if self._children[x20] === x27 {
+                                    // <+472>
+                                    if x26 != 0 {
+                                        // <+888>
+                                        self._children.swapAt(x22, x22 &+ x26)
+                                        x22 &+= 1
+                                        
+                                        if x25 != sp0x20 {
+                                            // <+140>
+                                            sp0x14 = true
+                                            continue first
+                                        } else {
+                                            // <+1072>
+                                            if x22 < x21 {
+                                                // <+1116>
+                                                assert(!(x21 < x22))
+                                                // <+1124>
+                                                break first
+                                            } else {
+                                                // <+1320>
+                                                self.childrenDidChange()
+                                                return
+                                            }
+                                        }
+                                    } else {
+                                        // <+476>
+                                        x22 &+= 1
+                                        
+                                        if x22 != sp0x28 {
+                                            // <+176>
+                                            continue first
+                                        } else {
+                                            // <+1092>
+                                            x22 = sp0x28
+                                            
+                                            if sp0x28 >= x21 {
+                                                // <+1148>
+                                                if sp0x14 {
+                                                    // <+1320>
+                                                    self.childrenDidChange()
+                                                    // <+1336>
+                                                } else {
+                                                    // <+1336>
+                                                }
+                                                
+                                                return
+                                            } else {
+                                                // <+1116>
+                                                assert(!(x21 < x22))
+                                                break first
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    x26 &+= 1
+                                    
+                                    if x23 != -x26 {
+                                        // <+332>
+                                        continue
+                                    } else {
+                                        // <+512>
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // <+512>
+                    } else {
+                        // <+512>
+                    }
+                    
+                    // <+512>
+                    x27.parent = self
+                    self._children.append(x27)
+                    
+                    if x22 >= x21 {
+                        // <+844>
+                    } else {
+                        // <+628>
+                        let x28 = self._children[x22]
+                        let x26 = self._children[x21]
+                        
+                        self._children[x22] = x26
+                        self._children[x21] = x28
+                        
+                        // <+844>
+                    }
+                    
+                    // <+844>
+                    x21 &+= 1
+                    x22 &+= 1
+                    sp0x38 &-= 1
+                    
+                    if x25 != x26 {
+                        sp0x14 = true
+                        continue first
+                    } else {
+                        // <+1072>
+                        if x22 < x21 {
+                            // <+1116>
+                            assert(!(x21 < x22))
+                            break first
+                        } else {
+                            // <+1320>
+                            self.childrenDidChange()
+                            return
+                        }
+                    }
+                }
+            } else {
+                // <+1248>
+                if x21 <= 0 {
+                    return
+                }
+                
+                x22 = 0
+            }
+            
+            if x22 == x21 {
+                // <+1276>
+            } else {
+                assert(!(x22 >= x21))
+                var x23 = x22
+                
+                while true {
+                    // <+1412>
+                    let x24 = self._children[x23]
+                    
+                    if
+                        let parent = x24.parent,
+                        parent === self
+                    {
+                        // <+1536>
+                        x24.parent = nil
+                        // <+1392>
+                    } else {
+                        // <+1392>
+                    }
+                    
+                    // <+1392>
+                    x23 &+= 1
+                    
+                    if x21 == x23 {
+                        // <+1276>
+                        break
+                    } else {
+                        // <+1412>
+                    }
+                }
+            }
+            
+            // <+1276>
+            self._children.replaceSubrange(x22..<x21, with: [])
+            self.childrenDidChange()
         }
     }
     

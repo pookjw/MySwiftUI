@@ -12,11 +12,19 @@ private import os.log
         return next
     }
     
-    package private(set) weak var host: (any ViewGraphDelegate)?
+    package private(set) final weak var host: (any ViewGraphDelegate)?
     package final var serverResponderID: UInt32?
-    package private(set) weak var parent: ViewResponder? {
+    package internal(set) final weak var parent: ViewResponder? {
         willSet {
-            assertUnimplemented()
+            if
+                self.parent != nil,
+                newValue == nil,
+                let host = self.host,
+                let eventGraphHost = host.as(EventGraphHost.self)
+            {
+                eventGraphHost.eventBindingManager.willRemoveResponder(self)
+                self.resetGesture()
+            }
         }
     }
     
