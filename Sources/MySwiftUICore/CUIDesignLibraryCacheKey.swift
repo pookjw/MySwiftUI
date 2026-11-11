@@ -129,8 +129,10 @@ extension CUIDesignLibraryCacheKey {
             
             if environment.backgroundMaterial == nil {
                 styling = .unknown0
+            } else if environment[AllowsVibrantBlendingKey.self] == false {
+                styling = .unknown2
             } else {
-                styling = environment.allowsVibrantBlending ? .unknown1 : .unknown2
+                styling = .unknown1
             }
             
             return CUIDesignLibraryCacheKey.Props(

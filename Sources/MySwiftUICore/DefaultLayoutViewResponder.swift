@@ -39,7 +39,13 @@ package import AttributeGraph
     }
     
     open override func childrenDidChange() {
-        assertUnimplemented()
+        if let invalidateChildren {
+            invalidateChildren()
+        }
+        
+        let currentObservers = self.observers
+        self.observers = ContentPathObservers()
+        currentObservers.respondersDidChange(for: self)
     }
     
     open override func extendPrintTree(string: inout String) {

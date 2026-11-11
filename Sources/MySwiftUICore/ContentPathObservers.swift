@@ -5,7 +5,6 @@ private import AttributeGraph
 struct ContentPathObservers {
     fileprivate var observers: [Observer]
     
-    @inlinable
     init() {
         observers = []
     }
@@ -18,6 +17,15 @@ struct ContentPathObservers {
         }
         
         observers.append(ContentPathObservers.Observer(value: observer))
+    }
+    
+    @inline(always) // 원래 없음
+    func respondersDidChange(for responder: ViewResponder) {
+        for observer in self.observers {
+            if let value = observer.value {
+                value.respondersDidChange(for: responder)
+            }
+        }
     }
 }
 
