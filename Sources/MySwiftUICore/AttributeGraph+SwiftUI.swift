@@ -68,7 +68,7 @@ extension Attribute {
         return self.unsafeOffset(at: 0, as: type)
     }
     
-    func syncMainIfReferences<U>(do transform: (T) -> U) -> U {
+    package func syncMainIfReferences<U>(do transform: (T) -> U) -> U {
         // <+204>
         let (value, flags) = self.valueAndFlags(options: [.unknown1])
         

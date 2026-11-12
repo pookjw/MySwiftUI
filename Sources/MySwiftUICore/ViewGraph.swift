@@ -61,7 +61,7 @@ private import Spatial
     }
     private var disabledOutputs = ViewGraph.Outputs(rawValue: 0) // 0x16a
     private(set) var mainUpdates: Int = 0 // 0x170
-    var nextUpdate = (views: NextUpdate(), gestures: NextUpdate()) // 0x178
+    package var nextUpdate = (views: ViewGraph.NextUpdate(), gestures: ViewGraph.NextUpdate()) // 0x178
     private(set) weak var _preferenceBridge: PreferenceBridge? = nil // 0x1b8
     private(set) var bridgedPreferences: [(any PreferenceKey.Type, AnyAttribute)] = [] // 0x1c0
     
@@ -1325,6 +1325,10 @@ extension ViewGraph {
             if let reason {
                 self.reasons.insert(reason)
             }
+        }
+        
+        package func at(_: Time) {
+            assertUnimplemented()
         }
     }
 }

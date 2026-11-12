@@ -14,8 +14,12 @@ extension TimelineSchedule where Self == AnimationTimelineSchedule {
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 public struct AnimationTimelineSchedule : TimelineSchedule, Sendable {
+    private var minimumInterval: Double
+    private var paused: Bool
+    
     public init(minimumInterval: Double? = nil, paused: Bool = false) {
-        assertUnimplemented()
+        self.minimumInterval = minimumInterval ?? (1.0 / 120.0)
+        self.paused = paused
     }
 
     public func entries(from start: Date, mode: TimelineScheduleMode) -> AnimationTimelineSchedule.Entries {

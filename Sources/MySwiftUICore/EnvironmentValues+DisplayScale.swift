@@ -142,18 +142,18 @@ fileprivate struct FontKey : EnvironmentKey {
 extension EnvironmentValues {
     package var defaultFont: Font? {
         get {
-            return self[DefualtFontKey.self]
+            return self[DefaultFontKey.self]
         }
         set {
-            self[DefualtFontKey.self] = newValue
+            self[DefaultFontKey.self] = newValue
         }
         _modify {
-            yield &self[DefualtFontKey.self]
+            yield &self[DefaultFontKey.self]
         }
     }
 }
 
-fileprivate struct DefualtFontKey : EnvironmentKey {
+fileprivate struct DefaultFontKey : EnvironmentKey {
     static var defaultValue: Font? {
         return nil
     }
