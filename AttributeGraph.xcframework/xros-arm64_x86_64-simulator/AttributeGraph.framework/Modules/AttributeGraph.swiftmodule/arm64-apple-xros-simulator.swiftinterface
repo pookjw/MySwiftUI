@@ -118,10 +118,6 @@ public struct Attribute<T> : Swift.Hashable, Swift.CustomStringConvertible, Swif
 
   public func applying<A>(offset: AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A>
 
-  public subscript<A>(offset: (inout T) -> AttributeGraph.PointerOffset<T, A>) -> AttributeGraph.Attribute<A> {
-    get
-  }
-
   public func unsafeOffset<U>(at: Swift.Int, as: U.Type) -> AttributeGraph.Attribute<U>
 
   public func addInput<T>(_: AttributeGraph.Attribute<T>, options: AttributeGraph.AGInputOptions, token: Swift.Int)

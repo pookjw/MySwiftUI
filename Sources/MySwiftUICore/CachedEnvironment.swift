@@ -171,6 +171,7 @@ extension CachedEnvironment {
     package struct ID : Equatable {
         static let layoutDirection = CachedEnvironment.ID()
         static let pixelLength = CachedEnvironment.ID()
+        static let materialBackdropProxy = CachedEnvironment.ID()
         
         var base: UniqueID
         

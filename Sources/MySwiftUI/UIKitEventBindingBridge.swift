@@ -8,6 +8,10 @@ final class UIKitEventBindingBridge : EventBindingBridge {
     private(set) var hoverGestureRecognizer: UIKitHoverGestureRecognizer
     private(set) var keyPressResponder: UIKitKeyPressResponder? = nil
     
+    override var eventSources: [any EventBindingSource] {
+        assertUnimplemented()
+    }
+    
     @MainActor
     override init(eventBindingManager: EventBindingManager) {
         if !GestureContainerFeature.isEnabled {

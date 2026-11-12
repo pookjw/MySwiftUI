@@ -19,6 +19,7 @@ extension EnvironmentValues {
 }
 
 #else
+internal import AttributeGraph
 private import Synchronization
 
 package struct MaterialBackdropProxy : Equatable {
@@ -109,6 +110,11 @@ package protocol MaterialBackdropObserver : AnyObject {
     func luminanceDidChange(_ luminance: Float?)
 }
 
+extension MaterialBackdropObserver {
+    func luminanceDidChange(_ luminance: Float?) {
+    }
+}
+
 fileprivate struct MaterialBackdropProxyKey : EnvironmentKey {
     static var defaultValue: MaterialBackdropProxy? {
         return nil
@@ -123,6 +129,12 @@ extension EnvironmentValues {
         set {
             self[MaterialBackdropProxyKey.self] = newValue
         }
+    }
+}
+
+extension _GraphInputs {
+    var materialBackdropProxy: Attribute<MaterialBackdropProxy?> {
+        assertUnimplemented()
     }
 }
 #endif

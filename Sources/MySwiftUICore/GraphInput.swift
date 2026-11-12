@@ -17,7 +17,7 @@ extension GraphInput {
     }
     
     package static func makeReusable(indirectMap: IndirectAttributeMap, value: inout Self.Value) {
-        assertUnimplemented()
+        fatalError("Reusable graph inputs must implement all reuse methods.")
     }
     
     package static func tryToReuse(_ value: Self.Value, by: Self.Value, indirectMap: IndirectAttributeMap, testOnly: Bool) -> Bool {

@@ -43,16 +43,13 @@ extension EnvironmentValues {
                     // <+212>
                     return
                 }
+                
+                self.plist = PropertyList()
             }
         }
         
         // <+152>
         if self.plist.isEmpty {
-            // <+176>
-            self._configureForPlatform(traitCollection: traitCollection)
-            return
-        } else {
-            // <+172>
             if let traitCollection {
                 // <+176>
                 self._configureForPlatform(traitCollection: traitCollection)
@@ -62,6 +59,10 @@ extension EnvironmentValues {
                 self.plist = other.plist
                 return
             }
+        } else {
+            // <+172>
+            self._configureForPlatform(traitCollection: traitCollection)
+            return
         }
     }
     
@@ -191,7 +192,7 @@ extension OpenURLAction {
                 
                 workspace.open(input.url, configuration: configuration) { _, error in
                     if let error {
-                        Log.internalWarning("Failed to open sensitive URL \(input.url). \(error)")
+                        Log.internalWarning("Failed to open sensitive URL \(input.url). Error: \(error)")
                     }
                     
                     input.completion(error == nil)

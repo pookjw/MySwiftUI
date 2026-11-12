@@ -122,5 +122,9 @@ extension PlatformDrawableContent {
             self._renderer = nil
             self.mode = platformViewMode
         }
+        
+        mutating func renderer() -> DisplayList.GraphicsRenderer {
+            assertUnimplemented()
+        }
     }
 }
