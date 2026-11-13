@@ -38,6 +38,14 @@ extension Text.Case : Hashable, CodableByProxy, Serializable {
     package static func deserialize(from decoder: Decoder) throws -> Text.Case {
         assertUnimplemented()
     }
+    
+    var codingProxy: CodableTextCase {
+        assertUnimplemented()
+    }
+    
+    static func unwrap(codingProxy: CodableTextCase) -> Text.Case {
+        assertUnimplemented()
+    }
 }
 
 extension Text.TruncationMode : ProtobufEnum {
@@ -60,5 +68,26 @@ extension View {
 fileprivate struct TextCaseKey : EnvironmentKey {
     static var defaultValue: Text.Case? {
         return nil
+    }
+}
+
+enum CodableTextCase : Codable, Hashable {
+    case uppercase
+    case lowercase
+    
+    init(_ textCase: Text.Case) {
+        assertUnimplemented()
+    }
+    
+    var textCase: Text.Case {
+        assertUnimplemented()
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    init(from decoder: any Decoder) throws {
+        assertUnimplemented()
     }
 }

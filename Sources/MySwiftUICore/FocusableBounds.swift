@@ -1,8 +1,8 @@
 package import CoreGraphics
 
 package struct FocusableBounds {
-    private var bounds: CGRect
-    private var isLazyContainer: Bool
+    package var bounds: CGRect
+    package var isLazyContainer: Bool
     
     package init(bounds: CGRect, isLazyContainer: Bool) {
         self.bounds = bounds

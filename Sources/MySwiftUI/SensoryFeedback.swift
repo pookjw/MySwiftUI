@@ -1,5 +1,7 @@
+// E5C2FE5C277CCA85C518490456542950
 internal import MRUIKit
 public import MySwiftUICore
+private import AttributeGraph
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 extension View {
@@ -12,7 +14,14 @@ extension View {
     }
 
     nonisolated public func sensoryFeedback<T>(trigger: T, _ feedback: @escaping (_ oldValue: T, _ newValue: T) -> SensoryFeedback?) -> some View where T: Equatable {
-        assertUnimplemented()
+        let context = FeedbackRequestContext(location: WeakAttribute(), cache: nil)
+        let generator = CustomFeedbackGenerator(
+            feedbackRequestContext: context,
+            trigger: trigger,
+            feedback: feedback
+        )
+        
+        return self.platformSensoryFeedback(generator)
     }
 
     @_alwaysEmitIntoClient nonisolated public func sensoryFeedback<T>(trigger: T, _ feedback: @escaping () -> SensoryFeedback?) -> some View where T: Equatable {
@@ -200,4 +209,36 @@ extension SensoryFeedback {
         static let setToOn = SensoryFeedback.ToggleInteractionState(storage: .toggleSetToOn)
         static let setToOff = SensoryFeedback.ToggleInteractionState(storage: .toggleSetToOff)
     }
+}
+
+fileprivate struct CustomFeedbackGenerator<T : Equatable> : SensoryFeedbackGeneratorModifier {
+    @safe nonisolated(unsafe) var feedbackRequestContext: FeedbackRequestContext // 0x0
+    @safe private nonisolated(unsafe) var trigger: T // 0x24 (offset field)
+    @safe private nonisolated(unsafe) var feedback: (T, T) -> SensoryFeedback? // 0x28 (offset field)
+    @State private var state: (feedback: SensoryFeedback, implementation: (any PlatformSensoryFeedback)?)?
+    
+    nonisolated init(
+        feedbackRequestContext: FeedbackRequestContext,
+        trigger: T,
+        feedback: @escaping (T, T) -> SensoryFeedback?
+    ) {
+        self.feedbackRequestContext = feedbackRequestContext
+        self.trigger = trigger
+        self.feedback = feedback
+        self.state = nil
+    }
+    
+    func body(content: Content) -> some View {
+        assertUnimplemented()
+    }
+}
+
+protocol PlatformSensoryFeedback {
+    func setUp()
+    func tearDown()
+    func generate()
+}
+
+protocol SensoryFeedbackGeneratorModifier : ViewModifier {
+    var feedbackRequestContext: FeedbackRequestContext { get set }
 }

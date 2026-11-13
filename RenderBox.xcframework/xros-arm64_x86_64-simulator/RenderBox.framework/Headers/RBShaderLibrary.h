@@ -3,7 +3,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RBShaderLibrary : NSObject
-// TODO
++ (RBShaderLibrary *)defaultLibrary;
++ (RBShaderLibrary *)defaultLibraryWithBundle:(NSBundle *)bundle;
 @end
 
 NS_ASSUME_NONNULL_END

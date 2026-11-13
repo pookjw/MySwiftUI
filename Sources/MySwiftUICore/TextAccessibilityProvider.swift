@@ -3,6 +3,20 @@ package protocol TextAccessibilityProvider : View {
     
 }
 
+extension _ViewInputs {
+    package var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
+        get {
+            return base.textAccessibilityProvider
+        }
+        set {
+            base.textAccessibilityProvider = newValue
+        }
+        _modify {
+            yield &base.textAccessibilityProvider
+        }
+    }
+}
+
 extension _GraphInputs {
     var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
         get {

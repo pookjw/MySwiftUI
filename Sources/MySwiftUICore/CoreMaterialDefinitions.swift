@@ -73,6 +73,14 @@ extension ContentStyle {
         static func deserialize(from decoder: any Decoder) throws -> ContentStyle.ID {
             assertUnimplemented()
         }
+        
+        var codingProxy: RawRepresentableProxy<ContentStyle.ID> {
+            assertUnimplemented()
+        }
+        
+        static func unwrap(codingProxy: RawRepresentableProxy<ContentStyle.ID>) -> ContentStyle.ID {
+            assertUnimplemented()
+        }
     }
     
     enum Primitive : Hashable {

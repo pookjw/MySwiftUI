@@ -661,6 +661,14 @@ extension Font {
         static func deserialize(from decoder: any Decoder) throws -> Font.TextStyleProvider {
             assertUnimplemented()
         }
+        
+        var codingProxy: Font.StyleDefinition {
+            assertUnimplemented()
+        }
+        
+        static func unwrap(codingProxy: Font.StyleDefinition) -> Font.TextStyleProvider {
+            assertUnimplemented()
+        }
     }
     
     struct PrivateTextStyleProvider {
@@ -699,6 +707,14 @@ extension Font {
         }
         
         func removing<T : StaticFontModifier>(modifier: T.Type) -> any FontProvider {
+            assertUnimplemented()
+        }
+        
+        var codingProxy: CodablePlatformFont {
+            assertUnimplemented()
+        }
+        
+        static func unwrap(codingProxy: CodablePlatformFont) -> Font.PlatformFontProvider {
             assertUnimplemented()
         }
     }

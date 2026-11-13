@@ -1,19 +1,19 @@
 // 2BFAEFF753052DBF4DEF07051FF899A7
 public import CoreGraphics
 public import Foundation
-public import AttributeGraph
 internal import RenderBox
+private import AttributeGraph
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
 @dynamicMemberLookup public struct ShaderLibrary : Equatable, @unchecked Sendable {
-    public static let `default`: ShaderLibrary = {
-        assertUnimplemented()
-    }()
+    public static let `default` = ShaderLibrary(rbShaderLibrary: RBShaderLibrary.default())
     
     public static func bundle(_ bundle: Bundle) -> ShaderLibrary {
-        assertUnimplemented()
+        return ShaderLibrary(rbShaderLibrary: RBShaderLibrary.defaultLibrary(with: bundle))
     }
+    
+    private var rbLibrary: RBShaderLibrary
     
     public init(data: Data) {
         assertUnimplemented()
@@ -28,7 +28,7 @@ internal import RenderBox
     }
     
     public subscript(dynamicMember name: String) -> ShaderFunction {
-        assertUnimplemented()
+        return ShaderFunction(library: self, name: name)
     }
     
     public static func == (lhs: ShaderLibrary, rhs: ShaderLibrary) -> Bool {
@@ -42,7 +42,7 @@ extension ShaderLibrary {
     }
     
     init(rbShaderLibrary: RBShaderLibrary) {
-        assertUnimplemented()
+        self.rbLibrary = rbShaderLibrary
     }
     
     var rbShaderLibrary: RBShaderLibrary? {
@@ -62,7 +62,7 @@ extension ShaderLibrary {
     }
     
     public func dynamicallyCall(withArguments args: [Shader.Argument]) -> Shader {
-        assertUnimplemented()
+        return Shader(function: self, arguments: args)
     }
     
     public static func == (a: ShaderFunction, b: ShaderFunction) -> Bool {
@@ -78,22 +78,22 @@ public struct Shader : Equatable, Sendable {
         
         @usableFromInline
         internal static func _float(_ x: Float) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .float(x))
         }
         
         @usableFromInline
         internal static func _float2(_ x: Float, _ y: Float) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .float2(x, y))
         }
         
         @usableFromInline
         internal static func _float3(_ x: Float, _ y: Float, _ z: Float) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .float3(x, y, z))
         }
         
         @usableFromInline
         internal static func _float4(_ x: Float, _ y: Float, _ z: Float, _ w: Float) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .float4(x, y, z, w))
         }
         
         @_alwaysEmitIntoClient
@@ -132,35 +132,45 @@ public struct Shader : Equatable, Sendable {
         }
         
         public static func floatArray(_ array: [Float]) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .floatArray(array))
         }
         
         public static var boundingRect: Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .boundsRect)
         }
         
         public static func color(_ color: Color) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .color(color))
         }
         
         public static func colorArray(_ array: [Color]) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .colorArray(array))
         }
         
         public static func image(_ image: Image) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .image(image))
         }
         
         public static func data(_ data: Data) -> Shader.Argument {
-            assertUnimplemented()
+            return Shader.Argument(storage: .data(data))
         }
         
         public static func == (a: Shader.Argument, b: Shader.Argument) -> Bool {
             assertUnimplemented()
         }
         
-        private enum Storage {
-            // TODO
+        enum Storage {
+            case float(Float)
+            case float2(Float, Float)
+            case float3(Float, Float, Float)
+            case float4(Float, Float, Float, Float)
+            case floatArray([Float])
+            case color(Color)
+            case colorArray([Color])
+            case resolvedColor(Color.ResolvedHDR)
+            case image(Image)
+            case data(Data)
+            case boundsRect
         }
     }
     
@@ -196,7 +206,9 @@ public struct Shader : Equatable, Sendable {
     }
     
     public init(function: ShaderFunction, arguments: [Shader.Argument]) {
-        assertUnimplemented()
+        self.options = []
+        self.function = function
+        self.arguments = arguments
     }
     
     func rbShader(in environment: EnvironmentValues) -> RBShader? {
@@ -354,6 +366,8 @@ public struct _ShaderFilterEffect : ViewModifier, VisualEffect, Sendable {
     public typealias AnimatableData = EmptyAnimatableData
 }
 
+extension _ShaderFilterEffect : MultiViewModifier, PrimitiveViewModifier {}
+
 extension _ShaderFilterEffect {
     fileprivate struct ResolvedEffect : AsyncAttribute, StatefulRule {
         typealias Value = Shader.ResolvedShader?
@@ -368,15 +382,20 @@ extension _ShaderFilterEffect {
 @available(watchOS, unavailable)
 extension View {
     nonisolated public func colorEffect(_ shader: Shader, isEnabled: Bool = true) -> some View {
-        assertUnimplemented()
+        var shader = shader
+        shader.options.formUnion(.colorFilter)
+        return self.layerEffect(shader, maxSampleOffset: .zero, isEnabled: isEnabled)
     }
     
     nonisolated public func distortionEffect(_ shader: Shader, maxSampleOffset: CGSize, isEnabled: Bool = true) -> some View {
-        assertUnimplemented()
+        var shader = shader
+        shader.options.formUnion(.distortionFilter)
+        return self.layerEffect(shader, maxSampleOffset: maxSampleOffset, isEnabled: isEnabled)
     }
     
     nonisolated public func layerEffect(_ shader: Shader, maxSampleOffset: CGSize, isEnabled: Bool = true) -> some View {
-        assertUnimplemented()
+        let modifier = _ShaderFilterEffect(shader: shader, maxSampleOffset: maxSampleOffset, enabled: isEnabled)
+        return self.modifier(modifier)
     }
 }
 

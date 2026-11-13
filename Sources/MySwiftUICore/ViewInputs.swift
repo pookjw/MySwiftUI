@@ -82,7 +82,12 @@ public struct _ViewInputs {
     }
     
     package var viewPhase: Attribute<_GraphInputs.Phase> {
-        return base.phase
+        get {
+            return base.phase
+        }
+        set {
+            base.phase = newValue
+        }
     }
     
     package subscript<T : ViewInput>(_ type: T.Type) -> T.Value {
@@ -267,18 +272,6 @@ extension _ViewInputs {
     package var layoutDirection: Attribute<LayoutDirection> {
         return base.cachedEnvironment.value.attribute(id: .layoutDirection) { environmentValues in
             return environmentValues.layoutDirection
-        }
-    }
-    
-    package var textAccessibilityProvider: (any TextAccessibilityProvider.Type) {
-        get {
-            return base.textAccessibilityProvider
-        }
-        set {
-            base.textAccessibilityProvider = newValue
-        }
-        _modify {
-            yield &base.textAccessibilityProvider
         }
     }
     

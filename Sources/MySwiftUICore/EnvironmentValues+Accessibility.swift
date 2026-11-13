@@ -1,10 +1,19 @@
 // 1E80A5D8CD82563C298D64AC1337E839
 
 extension EnvironmentValues {
-    public var accessibilityReduceMotion: Bool {
-        assertUnimplemented()
+    public internal(set) var accessibilityReduceMotion: Bool {
+        get {
+            if let value = self[AccessibilityReduceMotionKey.self] {
+                return value
+            }
+            
+            return accessibilitySettingEnabled(.reduceMotion)
+        }
+        set {
+            self[AccessibilityReduceMotionKey.self] = newValue
+        }
     }
-
+    
     public private(set) var accessibilityInvertColors: Bool {
         get {
             if let value = self[AccessibilityInvertColorsKey.self] {
@@ -49,5 +58,11 @@ fileprivate struct AccessibilityInvertColorsKey : EnvironmentKey {
 fileprivate struct AccessibilityEnabledKey : EnvironmentKey {
     static var defaultValue: Bool {
         return false
+    }
+}
+
+fileprivate struct AccessibilityReduceMotionKey : EnvironmentKey {
+    static var defaultValue: Bool? {
+        return nil
     }
 }
