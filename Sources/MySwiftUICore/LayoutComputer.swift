@@ -355,7 +355,7 @@ fileprivate class AnyLayoutEngineBox {
     }
     
     func requiresSpacingProjection() -> Bool {
-        fatalError()
+        fatalError("abstract")
     }
     
     func spacing() -> Spacing {

@@ -1327,8 +1327,11 @@ extension ViewGraph {
             }
         }
         
-        package func at(_: Time) {
-            assertUnimplemented()
+        package mutating func at(_ time: Time) {
+            if !(time < self.time) {
+            } else {
+                self.time = time
+            }
         }
     }
 }
