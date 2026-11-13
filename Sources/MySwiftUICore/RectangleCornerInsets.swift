@@ -21,11 +21,17 @@ public import CoreGraphics
     }
     
     public static func == (a: RectangleCornerInsets, b: RectangleCornerInsets) -> Bool {
-        assertUnimplemented()
+        a.topLeading == b.topLeading &&
+        a.topTrailing == b.topTrailing &&
+        a.bottomLeading == b.bottomLeading &&
+        a.bottomTrailing == b.bottomTrailing
     }
     
     public func hash(into hasher: inout Hasher) {
-        assertUnimplemented()
+        hasher.combine(self.topLeading)
+        hasher.combine(self.topTrailing)
+        hasher.combine(self.bottomLeading)
+        hasher.combine(self.bottomTrailing)
     }
 }
 

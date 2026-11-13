@@ -447,6 +447,10 @@ extension CVarArg {
 
 extension String {
     fileprivate func kdebugValue(_ debugid: UInt32) -> (arg: UInt64, destroy: Bool) {
+        if self == Signpost.moduleName {
+            return (0, false)
+        }
+        
         return unsafe withCString { pointer in
             return unsafe (kdebug_trace_string(debugid & 0xffff0000, 0, pointer), true)
         }

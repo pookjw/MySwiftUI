@@ -272,7 +272,7 @@ extension CoreViewRepresentable where Coordinator == Void {
         return CoreViewRepresentableLayoutOptions(rawValue: 1 << 1)
     }
     
-    static var propagatesSafeArea: CoreViewRepresentableLayoutOptions {
+    package static var propagatesSafeArea: CoreViewRepresentableLayoutOptions {
         return CoreViewRepresentableLayoutOptions(rawValue: 1 << 2)
     }
     

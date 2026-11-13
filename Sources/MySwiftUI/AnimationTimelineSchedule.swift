@@ -27,6 +27,9 @@ public struct AnimationTimelineSchedule : TimelineSchedule, Sendable {
     }
 
     public struct Entries : Sequence, IteratorProtocol, Sendable {
+        fileprivate private(set) var date: Date
+        fileprivate private(set) var interval: Double?
+        
         public mutating func next() -> Date? {
             assertUnimplemented()
         }

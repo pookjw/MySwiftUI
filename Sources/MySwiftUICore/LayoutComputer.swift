@@ -104,9 +104,8 @@ package struct LayoutComputer : @unchecked Sendable {
     }
     
     func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
-        return Update.ensure {
-            return box.childGeometries(at: viewSize, origin: origin)
-        }
+        Update.assertIsLocked()
+        return box.childGeometries(at: viewSize, origin: origin)
     }
     
     func withMutableEngine<T : LayoutEngine, U>(type: T.Type, do block: (inout T) -> U) -> U {

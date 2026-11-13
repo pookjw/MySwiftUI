@@ -72,7 +72,7 @@ extension AppStorage {
 extension EnvironmentValues {
     public var toolbarLabelStyle: ToolbarLabelStyle? {
         get {
-            assertUnimplemented()
+            self[ToolbarLabelStyleKey.self]
         }
     }
     

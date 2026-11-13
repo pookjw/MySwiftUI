@@ -22,10 +22,10 @@ package enum GraphicsBlendMode {
     }
     
     enum CAFilterType : UInt, Hashable, RawRepresentable {
-        case plusLIgnoreAlpha
-        case subtractSIgnoreAlpha
-        case destOutPassthrough
-        case plusDIgnoreAlpha
+        case plusLIgnoreAlpha = 1
+        case subtractSIgnoreAlpha = 2
+        case destOutPassthrough = 3
+        case plusDIgnoreAlpha = 4
         
         init?(_ filter: CAFilter) {
             assertUnimplemented()

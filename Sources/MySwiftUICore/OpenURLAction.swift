@@ -197,9 +197,17 @@ extension EnvironmentValues {
         }
         set {
             self[EnvironmentValues.DefaultOpenURLActionKey.self] = newValue
+            if newValue != nil {
+                self.hasSystemOpenURLAction = true
+            }
         }
         _modify {
-            yield &self[EnvironmentValues.DefaultOpenURLActionKey.self]
+            var value = self[EnvironmentValues.DefaultOpenURLActionKey.self]
+            yield &value
+            self[EnvironmentValues.DefaultOpenURLActionKey.self] = value
+            if value != nil {
+                self.hasSystemOpenURLAction = true
+            }
         }
     }
     
@@ -298,6 +306,5 @@ fileprivate struct HasSystemOpenURLActionKey : EnvironmentKey {
 extension EnvironmentValues {
     package mutating func setDefaultOpenURL(_ action: OpenURLAction) {
         self._defaultOpenURL = action
-        self.hasSystemOpenURLAction = true
     }
 }

@@ -28,3 +28,24 @@ extension UnsafeMutablePointer {
         }
     }
 }
+
+extension UnsafeBufferPointer {
+    var startAddress: UnsafePointer<Element> {
+        if let baseAddress {
+            return baseAddress
+        } else {
+            return .null
+        }
+    }
+}
+
+extension UnsafeMutableBufferPointer {
+    var startAddress: UnsafeMutablePointer<Element> {
+        if let baseAddress {
+            return baseAddress
+        } else {
+            return .null
+        }
+    }
+}
+

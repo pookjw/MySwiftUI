@@ -10,10 +10,10 @@ extension EnvironmentValues {
             yield &self[PlatterGroundingShadowVisibilityKey.self]
         }
     }
-}
-
-fileprivate struct PlatterGroundingShadowVisibilityKey : EnvironmentKey {
-    static var defaultValue: Visibility {
-        return .automatic
+    
+    fileprivate struct PlatterGroundingShadowVisibilityKey : EnvironmentKey {
+        static var defaultValue: Visibility {
+            return .automatic
+        }
     }
 }

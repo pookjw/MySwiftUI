@@ -1202,13 +1202,13 @@ open class UIHostingController<Content : View>: UIViewController {
         // w21
         let overlays1 = environment[ScenePersistentSystemOverlaysKey.self]
         let overlays2 = self.persistentSystemOverlays
-        if let visibility2 = overlays2.environment, overlays1.visibility == visibility2 {
+        if let visibility2 = overlays2.environment, overlays1 == visibility2 {
             // <+160>
             return
         }
         
         // <+100>
-        self.persistentSystemOverlays.environment = overlays1.visibility
+        self.persistentSystemOverlays.environment = overlays1
         
         if self.persistentSystemOverlays.preferences == nil {
             updateHomeIndicator(animated: false)

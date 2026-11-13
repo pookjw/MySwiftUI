@@ -36,3 +36,10 @@ extension ViewFrame : Animatable {
         }
     }
 }
+
+extension CGRect {
+    init(_ frame: ViewFrame) {
+        self.init(origin: frame.origin, size: frame.size.value)
+    }
+}
+

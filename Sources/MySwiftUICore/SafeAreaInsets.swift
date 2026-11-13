@@ -3,7 +3,7 @@ private import AttributeGraph
 private import CoreGraphics
 private import Spatial
 
-package struct SafeAreaInsets {
+package struct SafeAreaInsets : Equatable {
     var space: CoordinateSpace.ID // 0x0
     var elements: [SafeAreaInsets.Element] // 0x8
     var next: SafeAreaInsets.OptionalValue // 0x10
@@ -1406,13 +1406,13 @@ package struct SafeAreaInsets {
 }
 
 extension SafeAreaInsets {
-    struct Element {
+    struct Element : Equatable {
         var regions: SafeAreaRegions // 0x0
         var insets: EdgeInsets // 0x8
         var cornerInsets: AbsoluteRectangleCornerInsets? // 0x28
     }
     
-    enum OptionalValue {
+    enum OptionalValue : Equatable {
         indirect case insets(SafeAreaInsets) // 0x1
         case empty // 0x0
     }
@@ -1438,7 +1438,7 @@ extension SafeAreaInsets {
     }
 }
 
-struct _SafeAreaInsetsModifier : PrimitiveViewModifier, MultiViewModifier {
+struct _SafeAreaInsetsModifier : PrimitiveViewModifier, MultiViewModifier, Equatable {
     private(set) var elements: [SafeAreaInsets.Element]
     @safe nonisolated(unsafe) private(set) var nextInsets: SafeAreaInsets.OptionalValue?
     

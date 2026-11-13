@@ -692,7 +692,7 @@ extension SpatialLayoutEngine {
     func spacing() -> Spacing3D {
         return Spacing3D(
             spacing2D: Spacing(),
-            depthSpacing: Spacing3D.DepthSpacing(value: nil)
+            depthSpacing: Spacing3D.DepthSpacing(value: 0)
         )
     }
 }

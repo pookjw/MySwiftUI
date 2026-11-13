@@ -1,6 +1,6 @@
 package import CoreGraphics
 
-package struct AbsoluteRectangleCornerInsets {
+package struct AbsoluteRectangleCornerInsets : Hashable {
     package var topLeft: CGSize
     package var topRight: CGSize
     package var bottomLeft: CGSize
