@@ -26,6 +26,26 @@ struct EmptyAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilit
     }
 }
 
-public struct _AllowsHitTestingModifier {
-    // TODO
+@frozen public struct _AllowsHitTestingModifier : ViewModifier, Equatable, Sendable {
+    public var allowsHitTesting: Bool
+
+    @inlinable public init(allowsHitTesting: Bool) {
+        self.allowsHitTesting = allowsHitTesting
+    }
+
+    nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+
+    public static func == (a: Self, b: Self) -> Bool {
+        assertUnimplemented()
+    }
+
+    public typealias Body = Never
+}
+
+extension View {
+    @inlinable nonisolated public func allowsHitTesting(_ enabled: Bool) -> some View {
+        return modifier(_AllowsHitTestingModifier(allowsHitTesting: enabled))
+    }
 }

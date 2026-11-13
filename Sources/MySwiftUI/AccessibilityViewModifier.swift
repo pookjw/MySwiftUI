@@ -607,6 +607,12 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
     }
 }
 
+extension View {
+    nonisolated public func accessibilityHidden(_ hidden: Bool) -> ModifiedContent<Self, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
+}
+
 public struct AccessibilityAttachmentModifier : AccessibilityViewModifier {
     @safe private(set) nonisolated(unsafe) var storage: MutableBox<AccessibilityAttachment>
     let behavior: AccessibilityChildBehavior?

@@ -31,6 +31,12 @@ public import CoreGraphics
 extension _RotationEffect : Sendable {}
 extension _RotationEffect : BitwiseCopyable {}
 
+extension View {
+    @inlinable nonisolated public func rotationEffect(_ angle: Angle, anchor: UnitPoint = .center) -> some View {
+        return modifier(_RotationEffect(angle: angle, anchor: anchor))
+    }
+}
+
 extension _RotationEffect {
     package struct Data {
         private(set) var angle: Angle

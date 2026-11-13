@@ -1,6 +1,10 @@
 // 1E80A5D8CD82563C298D64AC1337E839
 
 extension EnvironmentValues {
+    public var accessibilityReduceMotion: Bool {
+        assertUnimplemented()
+    }
+
     public private(set) var accessibilityInvertColors: Bool {
         get {
             if let value = self[AccessibilityInvertColorsKey.self] {

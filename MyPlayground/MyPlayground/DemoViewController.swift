@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.timelineView
+        let item = DemoViewController.Item.shaderView
         pushToItem(item)
         
 //        Task {
@@ -170,6 +170,7 @@ extension DemoViewController {
         case caLayerView
         case caHostingLayerView
         case uiHostingConfigurationView
+        case shaderView
         
         var title: String {
             switch self {
@@ -341,6 +342,8 @@ extension DemoViewController {
                 return _typeName(CAHostingLayerViewController.self, qualified: false)
             case .uiHostingConfigurationView:
                 return _typeName(UIHostingConfigurationViewController.self, qualified: false)
+            case .shaderView:
+                return _typeName(ShaderViewController.self, qualified: false)
             }
         }
         
@@ -514,6 +517,8 @@ extension DemoViewController {
                 return CAHostingLayerViewController()
             case .uiHostingConfigurationView:
                 return UIHostingConfigurationViewController()
+            case .shaderView:
+                return ShaderViewController()
             }
         }
     }

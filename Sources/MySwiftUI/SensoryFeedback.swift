@@ -1,4 +1,24 @@
 internal import MRUIKit
+public import MySwiftUICore
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
+extension View {
+    nonisolated public func sensoryFeedback<T>(_ feedback: SensoryFeedback, trigger: T) -> some View where T: Equatable {
+        assertUnimplemented()
+    }
+
+    nonisolated public func sensoryFeedback<T>(_ feedback: SensoryFeedback, trigger: T, condition: @escaping (_ oldValue: T, _ newValue: T) -> Bool) -> some View where T: Equatable {
+        assertUnimplemented()
+    }
+
+    nonisolated public func sensoryFeedback<T>(trigger: T, _ feedback: @escaping (_ oldValue: T, _ newValue: T) -> SensoryFeedback?) -> some View where T: Equatable {
+        assertUnimplemented()
+    }
+
+    @_alwaysEmitIntoClient nonisolated public func sensoryFeedback<T>(trigger: T, _ feedback: @escaping () -> SensoryFeedback?) -> some View where T: Equatable {
+        self.sensoryFeedback(trigger: trigger, { _, _ in feedback() })
+    }
+}
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 public struct SensoryFeedback : Equatable, Sendable {

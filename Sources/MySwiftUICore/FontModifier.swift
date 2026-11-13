@@ -1,6 +1,16 @@
 // 25811D44B7BE5E768C1CBA33158F398B
 internal import CoreText
 
+extension View {
+    nonisolated public func fontDesign(_ design: Font.Design?) -> some View {
+        assertUnimplemented()
+    }
+
+    nonisolated public func fontWeight(_ weight: Font.Weight?) -> some View {
+        assertUnimplemented()
+    }
+}
+
 class AnyFontModifier : Hashable, @unchecked Sendable {
     static func == (lhs: AnyFontModifier, rhs: AnyFontModifier) -> Bool {
         return lhs.isEqual(to: rhs)
