@@ -30,3 +30,63 @@ fileprivate struct UpdateEnvironment<T : EnvironmentModifier> : AsyncAttribute, 
         return environment
     }
 }
+
+@frozen public struct _EnvironmentKeyTransformModifier<Value> : ViewModifier, _GraphInputsModifier, PrimitiveViewModifier {
+    @safe public nonisolated(unsafe) var keyPath: WritableKeyPath<EnvironmentValues, Value>
+    @safe public nonisolated(unsafe) var transform: (inout Value) -> Void
+    
+    @inlinable public nonisolated init(keyPath: WritableKeyPath<EnvironmentValues, Value>, transform: @escaping (inout Value) -> Void) {
+        self.keyPath = keyPath
+        self.transform = transform
+    }
+    
+    public static func _makeInputs(modifier: _GraphValue<_EnvironmentKeyTransformModifier<Value>>, inputs: inout _GraphInputs) {
+        let environment = Attribute(
+            ChildEnvironment(
+                modifier: modifier.value,
+                environment: inputs.environment,
+                oldValue: nil,
+                oldKeyPath: nil
+            )
+        )
+        
+        inputs.environment = environment
+    }
+    
+    public typealias Body = Never
+}
+
+@available(*, unavailable)
+extension _EnvironmentKeyTransformModifier : Sendable {
+}
+
+extension View {
+    @inlinable nonisolated public func transformEnvironment<V>(_ keyPath: WritableKeyPath<EnvironmentValues, V>, transform: @escaping (inout V) -> Void) -> some View {
+        return modifier(_EnvironmentKeyTransformModifier(
+            keyPath: keyPath, transform: transform))
+    }
+}
+
+fileprivate struct ChildEnvironment<Value> : CustomStringConvertible, AsyncAttribute, StatefulRule {
+    @Attribute private var modifier: _EnvironmentKeyTransformModifier<Value>
+    @Attribute private var environment: EnvironmentValues
+    private var oldValue: Value?
+    private var oldKeyPath: WritableKeyPath<EnvironmentValues, Value>?
+    
+    init(modifier: Attribute<_EnvironmentKeyTransformModifier<Value>>, environment: Attribute<EnvironmentValues>, oldValue: Value?, oldKeyPath: WritableKeyPath<EnvironmentValues, Value>?) {
+        self._modifier = modifier
+        self._environment = environment
+        self.oldValue = oldValue
+        self.oldKeyPath = oldKeyPath
+    }
+    
+    typealias Value = EnvironmentValues
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+    
+    var description: String {
+        assertUnimplemented()
+    }
+}
