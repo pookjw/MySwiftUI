@@ -1,8 +1,11 @@
 internal import UIKit
 internal import _UIKitShims
 
-// TODO: final인지 검증
-class UIKitSensoryFeedbackCache {
+final class UIKitSensoryFeedbackCache {
     weak var host: UIView? = nil
     var cachedGenerators: [SensoryFeedback.FeedbackType: MyUIFeedbackGenerator] = [:]
+    
+    func implementation(type: SensoryFeedback.FeedbackType) -> (any LocationBasedSensoryFeedback)? {
+        assertUnimplemented()
+    }
 }

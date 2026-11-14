@@ -1,5 +1,5 @@
 // 7D9EDEF832940A362646A6E979F296C8
-internal import AttributeGraph
+package import AttributeGraph
 package import CoreGraphics
 internal import QuartzCore
 private import Spatial
@@ -29,7 +29,7 @@ private import Spatial
             self._transform.value = newValue
         }
     }
-    @Attribute private(set) var zeroPoint: CGPoint // 0xf8
+    @Attribute package private(set) var zeroPoint: CGPoint // 0xf8
     @Attribute var proposedSize: ViewSize // 0xfc
     @Attribute var safeAreaInsets: _SafeAreaInsetsModifier // 0x100
     @Attribute private var containerShape: UnevenRoundedRectangle // 0x104

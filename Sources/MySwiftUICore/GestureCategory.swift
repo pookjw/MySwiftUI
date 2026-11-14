@@ -1,4 +1,6 @@
 @_spi(Internal) public struct GestureCategory : RawRepresentable {
+    package static var magnify: GestureCategory { return GestureCategory(rawValue: 1 << 0) }
+    package static var rotate: GestureCategory { return GestureCategory(rawValue: 1 << 1) }
     package static var drag: GestureCategory { return GestureCategory(rawValue: 1 << 2) }
     package static var select: GestureCategory { return GestureCategory(rawValue: 1 << 3) }
     package static var longPress: GestureCategory { return GestureCategory(rawValue: 1 << 4) }

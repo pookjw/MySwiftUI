@@ -12,6 +12,11 @@ extension Unmanaged {
     }
     
     @_transparent
+    func map<T>(_ transform: ((Instance) -> T)) -> T {
+        return unsafe _withUnsafeGuaranteedRef(transform)
+    }
+    
+    @_transparent
     func map<T : AnyObject>(_ transform: ((Instance) -> T)) -> Unmanaged<T> {
         return unsafe _withUnsafeGuaranteedRef { unsafe .passUnretained(transform($0)) }
     }

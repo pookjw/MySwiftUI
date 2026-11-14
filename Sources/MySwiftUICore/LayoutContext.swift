@@ -282,7 +282,7 @@ package struct _PositionAwarePlacementContext {
         }
     }
     
-    func safeAreaInsets(matching regions: SafeAreaRegions, cornerAdaptation: Edge.Set) -> EdgeInsets {
+    func safeAreaInsets(matching regions: SafeAreaRegions = .all, cornerAdaptation: Edge.Set = []) -> EdgeInsets {
         guard let attribute = self._safeAreaInsets.attribute else {
             return .zero
         }

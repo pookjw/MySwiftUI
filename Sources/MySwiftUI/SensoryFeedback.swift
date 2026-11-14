@@ -1,7 +1,7 @@
 // E5C2FE5C277CCA85C518490456542950
 internal import MRUIKit
 public import MySwiftUICore
-private import AttributeGraph
+internal import AttributeGraph
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 extension View {
@@ -31,7 +31,7 @@ extension View {
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 public struct SensoryFeedback : Equatable, Sendable {
-    private var type: FeedbackType
+    private(set) var type: FeedbackType
     
     public static let success = SensoryFeedback(type: .success)
     public static let warning = SensoryFeedback(type: .warning)
@@ -229,14 +229,83 @@ fileprivate struct CustomFeedbackGenerator<T : Equatable> : SensoryFeedbackGener
     }
     
     func body(content: Content) -> some View {
-        assertUnimplemented()
+        StaticIf(idiom: .vision) {
+            // $s7SwiftUI23CustomFeedbackGenerator33_E5C2FE5C277CCA85C518490456542950LLV4body7contentQrAA21_ViewModifier_ContentVyADyxGG_tFAD0m14ConfiguredWithD0AFQrAJ_tFQOyx_Qo_yXEfU_TA
+            self.contentConfiguredWithFeedback(content: content)
+        } else: {
+            // $s7SwiftUI23CustomFeedbackGenerator33_E5C2FE5C277CCA85C518490456542950LLV4body7contentQrAA21_ViewModifier_ContentVyADyxGG_tFAJyXEfU0_TA
+            content
+        }
+    }
+    
+    func contentConfiguredWithFeedback(content: _ViewModifier_Content<CustomFeedbackGenerator<T>>) -> some View {
+        content
+            .onChange(of: self.trigger, initial: false) { oldValue, newValue in
+                // $s7SwiftUI23CustomFeedbackGenerator33_E5C2FE5C277CCA85C518490456542950LLV021contentConfiguredWithD00L0QrAA21_ViewModifier_ContentVyADyxGG_tFyx_xtcfU_TA
+                // $s7SwiftUI23CustomFeedbackGenerator33_E5C2FE5C277CCA85C518490456542950LLV021contentConfiguredWithD00L0QrAA21_ViewModifier_ContentVyADyxGG_tFyx_xtcfU_
+                let feedback = self.feedback(oldValue, newValue)
+                
+                if self.state?.feedback == feedback {
+                    // <+544>
+                } else {
+                    // <+236>
+                    self.state?.implementation?.tearDown()
+                    
+                    var state: (feedback: SensoryFeedback, implementation: (any PlatformSensoryFeedback)?)? = nil
+                    
+                    if let feedback {
+                        let block: (SensoryFeedback) -> (feedback: SensoryFeedback, implementation: (any PlatformSensoryFeedback)?) = { feedback in
+                            // $s7SwiftUI23CustomFeedbackGenerator33_E5C2FE5C277CCA85C518490456542950LLV021contentConfiguredWithD00L0QrAA21_ViewModifier_ContentVyADyxGG_tFyx_xtcfU_AA07SensoryD0V_AA08PlatformrD0_pSgtALXEfU_
+                            guard
+                                let cache = self.feedbackRequestContext.cache,
+                                let impl = cache.implementation(type: feedback.type),
+                                let location = self.feedbackRequestContext.location.attribute
+                            else {
+                                return (feedback, nil)
+                            }
+                            
+                            let adaptor = LocationBasedFeedbackAdaptor(location: location, base: impl)
+                            return (feedback, adaptor)
+                        }
+                        
+                        state = block(feedback)
+                    }
+                    
+                    self.state = state
+                    self.state?.implementation?.setUp()
+                }
+                
+                // <+544>
+                self.state?.implementation?.generate()
+            }
     }
 }
 
 protocol PlatformSensoryFeedback {
-    func setUp()
-    func tearDown()
-    func generate()
+    mutating func setUp()
+    mutating func tearDown()
+    mutating func generate()
+}
+
+protocol LocationBasedSensoryFeedback : PlatformSensoryFeedback {
+    mutating func generate(location: CGPoint)
+}
+
+struct LocationBasedFeedbackAdaptor : PlatformSensoryFeedback {
+    private(set) var location: Attribute<CGPoint>
+    private(set) var base: any LocationBasedSensoryFeedback
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        assertUnimplemented()
+    }
 }
 
 protocol SensoryFeedbackGeneratorModifier : ViewModifier {

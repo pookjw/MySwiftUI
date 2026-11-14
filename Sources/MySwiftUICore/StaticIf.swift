@@ -178,13 +178,13 @@ extension StaticIf : View, PrimitiveView where Predicate : ViewInputPredicate, T
         assertUnimplemented()
     }
     
-//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
-//        assertUnimplemented()
-//    }
-//    
-//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyView {
-//        assertUnimplemented()
-//    }
+    package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
+        assertUnimplemented()
+    }
+    
+    package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyView {
+        assertUnimplemented()
+    }
 //    
 //    init<Context : StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
 //        assertUnimplemented()
@@ -263,13 +263,13 @@ extension StaticIf : ViewModifier, PrimitiveViewModifier where Predicate : ViewI
         assertUnimplemented()
     }
     
-//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
-//        assertUnimplemented()
-//    }
-//    
-//    init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyModifier {
-//        assertUnimplemented()
-//    }
+    package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
+        assertUnimplemented()
+    }
+    
+    package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyModifier {
+        assertUnimplemented()
+    }
 //    
 //    init<Context : StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
 //        assertUnimplemented()

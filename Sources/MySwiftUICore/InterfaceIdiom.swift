@@ -95,6 +95,10 @@ package struct AnyInterfaceIdiom : Hashable, Sendable {
         base.hash(into: &hasher)
     }
     
+    package func accepts<T : InterfaceIdiomProtocol>(_: T) -> Bool {
+        return base.accepts(T.self)
+    }
+    
     package func accepts<T : InterfaceIdiomProtocol>(_ type: T.Type) -> Bool {
         return base.accepts(type)
     }
@@ -308,8 +312,16 @@ package struct NoKitInterfaceIdiom : InterfaceIdiomProtocol {
     }
 }
 
-struct InterfaceIdiomPredicate<T> {
-    // TODO
+package struct InterfaceIdiomPredicate<T : InterfaceIdiomProtocol> : ViewInputPredicate {
+    package static func evaluate(inputs: _GraphInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    package static func evaluate(listInputs: _ViewListInputs) -> Bool {
+        assertUnimplemented()
+    }
+    
+    init() {}
 }
 
 extension EnvironmentValues {
