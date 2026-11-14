@@ -134,7 +134,21 @@ package import Spatial
     } 
     
     mutating func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
-        assertUnimplemented()
+        if (transform.a != 1) || (transform.b != 0) || (transform.c != 0) || (transform.d != 1) {
+            self.updateHead(element: AffineTransformElement(matrix: transform, inverse: inverse))
+        } else {
+            var adjustment = self.pendingTranslation
+            
+            if inverse {
+                adjustment.width = -transform.tx + adjustment.width
+                adjustment.height = -transform.ty + adjustment.height
+            } else {
+                adjustment.width = transform.tx + adjustment.width
+                adjustment.height = transform.ty + adjustment.height
+            }
+            
+            self.pendingTranslation = adjustment
+        }
     }
     
     // 원래 없음
