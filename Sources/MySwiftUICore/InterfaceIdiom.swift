@@ -314,11 +314,8 @@ package struct NoKitInterfaceIdiom : InterfaceIdiomProtocol {
 
 package struct InterfaceIdiomPredicate<T : InterfaceIdiomProtocol> : ViewInputPredicate {
     package static func evaluate(inputs: _GraphInputs) -> Bool {
-        assertUnimplemented()
-    }
-    
-    package static func evaluate(listInputs: _ViewListInputs) -> Bool {
-        assertUnimplemented()
+        let input = inputs[InterfaceIdiomInput.self] ?? AnyInterfaceIdiom(idiom: .phone)
+        return input.accepts(T.self)
     }
     
     init() {}
