@@ -113,9 +113,29 @@ package import Spatial
         self.positionAdjustment = CGSize(width: position.x, height: position.y)
     }
     
-    mutating func appendProjectionTransform(_: ProjectionTransform, inverse: Bool) {
-        assertUnimplemented()
+    mutating func appendProjectionTransform(_ transform: ProjectionTransform, inverse: Bool) {
+        if (transform.m13 != 0) || (transform.m23 != 0) || (transform.m33 != 1) {
+            // <+108>
+            self.updateHead(element: ProjectionTransformElement(matrix: transform, inverse: inverse))
+        } else {
+            // <+72>
+            self.appendAffineTransform(
+                CGAffineTransform(
+                    transform.m11,
+                    transform.m12,
+                    transform.m21,
+                    transform.m22,
+                    transform.m31,
+                    transform.m32
+                ),
+                inverse: inverse
+            )
+        }
     } 
+    
+    mutating func appendAffineTransform(_ transform: CGAffineTransform, inverse: Bool) {
+        assertUnimplemented()
+    }
     
     // 원래 없음
     @inline(always)
@@ -595,7 +615,7 @@ protocol ViewTransformElement : Equatable {
 }
 
 fileprivate struct TranslationElement : ViewTransformElement {
-    var offset: CGSize
+    private(set) var offset: CGSize
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
@@ -603,7 +623,7 @@ fileprivate struct TranslationElement : ViewTransformElement {
 }
 
 fileprivate struct Translation3DElement : ViewTransformElement {
-    var offset: Size3D
+    private(set) var offset: Size3D
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
@@ -611,13 +631,8 @@ fileprivate struct Translation3DElement : ViewTransformElement {
 }
 
 fileprivate struct AffineTransformElement : ViewTransformElement {
-    private var matrix: CGAffineTransform
-    private var inverse: Bool
-    
-    init(matrix: CGAffineTransform, inverse: Bool) {
-        self.matrix = matrix
-        self.inverse = inverse
-    }
+    private(set) var matrix: CGAffineTransform
+    private(set) var inverse: Bool
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
@@ -625,8 +640,8 @@ fileprivate struct AffineTransformElement : ViewTransformElement {
 }
 
 fileprivate struct SizedSpaceElement : ViewTransformElement {
-    var space: CoordinateSpaceTag
-    var size: CGSize
+    private(set) var space: CoordinateSpaceTag
+    private(set) var size: CGSize
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         block(.sizedSpace(self.space, size: self.size), &stop)
@@ -634,11 +649,7 @@ fileprivate struct SizedSpaceElement : ViewTransformElement {
 }
 
 fileprivate struct CoordinateSpaceElement : ViewTransformElement {
-    private var space: CoordinateSpaceTag
-    
-    init(space: CoordinateSpaceTag) {
-        self.space = space
-    }
+    private(set) var space: CoordinateSpaceTag
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         block(.coordinateSpace(self.space), &stop)
@@ -646,8 +657,8 @@ fileprivate struct CoordinateSpaceElement : ViewTransformElement {
 }
 
 fileprivate struct ProjectionTransformElement : ViewTransformElement {
-    private var matrix: ProjectionTransform
-    private var inverse: Bool
+    private(set) var matrix: ProjectionTransform
+    private(set) var inverse: Bool
     
     func forEach(inverted: Bool, stop: inout Bool, _ block: (ViewTransform.Item, inout Bool) -> Void) {
         assertUnimplemented()
