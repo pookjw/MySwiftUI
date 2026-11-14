@@ -6,14 +6,6 @@
         return 0
     }
     
-    func index(before i: Int) -> Int {
-        assertUnimplemented()
-    }
-    
-    func index(after i: Int) -> Int {
-        assertUnimplemented()
-    }
-    
     init() {
         unsafe self.init(start: .null, count: 0)
     }

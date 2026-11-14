@@ -63,6 +63,62 @@ public import QuartzCore
     public func inverted() -> ProjectionTransform {
         assertUnimplemented()
     }
+    
+    func concatenating(_ other: ProjectionTransform) -> ProjectionTransform {
+        assertUnimplemented()
+    }
+    
+    var isInvertible: Bool {
+        var d0 = self.m13
+        var v1_0 = self.m23
+        
+        if (d0 != 0) || (v1_0 != 0) || (self.m33 != 1) {
+            // <+68>
+            var v2_0 = self.m33
+            var v3_0 = self.m21
+            var v3_1 = self.m22
+            let v4_0 = self.m31
+            let v4_1 = self.m32
+            var v2_1 = v3_1 * v2_0
+            v2_0 = v3_0 * v2_0
+            var v1_1 = v4_1 * v1_0
+            v1_0 = v4_0 * v1_0
+            v1_0 = v2_0 - v1_0
+            v1_1 = v2_1 - v1_1
+            v2_0 = v4_1
+            v2_1 = v4_0
+            v2_0 = v3_0 * v2_0
+            v2_1 = v3_1 * v2_1
+            v3_0 = v2_1
+            v3_1 = v2_1
+            v2_0 = v2_0 - v3_0
+            v2_1 = v2_1 - v3_1
+            v3_0 = self.m12
+            v3_1 = self.m11
+            v1_0 = v1_0 * v3_0
+            v1_1 = v1_1 * v3_1
+            v3_0 = v1_1
+            v3_1 = v1_1
+            v1_0 = v3_0 - v1_0
+            v1_1 = v3_1 - v1_1
+            d0 = d0 * v2_0
+            d0 = d0 + v1_0
+            return d0 != 0
+        } else {
+            // <+40>
+            var v0_0 = self.m11
+            var v0_1 = self.m12
+            var v1_0 = self.m22
+            var v1_1 = self.m21
+            v0_0 = v0_0 * v1_0
+            v0_1 = v0_1 * v1_1
+            v1_0 = v0_1
+            v1_1 = v0_1
+            v0_0 = v0_0 - v1_0
+            v0_1 = v0_1 - v1_1
+            return v0_0 != 0
+        }
+    }
 }
 
 extension ProjectionTransform : Equatable {

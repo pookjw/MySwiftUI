@@ -113,6 +113,10 @@ package import Spatial
         self.positionAdjustment = CGSize(width: position.x, height: position.y)
     }
     
+    mutating func appendProjectionTransform(_: ProjectionTransform, inverse: Bool) {
+        assertUnimplemented()
+    } 
+    
     // 원래 없음
     @inline(always)
     mutating func updateNode(coordinateSpace: CoordinateSpace) -> CoordinateSpaceTag {

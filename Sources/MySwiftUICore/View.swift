@@ -42,7 +42,14 @@ extension Optional : View where Wrapped : View {
     public typealias Body = Never
     
     nonisolated public static func _makeView(view: _GraphValue<Wrapped?>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        if isLinkedOnOrAfter(.v2) {
+            // <+320>
+            return self.makeImplicitRoot(view: view, inputs: inputs)
+        } else {
+            // <+144>
+            let metadata = self.makeConditionalMetadata(ViewDescriptor.self)
+            return self.makeDynamicView(metadata: metadata, view: view, inputs: inputs)
+        }
     }
     
     nonisolated public static func _makeViewList(view: _GraphValue<Wrapped?>, inputs: _ViewListInputs) -> _ViewListOutputs {
@@ -51,10 +58,10 @@ extension Optional : View where Wrapped : View {
          inputs -> x21
          */
         // sp + 0x30
-        let metadata = makeConditionalMetadata(ViewDescriptor.self)
+        let metadata = self.makeConditionalMetadata(ViewDescriptor.self)
         // sp + 0x10
         let copy_1 = metadata
-        return makeDynamicViewList(metadata: copy_1, view: view, inputs: inputs)
+        return self.makeDynamicViewList(metadata: copy_1, view: view, inputs: inputs)
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {

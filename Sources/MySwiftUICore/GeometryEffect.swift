@@ -9,7 +9,7 @@ public protocol GeometryEffect : Animatable, ViewModifier, _RemoveGlobalActorIso
 
 extension GeometryEffect {
     public static var _affectsLayout: Bool {
-        assertUnimplemented()
+        return true
     }
 }
 
@@ -137,7 +137,64 @@ fileprivate struct GeometryEffectTransform<T : GeometryEffect> : AsyncAttribute,
     @Attribute private(set) var layoutDirection: LayoutDirection
     
     var value: ViewTransform {
-        assertUnimplemented()
+        /*
+         x29 -> sp + 0x260
+         x19 -> sp
+         */
+        var result = self.transform
+        result.appendPosition(self.position)
+        result.positionAdjustment = .zero
+        
+        guard T._affectsLayout else {
+            return result
+        }
+        
+        // x19 + 0xc8
+        let projectionTransform = self.effect.effectValue(size: self.size)
+        // x19 + 0x80
+        let transform: ProjectionTransform
+        
+        switch self.layoutDirection {
+        case .leftToRight:
+            transform = projectionTransform
+        case .rightToLeft:
+            let size = self.size
+            
+            var transform_1 = ProjectionTransform()
+            transform_1.m11 = -1 // -0xc0
+            transform_1.m12 = 0
+            transform_1.m13 = 0 // -0xb0
+            transform_1.m21 = 0
+            transform_1.m22 = 1 // -0xa0
+            transform_1.m23 = 0
+            transform_1.m31 = size.width // -0x90
+            transform_1.m32 = 0
+            transform_1.m33 = 1
+            
+            // x19 + 0x110
+            let transform_2 = transform_1.concatenating(projectionTransform)
+            
+            var transform_3 = ProjectionTransform()
+            transform_3.m11 = -1
+            transform_3.m12 = 0
+            transform_3.m13 = 0
+            transform_3.m21 = 0
+            transform_3.m22 = 1
+            transform_3.m23 = 0
+            transform_3.m31 = size.width
+            transform_3.m32 = 0
+            transform_3.m33 = 1
+            
+            transform = transform_2.concatenating(transform_3)
+        }
+        
+        if transform.isInvertible {
+            result.appendProjectionTransform(transform, inverse: true)
+        } else {
+            Log.externalWarning("ignoring singular matrix: \(transform)")
+        }
+        
+        return result
     }
 }
 
