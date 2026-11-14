@@ -178,7 +178,7 @@ protocol RendererEffect : Animatable, _RendererEffect {
 
 extension RendererEffect {
     public nonisolated static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        return self.makeRendererEffect(effect: modifier, inputs: inputs, body: body)
     }
     
     public nonisolated static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
@@ -190,7 +190,13 @@ extension RendererEffect {
     }
     
     public nonisolated static func makeRendererEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        if inputs.preferences.contains(DisplayList.Key.self) {
+            var effect = effect
+            self._makeAnimatable(value: &effect, inputs: inputs.base)
+            return self._makeRendererEffect(effect: effect, inputs: inputs, body: body)
+        } else {
+            return body(_Graph(), inputs)
+        }
     }
 }
 

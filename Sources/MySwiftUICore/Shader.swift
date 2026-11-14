@@ -344,9 +344,9 @@ extension Shader : ShapeStyle {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
 public struct _ShaderFilterEffect : ViewModifier, VisualEffect, Sendable {
-    var shader: Shader
-    var maxSampleOffset: CGSize
-    var enabled: Bool
+    private var shader: Shader
+    private var maxSampleOffset: CGSize
+    private var enabled: Bool
     
     init(shader: Shader, maxSampleOffset: CGSize, enabled: Bool) {
         self.shader = shader
@@ -355,7 +355,30 @@ public struct _ShaderFilterEffect : ViewModifier, VisualEffect, Sendable {
     }
     
     nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        /*
+         modifier -> x0 -> w23
+         inputs -> x1 -> x21
+         body -> x2/x3 -> x22/x25
+         */
+        let effect = Attribute(
+            _ShaderFilterEffect.ResolvedEffect(
+                modifier: modifier.value,
+                env: inputs.environment,
+                tracker: PropertyList.Tracker()
+            )
+        )
+        
+        var copy_1 = inputs
+        
+        if !inputs[UsingGraphicsRenderer.self] {
+            copy_1[UsingGraphicsRenderer.self] = true
+        }
+        
+        return Shader.ResolvedShader.makeDebuggableView(
+            modifier: _GraphValue(effect),
+            inputs: copy_1,
+            body: body
+        )
     }
     
     nonisolated public static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
@@ -370,7 +393,11 @@ extension _ShaderFilterEffect : MultiViewModifier, PrimitiveViewModifier {}
 
 extension _ShaderFilterEffect {
     fileprivate struct ResolvedEffect : AsyncAttribute, StatefulRule {
-        typealias Value = Shader.ResolvedShader?
+        @Attribute private(set) var modifier: _ShaderFilterEffect
+        @Attribute private(set) var env: EnvironmentValues
+        let tracker: PropertyList.Tracker
+        
+        typealias Value = Shader.ResolvedShader
         
         mutating func updateValue() {
             assertUnimplemented()

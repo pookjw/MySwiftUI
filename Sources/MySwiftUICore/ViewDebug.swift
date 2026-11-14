@@ -121,7 +121,6 @@ extension _ViewDebug {
 }
 
 extension View {
-    @inline(__always)
     nonisolated package static func makeDebuggableView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
@@ -159,7 +158,6 @@ extension View {
 }
 
 extension ViewModifier {
-    @inline(__always)
     nonisolated package static func makeDebuggableView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         let shouldRecordTree = Subgraph.shouldRecordTree
         if shouldRecordTree {
