@@ -43,3 +43,33 @@ extension _RotationEffect {
         private(set) var anchor: CGPoint
     }
 }
+
+extension _RotationEffect : GeometryEffectProvider {
+    static func resolve(effect: _RotationEffect, origin: inout CGPoint, size: CGSize, layoutDirection: LayoutDirection) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+}
+
+extension _RotationEffect : ExtendedAnimatable {
+    public mutating func scale(by rhs: Double) {
+        assertUnimplemented()
+    }
+    
+    public var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
+    
+    static func shouldFinishEarly(in context: AnimationSettlingContext<AnimatablePair<Double, AnimatablePair<CGFloat, CGFloat>>>) -> Bool {
+        assertUnimplemented()
+    }
+}
+
+extension _RotationEffect : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}

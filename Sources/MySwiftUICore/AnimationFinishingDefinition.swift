@@ -22,7 +22,7 @@ extension AnimationContext {
     }
 }
 
-protocol AnimationFinishingDefinition<Value> : VectorArithmetic {
+protocol AnimationFinishingDefinition<Value> {
     associatedtype Value : VectorArithmetic
     static func shouldFinishEarly(in context: AnimationSettlingContext<Value>) -> Bool
 }

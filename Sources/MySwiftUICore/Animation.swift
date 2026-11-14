@@ -1512,3 +1512,6 @@ extension KeyedAnimatableArray {
         var data: U
     }
 }
+
+protocol ExtendedAnimatable : Animatable, AnimationFinishingDefinition where Value == AnimatableData {
+}

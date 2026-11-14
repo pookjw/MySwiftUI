@@ -52,3 +52,19 @@ extension _Rotation3DEffect {
         private(set) var flipWidth: CGFloat
     }
 }
+
+extension _Rotation3DEffect : GeometryEffectProvider {
+    static func resolve(effect: _Rotation3DEffect, origin: inout CGPoint, size: CGSize, layoutDirection: LayoutDirection) -> DisplayList.Effect {
+        assertUnimplemented()
+    }
+}
+
+extension _Rotation3DEffect : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}

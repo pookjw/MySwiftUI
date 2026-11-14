@@ -127,7 +127,6 @@ public struct _ViewInputs {
         return base.cachedEnvironment.value.animatedDepth(for: self)
     }
     
-    @inline(always)
     func animatedCGSize() -> Attribute<CGSize> {
         return base.cachedEnvironment.value.animatedCGSize(for: self)
     }

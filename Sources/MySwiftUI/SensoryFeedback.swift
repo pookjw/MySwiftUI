@@ -31,7 +31,7 @@ extension View {
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 public struct SensoryFeedback : Equatable, Sendable {
-    private(set) var type: FeedbackType
+    fileprivate private(set) var type: FeedbackType
     
     public static let success = SensoryFeedback(type: .success)
     public static let warning = SensoryFeedback(type: .warning)
