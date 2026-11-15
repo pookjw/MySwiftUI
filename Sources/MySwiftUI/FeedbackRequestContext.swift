@@ -74,7 +74,14 @@ extension FeedbackRequestContextWriter {
         private(set) weak var feedbackCache: UIKitSensoryFeedbackCache?
         
         var value: T {
-            assertUnimplemented()
+            var base = self.base
+            
+            base.feedbackRequestContext = FeedbackRequestContext(
+                location: WeakAttribute(self.$location),
+                cache: self.feedbackCache
+            )
+            
+            return base
         }
     }
 }
