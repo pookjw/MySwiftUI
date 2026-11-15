@@ -145,18 +145,18 @@ extension Image.DynamicRange : ProtobufEnum {
 
 extension Image {
     package struct Resolved {
-        private(set) var image: GraphicsImage {
+        private(set) var image: GraphicsImage { // 0x0
             didSet {
                 assertUnimplemented()
             }
         }
-        //        private var label: AccessibilityImageLabel?
-        //        private var _basePlatformItemImage: EquatableOptionalObject<AnyObject>
-        //        private var _layoutMetrics: IndirectOptional<Image.LayoutMetrics>
-        private var decorative: Bool
-        //        private var backgroundShape: SymbolVariants.Shape?
-        private var backgroundCornerRadius: Float?
-        private var styleResolverMode: _ShapeStyle_ResolverMode
+        //        private var label: AccessibilityImageLabel? // 0x70
+        //        private var _basePlatformItemImage: EquatableOptionalObject<AnyObject> // 0x90
+        //        private var _layoutMetrics: IndirectOptional<Image.LayoutMetrics> // 0x98
+        private var decorative: Bool // 0xa0
+        //        private var backgroundShape: SymbolVariants.Shape? // 0xa1
+        private var backgroundCornerRadius: Float? // 0xa4
+        private var styleResolverMode: _ShapeStyle_ResolverMode // 0xb0
     }
 }
 

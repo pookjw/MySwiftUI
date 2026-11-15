@@ -2,7 +2,7 @@ package import CoreGraphics
 
 package struct GraphicsImage : Equatable, ProtobufEncodableMessage, ProtobufDecodableMessage {
     var contents: GraphicsImage.Contents? // 0x0
-    private var scale: CGFloat // 0x10
+    private(set) var scale: CGFloat // 0x10
     private(set) var unrotatedPixelSize: CGSize // 0x18
     private(set) var orientation: Image.Orientation // 0x28
     var maskColor: Color.ResolvedHDR? // 0x2c
@@ -59,8 +59,8 @@ extension GraphicsImage {
         case cgImage(CGImage)
         case ioSurface(IOSurfaceRef)
         case vectorGlyph(ResolvedVectorGlyph)
-        // case vectorLayer(VectorImageLayer)
+        case vectorLayer(VectorImageLayer)
         case color(Color.ResolvedHDR)
-        // case named(NamedImage.Key)
+        case named(NamedImage.Key)
     }
 }

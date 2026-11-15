@@ -374,6 +374,36 @@ typedef struct RBHash {
     const uint32_t v3;
 } RBHash;
 
+typedef NS_ENUM(unsigned int, RBArgumentValueType) {
+    RBArgumentValueTypeUnknown0 = 0,
+    RBArgumentValueTypeUnknown1 = 1,
+    RBArgumentValueTypeUnknown2 = 2,
+    RBArgumentValueTypeUnknown3 = 3,
+    RBArgumentValueTypeUnknown4 = 4,
+    RBArgumentValueTypeUnknown5 = 5,
+    RBArgumentValueTypeUnknown6 = 6,
+    RBArgumentValueTypeUnknown7 = 7
+};
+
+typedef NS_OPTIONS(unsigned int, RBCustomShaderFlags) {
+    RBCustomShaderFlagsNone = 0,
+    RBCustomShaderFlagsUnknown0 = (1 << 0),
+    RBCustomShaderFlagsUnknown1 = (1 << 1)
+};
+
+typedef struct RBImage {
+    const uint32_t type;
+    const void * _Nullable data;
+} RBImage;
+
+typedef struct RBArgument {
+    const RBArgumentValueType type; // 0x0
+    const uint32_t unknown0; // 0x4
+    const NSUInteger unknown1; // 0x8
+    const void *data; // 0x10
+    const RBColorSpace colorSpace; // 0x18
+} RBArgument;
+
 NS_ASSUME_NONNULL_END
 
 #endif

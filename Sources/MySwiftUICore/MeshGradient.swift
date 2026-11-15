@@ -110,12 +110,7 @@ extension MeshGradient {
                     
                     unsafe buffer.initializeElement(
                         at: index,
-                        to: Color.Resolved(
-                            linearRed: resolved.linearRed,
-                            linearGreen: resolved.linearGreen,
-                            linearBlue: resolved.linearBlue,
-                            opacity: resolved.opacity
-                        )
+                        to: resolved.base
                     )
                     
                     if let _headroom = headroom {

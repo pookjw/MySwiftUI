@@ -75,7 +75,9 @@ exports:
     _RBDrawingStateAddAnimationStyle,
     _RBDrawingStateAddAffineTransformStyle,
     _RBDrawingStateClipShape2,
-    _RBPathStorageGetBezierOrder ]
+    _RBPathStorageGetBezierOrder,
+    _RBImageMakeCGImage,
+    _RBImageMakeIOSurface ]
     objc-classes:         [ RBDisplayList,
     RBShape,
     RBFill,

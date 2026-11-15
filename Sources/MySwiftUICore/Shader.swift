@@ -46,7 +46,7 @@ extension ShaderLibrary {
     }
     
     var rbShaderLibrary: RBShaderLibrary? {
-        assertUnimplemented()
+        return self.rbLibrary
     }
 }
 
@@ -74,7 +74,7 @@ extension ShaderLibrary {
 @available(watchOS, unavailable)
 public struct Shader : Equatable, Sendable {
     public struct Argument : Equatable, Sendable {
-        private var storage: Storage
+        fileprivate private(set) var storage: Shader.Argument.Storage
         
         @usableFromInline
         internal static func _float(_ x: Float) -> Shader.Argument {
@@ -216,7 +216,292 @@ public struct Shader : Equatable, Sendable {
     }
     
     fileprivate func makeRBShader(in environment: EnvironmentValues?) -> RBShader {
-        assertUnimplemented()
+        /*
+         self -> x20
+         environment -> x0 -> x21
+         */
+        let rbShader = RBShader(
+            library: self.function.library.rbShaderLibrary,
+            function: self.function.name
+        )
+        
+        for (index, argument) in self.arguments.enumerated() {
+            switch argument.storage {
+            case .float(let float):
+                // <+484>
+                withUnsafePointer(to: float) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown1,
+                        count: 1,
+                        flags: []
+                    )
+                }
+            case .float2(let float, let float2):
+                // <+832>
+                withUnsafePointer(to: (float, float2)) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown2,
+                        count: 1,
+                        flags: []
+                    )
+                }
+            case .float3(let float, let float2, let float3):
+                // <+568>
+                withUnsafePointer(to: (float, float2, float3)) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown3,
+                        count: 1,
+                        flags: []
+                    )
+                }
+            case .float4(let float, let float2, let float3, let float4):
+                // <+636>
+                withUnsafePointer(to: (float, float2, float3, float4)) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown4,
+                        count: 1,
+                        flags: []
+                    )
+                }
+            case .floatArray(let array):
+                // <+332>
+                array.withUnsafeBufferPointer { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer.baseAddress.unsafelyUnwrapped,
+                        at: UInt(bitPattern: index),
+                        type: .unknown1,
+                        count: UInt(bitPattern: pointer.count),
+                        flags: [.unknown0, .unknown1]
+                    )
+                }
+            case .color(let color):
+                // <+888>
+                let resolved: Color.ResolvedHDR
+                if let environment {
+                    resolved = color.provider.resolveHDR(in: environment)
+                } else {
+                    resolved = .clear
+                }
+                
+                withUnsafePointer(to: resolved.base) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown5,
+                        count: 1,
+                        flags: []
+                    )
+                }
+                
+                rbShader.setArgumentColorSpace(.unknown2, at: UInt(bitPattern: index))
+                
+                if let headroom = resolved.headroom {
+                    rbShader.setArgumentHeadroom(headroom, at: UInt(bitPattern: index))
+                }
+            case .colorArray(let array):
+                // <+940>
+                if let environment {
+                    // <+1348>
+                    withUnsafeTemporaryAllocation(of: Color.Resolved.self, capacity: array.count) { pointer in
+                        // $s7SwiftUI6ShaderV12makeRBShader33_2BFAEFF753052DBF4DEF07051FF899A7LL2inSo0E0CAA17EnvironmentValuesVSg_tFySRyAA5ColorVGXEfU1_ySryAM8ResolvedVGXEfU_
+                        for (index, color) in array.enumerated() {
+                            let resolved = color.provider.resolve(in: environment)
+                            
+                            unsafe pointer
+                                .baseAddress
+                                .unsafelyUnwrapped
+                                .advanced(by: index)
+                                .initialize(to: resolved)
+                        }
+                        
+                        unsafe rbShader.setArgumentBytes(
+                            pointer.baseAddress.unsafelyUnwrapped,
+                            at: UInt(bitPattern: index),
+                            type: .unknown5,
+                            count: UInt(bitPattern: array.count),
+                            flags: [.unknown0, .unknown1]
+                        )
+                        
+                        rbShader.setArgumentColorSpace(.unknown2, at: UInt(bitPattern: index))
+                    }
+                } else {
+                    // <+952>
+                    withUnsafeTemporaryAllocation(of: Void.self, capacity: 0) { pointer in
+                        unsafe rbShader.setArgumentBytes(
+                            pointer.baseAddress.unsafelyUnwrapped,
+                            at: UInt(bitPattern: index),
+                            type: .unknown5,
+                            count: 0,
+                            flags: [.unknown0, .unknown1]
+                        )
+                    }
+                }
+            case .resolvedColor(let resolved):
+                // <+712>
+                withUnsafePointer(to: resolved.base) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer,
+                        at: UInt(bitPattern: index),
+                        type: .unknown5,
+                        count: 1,
+                        flags: []
+                    )
+                }
+                
+                rbShader.setArgumentColorSpace(.unknown2, at: UInt(bitPattern: index))
+                
+                if let headroom = resolved.headroom {
+                    rbShader.setArgumentHeadroom(headroom, at: UInt(bitPattern: index))
+                }
+            case .image(let image):
+                // <+1024>
+                if let environment {
+                    // <+1696>
+                    let context = ImageResolutionContext(
+                        environment: environment,
+                        textStyle: nil,
+                        transaction: OptionalAttribute()
+                    )
+                    
+                    // x19 + 0xa0
+                    let resolved = image.provider.resolve(in: context)
+                    
+                    // x19 + 0x160
+                    switch resolved.image.contents {
+                    case .cgImage(let cgImage):
+                        // <+2280>
+                        let rbImage = unsafe RBImage(cgImage: cgImage)
+                        
+                        withUnsafePointer(to: rbImage) { pointer in
+                            unsafe rbShader.setArgumentBytes(
+                                pointer,
+                                at: UInt(bitPattern: index),
+                                type: .unknown7,
+                                count: 1,
+                                flags: []
+                            )
+                        }
+                    case .ioSurface(let ioSurface):
+                        // <+2040>
+                        let rbImage = unsafe RBImage(ioSurface: ioSurface)
+                        
+                        withUnsafePointer(to: rbImage) { pointer in
+                            unsafe rbShader.setArgumentBytes(
+                                pointer,
+                                at: UInt(bitPattern: index),
+                                type: .unknown7,
+                                count: 1,
+                                flags: []
+                            )
+                        }
+                    case .vectorGlyph, .vectorLayer, .named:
+                        // <+2116>
+                        let d2 = resolved.image.scale
+                        var d0: CGFloat = 0
+                        var d1: CGFloat = 0
+                        
+                        if d2 == 0 {
+                        } else {
+                            do {
+                                let size = resolved.image.unrotatedPixelSize
+                                d0 = size.width
+                                d1 = size.height
+                            }
+                            
+                            let d3: CGFloat
+                            switch resolved.image.orientation {
+                            case .up, .upMirrored, .down, .downMirrored:
+                                d3 = d1
+                            case .left, .leftMirrored, .right, .rightMirrored:
+                                d3 = d0
+                                d0 = d1
+                            }
+                            
+                            d1 = 1.0 / d2
+                            d0 = d1 * d0
+                            d1 = d1 * d3
+                        }
+                        
+                        let cgImage = resolved
+                            .image
+                            .render(at: CGSize(width: d0, height: d1), prefersMask: false)
+                        
+                        if let cgImage {
+                            let rbImage = unsafe RBImage(cgImage: cgImage)
+                            
+                            withUnsafePointer(to: rbImage) { pointer in
+                                unsafe rbShader.setArgumentBytes(
+                                    pointer,
+                                    at: UInt(bitPattern: index),
+                                    type: .unknown7,
+                                    count: 1,
+                                    flags: []
+                                )
+                            }
+                        }
+                    case .color(_):
+                        // <+2416>
+                        break
+                    case nil:
+                        // <+2232>
+                        break
+                    }
+                } else {
+                    // <+1036>
+                    unsafe withUnsafePointer(to: RBImage(type: 0, data: nil)) { pointer in
+                        unsafe rbShader.setArgumentBytes(
+                            pointer,
+                            at: UInt(bitPattern: index),
+                            type: .unknown7,
+                            count: 1,
+                            flags: []
+                        )
+                    }
+                }
+            case .data(let data):
+                // <+540>
+                if environment != nil {
+                    // <+1076>
+                    rbShader.setArgumentData(
+                        data,
+                        at: UInt(bitPattern: index),
+                        type: .unknown0,
+                        flags: [.unknown0, .unknown1]
+                    )
+                } else {
+                    withUnsafeTemporaryAllocation(of: Void.self, capacity: 0) { pointer in
+                        unsafe rbShader.setArgumentBytes(
+                            pointer.baseAddress.unsafelyUnwrapped,
+                            at: UInt(bitPattern: index),
+                            type: .unknown0,
+                            count: 0,
+                            flags: [.unknown0, .unknown1]
+                        )
+                    }
+                }
+            case .boundsRect:
+                // <+976>
+                withUnsafeTemporaryAllocation(of: Void.self, capacity: 0) { pointer in
+                    unsafe rbShader.setArgumentBytes(
+                        pointer.baseAddress.unsafelyUnwrapped,
+                        at: UInt(bitPattern: index),
+                        type: .unknown6,
+                        count: 1,
+                        flags: []
+                    )
+                }
+            }
+        }
+        
+        return rbShader
     }
     
     public static func == (a: Shader, b: Shader) -> Bool {
@@ -298,10 +583,10 @@ extension Shader {
         
         var animatableData: ShaderVectorData {
             get {
-                assertUnimplemented()
+                return ShaderVectorData(rbShader: self.rbShader)
             }
             set {
-                assertUnimplemented()
+                self.rbShader = newValue.updating(rbShader: self.rbShader)
             }
         }
         
