@@ -270,9 +270,9 @@ extension DisplayList {
                         return
                     }
                 }
-            case .effect(let effect, let displsyList):
+            case .effect(let effect, let displayList):
                 // <+288>
-                if !displsyList.isEmpty || effect.features.contains(.required) {
+                if !displayList.isEmpty || effect.features.contains(.required) {
                     // <+512>
                     switch effect {
                     case .backdropGroup(_):
@@ -290,13 +290,13 @@ extension DisplayList {
                     case .opacity(let opacity):
                         // <+1280>
                         if opacity >= 1 {
-                            self.value = .effect(.identity, displsyList)
-                            self.canonicalizeIdentityEffect(list: displsyList)
+                            self.value = .effect(.identity, displayList)
+                            self.canonicalizeIdentityEffect(list: displayList)
                             // <+4648>
                             // <+4656>
                         }
                         
-                        if displsyList.features.contains(.required) {
+                        if displayList.features.contains(.required) {
                             return
                         }
                         
@@ -327,8 +327,8 @@ extension DisplayList {
                             // <+1524>
                             if transform.isIdentity {
                                 // <+1640>
-                                self.value = .effect(.identity, displsyList)
-                                self.canonicalizeIdentityEffect(list: displsyList)
+                                self.value = .effect(.identity, displayList)
+                                self.canonicalizeIdentityEffect(list: displayList)
                                 // <+4648>
                             } else {
                                 // <+4648>
@@ -339,9 +339,38 @@ extension DisplayList {
                         }
                         
                         return
-                    case .filter(_):
+                    case .filter(let filter):
                         // <+560>
-                        assertUnimplemented()
+                        if filter.isIdentity {
+                            // <+672>
+                            self.value = .effect(.identity, displayList)
+                            self.canonicalizeIdentityEffect(list: displayList)
+                            return
+                        } else {
+                            // <+2228>
+                            if
+                                let colorMatrix_1 = _ColorMatrix(filter, premultiplied: false),
+                                displayList.items.count == 1
+                            {
+                                let item = displayList.items[0]
+                                
+                                if
+                                    item.frame == CGRect(origin: .zero, size: self.size),
+                                    case .effect(let effect, let displayList) = item.value,
+                                    case .filter(let filter) = effect,
+                                    let colorMatrix_2 = _ColorMatrix(filter, premultiplied: false)
+                                {
+                                    // <+5556>
+                                    let colorMatrix_3 = colorMatrix_1 * colorMatrix_2
+                                    self.value = .effect(.filter(.colorMatrix((colorMatrix_3, premultiplied: false))), displayList)
+                                    return
+                                } else {
+                                    return
+                                }
+                            } else {
+                                return
+                            }
+                        }
                     case .animation(_):
                         // <+2632>
                         return
@@ -358,7 +387,7 @@ extension DisplayList {
                         // <+1748>
                         self.canonicalizePlatformEffect(options: options)
                         return
-                    case .state(let strongHash):
+                    case .state(_):
                         // <+2632>
                         assertUnimplemented()
                     case .interpolatorRoot(_, _, _):
@@ -373,9 +402,9 @@ extension DisplayList {
                     case .identity:
                         // <+1132>
                         // <+1396>
-                        self.canonicalizeIdentityEffect(list: displsyList)
+                        self.canonicalizeIdentityEffect(list: displayList)
                         // <+4648>
-                        if !displsyList.features.contains(.required) {
+                        if !displayList.features.contains(.required) {
                             // <+4660>
                             // effect의 case를 확인하지만 .identity는 아무것도 안함
                             // <+4720>

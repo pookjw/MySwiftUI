@@ -199,20 +199,66 @@ fileprivate struct GeometryEffectTransform<T : GeometryEffect> : AsyncAttribute,
 }
 
 fileprivate struct GeometryEffectDisplayList<T : GeometryEffectProvider> : CustomStringConvertible, AsyncAttribute, Rule {
-    let identity: _DisplayList_Identity
-    @Attribute private(set) var effect: T.Effect
-    @Attribute private(set) var position: CGPoint
-    @Attribute private(set) var size: CGSize
-    @Attribute private(set) var layoutDirection: LayoutDirection
-    @Attribute private(set) var containerPosition: CGPoint
-    @OptionalAttribute var content: DisplayList?
-    let options: DisplayList.Options
+    let identity: _DisplayList_Identity // 0x0
+    @Attribute private(set) var effect: T.Effect // 0x4
+    @Attribute private(set) var position: CGPoint // 0x8
+    @Attribute private(set) var size: CGSize // 0xc
+    @Attribute private(set) var layoutDirection: LayoutDirection // 0x10
+    @Attribute private(set) var containerPosition: CGPoint // 0x14
+    @OptionalAttribute var content: DisplayList? // 0x18
+    let options: DisplayList.Options // 0x1c
     
     var description: String {
         assertUnimplemented()
     }
     
     var value: DisplayList {
-        assertUnimplemented()
+        let content = self.content ?? DisplayList()
+        
+        guard !content.isEmpty else {
+            return content
+        }
+        
+        let v1_0: CGFloat
+        let v1_1: CGFloat
+        do {
+            let position = self.position
+            v1_0 = position.x
+            v1_1 = position.y
+        }
+        
+        var v0_0: CGFloat
+        var v0_1: CGFloat
+        do {
+            let containerPosition = self.containerPosition
+            v0_0 = containerPosition.x
+            v0_1 = containerPosition.y
+        }
+        
+        v0_0 = v1_0 - v0_0
+        v0_1 = v1_1 - v0_1
+        var x290xd0 = CGPoint(x: v0_0, y: v0_1)
+        
+        let effect = self.effect
+        let size = self.size
+        let layoutDirection = self.layoutDirection
+        
+        let resolved = T.resolve(
+            effect: effect,
+            origin: &x290xd0,
+            size: size,
+            layoutDirection: layoutDirection
+        )
+        
+        var item = DisplayList.Item(
+            .effect(resolved, content),
+            frame: CGRect(origin: x290xd0, size: self.size),
+            identity: self.identity,
+            version: DisplayList.Version(forUpdate: ())
+        )
+        
+        item.canonicalize(options: self.options)
+        
+        return DisplayList(item)
     }
 }

@@ -595,7 +595,8 @@ extension Shader {
         }
         
         nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
-            assertUnimplemented()
+            let filter = GraphicsFilter.ShaderFilter(shader: self, size: size)
+            return .filter(.shader(filter))
         }
         
         var isCALayerCompatible: Bool {
