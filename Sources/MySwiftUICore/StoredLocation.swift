@@ -221,7 +221,21 @@ extension StoredLocationBase {
         }
         
         func combine<T>(with other: T) -> Bool where T : GraphMutation {
-            assertUnimplemented()
+            guard
+                let casted = other as? StoredLocationBase.BeginUpdate,
+                let selfBox = self.box, // x23
+                let otherBox = casted.box, // x20,
+                otherBox === selfBox
+            else {
+                return false
+            }
+            
+            // <+380>
+            selfBox.$data.access { value in
+                _ = value.savedValues.removeLast()
+            }
+            
+            return true
         }
     }
     

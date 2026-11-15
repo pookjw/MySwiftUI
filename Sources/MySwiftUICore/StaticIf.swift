@@ -179,11 +179,8 @@ extension StaticIf : View, PrimitiveView where Predicate : ViewInputPredicate, T
     }
     
     package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody, else: () -> FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
-        assertUnimplemented()
-    }
-    
-    package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: () -> TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyView {
-        assertUnimplemented()
+        self.trueBody = then()
+        self.falseBody = `else`()
     }
 //    
 //    init<Context : StyleContext>(in context: Context, then: () -> TrueBody, else: () -> FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {
@@ -264,11 +261,13 @@ extension StaticIf : ViewModifier, PrimitiveViewModifier where Predicate : ViewI
     }
     
     package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody, else: FalseBody) where Predicate == InterfaceIdiomPredicate<Idiom> {
-        assertUnimplemented()
+        self.trueBody = then
+        self.falseBody = `else`
     }
     
     package init<Idiom : InterfaceIdiomProtocol>(idiom: Idiom, then: TrueBody) where Predicate == InterfaceIdiomPredicate<Idiom>, FalseBody == EmptyModifier {
-        assertUnimplemented()
+        self.trueBody = then
+        self.falseBody = EmptyModifier()
     }
 //    
 //    init<Context : StyleContext>(in context: Context, then: TrueBody, else: FalseBody) where Predicate == StyleContextAcceptsPredicate<Context> {

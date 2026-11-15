@@ -137,8 +137,16 @@ extension FocusViewGraph {
             attr.projectedValue?.value = value
         }
         
-        func combine<T>(with other: T) -> Bool where T : MySwiftUICore::GraphMutation {
-            assertUnimplemented()
+        mutating func combine<T>(with other: T) -> Bool where T : GraphMutation {
+            guard
+                let casted = other as? FocusViewGraph.IsFocusSystemEnabledMutation,
+                casted.attr == self.attr
+            else {
+                return false
+            }
+            
+            self.value = casted.value
+            return true
         }
     }
 }

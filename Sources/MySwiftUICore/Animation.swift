@@ -1129,7 +1129,7 @@ final class AnimatorState<Value : VectorArithmetic> {
     }
     
     public static func == (a: EmptyAnimatableData, b: EmptyAnimatableData) -> Bool {
-        assertUnimplemented()
+        return true
     }
 }
 
