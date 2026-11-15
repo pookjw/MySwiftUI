@@ -43,7 +43,7 @@ private import Observation
         unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSManager.self)
             .myRealityKitRef = self
 #else
-        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSService.self)
+        unsafe unsafeBitCast(coreECSManager, to: CoreRE::ECSManager.self)
             .swiftObject = unsafe Unmanaged.passUnretained(self).toOpaque()
 #endif
         

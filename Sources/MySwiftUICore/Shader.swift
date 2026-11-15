@@ -400,7 +400,41 @@ extension _ShaderFilterEffect {
         typealias Value = Shader.ResolvedShader
         
         mutating func updateValue() {
-            assertUnimplemented()
+            let (modifier, modifierChanged) = self.$modifier.changedValue(options: [])
+            
+            if modifierChanged {
+                // <+216>
+            } else {
+                let environment = self.env
+                
+                if self.tracker.hasDifferentUsedValues(environment.plist) {
+                    // <+228>
+                } else {
+                    return
+                }
+            }
+            
+            // <+228>
+            self.tracker.reset()
+            
+            let environment = self.env
+            self.tracker.initializeValues(from: environment.plist)
+            
+            if modifier.enabled {
+                // <+392>
+                self.value = Shader.ResolvedShader(
+                    rbShader: modifier.shader.makeRBShader(in: environment),
+                    maxSampleOffset: modifier.maxSampleOffset,
+                    options: modifier.shader.options
+                )
+            } else {
+                // <+468>
+                self.value = Shader.ResolvedShader(
+                    rbShader: nil,
+                    maxSampleOffset: .zero,
+                    options: []
+                )
+            }
         }
     }
 }

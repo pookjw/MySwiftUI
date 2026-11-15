@@ -82,8 +82,64 @@ fileprivate struct ChildEnvironment<Value> : CustomStringConvertible, AsyncAttri
     
     typealias Value = EnvironmentValues
     
-    func updateValue() {
-        assertUnimplemented()
+    mutating func updateValue() {
+        var (environment, envChanged) = self.$environment.changedValue(options: [])
+        let modifier = self.modifier
+        var value = environment[keyPath: modifier.keyPath]
+        
+        self.$modifier.syncMainIfReferences { modifier in
+            // $s7SwiftUI16ChildEnvironment33_E370275CDB55AC7AD9ACF0420859A9E8LLV11updateValueyyFyAA01_D20KeyTransformModifierVyxGXEfU_TA
+            ObservationCenter.current._withObservation(attribute: Attribute<EnvironmentValues>(identifier: .current!)) { 
+                modifier.transform(&value)
+            }
+        }
+        
+        if envChanged {
+            // <+624>
+        } else {
+            // <+336>
+            let result = self.oldValue.map { oldValue in
+                // $s7SwiftUI16ChildEnvironment33_E370275CDB55AC7AD9ACF0420859A9E8LLV11updateValueyyFSbyKXEfu_SbxXEfU0_TA
+                return compareValues(oldValue, value, options: [.unknown1])
+            }
+            
+            if let result {
+                if result {
+                    // <+624>
+                } else {
+                    // <+472>
+                    let result = self.oldKeyPath.map { oldKeyPath in
+                        // $s7SwiftUI16ChildEnvironment33_E370275CDB55AC7AD9ACF0420859A9E8LLV11updateValueyyFSbyKXEfu1_Sbs15WritableKeyPathCyAA0D6ValuesVxGXEfU1_TA
+                        return oldKeyPath == modifier.keyPath
+                    }
+                    
+                    if let result {
+                        if result {
+                            // <+624>
+                        } else {
+                            if self.hasValue {
+                                // <+592>
+                                return
+                            } else {
+                                
+                            }// <+624>
+                        }
+                    } else {
+                        // <+624>
+                    }
+                }
+            } else {
+                // <+624>
+            }
+            
+            // <+624>
+        }
+        
+        // <+624>
+        environment[keyPath: modifier.keyPath] = value
+        self.value = environment
+        self.oldValue = value
+        self.oldKeyPath = modifier.keyPath
     }
     
     var description: String {

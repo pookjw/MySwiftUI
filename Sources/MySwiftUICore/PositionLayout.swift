@@ -11,6 +11,8 @@ public import CoreGraphics
     public typealias Body = Never
 }
 
+extension _PositionLayout : BitwiseCopyable {}
+
 extension View {
     @inlinable nonisolated public func position(_ position: CGPoint) -> some View {
         return modifier(_PositionLayout(position: position))
