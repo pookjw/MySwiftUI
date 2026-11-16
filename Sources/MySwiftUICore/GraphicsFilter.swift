@@ -45,7 +45,86 @@ package enum GraphicsFilter {
     }
     
     var isIdentity: Bool {
-        assertUnimplemented()
+        switch self {
+        case .blur(let blurStyle):
+            // <+268>
+            return blurStyle.isIdentity
+        case .variableBlur(let blurStyle):
+            // <+292>
+            return blurStyle.isIdentity
+        case .displacementMap(let map):
+            // <+132>
+            return map.amount == 0
+        case .chromaticAberrationMap(let map):
+            // <+132>
+            return map.amount == 0
+        case .shadow(_):
+            // <+480>
+            return false
+        case .projection(_):
+            // <+480>
+            return false
+        case .colorMatrix(let colorMatrix):
+            // <+388>
+            return colorMatrix.0.isIdentity
+        case .colorMultiply(let resolved):
+            // <+184>
+            return resolved == .white
+        case .alphaMultiply(let resolved):
+            // <+184>
+            return resolved == .white
+        case .hueRotation(let angle):
+            // <+132>
+            return angle.radians == 0
+        case .saturation(let saturation):
+            // <+156>
+            return saturation == 1
+        case .brightness(let brightness):
+            // <+132>
+            return brightness == 0
+        case .contrast(let contrast):
+            // <+156>
+            return contrast == 1
+        case .grayscale(let grayscale):
+            // <+132>
+            return grayscale == 0
+        case .colorMonochrome(let colorMonochrome):
+            // <+244>
+            return colorMonochrome.amount == 0
+        case .vibrantColorMatrix(_):
+            // <+480>
+            return false
+        case .luminanceCurve(let luminanceCurve):
+            // <+228>
+            return luminanceCurve.amount == 0
+        case .colorCurves(_):
+            // <+480>
+            return false
+        case .shader(_):
+            // <+480>
+            return false
+        case .alphaThreshold(_):
+            // <+480>
+            return false
+        case .edrGainMultiply(_):
+            // <+480>
+            return false
+        case .glassBackground(_):
+            // <+480>
+            return false
+        case .caFilter(let provider):
+            // <+432>
+            return provider.isIdentity
+        case .averageColor:
+            // <+480>
+            return false
+        case .luminanceToAlpha:
+            // <+480>
+            return false
+        case .colorInvert:
+            // <+480>
+            return false
+        }
     }
     
     var changesDOD: Bool {
@@ -118,7 +197,7 @@ extension Array where Element == GraphicsFilter {
 
 extension GraphicsFilter {
     package struct DisplacementMap {
-        private var amount: CGFloat
+        fileprivate private(set) var amount: CGFloat
         private var mask: VariableBlurStyle.Mask
     }
     
