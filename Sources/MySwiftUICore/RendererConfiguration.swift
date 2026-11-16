@@ -47,8 +47,16 @@ package struct RasterizationOptions : Equatable {
     private(set) var flags: RasterizationOptions.Flags // 0x8
     private(set) var maxDrawableCount: Int8 // 0xc
     
-    init(colorMode: ColorRenderingMode, allowedDynamicRange: Image.DynamicRange?, flags: RasterizationOptions.Flags) {
-        assertUnimplemented()
+    init(
+        colorMode: ColorRenderingMode = .nonLinear,
+        allowedDynamicRange: Image.DynamicRange?,
+        flags: RasterizationOptions.Flags = .defaultFlags
+    ) {
+        self.rbColorMode = .invalid
+        self.colorMode = colorMode
+        self.allowedDynamicRange = allowedDynamicRange
+        self.flags = flags
+        self.maxDrawableCount = 3
     }
     
     init(_ options: _RendererConfiguration.RasterizationOptions) {
@@ -115,6 +123,19 @@ package struct RasterizationOptions : Equatable {
     
     var colorSpace: RBColorSpace {
         return self.resolvedColorMode.workingColorSpace
+    }
+    
+    var isAccelerated: Bool {
+        get {
+            return self.flags.contains(.isAccelerated)
+        }
+        set {
+            if newValue {
+                self.flags.formUnion(.isAccelerated)
+            } else {
+                self.flags.subtract(.isAccelerated)
+            }
+        }
     }
 }
 

@@ -292,9 +292,11 @@ extension DisplayList.ViewUpdater {
             parentState: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) -> Time {
             /*
+             self -> x20
              item -> x0 -> x25
              platform -> x1 -> x28
              parentState -> x2 -> x26
+             return pointer -> x8 -> x19
              */
             switch item.value {
             case .content(let content):
@@ -310,27 +312,36 @@ extension DisplayList.ViewUpdater {
                     // <+684>
                     return .infinity
                 default:
+                    // <+684>
                     return .infinity
                 }
             case .effect(let effect, _):
-                // <+132>
+                // <+108>
                 switch effect {
-                case .backdropGroup(_):
-                    // <+436>
-                    assertUnimplemented()
                 case .archive(_):
-                    // <+132>
+                    // <+612>
                     assertUnimplemented()
-                case .filter(.shader(_)):
-                    // <+436>
-                    assertUnimplemented()
+                case .filter(let filter):
+                    // <+548>
+                    switch filter {
+                    case .shader(_):
+                        // <+564>
+                        item.addDrawingGroup(contentSeed: DisplayList.Seed(item.version))
+                        // <+684>
+                        return .infinity
+                    default:
+                        // <+684>
+                        return .infinity
+                    }
                 case .animation(_):
-                    // <+132>
+                    // <+160>
                     assertUnimplemented()
                 default:
+                    // <+684>
                     return .infinity
                 }
             default:
+                // <+684>
                 return .infinity
             }
         }

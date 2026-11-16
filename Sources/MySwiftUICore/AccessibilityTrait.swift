@@ -191,11 +191,11 @@ package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet
         assertUnimplemented()
     }
     
-    init(adding: T.Element...) {
+    package init(adding: T.Element...) {
         assertUnimplemented()
     }
     
-    init(removing: T.Element...) {
+    package init(removing: T.Element...) {
         assertUnimplemented()
     }
     

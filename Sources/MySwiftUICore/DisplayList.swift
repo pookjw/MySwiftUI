@@ -535,8 +535,52 @@ extension DisplayList {
             assertUnimplemented()
         }
         
-        func addDrawingGroup(contentSeed: DisplayList.Seed) {
-            assertUnimplemented()
+        mutating func addDrawingGroup(contentSeed: DisplayList.Seed) {
+            if case .empty = self.value {
+                return
+            }
+            
+            var extent = CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0)
+            self.addExtent(to: &extent)
+            
+            let d8: CGFloat
+            let d9: CGFloat
+            let d10: CGFloat
+            let d11: CGFloat
+            do {
+                let frame = (extent.isNull ? CGRect.zero : extent).integral
+                d8 = frame.origin.x
+                d9 = frame.origin.y
+                d10 = frame.size.width
+                d11 = frame.size.height
+            }
+            
+            let copy = DisplayList.Item(
+                self.value,
+                frame: CGRect(origin: .zero, size: self.frame.size),
+                identity: .none,
+                version: self.version
+            )
+            
+            var options = RasterizationOptions(allowedDynamicRange: nil)
+            options.isAccelerated = true
+            
+            var d12 = self.frame.origin.x
+            var d13 = self.frame.origin.y
+            d12 = d8 - d12
+            d13 = d9 - d13
+            
+            self.frame = CGRect(x: d8, y: d9, width: d10, height: d11)
+            
+            let newValue = DisplayList.Content.Value.flattened(
+                DisplayList(copy),
+                CGPoint(x: d12, y: d13),
+                options
+            )
+            
+            let content = DisplayList.Content(newValue, seed: contentSeed)
+            
+            self.value = .content(content)
         }
         
         mutating func addEffect(_ effect: DisplayList.Effect) {
@@ -622,7 +666,7 @@ extension DisplayList {
             }
         } 
         
-        private func addExtent(to: inout CGRect) {
+        fileprivate func addExtent(to extent: inout CGRect) {
             assertUnimplemented()
         }
         

@@ -5,7 +5,7 @@ package struct AccessibilityProperties {
     private var label: AccessibilityLabelStorage? // 0x18
     package var traits: AccessibilityNullableOptionSet<AccessibilityTraitSet>? // 0x28
     private var value: AccessibilityValueStorage? // 0x40
-    private var visibility: AccessibilityNullableOptionSet<AccessibilityVisibility>? // 0x70
+    package var visibility: AccessibilityNullableOptionSet<AccessibilityVisibility>? // 0x70
     private var textLayoutProperties: AccessibilityTextLayoutProperties? // 0x80
     private var storage: AccessibilityProperties.CustomPropertyStorage // 0x118
     

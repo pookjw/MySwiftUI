@@ -144,6 +144,7 @@ struct HoverEffectState {
         case .clip:
             assertUnimplemented()
         case .transform(let transform):
+            // <+396>
             switch transform {
             case .affine(_):
                 assertUnimplemented()
@@ -151,8 +152,27 @@ struct HoverEffectState {
                 assertUnimplemented()
             case .affine3D(_):
                 return false
-            case .rotation(_):
-                assertUnimplemented()
+            case .rotation(let data):
+                // <+524>
+                let transform_1 = CGAffineTransform(translationX: data.anchor.x, y: data.anchor.y)
+                    .rotated(by: data.angle.radians)
+                    .translatedBy(x: -data.anchor.x, y: -data.anchor.y)
+                
+                let result = self.updateLeafEffectState { values in
+                    guard
+                        values.affineTransform != nil,
+                        !transform_1.isIdentity
+                    else {
+                        return false
+                    }
+                    
+                    values.affineTransform!.inactiveValue = values.affineTransform!.inactiveValue.concatenating(transform_1)
+                    values.affineTransform!.activeValue = values.affineTransform!.activeValue.concatenating(transform_1)
+                    
+                    return true
+                }
+                
+                return result
             case .rotation3D(_):
                 assertUnimplemented()
             }
@@ -229,7 +249,7 @@ extension HoverEffectState {
 
 struct HoverEffectLeafValues {
     fileprivate var opacity: HoverEffectOpacityValue?
-    private var affineTransform: HoverEffectAffineTransformValue?
+    fileprivate var affineTransform: HoverEffectAffineTransformValue?
     private var resize: HoverEffectResizeValue?
     private var resizeBy: HoverEffectResizeByValue?
     private var remoteLeafEffects: RemoteLeafEffectCollection?
@@ -243,8 +263,8 @@ struct HoverEffectOpacityValue {
 
 struct HoverEffectAffineTransformValue {
     private let identity: _DisplayList_Identity
-    private var inactiveValue: CGAffineTransform
-    private var activeValue: CGAffineTransform
+    fileprivate var inactiveValue: CGAffineTransform
+    fileprivate var activeValue: CGAffineTransform
 }
 
 struct HoverEffectResizeValue {

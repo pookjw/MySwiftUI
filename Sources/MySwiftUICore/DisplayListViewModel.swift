@@ -37,7 +37,7 @@ extension DisplayList.ViewUpdater {
             var transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0) // 0x20
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
             var filters: [GraphicsFilter] = [] // 0x58
-            private(set) var shadow: Indirect<ResolvedShadowStyle>? = nil // 0x60
+            fileprivate(set) var shadow: Indirect<ResolvedShadowStyle>? = nil // 0x60
             private(set) var properties: DisplayList.Properties = [] // 0x68
             private(set) var rewriteVibrantColorMatrix: Bool = false // 0x6c
             private var backdropAwareColorMatrices: Bool = false // 0x6d
@@ -228,7 +228,7 @@ extension DisplayList.ViewUpdater.Model.State {
         var transform = DisplayList.Version() // 0x10
         var clips = DisplayList.Version() // 0x18
         var filters = DisplayList.Version() // 0x20
-        private(set) var shadow = DisplayList.Version() // 0x28
+        var shadow = DisplayList.Version() // 0x28
         private(set) var properties = DisplayList.Version() // 0x30
         
         init() {}
@@ -448,9 +448,26 @@ extension DisplayList.ViewUpdater.Model {
                     // <+4604>
                     assertUnimplemented()
                 }
-            case .filter(_):
+            case .filter(let filter):
                 // <+3532>
-                assertUnimplemented()
+                switch filter {
+                case .shadow(let style):
+                    // <+4296>
+                    unsafe state.shadow = Indirect(style)
+                    unsafe state.versions.shadow = max(state.versions.shadow, item.version)
+                case .shader(_):
+                    // <+5036>
+                    break
+                default:
+                    // <+3660>
+                    if filter.isIdentity {
+                        // <+5036>
+                    } else {
+                        // <+4908>
+                        unsafe state.filters.append(filter)
+                        unsafe state.versions.filters = max(state.versions.filters, item.version)
+                    }
+                }
             case .animation(_):
                 // <+5452>
                 assertUnimplemented()

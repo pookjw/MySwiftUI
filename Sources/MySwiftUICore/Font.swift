@@ -413,15 +413,19 @@ extension Font {
     @frozen public struct Weight : Hashable {
         package var value: CGFloat
         
-        public static let ultraLight: Font.Weight = { assertUnimplemented() }()
-        public static let thin: Font.Weight = { assertUnimplemented() }()
-        public static let light: Font.Weight = { assertUnimplemented() }()
-        public static let regular: Font.Weight = { assertUnimplemented() }()
-        public static let medium: Font.Weight = { assertUnimplemented() }()
-        public static let semibold: Font.Weight = { assertUnimplemented() }()
-        public static let bold: Font.Weight = { assertUnimplemented() }()
-        public static let heavy: Font.Weight = { assertUnimplemented() }()
-        public static let black: Font.Weight = { assertUnimplemented() }()
+        static func custom(_ value: CGFloat) -> Font.Weight {
+            return Font.Weight(value: value)
+        }
+        
+        public static let ultraLight = Font.Weight(value: -0.8)
+        public static let thin = Font.Weight(value: -0.6)
+        public static let light = Font.Weight(value: -0.4)
+        public static let regular = Font.Weight(value: 0)
+        public static let medium = Font.Weight(value: 0.23)
+        public static let semibold = Font.Weight(value: 0.3)
+        public static let bold = Font.Weight(value: 0.4)
+        public static let heavy = Font.Weight(value: 0.56)
+        public static let black = Font.Weight(value: 0.62)
     }
     
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)

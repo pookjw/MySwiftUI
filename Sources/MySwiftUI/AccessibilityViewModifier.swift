@@ -609,7 +609,37 @@ fileprivate struct PropertiesTransform : ScrapeableAttribute, StatefulRule, Remo
 
 extension View {
     nonisolated public func accessibilityHidden(_ hidden: Bool) -> ModifiedContent<Self, AccessibilityAttachmentModifier> {
-        assertUnimplemented()
+        let visibility: AccessibilityNullableOptionSet<AccessibilityVisibility>
+        if hidden {
+            visibility = AccessibilityNullableOptionSet<AccessibilityVisibility>(adding: .hidden)
+        } else {
+            visibility = AccessibilityNullableOptionSet<AccessibilityVisibility>(removing: .hidden)
+        }
+        
+        return self.accessibility(isEnabled: true) { properties in
+            // $s7SwiftUI4ViewPAAE23accessibilityVisibilityyAA15ModifiedContentVyxAA31AccessibilityAttachmentModifierVGAA0H17NullableOptionSetVyAA0hE0VGFyAA0H10PropertiesVzXEfU_TA
+            properties.visibility = visibility
+        }
+    }
+    
+    nonisolated func accessibility(isEnabled: Bool, body: (inout AccessibilityProperties) -> Void) -> ModifiedContent<Self, AccessibilityAttachmentModifier> {
+        var properties = AccessibilityProperties()
+        
+        if isEnabled {
+            body(&properties)
+        }
+        
+        let attachment = AccessibilityAttachment.properties(properties)
+        return self.accessibility(attachment)
+    }
+    
+    nonisolated func accessibility(_ attachment: AccessibilityAttachment) -> ModifiedContent<Self, AccessibilityAttachmentModifier> {
+        let modifier = AccessibilityAttachmentModifier(
+            storage: MutableBox(attachment),
+            behavior: nil
+        )
+        
+        return self.modifier(modifier)
     }
 }
 

@@ -1,6 +1,6 @@
 internal import ObjectiveC
 
-package struct AccessibilityAttachment : Equatable {
+package struct AccessibilityAttachment : Equatable, @unchecked Sendable {
     package static func properties(_ properties: AccessibilityProperties) -> AccessibilityAttachment {
         return AccessibilityAttachment(properties: properties)
     }
