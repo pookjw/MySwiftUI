@@ -137,6 +137,64 @@ extension DisplayList.ViewUpdater {
                 
                 assertUnimplemented()
             }
+            
+            fileprivate mutating func adjust(for transform: CGAffineTransform) {
+                guard unsafe (self.shadow != nil) || !self.filters.isEmpty else {
+                    return
+                }
+                
+                let transform_1 = transform
+                let d8: CGFloat = 1
+                var d0 = CGSize(width: 1, height: 1)
+                    .applying(transform_1)
+                    .width
+                var d1: CGFloat = -1
+                d1 = d0 + d1
+                d1 = abs(d1)
+                let d2: CGFloat = 0.001
+                
+                guard !(d1 <= d2) else {
+                    return
+                }
+                
+                d0 = d8 / d0
+                let sp0x10 = d0
+                
+                if unsafe self.shadow != nil {
+                    // <+152>
+                    let radius = unsafe self.shadow!.value.radius
+                    unsafe self.shadow!.value.radius = sp0x10 * radius
+                    
+                    var offset = unsafe self.shadow!.value.offset
+                    
+                    if offset.width != 0 {
+                        offset.width = offset.width * sp0x10
+                    } else {
+                        offset.width = 0
+                    }
+                    
+                    if offset.height != 0 {
+                        offset.height = offset.height * sp0x10
+                    } else {
+                        offset.height = 0
+                    }
+                    
+                    unsafe self.shadow!.value.offset = offset
+                }
+                
+                // <+508>
+                for index in unsafe self.filters.indices {
+                    let filter = unsafe self.filters[index]
+                    
+                    switch filter {
+                    case .blur(var blurStyle):
+                        blurStyle.radius = sp0x10 * blurStyle.radius
+                        unsafe self.filters[index] = .blur(blurStyle)
+                    default:
+                        break
+                    }
+                }
+            }
         }
         
         struct MergedViewRequirements : OptionSet {
@@ -360,10 +418,13 @@ extension DisplayList.ViewUpdater.Model {
                 // <+2176>
                 switch transform {
                 case .affine(_):
+                    // <+3992>
                     assertUnimplemented()
                 case .projection(_):
+                    // <+4708>
                     assertUnimplemented()
                 case .affine3D(let transform):
+                    // <+4448>
                     let results = unsafe DisplayList
                         .ViewUpdater
                         .Model
@@ -374,9 +435,17 @@ extension DisplayList.ViewUpdater.Model {
                         )
                     
                     requirements.formUnion(results)
-                case .rotation(_):
-                    assertUnimplemented()
+                case .rotation(let data):
+                    // <+2332>
+                    let transform = CGAffineTransform(translationX: data.anchor.x, y: data.anchor.y)
+                        .rotated(by: data.angle.radians)
+                        .translatedBy(x: -data.anchor.x, y: -data.anchor.y)
+                    
+                    unsafe state.transform = transform.concatenating(state.transform)
+                    unsafe state.versions.transform = max(state.versions.transform, item.version)
+                    unsafe state.adjust(for: transform)
                 case .rotation3D(_):
+                    // <+4604>
                     assertUnimplemented()
                 }
             case .filter(_):

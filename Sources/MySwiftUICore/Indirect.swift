@@ -1,27 +1,39 @@
 struct Indirect<T> {
-    var box: MutableBox<T>
+    private var box: MutableBox<T>
     
     init(_ value: T) {
-        assertUnimplemented()
+        self.box = MutableBox(value)
     }
     
     init(wrappedValue: T) {
-        assertUnimplemented()
+        self.box = MutableBox(wrappedValue)
     }
     
     var value: T {
-        get { assertUnimplemented() }
-        set { assertUnimplemented() }
+        get {
+            return self.box.value
+        }
+        set {
+            if !isKnownUniquelyReferenced(&self.box) {
+                self.box = MutableBox(self.box.value)
+            }
+            
+            self.box.value = newValue
+        }
     }
     
     var wrappedValue: T {
-        get { assertUnimplemented() }
-        set { assertUnimplemented() }
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
     }
 }
 
 extension Indirect: Equatable where T: Equatable {
     static func == (lhs: Indirect, rhs: Indirect) -> Bool {
-        assertUnimplemented()
+        return lhs.value == rhs.value
     }
 }

@@ -1,7 +1,7 @@
 package import CoreGraphics
 
 package struct BlurStyle {
-    private var radius: CGFloat
+    var radius: CGFloat
     private(set) var isOpaque: Bool
     private var dither: Bool
     private var hardEdges: Bool
