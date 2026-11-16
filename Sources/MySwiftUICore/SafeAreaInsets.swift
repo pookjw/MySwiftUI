@@ -6,7 +6,7 @@ private import Spatial
 package struct SafeAreaInsets : Equatable {
     var space: CoordinateSpace.ID // 0x0
     var elements: [SafeAreaInsets.Element] // 0x8
-    var next: SafeAreaInsets.OptionalValue = .empty // 0x10
+    var next: SafeAreaInsets.OptionalValue // 0x10
     
     func resolve(regions: SafeAreaRegions, cornerAdaptation: Edge.Set, in context: _PositionAwarePlacementContext) -> EdgeInsets {
         /*
