@@ -82,7 +82,27 @@ extension _RotationEffect {
 
 extension _RotationEffect : GeometryEffectProvider {
     static func resolve(effect: _RotationEffect, origin: inout CGPoint, size: CGSize, layoutDirection: LayoutDirection) -> DisplayList.Effect {
-        assertUnimplemented()
+        let d0 = effect.angle.radians
+        var d1 = effect.anchor.x
+        let d2 = effect.anchor.y
+        var d3 = size.width
+        let d4 = size.height
+        d1 = d1 * d3
+        var d5: CGFloat = -128
+        d5 = d0 * d5
+        var d6: CGFloat = 0
+        d5 = d5 + d6
+        d6 = 1.0 / 128.0
+        d5 = d5 * d6
+        d3 = d3 - d1
+        
+        let d8 = (layoutDirection == .rightToLeft) ? d3 : d1
+        let d9 = (layoutDirection == .rightToLeft) ? d5 : d0
+        let d10 = d2 * d4
+        
+        let data = _RotationEffect.Data(angle: Angle(radians: d9), anchor: CGPoint(x: d8, y: d10))
+        let transform = DisplayList.Transform.rotation(data)
+        return .transform(transform)
     }
 }
 
