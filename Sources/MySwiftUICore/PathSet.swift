@@ -51,7 +51,7 @@ extension PathSet : ProtobufDecodableMessage {
 
 extension PathSet {
     struct Element {
-        private var path: Path
+        private(set) var path: Path
         private var tags: _ShapeSet.Tags
         private var operation: _ShapeSet.Operation
         private var options: _ShapeSet.Element.Options

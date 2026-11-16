@@ -667,7 +667,304 @@ extension DisplayList {
         } 
         
         fileprivate func addExtent(to extent: inout CGRect) {
-            assertUnimplemented()
+            /*
+             extent -> x0 -> x19
+             */
+            var d9 = self.frame.origin.x
+            var d8 = self.frame.origin.y
+            
+            switch self.value {
+            case .content(let content):
+                // <+80>
+                switch content.value {
+                case .shape(let path, _, _):
+                    // <+108>
+                    let d13 = d9
+                    let d12 = d8
+                    let boundingRect = path.boundingRect
+                    var d10 = boundingRect.origin.x
+                    var d11 = boundingRect.origin.y
+                    d8 = boundingRect.size.width
+                    d9 = boundingRect.size.height
+                    
+                    // <+2996>
+                    let d4 = d13 + d10
+                    let d5 = d12 + d11
+                    let d6 = d8
+                    let d7 = d9
+                    do {
+                        let rect = extent.union(CGRect(x: d4, y: d5, width: d6, height: d7))
+                        d8 = rect.origin.x
+                        d9 = rect.origin.y
+                        d10 = rect.size.width
+                        d11 = rect.size.height
+                    }
+                    
+                    extent = CGRect(x: d8, y: d9, width: d10, height: d11)
+                    return
+                case .sdfShape(let shape):
+                    // <+1052>
+                    let sp0x70 = (d9, d8)
+                    let boundingRect = shape.path.boundingRect
+                    let d11 = boundingRect.origin.x
+                    let d10 = boundingRect.origin.y
+                    d9 = boundingRect.size.width
+                    d8 = boundingRect.size.height
+                    var d1 = shape.origin.y
+                    var d0 = shape.origin.x
+                    d0 = d11 - d0
+                    d1 = d10 - d1
+                    let d2 = sp0x70.0
+                    let d4 = d2 + d0
+                    d0 = sp0x70.1
+                    let d5 = d0 + d1
+                    let d6 = d9
+                    let d7 = d8
+                    extent = extent.union(CGRect(x: d4, y: d5, width: d6, height: d7))
+                    return
+                case .shadow(let path, let style):
+                    // <+1596>
+                    let d14 = style.radius
+                    let d12 = style.offset.width
+                    let d13 = style.offset.height
+                    let w21 = style.kind
+                    let sp0x78 = d8
+                    let d15 = d9
+                    let boundingRect = path.boundingRect
+                    d8 = boundingRect.origin.x
+                    d9 = boundingRect.origin.y
+                    let d10 = boundingRect.size.width
+                    let d11 = boundingRect.size.height
+                    
+                    // <+2820>
+                    var d3: CGFloat = 0
+                    var d0: CGFloat = -2.8
+                    d0 = d14 * d0
+                    var d1 = d0 + d13
+                    var d2 = d0 + d12
+                    let d4 = d0 - d13
+                    let d5 = d0 - d12
+                    
+                    d0 = w21.contains(.inner) ? d3 : d1
+                    d1 = w21.contains(.inner) ? d3 : d2
+                    d2 = w21.contains(.inner) ? d3 : d4
+                    d3 = w21.contains(.inner) ? d3 : d5
+                    
+                    let rect = CGRect(x: d8, y: d9, width: d10, height: d11)
+                        .inset(by: EdgeInsets(top: d0, leading: d1, bottom: d2, trailing: d3))
+                    
+                    extent = extent
+                        .union(
+                            CGRect(
+                                x: d15 + rect.origin.x,
+                                y: sp0x78 + rect.origin.y,
+                                width: rect.size.width,
+                                height: rect.size.height
+                            )
+                        )
+                    
+                    return
+                default:
+                    // <+1664>
+                    extent = extent.union(self.frame)
+                    // <+3900>
+                    return
+                }
+            case .effect(let effect, let list):
+                // <+488>
+                var d14 = CGFloat.infinity
+                var d15 = CGFloat.infinity
+                var sp0x80 = CGRect(x: d14, y: d15, width: 0, height: 0)
+                var sp0x58: CGFloat = 0
+                var sp0x60: CGFloat = 0
+                
+                for item in list.items {
+                    item.addExtent(to: &sp0x80)
+                }
+                
+                var d13 = sp0x80.origin.x
+                var d12 = sp0x80.origin.y
+                var d11 = sp0x80.size.width
+                var d10 = sp0x80.size.height
+                
+                // <+772>
+                switch effect {
+                case .clip(let path, _, let options):
+                    // <+2396>
+                    if options.contains(.inverse) {
+                        // <+3832>
+                    } else {
+                        // <+3748>
+                        let boundingRect = path.boundingRect
+                        let d14 = boundingRect.origin.x
+                        let d15 = boundingRect.origin.y
+                        sp0x60 = boundingRect.size.width
+                        sp0x58 = boundingRect.size.height
+                        let intersection = CGRect(x: d13, y: d12, width: d11, height: d10)
+                            .intersection(CGRect(x: d14, y: d15, width: sp0x60, height: sp0x58))
+                        d13 = intersection.origin.x
+                        d12 = intersection.origin.y
+                        d11 = intersection.size.width
+                        d10 = intersection.size.height
+                        // <+3832>
+                    }
+                case .mask(let list, let options):
+                    // <+896>
+                    if options.contains(.inverse) {
+                        // <+3832>
+                    } else {
+                        // <+904>
+                        sp0x80 = CGRect(x: d14, y: d15, width: sp0x60, height: sp0x58)
+                        
+                        for item in list.items {
+                            item.addExtent(to: &sp0x80)
+                        }
+                        
+                        d14 = sp0x80.origin.x
+                        d15 = sp0x80.origin.y
+                        let d6 = sp0x80.size.width
+                        let d7 = sp0x80.size.height
+                        
+                        // <+3788>
+                        let intersection = CGRect(x: d13, y: d12, width: d11, height: d10)
+                            .intersection(CGRect(x: d14, y: d15, width: d6, height: d7))
+                        d13 = intersection.origin.x
+                        d12 = intersection.origin.y
+                        d11 = intersection.size.width
+                        d10 = intersection.size.height
+                        // <+3832>
+                    }
+                case .sdfShape(let shape):
+                    // <+1808>
+                    let sp0x28 = d13
+                    let sp0x30 = d12
+                    let sp0x38 = d11
+                    let sp0x40 = d10
+                    let sp0x70 = d9
+                    let sp0x78 = d8
+                    let sp0x10 = shape.origin.y
+                    let sp0x18 = shape.origin.x
+                    
+                    if shape.path.elements.isEmpty {
+                        // <+2656>
+                        d10 = sp0x58
+                        d11 = sp0x60
+                    } else {
+                        d10 = sp0x58
+                        d11 = sp0x60
+                        
+                        for element in shape.path.elements {
+                            let boundingRect = element.path.boundingRect
+                            // <+2264>
+                            // <+1916>
+                            let union = CGRect(x: d14, y: d15, width: d11, height: d10)
+                                .union(boundingRect)
+                            d14 = union.origin.x
+                            d15 = union.origin.y
+                            d11 = union.size.width
+                            d10 = union.size.height
+                        }
+                    }
+                    
+                    // <+2660>
+                    let d0 = sp0x10
+                    let d1 = sp0x18
+                    let d4 = d14 - d1
+                    let d5 = d15 - d0
+                    let union = CGRect(x: sp0x28, y: sp0x30, width: sp0x38, height: sp0x40)
+                        .union(CGRect(x: d4, y: d5, width: d11, height: d10))
+                    d13 = union.origin.x
+                    d12 = union.origin.y
+                    d11 = union.size.width
+                    d10 = union.size.height
+                    d9 = sp0x70
+                    d8 = sp0x78
+                    // <+3832>
+                case .transform(let transform):
+                    // <+2284>
+                    if case .affine(let transform) = transform {
+                        let transformed = CGRect(x: d13, y: d12, width: d11, height: d10)
+                            .applying(transform)
+                        d13 = transformed.origin.x
+                        d12 = transformed.origin.y
+                        d11 = transformed.size.width
+                        d10 = transformed.size.height
+                        // <+3832>
+                    } else {
+                        // <+3832>
+                    }
+                case .filter(let filter):
+                    // <+808>
+                    let domain = filter.domainOfDefinition(for: CGRect(x: d13, y: d12, width: d11, height: d10))
+                    d13 = domain.origin.x
+                    d12 = domain.origin.y
+                    d11 = domain.size.width
+                    d10 = domain.size.height
+                    // <+3832>
+                default:
+                    // <+3832>
+                    break
+                }
+                
+                // <+3832>
+                extent = extent.union(
+                    CGRect(x: d9 + d13, y: d8 + d12, width: d11, height: d10)
+                )
+                
+                return
+            case .states(let states):
+                // <+172>
+                let sp0x70 = d9
+                let sp0x78 = d8
+                var d10 = CGFloat.infinity
+                var d11 = CGFloat.infinity
+                d8 = 0
+                let d12: CGFloat = 0
+                
+                if states.isEmpty {
+                    // <+720>
+                    d9 = d8
+                    d8 = 0
+                    // <+728>
+                } else {
+                    d9 = d10
+                    var d13 = d11
+                    var d14: CGFloat = 0
+                    var d15: CGFloat = 0
+                    
+                    for state in states {
+                        // <+296>
+                        var sp0x80 = CGRect(x: d10, y: d11, width: d8, height: d12)
+                        
+                        for item in state.1.items {
+                            item.addExtent(to: &sp0x80)
+                        }
+                        
+                        let union = CGRect(x: d9, y: d13, width: d15, height: d14)
+                            .union(sp0x80)
+                        d9 = union.origin.x
+                        d13 = union.origin.y
+                        d15 = union.size.width
+                        d14 = union.size.height
+                    }
+                    
+                    let tmp = d9
+                    d8 = d14
+                    d9 = d15
+                    d11 = d13
+                    d10 = tmp
+                }
+                
+                // <+728>
+                extent = extent.union(
+                    CGRect(x: sp0x70 + d10, y: sp0x78 + d11, width: d9, height: d8)
+                )
+                
+                return
+            case .empty:
+                // <+3900>
+                return
+            }
         }
         
         var isSeparatedMask: Bool {
