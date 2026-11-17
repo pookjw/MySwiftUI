@@ -929,9 +929,20 @@ extension DisplayList.ViewUpdater {
                 case .text(_, _):
                     // <+2744>
                     assertUnimplemented()
-                case .flattened(_, _, _):
+                case .flattened(_, _, let options):
                     // <+1852>
-                    assertUnimplemented()
+                    if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
+                        platform = .caLayer
+                    }
+                    
+                    // <+1936>
+                    let drawingView = platform.encoding.definition.makeDrawingView(options: PlatformDrawableOptions(base: options))
+                    let viewInfo = DisplayList.ViewUpdater.ViewInfo(platform: platform, view: drawingView, kind: .drawing)
+                    
+                    let parameters = CoreGlue2.SetupPlatformPropertiesParameters(view: drawingView, kind: .drawing, platform: platform)
+                    CoreGlue2.shared.setupPlatformProperties(parameters)
+                    
+                    return viewInfo
                 case .drawing(_, _, let options):
                     // <+1832>
                     if unsafe platform.encoding.mixedViewHierarchy && !state.pointee.properties.contains(.mayNotInsertCALayers) {
@@ -1338,9 +1349,85 @@ extension DisplayList.ViewUpdater {
                     case .text(_, _):
                         // <+5700>
                         assertUnimplemented()
-                    case .flattened(_, _, _):
+                    case .flattened(let list, let point, let options):
                         // <+4832>
-                        assertUnimplemented()
+                        if case .drawing = viewInfo.state.kind {
+                            // noop
+                        } else {
+                            viewInfo = unsafe self._makeItemView(item: item, state: state)
+                        }
+                        
+                        // <+6876>
+                        var d11 = unsafe state.pointee.globals.pointee.time
+                        let d10 = unsafe state.pointee.globals.pointee.environment.contentsScale
+                        let d0 = viewInfo.state.size.width
+                        let d1 = viewInfo.state.size.height
+                        var x190x1c = (size.width != d0)
+                        x190x1c = (size.height == d1) ? x190x1c : true
+                        
+                        let oldView = viewInfo.view
+                        
+                        let drawable = self.updateDrawingView(
+                            &viewInfo.view,
+                            options: options,
+                            contentsScale: d10
+                        )
+                        
+                        let updated = drawable.update(
+                            content: PlatformDrawableContent(storage: .displayList(list, point, d11)),
+                            required: x190x1c
+                        )
+                        
+                        viewInfo.isInvalid = !updated
+                        
+                        if viewInfo.view === oldView {
+                        } else {
+                            viewInfo.reset()
+                        }
+                        
+                        // <+11536>
+                        if options.flags.contains(.rendersAsynchronously) {
+                            // <+12488>
+                        } else if options.flags.contains(.prefersDisplayCompositing) {
+                            // <+11572>
+                            var d10 = Time.infinity
+                            
+                            for item in list.items {
+                                let d0 = item.nextUpdate(after: d11)
+                                d10 = (d0 < d10) ? d0 : d10
+                                
+                                if d10 == d11 {
+                                    break
+                                }
+                            }
+                            
+                            // <+12484>
+                            d11 = d10
+                            // <+12484>
+                        } else {
+                            // <+12080>
+                            d11 = .infinity
+                            // <+12488>
+                        }
+                        
+                        // <+12488>
+                        if d11 < viewInfo.nextUpdate {
+                            viewInfo.nextUpdate = d11
+                        }
+                        // <+13880>
+                        if viewInfo.state.flags.contains(.unknown5) {
+                            unsafe copy_1.versions.transform.combine(with: item.version)
+                        }
+                        
+                        if !viewInfo.isInvalid {
+                            if viewInfo.nextUpdate == .infinity {
+                                viewInfo.seeds.content = seed
+                            }
+                        }
+                        
+                        let platform = viewInfo.platform
+                        unsafe platform.updateState(&viewInfo, item: item, size: size, state: &copy_1)
+                        return
                     case .drawing(let contents, let point, let options):
                         // <+5056>
                         switch viewInfo.state.kind {

@@ -132,7 +132,130 @@ package enum GraphicsFilter {
     }
     
     func domainOfDefinition(for rect: CGRect) -> CGRect {
-        assertUnimplemented()
+        switch self {
+        case .blur(let style):
+            // <+140>
+            if style.isOpaque {
+                return rect
+            } else {
+                var d0 = style.radius
+                let d11 = rect.origin.x
+                let d10 = rect.origin.y
+                let d9 = rect.size.width
+                let d8 = rect.size.height
+                var d1: CGFloat = -2.8
+                let d4 = d0 * d1
+                d0 = d11
+                d1 = d10
+                let d2 = d9
+                let d3 = d8
+                let d5 = d4
+                
+                return CGRect(x: d0, y: d1, width: d2, height: d3)
+                    .insetBy(dx: d4, dy: d5)
+            }
+        case .shadow(let style):
+            // <+200>
+            let d11 = rect.origin.x
+            let d10 = rect.origin.y
+            let d9 = rect.size.width
+            let d8 = rect.size.height
+            var d3: CGFloat = 0
+            var d4: CGFloat = 0
+            var d0: CGFloat = 0
+            var d1: CGFloat = 0
+            
+            if !style.kind.contains(.inner) {
+                d1 = style.offset.width
+                d0 = style.offset.height
+                var d2 = style.radius
+                d3 = -2.8
+                d2 = d2 * d3
+                d3 = d0 + d2
+                d4 = d1 + d2
+                d0 = d2 - d0
+                d1 = d2 - d1
+            }
+            
+            // <+272>
+            let sp = (d1, d0, d4, d3)
+            let isNull = CGRect(x: d11, y: d10, width: d9, height: d8).isNull
+            var d12 = d11
+            var d13 = d10
+            var d14 = d9
+            var d15 = d8
+            
+            if isNull {
+                // <+460>
+            } else {
+                // <+320>
+                let standardized = CGRect(x: d11, y: d10, width: d9, height: d8).standardized
+                d0 = standardized.origin.x
+                d1 = standardized.origin.y
+                var d2 = standardized.size.width
+                d3 = standardized.size.height
+                let d5 = sp.2
+                let d6 = sp.0
+                d4 = (d5 == d6) ? d6 : d5
+                d12 = d4 + d0
+                d4 = sp.3
+                d13 = d4 + d1
+                d0 = d5 + d6
+                d14 = d2 - d0
+                d0 = sp.1
+                d0 = d4 + d0
+                d15 = d3 - d0
+                d0 = CGRect(x: d12, y: d13, width: d14, height: d15).width
+                
+                if d0 < 0 {
+                    // <+444>
+                    d12 = .infinity
+                    d13 = .infinity
+                    d14 = 0
+                    d15 = 0
+                    // <+460>
+                } else {
+                    d0 = CGRect(x: d12, y: d13, width: d14, height: d15).height
+                    
+                    if !(d0 < 0.0) {
+                        // <+460>
+                    }  else {
+                        // <+444>
+                        d12 = .infinity
+                        d13 = .infinity
+                        d14 = 0
+                        d15 = 0
+                        // <+460>
+                    }
+                    
+                    // <+460>
+                }
+                
+                // <+460>
+            }
+            
+            // <+460>
+            if style.kind.contains(.only) {
+                // <+616>
+                return CGRect(x: d12, y: d13, width: d14, height: d15)
+            } else {
+                // <+464>
+                return CGRect(x: d12, y: d13, width: d14, height: d15)
+                    .union(CGRect(x: d11, y: d10, width: d9, height: d8))
+            }
+        case .shader(let filter):
+            // <+504>
+            var d0 = filter.size.width
+            let d1 = filter.size.height
+            d0 = abs(d0)
+            let d4 = -d0
+            d0 = abs(d1)
+            let d5 = -d0
+            
+            return rect.insetBy(dx: d4, dy: d5)
+        default:
+            return rect
+        }
     }
 }
 
@@ -272,7 +395,7 @@ extension GraphicsFilter {
     
     package struct ShaderFilter {
         private var shader: Shader.ResolvedShader
-        private var size: CGSize
+        fileprivate private(set) var size: CGSize
         
         init(shader: Shader.ResolvedShader, size: CGSize) {
             self.shader = shader
