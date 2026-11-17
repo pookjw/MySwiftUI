@@ -1346,7 +1346,7 @@ struct DynamicLayoutMap {
     
     subscript(_ containerID: DynamicContainerID) -> LayoutProxyAttributes {
         get {
-            let index = map.partitionPoint { value in
+            let index = map.lowerBound { value in
                 return value.id < containerID
             }
             
@@ -1405,7 +1405,7 @@ struct DynamicLayoutMap {
             return
         }
         
-        let index = map.partitionPoint { $0.id < DynamicContainerID(uniqueId: uniqueId, viewIndex: 0) }
+        let index = map.lowerBound { $0.id < DynamicContainerID(uniqueId: uniqueId, viewIndex: 0) }
         
         guard index != count else {
             return

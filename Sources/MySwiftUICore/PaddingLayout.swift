@@ -160,7 +160,7 @@ extension _PaddingLayout : UnaryLayout {
     }
     
     nonisolated func layoutPriority(child: LayoutProxy) -> Double {
-        assertUnimplemented()
+        return 0
     }
     
     nonisolated func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
