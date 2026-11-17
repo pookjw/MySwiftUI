@@ -961,3 +961,226 @@ extension ViewLayoutEngine : DefaultAlignmentFunction {
         assertUnimplemented()
     }
 }
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension _ZStackLayout : @preconcurrency Layout, @unchecked Sendable {
+    public static var layoutProperties: LayoutProperties {
+        var layoutProperties = LayoutProperties()
+        layoutProperties.isIdentityUnaryLayout = true
+        return layoutProperties
+    }
+    
+    public func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: _ZStackLayout.Subviews, cache: inout Void) {
+        // sp + 0xe0
+        let copy_1 = subviews
+        
+        let mapSequence = copy_1.lazy.map { subview -> Double in
+            // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+            return subview.proxy.layoutPriority
+        }
+        
+        var d8: Double
+        if var d9 = mapSequence.first {
+            d8 = d9
+            
+            if copy_1.count != 1 {
+                // <+1028>
+                for index in 1..<copy_1.indices.endIndex {
+                    let subview = copy_1[index]
+                    let d12 = subview.proxy.layoutPriority
+                    let flag = (d9 < d12)
+                    d8 = flag ? d12 : d8
+                    d9 = flag ? d12 : d9
+                }
+            }
+        } else {
+            d8 = 0
+        }
+        
+        // <+172>
+        let values = copy_1
+            .lazy
+            .filter { subview in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSbAA0D7SubviewVcfU0_TA
+                return subview.proxy.layoutPriority == d8
+            }
+            .map { subview in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFAA0M10DimensionsVAA0D7SubviewVcfU1_TA
+                return subview.proxy.dimensions(
+                    in: _ProposedSize(width: bounds.size.width, height: bounds.size.height)
+                )
+            }
+            .reduce((-Double.infinity, -Double.infinity)) { partialResult, dimensions in
+                var partialResult = partialResult
+                
+                let value_1 = dimensions[self.alignment.horizontal]
+                partialResult.0 = (partialResult.0 <= value_1) ? value_1 : partialResult.0
+                
+                let value_2 = dimensions[self.alignment.vertical]
+                partialResult.1 = (partialResult.1 <= value_2) ? value_2 : partialResult.1
+                
+                return partialResult
+            }
+        
+        for subview in copy_1 {
+            let dimensions = subview.proxy.dimensions(
+                in: _ProposedSize(width: bounds.size.width, height: bounds.size.height)
+            )
+            
+            let d14 = dimensions[self.alignment.horizontal]
+            var d0 = dimensions[self.alignment.vertical]
+            let d4 = values.1
+            var d3 = values.0
+            var d1 = d3 - d14
+            var d2 = bounds.origin.x
+            d1 = d2 + d1
+            d1 = (d3 == d14) ? d2 : d1
+            d2 = d4 - d0
+            d3 = bounds.origin.y
+            d2 = d3 + d2
+            d0 = (d4 == d0) ? d3 : d2
+            
+            let viewGeometry = ViewGeometry(origin: CGPoint(x: d1, y: d0), dimensions: dimensions)
+            
+            let pointer = unsafe _threadLayoutData()!
+                .assumingMemoryBound(to: PlacementData.self)
+            
+            unsafe assert(pointer.pointee.signature == .placement)
+            unsafe pointer.pointee.setGeometry(
+                viewGeometry,
+                at: Int(subview.index),
+                layoutDirection: .leftToRight
+            )
+        }
+    }
+    
+    public func spacing(subviews: _ZStackLayout.Subviews, cache: inout Void) -> ViewSpacing {
+        let priority = subviews
+            .lazy
+            .map { subview -> Double in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+            .max() ?? 0
+        
+        // <+152>
+        for subview in subviews {
+            if subview.proxy.layoutPriority == priority {
+                // <+836>
+                var spacing = Spacing(minima: [:])
+                
+                for subview in subviews {
+                    if subview.proxy.layoutPriority == priority {
+                        spacing.incorporate(.all, of: subview.proxy.spacing())
+                    }
+                }
+                
+                return ViewSpacing(spacing, layoutDirection: subviews.layoutDirection)
+            }
+        }
+        
+        return .zero
+    }
+    
+    public func sizeThatFits(proposal: ProposedViewSize, subviews: _ZStackLayout.Subviews, cache: inout Void) -> CGSize {
+        guard !subviews.isEmpty else {
+            return .zero
+        }
+        
+        let priority = subviews
+            .lazy
+            .map { subview in
+                // $s7SwiftUI13_ZStackLayoutV13placeSubviews2in8proposal8subviews5cacheySo6CGRectV_AA16ProposedViewSizeVAA0dF0VytztFSdAA0D7SubviewVcfU_
+                return subview.proxy.layoutPriority
+            }
+        
+        var d9: Double = 0
+        var d10: Double
+        if let value = priority.first {
+            d10 = value
+            d9 = d10
+            
+            for subview in subviews.dropFirst() {
+                let d8 = subview.proxy.layoutPriority
+                let result = (d10 < d8)
+                d9 = result ? d8 : d9
+                d10 = result ? d8 : d10
+            }
+        } else {
+            d10 = d9
+        }
+        
+        // <+176>
+        let result = subviews
+            .lazy
+            .filter { subview in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztFSbAA0D7SubviewVcfU0_TA
+                return subview.proxy.layoutPriority == d9
+            }
+            .map { subview in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztFAA0M10DimensionsVAA0D7SubviewVcfU1_TA
+                return subview.proxy.dimensions(
+                    in: _ProposedSize(width: proposal.width, height: proposal.height)
+                )
+            }
+            .reduce(((x: -CGFloat.infinity, y: -CGFloat.infinity), (x: -CGFloat.infinity, y: -CGFloat.infinity))) { partialResult, dimensions in
+                // $s7SwiftUI13_ZStackLayoutV12sizeThatFits8proposal8subviews5cacheSo6CGSizeVAA16ProposedViewSizeV_AA0D8SubviewsVytztF12CoreGraphics7CGFloatV1x_AP1yt_ApQ_ApRttApQ_ApRt_ApQ_ApRtt_AA0M10DimensionsVtXEfU2_
+                let d13 = partialResult.0.x
+                let d12 = partialResult.0.y
+                let d10 = partialResult.1.x
+                // sp + 0x8
+                let sp08 = partialResult.1.y
+                let d14 = dimensions.size.value.width
+                var d11 = dimensions.size.value.height
+                
+                let d8 = dimensions[self.alignment.horizontal]
+                var d0 = dimensions[self.alignment.vertical]
+                var d1 = CGFloat.infinity
+                var d2: CGFloat
+                
+                if d14 != d1 {
+                    // <+248>
+                    d1 = d14 - d8
+                    d2 = CGFloat.infinity
+                    
+                    if d11 == d2 {
+                        // <+160>
+                    } else {
+                        d11 = d11 - d0
+                        // <+160>
+                    }
+                    
+                    // <+160>
+                } else {
+                    d1 = CGFloat.infinity
+                    
+                    if d11 == d1 {
+                        // <+160>
+                    } else {
+                        d11 = d11 - d0
+                        // <+160>
+                    }
+                }
+                
+                // <+160>
+                d2 = (d13 <= d8) ? d8 : d13
+                d0 = (d12 <= d0) ? d0 : d12
+                
+                let result0 = (x: d2, y: d0)
+                
+                d0 = (d10 <= d1) ? d1 : d10
+                d1 = sp08
+                d1 = (d1 <= d11) ? d11 : d1
+                let result1 = (x: d0, y: d1)
+                
+                return (result0, result1)
+            }
+        
+        return CGSize(
+            width: result.0.x + result.1.x,
+            height: result.0.y + result.1.y
+        )
+    }
+    
+    public typealias Cache = Void
+}
