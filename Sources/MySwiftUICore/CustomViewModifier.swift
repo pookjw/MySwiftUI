@@ -43,7 +43,8 @@ extension ViewModifier where Self : Animatable {
     }
     
     nonisolated public static func _makeViewList(modifier: _GraphValue<Self>, inputs: _ViewListInputs, body: @escaping (_Graph, _ViewListInputs) -> _ViewListOutputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        let attribute = makeAnimatable(value: modifier, inputs: inputs.base)
+        return makeViewList(modifier: _GraphValue(attribute), inputs: inputs, body: body)
     }
 }
 

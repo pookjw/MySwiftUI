@@ -1,6 +1,6 @@
 public import CoreGraphics
 
-@frozen public struct _PositionLayout : ViewModifier, Animatable, Sendable {
+@frozen public struct _PositionLayout {
     public var position: CGPoint
 
     @inlinable public init(position: CGPoint) {
@@ -11,7 +11,32 @@ public import CoreGraphics
     public typealias Body = Never
 }
 
+extension _PositionLayout : Animatable {}
+extension _PositionLayout : ViewModifier {}
+extension _PositionLayout : Sendable {}
 extension _PositionLayout : BitwiseCopyable {}
+
+extension _PositionLayout : UnaryLayout {
+    nonisolated func spacing(in context: SizeAndSpacingContext, child: LayoutProxy) -> Spacing {
+        assertUnimplemented()
+    }
+    
+    nonisolated func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    nonisolated func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    nonisolated func layoutPriority(child: LayoutProxy) -> Double {
+        return 0
+    }
+    
+    nonisolated func ignoresAutomaticPadding(child: LayoutProxy) -> Bool {
+        return false
+    }
+}
 
 extension View {
     @inlinable nonisolated public func position(_ position: CGPoint) -> some View {

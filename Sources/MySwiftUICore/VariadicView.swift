@@ -115,7 +115,7 @@ extension _VariadicView_Root {
     }
     
     static var viewListOptions: _ViewListInputs.Options {
-        assertUnimplemented()
+        return _ViewListInputs.Options(rawValue: self._viewListOptions)
     }
     
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs, body: (_ViewListCountInputs) -> Int?) -> Int? {
