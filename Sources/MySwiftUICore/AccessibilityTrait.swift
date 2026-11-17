@@ -166,7 +166,7 @@ package struct AccessibilityTraitSet : OptionSet, Hashable, Codable {
     }
 }
 
-package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet & Sendable> : Hashable, Codable, CustomStringConvertible, CustomDebugStringConvertible, AccessibilityCombinable, ProtobufEncodableMessage, ProtobufDecodableMessage where T.RawValue : Codable & FixedWidthInteger & UnsignedInteger {
+package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet> : Hashable, Codable, CustomStringConvertible, CustomDebugStringConvertible, AccessibilityCombinable, ProtobufEncodableMessage, ProtobufDecodableMessage where T.RawValue : Codable & FixedWidthInteger & UnsignedInteger {
     private(set) var value: T
     private(set) var mask: T
     
@@ -180,7 +180,8 @@ package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet
     }
     
     init() {
-        assertUnimplemented()
+        self.value = T()
+        self.mask = T()
     }
     
     subscript(value: T.Element, default: Bool) -> Bool {
@@ -188,19 +189,27 @@ package struct AccessibilityNullableOptionSet<T : Codable & Hashable & OptionSet
     }
     
     init(implying: T.Element...) {
-        assertUnimplemented()
+        let value = T(implying)
+        self.value = value
+        self.mask = T()
     }
     
     package init(adding: T.Element...) {
-        assertUnimplemented()
+        let value = T(adding)
+        self.value = value
+        self.mask = value
     }
     
     package init(removing: T.Element...) {
-        assertUnimplemented()
+        self.value = T()
+        self.mask = T(removing)
     }
     
     init(adding: T.Element..., removing: T.Element...) {
-        assertUnimplemented()
+        let value = T(adding)
+        self.value = value
+        self.mask = value
+        self.mask.formUnion(T(removing))
     }
     
     var isDefault: Bool {
