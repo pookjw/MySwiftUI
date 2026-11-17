@@ -14,15 +14,11 @@ public struct ViewDimensions {
     }
     
     public subscript(guide: HorizontalAlignment) -> CGFloat {
-        get {
-            assertUnimplemented()
-        }
+        return self[guide.key]
     }
     
     public subscript(guide: VerticalAlignment) -> CGFloat {
-        get {
-            assertUnimplemented()
-        }
+        return self[guide.key]
     }
     
     public subscript(explicit guide: HorizontalAlignment) -> CGFloat? {

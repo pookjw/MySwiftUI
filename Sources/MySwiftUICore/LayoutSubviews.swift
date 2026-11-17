@@ -63,15 +63,11 @@ public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
     }
     
     public subscript(bounds: Range<Int>) -> LayoutSubviews {
-        get {
-            assertUnimplemented()
-        }
+        return self.selecting(indices: bounds)
     }
     
     public subscript<S>(indices: S) -> LayoutSubviews where S : Sequence, S.Element == Int {
-        get {
-            assertUnimplemented()
-        }
+        return self.selecting(indices: indices)
     }
     
     public static func == (lhs: LayoutSubviews, rhs: LayoutSubviews) -> Bool {
@@ -82,7 +78,23 @@ public struct LayoutSubviews : Equatable, RandomAccessCollection, Sendable {
     public typealias Iterator = IndexingIterator<LayoutSubviews>
     
     func selecting<T : Sequence>(indices: T) -> LayoutSubviews where T.Element == Int {
-        assertUnimplemented()
+        var copy = self
+        
+        let attributes: [LayoutSubviews.Storage.IndexedAttributes] = indices.map { index in
+            // $s7SwiftUI14LayoutSubviewsV9selecting7indicesACx_tSTRzSi7ElementRtzlFAC7Storage33_57DDCF0A00C1B77B475771403C904EF9LLO17IndexedAttributesVSiXEfU_TA
+            switch self.storage {
+            case .direct(let attributes):
+                return LayoutSubviews.Storage.IndexedAttributes(
+                    attributes: attributes[index],
+                    index: Int32(truncatingIfNeeded: index)
+                )
+            case .indirect(let attributes):
+                return attributes[index]
+            }
+        }
+        
+        copy.storage = .indirect(attributes)
+        return copy
     }
 }
 

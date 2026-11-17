@@ -1,3 +1,4 @@
+// F0D6FE3E66D6447B1F7FC2D6B4BA3CAB
 @_spi(Internal) internal import MySwiftUICore
 internal import AttributeGraph
 
@@ -204,7 +205,18 @@ struct SwiftUIContentShapeAccessibilityProvider : ContentShapeAccessibilityProvi
 
 struct SwiftUIAllowsHitTestingAccessibilityProvider : AllowsHitTestingAccessibilityProvider {
     static func makeView(modifier: _GraphValue<_AllowsHitTestingModifier>, inputs: _ViewInputs, outputs: inout _ViewOutputs) {
-        assertUnimplemented()
+        let allowsHitTesting = modifier[{ modifier in
+            // $s7SwiftUI30_ActivationBehaviorHoverEffectV011_makeCustomeF06effect6inputs4bodyAA01_heF7OutputsVAA11_GraphValueVyACG_AA01_heF6InputsVAiNctFZ09AttributeM013PointerOffsetVyAcA0eF13PhaseOverrideV7StorageOSgGACzXEfU_
+            return .of(&modifier.allowsHitTesting)
+        }]
+        
+        outputs.preferences.makePreferenceTransformer(
+            inputs: inputs.preferences,
+            key: AccessibilityLargeContentViewTree.Key.self,
+            transform: Attribute(
+                AccessibilityLargeContentViewHitTestingTransform(allowsHitTesting: allowsHitTesting.value)
+            ) // $s7SwiftUI0A39UIAllowsHitTestingAccessibilityProviderV05_makefdE8Modifier8modifier6inputs7outputsyAA11_GraphValueVyAA07_AllowsdeI0VG_AA11_ViewInputsVAA01_P7OutputsVztFZ09AttributeM00S0VyyAA0f12LargeContentP4TreeOzcGyXEfu_TA
+        )
     }
 }
 
@@ -274,6 +286,14 @@ struct AccessibilityOpacityAttachment : ResolvableAccessibilityModifierRule {
     }
     
     var value: AccessibilityOpacityModifier {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct AccessibilityLargeContentViewHitTestingTransform : Rule {
+    @Attribute private(set) var allowsHitTesting: Bool
+    
+    var value: (inout AccessibilityLargeContentViewTree) -> Void {
         assertUnimplemented()
     }
 }

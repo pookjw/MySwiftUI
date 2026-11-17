@@ -577,10 +577,6 @@ extension Shader {
             self.options = options
         }
         
-        static func == (lhs: Shader.ResolvedShader, rhs: Shader.ResolvedShader) -> Bool {
-            assertUnimplemented()
-        }
-        
         var animatableData: ShaderVectorData {
             get {
                 return ShaderVectorData(rbShader: self.rbShader)

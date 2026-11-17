@@ -1,10 +1,6 @@
 internal import RenderBox
 
 struct ShaderVectorData : VectorArithmetic, Equatable {
-    static func == (lhs: ShaderVectorData, rhs: ShaderVectorData) -> Bool {
-        assertUnimplemented()
-    }
-    
     private var elements: [ShaderVectorData.Element] = []
     
     init(rbShader: RBShader?) {
