@@ -475,7 +475,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                         
                         // <+3288>
                         sp0x60 = d15
-                        x9 = x14 &- i
+                        x9 = x14 - i
                         d1 = items[i].minDepth
                         d15 = d0 + d1
                         d14 = x26
@@ -674,6 +674,7 @@ struct ZStackSpatialLayout : SpatialLayout, Animatable {
                         }
                     } else {
                         // <+4252>
+                        x9 = x14 - i
                         d1 = items[i].minDepth
                         d15 = d0 + d1
                         flag = false
@@ -897,7 +898,11 @@ extension ZStackLayout3D : Layout3D {
     }
     
     func placeSubviewDepths(in rect: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) {
-        assertUnimplemented()
+        let depths = self.childDepths(in: proposal, children: subviews)
+
+        for (subview, geometry) in zip(subviews, depths.unknown1) {
+            subview.placeDepth(in: geometry)
+        }
     }
     
     func explicitAlignment(of alignment: DepthAlignment, in: Rect3D, proposal: _ProposedSize3D, subviews: LayoutSubviews3D, cache: inout ()) -> CGFloat? {
