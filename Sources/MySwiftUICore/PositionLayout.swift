@@ -1,3 +1,4 @@
+// A5372118658F90C947BF499CB95E323D
 public import CoreGraphics
 
 @frozen public struct _PositionLayout {
@@ -22,11 +23,17 @@ extension _PositionLayout : UnaryLayout {
     }
     
     nonisolated func placement(of proxy: LayoutProxy, in context: PlacementContext) -> _Placement {
-        assertUnimplemented()
+        let size = context.size
+        return _Placement(proposedSize: size, anchoring: .center, at: self.position)
     }
     
     nonisolated func sizeThatFits(in size: _ProposedSize, context: SizeAndSpacingContext, child: LayoutProxy) -> CGSize {
-        assertUnimplemented()
+        if let width = size.width, let height = size.height {
+            return CGSize(width: width, height: height)
+        } else {
+            let _size = child.size(in: size)
+            return size.fixingUnspecifiedDimensions(at: _size)
+        }
     }
     
     nonisolated func layoutPriority(child: LayoutProxy) -> Double {

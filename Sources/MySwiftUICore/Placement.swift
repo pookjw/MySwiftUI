@@ -5,16 +5,22 @@ package struct _Placement : Equatable {
     var anchor: UnitPoint
     var anchorPosition: CGPoint
     
-    init(proposedSize: _ProposedSize, aligning: UnitPoint, in: CGSize) {
-        assertUnimplemented()
+    init(proposedSize: _ProposedSize, aligning: UnitPoint, in size: CGSize) {
+        self.proposedSize_ = proposedSize
+        self.anchor = aligning
+        self.anchorPosition = CGPoint(x: aligning.x * size.width, y: aligning.y * size.height)
     }
     
-    init(proposedSize: CGSize, anchoring: UnitPoint, at: CGPoint) {
-        assertUnimplemented()
+    init(proposedSize: CGSize, anchoring: UnitPoint, at position: CGPoint) {
+        self.proposedSize_ = _ProposedSize(proposedSize)
+        self.anchor = anchoring
+        self.anchorPosition = position
     }
     
-    init(proposedSize: _ProposedSize, at: CGPoint) {
-        assertUnimplemented()
+    init(proposedSize: _ProposedSize, at position: CGPoint) {
+        self.proposedSize_ = proposedSize
+        self.anchor = .zero
+        self.anchorPosition = position
     }
     
     init(proposedSize: _ProposedSize, anchoring anchor: UnitPoint, at anchorPosition: CGPoint) {
@@ -23,8 +29,10 @@ package struct _Placement : Equatable {
         self.anchorPosition = anchorPosition
     }
     
-    init(proposedSize: CGSize, aligning: UnitPoint, in: CGSize) {
-        assertUnimplemented()
+    init(proposedSize: CGSize, aligning: UnitPoint, in size: CGSize) {
+        self.proposedSize_ = _ProposedSize(proposedSize)
+        self.anchor = aligning
+        self.anchorPosition = CGPoint(x: aligning.x * size.width, y: aligning.y * size.height)
     }
 }
 
