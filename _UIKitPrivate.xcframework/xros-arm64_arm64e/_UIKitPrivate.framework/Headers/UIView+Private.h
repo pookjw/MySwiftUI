@@ -81,6 +81,7 @@ UIKIT_EXTERN _UIViewSeparatedStateRequestReason const _UIViewSeparatedStateReque
 - (void)_requestSeparatedState:(_UIViewSeparatedState)state withReason:(_UIViewSeparatedStateRequestReason)reason;
 - (void)_setSeparatedValue:(id _Nullable) value forKey:(NSString *)key;
 - (void)_requestRemoteEffects:(NSArray<CARemoteEffect *> *)effects forKey:(NSString *)key;
+- (void)_setHiddenForReuse:(BOOL)hiddenForReuse;
 @end
 
 NS_HEADER_AUDIT_END(nullability, sendability)

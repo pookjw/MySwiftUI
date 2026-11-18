@@ -2,6 +2,7 @@
 private import CoreGraphics
 internal import _MySwiftUICoreShims
 private import os.log
+private import _QuartzCorePrivate
 
 extension DisplayList.ViewUpdater {
     @_spi(Internal) public struct Platform : Equatable, CustomStringConvertible, Sendable {
@@ -2346,7 +2347,15 @@ extension DisplayList.ViewUpdater {
             _ viewInfo: inout DisplayList.ViewUpdater.ViewInfo,
             state: UnsafePointer<DisplayList.ViewUpdater.Model.State>
         ) {
-            assertUnimplemented()
+            let view = viewInfo.view
+            let properties = unsafe state.pointee.properties
+            
+            self.definition.setIgnoresEvents(properties.contains(.ignoresEvents), of: view)
+            self.viewLayer(view).disableUpdateMask = UInt32(bitPattern: 18 & (Int32(bitPattern: properties.rawValue << 24) >> 31))
+            
+            if viewInfo.state.kind != .platformLayer {
+                self.definition.setHiddenForReuse(properties.contains(.hiddenForReuse), of: view)
+            }
         }
         
         fileprivate func updateClipShapesAsync(

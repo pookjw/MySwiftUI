@@ -2,12 +2,12 @@ public import CoreGraphics
 
 @frozen public struct Rectangle : Shape {
     nonisolated public func path(in rect: CGRect) -> Path {
-        assertUnimplemented()
+        return Path(rect)
     }
     
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     nonisolated public var layoutDirectionBehavior: LayoutDirectionBehavior {
-        assertUnimplemented()
+        return .fixed
     }
     
     @inlinable public init() {}

@@ -414,6 +414,10 @@ private import _MySwiftUICoreShims
         }
     }
     
+    func roundedRect() -> FixedRoundedRect? {
+        assertUnimplemented()
+    }
+    
     fileprivate func append(to buffer: UnsafeMutableRawPointer) {
         switch self.storage {
         case .empty:

@@ -38,7 +38,7 @@ extension DisplayList.ViewUpdater {
             private(set) var clips: [DisplayList.ViewUpdater.Model.Clip] = [] // 0x50
             var filters: [GraphicsFilter] = [] // 0x58
             fileprivate(set) var shadow: Indirect<ResolvedShadowStyle>? = nil // 0x60
-            private(set) var properties: DisplayList.Properties = [] // 0x68
+            fileprivate(set) var properties: DisplayList.Properties = [] // 0x68
             private(set) var rewriteVibrantColorMatrix: Bool = false // 0x6c
             private var backdropAwareColorMatrices: Bool = false // 0x6d
             private(set) var compositingGroup: Bool = false // 0x6e
@@ -229,7 +229,7 @@ extension DisplayList.ViewUpdater.Model.State {
         var clips = DisplayList.Version() // 0x18
         var filters = DisplayList.Version() // 0x20
         var shadow = DisplayList.Version() // 0x28
-        private(set) var properties = DisplayList.Version() // 0x30
+        fileprivate(set) var properties = DisplayList.Version() // 0x30
         
         init() {}
     }
@@ -260,8 +260,27 @@ extension DisplayList.Item {
         assertUnimplemented()
     }
     
-    func canMergeWithTransform() {
-        assertUnimplemented()
+    func canMergeWithTransform() -> Bool {
+        switch self.value {
+        case .effect(let effect, _):
+            switch effect {
+            case .clip(let path, _, _):
+                // <+124>
+                return path.roundedRect() == nil
+            case .platform(let effect):
+                // <+184>
+                switch effect {
+                case .customHoverEffect(let effect):
+                    return effect.canMergeWithTransform(item: self)
+                default:
+                    return true
+                }
+            default:
+                return true
+            }
+        default:
+            return true
+        }
     }
     
     var canInheritShadowOrFilters: Bool {
@@ -283,8 +302,34 @@ extension DisplayList.Item {
         assertUnimplemented()
     }
     
-    private var canInheritIgnoresEvents: Bool {
-        assertUnimplemented()
+    fileprivate var canInheritIgnoresEvents: Bool {
+        switch self.value {
+        case .content(let content):
+            // <+52>
+            switch content.value {
+            case .platformView(let factory):
+                // <+76>
+                return factory.capabilities.contains(.mergesWithIgnoresEvents)
+            case .platformLayer(let factory):
+                // <+188>
+                return factory.capabilities.contains(.mergesWithIgnoresEvents)
+            default:
+                return true
+            }
+        case .effect(let effect, _):
+            // <+136>
+            switch effect {
+            case .platformGroup(_):
+                return false
+            default:
+                return true
+            }
+        case .states(_):
+            // <+320>
+            fatalError()
+        case .empty:
+            return true
+        }
     }
 }
 
@@ -325,23 +370,32 @@ extension DisplayList.ViewUpdater.Model {
         }
         
         if unsafe !state.clips.isEmpty {
+            // <+1060>
             assertUnimplemented()
         }
         
+        // <+1212>
         if !requirements.contains(.unknown1) {
             let transform = unsafe state.transform
             if (transform.a == 1) && (transform.b == 0) && (transform.c == 0) && (transform.d == 1) {
             } else {
-                assertUnimplemented()
+                // <+1264>
+                if !item.canMergeWithTransform() {
+                    requirements.formUnion(.unknown1)
+                }
             }
         }
         
+        // <+1284>
         if unsafe !requirements.contains(.unknown1) && ((state.shadow != nil) || (!state.filters.isEmpty)) {
             assertUnimplemented()
         }
         
         if unsafe !requirements.contains(.unknown1) && state.properties.contains(.ignoresEvents) {
-            assertUnimplemented()
+            // <+1372>
+            if !item.canInheritIgnoresEvents {
+                requirements.formUnion(.unknown1)
+            }
         }
         
         if !requirements.contains(.unknown1) {
@@ -391,9 +445,10 @@ extension DisplayList.ViewUpdater.Model {
             case .archive(_):
                 // <+3260>
                 assertUnimplemented()
-            case .properties(_):
+            case .properties(let properties):
                 // <+2480>
-                assertUnimplemented()
+                unsafe state.properties.formUnion(properties)
+                unsafe state.versions.properties = max(state.versions.properties, item.version)
             case .platformGroup(_):
                 // <+2524>
                 assertUnimplemented()

@@ -179,9 +179,9 @@ extension DisplayList {
             case .effect(let effect, let displayList):
                 // <+132>
                 switch effect {
-                case .properties(_):
+                case .properties(let properties):
                     // <+436>
-                    assertUnimplemented()
+                    return displayList.properties.union(properties)
                 case .mask(_, _):
                     // <+384>
                     assertUnimplemented()
@@ -1267,9 +1267,19 @@ extension DisplayList {
             case .archive(_):
                 // <+536>
                 return []
-            case .properties(_):
+            case .properties(let properties):
                 // <+464>
-                assertUnimplemented()
+                var features: DisplayList.Features = []
+                
+                if properties.contains(.privacySensitive) {
+                    features.formUnion(.required)
+                }
+                
+                if properties.contains(.mayNotInsertCALayers) {
+                    features.formUnion(.platformViews)
+                }
+                
+                return features
             case .platformGroup(let factory):
                 // <+140>
                 return factory.features.union(.platformViews)
@@ -1554,6 +1564,10 @@ extension DisplayList {
     }
     
     package struct PlatformViewCapabilities : OptionSet {
+        static var mergesWithIgnoresEvents: DisplayList.PlatformViewCapabilities {
+            return DisplayList.PlatformViewCapabilities(rawValue: 1 << 0)
+        }
+        
         package var rawValue: UInt8
         
         package init(rawValue: UInt8) {

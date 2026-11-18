@@ -67,7 +67,11 @@ extension _AllowsHitTestingModifier : BitwiseCopyable {}
 
 extension _AllowsHitTestingModifier : _RendererEffect {
     nonisolated func effectValue(size: CGSize) -> DisplayList.Effect {
-        assertUnimplemented()
+        if self.allowsHitTesting {
+            return .identity
+        } else {
+            return .properties(.ignoresEvents)
+        }
     }
     
     nonisolated static var isolatesChildPosition: Bool {

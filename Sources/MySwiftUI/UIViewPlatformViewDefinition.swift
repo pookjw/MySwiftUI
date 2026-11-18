@@ -51,11 +51,11 @@ final class UIViewPlatformViewDefinition : PlatformViewDefinition {
     }
 
     override class func setIgnoresEvents(_ flag: Bool, of object: AnyObject) {
-        assertUnimplemented()
+        unsafe unsafeDowncast(object, to: UIView.self).isUserInteractionEnabled = !flag
     }
 
     override class func setHiddenForReuse(_ flag: Bool, of object: AnyObject) {
-        assertUnimplemented()
+        unsafe unsafeDowncast(object, to: UIView.self)._setHidden(forReuse: flag)
     }
     
     override class func makeView(kind : PlatformViewDefinition.ViewKind) -> AnyObject {

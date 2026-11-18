@@ -1954,7 +1954,7 @@ extension GraphicsContext {
         }
     }
     
-    mutating func addFilter(_: GraphicsFilter, in: CGRect) {
+    mutating func addFilter(_ filter: GraphicsFilter, in: CGRect) {
         assertUnimplemented()
     }
     

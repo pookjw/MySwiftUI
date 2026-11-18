@@ -286,4 +286,8 @@ package struct HoverLeafEffect {
     func canMergeWithPlatformState(state: DisplayList.ViewUpdater.Model.PlatformState) -> Bool {
         assertUnimplemented()
     }
+    
+    func canMergeWithTransform(item: DisplayList.Item) -> Bool {
+        assertUnimplemented()
+    }
 }
