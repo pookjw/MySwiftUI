@@ -157,7 +157,8 @@ typedef NS_OPTIONS(unsigned int, RBGradientFlags) {
 typedef NS_OPTIONS(unsigned int, RBBlurFlags) {
     RBBlurFlagsNone = 0,
     RBBlurFlagsUnknown0 = (1 << 0),
-    RBBlurFlagsUnknown1 = (1 << 1)
+    RBBlurFlagsUnknown1 = (1 << 1),
+    RBBlurFlagsUnknown3 = (1 << 3)
 };
 
 typedef NS_OPTIONS(unsigned int, RBPathProjectionFlags) {

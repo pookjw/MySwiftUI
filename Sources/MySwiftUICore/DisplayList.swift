@@ -540,7 +540,7 @@ extension DisplayList {
                 return
             }
             
-            var extent = CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0)
+            var extent = CGRect.null
             self.addExtent(to: &extent)
             
             let d8: CGFloat
@@ -772,11 +772,12 @@ extension DisplayList {
                 }
             case .effect(let effect, let list):
                 // <+488>
-                var d14 = CGFloat.infinity
-                var d15 = CGFloat.infinity
-                var sp0x80 = CGRect(x: d14, y: d15, width: 0, height: 0)
-                var sp0x58: CGFloat = 0
-                var sp0x60: CGFloat = 0
+                let nullRect = CGRect.null
+                var d14 = nullRect.origin.x
+                var d15 = nullRect.origin.y
+                var sp0x80 = nullRect
+                var sp0x58 = nullRect.size.height
+                var sp0x60 = nullRect.size.width
                 
                 for item in list.items {
                     item.addExtent(to: &sp0x80)
@@ -916,21 +917,22 @@ extension DisplayList {
                 // <+172>
                 let sp0x70 = d9
                 let sp0x78 = d8
-                var d10 = CGFloat.infinity
-                var d11 = CGFloat.infinity
-                d8 = 0
-                let d12: CGFloat = 0
+                let nullRect = CGRect.null
+                var d10 = nullRect.origin.x
+                var d11 = nullRect.origin.y
+                d8 = nullRect.size.width
+                let d12 = nullRect.size.height
                 
                 if states.isEmpty {
                     // <+720>
                     d9 = d8
-                    d8 = 0
+                    d8 = d12
                     // <+728>
                 } else {
                     d9 = d10
                     var d13 = d11
-                    var d14: CGFloat = 0
-                    var d15: CGFloat = 0
+                    var d14 = d12
+                    var d15 = d8
                     
                     for state in states {
                         // <+296>

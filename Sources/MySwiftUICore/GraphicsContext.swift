@@ -1954,8 +1954,241 @@ extension GraphicsContext {
         }
     }
     
-    mutating func addFilter(_ filter: GraphicsFilter, in: CGRect) {
-        assertUnimplemented()
+    mutating func addFilter(_ filter: GraphicsFilter, in rect: CGRect) {
+        switch filter {
+        case .blur(let style):
+            // <+1092>
+            if style.radius <= 0 {
+                break
+            } else {
+                let w19 = style.dither
+                let w21 = style.isOpaque
+                self.copyOnWrite()
+                
+                let flags: RBBlurFlags
+                if w19 {
+                    flags = w21 ? [.unknown0, .unknown3] : [.unknown3]
+                } else {
+                    flags = w21 ? [.unknown0] : []
+                }
+                
+                var rect = rect
+                if !w21 {
+                    rect = .infinite
+                }
+                
+                self.storage.state.addBlurFilter(
+                    flags: flags,
+                    radius: style.radius,
+                    rect.origin.x,
+                    rect.origin.y,
+                    rect.size.width,
+                    rect.size.height
+                )
+            }
+        case .variableBlur(let style):
+            // <+692>
+            if style.radius <= 0 {
+                break
+            } else {
+                self.copyOnWrite()
+                
+                let w22 = style.isOpaque
+                let w9 = style.dither
+                
+                if w22 {
+                    // <+740>
+                    if w9 {
+                        // <+744>
+                        switch style.mask {
+                        case .image(let image):
+                            // <+752>
+                            self.storage.shared.fill.setImage(
+                                image,
+                                destRect: rect,
+                                in: self.storage.shared.colorSpace
+                            )
+                            
+                            // <+2176>
+                            var rect = rect
+                            if !w22 {
+                                rect = .infinite
+                            }
+                            
+                            self.storage.state.addVariableBlurFilter(
+                                fill: self.storage.shared.fill,
+                                flags: [.unknown0, .unknown3],
+                                radius: style.radius,
+                                rect.origin.x,
+                                rect.origin.y,
+                                rect.size.width,
+                                rect.size.height
+                            )
+                        default:
+                            // <+2392>
+                            self.storage.state.addBlurFilter(
+                                flags: [.unknown0, .unknown3],
+                                radius: style.radius,
+                                rect.origin.x,
+                                rect.origin.y,
+                                rect.size.width,
+                                rect.size.height
+                            )
+                        }
+                    } else {
+                        // <+2056>
+                        switch style.mask {
+                        case .image(let image):
+                            // <+2064>
+                            self.storage.shared.fill.setImage(
+                                image,
+                                destRect: rect,
+                                in: self.storage.shared.colorSpace
+                            )
+                            
+                            // <+2176>
+                            var rect = rect
+                            if !w22 {
+                                rect = .infinite
+                            }
+                            
+                            self.storage.state.addVariableBlurFilter(
+                                fill: self.storage.shared.fill,
+                                flags: [.unknown0],
+                                radius: style.radius,
+                                rect.origin.x,
+                                rect.origin.y,
+                                rect.size.width,
+                                rect.size.height
+                            )
+                        default:
+                            // <+2408>
+                            self.storage.state.addBlurFilter(
+                                flags: [.unknown0],
+                                radius: style.radius,
+                                rect.origin.x,
+                                rect.origin.y,
+                                rect.size.width,
+                                rect.size.height
+                            )
+                        }
+                    }
+                } else {
+                    // <+1972>
+                    let flags: RBBlurFlags = w9 ? [.unknown3] : []
+                    
+                    switch style.mask {
+                    case .image(let image):
+                        // <+2068>
+                        self.storage.shared.fill.setImage(
+                            image,
+                            destRect: rect,
+                            in: self.storage.shared.colorSpace
+                        )
+                        
+                        // <+2176>
+                        var rect = rect
+                        if !w22 {
+                            rect = .infinite
+                        }
+                        
+                        self.storage.state.addVariableBlurFilter(
+                            fill: self.storage.shared.fill,
+                            flags: flags,
+                            radius: style.radius,
+                            rect.origin.x,
+                            rect.origin.y,
+                            rect.size.width,
+                            rect.size.height
+                        )
+                    default:
+                        // <+1992>
+                        let rect = CGRect.infinite
+                        
+                        self.storage.state.addBlurFilter(
+                            flags: flags,
+                            radius: style.radius,
+                            rect.origin.x,
+                            rect.origin.y,
+                            rect.size.width,
+                            rect.size.height
+                        )
+                    }
+                }
+            }
+        case .displacementMap(_):
+            // <+180>
+            break
+        case .chromaticAberrationMap(_):
+            // <+180>
+            break
+        case .shadow(let resolvedShadowStyle):
+            // <+1340>
+            assertUnimplemented()
+        case .projection(let projectionTransform):
+            // <+488>
+            assertUnimplemented()
+        case .colorMatrix(let _):
+            // <+1252>
+            assertUnimplemented()
+        case .colorMultiply(let resolvedHDR):
+            // <+360>
+            assertUnimplemented()
+        case .alphaMultiply(let resolvedHDR):
+            // <+424>
+            assertUnimplemented()
+        case .hueRotation(let angle):
+            // <+1040>
+            assertUnimplemented()
+        case .saturation(let double):
+            // <+304>
+            assertUnimplemented()
+        case .brightness(let double):
+            // <+636>
+            assertUnimplemented()
+        case .contrast(let double):
+            // <+248>
+            assertUnimplemented()
+        case .grayscale(let double):
+            // <+760>
+            assertUnimplemented()
+        case .colorMonochrome(let colorMonochrome):
+            // <+1184>
+            assertUnimplemented()
+        case .vibrantColorMatrix(_):
+            // <+180>
+            break
+        case .luminanceCurve(let luminanceCurve):
+            // <+1492>
+            assertUnimplemented()
+        case .colorCurves(let colorCurves):
+            // <+816>
+            assertUnimplemented()
+        case .shader(let shaderFilter):
+            // <+884>
+            assertUnimplemented()
+        case .alphaThreshold(_):
+            // <+1388>
+            assertUnimplemented()
+        case .edrGainMultiply(_):
+            // <+180>
+            break
+        case .glassBackground(_):
+            // <+180>
+            break
+        case .caFilter(_):
+            // <+180>
+            break
+        case .averageColor:
+            // <+1576>
+            assertUnimplemented()
+        case .luminanceToAlpha:
+            // <+600>
+            assertUnimplemented()
+        case .colorInvert:
+            // <+560>
+            assertUnimplemented()
+        }
     }
     
     func draw(_: GraphicsImage, in: CGRect, style: FillStyle, shading: GraphicsContext.Shading?) {
@@ -2739,6 +2972,10 @@ extension RBShape {
 }
 
 extension RBFill {
+    fileprivate func setImage(_: GraphicsImage, destRect: CGRect, in: RBColorSpace) {
+        assertUnimplemented()
+    }
+    
     fileprivate func setRepeatedImage(_: GraphicsImage, origin: CGPoint, scale: CGFloat, sourceRect: CGRect, in: RBColorSpace) {
         assertUnimplemented()
     }

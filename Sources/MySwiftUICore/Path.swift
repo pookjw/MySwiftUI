@@ -222,7 +222,7 @@ private import _MySwiftUICoreShims
         switch self.storage {
         case .empty:
             return unsafe CGPath(
-                rect: CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0),
+                rect: .null,
                 transform: nil
             )
         case .rect(let rect):
@@ -263,7 +263,7 @@ private import _MySwiftUICoreShims
         switch self.storage {
         case .empty:
             // <+156>
-            return CGRect(x: CGFloat.infinity, y: CGFloat.infinity, width: 0, height: 0)
+            return .null
         case .rect(let rect):
             // <+64>
             return rect

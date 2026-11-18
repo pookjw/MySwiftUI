@@ -52,6 +52,7 @@ exports:
     _RBDrawingStateAddColorInvertFilter,
     _RBDrawingStateAddGrayscaleFilter,
     _RBDrawingStateAddBlurFilter,
+    _RBDrawingStateAddVariableBlurFilter,
     _RBDrawingStateAddLuminanceCurveFilter,
     _RBDrawingStateAddRGBACurvesFilter,
     _RBDrawingStateAddLuminanceToAlphaFilter,

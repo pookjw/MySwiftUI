@@ -34,6 +34,7 @@ RB_EXTERN void RBDrawingStateAddContrastFilter(RBDrawingState, RBContrastFlags f
 RB_EXTERN void RBDrawingStateAddColorInvertFilter(RBDrawingState, RBColorInvertFlags flags, float amount) NS_SWIFT_NAME(RBDrawingState.addColorInvertFilter(self:flags:amount:));
 RB_EXTERN void RBDrawingStateAddGrayscaleFilter(RBDrawingState, RBGrayscaleFlags flags, float amount) NS_SWIFT_NAME(RBDrawingState.addGrayscaleFilter(self:flags:amount:));
 RB_EXTERN void RBDrawingStateAddBlurFilter(RBDrawingState, RBBlurFlags flags, CGFloat radius, CGFloat, CGFloat, CGFloat, CGFloat) NS_SWIFT_NAME(RBDrawingState.addBlurFilter(self:flags:radius:_:_:_:_:));
+RB_EXTERN void RBDrawingStateAddVariableBlurFilter(RBDrawingState, RBFill *, RBBlurFlags flags, CGFloat radius, CGFloat, CGFloat, CGFloat, CGFloat) NS_SWIFT_NAME(RBDrawingState.addVariableBlurFilter(self:fill:flags:radius:_:_:_:_:));
 RB_EXTERN void RBDrawingStateAddLuminanceCurveFilter(RBDrawingState, const float *curve, RBLuminanceCurveFlags flags, float, float, float, float) NS_SWIFT_NAME(RBDrawingState.addLuminanceCurveFilter(self:curve:flags:_:_:_:_:));
 RB_EXTERN void RBDrawingStateAddRGBACurvesFilter(RBDrawingState, const float *curves, RBRCurvesFlags flags) NS_SWIFT_NAME(RBDrawingState.addRGBACurvesFilter(self:curves:flags:));
 RB_EXTERN void RBDrawingStateAddLuminanceToAlphaFilter(RBDrawingState, RBLuminanceToAlphaFlags flags) NS_SWIFT_NAME(RBDrawingState.addLuminanceToAlphaFilter(self:flags:));

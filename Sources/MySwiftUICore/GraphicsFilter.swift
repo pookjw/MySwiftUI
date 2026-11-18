@@ -209,10 +209,11 @@ package enum GraphicsFilter {
                 
                 if d0 < 0 {
                     // <+444>
-                    d12 = .infinity
-                    d13 = .infinity
-                    d14 = 0
-                    d15 = 0
+                    let nullRect = CGRect.null
+                    d12 = nullRect.origin.x
+                    d13 = nullRect.origin.y
+                    d14 = nullRect.size.width
+                    d15 = nullRect.size.height
                     // <+460>
                 } else {
                     d0 = CGRect(x: d12, y: d13, width: d14, height: d15).height
@@ -221,10 +222,11 @@ package enum GraphicsFilter {
                         // <+460>
                     }  else {
                         // <+444>
-                        d12 = .infinity
-                        d13 = .infinity
-                        d14 = 0
-                        d15 = 0
+                        let nullRect = CGRect.null
+                        d12 = nullRect.origin.x
+                        d13 = nullRect.origin.y
+                        d14 = nullRect.size.width
+                        d15 = nullRect.size.height
                         // <+460>
                     }
                     
@@ -578,10 +580,10 @@ extension GraphicsFilter.GlassBackgroundStyle : Equatable, ProtobufEncodableMess
 }
 
 package struct VariableBlurStyle {
-    private var radius: CGFloat
+    private(set) var radius: CGFloat
     private(set) var isOpaque: Bool
-    private var dither: Bool
-    private var mask: VariableBlurStyle.Mask
+    private(set) var dither: Bool
+    private(set) var mask: VariableBlurStyle.Mask
     
     init(radius: CGFloat = 0, isOpaque: Bool = false, dither: Bool = false, mask: VariableBlurStyle.Mask = .none) {
         self.radius = radius
