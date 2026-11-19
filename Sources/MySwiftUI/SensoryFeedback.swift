@@ -31,7 +31,7 @@ extension View {
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, visionOS 26.0, *)
 public struct SensoryFeedback : Equatable, Sendable {
-    fileprivate private(set) var type: FeedbackType
+    fileprivate private(set) var type: SensoryFeedback.FeedbackType
     
     public static let success = SensoryFeedback(type: .success)
     public static let warning = SensoryFeedback(type: .warning)
@@ -133,38 +133,39 @@ extension SensoryFeedback {
 
 extension SensoryFeedback {
     enum FeedbackType : Hashable, Sendable {
-        case impactWeight(SensoryFeedback.Weight.Storage, Double)
-        case impactFlexibility(SensoryFeedback.Flexibility.Storage, Double)
-        case success
-        case warning
-        case error
-        case increase
-        case decrease
-        case selection
-        case alignment
-        case levelChange
-        case start
-        case stop
-        case pathComplete
-        case circularButtonTouchDown
-        case buttonWithBackgroundTouchDown
-        case sliderTouchDown
-        case sliderTouchUp
-        case sliderSlidToMaximumValue
-        case sliderSlidToMinimumValue
-        case tabViewItemTouchDown
-        case toggleTouchDown
-        case toggleSetToOn
-        case toggleSetToOff
-        case buttonNavigationBarTouchDown
-        case buttonToggleOn
-        case buttonToggleOff
-        case buttonWithoutBackgroundTouchDown
-        case buttonStepperMinusTouchDown
-        case buttonStepperPlusTouchDown
-        case handFlipPalmDown
-        case handFlipPalmUp
-        case handReveal
+        // >> 62
+        case impactWeight(SensoryFeedback.Weight.Storage, Double) // (0x0 | storage) / intensity
+        case impactFlexibility(SensoryFeedback.Flexibility.Storage, Double) // (0x4000000000000000 | storage) / intensity
+        case success // 0x8000000000000000 / 0x0
+        case warning // 0x8000000000000001 / 0x0
+        case error // 0x8000000000000002 / 0x0
+        case increase // 0x8000000000000003 / 0x0
+        case decrease // 0x8000000000000000 / 0x1
+        case selection // 0x8000000000000001 / 0x1
+        case alignment // 0x8000000000000002 / 0x1
+        case levelChange // 0x8000000000000003 / 0x1
+        case start // 0x8000000000000000 / 0x2
+        case stop // 0x8000000000000001 / 0x2
+        case pathComplete // 0x8000000000000002 / 0x2
+        case circularButtonTouchDown // 0x8000000000000003 / 0x2
+        case buttonWithBackgroundTouchDown // 0x8000000000000000 / 0x3
+        case sliderTouchDown // 0x8000000000000001 / 0x3
+        case sliderTouchUp // 0x8000000000000002 / 0x3
+        case sliderSlidToMaximumValue // 0x8000000000000003 / 0x3
+        case sliderSlidToMinimumValue // 0x8000000000000000 / 0x4
+        case tabViewItemTouchDown // 0x8000000000000001 / 0x4
+        case toggleTouchDown // 0x8000000000000002 / 0x4
+        case toggleSetToOn // 0x8000000000000003 / 0x4
+        case toggleSetToOff // 0x8000000000000000 / 0x5
+        case buttonNavigationBarTouchDown // 0x8000000000000001 / 0x5
+        case buttonToggleOn // 0x8000000000000002 / 0x5
+        case buttonToggleOff // 0x8000000000000003 / 0x5
+        case buttonWithoutBackgroundTouchDown // 0x8000000000000000 / 0x6
+        case buttonStepperMinusTouchDown // 0x8000000000000001 / 0x6
+        case buttonStepperPlusTouchDown // 0x8000000000000002 / 0x6
+        case handFlipPalmDown // 0x8000000000000003 / 0x6
+        case handFlipPalmUp // 0x8000000000000000 / 0x7
+        case handReveal // 0x8000000000000001 / 0x7
         
         var mruiFeedbackType: MRUIFeedbackType? {
             assertUnimplemented()
@@ -192,8 +193,8 @@ extension SensoryFeedback {
     struct StepperInteractionState : Hashable {
         private var storage: SensoryFeedback.FeedbackType
         
-        static let minusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperMinusTouchDown)
-        static let plusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperPlusTouchDown)
+        static let minusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperPlusTouchDown)
+        static let plusPressed = SensoryFeedback.StepperInteractionState(storage: .buttonStepperMinusTouchDown)
     }
     
     struct TabViewInteractionState : Hashable {

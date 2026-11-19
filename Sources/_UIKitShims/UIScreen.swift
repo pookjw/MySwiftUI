@@ -3,10 +3,12 @@ private import ObjectiveC.runtime
 private import ObjectiveC.message
 private import _MySwiftUICoreShims
 
-fileprivate let UIScreenClass: AnyClass = unsafe objc_getClass("UIScreen") as! AnyClass
+fileprivate var UIScreenClass: AnyClass {
+    return unsafe objc_getClass("UIScreen") as! AnyClass
+}
 
-@frozen
-package struct MyUIScreen {
+@_fixed_layout
+package final class MyUIScreen {
     private let screen: AnyObject
     
     package static var main: MyUIScreen {

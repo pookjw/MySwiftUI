@@ -32,3 +32,4 @@
 #import <MRUIKit/MRUIKitErrors.h>
 #import <MRUIKit/MRUIEntityTraitEnvironment.h>
 #import <MRUIKit/MRUIEntityPreferenceHost.h>
+#import <MRUIKit/MRUIFeedbackGenerator.h>

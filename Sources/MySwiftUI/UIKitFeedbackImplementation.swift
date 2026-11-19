@@ -2,6 +2,10 @@
 internal import AttributeGraph
 internal import CoreGraphics
 @_spi(Internal) internal import MySwiftUICore
+private import RealityKit
+internal import MRUIKit
+private import _UIKitPrivate
+internal import _UIKitShims
 
 struct FeedbackRequestContext {
     private(set) var location: WeakAttribute<CGPoint>
@@ -92,6 +96,59 @@ fileprivate struct FeedbackLocation : Rule {
     @Attribute private(set) var transform: ViewTransform
     
     var value: CGPoint {
+        assertUnimplemented()
+    }
+}
+
+struct MRUIFeedbackImplementation : LocationBasedSensoryFeedback {
+    private let generator: MRUIFeedbackGenerator
+    private let type: MRUIFeedbackType
+    private let separationReason: _UIViewSeparatedStateRequestReason
+    private var hostingEntity: RealityKit::Entity?
+    private var playbackEntity: AudioFeedbackEntity?
+    
+    init(generator: MRUIFeedbackGenerator, type: MRUIFeedbackType) {
+        assertUnimplemented()
+    }
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        fatalError("Requires location.")
+    }
+    
+    mutating func generate(location: CGPoint) {
+        assertUnimplemented()
+    }
+    
+    fileprivate func playbackEntity(for: CGPoint) -> AudioFeedbackEntity? {
+        assertUnimplemented()
+    }
+}
+
+struct ImpactFeedbackImplementation : LocationBasedSensoryFeedback {
+    let generator: MyUIImpactFeedbackGenerator
+    private(set) var intensity: Double
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        fatalError("Requires location.")
+    }
+    
+    mutating func generate(location: CGPoint) {
         assertUnimplemented()
     }
 }
