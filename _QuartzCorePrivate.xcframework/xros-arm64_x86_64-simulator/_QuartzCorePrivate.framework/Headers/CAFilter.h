@@ -3,6 +3,7 @@
 NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface CAFilter : NSObject <NSMutableCopying, NSSecureCoding>
+@property (readonly, nullable) NSString *type;
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithType:(NSString *)type;

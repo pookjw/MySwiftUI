@@ -30,9 +30,9 @@ private import AttributeGraph
     public subscript(dynamicMember name: String) -> ShaderFunction {
         return ShaderFunction(library: self, name: name)
     }
-    
+
     public static func == (lhs: ShaderLibrary, rhs: ShaderLibrary) -> Bool {
-        assertUnimplemented()
+        return lhs.rbLibrary === rhs.rbLibrary
     }
 }
 
@@ -63,10 +63,6 @@ extension ShaderLibrary {
     
     public func dynamicallyCall(withArguments args: [Shader.Argument]) -> Shader {
         return Shader(function: self, arguments: args)
-    }
-    
-    public static func == (a: ShaderFunction, b: ShaderFunction) -> Bool {
-        assertUnimplemented()
     }
 }
 
@@ -155,11 +151,7 @@ public struct Shader : Equatable, Sendable {
             return Shader.Argument(storage: .data(data))
         }
         
-        public static func == (a: Shader.Argument, b: Shader.Argument) -> Bool {
-            assertUnimplemented()
-        }
-        
-        enum Storage {
+        enum Storage : Equatable {
             case float(Float)
             case float2(Float, Float)
             case float3(Float, Float, Float)
@@ -503,10 +495,6 @@ public struct Shader : Equatable, Sendable {
         
         return rbShader
     }
-    
-    public static func == (a: Shader, b: Shader) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, *)
@@ -602,9 +590,29 @@ extension Shader {
         nonisolated var rbFillFlags: RBShaderFillFlags {
             assertUnimplemented()
         }
-
+        
         nonisolated var rbFilterFlags: RBShaderFilterFlags {
-            assertUnimplemented()
+            var flags: RBShaderFilterFlags = []
+            
+            if self.options.contains(.colorFilter) {
+                flags.formUnion(.unknown0)
+            } else if self.options.contains(.distortionFilter) {
+                flags.formUnion(.unknown1)
+            }
+            
+            if self.options.contains(.dithersColor) {
+                flags.formUnion(.unknown4)
+            }
+            
+            if self.options.contains(.alphaOnlyLayer) {
+                flags.formUnion(.unknown6)
+            }
+            
+            if self.options.contains(.ignoresSecondaryDOD) {
+                flags.formUnion(.unknown7)
+            }
+            
+            return flags
         }
         
         func encode(to encoder: inout ProtobufEncoder) throws {

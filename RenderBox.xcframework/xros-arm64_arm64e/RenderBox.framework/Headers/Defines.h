@@ -305,7 +305,12 @@ typedef struct RBAlphaGradientEffect {
 } RBAlphaGradientEffect;
 
 typedef NS_OPTIONS(unsigned int, RBShaderFilterFlags) {
-    RBShaderFilterFlagsNone = 0
+    RBShaderFilterFlagsNone = 0,
+    RBShaderFilterFlagsUnknown0 = (1 << 0),
+    RBShaderFilterFlagsUnknown1 = (1 << 1),
+    RBShaderFilterFlagsUnknown4 = (1 << 4),
+    RBShaderFilterFlagsUnknown6 = (1 << 6),
+    RBShaderFilterFlagsUnknown7 = (1 << 7)
 };
 
 typedef struct RBDisplayListColorMonochrome {

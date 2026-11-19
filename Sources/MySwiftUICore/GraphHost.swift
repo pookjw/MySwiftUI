@@ -147,6 +147,7 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
         }
         
         handleTraceNotification(graph: graph, token: token)
+        LayoutTrace.register(graph: graph)
         
         return graph
     }() 

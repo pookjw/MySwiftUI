@@ -89,7 +89,11 @@ final class AnyDynamicFontModifier<T : FontModifier> : AnyFontModifier, @uncheck
     }
     
     override func isEqual(to other: AnyFontModifier) -> Bool {
-        assertUnimplemented()
+        guard let casted = other as? Self else {
+            return false
+        }
+        
+        return casted.modifier == self.modifier
     }
     
     override func hash(into hasher: inout Hasher) {

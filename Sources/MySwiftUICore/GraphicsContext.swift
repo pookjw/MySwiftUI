@@ -2,6 +2,7 @@
 public import CoreGraphics
 internal import RenderBox
 private import AttributeGraph
+internal import _QuartzCorePrivate
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @frozen public struct GraphicsContext {
@@ -254,8 +255,34 @@ private import AttributeGraph
         @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
         public typealias RawValue = Int32
         
-        init(_: GraphicsBlendMode) {
-            assertUnimplemented()
+        init(_ blendMode: GraphicsBlendMode) {
+            switch blendMode {
+            case .blendMode(let blendMode):
+                self.init(rawValue: blendMode.rawValue)
+            case .caFilter(let filter):
+                if let caFilter = filter as? CAFilter {
+                    self.init(caFilter)
+                } else {
+                    self.init(rawValue: 0)
+                }
+            }
+        }
+        
+        init(_ filter: CAFilter) {
+            if let filterType = GraphicsBlendMode.CAFilterType(filter) {
+                switch filterType {
+                case .plusLIgnoreAlpha:
+                    self = .plusLighter
+                case .subtractSIgnoreAlpha:
+                    self = .plusDarker
+                case .destOutPassthrough:
+                    self = .destinationOut
+                case .plusDIgnoreAlpha:
+                    self = .plusDarker
+                }
+            } else {
+                self.init(rawValue : 0)
+            }
         }
     }
     

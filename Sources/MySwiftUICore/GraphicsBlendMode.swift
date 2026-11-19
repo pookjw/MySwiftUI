@@ -28,7 +28,30 @@ package enum GraphicsBlendMode {
         case plusDIgnoreAlpha = 4
         
         init?(_ filter: CAFilter) {
-            assertUnimplemented()
+            if let type = filter.type {
+                let block: (String) -> GraphicsBlendMode.CAFilterType? = { type in
+                    // $s7SwiftUI17GraphicsBlendModeO12CAFilterTypeOyAESgSo0F0CcfcAFSSXEfU_
+                    if kCAFilterPlusLIgnoreAlpha == type {
+                        return .plusLIgnoreAlpha
+                    } else if kCAFilterSubtractSIgnoreAlpha == type {
+                        return .subtractSIgnoreAlpha
+                    } else if kCAFilterDestOutPassthrough == type {
+                        return .destOutPassthrough
+                    } else if kCAFilterPlusDIgnoreAlpha == type {
+                        return .plusDIgnoreAlpha
+                    } else {
+                        return nil
+                    }
+                }
+                
+                if let result = block(type) {
+                    self = result
+                } else {
+                    return nil
+                }
+            } else {
+                return nil
+            }
         }
     }
     
