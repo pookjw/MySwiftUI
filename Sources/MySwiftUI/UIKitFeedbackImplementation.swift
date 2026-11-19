@@ -152,3 +152,65 @@ struct ImpactFeedbackImplementation : LocationBasedSensoryFeedback {
         assertUnimplemented()
     }
 }
+
+struct NotificationFeedbackImplementation : LocationBasedSensoryFeedback {
+    let generator: MyUINotificationFeedbackGenerator
+    let type: MyUINotificationFeedbackType
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        fatalError("Requires location.")
+    }
+    
+    mutating func generate(location: CGPoint) {
+        assertUnimplemented()
+    }
+}
+
+struct SelectionFeedbackImplementation : LocationBasedSensoryFeedback {
+    let generator: MyUISelectionFeedbackGenerator
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        fatalError("Requires location.")
+    }
+    
+    mutating func generate(location: CGPoint) {
+        assertUnimplemented()
+    }
+}
+
+struct CanvasFeedbackImplementation : LocationBasedSensoryFeedback {
+    let generator: MyUICanvasFeedbackGenerator
+    let type: SensoryFeedback.FeedbackType
+    
+    func setUp() {
+        assertUnimplemented()
+    }
+    
+    func tearDown() {
+        assertUnimplemented()
+    }
+    
+    func generate() {
+        fatalError("Requires location.")
+    }
+    
+    mutating func generate(location: CGPoint) {
+        assertUnimplemented()
+    }
+}

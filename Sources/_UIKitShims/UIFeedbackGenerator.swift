@@ -21,6 +21,15 @@ package class MyUIFeedbackGenerator {
         self.feedbackGenerator = ref
     }
     
+    package init() {
+        let alloc = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
+        var ref = alloc(Self.claassType, Selector(("alloc")))
+        let _init = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> AnyObject).self)
+        ref = _init(ref, Selector(("init")))
+        
+        self.feedbackGenerator = ref
+    }
+    
     fileprivate init(feedbackGenerator: AnyObject) {
         self.feedbackGenerator = feedbackGenerator
     }
@@ -59,4 +68,31 @@ package enum MyUIImpactFeedbackStyle : Int {
     case heavy
     case soft
     case rigid
+}
+
+@_fixed_layout
+package final class MyUINotificationFeedbackGenerator : MyUIFeedbackGenerator {
+    fileprivate override class var claassType: AnyClass {
+        return unsafe objc_getClass("UINotificationFeedbackGenerator") as! AnyClass
+    }
+}
+
+package enum MyUINotificationFeedbackType : Int {
+    case success
+    case warning
+    case error
+}
+
+@_fixed_layout
+package final class MyUISelectionFeedbackGenerator : MyUIFeedbackGenerator {
+    fileprivate override class var claassType: AnyClass {
+        return unsafe objc_getClass("UISelectionFeedbackGenerator") as! AnyClass
+    }
+}
+
+@_fixed_layout
+package final class MyUICanvasFeedbackGenerator : MyUIFeedbackGenerator {
+    fileprivate override class var claassType: AnyClass {
+        return unsafe objc_getClass("UICanvasFeedbackGenerator") as! AnyClass
+    }
 }

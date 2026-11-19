@@ -105,9 +105,109 @@ final class UIKitSensoryFeedbackCache {
                     generator: generator as! MyUIImpactFeedbackGenerator,
                     intensity: intensity
                 )
-            default:
-                // TODO
-                assertUnimplemented()
+            case .success:
+                // <+2144>
+                let generator: MyUINotificationFeedbackGenerator
+                if let cached = self.cachedGenerators[type] {
+                    // <+2212>
+                    generator = cached as! MyUINotificationFeedbackGenerator
+                    // <+2740>
+                } else {
+                    // <+2592>
+                    
+                    let value = MyUINotificationFeedbackGenerator()
+                    self.cachedGenerators[type] = value
+                    
+                    if let host {
+                        unsafe host.myswiftui_addManagedInteraction(
+                            unsafeBitCast(value.feedbackGenerator, to: (any UIInteraction & Sendable).self)
+                        )
+                    }
+                    
+                    generator = value
+                }
+                
+                // <+1248>
+                return NotificationFeedbackImplementation(generator: generator, type: .success)
+            case .warning:
+                // <+2012>
+                let generator: MyUINotificationFeedbackGenerator
+                if let cached = self.cachedGenerators[type] {
+                    generator = cached as! MyUINotificationFeedbackGenerator
+                } else {
+                    let value = MyUINotificationFeedbackGenerator()
+                    self.cachedGenerators[type] = value
+                    
+                    if let host {
+                        unsafe host.myswiftui_addManagedInteraction(
+                            unsafeBitCast(value.feedbackGenerator, to: (any UIInteraction & Sendable).self)
+                        )
+                    }
+                    
+                    generator = value
+                }
+                
+                return NotificationFeedbackImplementation(generator: generator, type: .warning)
+            case .error:
+                // <+752>
+                let generator: MyUINotificationFeedbackGenerator
+                if let cached = self.cachedGenerators[type] {
+                    generator = cached as! MyUINotificationFeedbackGenerator
+                } else {
+                    let value = MyUINotificationFeedbackGenerator()
+                    self.cachedGenerators[type] = value
+                    
+                    if let host {
+                        unsafe host.myswiftui_addManagedInteraction(
+                            unsafeBitCast(value.feedbackGenerator, to: (any UIInteraction & Sendable).self)
+                        )
+                    }
+                    
+                    generator = value
+                }
+                
+                return NotificationFeedbackImplementation(generator: generator, type: .error)
+            case .increase, .decrease, .selection:
+                // <+1388>
+                let generator: MyUISelectionFeedbackGenerator
+                if let cached = self.cachedGenerators[.selection] {
+                    generator = cached as! MyUISelectionFeedbackGenerator
+                } else {
+                    let value = MyUISelectionFeedbackGenerator()
+                    self.cachedGenerators[.selection] = value
+                    
+                    if let host {
+                        unsafe host.myswiftui_addManagedInteraction(
+                            unsafeBitCast(value.feedbackGenerator, to: (any UIInteraction & Sendable).self)
+                        )
+                    }
+                    
+                    generator = value
+                }
+                
+                return SelectionFeedbackImplementation(generator: generator)
+            case .alignment, .pathComplete:
+                // <+1712>
+                let generator: MyUICanvasFeedbackGenerator
+                if let cached = self.cachedGenerators[type] {
+                    generator = cached as! MyUICanvasFeedbackGenerator
+                } else {
+                    let value = MyUICanvasFeedbackGenerator()
+                    self.cachedGenerators[type] = value
+                    
+                    if let host {
+                        unsafe host.myswiftui_addManagedInteraction(
+                            unsafeBitCast(value.feedbackGenerator, to: (any UIInteraction & Sendable).self)
+                        )
+                    }
+                    
+                    generator = value
+                }
+                
+                return CanvasFeedbackImplementation(generator: generator, type: type)
+            case .levelChange, .start, .stop, .circularButtonTouchDown, .buttonWithBackgroundTouchDown, .sliderTouchDown, .sliderTouchUp, .sliderSlidToMaximumValue, .sliderSlidToMinimumValue, .tabViewItemTouchDown, .toggleTouchDown, .toggleSetToOn, .toggleSetToOff, .buttonNavigationBarTouchDown, .buttonToggleOn, .buttonToggleOff, .buttonWithoutBackgroundTouchDown, .buttonStepperMinusTouchDown, .buttonStepperPlusTouchDown, .handFlipPalmDown, .handFlipPalmUp, .handReveal:
+                // <+552>
+                return nil
             }
         }
     }
