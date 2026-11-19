@@ -315,7 +315,9 @@ exports:
     _AGGraphAnyInputsChanged,
     _$s14AttributeGraph0A0V8applying6offsetACyqd__GAA13PointerOffsetVyxqd__G_tlF,
     _$s14AttributeGraph14AnyRuleContextVyxSgAA04WeakA0VyxGcluig,
-    _$s14AttributeGraph14AnyRuleContextVyxSgAA08OptionalA0VyxGcluig ]
+    _$s14AttributeGraph14AnyRuleContextVyxSgAA08OptionalA0VyxGcluig,
+    _AGGraphRegisterNamedTraceEvent,
+    _AGGraphTraceEventEnabled ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

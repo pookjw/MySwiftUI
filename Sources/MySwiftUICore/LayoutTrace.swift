@@ -3,7 +3,11 @@ internal import CoreGraphics
 
 struct LayoutTrace {
     static func register(graph: Graph) {
-        assertUnimplemented()
+        guard graph.traceEventEnabled(eventID: .update) else {
+            return
+        }
+        
+        unsafe LayoutTrace.recorder = LayoutTrace.Recorder(graph: graph)
     }
     
     static var isEnabled: Bool {
@@ -46,9 +50,9 @@ struct LayoutTrace {
 extension LayoutTrace {
     final class Recorder {
         var graph: Graph // 0x10
-        var frameActive: Bool // 0x18
-        var cacheLookup: (proposal: _ProposedSize, hit: Bool)? // 0x20
-        private var alignmentTypes: [ObjectIdentifier: UInt32] // 0x40
+        var frameActive = false // 0x18
+        var cacheLookup: (proposal: _ProposedSize, hit: Bool)? = nil // 0x20
+        private var alignmentTypes: [ObjectIdentifier: UInt32] = [:] // 0x40
         
         func alignmentTypeID(for: any AlignmentID.Type) -> UInt32 {
             assertUnimplemented()
@@ -74,9 +78,8 @@ extension LayoutTrace {
             assertUnimplemented()
         }
         
-        init() {
-            assertUnimplemented()
+        init(graph: Graph) {
+            self.graph = graph
         }
-        
     }
 }

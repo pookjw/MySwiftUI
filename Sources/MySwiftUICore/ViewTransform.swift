@@ -567,7 +567,7 @@ package import Spatial
                     }
                 }
             }
-
+            
             if !x190x1f && ((q1.width != 0) || (q1.height != 0)) {
                 block(.translation(q1), &x190x1f)
             }
@@ -823,9 +823,56 @@ fileprivate final class BufferedElement : AnyElement {
 fileprivate class AnyElement {
     var next: AnyElement?
     let depth: Int
-
+    
     deinit {
-        assertUnimplemented()
+        do {
+            var ref: Unmanaged<AnyElement>? = unsafe .passRetained(self)
+            
+            while let _ref = unsafe ref {
+                var next = unsafe _ref.takeUnretainedValue().next
+                unsafe _ref.takeUnretainedValue().next = nil
+                unsafe _ref.release()
+                
+                if !isKnownUniquelyReferenced(&next) {
+                    break
+                }
+                
+                if let next {
+                    unsafe ref = .passUnretained(next)
+                } else {
+                    unsafe ref = nil
+                }
+            }
+        }
+        
+        do {
+            var ref: AnyElement? = self.next
+            self.next = nil
+            
+            while let _ref = ref {
+                unsafe Unmanaged.passUnretained(_ref).release()
+                
+                if !isKnownUniquelyReferenced(&ref) {
+                    break
+                }
+                
+                let next = unsafe Unmanaged.passUnretained(_ref).takeUnretainedValue().next
+                
+                if let next {
+                    let nextRef = unsafe Unmanaged.passUnretained(next)
+                    _ = unsafe nextRef.retain()
+                    _ = unsafe nextRef.retain()
+                }
+                
+                unsafe Unmanaged.passUnretained(_ref).release()
+                
+                ref = next
+            }
+            
+            if let ref {
+                unsafe Unmanaged.passUnretained(ref).release()
+            }
+        }
     }
     
     init(next: AnyElement?) {
@@ -853,7 +900,7 @@ fileprivate final class CoordinateSpaceNode {
     fileprivate private(set) var next: CoordinateSpaceNode?
     fileprivate private(set) var space: CoordinateSpace
     let depth: Int
-
+    
     deinit {
         assertUnimplemented()
     }
@@ -1286,7 +1333,7 @@ extension MutableCollection where Element == CGPoint {
             // <+2232>
             break
         case .depthTranslation(_):
-             // <+2232>
+            // <+2232>
             break
         case .affineTransform3D(let transform3D, let inverse):
             // <+676>

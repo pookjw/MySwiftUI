@@ -225,6 +225,8 @@ typedef NS_OPTIONS(uint32_t, AGTupleCopyOptions) {
     AGTupleCopyOptionsNone = 0
 } NS_SWIFT_NAME(TupleCopyOptions);
 
+typedef uint32_t AGNamedTraceEventID __attribute__((swift_wrapper(struct))) NS_SWIFT_NAME(NamedTraceEventID);
+
 NS_ASSUME_NONNULL_END
 
 #endif

@@ -7,3 +7,4 @@
 #import <AttributeGraph/AGTrace.h>
 #import <AttributeGraph/AGType.h>
 #import <AttributeGraph/AGTuple.h>
+#import <AttributeGraph/AGNamedTraceEventID.h>

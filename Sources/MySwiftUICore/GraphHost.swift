@@ -328,9 +328,8 @@ nonisolated(unsafe) fileprivate var blockedGraphHosts: [Unmanaged<GraphHost>] = 
             }
             
             // <+412>
-            let oldSubgraph = self.data.rootSubgraph
             self.data.rootSubgraph = Subgraph(graph: self.data.graph!)
-            CustomEventTrace.recordGraphHostRoot(self.data.graph!, oldSubgraph, newRoot: self.data.rootSubgraph, self)
+            CustomEventTrace.recordGraphHostRoot(self.data.graph!, self.data.globalSubgraph, newRoot: self.data.rootSubgraph, self)
             
             if !self.data.isRemoved {
                 self.data.globalSubgraph.addChild(self.data.rootSubgraph)

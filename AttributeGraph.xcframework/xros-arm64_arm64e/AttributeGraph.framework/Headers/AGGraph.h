@@ -27,6 +27,7 @@ AG_EXTERN const AGAttribute AGGraphGetCurrentAttribute(void) NS_SWIFT_NAME(gette
 AG_EXTERN BOOL AGGraphCurrentAttributeWasModified(void) NS_SWIFT_NAME(getter:Graph.currentAttributeWasModified());
 AG_EXTERN void AGGraphRegisterDependency(AGAttribute, unsigned int) NS_SWIFT_NAME(Graph.registerDependency(attribute:flags:));
 AG_EXTERN void AGGraphStartProfiling(AGGraphRef _Nullable);
+AG_EXTERN BOOL AGGraphTraceEventEnabled(AGGraphRef, AGNamedTraceEventID) NS_SWIFT_NAME(AGGraphRef.traceEventEnabled(self:eventID:));
 
 CF_IMPLICIT_BRIDGING_DISABLED
 
