@@ -125,7 +125,9 @@ typedef NS_ENUM(int32_t, RBColorSpace) {
 };
 
 typedef NS_ENUM(int32_t, RBBlendMode) {
-    RBBlendModeUnknown0 = 0
+    RBBlendModeUnknown0 = 0,
+    RBBlendModeUnknown18 = 18,
+    RBBlendModeUnknown20 = 20
 };
 
 typedef NS_ENUM(uint32_t, RBDisplayListContentsProfile) {

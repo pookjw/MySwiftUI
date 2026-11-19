@@ -396,8 +396,8 @@ extension GraphicsFilter {
     }
     
     package struct ShaderFilter {
-        private var shader: Shader.ResolvedShader
-        fileprivate private(set) var size: CGSize
+        private(set) var shader: Shader.ResolvedShader
+        private(set) var size: CGSize
         
         init(shader: Shader.ResolvedShader, size: CGSize) {
             self.shader = shader
@@ -406,8 +406,8 @@ extension GraphicsFilter {
     }
     
     package struct AlphaThreshold {
-        private var color: Color.ResolvedHDR
-        private var amount: Float
+        private(set) var color: Color.ResolvedHDR
+        private(set) var amount: Float
         
         init(color: Color.ResolvedHDR, amount: Float) {
             self.color = color
