@@ -1122,7 +1122,9 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
     }
     
     public override func myswiftui_addManagedInteraction(_ interaction: any UIInteraction) {
-        assertUnimplemented()
+        insertingManagedSubviews += 1
+        self.addInteraction(interaction)
+        insertingManagedSubviews = max(insertingManagedSubviews - 1, 0)
     }
     
     public override func myswiftui_insertManagedSubview(_ subview: UIView, at index: Int) {

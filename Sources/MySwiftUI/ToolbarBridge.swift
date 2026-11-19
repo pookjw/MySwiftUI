@@ -1505,7 +1505,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
     fileprivate func updateBottomBar() -> Bool {
         return withUpdate { bridge, context in
             // $s7SwiftUI20UIKitToolbarStrategyV15updateBottomBar33_A409749AC298CF150D90E447BB4FA064LLSbyFSbAA0D6BridgeCyACG_AA0D0O13UpdateContextVtXEfU_TA
-            guard (context.overrides.pushTarget?.navController ?? context.navigationController) != nil else {
+            guard (context.overrides.navigation ?? context.navigationController) != nil else {
                 return false
             }
             

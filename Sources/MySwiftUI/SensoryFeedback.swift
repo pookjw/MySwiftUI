@@ -168,7 +168,72 @@ extension SensoryFeedback {
         case handReveal // 0x8000000000000001 / 0x7
         
         var mruiFeedbackType: MRUIFeedbackType? {
-            assertUnimplemented()
+            switch self {
+            case .impactWeight:
+                return nil
+            case .impactFlexibility:
+                return nil
+            case .success:
+                return nil
+            case .warning:
+                return nil
+            case .error:
+                return nil
+            case .increase:
+                return .buttonStepperPlusTouchDown
+            case .decrease:
+                return .buttonStepperMinusTouchDown
+            case .selection:
+                return nil
+            case .alignment:
+                return nil
+            case .levelChange:
+                return nil
+            case .start:
+                return nil
+            case .stop:
+                return nil
+            case .pathComplete:
+                return nil
+            case .circularButtonTouchDown:
+                return .circularButtonTouchDown
+            case .buttonWithBackgroundTouchDown:
+                return .buttonWithBackgroundTouchDown
+            case .sliderTouchDown:
+                return .sliderTouchDown
+            case .sliderTouchUp:
+                return .sliderTouchUp
+            case .sliderSlidToMaximumValue:
+                return .sliderSlidToMaximumValue
+            case .sliderSlidToMinimumValue:
+                return .sliderSlidToMinimumValue
+            case .tabViewItemTouchDown:
+                return .tabViewItemTouchDown
+            case .toggleTouchDown:
+                return .toggleTouchDown
+            case .toggleSetToOn:
+                return .toggleSetToOn
+            case .toggleSetToOff:
+                return .toggleSetToOff
+            case .buttonNavigationBarTouchDown:
+                return .buttonNavigationBarTouchDown
+            case .buttonToggleOn:
+                return .buttonToggleOn
+            case .buttonToggleOff:
+                return .buttonToggleOff
+            case .buttonWithoutBackgroundTouchDown:
+                return .buttonWithoutBackgroundTouchDown
+            case .buttonStepperMinusTouchDown:
+                return .buttonStepperMinusTouchDown
+            case .buttonStepperPlusTouchDown:
+                return .buttonStepperPlusTouchDown
+            case .handFlipPalmDown:
+                return .handFlipPalmDown
+            case .handFlipPalmUp:
+                return .handFlipPalmUp
+            case .handReveal:
+                return .handReveal
+            }
         }
     }
 }
@@ -296,16 +361,23 @@ struct LocationBasedFeedbackAdaptor : PlatformSensoryFeedback {
     private(set) var location: Attribute<CGPoint>
     private(set) var base: any LocationBasedSensoryFeedback
     
-    func setUp() {
-        assertUnimplemented()
+    mutating func setUp() {
+        self.base.setUp()
     }
     
-    func tearDown() {
-        assertUnimplemented()
+    mutating func tearDown() {
+        self.base.tearDown()
     }
     
-    func generate() {
-        assertUnimplemented()
+    mutating func generate() {
+        let location = Update.ensure {
+            // $s7SwiftUI28LocationBasedFeedbackAdaptorV8generateyyFSo7CGPointVyXEfU_TA
+            return Graph.withoutUpdate { 
+                return self.location.value
+            }
+        }
+        
+        self.base.generate(location: location)
     }
 }
 
