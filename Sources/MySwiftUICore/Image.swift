@@ -1,6 +1,8 @@
 public import CoreGraphics
 public import Foundation
 public import DeveloperToolsSupport
+public import UIKit
+public import CoreTransferable
 private import RenderBox
 internal import AttributeGraph
 
@@ -62,7 +64,9 @@ extension Image {
         case right = 7
         case rightMirrored = 5
     }
-    
+}
+
+extension Image {
     struct ResizingInfo {
         private var capInsets: EdgeInsets
         private var mode: Image.ResizingMode
@@ -72,7 +76,13 @@ extension Image {
         case tile
         case stretch
     }
-    
+
+    public func resizable(capInsets: EdgeInsets = EdgeInsets(), resizingMode: Image.ResizingMode = .stretch) -> Image {
+        assertUnimplemented()
+    }
+}
+
+extension Image {
     public enum Interpolation : Sendable {
         case none
         case low
@@ -87,7 +97,9 @@ extension Image {
             assertUnimplemented()
         }
     }
-    
+}
+
+extension Image {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
     @available(watchOS, unavailable)
     public struct DynamicRange : Hashable, Sendable {
@@ -112,10 +124,18 @@ extension Image {
             }
         }
     }
+
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
+    @available(watchOS, unavailable)
+    public func allowedDynamicRange(_ range: Image.DynamicRange?) -> Image {
+        assertUnimplemented()
+    }
 }
 
 extension Image.ResizingMode : Hashable {}
 extension Image.Interpolation : Hashable {}
+extension Image.Orientation : Sendable {}
+extension Image.Orientation : BitwiseCopyable {}
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
@@ -199,9 +219,13 @@ extension Image {
             assertUnimplemented()
         }
     }
-    
+}
+
+extension Image {
     public static let _mainNamedBundle: Bundle? = { assertUnimplemented() }()
-    
+}
+
+extension Image {
     public init(_ name: String, bundle: Bundle? = nil) {
         assertUnimplemented()
     }
@@ -223,7 +247,10 @@ extension Image {
     public init(_internalSystemName systemName: String) {
         assertUnimplemented()
     }
-    
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension Image {
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public init(systemName: String, variableValue: Double?) {
         assertUnimplemented()
@@ -248,7 +275,9 @@ extension Image {
     public init(decorative name: String, variableValue: Double?, bundle: Bundle? = nil) {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(*, deprecated, message: "Use .renderingMode(.original)")
     public init(_systemName systemName: String, colorPalette: [Color]? = nil) {
         assertUnimplemented()
@@ -258,12 +287,16 @@ extension Image {
     public init(_internalSystemName systemName: String, colorPalette: [Color]? = nil) {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public init(_ resource: ImageResource) {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     public init(_ cgImage: CGImage, scale: CGFloat, orientation: Image.Orientation = .up, label: Text) {
         assertUnimplemented()
     }
@@ -271,16 +304,16 @@ extension Image {
     public init(decorative cgImage: CGImage, scale: CGFloat, orientation: Image.Orientation = .up) {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public init(size: CGSize, label: Text? = nil, opaque: Bool = false, colorMode: ColorRenderingMode = .nonLinear, renderer: @escaping (inout GraphicsContext) -> Void) {
         assertUnimplemented()
     }
-    
-    public func resizable(capInsets: EdgeInsets = EdgeInsets(), resizingMode: Image.ResizingMode = .stretch) -> Image {
-        assertUnimplemented()
-    }
-    
+}
+
+extension Image {
     public func interpolation(_ interpolation: Image.Interpolation) -> Image {
         assertUnimplemented()
     }
@@ -288,29 +321,31 @@ extension Image {
     public func antialiased(_ isAntialiased: Bool) -> Image {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     public func renderingMode(_ renderingMode: Image.TemplateRenderingMode?) -> Image {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     public func symbolRenderingMode(_ mode: SymbolRenderingMode?) -> Image {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     public func symbolVariableValueMode(_ mode: SymbolVariableValueMode?) -> Image {
         assertUnimplemented()
     }
-    
+}
+
+extension Image {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     public func symbolColorRenderingMode(_ mode: SymbolColorRenderingMode?) -> Image {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
-    @available(watchOS, unavailable)
-    public func allowedDynamicRange(_ range: Image.DynamicRange?) -> Image {
         assertUnimplemented()
     }
 }
@@ -429,5 +464,22 @@ extension Image {
         case bundle(Bundle)
         case system
         case privateSystem
+    }
+}
+
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS, unavailable)
+extension Image {
+    public init(uiImage: UIImage) {
+        assertUnimplemented()
+    }
+}
+
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+extension Image : Transferable {
+    public static var transferRepresentation: some TransferRepresentation {
+        ProxyRepresentation(exporting: { (_: Image) -> Data in
+            assertUnimplemented()
+        })
     }
 }

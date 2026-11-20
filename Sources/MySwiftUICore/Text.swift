@@ -73,7 +73,7 @@ private import UIFoundation
         switch storage {
         case .verbatim(let string):
             return string
-        case .anyTextStorage(let _):
+        case .anyTextStorage(_):
             var resolved = Text.ResolvedString(
                 style: Text.Style(),
                 idiom: idiom,
