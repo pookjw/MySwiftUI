@@ -984,13 +984,26 @@ extension DisplayList.ViewUpdater {
             case .content(let content):
                 let seed = content.seed
                 if viewInfo.seeds.content == seed {
+                    // <+200>
+                    // <+2068>
                     if viewInfo.state.flags.contains(.unknown5) {
+                        // <+2320>
                         assertUnimplemented()
                     } else {
                         if case .drawing = viewInfo.state.kind {
-                            assertUnimplemented()
+                            // <+2100>
+                            // x29, #-0xf0
+                            if (viewInfo.state.size.width != item.size.width) || (viewInfo.state.size.height != item.size.height) {
+                                // <+2132>
+                                let drawable = viewInfo.view as! PlatformDrawable
+                                let result = drawable.update(content: nil, required: true)
+                                viewInfo.isInvalid = !result
+                            } else {
+                                // <+2244>
+                            }
                         }
                         
+                        // <+2244>
                         unsafe updateState(&viewInfo, item: item, size: item.frame.size, state: state)
                         return
                     }

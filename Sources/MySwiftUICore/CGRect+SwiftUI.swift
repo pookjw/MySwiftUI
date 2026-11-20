@@ -222,4 +222,24 @@ extension CGRect {
         
         self = CGRect(x: d0, y: d1, width: d2, height: d3)
     }
+    
+    package mutating func convert(to space: CoordinateSpace, transform: ViewTransform) {
+        guard !self.isNull && !self.isInfinite else {
+            return
+        }
+        
+        var points: [CGPoint] = [
+            self.origin,
+            CGPoint(x: self.origin.x + self.size.width, y: self.origin.y),
+            CGPoint(x: self.origin.x + self.size.width, y: self.origin.y + self.size.height),
+            CGPoint(x: self.origin.x, y: self.origin.y + self.size.height)
+        ]
+        
+        transform.convertLocalToSpace(space) { item in
+            // $sSM7SwiftUISo7CGPointV7ElementRtzrlE15_applyTransform33_1CC2FE016A82CF91549A64E942CE8ED4LL4itemyAA04ViewF0V4ItemO_tFSayACG_TB5
+            points.applyTransform(item: item)
+        }
+        
+        self = CGRect(cornerPoints: points[0..<4])
+    }
 }

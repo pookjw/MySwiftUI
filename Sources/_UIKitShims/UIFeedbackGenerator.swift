@@ -65,6 +65,11 @@ package final class MyUIImpactFeedbackGenerator : MyUIFeedbackGenerator {
         
         super.init(feedbackGenerator: ref)
     }
+    
+    package func impactOccurred(intensity: CGFloat, at location: CGPoint) {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, CGFloat, CGPoint) -> Void).self)
+        casted(self.feedbackGenerator, Selector(("impactOccurredWithIntensity:atLocation:")), intensity, location)
+    }
 }
 
 package enum MyUIImpactFeedbackStyle : Int {

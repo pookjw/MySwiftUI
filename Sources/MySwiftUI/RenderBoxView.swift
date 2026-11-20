@@ -66,7 +66,7 @@ fileprivate final class RenderBoxLayer: RBLayer {
             assertUnimplemented()
         }
         set {
-            assertUnimplemented()
+            super.needsSynchronousUpdate = newValue
         }
     }
     

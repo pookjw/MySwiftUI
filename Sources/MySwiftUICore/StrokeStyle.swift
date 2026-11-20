@@ -23,10 +23,6 @@ public import CoreGraphics
         self.dash = dash
         self.dashPhase = dashPhase
     }
-    
-    public static func == (a: StrokeStyle, b: StrokeStyle) -> Bool {
-        assertUnimplemented()
-    }
 }
 
 extension StrokeStyle : Animatable {

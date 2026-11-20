@@ -96,7 +96,35 @@ fileprivate struct FeedbackLocation : Rule {
     @Attribute private(set) var transform: ViewTransform
     
     var value: CGPoint {
-        assertUnimplemented()
+        // x23
+        let transform = self.transform
+        
+        let d10: CGFloat
+        let d11: CGFloat
+        do {
+            let position = self.position
+            d10 = position.x
+            d11 = position.y
+        }
+        
+        // x26
+        let size = self.size
+        
+        let d8: CGFloat
+        let d9: CGFloat
+        do {
+            let size = size.value
+            d8 = size.width
+            d9 = size.height
+        }
+        
+        var rect = CGRect(x: d10, y: d11, width: d8, height: d9)
+        rect.convert(to: .id(hostingViewCoordinateSpace), transform: transform)
+        
+        let d12 = rect.origin.x + rect.width * 0.5
+        let d1 = rect.origin.y + rect.height * 0.5
+        
+        return CGPoint(x: d12, y: d1)
     }
 }
 
@@ -141,7 +169,7 @@ struct ImpactFeedbackImplementation : LocationBasedSensoryFeedback {
     }
     
     func tearDown() {
-        assertUnimplemented()
+        // noop
     }
     
     func generate() {
@@ -149,7 +177,7 @@ struct ImpactFeedbackImplementation : LocationBasedSensoryFeedback {
     }
     
     mutating func generate(location: CGPoint) {
-        assertUnimplemented()
+        self.generator.impactOccurred(intensity: self.intensity, at: location)
     }
 }
 
