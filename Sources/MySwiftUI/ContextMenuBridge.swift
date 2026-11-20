@@ -14,7 +14,11 @@ final class ContextMenuBridge : NSObject {
     private var popoverBridgeToken: UncheckedSendable<NSObject>? = nil
     private var lastPresentationValues: [ViewIdentity : ContextMenuPresentation] = [:]
     private var presentationSeed: VersionSeed = .empty
-    private(set) var presentedMenu = ActiveContextMenu()
+    private(set) var presentedMenu = ActiveContextMenu() {
+        didSet {
+            assertUnimplemented()
+        }
+    }
 
     deinit {
         assertUnimplemented()

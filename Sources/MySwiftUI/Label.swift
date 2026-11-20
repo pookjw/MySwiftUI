@@ -10,8 +10,7 @@ public struct Label<Title, Icon> : View where Title : View, Icon : View {
     }
 
     @MainActor @preconcurrency public var body: some View {
-        let result: Text = { assertUnimplemented() }()
-        return result
+        assertUnimplemented()
     }
 }
 
