@@ -40,15 +40,15 @@ private import UIFoundation
     
     @usableFromInline
     @frozen package enum Modifier : Equatable {
-//        case color(Color?)
-//        case font(Font?)
-//        case italic
-//        case weight(Font.Weight?)
-//        case kerning(CGFloat)
-//        case tracking(CGFloat)
-//        case baseline(CGFloat)
-//        case rounded
-//        case anyTextModifier(AnyTextModifier)
+        case color(Color?)
+        case font(Font?)
+        case italic
+        case weight(Font.Weight?)
+        case kerning(CGFloat)
+        case tracking(CGFloat)
+        case baseline(CGFloat)
+        case rounded
+        case anyTextModifier(AnyTextModifier)
         
         @usableFromInline
         package static func == (lhs: Text.Modifier, rhs: Text.Modifier) -> Bool {
@@ -476,19 +476,154 @@ extension Text {
         private var platterSize: Text.Encapsulation.PlatterSize?
     }
     
-    public struct Scale {
-        // TODO
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public struct Scale : Sendable, Hashable {
+        public static let `default`: Self = { assertUnimplemented() }()
+        public static let secondary: Self = { assertUnimplemented() }()
     }
     
     struct Superscript {
         // TODO
     }
     
-    public struct LineStyle {
+    public struct LineStyle : Hashable, Sendable {
         private var nsUnderlineStyleValue: Int
         private var color: Color?
+
+        public init(pattern: Pattern = .solid, color: Color? = nil) {
+            assertUnimplemented()
+        }
+
+        public struct Pattern : Sendable {
+            public static let solid: Self = { assertUnimplemented() }()
+            public static let dot: Self = { assertUnimplemented() }()
+            public static let dash: Self = { assertUnimplemented() }()
+            public static let dashDot: Self = { assertUnimplemented() }()
+            public static let dashDotDot: Self = { assertUnimplemented() }()
+        }
+
+        public static let single: Self = { assertUnimplemented() }()
     }
 }
+
+extension Text.Storage : @unchecked Sendable {}
+extension Text.Modifier : @unchecked Sendable {}
+
+@usableFromInline
+package class AnyTextModifier {}
+
+@available(*, unavailable)
+extension AnyTextModifier : Sendable {}
+
+extension Text {
+    @_disfavoredOverload public init(_ attributedContent: AttributedString) {
+        assertUnimplemented()
+    }
+}
+
+extension Text {
+    @available(iOS, introduced: 13.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
+    @available(macOS, introduced: 10.15, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
+    @available(tvOS, introduced: 13.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
+    @available(watchOS, introduced: 6.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
+    @available(visionOS, introduced: 1.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
+    nonisolated public func foregroundColor(_ color: Color?) -> Text { assertUnimplemented() }
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    nonisolated public func foregroundStyle<S>(_ style: S) -> Text where S : ShapeStyle { assertUnimplemented() }
+    nonisolated public func font(_ font: Font?) -> Text { assertUnimplemented() }
+    nonisolated public func fontWeight(_ weight: Font.Weight?) -> Text { assertUnimplemented() }
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func fontWidth(_ width: Font.Width?) -> Text { assertUnimplemented() }
+    nonisolated public func bold() -> Text { assertUnimplemented() }
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func bold(_ isActive: Bool) -> Text { assertUnimplemented() }
+    nonisolated public func italic() -> Text { assertUnimplemented() }
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func italic(_ isActive: Bool) -> Text { assertUnimplemented() }
+    @available(iOS 16.4, macOS 13.3, tvOS 16.4, watchOS 9.4, *)
+    nonisolated public func monospaced(_ isActive: Bool = true) -> Text { assertUnimplemented() }
+    @available(iOS 16.1, macOS 13.0, tvOS 16.1, watchOS 9.1, *)
+    nonisolated public func fontDesign(_ design: Font.Design?) -> Text { assertUnimplemented() }
+    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+    nonisolated public func monospacedDigit() -> Text { assertUnimplemented() }
+    nonisolated public func strikethrough(_ isActive: Bool = true, color: Color? = nil) -> Text { assertUnimplemented() }
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func strikethrough(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text { assertUnimplemented() }
+    nonisolated public func underline(_ isActive: Bool = true, color: Color? = nil) -> Text { assertUnimplemented() }
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
+    nonisolated public func underline(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text { assertUnimplemented() }
+    nonisolated public func kerning(_ kerning: CGFloat) -> Text { assertUnimplemented() }
+    nonisolated public func tracking(_ tracking: CGFloat) -> Text { assertUnimplemented() }
+    nonisolated public func baselineOffset(_ baselineOffset: CGFloat) -> Text { assertUnimplemented() }
+    nonisolated public func _stylisticAlternative(_ alternative: Font._StylisticAlternative) -> Text { assertUnimplemented() }
+}
+
+extension Text {
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+    public func textScale(_ scale: Text.Scale, isEnabled: Bool = true) -> Text { assertUnimplemented() }
+}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension Text {
+    public func customAttribute<T>(_ value: T) -> Text where T : TextAttribute { assertUnimplemented() }
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Text {
+    public struct WritingDirectionStrategy : Hashable, Sendable {
+        public static let layoutBased: Self = { assertUnimplemented() }()
+        public static let contentBased: Self = { assertUnimplemented() }()
+        public static let `default`: Self = { assertUnimplemented() }()
+    }
+}
+
+@available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
+extension Text {
+    public struct AlignmentStrategy : Hashable, Sendable {
+        public static let layoutBased: Self = { assertUnimplemented() }()
+        public static let writingDirectionBased: Self = { assertUnimplemented() }()
+        public static let `default`: Self = { assertUnimplemented() }()
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension Text.DateStyle : Equatable {
+    public static func == (a: Self, b: Self) -> Bool { assertUnimplemented() }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+extension Text.DateStyle : Codable {
+    public func encode(to encoder: any Encoder) throws { assertUnimplemented() }
+    public init(from decoder: any Decoder) throws { assertUnimplemented() }
+}
+
+extension Text {
+    public var _localizationInfo: _LocalizationInfo { assertUnimplemented() }
+}
+
+@available(iOS, introduced: 13.0, deprecated: 26.0, message: "Use string interpolation on `Text` instead: `Text(\"Hello \\(name)\")`")
+@available(macOS, introduced: 10.15, deprecated: 26.0, message: "Use string interpolation on `Text` instead: `Text(\"Hello \\(name)\")`")
+@available(tvOS, introduced: 13.0, deprecated: 26.0, message: "Use string interpolation on `Text` instead: `Text(\"Hello \\(name)\")`")
+@available(watchOS, introduced: 6.0, deprecated: 26.0, message: "Use string interpolation on `Text` instead: `Text(\"Hello \\(name)\")`")
+extension Text {
+    public static func + (lhs: Text, rhs: Text) -> Text { assertUnimplemented() }
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+extension Text {
+    public func textVariant<V>(_ preference: V) -> some View where V : TextVariantPreference {
+        let result: Text = { assertUnimplemented() }()
+        return result
+    }
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+public protocol TextVariantPreference {
+    var _preference: _TextVariantPreference<Self> { get }
+}
+
+@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+public struct _TextVariantPreference<Preference> : Sendable where Preference : TextVariantPreference {}
 
 extension Text.Style {
     enum TextStyleFont {

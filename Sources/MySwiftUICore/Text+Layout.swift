@@ -2,6 +2,25 @@ public import CoreGraphics
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension Text {
+    public struct LayoutKey : PreferenceKey, Sendable {
+        public struct AnchoredLayout : Equatable {
+            public var origin: Anchor<CGPoint>
+            public var layout: Text.Layout
+
+            public static func == (a: Self, b: Self) -> Bool { assertUnimplemented() }
+        }
+
+        public typealias Value = [AnchoredLayout]
+        public static var defaultValue: Value { assertUnimplemented() }
+        public static func reduce(value: inout Value, nextValue: () -> Value) { assertUnimplemented() }
+    }
+}
+
+@available(*, unavailable)
+extension Text.LayoutKey.AnchoredLayout : Sendable {}
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
+extension Text {
     public struct Layout : RandomAccessCollection, Equatable {
         @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
         public var isTruncated: Bool {

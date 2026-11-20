@@ -41,7 +41,7 @@ final class DemoViewController : UICollectionViewController {
         navigationItem.rightBarButtonItem = activateSceneBarButtonItem
         
 //        let item = DemoViewController.Item.allCases.last!
-        let item = DemoViewController.Item.shaderView
+        let item = DemoViewController.Item.textView
         pushToItem(item)
         
 //        Task {
@@ -89,6 +89,7 @@ extension DemoViewController {
         case emptyView
         case anyEmptyView
         case colorsView
+        case textView
         case circleView
         case cgColorView
         case uiColorView
@@ -180,6 +181,8 @@ extension DemoViewController {
                 return _typeName(AnyEmptyViewController.self, qualified: false)
             case .colorsView:
                 return _typeName(ColorsViewController.self, qualified: false)
+            case .textView:
+                return _typeName(TextViewController.self, qualified: false)
             case .circleView:
                 return _typeName(CircleViewController.self, qualified: false)
             case .cgColorView:
@@ -355,6 +358,8 @@ extension DemoViewController {
                 return AnyEmptyViewController()
             case .colorsView:
                 return ColorsViewController()
+            case .textView:
+                return TextViewController()
             case .circleView:
                 return CircleViewController()
             case .cgColorView:

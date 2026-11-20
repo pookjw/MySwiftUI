@@ -70,6 +70,14 @@ extension Font {
         private(set) var shouldRedactContent: Bool // 0x19
         private(set) var effectiveFont: Font // 0x20
         fileprivate(set) var fontModifiers: [AnyFontModifier] // 0x28
+
+        public static func == (a: Font.Context, b: Font.Context) -> Bool {
+            assertUnimplemented()
+        }
+
+        public func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
     }
 }
 
