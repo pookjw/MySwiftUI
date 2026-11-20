@@ -30,6 +30,11 @@ package class MyUIFeedbackGenerator {
         self.feedbackGenerator = ref
     }
     
+    package final func prepare() {
+        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> Void).self)
+        casted(self.feedbackGenerator, Selector(("prepare")))
+    }
+    
     fileprivate init(feedbackGenerator: AnyObject) {
         self.feedbackGenerator = feedbackGenerator
     }

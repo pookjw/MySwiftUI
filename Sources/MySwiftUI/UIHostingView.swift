@@ -1265,7 +1265,7 @@ open class _UIHostingView<Content : View>: UIView, XcodeViewDebugDataProvider {
             return false
         }
         
-        return tabBarController._inSidebarTransition
+        return tabBarController._isInSidebarTransition
     }
     
     fileprivate final func printHitTestIfNeeded(at point: CGPoint, with event: UIEvent?) {

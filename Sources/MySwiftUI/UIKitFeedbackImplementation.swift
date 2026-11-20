@@ -137,7 +137,7 @@ struct ImpactFeedbackImplementation : LocationBasedSensoryFeedback {
     private(set) var intensity: Double
     
     func setUp() {
-        assertUnimplemented()
+        self.generator.prepare()
     }
     
     func tearDown() {
@@ -158,11 +158,11 @@ struct NotificationFeedbackImplementation : LocationBasedSensoryFeedback {
     let type: MyUINotificationFeedbackType
     
     func setUp() {
-        assertUnimplemented()
+        self.generator.prepare()
     }
     
     func tearDown() {
-        assertUnimplemented()
+        // noop
     }
     
     func generate() {
@@ -178,11 +178,11 @@ struct SelectionFeedbackImplementation : LocationBasedSensoryFeedback {
     let generator: MyUISelectionFeedbackGenerator
     
     func setUp() {
-        assertUnimplemented()
+        self.generator.prepare()
     }
     
     func tearDown() {
-        assertUnimplemented()
+        // noop
     }
     
     func generate() {
@@ -199,11 +199,11 @@ struct CanvasFeedbackImplementation : LocationBasedSensoryFeedback {
     let type: SensoryFeedback.FeedbackType
     
     func setUp() {
-        assertUnimplemented()
+        self.generator.prepare()
     }
     
     func tearDown() {
-        assertUnimplemented()
+        // noop
     }
     
     func generate() {

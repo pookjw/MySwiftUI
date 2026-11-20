@@ -58,6 +58,7 @@ exports:
     MRUISceneWorldAlignmentBehaviorClientComponent,
     MRUIImmersionState,
     MRUIEntityTraitEnvironment,
-    MRUIEntityPreferenceHost ]
+    MRUIEntityPreferenceHost,
+    MRUIFeedbackGenerator ]
     objc-ivars:           [  ]
 ...

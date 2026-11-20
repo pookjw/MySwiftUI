@@ -22,6 +22,7 @@ CA_EXTERN CALayerContentsFormat const kCAContentsFormatA8 NS_SWIFT_NAME (a8);
 @property unsigned int separatedState;
 @property (nullable) CGColorRef contentsMultiplyColor;
 @property unsigned int disableUpdateMask;
+@property BOOL needsLayoutOnGeometryChange;
 - (void)addPresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(addPresentationModifier(_:));
 - (void)removePresentationModifier:(CAPresentationModifier *)modifier NS_SWIFT_NAME(removePresentationModifier(_:));
 - (BOOL)hasBeenCommitted;

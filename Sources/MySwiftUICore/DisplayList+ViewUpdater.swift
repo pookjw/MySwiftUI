@@ -1,9 +1,9 @@
 // B86250B2E056EB47628ECF46032DFA4C
-
 private import _DarwinFoundation3._stdlib
 private import CoreGraphics
 internal import _MySwiftUICoreShims
 private import AttributeGraph
+private import _QuartzCorePrivate
 
 @safe nonisolated(unsafe) fileprivate var printTree: Bool? = nil
 @safe nonisolated(unsafe) fileprivate var disableMixedViewHierarchy: Bool? = nil
@@ -195,8 +195,8 @@ extension DisplayList {
                 
                 let viewLayer = rootPlatform.viewLayer(rootView)
                 // x26
-                let oldNeedsDisplayOnBoundsChange = viewLayer.needsDisplayOnBoundsChange
-                viewLayer.needsDisplayOnBoundsChange = false
+                let oldNeedsLayoutOnGeometryChange = viewLayer.needsLayoutOnGeometryChange
+                viewLayer.needsLayoutOnGeometryChange = false
                 
                 // sp + 0x28
                 var container = DisplayList.ViewUpdater.Container(
@@ -230,9 +230,6 @@ extension DisplayList {
                 // <+1992>
                 viewCache.currentList = DisplayList()
                 
-                // sp, #0x88
-                let result2 = container.time
-                
                 if !isValid {
                     // <+2040>
                     container.time = time
@@ -240,15 +237,14 @@ extension DisplayList {
                 
                 if let host {
                     // <+2192>
-                    if let observer = host.as(ViewGraphRenderObserver.self), result2 != .zero {
+                    if let observer = host.as(ViewGraphRenderObserver.self) {
                         observer.didRender()
                     }
                 }
                 
                 // <+2220>
-                viewLayer.needsDisplayOnBoundsChange = oldNeedsDisplayOnBoundsChange
-                
                 self.nextUpdate = container.time
+                viewLayer.needsLayoutOnGeometryChange = oldNeedsLayoutOnGeometryChange
                 return container.time
             }
         }
