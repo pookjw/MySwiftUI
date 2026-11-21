@@ -1,7 +1,6 @@
-
 @_spi(Internal)
 open class PlatformScrollEdgeEffectTagDefinition {
-    package static func apply(inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewInputs) -> _ViewOutputs? {
+    package static func apply(inputs: _ViewInputs, body: (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs? {
         assertUnimplemented()
     }
     

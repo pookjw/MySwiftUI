@@ -58,6 +58,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
         inputs.contentShapeAccessibilityProvider = SwiftUIContentShapeAccessibilityProvider.self
         inputs.allowsHitTestingAccessibilityProvider = SwiftUIAllowsHitTestingAccessibilityProvider.self
         inputs.hiddenAccessibilityProvider = SwiftUIHiddenAccessibilityProvider.self
+        inputs.accessibilityPreferenceProvider = AccessibilityNodesKey.self
         inputs.customHoverEffectAccessibilityProvider = SwiftUICustomHoverEffectsAccessibilityProvider.self
         inputs.remoteEffectsAccessibilityProvider = SwiftUIRemoteEffectsAccessibilityProvider.self
         

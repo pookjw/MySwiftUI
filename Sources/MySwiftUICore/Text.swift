@@ -825,6 +825,21 @@ extension Text {
     }
     
     fileprivate static func makeCommonAttributes(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
+        if !inputs[ShouldAttachScrollEdgeEffectTag.self] || inputs[UsingGraphicsRenderer.self] {
+            // <+68>
+            return self.makeTextAttributes(view: view, inputs: inputs)
+        } else {
+            // <+148>
+            let outputs = PlatformScrollEdgeEffectTagDefinition.apply(inputs: inputs) { _, inputs in
+                // $s7SwiftUI4TextV20makeCommonAttributes33_641995D812913A47B866B20B88782376LL4view6inputsAA12_ViewOutputsVAA11_GraphValueVyACG_AA01_N6InputsVtFZAiA01_P0V_ANtcfU_TA
+                return self.makeTextAttributes(view: view, inputs: inputs)
+            }
+            
+            return outputs ?? self.makeTextAttributes(view: view, inputs: inputs)
+        }
+    }
+    
+    fileprivate static func makeTextAttributes(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
         assertUnimplemented()
     }
     

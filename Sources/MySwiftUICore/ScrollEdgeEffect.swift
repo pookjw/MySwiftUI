@@ -1,0 +1,4 @@
+struct ShouldAttachScrollEdgeEffectTag : ViewInputBoolFlag {
+    init() {}
+}
+

@@ -465,18 +465,6 @@ extension _ViewInputs {
         assertUnimplemented()
     }
     
-    var accessibilityPreferenceProvider: (any PreferenceKey.Type)? {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
     var allScrollableAxes: Attribute<Axis.Set> {
         assertUnimplemented()
     }
