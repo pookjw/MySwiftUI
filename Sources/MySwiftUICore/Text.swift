@@ -1,9 +1,10 @@
-// 7AFAB46D18FA6D189589CFA78D8B2B2E
+// 641995D812913A47B866B20B88782376
 public import Foundation
 package import CoreGraphics
 private import os.log
 private import CoreText
 private import UIFoundation
+internal import AttributeGraph
 
 @frozen public struct Text : Equatable, Sendable {
     @usableFromInline
@@ -124,25 +125,79 @@ private import UIFoundation
 
 extension Text : View {
     nonisolated public static func _makeView(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        guard
+            let presentation = inputs.requestedTextRepresentation,
+            presentation.shouldMakeRepresentation(inputs: inputs)
+        else {
+            return Text.makeCommonAttributes(view: view, inputs: inputs)
+        }
+        
+        // <+280>
+        var outputs = Text.makeCommonAttributes(view: view, inputs: inputs)
+        // x29 - 0x158
+        let options = presentation.representationOptions(inputs: inputs)
+        
+        let helper = ResolvedTextHelper(
+            time: inputs.time,
+            referenceDate: inputs[ReferenceDateInput.self],
+            includeDefaultAttributes: options.contains(.includeStyledText),
+            allowsKeyColors: false,
+            archiveOptions: inputs[ArchivedViewInput.self],
+            features: [],
+            attachmentsAsAuxiliaryMetadata: inputs.hasWidgetMetadata,
+            allowsAccessibilityAttributes: options.contains(.includeAccessibility),
+            idiom: inputs[InterfaceIdiomInput.self] ?? AnyInterfaceIdiom(idiom: .phone),
+            tracker: PropertyList.Tracker(),
+            lastText: nil,
+            nextUpdate: .time(.zero),
+            sizeVariant: TextSizeVariant(rawValue: 0)
+        )
+        
+        let filter = ResolvedTextFilter(
+            text: view.value,
+            environment: inputs.environment,
+            helper: helper
+        )
+        
+        let context = Text.MakeRepresentableContext(
+            text: Attribute(filter),
+            referenceDate: inputs[ReferenceDateInput.self],
+            environment: inputs.environment
+        )
+        
+        presentation.makeRepresentation(
+            inputs: inputs,
+            context: Attribute(context),
+            outputs: &outputs
+        )
+        
+        return outputs
     }
 
     nonisolated public static func _makeViewList(view: _GraphValue<Text>, inputs: _ViewListInputs) -> _ViewListOutputs {
-        assertUnimplemented()
+        if inputs[RequestedLeafContentType.self] {
+            // <+68>
+            var copy = inputs
+            copy.addTraitKey(LeafContentType.TraitKey.self)
+            copy.$traits = Attribute(Text.WriteTextTrait(traits: OptionalAttribute(copy.$traits)))
+            
+            return _ViewListOutputs.unaryViewList(view: view, inputs: copy)
+        } else {
+            // <+300>
+            return _ViewListOutputs.unaryViewList(view: view, inputs: inputs)
+        }
     }
 
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        assertUnimplemented()
-    }
-
-    public var body: Never {
-        assertUnimplemented()
+        return nil
     }
     
     public func _resolveText(in environment: EnvironmentValues) -> String {
         assertUnimplemented()
     }
 }
+
+extension Text : PrimitiveView {}
 
 extension Text {
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -506,6 +561,52 @@ extension Text {
     }
 }
 
+extension Text.ResolvedProperties {
+    struct Features : OptionSet {
+        static var keyColor: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 0)
+        }
+        
+        static var attachments: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 1)
+        }
+        
+        static var sensitive: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 2)
+        }
+        
+        static var customRenderer: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 3)
+        }
+        
+        static var useTextLayoutManager: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 4)
+        }
+        
+        static var useTextSuffix: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 5)
+        }
+        
+        static var produceTextLayout: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 6)
+        }
+        
+        static var checkInterpolationStrategy: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 7)
+        }
+        
+        static var isUniqueSizeVariant: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 8)
+        }
+        
+        static var isStandaloneSizeVariant: Text.ResolvedProperties.Features {
+            return Text.ResolvedProperties.Features(rawValue: 1 << 9)
+        }
+        
+        let rawValue: UInt16
+    }
+}
+
 extension Text.Storage : @unchecked Sendable {}
 extension Text.Modifier : @unchecked Sendable {}
 
@@ -712,4 +813,173 @@ extension String {
             return self.lowercased(with: locale)
         }
     }
+}
+
+extension Text {
+    struct WriteTextTrait : Rule {
+        @OptionalAttribute var traits: ViewTraitCollection?
+        
+        var value: ViewTraitCollection {
+            assertUnimplemented()
+        }
+    }
+    
+    fileprivate static func makeCommonAttributes(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    fileprivate struct MakeRepresentableContext : AsyncAttribute, Rule {
+        @Attribute private(set) var text: ResolvedStyledText
+        @WeakAttribute var referenceDate: Date??
+        @Attribute private(set) var environment: EnvironmentValues
+        
+        var value: PlatformTextRepresentableContext {
+            assertUnimplemented()
+        }
+    }
+}
+
+struct TextLayoutProperties {
+    // TODO
+}
+
+extension TextLayoutProperties {
+    fileprivate struct Key {
+        // TODO
+    }
+}
+
+fileprivate struct ResolvedTextFilter : AsyncAttribute, StatefulRule {
+    @Attribute private(set) var text: Text
+    @Attribute private(set) var environment: EnvironmentValues
+    private(set) var helper: ResolvedTextHelper
+    
+    static var flags: AnyAttribute.TypeFlags {
+        return [.unknown5]
+    }
+    
+    typealias Value = ResolvedStyledText
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+struct ResolvedTextHelper : SizeFittingTextResolver {
+    @Attribute private(set) var time: Time // 0x0
+    @WeakAttribute var referenceDate: Date?? // 0x4
+    let includeDefaultAttributes: Bool // 0xc
+    let allowsKeyColors: Bool // 0xd
+    let archiveOptions: ArchivedViewInput.Value // 0xe
+    let features: Text.ResolvedProperties.Features // 0x10
+    let attachmentsAsAuxiliaryMetadata: Bool // 0x12
+    let allowsAccessibilityAttributes: Bool // 0x13
+    let idiom: AnyInterfaceIdiom // 0x18
+    let tracker: PropertyList.Tracker // 0x28
+    private(set) var lastText: Text? // 0x30
+    private(set) var nextUpdate: ResolvedTextHelper.NextUpdate // 0x50 (offset field : 0x3c)
+    private(set) var sizeVariant: TextSizeVariant // 0x78 (offset field : 0x40)
+    
+    typealias Input = (text: Text?, env: EnvironmentValues, renderer: TextRendererBoxBase?)
+    typealias Engine = StyledTextLayoutEngine
+    
+    func shouldUpdate(for input: Self.Input, inputChanged: Bool) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func value(for input: Self.Input) -> SizeFittingTextCacheValue<Self.Engine> {
+        assertUnimplemented()
+    }
+    
+    var narrowerVariant: Self {
+        assertUnimplemented()
+    }
+    
+    func layoutPriority() -> Double {
+        assertUnimplemented()
+    }
+    
+    func ignoresAutomaticPadding() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func requiresSpacingProjection() -> Bool {
+        assertUnimplemented()
+    }
+    
+    func spacing() -> Spacing {
+        assertUnimplemented()
+    }
+    
+    func sizeThatFits(_ proposedSize: _ProposedSize) -> CGSize {
+        assertUnimplemented()
+    }
+    
+    func lengthThatFits(_ proposedSize: _ProposedSize, in axis: Axis) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func childGeometries(at viewSize: ViewSize, origin: CGPoint) -> [ViewGeometry] {
+        assertUnimplemented()
+    }
+    
+    func explicitAlignment(_ alignmentKey: AlignmentKey, at viewSize: ViewSize) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func childPlacement(at viewSize: ViewSize, placementContext: _PositionAwarePlacementContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    func depthThatFits(_ proposedSize: _ProposedSize3D) -> CGFloat {
+        assertUnimplemented()
+    }
+    
+    func explicitDepthAlignment(_ alignmentKey: DepthAlignmentKey, at viewSize: ViewSize3D) -> CGFloat? {
+        assertUnimplemented()
+    }
+    
+    func requiresTrueDepthLayout() -> Bool {
+        assertUnimplemented()
+    }
+    
+    var debugContentDescription: String? {
+        assertUnimplemented()
+    }
+}
+
+extension ResolvedTextHelper {
+    enum NextUpdate {
+        case time(Time)
+        case recipe(lastTime: Time, SwiftDate: Date, reduceFrequency: Bool, resolved: ResolvedStyledText)
+        case none
+        
+        func time() -> Time? {
+            assertUnimplemented()
+        }
+    }
+}
+
+protocol SizeFittingTextResolver : LayoutEngine {
+    associatedtype Input
+    associatedtype Engine
+    
+    func shouldUpdate(for input: Self.Input, inputChanged: Bool) -> Bool
+    func value(for input: Self.Input) -> SizeFittingTextCacheValue<Self.Engine>
+    var narrowerVariant: Self { get }
+}
+
+struct SizeFittingTextCacheValue<T> {
+    var text: ResolvedStyledText
+    var engine: T
+    var renderer: TextRendererBoxBase?
+}
+
+struct StyledTextLayoutEngine {
+    private var text: ResolvedStyledText
+    private var renderer: TextRendererBoxBase?
 }

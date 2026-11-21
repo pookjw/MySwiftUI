@@ -290,6 +290,7 @@ func printOffsets() {
     printFields("7SwiftUI38AccessibilityRepresentationPlaceholderC", isClassType: true)
     printFields("7SwiftUI26DefaultLayoutViewResponderC", isClassType: true)
     printFields(SwiftUI::Image.Resolved.self, isClassType: false)
+    printFields("7SwiftUI18ResolvedTextHelperV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

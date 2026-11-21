@@ -299,3 +299,20 @@ struct LeafLayoutEngine<T : LeafViewLayout> : LayoutEngine {
         return nil
     }
 }
+
+enum LeafContentType : Hashable {
+    case icon
+    case text
+}
+
+extension LeafContentType {
+    struct TraitKey : _ViewTraitKey {
+        static var defaultValue: LeafContentType? {
+            return nil
+        }
+    }
+}
+
+struct RequestedLeafContentType : ViewInputBoolFlag {
+    init() {}
+}

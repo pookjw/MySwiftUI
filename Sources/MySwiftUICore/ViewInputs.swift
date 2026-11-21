@@ -497,18 +497,6 @@ extension _ViewInputs {
         }
     }
     
-    var hasWidgetMetadata: Bool {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-        _modify {
-            assertUnimplemented()
-        }
-    }
-    
     var isInLazyContainer: Bool {
         get {
             assertUnimplemented()
