@@ -24,7 +24,7 @@ extension BodyAccessor {
          */
         precondition(Self.Body.self != Never.self, "\(Self.Container.self) may not have Body == Never")
         
-        return unsafe withUnsafeMutablePointer(to: &inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
+        return withUnsafeMutablePointer(to: &inputs) { pointer -> (_GraphValue<Self.Body>, _DynamicPropertyBuffer?) in
             let flags: any RuleThreadFlags.Type
             if unsafe fields.behaviors.contains(.allowsAsync) {
                 flags = AsyncThreadFlags.self

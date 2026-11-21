@@ -5,6 +5,17 @@ protocol TextAlwaysOnProvider {
     static func makeAlwaysOn(inputs: _ViewInputs, schedule: @autoclosure () -> Attribute<(any TimelineSchedule)?>, outputs: inout _ViewOutputs)
 }
 
+extension _ViewInputs {
+    var textAlwaysOnProvider: (any TextAlwaysOnProvider.Type)? {
+        get {
+            return self.base.textAlwaysOnProvider
+        }
+        set {
+            self.base.textAlwaysOnProvider = newValue
+        }
+    }
+}
+
 extension _GraphInputs {
     var textAlwaysOnProvider: (any TextAlwaysOnProvider.Type)? {
         get {

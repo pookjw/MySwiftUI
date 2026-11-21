@@ -1045,7 +1045,24 @@ extension Text {
         inputs: _ViewInputs,
         isScrapeable: Bool
     ) -> _ViewOutputs {
-        assertUnimplemented()
+        let query = Attribute(
+            TextChildQuery<T>(
+                resolvedText: styledText,
+                unresolvedText: view,
+                renderer: renderer,
+                environment: inputs.environment,
+                position: inputs.position,
+                size: inputs.size,
+                transform: inputs.transform,
+                parentID: inputs.scrapeableParentID
+            )
+        )
+        
+        if isScrapeable {
+            query.flags = [.unknown3]
+        }
+        
+        return TextChildQuery<T>.Value.makeDebuggableView(view: _GraphValue(query), inputs: inputs)
     }
     
     fileprivate struct MakeRepresentableContext : AsyncAttribute, Rule {
@@ -1207,5 +1224,24 @@ struct StyledTextLayoutEngine {
 struct TextRendererInput : ViewInput {
     static var defaultValue: WeakAttribute<TextRendererBoxBase> {
         return WeakAttribute()
+    }
+}
+
+fileprivate struct TextChildQuery<T : TextAccessibilityProvider> : ScrapeableAttribute, AsyncAttribute, Rule {
+    static func scrapeContent(from attribute: AnyAttribute) -> ScrapeableContent.Item? {
+        assertUnimplemented()
+    }
+    
+    @Attribute private(set) var resolvedText: ResolvedStyledText
+    @Attribute private(set) var unresolvedText: Text
+    @WeakAttribute var renderer: TextRendererBoxBase?
+    @Attribute private(set) var environment: EnvironmentValues
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var size: ViewSize
+    @Attribute private(set) var transform: ViewTransform
+    let parentID: ScrapeableID
+    
+    var value: some View {
+        assertUnimplemented()
     }
 }
