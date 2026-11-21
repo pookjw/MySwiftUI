@@ -56,7 +56,7 @@ NSString * _Nullable _getBestLocalization(NSBundle *bundle, NSLocale * _Nullable
     os_unfair_lock_unlock(&lock);
     [dictionary release];
     
-    return preferredLocalization;
+    return [[preferredLocalization retain] autorelease];
 }
 
 NSString * _LocalizeString(NSBundle *bundle, NSString *key, NSString * _Nullable table, NSLocale * _Nullable locale) {

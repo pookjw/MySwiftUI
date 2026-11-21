@@ -16,7 +16,7 @@ package struct VersionSeed : CustomStringConvertible {
     }
     
     package func matches(_ other: VersionSeed) -> Bool {
-        if self.value != .max {
+        if self.value != .max, other.value != .max {
             return self.value == other.value
         } else {
             return false
