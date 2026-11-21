@@ -1,6 +1,4 @@
 internal import UIKit
-private import ObjectiveC.runtime
-private import _MySwiftUICoreShims
 
 extension UIViewController {
     @available(iOS, unavailable)
@@ -9,8 +7,12 @@ extension UIViewController {
     @available(watchOS, unavailable)
     @available(visionOS 1.0, *)
     func msui_setNeedsStatusBarAppearanceUpdate() {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> Void).self)
-        let cmd = Selector(("setNeedsStatusBarAppearanceUpdate"))
-        casted(self, cmd)
+        (self as AnyObject).setNeedsStatusBarAppearanceUpdate()
+    }
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(setNeedsStatusBarAppearanceUpdate) func setNeedsStatusBarAppearanceUpdate() {
+        fatalError()
     }
 }

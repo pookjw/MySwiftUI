@@ -1,7 +1,5 @@
 package import UIKit
 private import ObjectiveC.runtime
-private import ObjectiveC.message
-private import _MySwiftUICoreShims
 
 fileprivate var UIScreenClass: AnyClass {
     return unsafe objc_getClass("UIScreen") as! AnyClass
@@ -12,9 +10,7 @@ package final class MyUIScreen {
     private let screen: AnyObject
     
     package static var main: MyUIScreen {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
-        let cmd = Selector(("mainScreen"))
-        return MyUIScreen(screen: casted(UIScreenClass, cmd))
+        return MyUIScreen(screen: (UIScreenClass as AnyObject).main)
     }
     
     package static var _mainScreen: MyUIScreen {
@@ -27,51 +23,51 @@ package final class MyUIScreen {
     }
     
     package var _referenceBounds: CGRect {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGRect).self)
-        let cmd = Selector(("_referenceBounds"))
-        return casted(screen, cmd)
+        return screen._referenceBounds
     }
     
     package var _pointsPerInch: CGFloat {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
-        let cmd = Selector(("_pointsPerInch"))
-        return casted(screen, cmd)
+        return screen._pointsPerInch
     }
     
     package var scale: CGFloat {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGFloat).self)
-        let cmd =  Selector(("scale"))
-        return casted(screen, cmd)
+        return screen.scale
     }
     
     package var bounds: CGRect {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> CGRect).self)
-        let cmd = Selector(("bounds"))
-        return casted(screen, cmd)
+        return screen.bounds
     }
     
     package var traitCollection: UITraitCollection {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> UITraitCollection).self)
-        let cmd = Selector(("traitCollection"))
-        return casted(screen, cmd)
+        return screen.traitCollection
     }
     
     func displayLink(withTarget target: Any, selector sel: Selector) -> CADisplayLink? {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, Any, Selector) -> CADisplayLink?).self)
-        let cmd = Selector(("displayLinkWithTarget:selector:"))
-        return casted(screen, cmd, target, sel)
+        return screen.displayLink(withTarget: target, selector: sel)
     }
 }
 
 extension UIWindow {
     package var myUIScreen: MyUIScreen? {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> AnyObject?).self)
-        let cmd = Selector(("screen"))
-        
-        guard let screen = casted(self, cmd) else {
+        guard let screen = (self as AnyObject).screen else {
             return nil
         }
         
-        return MyUIScreen(screen: screen)
+        if let screen {
+            return MyUIScreen(screen: screen)
+        } else {
+            return nil
+        }
     }
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(mainScreen) var main: AnyObject { fatalError() }
+    @objc(_referenceBounds) var _referenceBounds: CGRect { fatalError() }
+    @objc(_pointsPerInch) var _pointsPerInch: CGFloat { fatalError() }
+    @objc(scale) var scale: CGFloat { fatalError() }
+    @objc(bounds) var bounds: CGRect { fatalError() }
+    @objc(traitCollection) var traitCollection: UITraitCollection { fatalError() }
+    @objc(displayLinkWithTarget:selector:) func displayLink(withTarget target: Any, selector: Selector) -> CADisplayLink? { fatalError() }
+    @objc(screen) var screen: AnyObject? { fatalError() }
 }

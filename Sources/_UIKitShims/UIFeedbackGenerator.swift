@@ -1,7 +1,5 @@
 package import UIKit
 private import ObjectiveC.runtime
-private import ObjectiveC.message
-private import _MySwiftUICoreShims
 package import MRUIKit
 
 @_fixed_layout
@@ -13,26 +11,19 @@ package class MyUIFeedbackGenerator {
     package let feedbackGenerator: AnyObject
     
     package init(view: UIView?) {
-        let alloc = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
-        var ref = alloc(Self.claassType, Selector(("alloc")))
-        let initWithView = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, UIView?) -> AnyObject).self)
-        ref = initWithView(ref, Selector(("initWithView:")), view)
-        
-        self.feedbackGenerator = ref
+        self.feedbackGenerator = (Self.claassType as AnyObject)
+            .alloc()
+            ._init(view: view)
     }
     
     package init() {
-        let alloc = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
-        var ref = alloc(Self.claassType, Selector(("alloc")))
-        let _init = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> AnyObject).self)
-        ref = _init(ref, Selector(("init")))
-        
-        self.feedbackGenerator = ref
+        self.feedbackGenerator = (Self.claassType as AnyObject)
+            .alloc()
+            ._init()
     }
     
     package final func prepare() {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> Void).self)
-        casted(self.feedbackGenerator, Selector(("prepare")))
+        self.feedbackGenerator._prepare()
     }
     
     fileprivate init(feedbackGenerator: AnyObject) {
@@ -58,17 +49,15 @@ package final class MyUIImpactFeedbackGenerator : MyUIFeedbackGenerator {
     }
     
     package init(style: MyUIImpactFeedbackStyle) {
-        let alloc = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyClass, Selector) -> AnyObject).self)
-        var ref = alloc(Self.claassType, Selector(("alloc")))
-        let initWithView = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, Int) -> AnyObject).self)
-        ref = initWithView(ref, Selector(("initWithStyle:")), style.rawValue)
+        let ref = (Self.claassType as AnyObject)
+            .alloc()
+            ._init(style: style.rawValue)
         
         super.init(feedbackGenerator: ref)
     }
     
     package func impactOccurred(intensity: CGFloat, at location: CGPoint) {
-        let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, CGFloat, CGPoint) -> Void).self)
-        casted(self.feedbackGenerator, Selector(("impactOccurredWithIntensity:atLocation:")), intensity, location)
+        feedbackGenerator.impactOccurred(intensity: intensity, at: location)
     }
 }
 
@@ -104,5 +93,31 @@ package final class MyUISelectionFeedbackGenerator : MyUIFeedbackGenerator {
 package final class MyUICanvasFeedbackGenerator : MyUIFeedbackGenerator {
     fileprivate override class var claassType: AnyClass {
         return unsafe objc_getClass("UICanvasFeedbackGenerator") as! AnyClass
+    }
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(alloc) func alloc() -> AnyObject {
+        fatalError()
+    }
+
+    @objc(init) func _init() -> AnyObject {
+        fatalError()
+    }
+
+    @objc(initWithView:) func _init(view: UIView?) -> AnyObject {
+        fatalError()
+    }
+
+    @objc(initWithStyle:) func _init(style: Int) -> AnyObject {
+        fatalError()
+    }
+
+    @objc(prepare) func _prepare() {
+        fatalError()
+    }
+
+    @objc(impactOccurredWithIntensity:atLocation:) func impactOccurred(intensity: CGFloat, at location: CGPoint) {
+        fatalError()
     }
 }

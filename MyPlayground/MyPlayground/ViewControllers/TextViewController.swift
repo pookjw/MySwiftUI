@@ -9,6 +9,25 @@ import UIKit
 import MySwiftUI
 
 fileprivate struct MyView: View {
+    private var attributedString: AttributedString {
+        var value = AttributedString("AttributedString: bold, colored, and linked text")
+        value.foregroundColor = .orange
+
+        if let boldRange = value.range(of: "bold") {
+            value[boldRange].font = .system(size: 20, weight: .bold, design: .rounded)
+        }
+        if let coloredRange = value.range(of: "colored") {
+            value[coloredRange].foregroundColor = .purple
+            value[coloredRange].underlineStyle = .single
+        }
+        if let linkedRange = value.range(of: "linked") {
+            value[linkedRange].link = URL(string: "https://www.swift.org")
+            value[linkedRange].foregroundColor = .blue
+        }
+
+        return value
+    }
+
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             Text("Large Title")
@@ -95,6 +114,10 @@ fileprivate struct MyView: View {
                 .foregroundStyle(.mint)
                 .fontWidth(.expanded)
                 .underline(color: .orange)
+
+            Text(attributedString)
+                .font(.body)
+                .padding(.vertical, 8)
         }
     }
 }

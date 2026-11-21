@@ -1,7 +1,4 @@
 package import UIKit
-private import ObjectiveC.runtime
-private import ObjectiveC.message
-private import _MySwiftUICoreShims
 
 extension UINavigationItem {
     @available(iOS, unavailable)
@@ -11,14 +8,10 @@ extension UINavigationItem {
     @available(visionOS 1.0, *)
     package var msui_searchBarPlacementAllowsExternalIntegration: Bool {
         get {
-            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> ObjCBool).self)
-            let cmd = Selector(("searchBarPlacementAllowsExternalIntegration"))
-            return casted(self, cmd).boolValue
+            return (self as AnyObject).searchBarPlacementAllowsExternalIntegration()
         }
         set {
-            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, ObjCBool) -> Void).self)
-            let cmd = Selector(("setSearchBarPlacementAllowsExternalIntegration:"))
-            casted(self, cmd, ObjCBool(newValue))
+            (self as AnyObject).setSearchBarPlacementAllowsExternalIntegration(newValue)
         }
     }
     
@@ -29,14 +22,28 @@ extension UINavigationItem {
     @available(visionOS 1.0, *)
     package var msui_subtitle: String? {
         get {
-            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> NSString?).self)
-            let cmd = Selector(("subtitle"))
-            return casted(self, cmd) as String?
+            return (self as AnyObject).subtitle() as String?
         }
         set {
-            let casted = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector, NSString?) -> Void).self)
-            let cmd = Selector(("setSubtitle:"))
-            casted(self, cmd, newValue as NSString?)
+            (self as AnyObject).setSubtitle(newValue as NSString?)
         }
+    }
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(searchBarPlacementAllowsExternalIntegration) func searchBarPlacementAllowsExternalIntegration() -> Bool {
+        fatalError()
+    }
+
+    @objc(setSearchBarPlacementAllowsExternalIntegration:) func setSearchBarPlacementAllowsExternalIntegration(_ value: Bool) {
+        fatalError()
+    }
+
+    @objc(subtitle) func subtitle() -> NSString? {
+        fatalError()
+    }
+
+    @objc(setSubtitle:) func setSubtitle(_ value: NSString?) {
+        fatalError()
     }
 }

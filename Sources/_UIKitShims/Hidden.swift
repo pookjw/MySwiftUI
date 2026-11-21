@@ -11,20 +11,6 @@ internal import MySwiftUICore
 internal import DesignLibrary
 private import _MySwiftUICoreShims
 
-final class PrivateSelectors {
-    @objc(_swiftTypeName) var _swiftTypeName: NSString {
-        fatalError()
-    }
-    
-    @objc(_swiftValue) var _swiftValue: UnsafeRawPointer {
-        fatalError()
-    }
-    
-    @objc(alloc) func alloc() -> AnyObject {
-        fatalError()
-    }
-}
-
 extension Notification.Name {
     static let applicationWillBeginSnapshotSessionNotification = Notification.Name(rawValue: "_UIApplicationWillBeginSnapshotSessionNotification")
     static let applicationDidEndSnapshotSessionNotification = Notification.Name(rawValue: "_UIApplicationDidEndSnapshotSessionNotification")
@@ -405,5 +391,11 @@ func getTraitsInternal(_ mutation: any UIMutableTraits) -> any UIMutableTraitsIn
 extension UIModalPresentationStyle {
     package static var msui_blurOverFullScreen: UIModalPresentationStyle {
         return unsafe UIModalPresentationStyle(rawValue: 8).unsafelyUnwrapped
+    }
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(alloc) func alloc() -> AnyObject {
+        fatalError()
     }
 }

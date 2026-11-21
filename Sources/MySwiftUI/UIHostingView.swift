@@ -1519,9 +1519,8 @@ extension _UIHostingView : @preconcurrency ViewRendererHost {
                 if let window {
                     let isDarkWindowSelector = Selector(("_accessibilityInvertColorsIsDarkWindow"))
                     let supportsDarkWindowInvertSelector = Selector(("_accessibilityInvertColorsSupportsDarkWindowInvert"))
-                    let send = unsafe unsafeBitCast(msui_objc_msgSend(), to: (@convention(c) (AnyObject, Selector) -> ObjCBool).self)
-                    let isDarkWindow = window.responds(to: isDarkWindowSelector) ? send(window, isDarkWindowSelector).boolValue : false
-                    let supportsDarkWindowInvert = window.responds(to: supportsDarkWindowInvertSelector) ? send(window, supportsDarkWindowInvertSelector).boolValue : false
+                    let isDarkWindow = window.responds(to: isDarkWindowSelector) ? (window as AnyObject).accessibilityInvertColorsIsDarkWindow() : false
+                    let supportsDarkWindowInvert = window.responds(to: supportsDarkWindowInvertSelector) ? (window as AnyObject).accessibilityInvertColorsSupportsDarkWindowInvert() : false
                     hasInvertFilter = hasInvertFilter || (isDarkWindow && supportsDarkWindowInvert)
                 }
             }
@@ -2314,4 +2313,14 @@ extension _UIHostingView : @preconcurrency ViewGraphBridgePropertiesDelegate {
 
 extension Spacing {
     @safe nonisolated(unsafe) fileprivate static var hasSetupDefaultValue = false
+}
+
+fileprivate final class PrivateSelectors {
+    @objc(_accessibilityInvertColorsIsDarkWindow) func accessibilityInvertColorsIsDarkWindow() -> Bool {
+        fatalError()
+    }
+
+    @objc(_accessibilityInvertColorsSupportsDarkWindowInvert) func accessibilityInvertColorsSupportsDarkWindowInvert() -> Bool {
+        fatalError()
+    }
 }
