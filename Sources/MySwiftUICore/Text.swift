@@ -562,6 +562,10 @@ extension Text {
 }
 
 extension Text.ResolvedProperties {
+    struct CustomAttachments {
+        // TODO
+    }
+    
     struct Features : OptionSet {
         static var keyColor: Text.ResolvedProperties.Features {
             return Text.ResolvedProperties.Features(rawValue: 1 << 0)
@@ -604,6 +608,18 @@ extension Text.ResolvedProperties {
         }
         
         let rawValue: UInt16
+    }
+    
+    struct Transition {
+        // TODO
+    }
+    
+    struct Paragraph {
+        // TODO
+    }
+    
+    struct Links {
+        // TODO
     }
 }
 
@@ -840,6 +856,195 @@ extension Text {
     }
     
     fileprivate static func makeTextAttributes(view: _GraphValue<Text>, inputs: _ViewInputs) -> _ViewOutputs {
+        let selection: Bool
+        if !inputs[TextAllowsSelection.self] {
+            selection = false
+        } else {
+            selection = !inputs[TextSelectionForbidden.self]
+        }
+        
+        let renderer = inputs[TextRendererInput.self]
+        let archiveOptions = inputs[ArchivedViewInput.self]
+        var features: ResolvedProperties.Features
+        
+        if archiveOptions.flags.contains(.isArchived) {
+            features = []
+        } else {
+            features = [.useTextSuffix]
+        }
+        
+        if renderer.attribute != nil {
+            features.formUnion([.customRenderer, .produceTextLayout])
+        } else {
+            if inputs.preferences.contains(Text.LayoutKey.self) {
+                features.formUnion([.produceTextLayout])
+            }
+        }
+        
+        if inputs[PreferTextLayoutManagerInput.self] {
+            features.formUnion([.useTextLayoutManager])
+        }
+        
+        var copy = inputs
+        let variantThatFits = inputs[VariantThatFitsFlag.self]
+        let resolvedText: Attribute<ResolvedStyledText>
+        let layoutComputer: Attribute<LayoutComputer>?
+        
+        if variantThatFits {
+            // <+1576>
+            let filter = SizeFittingTextFilter(
+                size: inputs.size,
+                text: view.value,
+                environment: inputs.environment,
+                time: inputs.time,
+                referenceDate: inputs[ReferenceDateInput.self],
+                includeDefaultAttributes: true,
+                allowsKeyColors: true,
+                archiveOptions: inputs[ArchivedViewInput.self],
+                features: features,
+                attachmentsAsAuxiliaryMetadata: inputs.hasWidgetMetadata,
+                idiom: inputs.base.interfaceIdiom
+            )
+            
+            resolvedText = Attribute(filter)
+            
+            layoutComputer = Attribute(
+                SizeFittingTextLayoutComputer(
+                    text: view.value,
+                    environment: inputs.environment,
+                    renderer: renderer,
+                    cache: filter.cache
+                )
+            )
+            
+            copy.base.options.subtract(.viewRequestsLayoutComputer)
+        } else {
+            // <+500>
+            let helper = ResolvedTextHelper(
+                time: inputs.time,
+                referenceDate: inputs[ReferenceDateInput.self],
+                includeDefaultAttributes: true,
+                allowsKeyColors: true,
+                archiveOptions: archiveOptions,
+                features: features,
+                attachmentsAsAuxiliaryMetadata: inputs.hasWidgetMetadata,
+                allowsAccessibilityAttributes: false,
+                idiom: inputs[InterfaceIdiomInput.self] ?? AnyInterfaceIdiom(idiom: .phone),
+                tracker: PropertyList.Tracker(),
+                lastText: nil,
+                nextUpdate: .time(.zero),
+                sizeVariant: TextSizeVariant(rawValue: 0)
+            )
+            
+            resolvedText = Attribute(
+                ResolvedTextFilter(
+                    text: view.value,
+                    environment: inputs.environment,
+                    helper: helper
+                )
+            )
+            
+            layoutComputer = nil
+        }
+        
+        // <+1144>
+        copy.base.options.formUnion(.doNotScrape)
+        var outputs: _ViewOutputs
+        
+        if selection {
+            // <+1160>
+            if let textSelectionRepresentation = inputs.textSelectionRepresentation {
+                // <+1172>
+                let isScrapeable: Bool
+                
+                if inputs.base.options.contains(.viewNeedsGeometry) {
+                    // <+1184>
+                    if inputs.preferences.contains(DisplayList.Key.self) {
+                        // <+1200>
+                        isScrapeable = !inputs.base.options.contains(.doNotScrape)
+                        // <+1312>
+                    } else {
+                        // <+1308>
+                        isScrapeable = false
+                        // <+1312>
+                    }
+                } else {
+                    // <+1308>
+                    isScrapeable = false
+                    // <+1312>
+                }
+                
+                outputs = textSelectionRepresentation.makeSelectableText(
+                    resolvedText: resolvedText,
+                    view: view.value,
+                    inputs: copy,
+                    isScrapeable: isScrapeable
+                )
+                
+                // <+1372>
+            } else {
+                // <+1348>
+                outputs = _ViewOutputs()
+                // <+1372>
+            }
+        } else {
+            // <+1212>
+            let textAccessibilityProvider = inputs.textAccessibilityProvider
+            let isScrapeable: Bool
+            
+            if inputs.base.options.contains(.viewNeedsGeometry) {
+                // <+1232>
+                if inputs.preferences.contains(DisplayList.Key.self) {
+                    // <+1248>
+                    isScrapeable = !inputs.base.options.contains(.doNotScrape)
+                } else {
+                    // <+1260>
+                    isScrapeable = false
+                }
+            } else {
+                // <+1260>
+                isScrapeable = false
+            }
+            
+            outputs = self.makeTextChildQuery(
+                textAccessibilityProvider,
+                styledText: resolvedText,
+                view: view.value,
+                renderer: renderer,
+                inputs: copy,
+                isScrapeable: isScrapeable
+            )
+        }
+        
+        // <+1372>
+        if let textAlwaysOnProvider = inputs.base.textAlwaysOnProvider {
+            textAlwaysOnProvider.makeAlwaysOn(
+                inputs: inputs,
+                schedule: Attribute(
+                    Map(resolvedText) { text in
+                        return text.storage?.updateSchedule
+                    }
+                ), // $s7SwiftUI4TextV04makeC10Attributes33_641995D812913A47B866B20B88782376LL4view6inputsAA12_ViewOutputsVAA11_GraphValueVyACG_AA01_M6InputsVtFZ09AttributeO00R0VyAA16TimelineSchedule_pSgGyXEfu0_TA
+                outputs: &outputs
+            )
+        }
+        
+        // <+1492>
+        if variantThatFits {
+            outputs.layoutComputer = layoutComputer
+        }
+        
+        return outputs
+    }
+    
+    fileprivate static func makeTextChildQuery<T : TextAccessibilityProvider>(
+        _: T.Type,
+        styledText: Attribute<ResolvedStyledText>,
+        view: Attribute<Text>,
+        renderer: WeakAttribute<TextRendererBoxBase>,
+        inputs: _ViewInputs,
+        isScrapeable: Bool
+    ) -> _ViewOutputs {
         assertUnimplemented()
     }
     
@@ -997,4 +1202,10 @@ struct SizeFittingTextCacheValue<T> {
 struct StyledTextLayoutEngine {
     private var text: ResolvedStyledText
     private var renderer: TextRendererBoxBase?
+}
+
+struct TextRendererInput : ViewInput {
+    static var defaultValue: WeakAttribute<TextRendererBoxBase> {
+        return WeakAttribute()
+    }
 }
