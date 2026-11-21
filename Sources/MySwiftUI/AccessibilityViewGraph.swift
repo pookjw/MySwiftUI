@@ -149,7 +149,7 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
 }
 
 struct SwiftUITextAccessibilityProvider : TextAccessibilityProvider {
-    public var body: Never {
+    public var body: some View {
         assertUnimplemented()
     }
 }
