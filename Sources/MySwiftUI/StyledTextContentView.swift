@@ -6,7 +6,7 @@ struct StyledTextContentView : View {
     }
 
     // TODO
-    public var body: Never {
-        assertUnimplemented()
+    public var body: some View {
+        __MSUI_UnimplementedView<Self>()
     } // TODO
 }

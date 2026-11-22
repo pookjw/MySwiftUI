@@ -60,7 +60,7 @@ extension ViewModifier {
 
     func requiring<T : StyleContext, U : StyleContext>(_ first: T, or second: U) -> some ViewModifier {
         assertUnimplemented()
-        return __MSUI_UnimplementeViewModifier()
+        return __MSUI_UnimplementedViewModifier<Self>()
     }
 }
 

@@ -1,5 +1,6 @@
-
-package protocol TextAccessibilityProvider : View {
+package protocol TextAccessibilityProvider {
+    associatedtype Body : View
+    static func makeView(content: StyledTextContentView, text: Text, resolved: ResolvedStyledText) -> Self.Body
 }
 
 extension _ViewInputs {
@@ -36,10 +37,6 @@ extension _GraphInputs {
 
 struct EmptyTextAccessibilityProvider : TextAccessibilityProvider {
     static func makeView(content: StyledTextContentView, text: Text, resolved: ResolvedStyledText) -> StyledTextContentView {
-        assertUnimplemented()
-    }
-
-    public var body: some View {
         assertUnimplemented()
     }
 }

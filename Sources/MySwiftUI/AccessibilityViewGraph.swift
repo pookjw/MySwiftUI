@@ -149,8 +149,8 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
 }
 
 struct SwiftUITextAccessibilityProvider : TextAccessibilityProvider {
-    public var body: some View {
-        assertUnimplemented()
+    static func makeView(content: MySwiftUICore::StyledTextContentView, text: MySwiftUICore::Text, resolved: MySwiftUICore::ResolvedStyledText) -> some View {
+        __MSUI_UnimplementedView<Self>()
     }
 }
 
@@ -159,8 +159,8 @@ struct SwiftUIImageAccessibilityProvider : ImageAccessibilityProvider {
 }
 
 struct SwiftUIPrivacyReductionAccessibilityProvider : PrivacyReductionAccessibilityProvider {
-    static func makeModifier(shouldRedact: Bool) -> __MSUI_UnimplementeViewModifier /* TODO */ {
-        assertUnimplemented()
+    static func makeModifier(shouldRedact: Bool) -> __MSUI_UnimplementedViewModifier<Self> /* TODO */ {
+        __MSUI_UnimplementedViewModifier<Self>()
     }
 }
 

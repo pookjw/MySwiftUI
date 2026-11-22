@@ -15,12 +15,6 @@ private import AttributeGraph
     typealias Content = _ViewModifier_Content<Self>
 }
 
-package struct __MSUI_UnimplementeViewModifier : ViewModifier {
-    package func body(content: Content) -> some View {
-        assertUnimplemented()
-    }
-}
-
 extension ViewModifier {
     nonisolated public static func _makeView(modifier: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         return Self.makeView(modifier: modifier, inputs: inputs, body: body)
@@ -380,5 +374,15 @@ fileprivate struct ModifierBodyAccessor<T : ViewModifier>: BodyAccessor {
                 }
             }
         }
+    }
+}
+
+package struct __MSUI_UnimplementedViewModifier<T> : PrimitiveViewModifier {
+    package nonisolated init() {
+        assertUnimplemented()
+    }
+    
+    package nonisolated static func _makeView(modifier: _GraphValue<__MSUI_UnimplementedViewModifier<T>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
     }
 }

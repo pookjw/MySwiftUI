@@ -6,7 +6,11 @@ public struct _CALayerView<LayerType> : View where LayerType : CALayer {
     @safe public nonisolated(unsafe) var update: (LayerType) -> Void
     
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
-    public typealias Body = Never
+    // public typealias Body = Never
+
+    public var body: some View {
+        __MSUI_UnimplementedView<Self>()
+    }
 }
 
 @available(*, unavailable)

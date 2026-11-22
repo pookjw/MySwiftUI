@@ -25,7 +25,6 @@ extension DynamicProperty {
     }
 }
 
-//@_transparent
 func traceDynamicPropertyEvent(
     property: any DynamicProperty,
     elt: UnsafeRawPointer
@@ -107,4 +106,9 @@ extension DynamicProperty {
             )
         }
     }
+}
+
+@inline(always) // 원래 없음
+func assertBodyType<T : BodyAccessor>(_ type: T.Type = T.self) {
+    precondition(T.Body.self != Never.self, "\(T.Container.self) may not have Body == Never")
 }

@@ -10,7 +10,11 @@ extension View {
 }
 
 fileprivate struct PresentedSceneValueInputModifier : @MainActor ViewInputsModifier {
-    typealias Body = Never
+    // typealias Body = Never
+
+    func body(content: Content) -> some View {
+        __MSUI_UnimplementedView<Self>()
+    }
     
     @safe nonisolated(unsafe) private(set) var presentedValue: AnyHashable?
     

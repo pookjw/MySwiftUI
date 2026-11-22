@@ -27,7 +27,7 @@ extension BorderedButtonStyle : Sendable {
 extension BorderedButtonStyle : ButtonStyleConvertible {
     package var buttonStyleRepresentation: some ButtonStyle {
         assertUnimplemented()
-        return __MSUI_UnimplementedButtonStyle()
+        return __MSUI_UnimplementedButtonStyle<Self>()
     }
 }
 

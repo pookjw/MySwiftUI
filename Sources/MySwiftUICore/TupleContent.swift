@@ -3,8 +3,8 @@
 struct TupleContent<each V> : View where repeat each V : View {
     private var content: (repeat each V)
     
-    var body: Never {
-        assertUnimplemented()
+    var body: some View {
+        __MSUI_UnimplementedView<Self>()
     }
     
     static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {

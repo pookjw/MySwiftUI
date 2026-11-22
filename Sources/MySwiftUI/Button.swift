@@ -9,7 +9,7 @@ public struct Button<Label> : View where Label : View {
     }
     
     @MainActor @preconcurrency public var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
 }
 
@@ -128,7 +128,7 @@ extension Button where Label == DefaultButtonLabel {
 @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
 public struct DefaultButtonLabel : View {
     @MainActor @preconcurrency public var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
 }
 

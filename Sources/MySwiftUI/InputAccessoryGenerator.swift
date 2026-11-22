@@ -53,6 +53,6 @@ fileprivate struct InputAccessoryBar : View {
     private var barItems: [UIBarButtonItem]
     
     var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
 }

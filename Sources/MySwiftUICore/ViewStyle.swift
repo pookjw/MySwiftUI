@@ -33,7 +33,7 @@ extension StyleableView {
     }
     
     package var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
     
     nonisolated package static func _makeView(view: _GraphValue<Self>, inputs: _ViewInputs) -> _ViewOutputs {

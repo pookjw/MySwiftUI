@@ -1242,6 +1242,24 @@ fileprivate struct TextChildQuery<T : TextAccessibilityProvider> : ScrapeableAtt
     let parentID: ScrapeableID
     
     var value: some View {
-        assertUnimplemented()
+        let resolvedText = self.resolvedText
+        let unresolvedText = self.unresolvedText
+        let renderer = self.renderer
+        
+        let needsDrawingGroup: Bool
+        if self.renderer != nil {
+            needsDrawingGroup = self.environment.textRendererAddsDrawingGroup
+        } else {
+            needsDrawingGroup = false
+        }
+        
+        let contentView = AccessibilityStyledTextContentView<T>(
+            text: resolvedText,
+            unresolvedText: unresolvedText,
+            renderer: renderer,
+            needsDrawingGroup: needsDrawingGroup
+        )
+        
+        return contentView.body
     }
 }

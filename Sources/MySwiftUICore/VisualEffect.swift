@@ -5,7 +5,7 @@ public protocol VisualEffect : Sendable, Animatable {
     static func _makeTransform(effect: _GraphValue<Self>, inputs: _ViewInputs) -> _VisualEffectTransformOutputs
 }
 
-struct __MSUI_UnimplementedVisualEffecte : VisualEffect {
+struct __MSUI_UnimplementedVisualEffect<T> : VisualEffect {
     static func _makeVisualEffect(effect: _GraphValue<Self>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
         assertUnimplemented()
     }

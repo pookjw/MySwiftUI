@@ -93,3 +93,21 @@ extension Optional : DynamicView where Wrapped : View {
         }
     }
 }
+
+package struct __MSUI_UnimplementedView<T> : PrimitiveView {
+    package nonisolated init() {
+        assertUnimplemented()
+    }
+    
+    package nonisolated static func _makeView(view: _GraphValue<__MSUI_UnimplementedView<T>>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    package nonisolated static func _makeViewList(view: _GraphValue<__MSUI_UnimplementedView<T>>, inputs: _ViewListInputs) -> _ViewListOutputs {
+        assertUnimplemented()
+    }
+    
+    package nonisolated static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
+        assertUnimplemented()
+    }
+}

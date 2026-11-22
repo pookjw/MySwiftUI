@@ -23,7 +23,7 @@ public struct AsyncImage<Content> : View where Content : View {
     }
 
     @MainActor @preconcurrency public var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
 }
 

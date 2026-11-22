@@ -10,8 +10,8 @@ public protocol HoverEffectContent {
     static func _makeHoverEffectContent(effect: _GraphValue<Self>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs
 }
 
-struct __MSUI_UnimplementedHoverEffectContent: HoverEffectContent {
-    static func _makeHoverEffectContent(effect: _GraphValue<__MSUI_UnimplementedHoverEffectContent>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs {
+struct __MSUI_UnimplementedHoverEffectContent<T> : HoverEffectContent {
+    static func _makeHoverEffectContent(effect: _GraphValue<__MSUI_UnimplementedHoverEffectContent<T>>, inputs: _HoverEffectContentInputs, body: @escaping (_HoverEffectContentInputs) -> _HoverEffectContentOutputs) -> _HoverEffectContentOutputs {
         assertUnimplemented()
     }
 }
@@ -19,52 +19,52 @@ struct __MSUI_UnimplementedHoverEffectContent: HoverEffectContent {
 extension HoverEffectContent {
     func rendererEffect<T : RendererEffect>(_ effect: T) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func geometryEffect<T : GeometryEffect>(_ effect: T) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func offset(_ offset: CGSize) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func offset(x: CGFloat, y: CGFloat) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func scaleEffect(_ scale: CGSize, anchor: UnitPoint = .center) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func scaleEffect(_ s: CGFloat, anchor: UnitPoint = .center) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func scaleEffect(x: CGFloat, y: CGFloat, anchor: UnitPoint = .center) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func rotationEffect(_ angle: Angle, anchor: UnitPoint = .center) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func transformEffect(_ transform: CGAffineTransform) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
     
     func clipShape<S : Shape>(_ shape: S, style: FillStyle = FillStyle()) -> some HoverEffectContent {
         assertUnimplemented()
-        return __MSUI_UnimplementedHoverEffectContent()
+        return __MSUI_UnimplementedHoverEffectContent<Self>()
     }
 }
 

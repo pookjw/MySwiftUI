@@ -754,14 +754,14 @@ extension View {
 @available(watchOS, unavailable)
 extension VisualEffect {
     public func colorEffect(_ shader: Shader, isEnabled: Bool = true) -> some VisualEffect {
-        __MSUI_UnimplementedVisualEffecte()
+        __MSUI_UnimplementedVisualEffect<Self>()
     }
     
     public func distortionEffect(_ shader: Shader, maxSampleOffset: CGSize, isEnabled: Bool = true) -> some VisualEffect {
-        __MSUI_UnimplementedVisualEffecte()
+        __MSUI_UnimplementedVisualEffect<Self>()
     }
     
     public func layerEffect(_ shader: Shader, maxSampleOffset: CGSize, isEnabled: Bool = true) -> some VisualEffect {
-        __MSUI_UnimplementedVisualEffecte()
+        __MSUI_UnimplementedVisualEffect<Self>()
     }
 }

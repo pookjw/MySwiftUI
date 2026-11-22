@@ -18,6 +18,6 @@ extension BorderedProminentButtonStyle : Sendable {
 extension BorderedProminentButtonStyle : ButtonStyleConvertible {
     package var buttonStyleRepresentation: some ButtonStyle {
         assertUnimplemented()
-        return __MSUI_UnimplementedButtonStyle()
+        return __MSUI_UnimplementedButtonStyle<Self>()
     }
 }

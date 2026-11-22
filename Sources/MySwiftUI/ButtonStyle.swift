@@ -49,8 +49,8 @@ package protocol ButtonStyleConvertible {
     }
 }
 
-struct __MSUI_UnimplementedButtonStyle : ButtonStyle {
-    func makeBody(configuration: Configuration) -> Never {
-        assertUnimplemented()
+struct __MSUI_UnimplementedButtonStyle<T> : ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        __MSUI_UnimplementedView<Self>()
     }
 }

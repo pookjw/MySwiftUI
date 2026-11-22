@@ -29,10 +29,10 @@ extension Image : View {
     }
     
     @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-    public typealias Body = Never
+    // public typealias Body = Never
     
-    public var body: Never {
-        assertUnimplemented()
+    public var body: some View {
+        __MSUI_UnimplementedView<Self>()
     }
 }
 

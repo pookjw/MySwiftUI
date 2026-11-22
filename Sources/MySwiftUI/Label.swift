@@ -10,7 +10,7 @@ public struct Label<Title, Icon> : View where Title : View, Icon : View {
     }
 
     @MainActor @preconcurrency public var body: some View {
-        assertUnimplemented()
+        __MSUI_UnimplementedView<Self>()
     }
 }
 
@@ -71,13 +71,13 @@ extension Label where Title == LabelStyleConfiguration.Title, Icon == LabelStyle
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct LabelStyleConfiguration {
     @MainActor @preconcurrency public struct Title : View {
-        public typealias Body = Never
-        public var body: Never { assertUnimplemented() }
+        // public typealias Body = Never
+        public var body: some View { __MSUI_UnimplementedView<Self>() }
     }
 
     @MainActor @preconcurrency public struct Icon : View {
-        public typealias Body = Never
-        public var body: Never { assertUnimplemented() }
+        // public typealias Body = Never
+        public var body: some View { __MSUI_UnimplementedView<Self>() }
     }
 
     public var title: Title { assertUnimplemented() }

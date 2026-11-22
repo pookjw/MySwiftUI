@@ -1,14 +1,70 @@
+// 641995D812913A47B866B20B88782376
 internal import Foundation
+package import Spatial
+package import CoreGraphics
+internal import AttributeGraph
 
-package struct StyledTextContentView {
-    private(set) var text: ResolvedStyledText
-    private(set) var renderer: TextRendererBoxBase?
-    private(set) var needsDrawingGroup: Bool
+package struct StyledTextContentView : UnaryView, PrimitiveView, ShapeStyledLeafView {
+    var text: ResolvedStyledText
+    var renderer: TextRendererBoxBase?
+    var needsDrawingGroup: Bool
     
-    // TODO
+    init(text: ResolvedStyledText, renderer: TextRendererBoxBase?, needsDrawingGroup: Bool = false) {
+        self.text = text
+        self.renderer = renderer
+        self.needsDrawingGroup = needsDrawingGroup
+    }
+    
+    package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize) -> Path {
+        assertUnimplemented()
+    }
+    
+    package func contentPath(size: CGSize, kind: ContentShapeKinds) -> Path {
+        assertUnimplemented()
+    }
+    
+    static var animatesSize: Bool {
+        assertUnimplemented()
+    }
+    
+    func mustUpdate(data: Self.ShapeUpdateData, position: Attribute<CGPoint>, environment: Attribute<EnvironmentValues>) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func shape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    static var hasBackground: Bool {
+        assertUnimplemented()
+    }
+    
+    func backgroundShape(in size: CGSize) -> (shape: _ShapeStyle_RenderedShape.Shape, frame: CGRect) {
+        assertUnimplemented()
+    }
+    
+    func isClear(styles: _ShapeStyle_Pack) -> Bool {
+        assertUnimplemented()
+    }
+    
+    func finalPlacement(oldIndex: Int, oldPlacedSubviews: [_LazyLayout_PlacedSubview], newPlacedSubviews: [_LazyLayout_PlacedSubview], wasRemovedFromSubviews: Bool, context: AnyRuleContext) -> _Placement {
+        assertUnimplemented()
+    }
+    
+    package nonisolated static func _makeView(view: _GraphValue<StyledTextContentView>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+    
+    fileprivate nonisolated static func _makeInnerView(view: _GraphValue<StyledTextContentView>, inputs: _ViewInputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
 }
 
-class ResolvedStyledText {
+package class ResolvedStyledText {
     final let storage: NSAttributedString?
     final let archiveOptions: ArchivedViewInput.Value
     
@@ -166,11 +222,37 @@ extension ResolvedStyledText : InterpolatableContent {
 }
 
 extension ResolvedStyledText : CustomStringConvertible {
-    var description: String {
+    package var description: String {
         assertUnimplemented()
     }
 }
 
 enum ResolvedTextSuffix {
     // TODO
+}
+
+struct AccessibilityStyledTextContentView<T : TextAccessibilityProvider> : View {
+    var text: ResolvedStyledText
+    var unresolvedText: Text
+    var renderer: TextRendererBoxBase?
+    var needsDrawingGroup: Bool
+    
+    init(text: ResolvedStyledText, unresolvedText: Text, renderer: TextRendererBoxBase?, needsDrawingGroup: Bool) {
+        self.text = text
+        self.unresolvedText = unresolvedText
+        self.renderer = renderer
+        self.needsDrawingGroup = needsDrawingGroup
+    }
+    
+    var body: some View {
+        T.makeView(
+            content: StyledTextContentView(
+                text: self.text,
+                renderer: self.renderer,
+                needsDrawingGroup: self.needsDrawingGroup
+            ),
+            text: self.unresolvedText,
+            resolved: self.text
+        )
+    }
 }
