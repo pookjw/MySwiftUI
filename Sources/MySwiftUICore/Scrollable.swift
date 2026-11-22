@@ -117,11 +117,11 @@ extension ScrollTarget : Sendable {
 }
 
 package enum ContentOffsetAdjustmentReason : UInt32, Hashable, CustomStringConvertible {
-    case translation
-    case positionTranslation
-    case alignment
-    case reset
-    case resetPosition
+    case translation = 1
+    case positionTranslation = 2
+    case alignment = 3
+    case reset = 4
+    case resetPosition = 5
     
     package var description: String {
         assertUnimplemented()

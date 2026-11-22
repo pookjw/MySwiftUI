@@ -820,8 +820,8 @@ fileprivate class TypedElement<Key : PropertyKey>: PropertyList.Element {
     package var environment = EnvironmentValues()
     package var phase = ViewGraphHost.Phase()
     
-    public required convenience init?(coder: NSCoder) {
-        self.init()
+    public required init?(coder: NSCoder) {
+        return nil
     }
     
     public override init() {

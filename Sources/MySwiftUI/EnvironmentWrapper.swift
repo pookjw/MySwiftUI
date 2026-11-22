@@ -17,7 +17,7 @@ internal import Foundation
     }
     
     required init?(coder: NSCoder) {
-        assertUnimplemented()
+        return nil
     }
     
     override func isEqual(_ object: Any?) -> Bool {
