@@ -1,4 +1,4 @@
-package protocol TextAccessibilityProvider {
+@MainActor package protocol TextAccessibilityProvider {
     associatedtype Body : View
     static func makeView(content: StyledTextContentView, text: Text, resolved: ResolvedStyledText) -> Self.Body
 }

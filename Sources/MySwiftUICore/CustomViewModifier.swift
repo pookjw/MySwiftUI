@@ -216,7 +216,7 @@ extension _ViewModifier_Content : ViewModifierContentProvider {
 }
 
 extension View {
-  @inlinable nonisolated public func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
+    @inlinable nonisolated public func modifier<T>(_ modifier: T) -> ModifiedContent<Self, T> {
         return .init(content: self, modifier: modifier)
     }
 }

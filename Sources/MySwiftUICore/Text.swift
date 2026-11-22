@@ -1076,7 +1076,7 @@ extension Text {
     }
 }
 
-struct TextLayoutProperties {
+package struct TextLayoutProperties {
     // TODO
 }
 

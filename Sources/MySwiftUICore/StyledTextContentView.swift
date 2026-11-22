@@ -185,6 +185,18 @@ package class ResolvedStyledText {
             renderer: renderer
         )
     }
+    
+    package final var layoutProperties: TextLayoutProperties {
+        assertUnimplemented()
+    }
+    
+    package final var isDynamic: Bool {
+        assertUnimplemented()
+    }
+    
+    package final var isEmpty: Bool {
+        assertUnimplemented()
+    }
 }
 
 class TextRendererBoxBase {

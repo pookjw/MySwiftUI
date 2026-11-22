@@ -149,8 +149,22 @@ extension AccessibilityViewGraph : @preconcurrency ViewGraphFeature {
 }
 
 struct SwiftUITextAccessibilityProvider : TextAccessibilityProvider {
-    static func makeView(content: MySwiftUICore::StyledTextContentView, text: MySwiftUICore::Text, resolved: MySwiftUICore::ResolvedStyledText) -> some View {
-        __MSUI_UnimplementedView<Self>()
+    static func makeView(content: StyledTextContentView, text: Text, resolved: ResolvedStyledText) -> some View {
+        return AccessibilityStaticTextModifier<StyledTextContentView>(
+            configuration: AccessibilityStaticTextModifier<StyledTextContentView>.Configuration(
+                label: text,
+                layoutProperties: resolved.layoutProperties,
+                isDynamic: resolved.isDynamic,
+                isEmpty: resolved.isEmpty
+            )
+        )
+            .body(content: content)
+            .modifier(
+                AccessibilityLargeContentViewModifier<PlaceholderLargeContentView, Text>(
+                    flags: PlaceholderLargeContentView(),
+                    largeContentView: text
+                )
+            )
     }
 }
 
@@ -297,4 +311,41 @@ fileprivate struct AccessibilityLargeContentViewHitTestingTransform : Rule {
     var value: (inout AccessibilityLargeContentViewTree) -> Void {
         assertUnimplemented()
     }
+}
+
+struct AccessibilityStaticTextModifier<T : View> : AccessibilityConfigurationModifier {
+    private(set) var configuration: AccessibilityStaticTextModifier<T>.Configuration
+    
+    func body(content: T) -> some View {
+        __MSUI_UnimplementedView<Self>()
+    }
+}
+
+extension AccessibilityStaticTextModifier {
+    struct Configuration {
+        fileprivate private(set) var label: Text
+        fileprivate private(set) var layoutProperties: TextLayoutProperties
+        fileprivate private(set) var isDynamic: Bool
+        fileprivate private(set) var isEmpty: Bool
+    }
+}
+
+fileprivate struct AccessibilityLargeContentViewModifier<T, U> : MultiViewModifier, PrimitiveViewModifier {
+    private(set) var flags: T
+    private(set) var largeContentView: U
+    
+    nonisolated static func _makeView(modifier: _GraphValue<AccessibilityLargeContentViewModifier<T, U>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
+        assertUnimplemented()
+    }
+}
+
+extension AccessibilityLargeContentViewModifier {
+    fileprivate struct AccessibilityLargeContentViewTransform {
+        // TODO
+        // flags, comparisonMode 구현해야함
+    }
+}
+
+struct PlaceholderLargeContentView {
+    // TODO
 }

@@ -676,6 +676,10 @@ extension DerivedSpatialLayout where Self == _ZStackLayout {
         let ptr = unsafe data
             .assumingMemoryBound(to: SpatialAlignmentData.self)
         
+        guard ptr.pointee.flag else {
+            return nil
+        }
+        
         return unsafe ptr
             .pointee
             .function
@@ -696,6 +700,10 @@ extension DerivedSpatialLayout where Self == ZStackLayout3D {
         
         let ptr = unsafe data
             .assumingMemoryBound(to: SpatialAlignmentData.self)
+        
+        guard ptr.pointee.flag else {
+            return nil
+        }
         
         return unsafe ptr
             .pointee
