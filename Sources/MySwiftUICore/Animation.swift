@@ -1412,11 +1412,7 @@ func combineAnimation<Value : VectorArithmetic>(
     assertUnimplemented()
 }
 
-struct AnimatableArray<T> : VectorArithmetic {
-    static func == (lhs: AnimatableArray<T>, rhs: AnimatableArray<T>) -> Bool {
-        assertUnimplemented()
-    }
-    
+struct AnimatableArray<T : VectorArithmetic> : VectorArithmetic {
     static var zero: AnimatableArray<T> {
         assertUnimplemented()
     }
@@ -1464,7 +1460,7 @@ extension Array where Element : Animatable {
     }
 }
 
-struct KeyedAnimatableArray<T, U> : VectorArithmetic {
+struct KeyedAnimatableArray<T : Comparable, U : VectorArithmetic> : VectorArithmetic {
     static func == (lhs: KeyedAnimatableArray<T, U>, rhs: KeyedAnimatableArray<T, U>) -> Bool {
         return (lhs.elements == rhs.elements) && (lhs.isZero == rhs.isZero)
     }
@@ -1504,10 +1500,6 @@ struct KeyedAnimatableArray<T, U> : VectorArithmetic {
 
 extension KeyedAnimatableArray {
     struct Element : Equatable {
-        static func == (lhs: KeyedAnimatableArray<T, U>.Element, rhs: KeyedAnimatableArray<T, U>.Element) -> Bool {
-            assertUnimplemented()
-        }
-        
         var key: T
         var data: U
     }

@@ -825,52 +825,14 @@ fileprivate class AnyElement {
     let depth: Int
     
     deinit {
-        do {
-            var ref: Unmanaged<AnyElement>? = unsafe .passRetained(self)
-            
-            while let _ref = unsafe ref {
-                var next = unsafe _ref.takeUnretainedValue().next
-                unsafe _ref.takeUnretainedValue().next = nil
-                unsafe _ref.release()
-                
-                if !isKnownUniquelyReferenced(&next) {
-                    break
-                }
-                
-                if let next {
-                    unsafe ref = .passUnretained(next)
-                } else {
-                    unsafe ref = nil
-                }
-            }
-        }
+        var ref: AnyElement? = self
         
-        do {
-            var ref: AnyElement? = self.next
-            self.next = nil
+        while let _ref = ref {
+            ref = _ref.next
+            _ref.next = nil
             
-            while let _ref = ref {
-                unsafe Unmanaged.passUnretained(_ref).release()
-                
-                if !isKnownUniquelyReferenced(&ref) {
-                    break
-                }
-                
-                let next = unsafe Unmanaged.passUnretained(_ref).takeUnretainedValue().next
-                
-                if let next {
-                    let nextRef = unsafe Unmanaged.passUnretained(next)
-                    _ = unsafe nextRef.retain()
-                    _ = unsafe nextRef.retain()
-                }
-                
-                unsafe Unmanaged.passUnretained(_ref).release()
-                
-                ref = next
-            }
-            
-            if let ref {
-                unsafe Unmanaged.passUnretained(ref).release()
+            if !isKnownUniquelyReferenced(&ref) {
+                break
             }
         }
     }
@@ -902,7 +864,16 @@ fileprivate final class CoordinateSpaceNode {
     let depth: Int
     
     deinit {
-        assertUnimplemented()
+        var ref: CoordinateSpaceNode? = self
+        
+        while let _ref = ref {
+            ref = _ref.next
+            _ref.next = nil
+            
+            if !isKnownUniquelyReferenced(&ref) {
+                break
+            }
+        }
     }
     
     init(next: CoordinateSpaceNode?, space: CoordinateSpace) {

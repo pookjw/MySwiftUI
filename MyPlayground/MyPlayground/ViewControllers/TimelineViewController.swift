@@ -79,6 +79,7 @@ fileprivate struct MyView: View {
                                 with: .conicGradient(Gradient(colors: [.red, .yellow, .red]),
                                                      center: CGPoint(x: 210, y: 850), options: [.mirror]))
                 }
+                Garden.drawNight(in: &context, time: CGFloat(time))
             } symbols: {
                 Circle()
                     .foregroundStyle(Color.red)
@@ -91,6 +92,44 @@ fileprivate struct MyView: View {
 }
 
 fileprivate enum Garden {
+    static func drawNight(in context: inout GraphicsContext, time: CGFloat) {
+        let night = (1 - cos(time * .pi * 2 / 12)) / 2
+        let amount = Double(night)
+        let scene = Path(CGRect(x: 0, y: 0, width: 800, height: 1000))
+        context.fill(scene, with: .linearGradient(
+            Gradient(colors: [color(0x071329).opacity(amount * 0.9),
+                              color(0x142743).opacity(amount * 0.8),
+                              color(0x0C1B2D).opacity(amount * 0.7)]),
+            startPoint: .zero, endPoint: CGPoint(x: 0, y: 1000)))
+
+        let sky = Path(CGRect(x: 0, y: 0, width: 800, height: 470))
+        var nightSky = context
+        nightSky.clip(to: sky)
+        for i in 0..<80 {
+            let x = noise(i, 91) * 800
+            let y = 20 + noise(i, 92) * 370
+            let radius = 1 + noise(i, 93) * 2.4
+            let twinkle = 0.45 + 0.55 * abs(sin(time * 1.8 + CGFloat(i)))
+            nightSky.fill(Path(ellipseIn: CGRect(x: x, y: y, width: radius * 2, height: radius * 2)),
+                          with: .color(.white.opacity(amount * Double(twinkle))))
+        }
+
+        let moonCenter = CGPoint(x: 650, y: 160)
+        nightSky.fill(Path(ellipseIn: CGRect(x: 565, y: 75, width: 170, height: 170)),
+                      with: .radialGradient(Gradient(colors: [color(0xD8E8FF).opacity(amount * 0.35), .clear]),
+                                            center: moonCenter, startRadius: 15, endRadius: 85))
+        nightSky.fill(Path(ellipseIn: CGRect(x: 620, y: 130, width: 60, height: 60)),
+                      with: .color(color(0xEFF4FF).opacity(amount)))
+
+        for i in 0..<28 {
+            let x = wrap(noise(i, 94) * 800 + time * (3 + noise(i, 95) * 6), span: 800)
+            let y = 630 + noise(i, 96) * 330 + sin(time * 2 + CGFloat(i)) * 15
+            let glow = amount * Double(0.3 + 0.7 * abs(sin(time * 2.5 + CGFloat(i))))
+            context.fill(Path(ellipseIn: CGRect(x: x - 2, y: y - 2, width: 4, height: 4)),
+                         with: .color(color(0xE8F7A0).opacity(glow)))
+        }
+    }
+
     static func wrap(_ value: CGFloat, span: CGFloat) -> CGFloat {
         value - floor(value / span) * span
     }

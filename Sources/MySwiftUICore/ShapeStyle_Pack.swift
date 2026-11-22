@@ -456,10 +456,6 @@ extension _ShapeStyle_Pack.Effect.Kind {
 
 extension _ShapeStyle_Pack.Fill {
     enum AnimatableData : VectorArithmetic {
-        static func == (lhs: _ShapeStyle_Pack.Fill.AnimatableData, rhs: _ShapeStyle_Pack.Fill.AnimatableData) -> Bool {
-            assertUnimplemented()
-        }
-        
         static func + (lhs: _ShapeStyle_Pack.Fill.AnimatableData, rhs: _ShapeStyle_Pack.Fill.AnimatableData) -> _ShapeStyle_Pack.Fill.AnimatableData {
             assertUnimplemented()
         }
