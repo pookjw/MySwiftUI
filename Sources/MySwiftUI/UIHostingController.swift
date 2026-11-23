@@ -1637,6 +1637,7 @@ open class UIHostingController<Content : View>: UIViewController {
             // <+1500>
             self.contentScrollViewBridge = UIKitContentScrollViewBridge()
             self.contentScrollViewBridge!.viewController = self
+            assert(self.contentScrollViewBridge != nil)
             host.viewGraph.addPreference(ContentScrollViewPreferenceKey.self)
             // <+1700>
         } else {

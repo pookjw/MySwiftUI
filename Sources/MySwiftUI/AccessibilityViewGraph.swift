@@ -330,22 +330,115 @@ extension AccessibilityStaticTextModifier {
     }
 }
 
-fileprivate struct AccessibilityLargeContentViewModifier<T, U> : MultiViewModifier, PrimitiveViewModifier {
+fileprivate struct AccessibilityLargeContentViewModifier<T : AccessibilityLargeContentViewFlags, U> : MultiViewModifier, PrimitiveViewModifier {
     private(set) var flags: T
     private(set) var largeContentView: U
     
     nonisolated static func _makeView(modifier: _GraphValue<AccessibilityLargeContentViewModifier<T, U>>, inputs: _ViewInputs, body: @escaping (_Graph, _ViewInputs) -> _ViewOutputs) -> _ViewOutputs {
-        assertUnimplemented()
+        var copy = inputs
+        
+        let behavior_1 = inputs[LargeContentViewerBehavior.self]
+        let behavior_2 = T.behavior
+        
+        if behavior_2 != .placeholder {
+            // <+424>
+        } else {
+            // <+416>
+            if behavior_1 == nil {
+                // <+440>
+                return body(_Graph(), inputs)
+            } else {
+                // <+424>
+            }
+        }
+        
+        if (behavior_2 == .disabled) && (behavior_1 != .enabled) {
+            // <+440>
+            return body(_Graph(), inputs)
+        }
+        
+        // <+484>
+        copy[LargeContentViewerBehavior.self] = .disabled
+        var outputs = body(_Graph(), copy)
+        
+        let transform = AccessibilityLargeContentViewModifier<T, U>.AccessibilityLargeContentViewTransform(
+            behavior: T.behavior,
+            size: inputs.size,
+            position: inputs.position,
+            transform: inputs.transform,
+            modifier: modifier.value,
+            platformItemList: OptionalAttribute(),
+            isEnabled: OptionalAttribute(),
+            inputs: inputs,
+            subgraph: .current!
+        )
+        
+        outputs.preferences.makePreferenceTransformer(
+            inputs: inputs.preferences,
+            key: AccessibilityLargeContentViewTree.Key.self,
+            transform: Attribute(transform)
+        )
+        
+        return outputs
     }
 }
 
 extension AccessibilityLargeContentViewModifier {
-    fileprivate struct AccessibilityLargeContentViewTransform {
+    fileprivate struct AccessibilityLargeContentViewTransform : StatefulRule {
+        static var comparisonMode: AGComparisonMode {
+            return .unknown2
+        }
+        
+        static var flags: AnyAttribute.TypeFlags {
+            return [.unknown3]
+        }
+        
         // TODO
-        // flags, comparisonMode 구현해야함
+        
+        init(
+            behavior: AccessibilityLargeContentViewBehavior,
+            size: Attribute<ViewSize>,
+            position: Attribute<CGPoint>,
+            transform: Attribute<ViewTransform>,
+            modifier: Attribute<AccessibilityLargeContentViewModifier<T, U>>,
+            platformItemList: OptionalAttribute<PlatformItemList>,
+            isEnabled: OptionalAttribute<Bool>,
+            inputs: _ViewInputs,
+            subgraph: Subgraph
+        ) {
+            assertUnimplemented()
+        }
+        
+        typealias Value = (inout AccessibilityLargeContentViewTree) -> Void
+        
+        func updateValue() {
+            assertUnimplemented()
+        }
+        
+        func makeContentView() {
+            assertUnimplemented()
+        }
     }
 }
 
-struct PlaceholderLargeContentView {
-    // TODO
+struct PlaceholderLargeContentView : AccessibilityLargeContentViewFlags {
+    static var behavior: AccessibilityLargeContentViewBehavior {
+        return .placeholder
+    }
+}
+
+enum AccessibilityLargeContentViewBehavior : UInt8, Hashable {
+    case disabled = 0
+    case placeholder = 1
+    case enabled = 2
+}
+
+fileprivate struct LargeContentViewerBehavior : ViewInput {
+    static var defaultValue: AccessibilityLargeContentViewBehavior? {
+        return nil
+    }
+}
+
+protocol AccessibilityLargeContentViewFlags {
+    static var behavior: AccessibilityLargeContentViewBehavior { get }
 }
