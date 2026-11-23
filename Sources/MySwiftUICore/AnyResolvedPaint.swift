@@ -1,6 +1,10 @@
 package import CoreGraphics
 
-package class AnyResolvedPaint {
+package class AnyResolvedPaint : Equatable {
+    package static func == (lhs: AnyResolvedPaint, rhs: AnyResolvedPaint) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    
     package func draw(path: Path, style: PathDrawingStyle, in context: GraphicsContext, bounds: CGRect?) {
         assertUnimplemented()
     }

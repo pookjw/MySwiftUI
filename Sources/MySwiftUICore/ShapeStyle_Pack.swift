@@ -7,7 +7,11 @@ struct _ShapeStyle_Pack : Equatable, Animatable {
     }()
     
     static func == (lhs: _ShapeStyle_Pack, rhs: _ShapeStyle_Pack) -> Bool {
-        assertUnimplemented()
+        guard lhs.styles.count == rhs.styles.count else {
+            return false
+        }
+        
+        return lhs.styles.elementsEqual(rhs.styles) { $0 == $1 }
     }
     
     private var styles: [(key: _ShapeStyle_Pack.Key, style: _ShapeStyle_Pack.Style)]
@@ -250,10 +254,6 @@ extension _ShapeStyle_Pack {
     }
     
     struct Style : Animatable, Equatable {
-        static func == (lhs: _ShapeStyle_Pack.Style, rhs: _ShapeStyle_Pack.Style) -> Bool {
-            assertUnimplemented()
-        }
-        
         @safe static nonisolated(unsafe) let clear: _ShapeStyle_Pack.Style = {
             assertUnimplemented()
         }()
@@ -322,10 +322,6 @@ extension _ShapeStyle_Pack {
     }
     
     enum Fill : Animatable, Equatable {
-        static func == (lhs: _ShapeStyle_Pack.Fill, rhs: _ShapeStyle_Pack.Fill) -> Bool {
-            assertUnimplemented()
-        }
-        
         case color(Color.ResolvedHDR)
         case paint(AnyResolvedPaint)
         case foregroundMaterial(Color.ResolvedHDR, ContentStyle.MaterialResolved)

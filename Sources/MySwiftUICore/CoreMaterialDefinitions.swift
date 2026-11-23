@@ -206,7 +206,7 @@ extension ContentStyle {
     }
     
     // nominal type descriptor가 없음
-    struct MaterialResolved {
+    struct MaterialResolved : Equatable {
         let material: Material.ResolvedMaterial
         let id: ContentStyle.ID
         let primitive: ContentStyle.Primitive

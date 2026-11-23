@@ -1,6 +1,6 @@
 internal import Foundation
 
-struct ResolvedMulticolorStyle {
+struct ResolvedMulticolorStyle : Equatable {
     var environment: EnvironmentValues {
         get {
             assertUnimplemented()
