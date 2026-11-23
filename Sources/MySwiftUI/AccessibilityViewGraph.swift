@@ -316,8 +316,21 @@ fileprivate struct AccessibilityLargeContentViewHitTestingTransform : Rule {
 struct AccessibilityStaticTextModifier<T : View> : AccessibilityConfigurationModifier {
     private(set) var configuration: AccessibilityStaticTextModifier<T>.Configuration
     
+    var resolvedLayoutProperties: AccessibilityTextLayoutProperties {
+        assertUnimplemented()
+    }
+    
     func body(content: T) -> some View {
-        __MSUI_UnimplementedView<Self>()
+        content
+            .accessibility(AccessibilityProperties(reserving: 4))
+            .accessibilityVisibility(
+                AccessibilityNullableOptionSet<AccessibilityVisibility>(
+                    adding: [self.configuration.isEmpty ? .transparent : .element]
+                )
+            )
+            .accessibilityLabel(self.configuration.label)
+            .accessibilityTextLayoutProperties(self.resolvedLayoutProperties)
+            .accessibilityAddTraits(self.configuration.isDynamic ? [.isStaticText, .updatesFrequently] : [.isStaticText])
     }
 }
 
@@ -325,8 +338,8 @@ extension AccessibilityStaticTextModifier {
     struct Configuration {
         fileprivate private(set) var label: Text
         fileprivate private(set) var layoutProperties: TextLayoutProperties
-        fileprivate private(set) var isDynamic: Bool
-        fileprivate private(set) var isEmpty: Bool
+        fileprivate private(set) var isDynamic: Bool // 0x28 (offset field)
+        fileprivate private(set) var isEmpty: Bool // 0x2c (offset field)
     }
 }
 

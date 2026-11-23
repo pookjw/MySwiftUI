@@ -23,7 +23,7 @@ package struct AccessibilityProperties {
         assertUnimplemented()
     }
     
-    init(reserving capacity: Int = 0) {
+    package init(reserving capacity: Int = 0) {
         assertUnimplemented()
     }
     
@@ -223,7 +223,7 @@ extension AccessibilityValueStorage {
     }
 }
 
-enum AccessibilityTextLayoutProperties {
+package enum AccessibilityTextLayoutProperties {
     case custom(TextLayoutProperties)
     case automatic
 }
@@ -265,7 +265,7 @@ extension AccessibilityValueStorage : AccessibilityCombinable {
 }
 
 extension AccessibilityTextLayoutProperties : Equatable {
-    static func == (lhs: AccessibilityTextLayoutProperties, rhs: AccessibilityTextLayoutProperties) -> Bool {
+    package static func == (lhs: AccessibilityTextLayoutProperties, rhs: AccessibilityTextLayoutProperties) -> Bool {
         assertUnimplemented()
     }
 }

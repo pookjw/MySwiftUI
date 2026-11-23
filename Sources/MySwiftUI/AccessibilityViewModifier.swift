@@ -641,6 +641,28 @@ extension View {
         
         return self.modifier(modifier)
     }
+    
+    nonisolated func accessibility(_: AccessibilityProperties) -> ModifiedContent<Self, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
+}
+
+extension ModifiedContent where Modifier == AccessibilityAttachmentModifier {
+    func accessibilityVisibility(_: AccessibilityNullableOptionSet<AccessibilityVisibility>) -> ModifiedContent<Content, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
+    
+    func accessibilityLabel(_: Text) -> ModifiedContent<Content, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
+    
+    func accessibilityTextLayoutProperties(_: AccessibilityTextLayoutProperties) -> ModifiedContent<Content, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
+    
+    func accessibilityAddTraits(_: AccessibilityTraits) -> ModifiedContent<Content, AccessibilityAttachmentModifier> {
+        assertUnimplemented()
+    }
 }
 
 public struct AccessibilityAttachmentModifier : AccessibilityViewModifier {

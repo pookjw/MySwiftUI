@@ -5,7 +5,7 @@ package import CoreGraphics
 internal import AttributeGraph
 
 package struct StyledTextContentView : UnaryView, PrimitiveView, ShapeStyledLeafView {
-    var text: ResolvedStyledText
+    @safe nonisolated(unsafe) var text: ResolvedStyledText
     var renderer: TextRendererBoxBase?
     var needsDrawingGroup: Bool
     
@@ -56,7 +56,16 @@ package struct StyledTextContentView : UnaryView, PrimitiveView, ShapeStyledLeaf
     }
     
     package nonisolated static func _makeView(view: _GraphValue<StyledTextContentView>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        let modifier = LinksHoverEffectOverlayModifier.ModifierRule(text: view.value.text)
+        
+        return LinksHoverEffectOverlayModifier
+            .makeDebuggableView(
+                modifier: _GraphValue(modifier),
+                inputs: inputs
+            ) { _, inputs in
+                // $s7SwiftUI31LinksHoverEffectOverlayModifierV9_makeView8modifier6inputs4bodyAA01_I7OutputsVAA11_GraphValueVyACG_AA01_I6InputsVAiA01_N0V_ANtctFZ03$s7a21UI21StyledTextContenti4V05_h21F04view6inputsAA01_F7m6VAA11_no6VyACG_x3_F6P22VtFZAhA01_K0V_AMtcfU0_AA0stuI0VXMtAKyASGTf1nnncn_n
+                return self._makeInnerView(view: view, inputs: inputs)
+            }
     }
     
     fileprivate nonisolated static func _makeInnerView(view: _GraphValue<StyledTextContentView>, inputs: _ViewInputs) -> _ViewOutputs {
@@ -267,4 +276,16 @@ struct AccessibilityStyledTextContentView<T : TextAccessibilityProvider> : View 
             resolved: self.text
         )
     }
+}
+
+struct EnableLinkHoverEffects : UserDefaultKeyedFeature {
+    static var key: String {
+        return "com.apple.SwiftUI.EnableLinkHoverEffects"
+    }
+    
+    static var defaultValue: Bool {
+        return true
+    }
+    
+    @safe static nonisolated(unsafe) var cachedValue: Bool?
 }

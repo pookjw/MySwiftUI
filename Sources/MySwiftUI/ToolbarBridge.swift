@@ -1003,7 +1003,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
                 switch role {
                 case .automatic, .toolbar:
                     // <+676>
-                    preferredSearchBarPlacement = .msui_integratedCentered
+                    preferredSearchBarPlacement = .msui_integratedButton
                 default:
                     // <+684>
                     preferredSearchBarPlacement = nil
@@ -1025,7 +1025,7 @@ struct UIKitToolbarStrategy : ToolbarStrategy {
                 case .toolbar:
                     preferredSearchBarPlacement = .automatic
                 case .toolbarPrincipal:
-                    preferredSearchBarPlacement = .inline
+                    preferredSearchBarPlacement = .msui_integratedCentered
                 case .sidebarList:
                     // <+788>
                     break
