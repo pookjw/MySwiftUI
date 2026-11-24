@@ -301,14 +301,6 @@ func printOffsets() {
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
-    
-    let value = ContentTransition.NamedTransition.Name.default
-    withUnsafePointer(to: value) { ptr in
-        print(UnsafeRawPointer(ptr).assumingMemoryBound(to: UInt.self).pointee)
-        print(UnsafeRawPointer(ptr).assumingMemoryBound(to: UInt.self).pointee & 134217728)
-    }
-    
-    fatalError()
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {
