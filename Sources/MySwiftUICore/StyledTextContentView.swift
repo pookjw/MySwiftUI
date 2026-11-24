@@ -4,7 +4,7 @@ package import Spatial
 package import CoreGraphics
 internal import AttributeGraph
 
-package struct StyledTextContentView : UnaryView, PrimitiveView, ShapeStyledLeafView {
+package struct StyledTextContentView : UnaryView, PrimitiveView, @preconcurrency ShapeStyledLeafView {
     @safe nonisolated(unsafe) var text: ResolvedStyledText
     var renderer: TextRendererBoxBase?
     var needsDrawingGroup: Bool
@@ -69,7 +69,153 @@ package struct StyledTextContentView : UnaryView, PrimitiveView, ShapeStyledLeaf
     }
     
     fileprivate nonisolated static func _makeInnerView(view: _GraphValue<StyledTextContentView>, inputs: _ViewInputs) -> _ViewOutputs {
-        assertUnimplemented()
+        // x22 + 0x180 (sp + 0x230)
+        let copy_1 = inputs
+        // x22 + 0xc0 (sp + 0x170)
+        var copy_2 = inputs
+        // sp + 0x30
+        let options_1 = copy_1.base.options
+        // view -> sp + 0x34
+        copy_2.base.options.subtract(.viewRequestsLayoutComputer)
+        
+        // <+180>
+        copy_2.preferences.remove(ViewRespondersKey.self)
+        // <+252>
+        let pack = copy_1.base.cachedEnvironment.value.resolvedShapeStyles(
+            for: copy_1,
+            role: .stroke,
+            mode: nil
+        )
+        
+        var outputs: _ViewOutputs
+        
+        if copy_1.preferences.contains(DisplayList.Key.self) || copy_1.preferences.contains(ViewRespondersKey.self) {
+            // <+376>
+            if copy_1[ArchivedViewInput.self].flags.contains(.isArchived) {
+                // <+708>
+                let environment = Attribute(
+                    StyledTextContentView.ArchivedTransitionEnvironment(
+                        view: view.value,
+                        environment: copy_1.environment
+                    )
+                )
+                
+                copy_2.environment = environment
+                
+                let effect = ContentTransitionEffect.Init(
+                    environment: copy_2.environment,
+                    defaultTransition: ContentTransition(
+                        storage: .named(
+                            ContentTransition.NamedTransition(
+                                name: .text(different: true),
+                                layoutDirection: nil,
+                                style: nil
+                            )
+                        )
+                    )
+                )
+                
+                outputs = ContentTransitionEffect.makeDebuggableView(
+                    modifier: _GraphValue(Attribute(effect)),
+                    inputs: copy_2) { _, inputs in
+                        // $s7SwiftUI15_RendererEffectPAAE05_makecD06effect6inputs4bodyAA12_ViewOutputsVAA11_GraphValueVyxG_AA01_I6InputsVAiA01_K0V_ANtctFZAA017ContentTransitionD0V_Tt3B503$s7a14UI21StyledTextni5V010_e63InnerF033_641995D812913A47B866B20B88782376LL4view6inputsAA01_F7j6VAA11_kl13VyACG_AA01_F6M21VtFZAiA01_Q0V_ANtcfU_AA0rsnI0VXMtAKyAUG09AttributeK09AttributeVyAA16_ShapeStyle_PackVGTf1nnnc_n
+                        return StyledTextContentView.makeLeafView(
+                            view: view,
+                            inputs: inputs,
+                            styles: pack,
+                            interpolatorGroup: nil,
+                            data: ()
+                        )
+                    }
+                
+                // <+1356>
+            } else {
+                // <+452>
+                let group = _ShapeStyle_InterpolatorGroup()
+                copy_2.containerPosition = copy_1.animatedPosition()
+                
+                // x22 + 0x120 (sp + 0x1d0)
+                let copy_4 = copy_2
+                
+                outputs = StyledTextContentView.makeLeafView(
+                    view: view,
+                    inputs: copy_4,
+                    styles: pack,
+                    interpolatorGroup: group,
+                    data: ()
+                )
+                
+                outputs.interpolateDisplayList(
+                    group: group,
+                    content: view.value.text,
+                    inputs: copy_1
+                )
+                
+                // <+1356>
+            }
+            
+            // <+1356>
+        } else {
+            // <+1296>
+            outputs = StyledTextContentView.makeLeafView(
+                view: view,
+                inputs: copy_2,
+                styles: pack,
+                interpolatorGroup: nil,
+                data: ()
+            )
+            // <+1356>
+        }
+        
+        // <+1356>
+        if options_1.contains(.viewRequestsLayoutComputer) {
+            outputs.layoutComputer = Attribute(StyledTextLayoutComputer(textView: view.value))
+        }
+        
+        // <+1440>
+        if copy_1.preferences.contains(Text.LayoutKey.self) {
+            let query = TextLayoutQuery(
+                resolvedText: view.value.text,
+                position: copy_1.position,
+                size: copy_1.size.cgSize(),
+                transform: copy_1.transform
+            )
+            
+            outputs.preferences[Text.LayoutKey.self] = Attribute(query)
+        }
+        
+        // <+1628>
+        if copy_1.preferences.contains(ViewRespondersKey.self) {
+            let filter = StyledTextResponderFilter(
+                responder: StyledTextResponder(
+                    view: view.value,
+                    styles: pack,
+                    inputs: copy_1
+                )
+            )
+            
+            outputs.preferences[ViewRespondersKey.self] = Attribute(filter)
+        }
+        
+        // <+1872>
+        if copy_1.preferences.contains(ContentShapePathData.self) {
+            let pathData = Attribute(
+                ContentResponderPathDataRule<StyledTextContentView>(
+                    transform: copy_1.transform,
+                    position: copy_1.position,
+                    size: copy_1.size.cgSize(),
+                    content: view.value,
+                    kinds: OptionalAttribute()
+                )
+            )
+            
+            if copy_1.preferences.contains(ContentShapePathData.self) {
+                outputs.preferences[ContentShapePathData.self] = pathData.toOptional
+            }
+        }
+        
+        // <+2248>
+        return outputs
     }
 }
 
@@ -288,4 +434,54 @@ struct EnableLinkHoverEffects : UserDefaultKeyedFeature {
     }
     
     @safe static nonisolated(unsafe) var cachedValue: Bool?
+}
+
+fileprivate struct StyledTextLayoutComputer : AsyncAttribute, StatefulRule {
+    @Attribute private(set) var textView: StyledTextContentView
+    
+    typealias Value = LayoutComputer
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct TextLayoutQuery : AsyncAttribute, Rule {
+    @Attribute private(set) var resolvedText: ResolvedStyledText
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var size: CGSize
+    @Attribute private(set) var transform: ViewTransform
+    
+    var value: [Text.LayoutKey.AnchoredLayout] {
+        assertUnimplemented()
+    }
+}
+
+struct StyledTextResponderFilter : StatefulRule {
+    let responder: StyledTextResponder
+    
+    typealias Value = [ViewResponder]
+    
+    func updateValue() {
+        assertUnimplemented()
+    }
+}
+
+final class StyledTextResponder : ViewResponder {
+    // TODO
+    
+    init(view: Attribute<StyledTextContentView>, styles: Attribute<_ShapeStyle_Pack>, inputs: _ViewInputs) {
+        assertUnimplemented()
+    }
+}
+
+extension StyledTextContentView {
+    fileprivate struct ArchivedTransitionEnvironment : AsyncAttribute, Rule {
+        @Attribute private(set) var view: StyledTextContentView
+        @Attribute private(set) var environment: EnvironmentValues
+        
+        var value: EnvironmentValues {
+            assertUnimplemented()
+        }
+    }
 }

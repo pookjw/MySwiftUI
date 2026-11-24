@@ -1,5 +1,113 @@
+// 372497ED4F569296C4450147CA418CD0
 internal import AttributeGraph
+private import _MySwiftUICoreShims
 internal import CoreGraphics
+
+extension Subgraph {
+    func willInvalidate(isInserted: Bool) {
+        self.forEach(isInserted ? [.unknown1, .unknown2] : [.unknown2]) { attribute in
+            // $sSo13AGSubgraphRefa7SwiftUIE14willInvalidate10isInsertedySb_tFySo11AGAttributeaXEfU_TA
+            let bodyType = attribute._bodyType
+            
+            if let conformance = InvalidatableAttributeDescriptor.cachedConformance(of: bodyType) {
+                conformance
+                    .unsafeExistentialMetatype((any InvalidatableAttribute.Type).self)
+                    .willInvalidate(attribute: attribute)
+            } else if isInserted, let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) {
+                conformance
+                    .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                    .willRemove(attribute: attribute)
+            }
+        }
+    }
+    
+    func willRemove() {
+        forEach(.unknown1) { attribute in
+            // $sSo13AGSubgraphRefa7SwiftUIE10willRemoveyyFySo11AGAttributeaXEfU_Tf4nd_n
+            let bodyType = attribute._bodyType
+            
+            guard let conformance = RemovableAttributeDescriptor.cachedConformance(of: bodyType) else {
+                return
+            }
+            
+            conformance
+                .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                .willRemove(attribute: attribute)
+        }
+    }
+    
+    func didReinsert() {
+        forEach(.unknown1) { attribute in
+            // $sSo13AGSubgraphRefa7SwiftUIE11didReinsertyyFySo11AGAttributeaXEfU_
+            let type = attribute._bodyType
+            
+            if let conformance = RemovableAttributeDescriptor.cachedConformance(of: type) {
+                conformance
+                    .unsafeExistentialMetatype((any RemovableAttribute.Type).self)
+                    .didReinsert(attribute: attribute)
+            }
+        }
+    }
+    
+    func addSecondaryChild(_ subgraph: Subgraph) {
+        assertUnimplemented()
+    }
+}
+
+fileprivate struct RemovableAttributeDescriptor : ProtocolDescriptor {
+    static var descriptor: UnsafeRawPointer {
+        return unsafe _removableAttributeProtocolDescriptor()
+    }
+    
+    nonisolated(unsafe) private static var typeCache: [ObjectIdentifier: TypeConformance<RemovableAttributeDescriptor>] = [:]
+    
+    static func cachedConformance(of type: Any.Type) -> TypeConformance<RemovableAttributeDescriptor>? {
+        Update.assertIsLocked()
+        
+        if let conformance = unsafe typeCache[ObjectIdentifier(type)] {
+            return conformance
+        }
+        
+        // <+196>
+        let conformance = conformance(of: type)
+        unsafe typeCache[ObjectIdentifier(type)] = conformance
+        return conformance
+    }
+}
+
+fileprivate struct InvalidatableAttributeDescriptor : ProtocolDescriptor {
+    static var descriptor: UnsafeRawPointer {
+        return unsafe _invalidatableAttributeProtocolDescriptor()
+    }
+    
+    nonisolated(unsafe) private static var typeCache: [ObjectIdentifier: TypeConformance<InvalidatableAttributeDescriptor>] = [:]
+    
+    static func cachedConformance(of type: Any.Type) -> TypeConformance<InvalidatableAttributeDescriptor>? {
+        Update.assertIsLocked()
+        
+        if let conformance = unsafe typeCache[ObjectIdentifier(type)] {
+            return conformance
+        }
+        
+        let conformance = conformance(of: type)
+        unsafe typeCache[ObjectIdentifier(type)] = conformance
+        return conformance
+    }
+}
+
+extension Attribute {
+    var toOptional: Attribute<T?> {
+        return Attribute<T?>(ToOptional(data: self))
+    }
+}
+
+fileprivate struct ToOptional<T> : AsyncAttribute, Rule {
+    @Attribute private(set) var data: T
+    
+    var value: T? {
+        return self.data
+    }
+}
 
 extension Attribute where T == ViewGeometry {
     func origin() -> Attribute<CGPoint> {

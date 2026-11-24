@@ -2619,3 +2619,14 @@ extension SwiftUI.GraphicsContext.Shading {
     case foreground
   }
 }
+
+@available(visionOS 26.0, *)
+@_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
+extension SwiftUI.ContentTransition {
+  public struct NamedTransition {
+    public enum Name {
+      case text(different: Swift.Bool)
+      case `default`
+    }
+  }
+}

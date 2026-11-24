@@ -11,13 +11,13 @@ package struct AbsoluteRectangleCornerInsets : Hashable {
         case .leftToRight:
             self.topLeft = insets.topLeading
             self.topRight = insets.topTrailing
-            self.bottomLeft = insets.bottomTrailing
-            self.bottomRight = insets.bottomLeading
+            self.bottomLeft = insets.bottomLeading
+            self.bottomRight = insets.bottomTrailing
         case .rightToLeft:
             self.topLeft = insets.topTrailing
             self.topRight = insets.topLeading
-            self.bottomLeft = insets.bottomLeading
-            self.bottomRight = insets.bottomTrailing
+            self.bottomLeft = insets.bottomTrailing
+            self.bottomRight = insets.bottomLeading
         }
     }
     

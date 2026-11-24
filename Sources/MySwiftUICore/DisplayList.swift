@@ -1712,7 +1712,7 @@ extension DisplayList {
         private var maxDuration: Double // 0x10
 
         deinit {
-            assertUnimplemented()
+            self.reset()
         }
         
         func reset() {

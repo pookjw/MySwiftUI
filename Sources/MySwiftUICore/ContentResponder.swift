@@ -59,3 +59,15 @@ package struct TrivialContentResponder : ContentResponder {
         assertUnimplemented()
     }
 }
+
+struct ContentResponderPathDataRule<T : ContentResponder> : Rule {
+    @Attribute private(set) var transform: ViewTransform
+    @Attribute private(set) var position: CGPoint
+    @Attribute private(set) var size: CGSize
+    @Attribute private(set) var content: T
+    @OptionalAttribute var kinds: ContentShapeKinds?
+    
+    var value: ContentShapePathData {
+        assertUnimplemented()
+    }
+}

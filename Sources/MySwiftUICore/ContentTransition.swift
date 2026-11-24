@@ -1,8 +1,13 @@
 // 91D8F0C7DA490950AB41112E50631DCA
 internal import CoreGraphics
+internal import AttributeGraph
 
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 public struct ContentTransition : Equatable, Sendable {
+    public static func == (lhs: ContentTransition, rhs: ContentTransition) -> Bool {
+        assertUnimplemented()
+    }
+    
     public static let identity: ContentTransition = {
         assertUnimplemented()
     }()
@@ -24,15 +29,44 @@ public struct ContentTransition : Equatable, Sendable {
         assertUnimplemented()
     }
     
-    // TODO
+    private var storage: ContentTransition.Storage
+    private var isReplaceable: Bool
+    
+    init(storage: ContentTransition.Storage) {
+        self.storage = storage
+        self.isReplaceable = false
+    }
 }
 
 extension ContentTransition {
-    package struct State {
-        private(set) var transition: ContentTransition
-        private var style: ContentTransition.Style
-        private var animation: Animation?
-        private(set) var options: ContentTransition.Options
+    enum Storage {
+        case named(ContentTransition.NamedTransition)
+        case custom(ContentTransition.CustomTransition)
+        case symbolReplace(_SymbolEffect.ReplaceConfiguration)
+    }
+    
+    struct NamedTransition {
+        private var name: ContentTransition.NamedTransition.Name
+        private var layoutDirection: LayoutDirection?
+        private var style: ContentTransition.Style?
+        
+        init(
+            name: ContentTransition.NamedTransition.Name = .default,
+            layoutDirection: LayoutDirection?,
+            style: ContentTransition.Style?
+        ) {
+            self.name = name
+            self.layoutDirection = layoutDirection
+            self.style = style
+        }
+    }
+    
+    struct NumericTextConfiguration {
+        // TODO
+    }
+    
+    struct CustomTransition {
+        // TODO
     }
     
     struct Style {
@@ -62,6 +96,13 @@ extension ContentTransition {
             
         let rawValue: UInt32
     }
+    
+    package struct State {
+        private(set) var transition: ContentTransition
+        private var style: ContentTransition.Style
+        private var animation: Animation?
+        private(set) var options: ContentTransition.Options
+    }
 }
 
 extension ContentTransition.Style {
@@ -69,6 +110,18 @@ extension ContentTransition.Style {
         case `default`
         case sessionWidget
         case animatedWidget
+    }
+}
+
+extension ContentTransition.NamedTransition {
+    enum Name {
+        case text(different: Bool)
+        case numericText(ContentTransition.NumericTextConfiguration)
+        case `default`
+        case identity
+        case opacity
+        case diff
+        case fadeIfDifferent
     }
 }
 
@@ -139,4 +192,15 @@ public struct _Transition_ContentTransition {
 
 @available(*, unavailable)
 extension _Transition_ContentTransition : Sendable {
+}
+
+extension ContentTransitionEffect {
+    struct Init : AsyncAttribute, Rule {
+        @Attribute private(set) var environment: EnvironmentValues
+        private(set) var defaultTransition: ContentTransition
+        
+        var value: ContentTransitionEffect {
+            assertUnimplemented()
+        }
+    }
 }

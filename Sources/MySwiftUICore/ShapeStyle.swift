@@ -200,7 +200,17 @@ final class _ShapeStyle_InterpolatorGroup : DisplayList.InterpolatorGroup {
     }
     
     override init() {
-        assertUnimplemented()
+        self.layers = []
+        self.contentsScale = 0
+        self.rasterizationOptions = RasterizationOptions(
+            colorMode: .nonLinear,
+            allowedDynamicRange: nil,
+            flags: .defaultFlags
+        )
+        self.serial = 0
+        self.cursor = 0
+        
+        super.init()
     }
 }
 
