@@ -10,6 +10,7 @@ final class SceneStorageValues {
     
     @inlinable init(encodedValues: [AnyHashable: Any]) {
         self.encodedValues = encodedValues
+        self.encodedValueCount = encodedValues.count
     }
     
     fileprivate func initialValue<T>(_: T.Type, key: String, transformBox: SceneStorageTransformBox) -> T? {

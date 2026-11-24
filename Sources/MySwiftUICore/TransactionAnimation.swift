@@ -8,9 +8,6 @@ extension Transaction {
         set {
             self[AnimationKey.self] = newValue
         }
-        _modify {
-            yield &self[AnimationKey.self]
-        }
     }
     
     var animationFrameInterval: Double? {
@@ -19,9 +16,6 @@ extension Transaction {
         }
         set {
             self[AnimationFrameIntervalKey.self] = newValue
-        }
-        _modify {
-            yield &self[AnimationFrameIntervalKey.self]
         }
     }
     
@@ -32,9 +26,6 @@ extension Transaction {
         set {
             self.animationFrameInterval = newValue
         }
-        _modify {
-            yield &self.animationFrameInterval
-        }
     }
     
     var animationReason: UInt32? {
@@ -43,9 +34,6 @@ extension Transaction {
         }
         set {
             self[AnimationReasonKey.self] = newValue
-        }
-        _modify {
-            yield &self[AnimationReasonKey.self]
         }
     }
     
@@ -56,9 +44,6 @@ extension Transaction {
         set {
             self.animationReason = newValue
         }
-        _modify {
-            yield &self.animationReason
-        }
     }
     
     public var disablesAnimations: Bool {
@@ -68,8 +53,14 @@ extension Transaction {
         set {
             self[DisablesAnimationsKey.self] = newValue
         }
-        _modify {
-            yield &self[DisablesAnimationsKey.self]
+    }
+    
+    var disablesContentTransitions: Bool {
+        get {
+            return self[DisablesContentTransitionsKey.self]
+        }
+        set {
+            self[DisablesContentTransitionsKey.self] = newValue
         }
     }
 }
@@ -93,6 +84,12 @@ fileprivate struct AnimationReasonKey : TransactionKey {
 }
 
 fileprivate struct DisablesAnimationsKey : TransactionKey {
+    static var defaultValue: Bool {
+        return false
+    }
+}
+
+fileprivate struct DisablesContentTransitionsKey : TransactionKey {
     static var defaultValue: Bool {
         return false
     }

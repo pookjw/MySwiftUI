@@ -386,16 +386,31 @@ package import AttributeGraph
          bodyChanged -> w20
          */
         guard
-            unsafe enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
-            let recorder = unsafe recorder
+            unsafe enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)]
         else {
             return
         }
         
-        let cefOp = unsafe recorder.cefOp
-        unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.dynamicProperties.rawValue
-        unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.DynamicPropertyEventType.propertiesUpdated.rawValue
-        unsafe recorder.graph.addTraceEvent(cefOp, value: (hasValue, bodyChanged))
+        withUnsafeTemporaryAllocation(of: Int.self, capacity: buffer.count) { pointer in
+            var count = 0
+            buffer.applyChanged { fieldOffset in
+                unsafe pointer.baseAddress!.advanced(by: count).initialize(to: fieldOffset)
+                count += 1
+            }
+            
+            guard
+                unsafe enabledCategories[Int(CustomEventCategory.dynamicProperties.rawValue)],
+                let recorder = unsafe recorder
+            else {
+                return
+            }
+            
+            let properties = unsafe UnsafeMutableBufferPointer(start: pointer.baseAddress, count: count)
+            let cefOp = unsafe recorder.cefOp
+            unsafe cefOp.advanced(by: 4).pointee = CustomEventCategory.dynamicProperties.rawValue
+            unsafe cefOp.advanced(by: 5).pointee = CustomEventTrace.DynamicPropertyEventType.propertiesUpdated.rawValue
+            unsafe recorder.graph.addTraceEvent(cefOp, value: (properties, hasValue: hasValue, bodyChanged: bodyChanged))
+        }
     }
     
     nonisolated(unsafe) fileprivate static var enabledCategories: [Bool] = Array(repeating: false, count: 256)

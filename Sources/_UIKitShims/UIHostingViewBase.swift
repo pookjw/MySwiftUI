@@ -120,7 +120,7 @@ package final class UIHostingViewBase : NSObject {
         }
         
         guard let sceneActivationState = _sceneActivationState else {
-            return true
+            return false
         }
 
         
@@ -213,7 +213,7 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        guard uiView.bounds != oldValue else {
+        guard uiView.bounds.size != oldValue.size else {
             return
         }
         
@@ -488,7 +488,7 @@ package final class UIHostingViewBase : NSObject {
             return
         }
         
-        guard !safeAreaRegions.isEmpty || isLinkedOnOrAfter(.v7) else {
+        guard !safeAreaRegions.isEmpty || !isLinkedOnOrAfter(.v7) else {
             return
         }
         

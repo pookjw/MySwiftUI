@@ -29,8 +29,12 @@ public struct ContentTransition : Equatable, Sendable {
         assertUnimplemented()
     }
     
-    private var storage: ContentTransition.Storage
-    private var isReplaceable: Bool
+    static let `default`: ContentTransition = {
+        assertUnimplemented()
+    }()
+    
+    private(set) var storage: ContentTransition.Storage // 0x0
+    private var isReplaceable: Bool // 0xe
     
     init(storage: ContentTransition.Storage) {
         self.storage = storage
@@ -39,16 +43,28 @@ public struct ContentTransition : Equatable, Sendable {
 }
 
 extension ContentTransition {
-    enum Storage {
+    enum Storage : Equatable {
+        static func == (lhs: ContentTransition.Storage, rhs: ContentTransition.Storage) -> Bool {
+            assertUnimplemented()
+        }
+        
         case named(ContentTransition.NamedTransition)
         case custom(ContentTransition.CustomTransition)
         case symbolReplace(_SymbolEffect.ReplaceConfiguration)
     }
     
-    struct NamedTransition {
-        private var name: ContentTransition.NamedTransition.Name
-        private var layoutDirection: LayoutDirection?
-        private var style: ContentTransition.Style?
+    struct NamedTransition : Hashable {
+        static func == (lhs: ContentTransition.NamedTransition, rhs: ContentTransition.NamedTransition) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
+        private(set) var name: ContentTransition.NamedTransition.Name // 0x0
+        private var layoutDirection: LayoutDirection? // 0xb
+        private var style: ContentTransition.Style? // 0xc
         
         init(
             name: ContentTransition.NamedTransition.Name = .default,
@@ -61,16 +77,117 @@ extension ContentTransition {
         }
     }
     
-    struct NumericTextConfiguration {
+    struct NumericTextConfiguration : Hashable {
+        static func == (lhs: ContentTransition.NumericTextConfiguration, rhs: ContentTransition.NumericTextConfiguration) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
+        var direction: ContentTransition.NumericTextConfiguration.Direction // 0x0
+        var axis: Axis? // 0x5
+        var options: ContentTransition.NumericTextConfiguration.Options // 0x6
+        private var _delay: UInt8 = 18 // 0x7
+        private var _scale: UInt8 = 51 // 0x8
+        private var _blur: UInt8 = 32 // 0x9
+        private var _offset: Int8 = 19 // 0xa
+        
+        var delay: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var maxDurationMultiple: Float {
+            return 1.25
+        }
+        
+        var scale: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var blur: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var relativeBlur: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        var offset: Float {
+            get {
+                assertUnimplemented()
+            }
+            set {
+                assertUnimplemented()
+            }
+        }
+        
+        init(
+            direction: ContentTransition.NumericTextConfiguration.Direction = .fixed(downwards: false),
+            axis: Axis?,
+            options: ContentTransition.NumericTextConfiguration.Options = [.relativeBlur]
+        ) {
+            self.direction = direction
+            self.axis = axis
+            self.options = options
+        }
+    }
+    
+    struct CustomTransition : Equatable {
+        static func == (lhs: ContentTransition.CustomTransition, rhs: ContentTransition.CustomTransition) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
         // TODO
     }
     
-    struct CustomTransition {
-        // TODO
-    }
-    
-    struct Style {
+    struct Style : Hashable, Codable {
+        static func == (lhs: ContentTransition.Style, rhs: ContentTransition.Style) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
+        init(from decoder: any Decoder) throws {
+            assertUnimplemented()
+        }
+        
+        func encode(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+        
         private var storage: ContentTransition.Style.Storage
+        
+        init(_ storage: ContentTransition.Style.Storage) {
+            self.storage = storage
+        }
     }
     
     struct Options: OptionSet {
@@ -97,16 +214,47 @@ extension ContentTransition {
         let rawValue: UInt32
     }
     
-    package struct State {
-        private(set) var transition: ContentTransition
-        private var style: ContentTransition.Style
-        private var animation: Animation?
-        private(set) var options: ContentTransition.Options
+    package struct State : Equatable, EnvironmentKey, ProtobufEncodableMessage, ProtobufDecodableMessage {
+        package static func == (lhs: ContentTransition.State, rhs: ContentTransition.State) -> Bool {
+            assertUnimplemented()
+        }
+        
+        var transition: ContentTransition = .default // 0x0
+        var style: ContentTransition.Style // 0xf
+        var animation: Animation? // 0x10
+        var options: ContentTransition.Options // 0x18
+        
+        init(
+            transition: ContentTransition = .default,
+            style: ContentTransition.Style = ContentTransition.Style(.default),
+            animation: Animation?,
+            options: ContentTransition.Options = []
+        ) {
+            self.transition = transition
+            self.style = style
+            self.animation = animation
+            self.options = options
+        }
+        
+        package init(from decoder: inout ProtobufDecoder) throws {
+            assertUnimplemented()
+        }
+        
+        package func encode(to encoder: inout ProtobufEncoder) throws {
+            assertUnimplemented()
+        }
+        
+        package static let defaultValue = ContentTransition.State(
+            transition: .default,
+            style: ContentTransition.Style(.default),
+            animation: nil,
+            options: []
+        )
     }
 }
 
 extension ContentTransition.Style {
-    enum Storage {
+    enum Storage : Hashable {
         case `default`
         case sessionWidget
         case animatedWidget
@@ -114,7 +262,15 @@ extension ContentTransition.Style {
 }
 
 extension ContentTransition.NamedTransition {
-    enum Name {
+    enum Name : Hashable {
+        static func == (lhs: ContentTransition.NamedTransition.Name, rhs: ContentTransition.NamedTransition.Name) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+        
         case text(different: Bool)
         case numericText(ContentTransition.NumericTextConfiguration)
         case `default`
@@ -122,6 +278,25 @@ extension ContentTransition.NamedTransition {
         case opacity
         case diff
         case fadeIfDifferent
+    }
+}
+
+extension ContentTransition.NumericTextConfiguration {
+    enum Direction : Hashable {
+        case fixed(downwards: Bool)
+        case automatic(value: Float)
+    }
+    
+    struct Options : OptionSet, Hashable {
+        static var reversed: ContentTransition.NumericTextConfiguration.Options {
+            return ContentTransition.NumericTextConfiguration.Options(rawValue: 1 << 0)
+        }
+        
+        static var relativeBlur: ContentTransition.NumericTextConfiguration.Options {
+            return ContentTransition.NumericTextConfiguration.Options(rawValue: 1 << 1)
+        }
+        
+        let rawValue: UInt8
     }
 }
 

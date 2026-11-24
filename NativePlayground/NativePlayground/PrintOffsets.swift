@@ -291,11 +291,24 @@ func printOffsets() {
     printFields("7SwiftUI26DefaultLayoutViewResponderC", isClassType: true)
     printFields(SwiftUI::Image.Resolved.self, isClassType: false)
     printFields("7SwiftUI18ResolvedTextHelperV", isClassType: false)
+    printFields("7SwiftUI19StyledTextResponderC", isClassType: true)
+    printFields("7SwiftUI17ContentTransitionV5StateV", isClassType: false)
+    printFields(SwiftUI::ContentTransition.self, isClassType: false)
+    printFields("7SwiftUI17ContentTransitionV05NamedD0V", isClassType: false)
+    printFields("7SwiftUI17ContentTransitionV24NumericTextConfigurationV", isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))
     print(_mangledTypeName(UIHostingController<AnyView>.self)!)
     print(NSStringFromClass(UIHostingController<AnyView>.self))
+    
+    let value = ContentTransition.NamedTransition.Name.default
+    withUnsafePointer(to: value) { ptr in
+        print(UnsafeRawPointer(ptr).assumingMemoryBound(to: UInt.self).pointee)
+        print(UnsafeRawPointer(ptr).assumingMemoryBound(to: UInt.self).pointee & 134217728)
+    }
+    
+    fatalError()
 }
 
 fileprivate struct GeometryMeasurer : ViewGraphGeometryMeasurer {

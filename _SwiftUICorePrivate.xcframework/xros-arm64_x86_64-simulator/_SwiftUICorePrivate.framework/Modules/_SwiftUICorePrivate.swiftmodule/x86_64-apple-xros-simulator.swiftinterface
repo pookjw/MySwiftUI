@@ -2623,10 +2623,29 @@ extension SwiftUI.GraphicsContext.Shading {
 @available(visionOS 26.0, *)
 @_originallyDefinedIn(module: "SwiftUI", visionOS 26.0)
 extension SwiftUI.ContentTransition {
+  public struct NumericTextConfiguration {
+    public enum Direction {
+      case fixed(downwards: Swift.Bool)
+      case automatic(value: Swift.Float)
+    }
+
+    public struct Options : OptionSet {
+      public let rawValue: Swift.UInt8
+      public init(rawValue: Swift.UInt8)
+    }
+
+    public init(direction: SwiftUI.ContentTransition.NumericTextConfiguration.Direction, axis: SwiftUI.Axis?, options: SwiftUI.ContentTransition.NumericTextConfiguration.Options)
+  }
+
   public struct NamedTransition {
     public enum Name {
       case text(different: Swift.Bool)
+      case numericText(SwiftUI.ContentTransition.NumericTextConfiguration)
       case `default`
+      case identity
+      case opacity
+      case diff
+      case fadeIfDifferent
     }
   }
 }

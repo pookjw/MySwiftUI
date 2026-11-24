@@ -317,7 +317,8 @@ exports:
     _$s14AttributeGraph14AnyRuleContextVyxSgAA04WeakA0VyxGcluig,
     _$s14AttributeGraph14AnyRuleContextVyxSgAA08OptionalA0VyxGcluig,
     _AGGraphRegisterNamedTraceEvent,
-    _AGGraphTraceEventEnabled ]
+    _AGGraphTraceEventEnabled,
+    _$s14AttributeGraph0A0V8subgraphSo13AGSubgraphRefavg ]
     objc-classes:         [  ]
     objc-ivars:           [  ]
 ...

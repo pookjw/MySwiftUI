@@ -468,9 +468,96 @@ struct StyledTextResponderFilter : StatefulRule {
 }
 
 final class StyledTextResponder : ViewResponder {
-    // TODO
+    @Attribute var view: StyledTextContentView // 0x30
+    @Attribute var styles: _ShapeStyle_Pack // 0x34
+    let inputs: _ViewInputs // 0x38
+    let viewSubgraph: Subgraph // 0x90
+    var helper = ContentResponderHelper<ShapeStyledResponderData<StyledTextContentView>>() // 0x98
+    var childSubgraph: Subgraph? = nil // 0x130
+    var childViewSubgraph: Subgraph? = nil // 0x138
+    lazy var gestureGraph: GestureGraph = {
+        // $s7SwiftUI19StyledTextResponderC12gestureGraphAA07GestureG0Cvg
+        assertUnimplemented()
+    }() // 0x140
+    lazy var bindingBridge: any EventBindingBridge & GestureGraphDelegate = {
+        // $s7SwiftUI19StyledTextResponderC13bindingBridgeAA20GestureGraphDelegate_AA012EventBindingG0CXcvgAaE_AGXcyXEfU_
+        assertUnimplemented()
+    }() // 0x148
+    var _gestureContainer: AnyObject? = nil // 0x158
     
-    init(view: Attribute<StyledTextContentView>, styles: Attribute<_ShapeStyle_Pack>, inputs: _ViewInputs) {
+    init(
+        view: Attribute<StyledTextContentView>,
+        styles: Attribute<_ShapeStyle_Pack>,
+        inputs: _ViewInputs
+    ) {
+        self._view = view
+        self._styles = styles
+        self.inputs = inputs
+        self.viewSubgraph = view.subgraph
+        super.init()
+    }
+    
+    func update() {
+        assertUnimplemented()
+    }
+    
+    override var gestureContainer: AnyObject? {
+        assertUnimplemented()
+    }
+    
+    var eventSources: [EventBindingSource] {
+        assertUnimplemented()
+    }
+    
+    var gestureType: Any.Type {
+        assertUnimplemented()
+    }
+    
+    var relatedAttribute: AnyAttribute {
+        assertUnimplemented()
+    }
+    
+    var isValid: Bool {
+        assertUnimplemented()
+    }
+    
+    func detachContainer() {
+        assertUnimplemented()
+    }
+    
+    override var features: ViewResponder.Features {
+        assertUnimplemented()
+    }
+    
+    override func hitTestPolicy(options: ViewResponder.ContainsPointsOptions) -> ViewResponder.HitTestPolicy {
+        assertUnimplemented()
+    }
+    
+    override func containsGlobalPoints(_ points: [Point3D], cacheKey: UInt32?, options: ViewResponder.ContainsPointsOptions) -> ViewResponder.ContainsPointsResult {
+        assertUnimplemented()
+    }
+    
+    override func addContentPath(to path: inout Path, kind: ContentShapeKinds, in space: CoordinateSpace, observer: (any ContentPathObserver)?) {
+        assertUnimplemented()
+    }
+    
+    func addAccessibilityGeometry(to geometry: inout AccessibilityGeometry3D, in space: CoordinateSpace) {
+        assertUnimplemented()
+    }
+    
+    override func extendPrintTree(string: inout String) {
+        assertUnimplemented()
+    }
+    
+    override func bindEvent(_ type: any EventType) -> ResponderNode? {
+        assertUnimplemented()
+    }
+    
+    override func makeGesture(inputs: _GestureInputs) -> _GestureOutputs<Void> {
+        assertUnimplemented()
+    }
+    
+    override func resetGesture() {
         assertUnimplemented()
     }
 }
