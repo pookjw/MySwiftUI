@@ -2634,7 +2634,18 @@ extension SwiftUI.ContentTransition {
       public init(rawValue: Swift.UInt8)
     }
 
+    public static func fixed(downwards: Swift.Bool) -> SwiftUI.ContentTransition.NumericTextConfiguration
+    public static func automatic(value: Swift.Double) -> SwiftUI.ContentTransition.NumericTextConfiguration
+
     public init(direction: SwiftUI.ContentTransition.NumericTextConfiguration.Direction, axis: SwiftUI.Axis?, options: SwiftUI.ContentTransition.NumericTextConfiguration.Options)
+
+    public var direction: SwiftUI.ContentTransition.NumericTextConfiguration.Direction
+    public var axis: SwiftUI.Axis?
+    public var options: SwiftUI.ContentTransition.NumericTextConfiguration.Options
+    public var delay: Swift.Float { get set }
+    public var scale: Swift.Float { get set }
+    public var blur: Swift.Float { get set }
+    public var offset: Swift.Float { get set }
   }
 
   public struct NamedTransition {
