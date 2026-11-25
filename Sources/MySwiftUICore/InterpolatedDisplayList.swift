@@ -160,6 +160,7 @@ fileprivate struct InterpolatedDisplayList<T : InterpolatableContent> : AsyncAtt
         var transitionState = environment[ContentTransition.State.self]
         
         // <+732>
+        // x19 + 0x50
         let version = DisplayList.Version(forUpdate: ())
         // x19 + 0x48
         let listener: AnimationListener?
@@ -398,8 +399,179 @@ fileprivate struct InterpolatedDisplayList<T : InterpolatableContent> : AsyncAtt
                 }
             } else if list.features.contains(.interpolatorLayers) {
                 // <+1780>
+                var x190xf0 = false
+                
+                let group = self.group
+                let time = self.$time
+                
+                func block(
+                    _ item: inout DisplayList.Item,
+                    _ flag: inout Bool,
+                    _ d0: CGFloat,
+                    _ d1: CGFloat,
+                    _ d2: CGFloat,
+                    _ d3: CGFloat
+                ) {
+                    /*
+                     list -> x0
+                     group -> x1 -> sp + 0x48
+                     time -> w2 -> sp + 0x44
+                     version -> x3 -> sp + 0x58
+                     x190xf0 -> x4 -> sp + 0x50
+                     d12/d13/d10/d11 -> d0/d1/d2/d3
+                     */
+                    let d8 = d3
+                    let d9 = d2
+                    let d10 = d1
+                    let d11 = d0
+                    // sp
+                    let incomingSeed = DisplayList.Seed(version)
+                    
+                    switch item.value {
+                    case .content(let content):
+                        guard case .flattened(var list, let point, let options) = content.value else {
+                            break
+                        }
+                        
+                        // <+296>
+                        let w27: Bool
+                        if list.features.contains(.interpolatorLayers) {
+                            // <+668>
+                            var sp0x180 = false
+                            let originX = d11 + item.frame.origin.x
+                            let originY = d10 + item.frame.origin.y
+                            
+                            list.transform { item in
+                                block(
+                                    &item,
+                                    &sp0x180,
+                                    originX,
+                                    originY,
+                                    d9,
+                                    d8
+                                )
+                            }
+                            
+                            // <+784>
+                            w27 = sp0x180
+                        } else {
+                            w27 = false
+                        }
+                        
+                        // <+816>
+                        item.value = .content(
+                            DisplayList.Content(
+                                .flattened(list, point, options),
+                                seed: w27 ? incomingSeed : content.seed
+                            )
+                        )
+                        
+                        flag = (w27 || flag)
+                        
+                        if w27 {
+                            item.version = version
+                        }
+                    case .effect(let effect, var list):
+                        // <+428>
+                        let d14 = item.frame.origin.x
+                        let d15 = item.frame.origin.y
+                        let d13 = d11 + d14
+                        let d12 = d10 + d15
+                        var w21: Bool
+                        
+                        if list.features.contains(.interpolatorLayers) {
+                            var sp0x180 = false
+                            
+                            list.transform { item in
+                                block(
+                                    &item,
+                                    &sp0x180,
+                                    d13,
+                                    d12,
+                                    d9,
+                                    d8
+                                )
+                            }
+                            
+                            w21 = sp0x180
+                        } else {
+                            w21 = false
+                        }
+                        
+                        // <+584>
+                        switch effect {
+                        case .mask(var list_2, let options):
+                            // <+604>
+                            if list_2.features.contains(.interpolatorLayers) {
+                                // <+1012>
+                                var sp0x80 = false
+                                
+                                list_2.transform { item in
+                                    block(
+                                        &item,
+                                        &sp0x80,
+                                        d13,
+                                        d12,
+                                        d9,
+                                        d8
+                                    )
+                                }
+                                
+                                w21 = (sp0x80 || w21)
+                            }
+                            
+                            // <+1104>
+                            // <+1272>
+                            item.value = .effect(
+                                .mask(list_2, options),
+                                list
+                            )
+                        case .interpolatorLayer(let group_2, let serial):
+                            // <+648>
+                            if group === group_2 {
+                                // <+1172>
+                                let w19 = group.rewriteInterpolation(
+                                    serial: serial,
+                                    list: &list,
+                                    time: time,
+                                    frame: CGRect(
+                                        x: d14,
+                                        y: d15,
+                                        width: item.frame.size.width,
+                                        height: item.frame.size.height
+                                    ),
+                                    contentOrigin: CGPoint(x: d13, y: d12),
+                                    contentOffset: CGSize(width: d9, height: d8),
+                                    version: version
+                                )
+                                
+                                w21 = (w19 || w21)
+                                // <+1272>
+                                item.value = .effect(.identity, list)
+                            } else {
+                                // <+1272>
+                                item.value = .effect(
+                                    .interpolatorLayer(group_2, serial: serial),
+                                    list
+                                )
+                            }
+                        default:
+                            // <+1272>
+                            item.value = .effect(effect, list)
+                        }
+                        
+                        flag = (w21 || flag)
+                        
+                        if w21 {
+                            item.version = version
+                        }
+                    case .states, .empty:
+                        break
+                    }
+                }
+                
                 list.transform { item in
-                    assertUnimplemented()
+                    block(&item, &x190xf0, d12, d13, d10, d11)
                 }
                 
                 // <+2204>

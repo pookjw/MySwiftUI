@@ -14,8 +14,8 @@ package import RenderBox
     
     package init() {
         items = []
-        features = DisplayList.Features(rawValue: 0)
-        properties = DisplayList.Properties(rawValue: 0)
+        features = []
+        properties = []
     }
     
     package init(_ item: DisplayList.Item) {
@@ -62,7 +62,14 @@ package import RenderBox
     }
     
     mutating func transform(_ block: (inout DisplayList.Item) -> Void) {
-        assertUnimplemented()
+        self.features = []
+        self.properties = []
+        
+        for index in self.items.indices {
+            block(&self.items[index])
+            self.features.formUnion(self.items[index].features)
+            self.properties.formUnion(self.items[index].properties)
+        }
     }
     
     mutating func translate(by: CGSize, version: DisplayList.Version) {

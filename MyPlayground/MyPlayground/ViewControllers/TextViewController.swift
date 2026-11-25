@@ -30,6 +30,8 @@ fileprivate struct MyView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
+            Text("Text")
+            
             Text("Large Title")
                 .font(.largeTitle)
                 .foregroundStyle(.orange)
