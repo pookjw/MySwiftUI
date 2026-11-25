@@ -67,3 +67,9 @@ extension Comparable {
         return result
     }
 }
+
+extension FixedWidthInteger {
+    init<Other : BinaryFloatingPoint>(clamping other: Other) {
+        assertUnimplemented()
+    }
+}

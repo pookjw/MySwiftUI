@@ -60,6 +60,14 @@ package import RenderBox
     package var isEmpty: Bool {
         return items.isEmpty
     }
+    
+    mutating func transform(_ block: (inout DisplayList.Item) -> Void) {
+        assertUnimplemented()
+    }
+    
+    mutating func translate(by: CGSize, version: DisplayList.Version) {
+        assertUnimplemented()
+    }
 }
 
 extension DisplayList : CustomStringConvertible {

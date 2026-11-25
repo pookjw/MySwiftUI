@@ -157,10 +157,13 @@ fileprivate struct InterpolatedDisplayList<T : InterpolatableContent> : AsyncAtt
         let size = self.size
         let environment = self.environment
         // x29 - 0xc8
-        let transitionState = environment[ContentTransition.State.self]
+        var transitionState = environment[ContentTransition.State.self]
         
         // <+732>
         let version = DisplayList.Version(forUpdate: ())
+        // x19 + 0x48
+        let listener: AnimationListener?
+        let animation: Animation?
         
         if let lastContent {
             // <+840>
@@ -168,34 +171,269 @@ fileprivate struct InterpolatedDisplayList<T : InterpolatableContent> : AsyncAtt
                 // <+1580>
                 var transaction: Transaction {
                     // $s7SwiftUI23InterpolatedDisplayList33_7377A3587909D054D379011E12826F37LLV11updateValueyyF11transactionL_AA11TransactionVvg
-                    assertUnimplemented()
+                    return Graph.withoutUpdate { 
+                        // $s7SwiftUI23InterpolatedDisplayList33_7377A3587909D054D379011E12826F37LLV11updateValueyyF11transactionL_AA11TransactionVvgAHyXEfU_
+                        return self.transaction
+                    }
                 }
                 
                 if transaction.disablesContentTransitions {
                     // <+996>
+                    if self.lastContent == nil {
+                        self.contentVersion = version
+                    }
+                    
+                    listener = nil
+                    animation = nil
+                    transitionState.animation = nil
+                    // <+1104>
                 } else {
                     // <+2440>
                     self.contentVersion = version
                     
                     // <+2472>
-                    if
-                        case .named(let transition) = transitionState.transition.storage,
-                        case .numericText(let configuration) = transition.name
-                    {
-                        assertUnimplemented()
+                    if case .named(let transition) = transitionState.transition.storage {
+                        if case .default = transition.name {
+                            // <+2508>
+                            transitionState.transition = T.defaultTransition
+                            transitionState.transition.isReplaceable = true
+                            // <+2592>
+                        } else {
+                            // <+2612>
+                        }
+                    } else {
+                        // <+2648>
                     }
                     
                     // <+2648>
-                    assertUnimplemented()
+                    if
+                        case .named(let transition) = transitionState.transition.storage,
+                        case .identity = transition.name
+                    {
+                        // <+2692>
+                    } else {
+                        // <+2648>
+                        lastContent.modifyTransition(state: &transitionState, to: content)
+                    }
+                    
+                    if
+                        case .named(let transition) = transitionState.transition.storage,
+                        case .identity = transition.name
+                    {
+                        // <+2792>
+                        listener = nil
+                        transitionState.animation = nil
+                    } else {
+                        // <+2720>
+                        if self.hasValue {
+                            // <+2736>
+                            if transitionState.animation != nil {
+                                // <+2744>
+                            } else {
+                                // <+2852>
+                                if let animation = transaction.animation {
+                                    transitionState.animation = animation
+                                    // <+2744>
+                                } else {
+                                    // <+2920>
+                                    transitionState.animation = lastContent.defaultAnimation(to: content)
+                                }
+                            }
+                            
+                            listener = (transitionState.animation != nil) ? transaction.combinedAnimationListener : nil
+                        } else {
+                            // <+2792>
+                            listener = nil
+                            transitionState.animation = nil
+                        }
+                    }
+                    
+                    animation = transitionState.animation
+                    transitionState.transition.applyEnvironmentValues(
+                        style: transitionState.style,
+                        layoutDirection: environment.layoutDirection
+                    )
+                    
+                    // <+1104>
                 }
             } else {
                 // <+996>
+                if self.lastContent == nil {
+                    self.contentVersion = version
+                }
+                
+                listener = nil
+                animation = nil
+                transitionState.animation = nil
+                // <+1104>
             }
         } else {
             // <+996>
+            if self.lastContent == nil {
+                self.contentVersion = version
+            }
+            
+            listener = nil
+            animation = nil
+            transitionState.animation = nil
+            // <+1104>
         }
         
-        // <+996>
-        assertUnimplemented()
+        // <+1104>
+        self.lastContent = content
+        self.lastSize = size
+        
+        // <+1176>
+        // x19 + 0x80
+        var options = RasterizationOptions(
+            colorMode: .nonLinear,
+            allowedDynamicRange: nil,
+            flags: .defaultFlags
+        )
+        
+        options.flags.subtract(.requiresLayer)
+        
+        if transitionState.options.contains(.addsDrawingGroup) {
+            options.flags.formUnion(.isAccelerated)
+        }
+        
+        if content.addsDrawingGroup {
+            options.flags.formUnion(.isAccelerated)
+        }
+        
+        // <+1284>
+        let d14: CGFloat = 1.0
+        
+        self.group.update(
+            contentSeed: DisplayList.Seed(self.contentVersion),
+            transition: transitionState.transition,
+            animation: animation,
+            listener: listener,
+            contentsScale: Float(d14 / self.pixelLength),
+            rasterizationOptions: options,
+            supportsVFD: self.supportsVFD
+        )
+        
+        // <+1412>
+        var d8: CGFloat
+        var d9: CGFloat
+        do {
+            let animatedPosition = self.animatedPosition
+            let containerPosition = self.containerPosition
+            d8 = animatedPosition.x - containerPosition.x
+            d9 = animatedPosition.y - containerPosition.y
+        }
+        
+        var d10: CGFloat = 0
+        var d11: CGFloat = 0
+        var d12 = d8
+        var d13 = d9
+        
+        if self.animatesSize {
+            // <+1724>
+        } else {
+            // <+1500>
+            let position = self.position
+            d10 = position.x
+            d11 = position.y
+            
+            var d0 = self.pixelLength
+            var d1 = d0 * 0.5
+            var d2 = d10 + d1
+            
+            if d0 != d14 {
+                // <+1660>
+                d2 = d2 / d0
+                d2 = floor(d2)
+                d10 = d0 * d2
+                d1 = d11 + d1
+                d1 = d1 / d0
+                d1 = floor(d1)
+                d11 = d0 * d1
+                // <+1688>
+            } else {
+                d10 = floor(d2)
+                d0 = d11 + d1
+                d11 = floor(d0)
+                // <+1688>
+            }
+            
+            // <+1688>
+            let containerPosition = self.containerPosition
+            d0 = containerPosition.x
+            d1 = containerPosition.y
+            d12 = d10 - d0
+            d13 = d11 - d1
+            d10 = d12 - d8
+            d11 = d13 - d9
+            // <+1724>
+        }
+        
+        // <+1724>
+        var list: DisplayList
+        
+        if let _list = self.list {
+            list = _list
+            
+            if self.defersRender {
+                // <+1884>
+                if self.defersRender {
+                    list = DisplayList(
+                        DisplayList.Item(
+                            .effect(
+                                .interpolatorRoot(
+                                    self.group,
+                                    contentOrigin: CGPoint(x: d12, y: d13),
+                                    SwiftOffset: CGSize(width: d10, height: d11)
+                                ),
+                                list
+                            ),
+                            frame: .zero,
+                            identity: .none,
+                            version: version
+                        )
+                    )
+                } else {
+                    // <+2204>
+                }
+            } else if list.features.contains(.interpolatorLayers) {
+                // <+1780>
+                list.transform { item in
+                    assertUnimplemented()
+                }
+                
+                // <+2204>
+            } else {
+                // <+2204>
+            }
+        } else {
+            // <+1848>
+            list = DisplayList()
+            
+            // <+1884>
+            if self.defersRender {
+                list = DisplayList(
+                    DisplayList.Item(
+                        .effect(
+                            .interpolatorRoot(
+                                self.group,
+                                contentOrigin: CGPoint(x: d12, y: d13),
+                                SwiftOffset: CGSize(width: d10, height: d11)
+                            ),
+                            list
+                        ),
+                        frame: .zero,
+                        identity: .none,
+                        version: version
+                    )
+                )
+            } else {
+                // <+2204>
+            }
+        }
+        
+        // <+2204>
+        list.translate(by: CGSize(width: d8, height: d9), version: version)
+        self.value = list
     }
 }

@@ -28,7 +28,7 @@ extension View {
                 modifiers.removeAll { modifier in
                     if modifier is AnyDynamicFontModifier<Font.WeightModifier> {
                         return true
-                    } else if modifier is AnyStaticFontModifier<Font.ItalicModifier> {
+                    } else if modifier is AnyStaticFontModifier<Font.BoldModifier> {
                         return isLinkedOnOrAfter(.v7)
                     } else {
                         return false

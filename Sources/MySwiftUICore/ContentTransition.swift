@@ -34,11 +34,15 @@ public struct ContentTransition : Equatable, Sendable {
     }()
     
     private(set) var storage: ContentTransition.Storage // 0x0
-    private var isReplaceable: Bool // 0xe
+    var isReplaceable: Bool // 0xe
     
     init(storage: ContentTransition.Storage) {
         self.storage = storage
         self.isReplaceable = false
+    }
+    
+    mutating func applyEnvironmentValues(style: ContentTransition.Style, layoutDirection: LayoutDirection) {
+        assertUnimplemented()
     }
 }
 
@@ -86,6 +90,22 @@ extension ContentTransition {
             assertUnimplemented()
         }
         
+        static func fixed(downwards: Bool) -> ContentTransition.NumericTextConfiguration {
+            return ContentTransition.NumericTextConfiguration(
+                direction: .fixed(downwards: downwards),
+                axis: nil,
+                options: [.relativeBlur]
+            )
+        }
+        
+        static func automatic(value: Double) -> ContentTransition.NumericTextConfiguration {
+            return ContentTransition.NumericTextConfiguration(
+                direction: .automatic(value: Float(value)),
+                axis: nil,
+                options: [.relativeBlur]
+            )
+        }
+        
         var direction: ContentTransition.NumericTextConfiguration.Direction // 0x0
         var axis: Axis? // 0x5
         var options: ContentTransition.NumericTextConfiguration.Options // 0x6
@@ -96,10 +116,10 @@ extension ContentTransition {
         
         var delay: Float {
             get {
-                assertUnimplemented()
+                return Float(self._delay) * Float(bitPattern: 0x3c088889) // 1 / 120
             }
             set {
-                assertUnimplemented()
+                self._delay = UInt8(clamping: newValue * 120.0)
             }
         }
         
@@ -109,37 +129,42 @@ extension ContentTransition {
         
         var scale: Float {
             get {
-                assertUnimplemented()
+                return Float(self._scale) / 128.0
             }
             set {
-                assertUnimplemented()
+                self._scale = UInt8(clamping: newValue * 128.0)
             }
         }
         
         var blur: Float {
             get {
-                assertUnimplemented()
+                return Float(self._blur) / 4.0
             }
             set {
-                assertUnimplemented()
+                self._blur = UInt8(clamping: newValue * 4.0)
+                
+                if self.options.contains(.relativeBlur) {
+                    self.options.subtract(.relativeBlur)
+                }
             }
         }
         
         var relativeBlur: Float {
             get {
-                assertUnimplemented()
+                return Float(self._blur) / 128.0
             }
             set {
-                assertUnimplemented()
+                self._blur = UInt8(clamping: newValue * 128.0)
+                self.options.formUnion(.relativeBlur)
             }
         }
         
         var offset: Float {
             get {
-                assertUnimplemented()
+                return Float(self._offset) / 32.0
             }
             set {
-                assertUnimplemented()
+                self._offset = Int8(clamping: newValue * 32.0)
             }
         }
         
@@ -151,6 +176,48 @@ extension ContentTransition {
             self.direction = direction
             self.axis = axis
             self.options = options
+        }
+        
+        func axis(_ axis: Axis) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            copy.axis = axis
+            return copy
+        }
+        
+        func delay(_ delay: Double) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            copy.delay = Float(delay)
+            return copy
+        }
+        
+        func scale(_ scale: CGFloat) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            copy.scale = Float(scale)
+            return copy
+        }
+        
+        func blur(radius: CGFloat) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            copy.blur = Float(radius)
+            return copy
+        }
+        
+        func relativeOffset(_ offset: CGFloat) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            copy.offset = Float(offset)
+            return copy
+        }
+        
+        func reversed(_ reversed: Bool) -> ContentTransition.NumericTextConfiguration {
+            var copy = self
+            
+            if reversed {
+                copy.options.formUnion(.reversed)
+            } else {
+                copy.options.subtract(.reversed)
+            }
+            
+            return copy
         }
     }
     

@@ -189,7 +189,7 @@ extension Text : View {
     }
 
     nonisolated public static func _viewListCount(inputs: _ViewListCountInputs) -> Int? {
-        return nil
+        return 1
     }
     
     public func _resolveText(in environment: EnvironmentValues) -> String {

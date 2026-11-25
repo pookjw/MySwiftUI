@@ -1132,7 +1132,7 @@ package struct ColorView :  @preconcurrency RendererLeafView {
     }
     
     func content() -> DisplayList.Content.Value {
-        return .color(self)
+        return .color(ColorView(color, isAntialiased: true, allowedDynamicRange: allowedDynamicRange))
     }
     
     package func contains(points: UnsafeBufferPointer<Point3D>, size: CGSize) -> BitVector64 {

@@ -44,7 +44,7 @@ package struct RasterizationOptions : Equatable {
     private var rbColorMode: RBColorMode // 0x0
     private var colorMode: ColorRenderingMode // 0x4
     var allowedDynamicRange: Image.DynamicRange? // 0x5
-    private(set) var flags: RasterizationOptions.Flags // 0x8
+    var flags: RasterizationOptions.Flags // 0x8
     private(set) var maxDrawableCount: Int8 // 0xc
     
     init(

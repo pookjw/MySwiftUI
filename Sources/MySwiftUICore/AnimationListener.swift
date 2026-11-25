@@ -263,6 +263,10 @@ extension Transaction {
             self.animationLogicalListener = listener
         }
     }
+    
+    var combinedAnimationListener: AnimationListener? {
+        assertUnimplemented()
+    }
 }
 
 class AnimationListener {

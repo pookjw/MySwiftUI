@@ -848,7 +848,7 @@ protocol DerivedSpatialLayout : SpatialLayout {
     associatedtype SpatialBase : SpatialLayout
 }
 
-fileprivate struct DynamicLayoutComputer<T : Layout3D> : CustomStringConvertible, AsyncAttribute, StatefulRule {
+fileprivate struct DynamicLayoutComputer<T : SpatialLayout> : CustomStringConvertible, AsyncAttribute, StatefulRule {
     @Attribute private(set) var layout: T
     @Attribute private(set) var environment: EnvironmentValues
     @OptionalAttribute var containerInfo: DynamicContainer.Info?
@@ -857,7 +857,7 @@ fileprivate struct DynamicLayoutComputer<T : Layout3D> : CustomStringConvertible
     typealias Value = LayoutComputer
     
     mutating func updateValue() {
-        self.updateLayoutComputer3D(
+        self.updateSpatialLayoutComputer(
             layout: self.layout,
             environment: self.$environment,
             attributes: self.layoutMap.attributes(info: self.containerInfo!)
