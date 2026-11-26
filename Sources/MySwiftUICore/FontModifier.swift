@@ -217,18 +217,18 @@ extension FontModifier {
     }
 }
 
-struct CodableFontWeight : CodableProxy {
-    private(set) var base: Font.Weight
+package struct CodableFontWeight : CodableProxy {
+    package private(set) var base: Font.Weight
     
     init(_ base: Font.Weight) {
         self.base = base
     }
     
-    func encode(to encoder: any Encoder) throws {
+    package func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    init(from decoder: any Decoder) throws {
+    package init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }
 }

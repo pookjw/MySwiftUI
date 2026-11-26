@@ -178,17 +178,67 @@ extension Font.Resolved {
 }
 
 extension Font {
-    public static let largeTitle: Font = { assertUnimplemented() }()
-    public static let title: Font = { assertUnimplemented() }()
+    public static let largeTitle = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .largeTitle,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
+    
+    public static let title = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .title,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static let title2: Font = { assertUnimplemented() }()
+    public static let title2 = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .title2,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
 
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static let title3: Font = { assertUnimplemented() }()
+    public static let title3 = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .title3,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
-    public static let headline: Font = { assertUnimplemented() }()
-    public static let subheadline: Font = { assertUnimplemented() }()
+    public static let headline = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .headline,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
+    
+    public static let subheadline = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .subheadline,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     public static let body = Font(
         provider: FontBox(
@@ -200,26 +250,76 @@ extension Font {
         )
     )
     
-    public static let callout: Font = { assertUnimplemented() }()
-    public static let footnote: Font = { assertUnimplemented() }()
-    public static let caption: Font = { assertUnimplemented() }()
+    public static let callout = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .callout,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
+    
+    public static let footnote = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .footnote,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
+    
+    public static let caption = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .caption,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static let caption2: Font = { assertUnimplemented() }()
+    public static let caption2 = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .caption2,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     @available(visionOS 1.0, *)
     @available(iOS, unavailable)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    public static let extraLargeTitle: Font = { assertUnimplemented() }()
+    public static let extraLargeTitle = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .extraLargeTitle,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     @available(visionOS 1.0, *)
     @available(iOS, unavailable)
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
-    public static let extraLargeTitle2: Font = { assertUnimplemented() }()
+    public static let extraLargeTitle2 = Font(
+        provider: FontBox(
+            Font.TextStyleProvider(
+                style: .extraLargeTitle2,
+                design: nil,
+                weight: nil
+            )
+        )
+    )
     
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public static func system(_ style: Font.TextStyle, design: Font.Design? = nil, weight: Font.Weight? = nil) -> Font {
@@ -681,22 +781,64 @@ extension Font {
         static func unwrap(codingProxy: Font.StyleDefinition) -> Font.TextStyleProvider {
             assertUnimplemented()
         }
-    }
-    
-    struct PrivateTextStyleProvider {
-        // TODO
-    }
-    
-    struct PlatformFontProvider : CodableByProxy, Hashable, Serializable, FontProvider {
-        fileprivate private(set) var font: CTFont
         
-        static func == (lhs: Font.PlatformFontProvider, rhs: Font.PlatformFontProvider) -> Bool {
-            return lhs.font == rhs.font
+        static func == (lhs: Font.TextStyleProvider, rhs: Font.TextStyleProvider) -> Bool {
+            assertUnimplemented()
         }
         
         func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
+    }
+    
+    struct PrivateTextStyleProvider : CodableByProxy, FontProvider {
+        private var style: CFString
+        private var design: CFString?
+        private var weight: Font.Weight?
+        
+        func serialize(to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+        
+        static func deserialize(from decoder: Decoder) throws -> Font.PrivateTextStyleProvider {
+            assertUnimplemented()
+        }
+        
+        var codingProxy: Font.PrivateStyleDefinition {
+            assertUnimplemented()
+        }
+        
+        static func unwrap(codingProxy: Font.PrivateStyleDefinition) -> Font.PrivateTextStyleProvider {
+            assertUnimplemented()
+        }
+        
+        var tag: Font.ProviderTag {
+            assertUnimplemented()
+        }
+        
+        func resolveDescriptor(in context: Font.Context) -> CTFontDescriptor {
+            assertUnimplemented()
+        }
+        
+        func resolveTraits(in context: Font.Context) -> Font.ResolvedTraits {
+            assertUnimplemented()
+        }
+        
+        func removing<T : StaticFontModifier>(modifier: T.Type) -> any FontProvider {
+            assertUnimplemented()
+        }
+        
+        static func == (lhs: Font.PrivateTextStyleProvider, rhs: Font.PrivateTextStyleProvider) -> Bool {
+            assertUnimplemented()
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            assertUnimplemented()
+        }
+    }
+    
+    struct PlatformFontProvider : CodableByProxy, Hashable, Serializable, FontProvider {
+        fileprivate private(set) var font: CTFont
         
         func serialize(to encoder: any Encoder) throws {
             assertUnimplemented()
@@ -727,6 +869,14 @@ extension Font {
         }
         
         static func unwrap(codingProxy: CodablePlatformFont) -> Font.PlatformFontProvider {
+            assertUnimplemented()
+        }
+        
+        static func == (lhs: Font.PlatformFontProvider, rhs: Font.PlatformFontProvider) -> Bool {
+            return lhs.font == rhs.font
+        }
+        
+        func hash(into hasher: inout Hasher) {
             assertUnimplemented()
         }
     }
@@ -786,6 +936,24 @@ extension FontBox : Serializable {
     }
     
     static func deserialize(from decoder: any Decoder) throws -> Self {
+        assertUnimplemented()
+    }
+}
+
+extension Font.Weight : CodableByProxy, Serializable {
+    package var codingProxy: CodableFontWeight {
+        assertUnimplemented()
+    }
+    
+    package static func unwrap(codingProxy: CodableFontWeight) -> Font.Weight {
+        assertUnimplemented()
+    }
+    
+    package func serialize(to encoder: any Encoder) throws {
+        assertUnimplemented()
+    }
+    
+    package static func deserialize(from decoder: Decoder) throws -> Font.Weight {
         assertUnimplemented()
     }
 }

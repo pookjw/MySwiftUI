@@ -13,4 +13,10 @@ extension Font {
             assertUnimplemented()
         }
     }
+    
+    struct PrivateStyleDefinition : Codable {
+        private var style: String
+        private var design: String?
+        @ProxyCodable private var weight: Font.Weight?
+    }
 }

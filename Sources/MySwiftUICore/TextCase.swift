@@ -39,11 +39,11 @@ extension Text.Case : Hashable, CodableByProxy, Serializable {
         assertUnimplemented()
     }
     
-    var codingProxy: CodableTextCase {
+    package var codingProxy: CodableTextCase {
         assertUnimplemented()
     }
     
-    static func unwrap(codingProxy: CodableTextCase) -> Text.Case {
+    package static func unwrap(codingProxy: CodableTextCase) -> Text.Case {
         assertUnimplemented()
     }
 }
@@ -71,7 +71,7 @@ fileprivate struct TextCaseKey : EnvironmentKey {
     }
 }
 
-enum CodableTextCase : Codable, Hashable {
+package enum CodableTextCase : Codable, Hashable {
     case uppercase
     case lowercase
     
@@ -83,11 +83,11 @@ enum CodableTextCase : Codable, Hashable {
         assertUnimplemented()
     }
     
-    func encode(to encoder: any Encoder) throws {
+    package func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    init(from decoder: any Decoder) throws {
+    package init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }
 }

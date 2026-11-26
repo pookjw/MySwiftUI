@@ -12,17 +12,17 @@ public enum LayoutDirection : Hashable, CaseIterable, Sendable {
     static func convert(_ rect: CGRect, to target: LayoutDirection, in size: CGSize) -> CGRect {
         assertUnimplemented()
     }
-    
-    var codingProxy: CodableLayoutDirection {
+}
+
+extension LayoutDirection : CodableByProxy {
+    package var codingProxy: CodableLayoutDirection {
         assertUnimplemented()
     }
     
-    static func unwrap(codingProxy: CodableLayoutDirection) -> LayoutDirection {
+    package static func unwrap(codingProxy: CodableLayoutDirection) -> LayoutDirection {
         assertUnimplemented()
     }
 }
-
-extension LayoutDirection : CodableByProxy {}
 
 extension LayoutDirection : Serializable {
     package func serialize(to encoder: any Encoder) throws {
@@ -59,18 +59,18 @@ public enum LayoutDirectionBehavior : Hashable, Sendable {
     case mirrors(in: LayoutDirection) // 0/1
 }
 
-struct CodableLayoutDirection : CodableProxy {
-    private(set) var base: LayoutDirection
+package struct CodableLayoutDirection : CodableProxy {
+    package private(set) var base: LayoutDirection
     
     init(_ base: LayoutDirection) {
         self.base = base
     }
     
-    func encode(to encoder: any Encoder) throws {
+    package func encode(to encoder: any Encoder) throws {
         assertUnimplemented()
     }
     
-    init(from decoder: any Decoder) throws {
+    package init(from decoder: any Decoder) throws {
         assertUnimplemented()
     }
 }

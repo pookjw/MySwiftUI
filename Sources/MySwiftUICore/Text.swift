@@ -644,35 +644,94 @@ extension Text {
     @available(tvOS, introduced: 13.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
     @available(watchOS, introduced: 6.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
     @available(visionOS, introduced: 1.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    nonisolated public func foregroundColor(_ color: Color?) -> Text { assertUnimplemented() }
+    nonisolated public func foregroundColor(_ color: Color?) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-    nonisolated public func foregroundStyle<S>(_ style: S) -> Text where S : ShapeStyle { assertUnimplemented() }
-    nonisolated public func font(_ font: Font?) -> Text { assertUnimplemented() }
-    nonisolated public func fontWeight(_ weight: Font.Weight?) -> Text { assertUnimplemented() }
+    nonisolated public func foregroundStyle<S>(_ style: S) -> Text where S : ShapeStyle {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func font(_ font: Font?) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func fontWeight(_ weight: Font.Weight?) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func fontWidth(_ width: Font.Width?) -> Text { assertUnimplemented() }
-    nonisolated public func bold() -> Text { assertUnimplemented() }
+    nonisolated public func fontWidth(_ width: Font.Width?) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func bold() -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func bold(_ isActive: Bool) -> Text { assertUnimplemented() }
-    nonisolated public func italic() -> Text { assertUnimplemented() }
+    nonisolated public func bold(_ isActive: Bool) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func italic() -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func italic(_ isActive: Bool) -> Text { assertUnimplemented() }
+    nonisolated public func italic(_ isActive: Bool) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.4, macOS 13.3, tvOS 16.4, watchOS 9.4, *)
-    nonisolated public func monospaced(_ isActive: Bool = true) -> Text { assertUnimplemented() }
+    nonisolated public func monospaced(_ isActive: Bool = true) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.1, macOS 13.0, tvOS 16.1, watchOS 9.1, *)
-    nonisolated public func fontDesign(_ design: Font.Design?) -> Text { assertUnimplemented() }
+    nonisolated public func fontDesign(_ design: Font.Design?) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
-    nonisolated public func monospacedDigit() -> Text { assertUnimplemented() }
-    nonisolated public func strikethrough(_ isActive: Bool = true, color: Color? = nil) -> Text { assertUnimplemented() }
+    nonisolated public func monospacedDigit() -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func strikethrough(_ isActive: Bool = true, color: Color? = nil) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func strikethrough(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text { assertUnimplemented() }
-    nonisolated public func underline(_ isActive: Bool = true, color: Color? = nil) -> Text { assertUnimplemented() }
+    nonisolated public func strikethrough(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func underline(_ isActive: Bool = true, color: Color? = nil) -> Text {
+        assertUnimplemented()
+    }
+    
     @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func underline(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text { assertUnimplemented() }
-    nonisolated public func kerning(_ kerning: CGFloat) -> Text { assertUnimplemented() }
-    nonisolated public func tracking(_ tracking: CGFloat) -> Text { assertUnimplemented() }
-    nonisolated public func baselineOffset(_ baselineOffset: CGFloat) -> Text { assertUnimplemented() }
-    nonisolated public func _stylisticAlternative(_ alternative: Font._StylisticAlternative) -> Text { assertUnimplemented() }
+    nonisolated public func underline(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func kerning(_ kerning: CGFloat) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func tracking(_ tracking: CGFloat) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func baselineOffset(_ baselineOffset: CGFloat) -> Text {
+        assertUnimplemented()
+    }
+    
+    nonisolated public func _stylisticAlternative(_ alternative: Font._StylisticAlternative) -> Text {
+        assertUnimplemented()
+    }
 }
 
 extension Text {
