@@ -136,7 +136,7 @@ package class StoredLocationBase<Value> : AnyLocation<Value> {
     }
     
     fileprivate var isValid: Bool {
-        fatalError("abstract")
+        return true
     }
     
     fileprivate final func beginUpdate() {
@@ -258,5 +258,11 @@ extension ObservableLocation {
     fileprivate struct Observer {
         weak var host: GraphHost?
         @WeakAttribute var signal: Void?
+    }
+}
+
+extension ObservableLocation: TransactionHostProvider {
+    var mutationHost: GraphHost? {
+        assertUnimplemented()
     }
 }

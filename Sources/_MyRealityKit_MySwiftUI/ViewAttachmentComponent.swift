@@ -29,6 +29,15 @@ public struct ViewAttachmentComponent : TransientComponent, Identifiable {
         assertUnimplemented()
     }
     
+    @available(visionOS 26.0, *)
+    @available(iOS, unavailable)
+    @available(macOS, unavailable)
+    @available(watchOS, unavailable)
+    @available(tvOS, unavailable)
+    public init<Content>(rootView: () -> Content) where Content : View {
+        assertUnimplemented()
+    }
+    
     @available(visionOS 1.0, *)
     @available(iOS, unavailable)
     @available(tvOS, unavailable)
@@ -82,6 +91,12 @@ extension ViewAttachmentComponent {
     }
 
     @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
+}
+
+extension ViewAttachmentComponent : CustomReflectable {
+    public var customMirror: Mirror {
         assertUnimplemented()
     }
 }

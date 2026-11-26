@@ -15,7 +15,32 @@ public struct _LayoutTraits : Equatable {
         self.height = height
     }
     
+    subscript(axis: Axis) -> Dimension {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
     static func fixed(_ value: CGFloat) -> _LayoutTraits.Dimension {
+        assertUnimplemented()
+    }
+}
+
+extension _LayoutTraits {
+    package init(width: CGFloat, height: CGFloat) {
+        assertUnimplemented()
+    }
+    
+    package init(_ size: CGSize) {
+        assertUnimplemented()
+    }
+}
+
+extension _LayoutTraits.Dimension : CustomStringConvertible {
+    package var description: String {
         assertUnimplemented()
     }
 }
@@ -126,7 +151,7 @@ extension _LayoutTraits {
                     return -lhs.minLength < -rhs.minLength
                 } else {
                     // <+80>
-                    return d0 < .infinity
+                    return d0 < d1
                 }
             } else {
                 // <+68>

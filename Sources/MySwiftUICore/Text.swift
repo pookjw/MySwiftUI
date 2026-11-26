@@ -3,7 +3,7 @@ public import Foundation
 package import CoreGraphics
 private import os.log
 private import CoreText
-private import UIFoundation
+internal import UIFoundation
 internal import AttributeGraph
 
 @frozen public struct Text : Equatable, Sendable {
@@ -41,15 +41,15 @@ internal import AttributeGraph
     
     @usableFromInline
     @frozen package enum Modifier : Equatable {
-        case color(Color?)
-        case font(Font?)
-        case italic
-        case weight(Font.Weight?)
-        case kerning(CGFloat)
-        case tracking(CGFloat)
-        case baseline(CGFloat)
+        case color(Color?) // 0x0
+        case font(Font?) // 0x20
+        case italic // 0xe0
+        case weight(Font.Weight?) // 0x40 / 0x41
+        case kerning(CGFloat) // 0x60
+        case tracking(CGFloat) // 0x80
+        case baseline(CGFloat) // 0xa0
         case rounded
-        case anyTextModifier(AnyTextModifier)
+        case anyTextModifier(AnyTextModifier) // 0xc0
         
         @usableFromInline
         package static func == (lhs: Text.Modifier, rhs: Text.Modifier) -> Bool {
@@ -543,21 +543,40 @@ extension Text {
     
     public struct LineStyle : Hashable, Sendable {
         private var nsUnderlineStyleValue: Int
-        private var color: Color?
+        fileprivate var color: Color?
 
         public init(pattern: Pattern = .solid, color: Color? = nil) {
+            self.nsUnderlineStyleValue = pattern.nsUnderlineStyle.union(.single).rawValue
+            self.color = color
+        }
+        
+        init?(_nsUnderlineStyle: NSUnderlineStyle) {
             assertUnimplemented()
+        }
+        
+        init?(_nsUnderlineStyleForTextEditing: NSUnderlineStyle) {
+            guard !_nsUnderlineStyleForTextEditing.isEmpty else {
+                return nil
+                
+            }
+            self.nsUnderlineStyleValue = _nsUnderlineStyleForTextEditing.rawValue
+            self.color = nil
         }
 
         public struct Pattern : Sendable {
-            public static let solid: Self = { assertUnimplemented() }()
-            public static let dot: Self = { assertUnimplemented() }()
-            public static let dash: Self = { assertUnimplemented() }()
-            public static let dashDot: Self = { assertUnimplemented() }()
-            public static let dashDotDot: Self = { assertUnimplemented() }()
+            fileprivate let nsUnderlineStyle: NSUnderlineStyle
+            
+            public static let solid = Text.LineStyle.Pattern(nsUnderlineStyle: [])
+            public static let dot = Text.LineStyle.Pattern(nsUnderlineStyle: [.patternDot])
+            public static let dash = Text.LineStyle.Pattern(nsUnderlineStyle: [.patternDash])
+            public static let dashDot = Text.LineStyle.Pattern(nsUnderlineStyle: [.patternDashDot])
+            public static let dashDotDot = Text.LineStyle.Pattern(nsUnderlineStyle: [.patternDashDotDot])
         }
 
-        public static let single: Self = { assertUnimplemented() }()
+        public static let single = Text.LineStyle(
+            pattern: Text.LineStyle.Pattern(nsUnderlineStyle: .single),
+            color: nil
+        )
     }
 }
 
@@ -626,110 +645,8 @@ extension Text.ResolvedProperties {
 extension Text.Storage : @unchecked Sendable {}
 extension Text.Modifier : @unchecked Sendable {}
 
-@usableFromInline
-package class AnyTextModifier {}
-
-@available(*, unavailable)
-extension AnyTextModifier : Sendable {}
-
 extension Text {
     @_disfavoredOverload public init(_ attributedContent: AttributedString) {
-        assertUnimplemented()
-    }
-}
-
-extension Text {
-    @available(iOS, introduced: 13.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    @available(macOS, introduced: 10.15, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    @available(tvOS, introduced: 13.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    @available(watchOS, introduced: 6.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    @available(visionOS, introduced: 1.0, deprecated: 100000.0, renamed: "foregroundStyle(_:)")
-    nonisolated public func foregroundColor(_ color: Color?) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-    nonisolated public func foregroundStyle<S>(_ style: S) -> Text where S : ShapeStyle {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func font(_ font: Font?) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func fontWeight(_ weight: Font.Weight?) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func fontWidth(_ width: Font.Width?) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func bold() -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func bold(_ isActive: Bool) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func italic() -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func italic(_ isActive: Bool) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.4, macOS 13.3, tvOS 16.4, watchOS 9.4, *)
-    nonisolated public func monospaced(_ isActive: Bool = true) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.1, macOS 13.0, tvOS 16.1, watchOS 9.1, *)
-    nonisolated public func fontDesign(_ design: Font.Design?) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
-    nonisolated public func monospacedDigit() -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func strikethrough(_ isActive: Bool = true, color: Color? = nil) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func strikethrough(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func underline(_ isActive: Bool = true, color: Color? = nil) -> Text {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    nonisolated public func underline(_ isActive: Bool = true, pattern: Text.LineStyle.Pattern, color: Color? = nil) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func kerning(_ kerning: CGFloat) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func tracking(_ tracking: CGFloat) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func baselineOffset(_ baselineOffset: CGFloat) -> Text {
-        assertUnimplemented()
-    }
-    
-    nonisolated public func _stylisticAlternative(_ alternative: Font._StylisticAlternative) -> Text {
         assertUnimplemented()
     }
 }

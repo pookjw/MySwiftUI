@@ -20,6 +20,10 @@ internal import CoreRE
         return self.componentInfoByType[ObjectIdentifier(type)]
     }
     
+    func _componentInfo(forClass componentClass: CoreRE::Component.ClassPtr) -> ComponentInfo? {
+        assertUnimplemented()
+    }
+    
     func componentInfo(forClassOpaquePointer componentClass: OpaquePointer) -> ComponentInfo? {
         return unsafe self.componentInfoByREComponentClass[componentClass]
     }

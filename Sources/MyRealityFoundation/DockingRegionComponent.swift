@@ -13,6 +13,10 @@ public struct DockingRegionComponent : Component {
         }
     }
     
+    fileprivate mutating func setBounds() {
+        assertUnimplemented()
+    }
+    
     public init() {
         assertUnimplemented()
     }

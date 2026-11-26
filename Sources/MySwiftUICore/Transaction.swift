@@ -171,3 +171,7 @@ fileprivate struct TransactionPropertyKey<Key : TransactionKey>: PropertyKey {
         return Key._valuesEqual(lhs, rhs)
     }
 }
+
+protocol TransactionHostProvider : AnyObject {
+    var mutationHost: GraphHost? { get }
+}
