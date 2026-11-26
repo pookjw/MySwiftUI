@@ -296,6 +296,7 @@ func printOffsets() {
     printFields(SwiftUI::ContentTransition.self, isClassType: false)
     printFields("7SwiftUI17ContentTransitionV05NamedD0V", isClassType: false)
     printFields("7SwiftUI17ContentTransitionV24NumericTextConfigurationV", isClassType: false)
+    printFields(SwiftUI::Text.self, isClassType: false)
     
     print(_mangledTypeName(_UIHostingView<AnyView>.self)!)
     print(NSStringFromClass(_UIHostingView<AnyView>.self))

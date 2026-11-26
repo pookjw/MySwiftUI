@@ -58,9 +58,9 @@ internal import AttributeGraph
     }
     
     @usableFromInline
-    package var storage: Text.Storage
+    package var storage: Text.Storage // 0x0
     @usableFromInline
-    package var modifiers: [Text.Modifier] = [Modifier]()
+    package var modifiers: [Text.Modifier] = [Modifier]() // 0x18
     
     @inlinable public init(verbatim content: String) {
         storage = .verbatim(content)
@@ -1098,7 +1098,73 @@ fileprivate struct ResolvedTextFilter : AsyncAttribute, StatefulRule {
     typealias Value = ResolvedStyledText
     
     func updateValue() {
-        assertUnimplemented()
+        let (text, textChanged) = self.$text.changedValue(options: [])
+        let (environment, environmentChanged) = self.$environment.changedValue(options: [])
+        
+        let flag: Bool
+        if self.hasValue {
+            // <+168>
+            if textChanged && !(self.helper.lastText == text) {
+                // <+864>
+                flag = true
+            } else {
+                // <+196>
+                if environmentChanged && self.helper.tracker.hasDifferentUsedValues(environment.plist) {
+                    // <+836>
+                    // <+864>
+                    flag = true
+                } else {
+                    // <+260>
+                    if let d8 = self.helper.nextUpdate.time() {
+                        // <+488>
+                        let d9 = self.helper.time
+                        
+                        if !(d9 < d8) {
+                            // <+864>
+                            flag = true
+                        } else {
+                            // <+996>
+                            flag = false
+                        }
+                    } else {
+                        // <+996>
+                        flag = false
+                    }
+                }
+            }
+        } else {
+            // <+324>
+            // <+864>
+            flag = true
+        }
+        
+        if flag {
+            self.value = self.helper.resolve(text, with: environment, sizeFitting: false)!
+        }
+        
+        // <+996>
+        if let d8 = self.helper.nextUpdate.time() {
+            var d0 = self.helper.time
+            
+            if !(d0 < d8) {
+                // <+1216>
+            } else {
+                // <+1084>
+                let graph = ViewGraph.current
+                d0 = graph.nextUpdate.views.time
+                
+                if !(d8 < d0) {
+                    // <+1204>
+                } else {
+                    graph.nextUpdate.views.time = d8
+                    // <+1256>
+                }
+            }
+        } else {
+            // <+1216>
+        }
+        
+        // <+1256>
     }
 }
 
@@ -1185,6 +1251,10 @@ struct ResolvedTextHelper : SizeFittingTextResolver {
     }
     
     var debugContentDescription: String? {
+        assertUnimplemented()
+    }
+    
+    func resolve(_: Text?, with: EnvironmentValues, sizeFitting: Bool) -> ResolvedStyledText? {
         assertUnimplemented()
     }
 }
