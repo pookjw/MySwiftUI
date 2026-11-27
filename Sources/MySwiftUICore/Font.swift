@@ -418,7 +418,7 @@ extension Font.TextStyle : Codable {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Font.TextStyle {
-    @_silgen_name("$s7SwiftUI4FontV9TextStyleO8allCasesSayAEGvsZ")
+//    @_silgen_name("$s7SwiftUI4FontV9TextStyleO8allCasesSayAEGvsZ")
     @usableFromInline
     internal func _setTextStyleAllCases(_ allCases: [Font.TextStyle]) {
         assertUnimplemented()
