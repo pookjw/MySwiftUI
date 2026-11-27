@@ -39,6 +39,10 @@ CT_EXPORT const CFStringRef kCTFontContentSizeCategoryAccessibilityXXXL;
 
 CT_EXPORT const CFStringRef kCTFontLegibilityWeightAttribute;
 CT_EXPORT const CFStringRef kCTFontTargetEnvironmentAttribute;
+CT_EXPORT const CGFloat kCTFontWidthCompressed;
+CT_EXPORT const CGFloat kCTFontWidthCondensed;
+CT_EXPORT const CGFloat kCTFontWidthStandard;
+CT_EXPORT const CGFloat kCTFontWidthExpanded;
 
 typedef CF_ENUM(NSInteger, CTFontLegibilityWeight) {
     CTFontLegibilityWeightRegular = 0,

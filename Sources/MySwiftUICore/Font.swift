@@ -3,7 +3,7 @@ public import CoreText
 private import _CoreTextPrivate
 
 @frozen public struct Font : Hashable, Sendable {
-    @_hasStorage internal private(set) var provider: AnyFontBox
+    @_hasStorage internal var provider: AnyFontBox
     
     public func hash(into hasher: inout Hasher) {
         self.provider.hash(into: &hasher)
@@ -540,21 +540,21 @@ extension Font {
     public struct Width : Hashable, Sendable {
         public var value: CGFloat
         
-        public static let compressed: Font.Width = { assertUnimplemented() }()
-        public static let condensed: Font.Width = { assertUnimplemented() }()
-        public static let standard: Font.Width = { assertUnimplemented() }()
-        public static let expanded: Font.Width = { assertUnimplemented() }()
+        public static let compressed = Font.Width(kCTFontWidthCompressed)
+        public static let condensed = Font.Width(kCTFontWidthCondensed)
+        public static let standard = Font.Width(kCTFontWidthStandard)
+        public static let expanded = Font.Width(kCTFontWidthExpanded)
         
         public init(_ value: CGFloat) {
-            assertUnimplemented()
+            self.value = value
         }
         
         public static func == (a: Font.Width, b: Font.Width) -> Bool {
-            assertUnimplemented()
+            return a.value == b.value
         }
         
         public func hash(into hasher: inout Hasher) {
-            assertUnimplemented()
+            hasher.combine(self.value)
         }
     }
     
@@ -633,63 +633,6 @@ extension Font {
     @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
     public static var `default`: Font {
         assertUnimplemented()
-    }
-}
-
-extension Font {
-    public static func custom(_ name: String, size: CGFloat) -> Font {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static func custom(_ name: String, size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    @available(*, deprecated, renamed: "custom(_:size:textStyle:)")
-    public static func _custom(_ name: String, size: CGFloat, textStyle: Font.TextStyle) -> Font {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    public static func custom(_ name: String, fixedSize: CGFloat) -> Font {
-        assertUnimplemented()
-    }
-    
-    @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
-    @available(*, deprecated, renamed: "custom(_:fixedSize:)")
-    public static func _custom(_ name: String, verbatimSize: CGFloat) -> Font {
-        assertUnimplemented()
-    }
-    
-    public init(_ font: CTFont) {
-        self.provider = FontBox(Font.PlatformFontProvider(font: font))
-    }
-}
-
-extension Font {
-    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
-    public static func system(size: CGFloat, weight: Font.Weight? = nil, design: Font.Design? = nil) -> Font {
-        assertUnimplemented()
-    }
-    
-    @available(iOS, introduced: 13.0, deprecated: 100000.0, message: "Use `system(size:weight:design:)` instead.")
-    @available(macOS, introduced: 10.15, deprecated: 100000.0, message: "Use `system(size:weight:design:)` instead.")
-    @available(tvOS, introduced: 13.0, deprecated: 100000.0, message: "Use `system(size:weight:design:)` instead.")
-    @available(watchOS, introduced: 6.0, deprecated: 100000.0, message: "Use `system(size:weight:design:)` instead.")
-    @available(visionOS, introduced: 1.0, deprecated: 100000.0, message: "Use `system(size:weight:design:)` instead.")
-    @_disfavoredOverload public static func system(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design = .default) -> Font {
-        assertUnimplemented()
-    }
-    
-    public enum Design : Hashable, Sendable {
-        case `default`
-        @available(watchOS 7.0, *)
-        case serif
-        case rounded
-        @available(watchOS 7.0, *)
-        case monospaced
     }
 }
 
@@ -837,8 +780,8 @@ extension Font {
         }
     }
     
-    struct PlatformFontProvider : CodableByProxy, Hashable, Serializable, FontProvider {
-        fileprivate private(set) var font: CTFont
+    struct PlatformFontProvider : CodableByProxy, FontProvider {
+        private(set) var font: CTFont
         
         func serialize(to encoder: any Encoder) throws {
             assertUnimplemented()
