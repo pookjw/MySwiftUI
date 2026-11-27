@@ -1,6 +1,7 @@
 // 3D5D82E35921924EBCD40D1BFB222CC3
 public import CoreText
 private import _CoreTextPrivate
+private import _SwiftPrivate
 
 @frozen public struct Font : Hashable, Sendable {
     @_hasStorage internal var provider: AnyFontBox
@@ -398,6 +399,8 @@ extension Font.TextStyle {
             return kCTUIFontTextStyleExtraLargeTitle
         case .extraLargeTitle2:
             return kCTUIFontTextStyleExtraLargeTitle2
+        case .caption3:
+            _diagnoseUnexpectedEnumCase(type: Font.TextStyle.self)
         }
     }
 }

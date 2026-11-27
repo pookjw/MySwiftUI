@@ -2660,3 +2660,7 @@ extension SwiftUI.ContentTransition {
     }
   }
 }
+
+extension SwiftUI.Font.TextStyle {
+  public var ctTextStyle: CoreFoundation.CFString { get }
+}
