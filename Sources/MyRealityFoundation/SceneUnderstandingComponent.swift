@@ -36,9 +36,15 @@ public struct SceneUnderstandingComponent : Component {
         assertUnimplemented()
     }
     
+    init(from: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
     @available(iOS 15.0, macCatalyst 15.0, visionOS 1.0, *)
     @available(macOS, unavailable, introduced: 26.0)
     public var entityType: SceneUnderstandingComponent.EntityType?
+    
+    private var internalOriginType: Int
 }
 
 @available(iOS 18.0, macCatalyst 18.0, visionOS 1.0, *)
@@ -112,6 +118,12 @@ extension SceneUnderstandingComponent {
     }
 
     @_spi(Internal) public static var coreComponentType: CoreComponentType {
+        assertUnimplemented()
+    }
+}
+
+extension SceneUnderstandingComponent : CustomReflectable {
+    public var customMirror: Mirror {
         assertUnimplemented()
     }
 }

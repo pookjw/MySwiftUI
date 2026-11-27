@@ -53,7 +53,7 @@ private import AttributeGraph
     
     nonisolated public static func _makeProperty<V>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<V>, fieldOffset: Int, inputs: inout _GraphInputs) {
         // w24
-        let attribute = Attribute(value: ())
+        let attribute = Attribute<Void>(type: Void.self)
         let host = GraphHost.currentHost
         
         let box = StoreBox<ObjectType>(

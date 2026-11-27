@@ -4,9 +4,24 @@ public import MultipeerConnectivity
 @available(visionOS, unavailable)
 @available(tvOS, unavailable)
 public class MultipeerConnectivityService : SynchronizationService {
-    final public let session: MCSession = {
-        assertUnimplemented()
-    }()
+    enum SynchronizationError : Error, Hashable, Equatable {
+        case encryptionRequired
+        case sceneUnderstandingCollisionEnabled
+    }
+    
+    private let coreInvalidPeerID: UInt64
+    
+    let coreMultipeerConnectivityService: OpaquePointer
+    
+    private let coreServiceLocator: OpaquePointer
+    
+    private let coreNetworkSystem: OpaquePointer
+    
+    private(set) var coreHandshakeCount: UInt32
+    
+    private(set) var coreHandshakeTimeoutMs: UInt32
+    
+    final public let session: MCSession
     
     public init(session: MCSession) throws {
         assertUnimplemented()

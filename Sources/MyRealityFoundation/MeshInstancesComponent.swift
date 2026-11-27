@@ -1,3 +1,6 @@
+internal import Foundation
+internal import Metal
+internal import simd
 @available(macOS 26.0, iOS 26.0, visionOS 26.0, tvOS 26.0, macCatalyst 26.0, *)
 public struct MeshInstancesComponent : Component {
     public struct Part {
@@ -69,5 +72,93 @@ public struct MeshInstancesComponent : Component {
 
     @_spi(Internal) public static var coreComponentType: CoreComponentType {
         assertUnimplemented()
+    }
+}
+
+enum MeshInstancesComponentError : LocalizedError, Equatable, Hashable {
+    case undefinedModel
+    case modelNameNotFound
+    case meshResourceError
+}
+
+@_hasMissingDesignatedInitializers internal final class _proto_LowLevelInstanceData {
+    var buffer: LowLevelBuffer
+    
+    convenience init(instanceCount: Int) throws {
+        assertUnimplemented()
+    }
+    
+    init(instanceCount: Int, instanceCapacity: Int) throws {
+        assertUnimplemented()
+    }
+    
+    init(buffer: LowLevelBuffer) {
+        assertUnimplemented()
+    }
+    
+    var instanceCount: Int {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    var instanceCapacity: Int {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    func read(using commandBuffer: MTLCommandBuffer) -> MTLBuffer {
+        assertUnimplemented()
+    }
+    
+    func replace(using commandBuffer: MTLCommandBuffer) -> MTLBuffer {
+        assertUnimplemented()
+    }
+    
+    func replaceMutableTransforms(_ body: (UnsafeMutableBufferPointer<simd_float4x4>) -> ()) {
+        assertUnimplemented()
+    }
+    
+    func withMutableTransforms(_ body: (UnsafeMutableBufferPointer<simd_float4x4>) -> ()) {
+        assertUnimplemented()
+    }
+    
+    func withTransforms(_ body: (UnsafeBufferPointer<simd_float4x4>) -> ()) {
+        assertUnimplemented()
+    }
+}
+
+internal struct _proto_MeshInstancesComponent : Component {
+    private var instanceDataByPartIndex: [_proto_LowLevelInstanceData?]
+    
+    subscript(partIndex partIndex: Int) -> _proto_LowLevelInstanceData? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+    
+    init() {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> _proto_MeshInstancesComponent {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency func __toCore(_ coreComponent: __ComponentRef) {
+        assertUnimplemented()
+    }
+    
+    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+        get {
+            assertUnimplemented()
+        }
     }
 }

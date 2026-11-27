@@ -1,4 +1,21 @@
+internal import Metal
 struct RKARSegmentationComponent : Component {
+    var segmentationBuffer: MTLTexture?
+    
+    var estimatedDepthData: MTLTexture?
+    
+    var cameraTextureY: MTLTexture?
+    
+    var cameraTextureCbCr: MTLTexture?
+    
+    init() {
+        assertUnimplemented()
+    }
+    
+    init(segmentationBuffer: MTLTexture?, estimatedDepthData: MTLTexture?, cameraTextureY: MTLTexture?, cameraTextureCbCr: MTLTexture?) {
+        assertUnimplemented()
+    }
+    
     @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> RKARSegmentationComponent {
         assertUnimplemented()
     }
@@ -37,3 +54,5 @@ struct RKARSegmentationComponent : Component {
         assertUnimplemented()
     }
 }
+
+extension RKARSegmentationComponent : DefaultInitializable {}

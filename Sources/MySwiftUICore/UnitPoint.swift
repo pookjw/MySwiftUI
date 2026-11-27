@@ -43,7 +43,7 @@ extension UnitPoint : Animatable {
 extension UnitPoint {
     package static var infinity: UnitPoint {
         get {
-            assertUnimplemented()
+            return UnitPoint(x: .infinity, y: .infinity)
         }
     }
 

@@ -7,6 +7,12 @@ internal import CoreRE
         assertUnimplemented()
     }
 
+    private let coreAsset: OpaquePointer
+    
+    init(_ coreAsset: OpaquePointer, name: String?) {
+        assertUnimplemented()
+    }
+    
     static nonisolated(unsafe) var codableActionTypeMap: [String : (action: any (EntityAction & Codable).Type, parameter: any Codable.Type)] = [:]
     static nonisolated(unsafe) var actionSubscriptions: [ObjectIdentifier : [ActionEventType : CoreRE::SubscriptionHandle]] = [:]
     static nonisolated(unsafe) var actionTypeMap: [String : any EntityAction.Type] = [:]
@@ -63,6 +69,22 @@ extension AnimationResource {
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)
 extension AnimationResource {
     @MainActor @preconcurrency public static func makeActionAnimation<T>(for action: T, duration: TimeInterval = 1.0, name: String = "", bindTarget: BindTarget? = nil, blendLayer: Int32 = 0, repeatMode: AnimationRepeatMode = .none, fillMode: AnimationFillMode = [], trimStart: TimeInterval? = nil, trimEnd: TimeInterval? = nil, trimDuration: TimeInterval? = nil, offset: TimeInterval = 0, delay: TimeInterval = 0, speed: Float = 1.0) throws -> AnimationResource where T : EntityAction {
+        assertUnimplemented()
+    }
+}
+
+extension AnimationResource {
+    func timelineAsset() -> OpaquePointer? {
+        assertUnimplemented()
+    }
+}
+
+extension AnimationResource : RequestLoadable {
+    nonisolated var networkSendBlockingCategory: NetworkSendBlockingCategory {
+        assertUnimplemented()
+    }
+    
+    nonisolated func addToLoadRequest(_ request: __AssetLoadRequest) {
         assertUnimplemented()
     }
 }
