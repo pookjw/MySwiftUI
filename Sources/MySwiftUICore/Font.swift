@@ -362,6 +362,7 @@ extension Font {
         @available(tvOS, unavailable)
         @available(watchOS, unavailable)
         case extraLargeTitle2
+        @_spi(Internal) case caption3
         
         public static let allCases: [Font.TextStyle] = { assertUnimplemented() } ()
         public typealias AllCases = [Font.TextStyle]
@@ -883,7 +884,7 @@ extension FontBox : Serializable {
     }
 }
 
-extension Font.Weight : CodableByProxy, Serializable {
+extension Font.Weight : CodableByProxy {
     package var codingProxy: CodableFontWeight {
         assertUnimplemented()
     }

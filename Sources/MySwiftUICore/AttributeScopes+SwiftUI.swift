@@ -1,3 +1,4 @@
+// 9E031884FB9C9CDFD774AD0758E0F537
 public import Foundation
 public import CoreGraphics
 public import CoreText
@@ -36,42 +37,130 @@ extension AttributeScopes.MySwiftUIAttributes : Sendable {}
 extension AttributeScopes.MySwiftUIAttributes {
     @frozen public enum FontAttribute : AttributedStringKey {
         public typealias Value = Font
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.Font"
     }
+    
     @frozen public enum ForegroundColorAttribute : AttributedStringKey {
         public typealias Value = Color
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.ForegroundColor"
     }
+    
     @frozen public enum BackgroundColorAttribute : AttributedStringKey {
         public typealias Value = Color
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.BackgroundColor"
     }
+    
     @frozen public enum StrikethroughStyleAttribute : AttributedStringKey {
         public typealias Value = Text.LineStyle
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.StrikethroughStyle"
     }
+    
     @frozen public enum UnderlineStyleAttribute : AttributedStringKey {
         public typealias Value = Text.LineStyle
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.UnderlineStyle"
     }
+    
+    enum EncapsulationAttribute : CodableAttributedStringKey {
+        public typealias Value = Text.Encapsulation
+        public static let name: String = "SwiftUI.Encapsulation"
+        
+        static func decode(from decoder: any Decoder) throws -> Value {
+            assertUnimplemented()
+        }
+        
+        static func encode(_ value: Value, to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+    }
+    
     @frozen public enum KerningAttribute : CodableAttributedStringKey {
         public typealias Value = CGFloat
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.Kern"
     }
+    
     @frozen public enum TrackingAttribute : CodableAttributedStringKey {
         public typealias Value = CGFloat
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.Tracking"
     }
+    
     @frozen public enum BaselineOffsetAttribute : CodableAttributedStringKey {
         public typealias Value = CGFloat
-        public static let name: String = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.BaselineOffset"
     }
+    
+    enum GlyphInfoAttribute : AttributedStringKey {
+        typealias Value = CTGlyphInfo
+        static let name: String = "SwiftUI.GlyphInfo"
+    }
+    
+    enum TextScaleAttribute : CodableAttributedStringKey {
+        typealias Value = Text.Scale.Storage
+        static let name: String = "SwiftUI.TextScale"
+        
+        static func decode(from decoder: any Decoder) throws -> Value {
+            assertUnimplemented()
+        }
+        
+        static func encode(_ value: Value, to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+    }
+    
+    enum TextJustificationAttribute : CodableAttributedStringKey {
+        typealias Value = TextJustification.Storage
+        
+        static let name: String = "SwiftUI.TextJustification"
+        
+        static let runBoundaries: AttributedString.AttributeRunBoundaries? = {
+            assertUnimplemented()
+        }()
+        
+        static func decode(from decoder: any Decoder) throws -> Value {
+            assertUnimplemented()
+        }
+        
+        static func encode(_ value: Value, to encoder: any Encoder) throws {
+            assertUnimplemented()
+        }
+    }
+    
+    enum SuperscriptAttribute : AttributedStringKey {
+        typealias Value = Text.Superscript
+        static let name: String = "SwiftUI.Superscript"
+    }
+    
+    enum CustomContainerAttribute : AttributedStringKey {
+        typealias Value = Text.CustomAttributes
+        static let name: String = "SwiftUI.CustomAttributes"
+    }
+    
+    enum FontModifiersAttribute : AttributedStringKey {
+        typealias Value = [AnyFontModifier]
+        static let name: String = "SwiftUI.FontModifiers"
+    }
+    
     @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     @frozen public enum AdaptiveImageGlyphAttribute : AttributedStringKey {
         public typealias Value = AttributedString.AdaptiveImageGlyph
-        public static let name: String = { assertUnimplemented() }()
-        nonisolated(unsafe) public static var inheritedByAddedText: Bool = { assertUnimplemented() }()
+        public static let name: String = "SwiftUI.AdaptiveImageGlyph"
+        nonisolated(unsafe) public static var inheritedByAddedText: Bool = false
         public static var runBoundaries: AttributedString.AttributeRunBoundaries? { assertUnimplemented() }
+    }
+    
+    enum InterpolationStrategy : CodableAttributedStringKey, Codable {
+        case animated
+        case unanimated
+        
+        typealias Value = Self
+        static let name: String = "SwiftUI.InterpolationStrategy"
+    }
+    
+    enum PrivateStrikethroughColorAttribute : AttributedStringKey {
+        typealias Value = Color
+        
+        static var name: String {
+            return "SwiftUI.StrikethroughColor"
+        }
     }
 }
 
@@ -107,6 +196,8 @@ extension AttributeScopes.MySwiftUIAttributes.UnderlineStyleAttribute : CodableA
 
 @available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, visionOS 26.0, *)
 extension AttributeScopes.MySwiftUIAttributes.AdaptiveImageGlyphAttribute : CodableAttributedStringKey {}
+
+// ResolvableTextSegmentAttribute
 
 @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 extension AttributeDynamicLookup {

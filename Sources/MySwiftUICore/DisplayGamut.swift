@@ -1,4 +1,4 @@
-package enum DisplayGamut : Int, Hashable/*, ProtobufEnum, CodableByProxy, Serializable*/ {
+package enum DisplayGamut : Int, Hashable/*, ProtobufEnum, CodableByProxy*/ {
     case sRGB
     case displayP3
     

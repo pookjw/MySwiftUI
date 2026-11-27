@@ -4,7 +4,15 @@ public import CoreText
 
 extension Font {
     public static func custom(_ name: String, size: CGFloat) -> Font {
-        assertUnimplemented()
+        return Font(
+            provider: FontBox(
+                Font.NamedProvider(
+                    name: name,
+                    size: size,
+                    textStyle: .body
+                )
+            )
+        )
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
@@ -23,18 +31,26 @@ extension Font {
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     @available(*, deprecated, renamed: "custom(_:size:textStyle:)")
     public static func _custom(_ name: String, size: CGFloat, textStyle: Font.TextStyle) -> Font {
-        assertUnimplemented()
+        return self.custom(name, size: size, relativeTo: textStyle)
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     public static func custom(_ name: String, fixedSize: CGFloat) -> Font {
-        assertUnimplemented()
+        return Font(
+            provider: FontBox(
+                Font.NamedProvider(
+                    name: name,
+                    size: fixedSize,
+                    textStyle: nil
+                )
+            )
+        )
     }
     
     @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
     @available(*, deprecated, renamed: "custom(_:fixedSize:)")
     public static func _custom(_ name: String, verbatimSize: CGFloat) -> Font {
-        assertUnimplemented()
+        return self.custom(name, fixedSize: verbatimSize)
     }
     
     public init(_ font: CTFont) {

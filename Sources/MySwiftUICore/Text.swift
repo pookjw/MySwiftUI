@@ -413,7 +413,6 @@ extension Text {
 package class AnyTextStorage {
     package init() {}
     
-    
     package func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
         assertUnimplemented()
     }
@@ -445,6 +444,39 @@ extension AnyTextStorage : @unchecked Sendable {
 extension AnyTextStorage : CustomDebugStringConvertible {
     @usableFromInline package var debugDescription: String {
         assertUnimplemented()
+    }
+}
+
+final class AttributedStringTextStorage : AnyTextStorage {
+    private let str: AttributedString
+    
+    override func resolve<C>(into container: inout C, in environment: EnvironmentValues, with options: Text.ResolveOptions) where C : ResolvedTextContainer {
+        assertUnimplemented()
+    }
+    
+    override func resolvesToEmpty(in environment: EnvironmentValues, with options: Text.ResolveOptions) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override func isEqual(to other: AnyTextStorage) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override func isStyled(options: Text.ResolveOptions) -> Bool {
+        assertUnimplemented()
+    }
+    
+    override func allowsTypesettingLanguage() -> Bool {
+        assertUnimplemented()
+    }
+    
+    override var localizationInfo: _LocalizationInfo {
+        assertUnimplemented()
+    }
+    
+    init(str: AttributedString) {
+        self.str = str
+        super.init()
     }
 }
 
@@ -521,23 +553,11 @@ extension Text {
         // TODO
     }
     
-    struct Encapsulation {
-        private var scale: Text.Encapsulation.Scale?
-        private var shape: Text.Encapsulation.Shape?
-        private var style: Text.Encapsulation.Style?
-        private var lineWeight: CGFloat?
-        private var color: Color?
-        private var minimumWidth: CGFloat?
-        private var platterSize: Text.Encapsulation.PlatterSize?
+    struct Superscript : Hashable {
+        // TODO
     }
     
-    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-    public struct Scale : Sendable, Hashable {
-        public static let `default`: Self = { assertUnimplemented() }()
-        public static let secondary: Self = { assertUnimplemented() }()
-    }
-    
-    struct Superscript {
+    struct CustomAttributes : Hashable {
         // TODO
     }
     
@@ -647,7 +667,8 @@ extension Text.Modifier : @unchecked Sendable {}
 
 extension Text {
     @_disfavoredOverload public init(_ attributedContent: AttributedString) {
-        assertUnimplemented()
+        self.storage = .anyTextStorage(AttributedStringTextStorage(str: attributedContent))
+        self.modifiers = []
     }
 }
 
