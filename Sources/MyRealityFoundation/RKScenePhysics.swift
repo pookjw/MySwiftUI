@@ -109,3 +109,7 @@ extension __RKScenePhysics : RegisterableComponent {
         assertUnimplemented()
     }
 }
+
+extension __RKScenePhysics.Registration : InternalComponentRegistryEntry {}
+
+extension __RKScenePhysics : InternalComponent {}

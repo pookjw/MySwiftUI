@@ -25,6 +25,10 @@ extension UnitDepth : Hashable {
 }
 
 extension UnitDepth : Codable {
+    fileprivate enum CodingKeys : String, CodingKey {
+        case value
+    }
+    
     package func encode(to encoder: Encoder) throws {
         assertUnimplemented()
     }

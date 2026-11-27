@@ -59,7 +59,7 @@ fileprivate class _UIInteractionView<Interaction : UIInteraction, Content : Core
         assertUnimplemented()
     }
 
-    init(coreInteractions: CoreInteractionRepresentableInteractionsProxy) {
+    required init(coreInteractions: CoreInteractionRepresentableInteractionsProxy) {
         assertUnimplemented()
     }
 

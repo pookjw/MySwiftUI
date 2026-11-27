@@ -10,7 +10,7 @@
 }
 
 extension FillStyle : ProtobufEncodableMessage, ProtobufDecodableMessage {
-    package func encode(to encoder: inout ProtobufEncoder) throws {
+    package func encode(to encoder: inout ProtobufEncoder) {
         assertUnimplemented()
     }
 

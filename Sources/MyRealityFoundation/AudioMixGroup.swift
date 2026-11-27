@@ -24,6 +24,10 @@ public struct AudioMixGroup {
         assertUnimplemented()
     }
     
+    init(_name: String, id: UInt64?, gain: Audio.Decibel, speed: Double, isMuted: Bool) {
+        assertUnimplemented()
+    }
+    
     public mutating func fade(to gain: Audio.Decibel, duration: TimeInterval) {
         assertUnimplemented()
     }

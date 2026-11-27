@@ -61,12 +61,29 @@ public struct AccessibilityComponent : Component {
     public var label: LocalizedStringResource?
     
     public var value: LocalizedStringResource?
+
+    private(set) var traitsRawValue: UInt64
     
     public var customContent: [AccessibilityComponent.CustomContent]
+
+    private(set) var customRotorsRawValue: [AccessibilityComponent.RotorTypeInternal]
     
     public var systemActions: AccessibilityComponent.SupportedActions
     
     public var customActions: [LocalizedStringResource]
+    
+    enum RotorTypeInternal : Equatable {
+        case system(Int)
+        case custom(LocalizedStringResource)
+        
+        static func == (a: AccessibilityComponent.RotorTypeInternal, b: AccessibilityComponent.RotorTypeInternal) -> Bool {
+            assertUnimplemented()
+        }
+    }
+    
+    init(from: OpaquePointer) {
+        assertUnimplemented()
+    }
     
     public init() {
         assertUnimplemented()

@@ -1,8 +1,8 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityActionMultiplePerformBehavior : String, Codable, CaseIterable {
-    case allow
-    case ignore
-    case stopsAction
+    case allow = "allow request"
+    case ignore = "ignore request"
+    case stopsAction = "stops current action"
     
     public init?(rawValue: String) {
         assertUnimplemented()

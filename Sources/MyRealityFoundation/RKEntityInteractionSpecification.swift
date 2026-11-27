@@ -22,6 +22,10 @@ public struct __RKEntityInteractionSpecification : Codable, Equatable, CustomStr
         assertUnimplemented()
     }
     
+    enum InteractionUSDLoadingError : Error {
+        case noTriggersOrActions
+    }
+    
     public var description: String {
         get {
             assertUnimplemented()

@@ -1,7 +1,7 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityMoveSelection : String, Codable, CaseIterable {
-    case local
-    case absolute
+    case local = "move by distance"
+    case absolute = "move to location"
     
     public init?(rawValue: String) {
         assertUnimplemented()

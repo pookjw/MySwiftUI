@@ -17,6 +17,14 @@ extension SkeletalPosesComponent {
         assertUnimplemented()
     }
 
+    fileprivate static func getCoreAsset(_ coreComponent: __ComponentRef) -> OpaquePointer? {
+        assertUnimplemented()
+    }
+
+    func updateInternalPoseJointNames(_ coreAsset: OpaquePointer) {
+        assertUnimplemented()
+    }
+
     @_spi(Internal) public static var componentName: String {
         get {
             assertUnimplemented()

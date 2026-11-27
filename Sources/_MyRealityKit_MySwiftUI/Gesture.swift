@@ -25,6 +25,13 @@ extension Gesture {
     @MainActor @preconcurrency public func targetedToEntity(where query: QueryPredicate<Entity>) -> some Gesture<EntityTargetValue<Self.Value>> {
         return __TMP_Gesture<Value>()
     }
+    
+    @available(visionOS 1.0, macOS 15.0, macCatalyst 18.0, iOS 18.0, *)
+    @available(watchOS, unavailable)
+    @available(tvOS, unavailable)
+    @MainActor @preconcurrency func targetedToInteraction(enabled: @escaping (Entity) -> Bool) -> some Gesture<EntityTargetValue<Self.Value>> {
+        return __MSUI_UnimplementedGesture<EntityTargetValue<Self.Value>>()
+    }
 }
 
 fileprivate struct __TMP_Gesture<V> : Gesture {

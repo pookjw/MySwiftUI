@@ -4,7 +4,7 @@
 }
 
 extension Never : Gesture {
-  public typealias Value = Never
+    public typealias Value = Never
 }
 
 package protocol PrimitiveGesture {
@@ -13,4 +13,10 @@ package protocol PrimitiveGesture {
 
 extension PrimitiveGesture {
     typealias Value = Never
+}
+
+package struct __MSUI_UnimplementedGesture<T> : Gesture<T> {
+    package init() {
+        assertUnimplemented()
+    }
 }

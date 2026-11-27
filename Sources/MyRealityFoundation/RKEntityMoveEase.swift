@@ -1,6 +1,6 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityMoveEase : String, Codable, CaseIterable {
-    case none
+    case none = "linear"
     case back
     case bounce
     case circle
@@ -10,6 +10,10 @@ public enum __RKEntityMoveEase : String, Codable, CaseIterable {
     case log
     case power
     case sine
+    
+    enum MoveEaseLoadingError : Error {
+        case unknownMoveEase
+    }
     
     public init?(rawValue: String) {
         assertUnimplemented()

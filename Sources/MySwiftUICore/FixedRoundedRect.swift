@@ -85,6 +85,16 @@ package struct FixedRoundedRect : Equatable {
     }
 }
 
+extension FixedRoundedRect : ProtobufEncodableMessage, ProtobufDecodableMessage {
+    package func encode(to encoder: inout ProtobufEncoder) throws {
+        assertUnimplemented()
+    }
+    
+    package init(from decoder: inout ProtobufDecoder) throws {
+        assertUnimplemented()
+    }
+}
+
 @available(*, unavailable)
 extension FixedRoundedRect : Sendable {
 }

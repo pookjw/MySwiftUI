@@ -7,6 +7,27 @@ public import Foundation
         assertUnimplemented()
     }
 
+    var coreIBLAsset: __AssetRef? {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    var coreSkyboxAssetRef: __AssetRef? {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    private(set) var coreSkyboxAsset: OpaquePointer? {
+        get {
+            assertUnimplemented()
+        }
+        set {
+            assertUnimplemented()
+        }
+    }
+
     @MainActor @preconcurrency public static let __compiledExtension: String = {
         assertUnimplemented()
     }()
@@ -16,12 +37,36 @@ public import Foundation
         assertUnimplemented()
     }
     
+    @MainActor @preconcurrency static func load(named name: String, in bundle: Bundle?, allowsREIbl: Bool) throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
     @available(macOS, introduced: 10.15, deprecated: 15.0, renamed: "init(named:in:)")
     @available(iOS, introduced: 13.0, deprecated: 18.0, renamed: "init(named:in:)")
     @available(macCatalyst, introduced: 13.0, deprecated: 18.0, renamed: "init(named:in:)")
     @available(visionOS, introduced: 1.0, deprecated: 1.0, renamed: "init(named:in:)")
     @available(tvOS, unavailable)
     @MainActor @preconcurrency public static func loadAsync(named name: String, in bundle: Bundle? = nil) -> LoadRequest<EnvironmentResource> {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func loadAsyncPrivate(named name: String, in bundle: Bundle?) -> LoadRequest<EnvironmentResource> {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func defaultAR() -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func defaultObject() -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func defaultObjectFillOnly() async -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func defaultObjectHightlightOnly() async -> EnvironmentResource {
         assertUnimplemented()
     }
     
@@ -49,11 +94,67 @@ public import Foundation
         assertUnimplemented()
     }
     
+    @MainActor @preconcurrency static func generateAsync(fromLatLong cgImage: CGImage, withName resourceName: String? = nil) -> LoadRequest<EnvironmentResource> {
+        assertUnimplemented()
+    }
+    
+    static func generateAsyncInternal(createCubeFunc: () throws -> OpaquePointer, compilationOptions: [String: Any]?, compressOptions: [String: Any]?) -> LoadRequest<EnvironmentResource> {
+        assertUnimplemented()
+    }
+    
     @MainActor @preconcurrency public static func __fromAssets(_ coreIBLAsset: __AssetRef?, _ coreSkyboxAsset: __AssetRef?) -> EnvironmentResource {
         assertUnimplemented()
     }
     
     @MainActor @preconcurrency public static func __exportCompiledResource(contentsOf inURL: URL, to outURL: URL) throws {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func exportCompiledResource(contentsOf inURL: URL, to outURL: URL, for deploymentTarget: __REAssetBundle.ExportOptions.DeploymentTarget?) throws {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func exportCompiledResource(contentsOf inURL: URL, to outURL: URL, for deploymentTarget: __REAssetBundle.ExportOptions.DeploymentTarget?, options: [String: Any]?) throws {
+        assertUnimplemented()
+    }
+    
+    @MainActor @preconcurrency static func exportCompiledResource(contentsOf inURL: URL, to outURL: URL, for deploymentTarget: __REAssetBundle.ExportOptions.DeploymentTarget?, compilationOptions: [String: Any]?) throws {
+        assertUnimplemented()
+    }
+    
+    static func areEqual(_ lhs: EnvironmentResource, _ rhs: EnvironmentResource) -> Bool {
+        assertUnimplemented()
+    }
+    
+    static func resolvedPath(forName name: String, in bundle: Bundle?, allowsREIbl: Bool) -> String? {
+        assertUnimplemented()
+    }
+    
+    static func loadCompiledResource(from url: URL) throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func loadPrivate(named name: String, in bundle: Bundle?, allowsREIbl: Bool) throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func getCubeMapData(coreTexture: OpaquePointer, options: [String: Any], source: URL) throws -> OpaquePointer {
+        assertUnimplemented()
+    }
+    
+    fileprivate static func importResourceInternal(contentsOf url: URL, options: [String: Any]?) throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    static func compressWithEngineQueueCompletion(coreIBLAsset: OpaquePointer, compressOptions: [String: Any]?) throws -> @MainActor () throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    static func generateIBLAssetInternal(cubeMap: OpaquePointer, compilationOptions: [String: Any]?, compressOptions: [String: Any]?) throws -> @MainActor () throws -> EnvironmentResource {
+        assertUnimplemented()
+    }
+    
+    static func validate(cubeTexture: TextureResource) throws {
         assertUnimplemented()
     }
 }
@@ -124,6 +225,10 @@ extension EnvironmentResource {
             assertUnimplemented()
         }
         
+        func toCoreImageBasedLightCompilationOptions(skyboxCubeDimension: Int?) -> [String: Any]? {
+            assertUnimplemented()
+        }
+        
         public static func == (a: EnvironmentResource.CreateOptions, b: EnvironmentResource.CreateOptions) -> Bool {
             assertUnimplemented()
         }
@@ -137,5 +242,15 @@ extension EnvironmentResource {
                 assertUnimplemented()
             }
         }
+    }
+}
+
+extension EnvironmentResource : RequestLoadable {
+    nonisolated var networkSendBlockingCategory: NetworkSendBlockingCategory {
+        assertUnimplemented()
+    }
+    
+    nonisolated func addToLoadRequest(_ request: __AssetLoadRequest) {
+        assertUnimplemented()
     }
 }

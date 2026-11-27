@@ -1,15 +1,15 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityShowActionBuildInAnimationType : String, Codable, CaseIterable {
     case none
-    case moveFromLeft
-    case moveFromRight
-    case moveFromFront
-    case moveFromRear
-    case moveFromAbove
-    case moveFromBelow
+    case moveFromLeft = "move in from left"
+    case moveFromRight = "move in from right"
+    case moveFromFront = "move in from front"
+    case moveFromRear = "move in from rear"
+    case moveFromAbove = "move in from above"
+    case moveFromBelow = "move in from below"
     case pop
-    case scale
-    case scaleBig
+    case scale = "scale up"
+    case scaleBig = "scale down"
     
     public init?(rawValue: String) {
         assertUnimplemented()

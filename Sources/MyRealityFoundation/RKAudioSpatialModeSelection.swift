@@ -1,8 +1,8 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKAudioSpatialModeSelection : String, Codable, CaseIterable {
-    case pointSource
-    case ambientBed
-    case stereoBypass
+    case pointSource = "point source"
+    case ambientBed = "ambient"
+    case stereoBypass = "music"
     
     public init?(rawValue: String) {
         assertUnimplemented()

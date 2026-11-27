@@ -14,6 +14,12 @@ public struct RealityViewDynamicRange : Hashable, Sendable {
         }
     }
     
+    static var highFixedTonemappingCurve: RealityViewDynamicRange {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
     @usableFromInline
     internal static var _hdrRendering: RealityViewDynamicRange {
         get {

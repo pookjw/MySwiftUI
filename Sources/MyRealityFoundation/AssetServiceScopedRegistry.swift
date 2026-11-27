@@ -1,6 +1,10 @@
 private import os.lock
 private import CoreRE
 
+protocol AssetServiceScoped {
+    init(_ assetService: any __REAssetService)
+}
+
 @safe final class AssetServiceScopedRegistry<T> : @unchecked Sendable {
     func instance(for service: any __REAssetService) -> T where T == __RealityFileURLResolver {
         /*

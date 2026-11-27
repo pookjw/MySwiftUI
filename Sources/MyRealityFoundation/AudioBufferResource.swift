@@ -1,4 +1,5 @@
 public import AVFAudio
+internal import Foundation
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
 extension AudioBufferResource {
@@ -69,6 +70,20 @@ extension AudioBufferResource.Configuration : Hashable, Sendable {
     @MainActor @preconcurrency public init(buffer: AVAudioBuffer, inputMode: AudioResource.InputMode = .spatial, shouldLoop: Bool = false) throws {
         assertUnimplemented()
     }
+    
+    required init(fromCore: OpaquePointer) {
+        assertUnimplemented()
+    }
+    
+    enum Error : LocalizedError, Hashable {
+        case couldNotConvertBufferIntoNativeFormat
+        case failedToCreateAssetBasedOnBuffer
+        case invalidBufferFormat
+
+        var errorDescription: String? {
+            assertUnimplemented()
+        }
+    }
     }
 
 @available(visionOS 1.0, macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 26.0, *)
@@ -90,5 +105,23 @@ extension AudioBufferResource {
         get {
             assertUnimplemented()
         }
+    }
+}
+
+extension AudioBufferResource : @MainActor CustomReflectable {
+    @MainActor @preconcurrency public var customMirror: Mirror {
+        assertUnimplemented()
+    }
+}
+
+class REAudioFileAssetConfigurationWrapper {
+    private let audioFileConfiguration: OpaquePointer
+    
+    init(configuration: AudioFileResource.Configuration) {
+        assertUnimplemented()
+    }
+    
+    init(configuration: AudioBufferResource.Configuration) {
+        assertUnimplemented()
     }
 }

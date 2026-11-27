@@ -30,12 +30,12 @@ private import os.log
     }
     
     nonisolated static func makeBoxAndSignal<T>(in buffer: inout _DynamicPropertyBuffer, container: _GraphValue<T>, fieldOffset: Int) -> Attribute<Void> {
-        let attribute = Attribute(value: ())
+        let attribute = Attribute<Void>(type: Void.self)
         let box = ObservedObjectPropertyBox<ObjectType>(
             host: .currentHost,
             invalidation: WeakAttribute(attribute)
         )
-        
+
         buffer.append(box, fieldOffset: fieldOffset)
         return attribute
     }

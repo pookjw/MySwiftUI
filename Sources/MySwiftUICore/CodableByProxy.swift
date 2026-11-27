@@ -114,4 +114,32 @@ struct ProxyCodable<T : Serializable> : Codable {
 extension ProxyCodable : Equatable where T : Equatable {}
 extension ProxyCodable : Hashable where T : Hashable {}
 
-extension ProxyCodable : AccessibilityValue where T : AccessibilityValue {}
+extension ProxyCodable : AccessibilityValue where T : AccessibilityValue {
+    static var type: AnyAccessibilityValueType {
+        assertUnimplemented()
+    }
+    
+    var value: T.PlatformValue {
+        assertUnimplemented()
+    }
+    
+    var displayDescription: String? {
+        assertUnimplemented()
+    }
+    
+    var localizedDescription: String? {
+        assertUnimplemented()
+    }
+    
+    var step: T.PlatformValue? {
+        assertUnimplemented()
+    }
+    
+    var minValue: T.PlatformValue? {
+        assertUnimplemented()
+    }
+    
+    var maxValue: T.PlatformValue? {
+        assertUnimplemented()
+    }
+}

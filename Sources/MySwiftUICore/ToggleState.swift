@@ -1,5 +1,5 @@
 
-package enum ToggleState : UInt, Codable, CaseIterable, Hashable, StronglyHashable, CustomDebugStringConvertible {
+package enum ToggleState : UInt, Codable, CaseIterable, Hashable, StronglyHashable, CustomDebugStringConvertible, PubliclyEncodable {
     case on
     case off
     case mixed
@@ -15,6 +15,35 @@ package enum ToggleState : UInt, Codable, CaseIterable, Hashable, StronglyHashab
         default:
             self = .on
         }
+    }
+    
+    struct PublicEncoding : Encodable {
+        private var state: ToggleState
+
+        func encode(to encoder: Encoder) throws {
+            assertUnimplemented()
+        }
+
+        enum Keys : String, CodingKey, Hashable, CustomStringConvertible, CustomDebugStringConvertible {
+            case on
+            case off
+            case mixed
+
+            var description: String {
+                assertUnimplemented()
+            }
+            
+            var debugDescription: String {
+                assertUnimplemented()
+            }
+        }
+        
+        fileprivate struct EmptyPayload : Codable {
+        }
+    }
+    
+    var publicEncoding: PublicEncoding {
+        assertUnimplemented()
     }
     
     package var debugDescription: String {

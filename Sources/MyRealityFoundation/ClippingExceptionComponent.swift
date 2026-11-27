@@ -1,4 +1,8 @@
 struct ClippingExceptionComponent : Component {
+    init() {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency static func __fromCore(_ coreComponent: __ComponentRef) -> ClippingExceptionComponent {
         assertUnimplemented()
     }
@@ -7,33 +11,33 @@ struct ClippingExceptionComponent : Component {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static var componentName: String {
+    static var componentName: String {
         get {
             assertUnimplemented()
         }
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer) {
+    static func __load(from ref: UnsafeRawPointer) {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
+    static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int, deinitialize: Bool) {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
+    static func __store(attribute: any MyRealityFoundation::Component, to ref: UnsafeMutableRawPointer, offset: Int) {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static var __coreComponentType: __ComponentTypeRef {
+    static var __coreComponentType: __ComponentTypeRef {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
+    static func __load(from ref: UnsafeRawPointer, offset: Int) -> any MyRealityFoundation::Component {
         assertUnimplemented()
     }
 
-    @_spi(Internal) public static var coreComponentType: CoreComponentType {
+    static var coreComponentType: CoreComponentType {
         return CoreComponentType(originType: .custom)
     }
 }

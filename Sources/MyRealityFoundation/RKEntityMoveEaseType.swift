@@ -1,8 +1,12 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityMoveEaseType : String, Codable, CaseIterable {
-    case easeIn
-    case easeOut
-    case easeInEaseOut
+    case easeIn = "ease in"
+    case easeOut = "ease out"
+    case easeInEaseOut = "ease in ease out"
+    
+    enum MoveEaseTypeLoadingError : Error {
+        case unknownMoveEaseType
+    }
     
     public init?(rawValue: String) {
         assertUnimplemented()

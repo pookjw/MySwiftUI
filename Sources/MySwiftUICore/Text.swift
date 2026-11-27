@@ -769,7 +769,7 @@ package protocol ResolvableStringAttribute {
     // TODO
 }
 
-struct AccessibilitySpeechAttributes {
+package struct AccessibilitySpeechAttributes {
     // TODO
 }
 

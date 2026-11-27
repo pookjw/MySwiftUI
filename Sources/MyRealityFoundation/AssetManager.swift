@@ -12,6 +12,18 @@ internal import Foundation
     
     private let handle: OpaquePointer
     
+    var engineQueue: DispatchQueue {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
+    var isFullLoadTracingEnabled: Bool {
+        get {
+            assertUnimplemented()
+        }
+    }
+    
     private(set) lazy var asyncLoadsShouldWaitForResourceSharing: Bool = {
         assertUnimplemented()
     }()
@@ -37,6 +49,12 @@ extension __REAssetManager : __REAssetService {
     }
     
     func __getDependencies(asset: __REAsset) -> [__REAsset] {
+        assertUnimplemented()
+    }
+}
+
+extension __REAssetManager {
+    func waitForLoadRequest(_ request: __AssetLoadRequest, with queueOptions: __REAssetBundle.QueueOptions) throws {
         assertUnimplemented()
     }
 }

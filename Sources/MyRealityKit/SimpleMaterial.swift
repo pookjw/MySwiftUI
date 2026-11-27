@@ -33,4 +33,8 @@ extension SimpleMaterial {
     public init(color: SimpleMaterial.Color, roughness: MaterialScalarParameter = 0.0, isMetallic: Bool) {
         self.init(color: color.cgColor, roughness: roughness, isMetallic: isMetallic)
     }
+    
+    init(color: UIColor, roughness: MaterialScalarParameter, isMetallic: Bool, assetService: __REAssetService) {
+        assertUnimplemented()
+    }
 }

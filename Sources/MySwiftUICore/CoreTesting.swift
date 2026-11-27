@@ -1,14 +1,9 @@
 package enum CoreTesting {
     @safe nonisolated(unsafe) package static var isRunning: Bool = false
     
-    package static var needsRender: Bool {
-        get {
-            assertUnimplemented()
-        }
-        set {
-            assertUnimplemented()
-        }
-    }
+    @safe nonisolated(unsafe) package static var needsRender: Bool = {
+        assertUnimplemented()
+    }()
     
     package static var needsRunLoopTurn: Bool {
         assertUnimplemented()

@@ -157,6 +157,26 @@ public struct SimpleMaterial : Material {
         )
         self.usesTransparency = flag
     }
+    
+    class SimpleMaterialMapping : AssetServiceScoped {
+        private let assetService: any __REAssetService
+        private(set) var opaque: OpaquePointer
+        private(set) var transparent: OpaquePointer
+        
+        required init(_ assetService: any __REAssetService) {
+            assertUnimplemented()
+        }
+        
+        deinit {
+            assertUnimplemented()
+        }
+    }
+}
+
+extension SimpleMaterial : CustomReflectable {
+    public var customMirror: Mirror {
+        assertUnimplemented()
+    }
 }
 
 @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, visionOS 2.0, tvOS 26.0, *)

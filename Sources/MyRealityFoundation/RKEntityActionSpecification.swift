@@ -25,6 +25,10 @@ public enum __RKEntityActionSpecification : Codable, Equatable {
     @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 26.0, *)
     case setOpacity(__RKEntitySetOpacityActionArguments)
     
+    enum ActionUSDLoadingError : Error {
+        case unableToCreateAnyValidActionSpecifications
+    }
+    
     public enum Name : String {
         case audio
         case changeScene

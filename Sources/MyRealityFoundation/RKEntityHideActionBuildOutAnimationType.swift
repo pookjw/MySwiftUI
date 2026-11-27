@@ -1,15 +1,15 @@
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, tvOS 26.0, *)
 public enum __RKEntityHideActionBuildOutAnimationType : String, Codable, CaseIterable {
     case none
-    case moveToLeft
-    case moveToRight
-    case moveToFront
-    case moveToRear
-    case moveToAbove
-    case moveToBelow
+    case moveToLeft = "move out to left"
+    case moveToRight = "move out to right"
+    case moveToFront = "move out to front"
+    case moveToRear = "move out to rear"
+    case moveToAbove = "move out to above"
+    case moveToBelow = "move out to below"
     case pop
-    case scale
-    case scaleUp
+    case scale = "scale down"
+    case scaleUp = "scale up"
     
     public init?(rawValue: String) {
         assertUnimplemented()

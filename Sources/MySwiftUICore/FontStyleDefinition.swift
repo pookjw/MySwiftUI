@@ -18,5 +18,11 @@ extension Font {
         private var style: String
         private var design: String?
         @ProxyCodable private var weight: Font.Weight?
+        
+        fileprivate enum CodingKeys : String, CodingKey {
+            case style
+            case design
+            case weight
+        }
     }
 }

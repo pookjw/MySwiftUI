@@ -17,6 +17,10 @@ public enum __RKEntityTriggerSpecification : Codable, Equatable {
     case customWithArguments(identifier: String, customArguments: [String : String]?)
     case group(triggers: [__RKEntityTriggerSpecification])
     
+    enum TriggerUSDLoadingError : Error {
+        case unableToCreateAnyValidTriggerSpecifications
+    }
+    
     public enum Name : String {
         case drag
         case light

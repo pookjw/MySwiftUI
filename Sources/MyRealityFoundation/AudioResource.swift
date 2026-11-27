@@ -88,6 +88,10 @@ extension AudioResource.Calibration : Hashable, Sendable {
         assertUnimplemented()
     }
 
+    required init(fromCore core: OpaquePointer) {
+        assertUnimplemented()
+    }
+
     @MainActor @preconcurrency public var __coreAsset: __AssetRef {
         get {
             assertUnimplemented()
@@ -129,3 +133,5 @@ extension AudioResource.InputMode : Equatable {}
 @available(iOS, introduced: 13.0, deprecated: 16.3, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
 @available(tvOS, introduced: 26.0, deprecated: 26.0, message: "Use the ChannelAudioComponent, AmbientAudioComponent, or SpatialAudioComponent instead.")
 extension AudioResource.InputMode : Hashable {}
+
+extension AudioResource : @preconcurrency LoadableResource {}
