@@ -31,3 +31,29 @@ public enum MaterialScalarParameter : ExpressibleByFloatLiteral, ExpressibleByIn
         }
     }
 }
+
+extension MaterialScalarParameter : RealityKitAdditiveArithmetic {
+    func rekitMinus(_ other: MaterialScalarParameter) -> MaterialScalarParameter {
+        assertUnimplemented()
+    }
+    
+    func rekitPlus(_ other: MaterialScalarParameter) -> MaterialScalarParameter {
+        assertUnimplemented()
+    }
+}
+
+extension MaterialScalarParameter : RealityKitVectorArithmetic {
+    mutating func scale(by scale: Double) {
+        assertUnimplemented()
+    }
+    
+    var magnitudeSquared: Double {
+        assertUnimplemented()
+    }
+}
+
+extension MaterialScalarParameter {
+    static var zero: MaterialScalarParameter {
+        assertUnimplemented()
+    }
+}

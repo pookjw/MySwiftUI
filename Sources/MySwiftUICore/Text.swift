@@ -1251,7 +1251,7 @@ struct ResolvedTextHelper : SizeFittingTextResolver {
         assertUnimplemented()
     }
     
-    func resolve(_: Text?, with: EnvironmentValues, sizeFitting: Bool) -> ResolvedStyledText? {
+    func resolve(_ text: Text?, with environment: EnvironmentValues, sizeFitting: Bool) -> ResolvedStyledText? {
         assertUnimplemented()
     }
 }

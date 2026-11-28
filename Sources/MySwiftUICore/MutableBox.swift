@@ -12,6 +12,10 @@ package final class MutableBox<T> {
         }
     }
     
+    package var projectedValue: MutableBox<T> {
+        return self
+    }
+    
     package init(_ value: T) {
         self.value = value
     }
